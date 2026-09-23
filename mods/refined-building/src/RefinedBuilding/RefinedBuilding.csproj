@@ -3,8 +3,8 @@
   <Import Project="$(MSBuildThisFileDirectory)..\..\common\oni-mod.props" />
 
   <PropertyGroup>
-    <AssemblyName>RefinedMetalsAsRawMetals</AssemblyName>
-    <RootNamespace>RefinedMetalsAsRawMetals</RootNamespace>
+    <AssemblyName>RefinedBuilding</AssemblyName>
+    <RootNamespace>RefinedBuilding</RootNamespace>
     <Version>1.0.0</Version>
   </PropertyGroup>
 

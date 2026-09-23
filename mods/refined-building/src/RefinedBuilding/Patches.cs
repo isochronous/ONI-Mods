@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using HarmonyLib;
 using UnityEngine;
 
-namespace RefinedMetalsAsRawMetals
+namespace RefinedBuilding
 {
 	/// <summary>
 	/// Building recipes that take "raw metal" (MATERIALS.RAW_METALS) accept any solid element
@@ -34,7 +34,7 @@ namespace RefinedMetalsAsRawMetals
 				element.oreTags = tags;
 				updated.Add(element.id.ToString());
 			}
-			Debug.Log("[RefinedMetalsAsRawMetals] Tagged " + updated.Count + " refined metal(s) as raw metal: " + string.Join(", ", updated));
+			Debug.Log("[RefinedBuilding] Tagged " + updated.Count + " refined metal(s) as raw metal: " + string.Join(", ", updated));
 		}
 	}
 }

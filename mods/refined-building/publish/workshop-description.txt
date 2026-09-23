@@ -13,4 +13,4 @@ Does the same job as Cairath's Refined Metals Usable As Raw Metals, but instead 
 [h2]Compatibility[/h2]
 Works with the base game and all DLCs, on build 744825 (U59) or newer. No dependencies. Safe to add to or remove from an existing save.
 
-Source and issue tracker: https://github.com/isochronous/refined-metals-as-raw-metals
+Source and issue tracker: https://github.com/isochronous/refined-building

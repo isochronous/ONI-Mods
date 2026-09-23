@@ -1,4 +1,4 @@
-# All Refined Metals Usable As Raw Metals
+# Refined Building
 
 An [Oxygen Not Included](https://www.klei.com/games/oxygen-not-included) mod that lets every refined metal be used wherever a building asks for raw **Metal Ore**: wire, pipes, doors, tiles, ladders, batteries and so on.
 
@@ -8,7 +8,7 @@ It does the same job as Cairath's [Refined Metals Usable As Raw Metals](https://
 
 After the game loads its element table, every solid element tagged `RefinedMetal` that does not already carry the `Metal` tag gets it. Building recipes that accept "Metal Ore" (`MATERIALS.RAW_METALS`) match on that tag, so the refined metals appear in those buildings' material lists alongside the ores. The refined-metal recipes are untouched.
 
-On the current game with all DLCs that adds Copper, Iron, Gold, Lead, Aluminum, Tungsten, Cobalt, Nickel, Zinc, Solid Mercury and Depleted Uranium; Steel, Niobium, Thermium and Iridium already have both tags in vanilla and are left alone. The list is logged at startup (`[RefinedMetalsAsRawMetals] Tagged N refined metal(s) ...`).
+On the current game with all DLCs that adds Copper, Iron, Gold, Lead, Aluminum, Tungsten, Cobalt, Nickel, Zinc, Solid Mercury and Depleted Uranium; Steel, Niobium, Thermium and Iridium already have both tags in vanilla and are left alone. The list is logged at startup (`[RefinedBuilding] Tagged N refined metal(s) ...`).
 
 Discovery works as it always does: a metal shows up in the build menu once it has been discovered and is available, exactly like the ores.
 
@@ -21,11 +21,11 @@ Consequences worth knowing, all of which vanilla Steel already has:
 
 As a local mod:
 
-1. Download `RefinedMetalsAsRawMetals-<version>.zip` from the [latest release](https://github.com/isochronous/refined-metals-as-raw-metals/releases/latest).
-2. Extract it into a new folder named `RefinedMetalsAsRawMetals` inside the game's local mods folder, so that `mod.yaml` ends up directly inside it (create `local` if it does not exist):
-   - Windows: `Documents\Klei\OxygenNotIncluded\mods\local\RefinedMetalsAsRawMetals`
-   - Linux: `~/.config/unity3d/Klei/Oxygen Not Included/mods/local/RefinedMetalsAsRawMetals`
-   - macOS: `~/Library/Application Support/unity.Klei.Oxygen Not Included/mods/local/RefinedMetalsAsRawMetals`
+1. Download `RefinedBuilding-<version>.zip` from the [latest release](https://github.com/isochronous/refined-building/releases/latest).
+2. Extract it into a new folder named `RefinedBuilding` inside the game's local mods folder, so that `mod.yaml` ends up directly inside it (create `local` if it does not exist):
+   - Windows: `Documents\Klei\OxygenNotIncluded\mods\local\RefinedBuilding`
+   - Linux: `~/.config/unity3d/Klei/Oxygen Not Included/mods/local/RefinedBuilding`
+   - macOS: `~/Library/Application Support/unity.Klei.Oxygen Not Included/mods/local/RefinedBuilding`
 3. Start the game, enable the mod under **Mods** in the main menu, and let the game restart.
 
 Safe to add to or remove from an existing save: it only changes which materials the build menu offers.
@@ -35,10 +35,10 @@ Safe to add to or remove from an existing save: it only changes which materials 
 Requires the .NET SDK (8+). Shared build configuration lives in the [oni-mods-common](https://github.com/isochronous/oni-mods-common) submodule, so clone with `--recurse-submodules` (or run `git submodule update --init`). The game DLLs are referenced directly from the game install; override the path if yours differs:
 
 ```
-dotnet build src/RefinedMetalsAsRawMetals -c Release -p:GameFolder="<path-to>\OxygenNotIncluded"
+dotnet build src/RefinedBuilding -c Release -p:GameFolder="<path-to>\OxygenNotIncluded"
 ```
 
-A successful build deploys the mod to `Documents\Klei\OxygenNotIncluded\mods\local\RefinedMetalsAsRawMetals` (disable with `-p:ModDeployFolder=none`).
+A successful build deploys the mod to `Documents\Klei\OxygenNotIncluded\mods\local\RefinedBuilding` (disable with `-p:ModDeployFolder=none`).
 
 ## Implementation notes
 
