@@ -1,0 +1,3 @@
+title: "All Refined Metals Usable As Raw Metals"
+description: "Lets every refined metal be used wherever a building asks for raw Metal Ore (wire, pipes, doors, tiles and so on). Finds the metals at runtime, so it covers every refined metal in the base game, your enabled DLCs and other mods."
+staticID: "Isochronous.RefinedMetalsAsRawMetals"

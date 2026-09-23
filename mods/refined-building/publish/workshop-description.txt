@@ -1,0 +1,16 @@
+Lets every refined metal be used wherever a building asks for raw [b]Metal Ore[/b]: wire, pipes, doors, tiles, ladders, batteries and so on.
+
+Does the same job as Cairath's Refined Metals Usable As Raw Metals, but instead of a fixed list of six metals it finds the refined metals at runtime, so it covers everything the game actually loaded: the base game, whichever DLCs you have enabled, and refined metals added by other mods.
+
+[h2]What it does[/h2]
+[list]
+[*]Every solid refined metal is also treated as raw metal, so it shows up in the material list of any building that takes Metal Ore. The refined-metal recipes are untouched.
+[*]With all DLCs that currently adds Copper, Iron, Gold, Lead, Aluminum, Tungsten, Cobalt, Nickel, Zinc, Solid Mercury and Depleted Uranium. Steel, Niobium, Thermium and Iridium already count as both in the base game.
+[*]Discovery works as usual: a metal appears in the build menu once you have found it, just like the ores.
+[*]Refined metal debris also satisfies "any Metal" deliveries such as the Oxygen Mask Station, the same way Steel already does. Storage bin filters are unaffected.
+[/list]
+
+[h2]Compatibility[/h2]
+Works with the base game and all DLCs, on build 744825 (U59) or newer. No dependencies. Safe to add to or remove from an existing save.
+
+Source and issue tracker: https://github.com/isochronous/refined-metals-as-raw-metals
