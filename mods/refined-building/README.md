@@ -1,6 +1,6 @@
 # Refined Building
 
-An [Oxygen Not Included](https://www.klei.com/games/oxygen-not-included) mod that lets every refined metal be used wherever a building asks for raw **Metal Ore**: wire, pneumatic doors and airlocks, mesh tiles, batteries, pumps, valves, vents, coal generators, the electrolyzer, sinks, and showers and so on.
+An [Oxygen Not Included](https://www.klei.com/games/oxygen-not-included) mod that lets every refined metal be used wherever a building asks for raw **Metal Ore**: wire, pneumatic doors and airlocks, mesh tiles, batteries, pumps, valves, vents, coal generators, the electrolyzer, sinks and showers, and so on.
 
 It does the same job as Cairath's [Refined Metals Usable As Raw Metals](https://steamcommunity.com/sharedfiles/filedetails/?id=1729816134), but instead of a fixed list of six metals it finds the refined metals at runtime, so it covers everything the game actually loaded: the base game, whichever DLCs are enabled, and refined metals added by other mods.
 
