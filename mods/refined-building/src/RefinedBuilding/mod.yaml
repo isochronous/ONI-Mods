@@ -1,3 +1,3 @@
 title: "Refined Building"
-description: "Lets every refined metal be used wherever a building asks for raw Metal Ore (wire, pneumatic doors and airlocks, mesh tiles, batteries, pumps, valves, vents, coal generators, the electrolyzer, sinks and showers). Finds the metals at runtime, so it covers every refined metal in the base game, your enabled DLCs and other mods."
+description: "Lets every refined metal be used wherever a building asks for raw Metal Ore (wire, pneumatic doors and airlocks, mesh tiles, batteries, pumps, valves, vents, coal generators, the electrolyzer, sinks, and showers). Finds the metals at runtime, so it covers every refined metal in the base game, your enabled DLCs, and other mods."
 staticID: "Isochronous.RefinedBuilding"

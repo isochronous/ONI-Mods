@@ -11,7 +11,7 @@ namespace RefinedBuilding
 	///
 	/// ElementLoader.Load only creates elements whose dlcId is enabled, so iterating the loaded
 	/// table covers exactly the metals this game can have: base game, the enabled DLCs, and any
-	/// element another mod defined. Steel, Niobium, Thermium and Iridium already ship with both
+	/// element another mod defined. Steel, Niobium, Thermium, and Iridium already ship with both
 	/// tags and are left alone. Discovery is not a factor: the material selector lists every
 	/// tagged element and applies its own discovered/available checks afterwards.
 	/// </summary>

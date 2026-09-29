@@ -1,14 +1,14 @@
 # Refined Building
 
-An [Oxygen Not Included](https://www.klei.com/games/oxygen-not-included) mod that lets every refined metal be used wherever a building asks for raw **Metal Ore**: wire, pneumatic doors and airlocks, mesh tiles, batteries, pumps, valves, vents, coal generators, the electrolyzer, sinks and showers and so on.
+An [Oxygen Not Included](https://www.klei.com/games/oxygen-not-included) mod that lets every refined metal be used wherever a building asks for raw **Metal Ore**: wire, pneumatic doors and airlocks, mesh tiles, batteries, pumps, valves, vents, coal generators, the electrolyzer, sinks, and showers and so on.
 
 It does the same job as Cairath's [Refined Metals Usable As Raw Metals](https://steamcommunity.com/sharedfiles/filedetails/?id=1729816134), but instead of a fixed list of six metals it finds the refined metals at runtime, so it covers everything the game actually loaded: the base game, whichever DLCs are enabled, and refined metals added by other mods.
 
 ## What it does
 
-After the game loads its element table, every solid element tagged `RefinedMetal` that does not already carry the `Metal` tag gets it. Building recipes that accept "Metal Ore" match on that tag, so the refined metals appear in those buildings' material lists alongside the ores. That covers both `MATERIALS.RAW_METALS` and `MATERIALS.ALL_METALS`, which despite its name is also just `{"Metal"}` (pneumatic doors, mesh tiles, batteries, pumps, wire...), plus the `BuildableRaw&Metal` group (gas pipes, storage bins, wash basins). Buildings that ask for Refined Metal are untouched, and so are the ones that take raw minerals (regular pipes, ladders, plain tiles).
+After the game loads its element table, every solid element tagged `RefinedMetal` that does not already carry the `Metal` tag gets it. Building recipes that accept "Metal Ore" match on that tag, so the refined metals appear in those buildings' material lists alongside the ores. That covers both `MATERIALS.RAW_METALS` and `MATERIALS.ALL_METALS`, which despite its name is also just `{"Metal"}` (pneumatic doors, mesh tiles, batteries, pumps, wire...), plus the `BuildableRaw&Metal` group (gas pipes, storage bins, and wash basins). Buildings that ask for Refined Metal are untouched, and so are the ones that take raw minerals (regular pipes, ladders, and plain tiles).
 
-On the current game with all DLCs that adds Copper, Iron, Gold, Lead, Aluminum, Tungsten, Cobalt, Nickel, Zinc, Solid Mercury and Depleted Uranium; Steel, Niobium, Thermium and Iridium already have both tags in vanilla and are left alone. The list is logged at startup (`[RefinedBuilding] Tagged N refined metal(s) ...`).
+On the current game with all DLCs that adds Copper, Iron, Gold, Lead, Aluminum, Tungsten, Cobalt, Nickel, Zinc, Solid Mercury, and Depleted Uranium; Steel, Niobium, Thermium, and Iridium already have both tags in vanilla and are left alone. The list is logged at startup (`[RefinedBuilding] Tagged N refined metal(s) ...`).
 
 Discovery works as it always does: a metal shows up in the build menu once it has been discovered and is available, exactly like the ores.
 
