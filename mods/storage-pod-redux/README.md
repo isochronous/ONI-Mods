@@ -5,7 +5,7 @@ An [Oxygen Not Included](https://www.klei.com/games/oxygen-not-included) mod tha
 - **Storage Pod**: a Storage Bin in one cell. Holds 5,000 kg of solids (configurable), needs no power, costs 100 kg of Refined Metal, and unlocks with Refined Renovations. Found under Base > Storage, next to the Storage Bin.
 - **Cool Pod**: a fridge in one cell. Holds 50 kg of food (configurable), uses 60 W, dropping to 10 W once everything inside is cold, costs 100 kg of Refined Metal, and unlocks with Agriculture. Found under Food > Storage, next to the Refrigerator. Satisfies the Kitchen room's refrigerator requirement and has the same Full automation output.
 
-It is a from-scratch rewrite of Skyrunner's [Storage Pod](https://steamcommunity.com/sharedfiles/filedetails/?id=1873476551), whose Cool Pod has crashed on completion since the Sweet Dreams update (`Refrigerator.OnSpawn` needs a `FoodStorage` component that mod never added). The Cool Pod here is built the way the game builds its own Mini Fridge, so it cools, saves power, and keeps working in flight. Prefab IDs are the original mod's (`StoragePodConfig`, `CoolPodConfig`), so a save made with the original keeps its pods when you switch; do not run both mods at once (if you do, this one steps aside and logs a warning).
+It is a from-scratch rewrite of the code of Skyrunner's [Storage Pod](https://steamcommunity.com/sharedfiles/filedetails/?id=1873476551), whose Cool Pod has crashed on completion since the Sweet Dreams update (`Refrigerator.OnSpawn` needs a `FoodStorage` component that mod never added). The Cool Pod here is built the way the game builds its own Mini Fridge, so it cools, saves power, and keeps working in flight. Prefab IDs are the original mod's (`StoragePodConfig`, `CoolPodConfig`), so a save made with the original keeps its pods when you switch; do not run both mods at once (if you do, this one steps aside and logs a warning).
 
 ## Options
 
@@ -37,7 +37,9 @@ dotnet build src/StoragePodRedux -c Release -p:GameFolder="<path-to>\OxygenNotIn
 
 A successful build merges [PLib](https://github.com/peterhaneve/ONIMods/tree/main/PLib) into the DLL and deploys the mod to `Documents\Klei\OxygenNotIncluded\mods\local\StoragePodRedux` (disable with `-p:ModDeployFolder=none`).
 
-Art: `tools/make_art.py` builds both kanims from `publish/sprite-storage.png` and `publish/sprite-cool.png`, drawing simple placeholder pods when those files are absent. Each kanim carries the `off`/`on`/`working` states the game's `StorageController` plays, a white-outline `place` ghost, the build-menu `ui` icon, and the 16-frame `meter` fill gauge (plus, for the Cool Pod, the 2-frame `logicmeter`) that `FilteredStorage` drives.
+## Art
+
+The Storage Pod and Cool Pod animations are the original mod's, drawn by 3GuB and used here with their permission (asked and granted 2026-09-30). They are shipped as-is under `src/StoragePodRedux/anim/assets/`; the code was rewritten, the art was not.
 
 ## Implementation notes
 

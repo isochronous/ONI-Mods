@@ -1,3 +1,3 @@
 title: "Storage Pod Redux"
-description: "Two compact 1x1 storage buildings that can be built anywhere, including inside rockets: the Storage Pod (5 t of solids, no power) and the Cool Pod (a 50 kg powered fridge). A rewrite of Skyrunner's Storage Pod that works on current builds; each pod can be turned off in the options."
+description: "Two compact 1x1 storage buildings that can be built anywhere, including inside rockets: the Storage Pod (5 t of solids, no power) and the Cool Pod (a 50 kg powered fridge). A code rewrite of Skyrunner's Storage Pod that works on current builds, with the original art by 3GuB (used with permission); each pod can be turned off in the options."
 staticID: "Isochronous.StoragePodRedux"

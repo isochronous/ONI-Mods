@@ -7,7 +7,7 @@ Two compact 1x1 storage buildings that can be built anywhere, including inside r
 [/list]
 
 [h2]Why a redux[/h2]
-A from-scratch rewrite of Skyrunner's Storage Pod, whose Cool Pod has crashed on completion since the Sweet Dreams update. The Cool Pod here is built the way the game builds its own Mini Fridge, so it cools, saves power, and keeps working in flight. It uses the original mod's building IDs, so a save made with the original keeps its pods when you switch. Do not run both mods at once; if you do, this one steps aside and logs a warning.
+A from-scratch rewrite of the code of Skyrunner's Storage Pod, whose Cool Pod has crashed on completion since the Sweet Dreams update. The Cool Pod here is built the way the game builds its own Mini Fridge, so it cools, saves power, and keeps working in flight. It uses the original mod's building IDs, so a save made with the original keeps its pods when you switch. Do not run both mods at once; if you do, this one steps aside and logs a warning.
 
 [h2]Options[/h2]
 Main menu > Mods > Storage Pod Redux > Options (changes need a restart):
@@ -16,6 +16,9 @@ Main menu > Mods > Storage Pod Redux > Options (changes need a restart):
 [*]Cool Pod: Auto / Enabled / Disabled, and capacity. Auto adds the Cool Pod unless Ronivan's Legacy - Industrial Revolution is enabled with its own Fridge Pod turned on.
 [/list]
 A building that is turned off is not added at all, so it is absent from the build menu, tech tree, and codex.
+
+[h2]Art[/h2]
+The pod animations are the original mod's, drawn by 3GuB and used with their permission. Thank you!
 
 [h2]Compatibility[/h2]
 Works with the base game and all DLCs, on build 744825 (U59) or newer. No dependencies (PLib is bundled). Safe to add to an existing save; remove it only after deconstructing the pods.
