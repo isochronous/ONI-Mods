@@ -49,7 +49,11 @@ namespace StoragePodRedux
 		{
 			if (StoragePodReduxMod.OriginalActive)
 				return false;
-			return buildingId == StoragePodConfig.ID ? StoragePodEnabled : CoolPodEnabled;
+			if (buildingId == StoragePodConfig.ID)
+				return StoragePodEnabled;
+			if (buildingId == CoolPodConfig.ID)
+				return CoolPodEnabled;
+			return true;
 		}
 	}
 }

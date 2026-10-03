@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.IO;
 using KMod;
 using Newtonsoft.Json.Linq;
-using UnityEngine;
 
 namespace StoragePodRedux
 {
@@ -58,11 +57,17 @@ namespace StoragePodRedux
 			string folder = ModDetection.ConfigFolder(StaticID);
 			JObject config = ModDetection.ReadJson(Path.Combine(folder, "config.json"));
 			JObject buildings = ModDetection.ReadJson(Path.Combine(folder, "RonivanAIO_BuildingConfig.json"));
-			bool moduleOn = config?["DupesRefrigeration_Enabled"]?.Value<bool>() ?? true;
+			bool moduleOn = Flag(config?["DupesRefrigeration_Enabled"], true);
 			JToken fridgePod = buildings?["BuildingConfigurations"]?["FridgePod"];
-			bool buildingOn = fridgePod?["BuildingEnabled"]?.Value<bool>() ?? true;
-			bool forced = fridgePod?["BuildingEnabledForce"]?.Value<bool>() ?? false;
+			bool buildingOn = Flag(fridgePod?["BuildingEnabled"], true);
+			bool forced = Flag(fridgePod?["BuildingEnabledForce"], false);
 			return forced || (moduleOn && buildingOn);
+		}
+
+		/// <summary>A JSON boolean, or the fallback when the value is missing or not a boolean.</summary>
+		private static bool Flag(JToken token, bool fallback)
+		{
+			return token != null && token.Type == JTokenType.Boolean ? (bool)token : fallback;
 		}
 	}
 }
