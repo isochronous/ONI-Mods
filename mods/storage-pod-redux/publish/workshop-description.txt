@@ -21,7 +21,7 @@ A building that is turned off is not added at all, so it is absent from the buil
 The pod animations are the original mod's, drawn by 3GuB and used with permission. Thank you!
 
 [h2]Compatibility[/h2]
-Works with the base game and all DLCs, on build 744825 (U59) or newer. No dependencies (PLib is bundled). Safe to add to an existing save; remove it only after deconstructing the pods.
+Works with the base game and all DLCs, on build 744825 (U59) or newer. No separate dependencies (PLib is bundled). Safe to add to an existing save; remove it only after deconstructing the pods.
 
 Developed by a professional software developer with assistance from Claude Code.
 
