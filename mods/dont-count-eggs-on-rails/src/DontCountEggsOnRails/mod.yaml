@@ -1,0 +1,3 @@
+title: "Don't Count Eggs on Rails"
+description: "Critter sensors no longer count eggs that are riding a conveyor rail through the room. Eggs on the floor, in incubators, or carried by duplicants count as before."
+staticID: "Isochronous.DontCountEggsOnRails"
