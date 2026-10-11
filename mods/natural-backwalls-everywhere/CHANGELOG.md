@@ -3,6 +3,8 @@
 ## Unreleased
 
 - Feature rooms that reach past the world edge no longer log "Feature-room backwalls skipped for one cell: Index was outside the bounds of the array" (seen on Skewed Asteroid); the out-of-world points are skipped.
+- Backwall phase changes during the settle sim no longer run the game's in-game code, which needs objects that do not exist before a game is loaded and would stop the worldgen thread without a message. The mod applies them itself during the settle (same result: a backwall past its melting point becomes the liquid in the cell) and logs how many it handled. This is a guard; whether it is the cause of the generation hang reported on Blasted Ceres, RelicAAAAAAAGHH, Skewed Asteroid and Flipped Asteroid is not confirmed.
+- An error that escapes the worldgen thread now shows the game's normal "not all seeds germinate" message, with the exception in Player.log, instead of a loading screen that never finishes.
 
 ## 0.1.3 - 2026-10-09
 

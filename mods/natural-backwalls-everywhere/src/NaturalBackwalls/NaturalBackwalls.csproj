@@ -8,6 +8,8 @@
     <Version>0.1.3</Version>
     <UsePLib>true</UsePLib>
     <ReferenceUnityUI>true</ReferenceUnityUI>
+    <!-- SettleSimPatch reads the sim's update buffer through its pointer struct. -->
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>
