@@ -1,7 +1,7 @@
 Natural backwall tiles in every biome, not just the Aquatic Planet Pack's beach, reef, kelp forest, and abyss.
 
 [h2]How it works[/h2]
-The Aquatic pack has no special backwall algorithm. Its subworlds name a backwall noise tree and its biome files carry a "_backwall" element band, which the game samples exactly like ordinary terrain bands and writes wherever the result is a solid. This mod adds the same data to every other biome during world generation, using a copy of the pack's reef noise, so the pack itself is not required.
+The Aquatic pack has no special backwall algorithm. Its subworlds name a backwall noise tree and its biome files carry a "_backwall" element band, which the game samples exactly like ordinary terrain bands and writes wherever the result is a solid. This mod adds the same data to every other biome during world generation, using copies of the pack's backwall noise trees shipped with the mod, alongside one from the base game, so the pack itself is not required.
 
 [h2]Options[/h2]
 [list]
@@ -21,5 +21,7 @@ The Aquatic pack has no special backwall algorithm. Its subworlds name a backwal
 [*]Backwalls can be dug like the pack's, so they yield their material. The defaults are each biome's filler rock.
 [*]The Aquatic pack's own biomes are listed too, with the pack's values as defaults; leave them alone and their worldgen is untouched, or give them your own material and coverage.
 [/list]
+
+Made by a professional software developer with assistance from Claude Fable. Comes with a no slop guarantee.
 
 Source and issues: https://github.com/isochronous/natural-backwalls-everywhere

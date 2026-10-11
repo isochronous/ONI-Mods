@@ -19,7 +19,7 @@ The Aquatic Planet Pack adds no special algorithm for backwalls. Its subworlds n
 - **New worlds only.** Backwalls exist only in world generation. Existing colonies are unchanged, and the mod can be added or removed without affecting a save beyond that.
 - **Aquatic pack biomes** (Beach, Reef, Kelp Forest, Abyss) are listed too, with the pack's own values as defaults: Salt at full coverage, Coquina and Granite at 0.2, Basalt at 0.14. While a row stays at its defaults the pack's worldgen data is used untouched, so the beach's algae pockets keep their Dirt backwall; change the material or coverage and the whole biome follows your setting.
 
-The noise tree is a copy of the pack's reef noise, shipped with the mod, so the Aquatic Planet Pack is not required.
+Every backwall noise tree the pack uses ships with the mod as a copy, alongside one from the base game, so the Aquatic Planet Pack is not required.
 
 ## Other worldgen mods
 
