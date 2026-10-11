@@ -42,7 +42,13 @@ namespace NaturalBackwalls
 				return;
 			foreach (int cell in points)
 			{
+				// A dug room can reach past the world edge; the game keeps those points in the set
+				// (it only drops them for high-priority features) and never indexes anything with them.
+				if (!Grid.IsValidCell(cell))
+					continue;
 				Vector2I pos = Grid.CellToXY(cell);
+				if (pos.x < 0 || pos.y < 0 || pos.x >= world.size.x || pos.y >= world.size.y)
+					continue;
 				worldGen.GetElementForBackwallBiomePoint(world, bands, pos, out Element element, out Sim.PhysicsData pd, out Sim.DiseaseCell _);
 				if (!element.IsSolid)
 					continue;

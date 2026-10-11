@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Feature rooms that reach past the world edge no longer log "Feature-room backwalls skipped for one cell: Index was outside the bounds of the array" (seen on Skewed Asteroid); the out-of-world points are skipped.
+
 ## 0.1.3 - 2026-10-09
 
 - The mod's internal id is now Isochronous.NaturalBackwallsEverywhere. The game sees it as a new mod: enable it again in the Mods menu and check its settings.
