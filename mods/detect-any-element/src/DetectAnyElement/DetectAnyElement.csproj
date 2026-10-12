@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="$(MSBuildThisFileDirectory)..\..\common\oni-mod.props" />
+
+  <PropertyGroup>
+    <AssemblyName>DetectAnyElement</AssemblyName>
+    <RootNamespace>DetectAnyElement</RootNamespace>
+    <Version>0.1.0</Version>
+    <ReferenceUnityUI>true</ReferenceUnityUI>
+  </PropertyGroup>
+
+  <Import Project="$(MSBuildThisFileDirectory)..\..\common\oni-mod.targets" />
+
+</Project>

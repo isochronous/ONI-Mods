@@ -1,0 +1,3 @@
+title: "Detect Any Element"
+description: "Adds an \"Any\" choice, right under \"None\", to the element sensors: the Liquid Pipe, Gas Pipe and Conveyor Rail Element Sensors go green for any packet passing through, and the Gas and Liquid Element Sensors for any gas or liquid in their cell. Picking an element switches it back off."
+staticID: "Isochronous.DetectAnyElement"

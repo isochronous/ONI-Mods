@@ -1,0 +1,14 @@
+Adds an [b]Any[/b] choice, right under [b]None[/b], to the element sensors.
+
+[list]
+[*][b]Liquid Pipe, Gas Pipe and Conveyor Rail Element Sensors[/b]: on Any, green while any packet at all is passing through, whatever the element or item.
+[*][b]Gas and Liquid Element Sensors[/b] (the in-world ones): on Any, green while the cell holds any gas, or any liquid. Vacuum counts as nothing.
+[/list]
+
+Picking an element switches Any off, picking Any switches the element off: one choice at a time, as before. The choice is saved with the building and copies with its settings. Everything else is the game's own sensor logic with the element test taken out.
+
+Without the mod, a sensor left on Any keeps the choice but matches nothing; pick an element and it is back to normal.
+
+Made by a professional software developer with assistance from Claude Fable.
+
+Source and issues: https://github.com/isochronous/detect-any-element
