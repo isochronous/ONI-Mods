@@ -44,6 +44,7 @@ namespace DetectAnyElement
 				Image icon = RowIcon(row);
 				if (icon != null)
 					icon.gameObject.SetActive(false);
+				// The game's .NET Framework has no AddOrUpdate on this table.
 				anyRows.Remove(__instance);
 				anyRows.Add(__instance, row);
 			}

@@ -15,11 +15,8 @@ The icons' colours are baked into the textures as well (the anims draw them with
 multiplier), and so is where each icon sits relative to the anim's anchor for "elements",
 which is not the middle of every screen. An override keeps the vanilla anchor, so each kanim
 gets its own symbol, asterisk_<kanim>, in that kanim's icon colour and with the glyph offset
-inside its frames so that it lands on the middle of the screen: the centroid of the screen's
-opaque pixels, with the asterisk's bounding box centred on it. The conveyor's triangle is the
-exception, its centroid looks low; there the asterisk's own alpha centroid goes where the
-vanilla ore's alpha centroid is, which the artists placed where it looks centred. AnyGlyph.cs picks the symbol
-by the sensor's kanim.
+inside its frames so that it lands on the middle of the screen; see SENSORS for how that
+middle is measured. AnyGlyph.cs picks the symbol by the sensor's kanim.
 
 The asterisk is the plain asterisk of Liberation Sans Bold (the game's own UI face; SIL Open
 Font License, see LICENSE-LiberationSans.txt), rendered large, thickened with a round stroke
