@@ -1,0 +1,22 @@
+Mark every pipe (or tile, wire, rail...) in an area to be replaced with another type and material, in one box-drag.
+
+[h2]How it works[/h2]
+Dragging a pipe over an existing pipe is already a replacement in the game: the old one keeps working until the new one is built over it. This mod does that for a whole area at once. Pick what to replace and what to replace it with, then box-drag; every matching building gets a replacement order at the current priority.
+
+[h2]Using it[/h2]
+[list]
+[*]Select the Upgrade Planner from the toolbar (or Shift+U, rebindable). A window opens with two columns.
+[*][b]Replace[/b]: every replaceable building type by family (liquid pipes, ventilation pipes, conveyor rails, wires, automation wires, tiles, ladders...). Pick one, then "Any" material or a specific one.
+[*][b]With[/b]: the types the game lets you build over it, limited to what you have researched, then one material per ingredient.
+[*]Box-drag. Everything the plan would touch is highlighted while the tool is active, the overlay follows the family, and a popup reports how many were marked.
+[/list]
+
+[h2]Good to know[/h2]
+[list]
+[*]Sidegrades and downgrades work too: sandstone to steel, insulated back to plain.
+[*]Modded pipes appear automatically, since the list comes from the game's own replacement rules. Two-ingredient recipes (steel and plastic) get two material rows.
+[*]Nothing is deconstructed, and nothing the build tool would refuse is allowed. Cancel orders with the Cancel tool as usual.
+[*]Closing the window ends the tool; the plan is remembered for the session.
+[/list]
+
+Source and issues: https://github.com/isochronous/upgrade-planner

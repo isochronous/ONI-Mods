@@ -1,0 +1,3 @@
+title: "Upgrade Planner"
+description: "A tool that marks every building of one type in a box-dragged area to be replaced with another type and material: plain pipes to insulated, sandstone to steel, anything the game lets you build over, including modded pipes."
+staticID: "Isochronous.UpgradePlanner"
