@@ -3,13 +3,15 @@ using PeterHan.PLib.Options;
 
 namespace StoragePodRedux
 {
+	// Titles, tooltips and categories are keys into ModStrings (see ModStrings.STORAGEPODREDUX.OPTIONS);
+	// PLib resolves them through the string table, so the options screen follows the translation.
 	public enum CoolPodMode
 	{
-		[Option("Auto", "Enabled, unless Ronivan's Legacy - Industrial Revolution is enabled with its Fridge Pod turned on.")]
+		[Option("STRINGS.STORAGEPODREDUX.OPTIONS.COOL_POD_MODE.AUTO.NAME", "STRINGS.STORAGEPODREDUX.OPTIONS.COOL_POD_MODE.AUTO.TOOLTIP")]
 		Auto,
-		[Option("Enabled", "Always add the Cool Pod.")]
+		[Option("STRINGS.STORAGEPODREDUX.OPTIONS.COOL_POD_MODE.ENABLED.NAME", "STRINGS.STORAGEPODREDUX.OPTIONS.COOL_POD_MODE.ENABLED.TOOLTIP")]
 		Enabled,
-		[Option("Disabled", "Never add the Cool Pod.")]
+		[Option("STRINGS.STORAGEPODREDUX.OPTIONS.COOL_POD_MODE.DISABLED.NAME", "STRINGS.STORAGEPODREDUX.OPTIONS.COOL_POD_MODE.DISABLED.TOOLTIP")]
 		Disabled,
 	}
 
@@ -18,24 +20,24 @@ namespace StoragePodRedux
 	[RestartRequired]
 	public sealed class Options : SingletonOptions<Options>
 	{
-		[Option("Storage Pod", "Add the Storage Pod building. Takes effect after a restart.", "Storage Pod")]
+		[Option("STRINGS.STORAGEPODREDUX.OPTIONS.STORAGE_POD_ENABLED.NAME", "STRINGS.STORAGEPODREDUX.OPTIONS.STORAGE_POD_ENABLED.TOOLTIP", "STRINGS.STORAGEPODREDUX.OPTIONS.CATEGORY.STORAGE_POD")]
 		[JsonProperty]
 		public bool StoragePodEnabled { get; set; } = true;
 
-		[Option("Capacity (kg)", "How much the Storage Pod holds.", "Storage Pod", Format = "F0")]
+		[Option("STRINGS.STORAGEPODREDUX.OPTIONS.STORAGE_POD_CAPACITY.NAME", "STRINGS.STORAGEPODREDUX.OPTIONS.STORAGE_POD_CAPACITY.TOOLTIP", "STRINGS.STORAGEPODREDUX.OPTIONS.CATEGORY.STORAGE_POD", Format = "F0")]
 		[Limit(100, 50000)]
 		[JsonProperty]
 		public float StoragePodCapacity { get; set; } = 5000f;
 
-		[Option("Stores food", "Let the Storage Pod hold food as well as other solids. It is not refrigerated.", "Storage Pod")]
+		[Option("STRINGS.STORAGEPODREDUX.OPTIONS.STORAGE_POD_STORES_FOOD.NAME", "STRINGS.STORAGEPODREDUX.OPTIONS.STORAGE_POD_STORES_FOOD.TOOLTIP", "STRINGS.STORAGEPODREDUX.OPTIONS.CATEGORY.STORAGE_POD")]
 		[JsonProperty]
 		public bool StoragePodStoresFood { get; set; } = false;
 
-		[Option("Cool Pod", "Add the Cool Pod building. Takes effect after a restart.", "Cool Pod")]
+		[Option("STRINGS.STORAGEPODREDUX.OPTIONS.COOL_POD.NAME", "STRINGS.STORAGEPODREDUX.OPTIONS.COOL_POD.TOOLTIP", "STRINGS.STORAGEPODREDUX.OPTIONS.CATEGORY.COOL_POD")]
 		[JsonProperty]
 		public CoolPodMode CoolPod { get; set; } = CoolPodMode.Auto;
 
-		[Option("Capacity (kg)", "How much food the Cool Pod holds.", "Cool Pod", Format = "F0")]
+		[Option("STRINGS.STORAGEPODREDUX.OPTIONS.COOL_POD_CAPACITY.NAME", "STRINGS.STORAGEPODREDUX.OPTIONS.COOL_POD_CAPACITY.TOOLTIP", "STRINGS.STORAGEPODREDUX.OPTIONS.CATEGORY.COOL_POD", Format = "F0")]
 		[Limit(10, 5000)]
 		[JsonProperty]
 		public float CoolPodCapacity { get; set; } = 50f;

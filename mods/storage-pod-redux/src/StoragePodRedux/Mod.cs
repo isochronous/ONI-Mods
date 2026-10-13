@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using HarmonyLib;
+using Isochronous;
 using KMod;
 using PeterHan.PLib.Core;
 using PeterHan.PLib.Options;
@@ -18,8 +19,8 @@ namespace StoragePodRedux
 		{
 			base.OnLoad(harmony);
 			PUtil.InitLibrary(false);
+			Translations.Register(harmony, typeof(ModStrings));
 			new POptions().RegisterOptions(this, typeof(Options));
-			ModStrings.Register();
 			Debug.Log("[StoragePodRedux] Loaded version " + typeof(StoragePodReduxMod).Assembly.GetName().Version);
 		}
 

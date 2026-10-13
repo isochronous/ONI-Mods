@@ -37,6 +37,10 @@ dotnet build src/StoragePodRedux -c Release -p:GameFolder="<path-to>\OxygenNotIn
 
 A successful build merges [PLib](https://github.com/peterhaneve/ONIMods/tree/main/PLib) into the DLL and deploys the mod to `Documents\Klei\OxygenNotIncluded\mods\local\StoragePodRedux` (disable with `-p:ModDeployFolder=none`).
 
+## Translations
+
+The mod is available in Chinese (Simplified). Translations are loaded from `translations/<locale>.po` next to the mod DLL; other languages can be added by translating the template `src/StoragePodRedux/translations/StoragePodRedux.pot`.
+
 ## Art
 
 The Storage Pod and Cool Pod animations are the original mod's, drawn by 3GuB and used here with their permission (asked and granted 2026-09-30). They are shipped as-is under `src/StoragePodRedux/anim/assets/`; the code was rewritten, the art was not.
