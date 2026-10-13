@@ -68,6 +68,11 @@ namespace UpgradePlanner
 				return false;
 			if (!source.Replaceable || source.BuildingComplete == null)
 				return false;
+			// Utility buildings (wires, automation wires, pipes, rails) are dragged with the
+			// utility build tool, whose BuildPath replaces whatever finished building sits on the
+			// tile layer with a different type or material, tags or no tags; wires have none.
+			if (target.isUtility && source.isUtility)
+				return target.TileLayer != ObjectLayer.NumLayers && target.TileLayer == source.TileLayer;
 			if (!CarriesReplacementTag(target, source, example))
 				return false;
 			if (target.ReplacementCandidateLayers != null)
@@ -215,9 +220,7 @@ namespace UpgradePlanner
 		/// <summary>Every replaceable type, grouped by replacement layer, in registration order (vanilla first, then mods).</summary>
 		public static List<Category> SourceCategories()
 		{
-			// Only types something can be built over: the game names a replacement layer for
-			// power and automation wires too, but gives nothing the tags to replace them, so
-			// they would be a dead end in the Replace column ("nothing can be built over this").
+			// Only types something can be built over, so the Replace column has no dead ends.
 			return Group(f => IsReplaceableSource(f.Representative) && TargetCategories(f).Count > 0);
 		}
 

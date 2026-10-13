@@ -4,6 +4,8 @@ using PeterHan.PLib.Actions;
 using PeterHan.PLib.Core;
 using UnityEngine;
 
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("UpgradePlanner.Tests")]
+
 namespace UpgradePlanner
 {
 	public sealed class UpgradePlannerMod : UserMod2

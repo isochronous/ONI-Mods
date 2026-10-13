@@ -293,7 +293,10 @@ namespace UpgradePlanner
 				return false;
 			GameObject go = building.gameObject;
 			int cell = Grid.PosToCell(go);
-			if (!Grid.IsValidCell(cell) || !building.Def.Replaceable || !target.CanReplace(go))
+			if (!Grid.IsValidCell(cell) || !building.Def.Replaceable)
+				return false;
+			// The utility build tool's BuildPath asks no tag of the building it replaces; the build tool does.
+			if (!target.isUtility && !target.CanReplace(go))
 				return false;
 			if (target.GetReplacementCandidate(cell) != go)
 				return false;
@@ -309,23 +312,25 @@ namespace UpgradePlanner
 			if (building.Def == target && ReplacementRules.SameMaterials(ReplacementRules.MaterialsOf(building), materials))
 				return false;
 			Vector3 pos = Grid.CellToPosCBC(cell, Grid.SceneLayer.Building);
-			if (InstantBuild)
-			{
-				// The build tool's instant path (BuildTool.TryBuild): the old building goes and the
-				// new one stands at once, with no order, no materials and no Duplicant.
-				if (!target.IsValidBuildLocation(null, pos, orientation, replace_tile: true)
-					|| !target.IsValidPlaceLocation(null, pos, orientation, replace_tile: true, out _))
-					return false;
-				InstantReplace(target, cell, pos, orientation, materials, go);
-				return true;
-			}
 			GameObject built = target.TryReplaceTile(null, pos, orientation, materials);
 			if (built == null)
 				return false;
 			Grid.Objects[cell, (int)target.ReplacementLayer] = built;
+			// A wire or pipe order over a wire or pipe draws the connections of the one it
+			// replaces, as the utility build tool's BuildPath gives it; the game carries them to
+			// the new building when the order completes.
+			KAnimGraphTileVisualizer oldVisualizer = go.GetComponent<KAnimGraphTileVisualizer>();
+			KAnimGraphTileVisualizer newVisualizer = built.GetComponent<KAnimGraphTileVisualizer>();
+			if (oldVisualizer != null && newVisualizer != null)
+			{
+				newVisualizer.Connections = oldVisualizer.Connections;
+				TileVisualizer.RefreshCell(cell, target.TileLayer, target.ReplacementLayer);
+			}
 			Prioritizable prioritizable = built.GetComponent<Prioritizable>();
 			if (prioritizable != null)
 				prioritizable.SetMasterPriority(ToolMenu.Instance.PriorityScreen.GetLastSelectedPriority());
+			if (InstantBuild)
+				Complete(built, target, materials, pos);
 			return true;
 		}
 
@@ -336,41 +341,38 @@ namespace UpgradePlanner
 				&& SandboxToolParameterMenu.instance != null && SandboxToolParameterMenu.instance.settings.InstantBuild);
 
 		/// <summary>
-		/// BuildTool.InstantBuildReplace, step for step: a wider building first clears the
-		/// candidates under its other cells; a tile that occupies its sim cell is released
-		/// before the new building is built in its place, anything else is destroyed outright.
+		/// Instant build: the order is given its materials and finished on the spot, which is
+		/// the game's own completion of a replacement (Constructable.OnCompleteWork): the old
+		/// building is released, the new one built in its place with the old one's connections
+		/// and the order's materials, for every kind of building, the way a Duplicant ends it.
+		/// The materials come from nowhere, as with any instant build.
 		/// </summary>
-		private static void InstantReplace(BuildingDef target, int cell, Vector3 pos, Orientation orientation, IList<Tag> materials, GameObject old)
+		private static void Complete(GameObject order, BuildingDef target, IList<Tag> materials, Vector3 pos)
 		{
-			if (target.PlacementOffsets.Length > 1)
-			{
-				target.RunOnArea(cell, orientation, delegate(int offsetCell)
-				{
-					if (offsetCell == cell)
-						return;
-					GameObject neighbour = target.GetReplacementCandidate(offsetCell);
-					if (neighbour == null)
-						return;
-					SimCellOccupier occupier = neighbour.GetComponent<SimCellOccupier>();
-					if (occupier != null)
-						occupier.DestroySelf(delegate { Object.Destroy(neighbour); });
-					else
-						Object.Destroy(neighbour);
-				});
-			}
-			float temperature = Mathf.Min(target.Temperature, ElementLoader.GetMinMeltingPointAmongElements(materials) - 10f);
-			SimCellOccupier oldOccupier = old.GetComponent<SimCellOccupier>();
-			if (oldOccupier == null)
-			{
-				Object.Destroy(old);
-				target.Build(cell, orientation, null, materials, temperature, null, playsound: false, GameClock.Instance.GetTime());
+			Constructable constructable = order.GetComponent<Constructable>();
+			Storage storage = order.GetComponent<Storage>();
+			if (constructable == null || storage == null || target.CraftRecipe == null)
 				return;
-			}
-			oldOccupier.DestroySelf(delegate
+			foreach (Recipe.Ingredient ingredient in target.CraftRecipe.GetAllIngredients(materials))
 			{
-				Object.Destroy(old);
-				target.Build(cell, orientation, null, materials, temperature, null, playsound: false, GameClock.Instance.GetTime());
-			});
+				Element element = ElementLoader.GetElement(ingredient.tag);
+				if (element != null)
+				{
+					storage.AddOre(element.id, ingredient.amount, element.defaultValues.temperature, byte.MaxValue, 0);
+					continue;
+				}
+				// An ingredient that is an item rather than an element (rare for a replaceable type).
+				GameObject prefab = Assets.TryGetPrefab(ingredient.tag);
+				if (prefab == null)
+					continue;
+				GameObject item = GameUtil.KInstantiate(prefab, pos, Grid.SceneLayer.Ore);
+				PrimaryElement primary = item.GetComponent<PrimaryElement>();
+				if (primary != null)
+					primary.Mass = ingredient.amount;
+				item.SetActive(true);
+				storage.Store(item, hide_popups: true, block_events: true);
+			}
+			constructable.CompleteWork(null);
 		}
 
 		// ---- highlight of every building the plan would touch, while the tool is active ----
