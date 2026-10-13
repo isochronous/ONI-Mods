@@ -287,6 +287,9 @@ namespace UpgradePlanner
 			return column;
 		}
 
+		/// <summary>The strip the game's material panel heads its own groups with ("Select Refined Metal:"): a lighter bar across the group.</summary>
+		private static readonly Color HeaderStripColor = new Color32(72, 78, 96, 255);
+
 		private static void AddHeader(PPanel column, string text)
 		{
 			column.AddChild(new PLabel(text)
@@ -294,8 +297,30 @@ namespace UpgradePlanner
 				Text = text,
 				TextStyle = PUITuning.Fonts.TextLightStyle.DeriveStyle(15),
 				TextAlignment = TextAnchor.MiddleLeft,
-				Margin = new RectOffset(0, 0, 8, 2),
+				BackColor = HeaderStripColor,
+				FlexSize = new Vector2(1f, 0f),
+				Margin = new RectOffset(10, 10, 4, 4),
 			});
+		}
+
+		/// <summary>
+		/// A group of the column, framed on a lighter ground with its header strip, the way the
+		/// game's material panel groups its own rows: one per building category, and one for
+		/// the materials.
+		/// </summary>
+		private static PPanel NewGroup(string name, string heading)
+		{
+			var group = new PPanel(name)
+			{
+				Direction = PanelDirection.Vertical,
+				Alignment = TextAnchor.UpperLeft,
+				Spacing = 6,
+				FlexSize = new Vector2(1f, 0f),
+				Margin = SectionPadding,
+				BackColor = PUITuning.Colors.DialogDarkBackground,
+			};
+			AddHeader(group, heading);
+			return group;
 		}
 
 		private static void AddNote(PPanel column, string text)
@@ -315,17 +340,7 @@ namespace UpgradePlanner
 		/// </summary>
 		private static PPanel NewSection(string name)
 		{
-			var section = new PPanel(name)
-			{
-				Direction = PanelDirection.Vertical,
-				Alignment = TextAnchor.UpperLeft,
-				Spacing = 4,
-				FlexSize = new Vector2(1f, 0f),
-				Margin = SectionPadding,
-				BackColor = PUITuning.Colors.DialogDarkBackground,
-			};
-			AddHeader(section, ModStrings.MaterialHeading);
-			return section;
+			return NewGroup(name, ModStrings.MaterialHeading);
 		}
 
 		/// <summary>Lays buttons out in rows of a fixed width, since a horizontal panel never wraps.</summary>
@@ -423,14 +438,15 @@ namespace UpgradePlanner
 
 		private static void AddCategory(PPanel column, ReplacementRules.Category category, ReplacementRules.Family selected, System.Action<ReplacementRules.Family> onPick)
 		{
-			AddHeader(column, category.Name);
+			PPanel group = NewGroup("Category" + category.Layer, category.Name);
 			var buttons = new List<IUIComponent>();
 			foreach (ReplacementRules.Family family in category.Families)
 			{
 				ReplacementRules.Family chosen = family;
 				buttons.Add(BuildingButton(chosen, chosen == selected, () => onPick(chosen)));
 			}
-			AddRows(column, buttons);
+			AddRows(group, buttons);
+			column.AddChild(group);
 		}
 
 		// ---- buttons ----

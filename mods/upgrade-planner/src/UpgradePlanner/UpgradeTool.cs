@@ -33,7 +33,7 @@ namespace UpgradePlanner
 		private UpgradePlan plan;
 		private UpgradeDialog dialog;
 		private GameObject configButton;
-		private MultiToggle configToggle;
+		private KToggle configToggle;
 		private HoverTextConfiguration hoverCard;
 		private readonly HashSet<BuildingComplete> pending = new HashSet<BuildingComplete>();
 		private readonly HashSet<ToolMenu.CellColorData> cellColors = new HashSet<ToolMenu.CellColorData>();
@@ -73,19 +73,32 @@ namespace UpgradePlanner
 		private void AddConfigButton()
 		{
 			ToolParameterMenu menu = ToolMenu.Instance != null ? ToolMenu.Instance.toolParameterMenu : null;
-			if (menu == null || menu.widgetPrefab == null || menu.widgetContainer == null)
+			if (menu == null || menu.widgetContainer == null || ToolMenu.Instance.toolIconPrefab == null)
 				return;
 			RemoveConfigButton();
-			configButton = Util.KInstantiateUI(menu.widgetPrefab, menu.widgetContainer, force_active: true);
-			LocText label = configButton.GetComponentInChildren<LocText>();
-			if (label != null)
-				label.text = ModStrings.ConfigButton;
-			ToolTip tooltip = configButton.GetComponentInChildren<ToolTip>();
+			// One of the toolbar's own tool toggles (icon, pressed state, tooltip), the way the
+			// toolbar makes them (ToolMenu.InstantiateCollectionsUI and its icon pass).
+			configButton = Util.KInstantiateUI(ToolMenu.Instance.toolIconPrefab, menu.widgetContainer, force_active: true);
+			Transform fg = configButton.transform.Find("FG");
+			Sprite sprite = Assets.GetSprite(ToolIcon.SpriteName);
+			if (fg != null && sprite != null)
+				fg.GetComponent<UnityEngine.UI.Image>().sprite = sprite;
+			Transform text = configButton.transform.Find("Text");
+			if (text != null)
+			{
+				LocText label = text.GetComponent<LocText>();
+				if (label != null)
+					label.text = "";
+			}
+			ToolTip tooltip = configButton.GetComponent<ToolTip>();
 			if (tooltip != null)
 				tooltip.SetSimpleTooltip(ModStrings.ConfigButtonTooltip);
-			configToggle = configButton.GetComponentInChildren<MultiToggle>();
+			configToggle = configButton.GetComponent<KToggle>();
 			if (configToggle != null)
+			{
+				configToggle.soundPlayer.Enabled = false;
 				configToggle.onClick += OnConfigButton;
+			}
 			menu.content.SetActive(true);
 			RefreshConfigButton();
 		}
@@ -109,11 +122,21 @@ namespace UpgradePlanner
 			RefreshConfigButton();
 		}
 
-		/// <summary>The widget's states as the filter menu uses them: 0 off, 1 on, 2 disabled.</summary>
+		/// <summary>Pressed while the window is open, as the toolbar shows the active tool (ToolMenu.SetToggleState).</summary>
 		private void RefreshConfigButton()
 		{
-			if (configToggle != null)
-				configToggle.ChangeState(dialog.IsOpen ? 1 : 0);
+			if (configToggle == null)
+				return;
+			if (dialog.IsOpen)
+			{
+				configToggle.Select();
+				configToggle.isOn = true;
+			}
+			else
+			{
+				configToggle.Deselect();
+				configToggle.isOn = false;
+			}
 		}
 
 		private void CopyField(FieldInfo field, DragTool donor)
