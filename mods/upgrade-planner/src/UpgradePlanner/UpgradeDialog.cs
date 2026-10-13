@@ -24,7 +24,25 @@ namespace UpgradePlanner
 		private static readonly RectOffset ButtonMargin = new RectOffset(5, 5, 5, 5);
 		private static readonly RectOffset SectionPadding = new RectOffset(10, 10, 6, 10);
 
-		private const string ApplyKey = "apply";
+		// The schedule editor's palette: a grey body, white cards with a slate header strip and
+		// a grey row area, and one dark action bar across the bottom.
+		private static readonly Color BodyColor = new Color32(149, 151, 160, 255);
+		private static readonly Color CardColor = new Color32(255, 255, 255, 255);
+		private static readonly Color HeaderStripColor = new Color32(95, 107, 119, 255);
+		private static readonly Color RowAreaColor = new Color32(201, 201, 201, 255);
+		private static readonly ColorStyleSetting ActionBarStyle = MakeActionBarStyle();
+
+		private static ColorStyleSetting MakeActionBarStyle()
+		{
+			var style = ScriptableObject.CreateInstance<ColorStyleSetting>();
+			style.inactiveColor = new Color32(62, 67, 87, 255);
+			style.hoverColor = new Color32(88, 95, 122, 255);
+			style.activeColor = new Color32(128, 138, 178, 255);
+			style.disabledColor = new Color32(106, 105, 102, 255);
+			style.disabledActiveColor = style.disabledColor;
+			style.disabledhoverColor = new Color32(128, 128, 128, 255);
+			return style;
+		}
 
 		private readonly UpgradePlan plan;
 		private readonly System.Action onChanged;
@@ -65,14 +83,13 @@ namespace UpgradePlanner
 				Size = new Vector2(1040f, 640f),
 				MaxSize = new Vector2(1500f, 950f),
 				SortKey = 200f,
-				DialogBackColor = PUITuning.Colors.DialogBackground,
+				DialogBackColor = BodyColor,
 				DialogClosed = OnDialogClosed,
 #if PLIB_DRAGGABLE
 				// A PLib with the draggable title bar (built with -p:PLibVersion=... from a modified PLib).
 				Draggable = true,
 #endif
 			};
-			dialog.AddButton(ApplyKey, ModStrings.Apply, ModStrings.ApplyTooltip, PUITuning.Colors.ButtonPinkStyle);
 			dialog.Body.Direction = PanelDirection.Vertical;
 			dialog.Body.Alignment = TextAnchor.UpperLeft;
 			dialog.Body.Spacing = 8;
@@ -81,11 +98,23 @@ namespace UpgradePlanner
 			dialog.Body.AddChild(new PLabel("Status")
 			{
 				Text = plan.Describe(),
-				TextStyle = PUITuning.Fonts.TextLightStyle,
+				TextStyle = PUITuning.Fonts.TextDarkStyle,
 				TextAlignment = TextAnchor.MiddleLeft,
 				FlexSize = new Vector2(1f, 0f),
 				Margin = new RectOffset(6, 6, 4, 4),
 			}.AddOnRealize(go => status = go));
+			// The action bar: one dark button across the foot of the window, as the schedule
+			// editor's "Add New Schedule" is.
+			dialog.Body.AddChild(new PButton("Apply")
+			{
+				Text = ModStrings.Apply,
+				ToolTip = ModStrings.ApplyTooltip,
+				TextStyle = PUITuning.Fonts.UILightStyle,
+				Color = ActionBarStyle,
+				FlexSize = new Vector2(1f, 0f),
+				Margin = new RectOffset(0, 0, 12, 12),
+				OnClick = _ => Apply(),
+			});
 			// PDialog.Show() builds its own copy, so build once and activate that one: calling both
 			// opened a second window behind the first on every change.
 			dialogObject = dialog.Build();
@@ -182,15 +211,20 @@ namespace UpgradePlanner
 			}
 		}
 
+		/// <summary>The X or Escape: the player is done with the tool.</summary>
 		private void OnDialogClosed(string key)
 		{
 			if (suppressCloseCallback)
 				return;
 			dialogObject = null;
-			if (key == ApplyKey)
-				onApplied?.Invoke();
-			else
-				onClosedByUser?.Invoke();
+			onClosedByUser?.Invoke();
+		}
+
+		/// <summary>The action bar: the window closes and the tool stays active.</summary>
+		private void Apply()
+		{
+			Close();
+			onApplied?.Invoke();
 		}
 
 		private void Rebuild()
@@ -280,47 +314,55 @@ namespace UpgradePlanner
 			column.AddChild(new PLabel(name + "Heading")
 			{
 				Text = heading,
-				TextStyle = PUITuning.Fonts.TextLightStyle.DeriveStyle(20),
+				TextStyle = PUITuning.Fonts.TextDarkStyle.DeriveStyle(20),
 				TextAlignment = TextAnchor.MiddleLeft,
 				Margin = new RectOffset(0, 0, 0, 6),
 			});
 			return column;
 		}
 
-		/// <summary>The strip the game's material panel heads its own groups with ("Select Refined Metal:"): a lighter bar across the group.</summary>
-		private static readonly Color HeaderStripColor = new Color32(72, 78, 96, 255);
-
-		private static void AddHeader(PPanel column, string text)
+		/// <summary>The slate strip the schedule editor heads each of its cards with.</summary>
+		private static void AddHeader(PPanel card, string text)
 		{
-			column.AddChild(new PLabel(text)
+			card.AddChild(new PLabel(text)
 			{
 				Text = text,
 				TextStyle = PUITuning.Fonts.TextLightStyle.DeriveStyle(15),
 				TextAlignment = TextAnchor.MiddleLeft,
 				BackColor = HeaderStripColor,
 				FlexSize = new Vector2(1f, 0f),
-				Margin = new RectOffset(10, 10, 4, 4),
+				Margin = new RectOffset(10, 10, 6, 6),
 			});
 		}
 
 		/// <summary>
-		/// A group of the column, framed on a lighter ground with its header strip, the way the
-		/// game's material panel groups its own rows: one per building category, and one for
-		/// the materials.
+		/// A card of the column, as the schedule editor lays out each schedule: a white card with
+		/// a slate header strip and a grey area holding the rows. One per building category, and
+		/// one for the materials. Returns the card; the rows go into <paramref name="rows"/>.
 		/// </summary>
-		private static PPanel NewGroup(string name, string heading)
+		private static PPanel NewGroup(string name, string heading, out PPanel rows)
 		{
-			var group = new PPanel(name)
+			var card = new PPanel(name)
+			{
+				Direction = PanelDirection.Vertical,
+				Alignment = TextAnchor.UpperLeft,
+				Spacing = 0,
+				FlexSize = new Vector2(1f, 0f),
+				Margin = new RectOffset(4, 4, 4, 4),
+				BackColor = CardColor,
+			};
+			AddHeader(card, heading);
+			rows = new PPanel(name + "Rows")
 			{
 				Direction = PanelDirection.Vertical,
 				Alignment = TextAnchor.UpperLeft,
 				Spacing = 6,
 				FlexSize = new Vector2(1f, 0f),
 				Margin = SectionPadding,
-				BackColor = PUITuning.Colors.DialogDarkBackground,
+				BackColor = RowAreaColor,
 			};
-			AddHeader(group, heading);
-			return group;
+			card.AddChild(rows);
+			return card;
 		}
 
 		private static void AddNote(PPanel column, string text)
@@ -328,19 +370,16 @@ namespace UpgradePlanner
 			column.AddChild(new PLabel("Note")
 			{
 				Text = text,
-				TextStyle = PUITuning.Fonts.TextLightStyle,
+				TextStyle = PUITuning.Fonts.TextDarkStyle,
 				TextAlignment = TextAnchor.MiddleLeft,
 				Margin = new RectOffset(0, 0, 6, 6),
 			});
 		}
 
-		/// <summary>
-		/// The material part of a column, framed on a lighter ground so it reads apart from the
-		/// rows of building types above it.
-		/// </summary>
-		private static PPanel NewSection(string name)
+		/// <summary>The material card at the foot of a column.</summary>
+		private static PPanel NewSection(string name, out PPanel rows)
 		{
-			return NewGroup(name, ModStrings.MaterialHeading);
+			return NewGroup(name, ModStrings.MaterialHeading, out rows);
 		}
 
 		/// <summary>Lays buttons out in rows of a fixed width, since a horizontal panel never wraps.</summary>
@@ -388,8 +427,8 @@ namespace UpgradePlanner
 			if (plan.Source == null || plan.SourceMaterials.Length == 0)
 				return column;
 
-			PPanel section = NewSection("SourceMaterialSection");
-			AddRows(section, new List<IUIComponent>
+			PPanel section = NewSection("SourceMaterialSection", out PPanel rows);
+			AddRows(rows, new List<IUIComponent>
 			{
 				TextButton(ModStrings.AnyMaterial, ModStrings.AnyMaterialTooltip,
 					plan.SourceMode == UpgradePlan.MaterialMode.Any,
@@ -399,7 +438,7 @@ namespace UpgradePlanner
 					() => { plan.SetSourceSpecific(); Rebuild(); }),
 			});
 			if (plan.SourceMode == UpgradePlan.MaterialMode.Specific)
-				section.AddChild(MaterialHost("SourceMaterials", go => sourceHost = go));
+				rows.AddChild(MaterialHost("SourceMaterials", go => sourceHost = go));
 			column.AddChild(section);
 			return column;
 		}
@@ -427,25 +466,25 @@ namespace UpgradePlanner
 				AddCategory(column, category, plan.Target, family => { plan.SetTarget(family); Rebuild(); });
 			if (plan.Target == null)
 				return column;
-			PPanel section = NewSection("TargetMaterialSection");
+			PPanel section = NewSection("TargetMaterialSection", out PPanel rows);
 			if (plan.TargetMaterials.Length == 0)
-				AddNote(section, ModStrings.NoMaterials);
+				AddNote(rows, ModStrings.NoMaterials);
 			else
-				section.AddChild(MaterialHost("TargetMaterials", go => targetHost = go));
+				rows.AddChild(MaterialHost("TargetMaterials", go => targetHost = go));
 			column.AddChild(section);
 			return column;
 		}
 
 		private static void AddCategory(PPanel column, ReplacementRules.Category category, ReplacementRules.Family selected, System.Action<ReplacementRules.Family> onPick)
 		{
-			PPanel group = NewGroup("Category" + category.Layer, category.Name);
+			PPanel group = NewGroup("Category" + category.Layer, category.Name, out PPanel rows);
 			var buttons = new List<IUIComponent>();
 			foreach (ReplacementRules.Family family in category.Families)
 			{
 				ReplacementRules.Family chosen = family;
 				buttons.Add(BuildingButton(chosen, chosen == selected, () => onPick(chosen)));
 			}
-			AddRows(group, buttons);
+			AddRows(rows, buttons);
 			column.AddChild(group);
 		}
 
