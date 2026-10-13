@@ -21,7 +21,7 @@ namespace UpgradePlanner
 		/// <summary>Both columns ask for this much, so they split the window evenly whatever their rows hold.</summary>
 		private const float ColumnWidth = 460f;
 		/// <summary>The header rows above the columns: as tall as the Clear button, on both sides.</summary>
-		private const float HeaderHeight = 32f;
+		private const float HeaderHeight = 24f;
 		private const string SourceScroll = "SourceScroll";
 		private const string TargetScroll = "TargetScroll";
 		private static readonly Vector2 IconSize = new Vector2(44f, 44f);
@@ -321,15 +321,17 @@ namespace UpgradePlanner
 				Direction = PanelDirection.Horizontal,
 				Alignment = TextAnchor.MiddleLeft,
 				FlexSize = new Vector2(1f, 0f),
-				// Room on the right keeps the Clear button clear of the scrollbar below it.
-				Margin = new RectOffset(0, 20, 0, 0),
+				// A strip like the cards' own headers; the room on the right keeps the Clear
+				// button clear of the scrollbar below it.
+				BackColor = HeaderStripColor,
+				Margin = new RectOffset(10, 24, 4, 4),
 			};
 			// Both header rows the height of the one with the button, so the two columns start level.
 			header.AddChild(new PSpacer { PreferredSize = new Vector2(0f, HeaderHeight), FlexSize = Vector2.zero });
 			header.AddChild(new PLabel(name + "Heading")
 			{
 				Text = heading,
-				TextStyle = PUITuning.Fonts.TextDarkStyle.DeriveStyle(20),
+				TextStyle = PUITuning.Fonts.TextLightStyle.DeriveStyle(18),
 				TextAlignment = TextAnchor.MiddleLeft,
 				FlexSize = new Vector2(1f, 0f),
 			});
@@ -338,9 +340,9 @@ namespace UpgradePlanner
 				{
 					Text = ModStrings.Clear,
 					ToolTip = ModStrings.ClearTooltip,
-					TextStyle = PUITuning.Fonts.TextLightStyle,
+					TextStyle = PUITuning.Fonts.TextLightStyle.DeriveStyle(13),
 					Color = PUITuning.Colors.ButtonBlueStyle,
-					Margin = new RectOffset(12, 12, 6, 6),
+					Margin = new RectOffset(10, 10, 3, 3),
 					OnClick = _ => { plan.Clear(); Rebuild(); },
 				});
 			side.AddChild(header);
