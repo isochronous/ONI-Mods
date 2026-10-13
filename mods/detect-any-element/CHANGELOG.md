@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.2.1 - 2026-10-12
 
 - Korean: the "Any" choice now reads 아무 원소 (any element), the game's own phrase, instead of a bare 아무.
 
