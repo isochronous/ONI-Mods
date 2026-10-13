@@ -255,8 +255,13 @@ namespace DirectAutomationBridges
 			int cell = Grid.PosToCell(__instance.transform.GetPosition());
 			BridgeEndNode.RefreshNeighbours(cell);
 			// Every complete bridge with an end here puts (or shares) a node back; a bridge whose
-			// middle is here ignores the call.
-			foreach (DirectBridge bridge in DirectBridge.At(cell))
+			// middle is here ignores the call. The node inherits the wire's connections: the
+			// bridge was conducting through them, and a wire that melted or broke must not take
+			// the bridge's links with it.
+			List<DirectBridge> bridges = DirectBridge.At(cell);
+			if (bridges.Count > 0 && __instance.isPhysicalBuilding)
+				DirectBridge.Inherit(cell, __instance.Connections);
+			foreach (DirectBridge bridge in bridges)
 				bridge.ScheduleCreate();
 		}
 	}

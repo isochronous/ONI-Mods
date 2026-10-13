@@ -121,6 +121,38 @@ namespace DirectAutomationBridges
 			Game.Instance.logicCircuitSystem.AddToNetworks(Cell, this, is_endpoint: false);
 			registered = true;
 			RefreshFromNeighbours();
+			UtilityConnections inherited = DirectBridge.TakeInherited(Cell);
+			if (inherited != 0)
+				InheritFromWire(inherited);
+		}
+
+		/// <summary>
+		/// A wire that stood here and left (melted, broke) had these connections; the node keeps
+		/// them, so the bridge stays joined to what the wire joined it to. The manager's ClearCell
+		/// has stripped the neighbours' grid bits toward this cell but not their own stored
+		/// Connections, so a neighbour still pointing here has its bits written back first, then
+		/// this cell's are set; SetConnections keeps only bits toward physical neighbours, which
+		/// is what a wire's would be.
+		/// </summary>
+		private void InheritFromWire(UtilityConnections connections)
+		{
+			foreach (UtilityConnections direction in Directions)
+			{
+				if ((connections & direction) == 0)
+					continue;
+				int neighbour = direction.CellInDirection(Cell);
+				if (!Grid.IsValidCell(neighbour))
+					continue;
+				KAnimGraphTileVisualizer other = null;
+				if (byCell.TryGetValue(neighbour, out BridgeEndNode node) && node != null && node.registered)
+					other = node;
+				else if (Grid.Objects[neighbour, (int)ObjectLayer.LogicWire] != null)
+					other = Grid.Objects[neighbour, (int)ObjectLayer.LogicWire].GetComponent<KAnimGraphTileVisualizer>();
+				if (other != null && (other.Connections & direction.InverseDirection()) != 0)
+					other.UpdateConnections(other.Connections);
+			}
+			SetBits(connections);
+			Debug.Log(DirectAutomationBridgesMod.LogPrefix + "end node at " + Cell + " inherited " + connections + " from the wire that left");
 		}
 
 		/// <summary>Not the base OnCleanUp either (same Building dereference); Release is idempotent.</summary>

@@ -47,6 +47,28 @@ namespace DirectAutomationBridges
 
 		private void OnRepaired(object data) => ScheduleCreate();
 
+		/// <summary>
+		/// Connections a wire had when it left a cell a bridge end sits on, for the node that
+		/// takes its place (see KAnimGraphTileVisualizer_OnCleanUp_Patch); consumed by the
+		/// node when it spawns.
+		/// </summary>
+		private static readonly Dictionary<int, UtilityConnections> inherited = new Dictionary<int, UtilityConnections>();
+
+		public static void Inherit(int cell, UtilityConnections connections)
+		{
+			if (connections != 0)
+				inherited[cell] = connections;
+		}
+
+		/// <summary>What a node at the cell inherits, once; nothing when no wire just left it.</summary>
+		public static UtilityConnections TakeInherited(int cell)
+		{
+			if (!inherited.TryGetValue(cell, out UtilityConnections connections))
+				return 0;
+			inherited.Remove(cell);
+			return connections;
+		}
+
 		/// <summary>Next frame, fill any end that has no wire and no node. Harmless when nothing is missing.</summary>
 		public void ScheduleCreate()
 		{
