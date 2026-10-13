@@ -32,6 +32,15 @@ namespace UpgradePlanner.Tests
 			GameObject window = GameObject.Find("UpgradePlannerDialog");
 			t.Assert.NotNull(window, "the planner window is open");
 			yield return t.Screenshot("window");
+			// The toggle above the toolbar, with the sandbox row shown as well. Changing the mode
+			// drops the active tool, so the tool is activated again after it.
+			bool sandbox = Game.Instance.SandboxModeActive;
+			t.Cleanup(() => Game.Instance.SandboxModeActive = sandbox);
+			Game.Instance.SandboxModeActive = true;
+			yield return t.Frames(2);
+			PlayerController.Instance.ActivateTool(tool);
+			yield return t.Frames(5);
+			yield return t.Screenshot("sandbox");
 		}
 	}
 }

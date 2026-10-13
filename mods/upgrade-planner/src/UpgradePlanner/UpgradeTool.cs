@@ -63,22 +63,28 @@ namespace UpgradePlanner
 			dialog = new UpgradeDialog(plan, OnPlanChanged, OnDialogClosedByUser, RefreshConfigButton);
 		}
 
-		// ---- the "Upgrade Planner Config" button in the tool parameter menu, by the priority picker ----
+		// ---- the window toggle: a toolbar icon of its own above the toolbar's right end ----
 
 		/// <summary>
-		/// One of the game's own filter widgets (the toggles the Dig and Deconstruct tools put in
-		/// that menu), relabelled: a click opens the window; while the window is open it shows as
-		/// on and does nothing.
+		/// One of the toolbar's own tool toggles (icon, pressed state, tooltip), made the way the
+		/// toolbar makes them, standing alone just above the toolbar's right end: the anchor the
+		/// tool filter menu hangs from, which sits above the sandbox row too when that is shown.
+		/// A click opens the window; while the window is open it shows pressed and does nothing.
 		/// </summary>
 		private void AddConfigButton()
 		{
 			ToolParameterMenu menu = ToolMenu.Instance != null ? ToolMenu.Instance.toolParameterMenu : null;
-			if (menu == null || menu.widgetContainer == null || ToolMenu.Instance.toolIconPrefab == null)
+			if (menu == null || ToolMenu.Instance.toolIconPrefab == null)
 				return;
 			RemoveConfigButton();
-			// One of the toolbar's own tool toggles (icon, pressed state, tooltip), the way the
-			// toolbar makes them (ToolMenu.InstantiateCollectionsUI and its icon pass).
-			configButton = Util.KInstantiateUI(ToolMenu.Instance.toolIconPrefab, menu.widgetContainer, force_active: true);
+			configButton = Util.KInstantiateUI(ToolMenu.Instance.toolIconPrefab, menu.gameObject, force_active: true);
+			RectTransform rect = configButton.rectTransform();
+			rect.anchorMin = rect.anchorMax = new Vector2(1f, 0f);
+			rect.pivot = new Vector2(1f, 0f);
+			rect.anchoredPosition = Vector2.zero;
+			// In the toolbar a layout group sizes the icon from its layout element; alone it needs the size itself.
+			UnityEngine.UI.LayoutElement element = configButton.GetComponent<UnityEngine.UI.LayoutElement>();
+			rect.sizeDelta = element != null && element.minWidth > 0f ? new Vector2(element.minWidth, element.minHeight) : new Vector2(43f, 43f);
 			Transform fg = configButton.transform.Find("FG");
 			Sprite sprite = Assets.GetSprite(ToolIcon.SpriteName);
 			if (fg != null && sprite != null)
@@ -99,7 +105,6 @@ namespace UpgradePlanner
 				configToggle.soundPlayer.Enabled = false;
 				configToggle.onClick += OnConfigButton;
 			}
-			menu.content.SetActive(true);
 			RefreshConfigButton();
 		}
 
@@ -109,9 +114,6 @@ namespace UpgradePlanner
 				Util.KDestroyGameObject(configButton);
 			configButton = null;
 			configToggle = null;
-			ToolParameterMenu menu = ToolMenu.Instance != null ? ToolMenu.Instance.toolParameterMenu : null;
-			if (menu != null)
-				menu.ClearMenu();
 		}
 
 		private void OnConfigButton()
