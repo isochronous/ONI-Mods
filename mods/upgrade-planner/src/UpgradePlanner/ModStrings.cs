@@ -20,10 +20,12 @@ namespace UpgradePlanner
 		public const string SpecificMaterialTooltip = "Replace only the ones built from the materials picked below";
 		/// <summary>Appended to a type's tooltip when one build menu entry stands for several defs; {0} is their number.</summary>
 		public const string VariantsTooltip = " ({0} variants behind one build menu entry; the material picks which)";
-		// What the With side asks for next, above its greyed catalogue.
-		public const string ChooseSourceFirst = "Choose what to replace first.";
-		public const string ChooseMaterialModeFirst = "Any material, or specific ones? Choose under Replace.";
-		public const string PickSourceMaterialFirst = "Pick the material to replace under Replace.";
+		// The With side's card until the Replace side is complete: the steps, the next one marked.
+		public const string HowToHeading = "How it works";
+		public const string StepPickSource = "Under Replace, pick the type of building to replace.";
+		public const string StepPickSourceMaterial = "Choose Any material, or Specific and pick which.";
+		public const string StepPickTarget = "Pick what to replace it with here, and its material.";
+		public const string StepApply = "Apply, then box-drag over the buildings to mark them.";
 		public const string ChooseTarget = "Choose what to replace it with.";
 		public const string Clear = "Clear";
 		public const string ClearTooltip = "Forget every choice and start over";

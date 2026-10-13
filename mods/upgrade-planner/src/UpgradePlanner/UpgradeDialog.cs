@@ -413,6 +413,26 @@ namespace UpgradePlanner
 			return card;
 		}
 
+		/// <summary>The steps of a plan, one line each, the one at <paramref name="current"/> in bold with a marker.</summary>
+		private static PPanel HowToCard(int current)
+		{
+			PPanel card = NewGroup("HowTo", ModStrings.HowToHeading, out PPanel rows);
+			string[] steps = { ModStrings.StepPickSource, ModStrings.StepPickSourceMaterial, ModStrings.StepPickTarget, ModStrings.StepApply };
+			for (int i = 0; i < steps.Length; i++)
+			{
+				bool now = i == current;
+				rows.AddChild(new PLabel("Step" + i)
+				{
+					Text = (now ? "\u25B6 " : "   ") + (i + 1) + ".  " + steps[i],
+					TextStyle = now ? PUITuning.Fonts.TextDarkStyle.DeriveStyle(15, style: TMPro.FontStyles.Bold) : PUITuning.Fonts.TextDarkStyle.DeriveStyle(15),
+					TextAlignment = TextAnchor.MiddleLeft,
+					FlexSize = new Vector2(1f, 0f),
+					Margin = new RectOffset(4, 4, 3, 3),
+				});
+			}
+			return card;
+		}
+
 		/// <summary>What the With side needs next, in larger dark text across the top of the column.</summary>
 		private static void AddPrompt(PPanel column, string text)
 		{
@@ -509,13 +529,9 @@ namespace UpgradePlanner
 			PPanel column = NewColumn("Target");
 			if (!plan.SourceComplete)
 			{
-				// Nothing to choose from until the Replace side is complete: what is needed, in
-				// words, over the whole catalogue greyed, which shows what the column will hold.
-				AddPrompt(column, plan.Source == null ? ModStrings.ChooseSourceFirst
-					: plan.SourceMode == UpgradePlan.MaterialMode.Specific ? ModStrings.PickSourceMaterialFirst
-					: ModStrings.ChooseMaterialModeFirst);
-				foreach (ReplacementRules.Category category in ReplacementRules.SourceCategories())
-					AddCategory(column, category, null, null);
+				// Nothing to choose from until the Replace side is complete: the steps, with the
+				// next one marked, in a card of the column's own kind.
+				column.AddChild(HowToCard(plan.Source == null ? 0 : 1));
 				return column;
 			}
 			List<ReplacementRules.Category> categories = ReplacementRules.TargetCategories(plan.Source);
