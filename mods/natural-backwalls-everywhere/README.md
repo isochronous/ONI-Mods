@@ -59,7 +59,7 @@ dotnet build natural-backwalls-everywhere/src/NaturalBackwalls -c Release
 
 ## Translations
 
-The mod is available in English and Chinese (Simplified); it loads the game's language from `translations/<locale>.po`. Other languages can be added from the template `translations/NaturalBackwalls.pot` in `src/NaturalBackwalls/translations/`.
+The mod is available in English, Chinese (Simplified), Korean and Russian; it loads the game's language from `translations/<locale>.po`. Other languages can be added from the template `translations/NaturalBackwalls.pot` in `src/NaturalBackwalls/translations/`.
 
 ## Previewing a biome without the game
 

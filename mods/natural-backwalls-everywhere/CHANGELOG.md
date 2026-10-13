@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-- Chinese (Simplified) translation. Translations load from translations/<locale>.po; the template for other languages is translations/NaturalBackwalls.pot.
+- Chinese (Simplified), Korean and Russian translations. Translations load from translations/<locale>.po; the template for other languages is translations/NaturalBackwalls.pot.
 
 ## 0.1.4 - 2026-10-11
 
