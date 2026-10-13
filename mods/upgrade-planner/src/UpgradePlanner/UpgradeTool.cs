@@ -275,7 +275,7 @@ namespace UpgradePlanner
 			highlightVersion = -1;
 			if (queued + skipped == 0)
 				return;
-			string text = queued + " marked for upgrade" + (skipped > 0 ? ", " + skipped + " skipped" : "");
+			string text = queued + (InstantBuild ? " replaced" : " marked for upgrade") + (skipped > 0 ? ", " + skipped + " skipped" : "");
 			PopFXManager.Instance.SpawnFX(PopFXManager.Instance.sprite_Building, text, null, cursorUp);
 		}
 
@@ -309,6 +309,16 @@ namespace UpgradePlanner
 			if (building.Def == target && ReplacementRules.SameMaterials(ReplacementRules.MaterialsOf(building), materials))
 				return false;
 			Vector3 pos = Grid.CellToPosCBC(cell, Grid.SceneLayer.Building);
+			if (InstantBuild)
+			{
+				// The build tool's instant path (BuildTool.TryBuild): the old building goes and the
+				// new one stands at once, with no order, no materials and no Duplicant.
+				if (!target.IsValidBuildLocation(null, pos, orientation, replace_tile: true)
+					|| !target.IsValidPlaceLocation(null, pos, orientation, replace_tile: true, out _))
+					return false;
+				InstantReplace(target, cell, pos, orientation, materials, go);
+				return true;
+			}
 			GameObject built = target.TryReplaceTile(null, pos, orientation, materials);
 			if (built == null)
 				return false;
@@ -317,6 +327,50 @@ namespace UpgradePlanner
 			if (prioritizable != null)
 				prioritizable.SetMasterPriority(ToolMenu.Instance.PriorityScreen.GetLastSelectedPriority());
 			return true;
+		}
+
+		/// <summary>The build tool's own test: the debug toggle, or sandbox mode with its instant build setting on.</summary>
+		private static bool InstantBuild =>
+			DebugHandler.InstantBuildMode
+			|| (Game.Instance != null && Game.Instance.SandboxModeActive
+				&& SandboxToolParameterMenu.instance != null && SandboxToolParameterMenu.instance.settings.InstantBuild);
+
+		/// <summary>
+		/// BuildTool.InstantBuildReplace, step for step: a wider building first clears the
+		/// candidates under its other cells; a tile that occupies its sim cell is released
+		/// before the new building is built in its place, anything else is destroyed outright.
+		/// </summary>
+		private static void InstantReplace(BuildingDef target, int cell, Vector3 pos, Orientation orientation, IList<Tag> materials, GameObject old)
+		{
+			if (target.PlacementOffsets.Length > 1)
+			{
+				target.RunOnArea(cell, orientation, delegate(int offsetCell)
+				{
+					if (offsetCell == cell)
+						return;
+					GameObject neighbour = target.GetReplacementCandidate(offsetCell);
+					if (neighbour == null)
+						return;
+					SimCellOccupier occupier = neighbour.GetComponent<SimCellOccupier>();
+					if (occupier != null)
+						occupier.DestroySelf(delegate { Object.Destroy(neighbour); });
+					else
+						Object.Destroy(neighbour);
+				});
+			}
+			float temperature = Mathf.Min(target.Temperature, ElementLoader.GetMinMeltingPointAmongElements(materials) - 10f);
+			SimCellOccupier oldOccupier = old.GetComponent<SimCellOccupier>();
+			if (oldOccupier == null)
+			{
+				Object.Destroy(old);
+				target.Build(cell, orientation, null, materials, temperature, null, playsound: false, GameClock.Instance.GetTime());
+				return;
+			}
+			oldOccupier.DestroySelf(delegate
+			{
+				Object.Destroy(old);
+				target.Build(cell, orientation, null, materials, temperature, null, playsound: false, GameClock.Instance.GetTime());
+			});
 		}
 
 		// ---- highlight of every building the plan would touch, while the tool is active ----
