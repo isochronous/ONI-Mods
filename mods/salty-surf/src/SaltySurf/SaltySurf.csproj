@@ -6,6 +6,7 @@
     <AssemblyName>SaltySurf</AssemblyName>
     <RootNamespace>SaltySurf</RootNamespace>
     <Version>0.1.0</Version>
+    <UseTranslations>true</UseTranslations>
   </PropertyGroup>
 
   <Import Project="$(MSBuildThisFileDirectory)..\..\common\oni-mod.targets" />

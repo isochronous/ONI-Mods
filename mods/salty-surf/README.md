@@ -23,6 +23,10 @@ As a local mod:
    - Linux: `~/.config/unity3d/Klei/Oxygen Not Included/mods/local/SaltySurf`
 3. Enable it in the game's Mods menu and restart.
 
+## Translations
+
+The mod is available in Chinese (Simplified). Other languages can be added from the template `src/SaltySurf/translations/SaltySurf.pot`: save the translated file as `translations/<locale>.po` next to it.
+
 ## Building
 
 ```

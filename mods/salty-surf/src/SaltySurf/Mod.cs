@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using HarmonyLib;
+using Isochronous;
 using Klei;
 using KMod;
 using STRINGS;
@@ -13,6 +14,7 @@ namespace SaltySurf
 		public override void OnLoad(Harmony harmony)
 		{
 			base.OnLoad(harmony);
+			Translations.Register(harmony, typeof(ModStrings));
 			Debug.Log("[SaltySurf] Loaded version " + typeof(SaltySurfMod).Assembly.GetName().Version);
 		}
 	}
@@ -28,13 +30,12 @@ namespace SaltySurf
 		public static readonly Tag Tag = TagManager.Create("SaltySurfWater");
 		public static readonly SimHashes[] Elements = { SimHashes.Water, SimHashes.SaltWater };
 
-		/// <summary>"Water or Salt Water", with the names the game is using.</summary>
+		/// <summary>"Water or Salt Water", with the names the game is using, joined by the mod's translated connective.</summary>
 		public static string Names()
 		{
-			var names = new List<string>();
-			foreach (SimHashes hash in Elements)
-				names.Add(ElementLoader.FindElementByHash(hash).name);
-			return string.Join(" or ", names.ToArray());
+			string first = ElementLoader.FindElementByHash(Elements[0]).name;
+			string second = ElementLoader.FindElementByHash(Elements[1]).name;
+			return string.Format(ModStrings.SALTYSURF.ELEMENT_LIST, first, second);
 		}
 	}
 
