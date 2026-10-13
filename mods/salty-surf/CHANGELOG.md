@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-- Chinese (Simplified) translation. Translations load from translations/<locale>.po; the template for other languages is translations/SaltySurf.pot.
+- Chinese (Simplified), Korean and Russian translations. Translations load from translations/<locale>.po; the template for other languages is translations/SaltySurf.pot.
 
 ## 0.1.0 - 2026-10-09
 
