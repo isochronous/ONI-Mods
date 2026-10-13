@@ -9,14 +9,17 @@ namespace NaturalBackwalls
 		public const string VanillaId = "Vanilla";
 
 		public string Id { get; }
-		public string Title { get; }
 		/// <summary>Scoped worldgen tree name, or null for the subworld's own tree.</summary>
 		public string Tree { get; }
-		public string Description { get; }
+		/// <summary>ModStrings.NATURALBACKWALLS.PATTERNS.&lt;ID&gt;.NAME, read in the current language.</summary>
+		public string Title => ModStrings.Lookup(Key + "NAME");
+		/// <summary>ModStrings.NATURALBACKWALLS.PATTERNS.&lt;ID&gt;.DESC, read in the current language.</summary>
+		public string Description => ModStrings.Lookup(Key + "DESC");
+		private string Key => "STRINGS.NATURALBACKWALLS.PATTERNS." + Id.ToUpperInvariant() + ".";
 
-		public Pattern(string id, string title, string tree, string description)
+		public Pattern(string id, string tree)
 		{
-			Id = id; Title = title; Tree = tree; Description = description;
+			Id = id; Tree = tree;
 		}
 	}
 
@@ -29,16 +32,18 @@ namespace NaturalBackwalls
 	{
 		public ProcGen.SubWorld.ZoneType Zone { get; }
 		public string Id => Zone.ToString();
-		public string Title { get; }
 		public string Dlc { get; }
 		public string DefaultPattern { get; }
 		public bool Vanilla { get; }
-		/// <summary>The biome families this zone's subworlds are built from, for the tooltip.</summary>
-		public string Biomes { get; }
+		/// <summary>ModStrings.NATURALBACKWALLS.ZONES.&lt;ZONE&gt;.NAME, read in the current language.</summary>
+		public string Title => ModStrings.Lookup(Key + "NAME");
+		/// <summary>The biome families this zone's subworlds are built from, for the tooltip: ModStrings.NATURALBACKWALLS.ZONES.&lt;ZONE&gt;.BIOMES.</summary>
+		public string Biomes => ModStrings.Lookup(Key + "BIOMES");
+		private string Key => "STRINGS.NATURALBACKWALLS.ZONES." + Id.ToUpperInvariant() + ".";
 
-		public PatternGroup(ProcGen.SubWorld.ZoneType zone, string title, string dlc, string defaultPattern, string biomes, bool vanilla = false)
+		public PatternGroup(ProcGen.SubWorld.ZoneType zone, string dlc, string defaultPattern, bool vanilla = false)
 		{
-			Zone = zone; Title = title; Dlc = dlc; DefaultPattern = defaultPattern; Biomes = biomes; Vanilla = vanilla;
+			Zone = zone; Dlc = dlc; DefaultPattern = defaultPattern; Vanilla = vanilla;
 		}
 
 		public bool IsAvailable => Dlc == null || DlcManager.IsContentSubscribed(Dlc);
@@ -52,43 +57,43 @@ namespace NaturalBackwalls
 		/// </summary>
 		public static readonly Pattern[] All =
 		{
-			new Pattern("Reef", "Reef", "noise/NaturalBackwallsReef", "The pack's reef and beach pattern. Patches at about 45% of cells for a 0.4 band."),
-			new Pattern("Kelp", "Kelp forest", "noise/NaturalBackwallsKelp", "The pack's kelp forest pattern: broad and dense. About 78% of cells for a 0.4 band, 52% for 0.2."),
-			new Pattern("Abyss", "Abyss", "noise/NaturalBackwallsAbyss", "The pack's abyss (murky brine) pattern. About 45% of cells for a 0.4 band, in a different shape from the reef."),
-			new Pattern("Beach", "Beach", "noise/NaturalBackwallsBeach", "The pack's beach terrain pattern. About 45% of cells for a 0.4 band."),
-			new Pattern("Strange", "Strange (base game)", "noise/SandstoneStrange", "The base game's SandstoneStrange tree, which the pack uses for two subworlds. Dense: about 80% of cells for a 0.4 band."),
+			new Pattern("Reef", "noise/NaturalBackwallsReef"),
+			new Pattern("Kelp", "noise/NaturalBackwallsKelp"),
+			new Pattern("Abyss", "noise/NaturalBackwallsAbyss"),
+			new Pattern("Beach", "noise/NaturalBackwallsBeach"),
+			new Pattern("Strange", "noise/SandstoneStrange"),
 		};
 
-		public static readonly Pattern Vanilla = new Pattern(Pattern.VanillaId, "As the game made it", null, "Keeps the subworld's own backwall noise tree.");
+		public static readonly Pattern Vanilla = new Pattern(Pattern.VanillaId, null);
 
 		/// <summary>Defaults: the dense kelp forest tree for lush and marshy zones, the abyss tree for hot and rocky ones, the reef elsewhere.</summary>
 		public static readonly PatternGroup[] Groups =
 		{
-			new PatternGroup(ProcGen.SubWorld.ZoneType.Sandstone, "Sandstone", null, "Reef", "Sandstone, Barren (regolith)"),
-			new PatternGroup(ProcGen.SubWorld.ZoneType.Forest, "Forest", null, "Reef", "Forest"),
-			new PatternGroup(ProcGen.SubWorld.ZoneType.FrozenWastes, "Tundra (frozen)", null, "Reef", "Tundra (frozen), Moo"),
-			new PatternGroup(ProcGen.SubWorld.ZoneType.ToxicJungle, "Caustic (jungle)", null, "Kelp", "Caustic (jungle)"),
-			new PatternGroup(ProcGen.SubWorld.ZoneType.BoggyMarsh, "Marsh", null, "Kelp", "Marsh"),
-			new PatternGroup(ProcGen.SubWorld.ZoneType.Ocean, "Ocean (tide pool)", null, "Reef", "Ocean (tide pool)"),
-			new PatternGroup(ProcGen.SubWorld.ZoneType.OilField, "Oily", null, "Abyss", "Oily, Magma and Niobium"),
-			new PatternGroup(ProcGen.SubWorld.ZoneType.Rust, "Rust", null, "Abyss", "Rust, Metallic"),
-			new PatternGroup(ProcGen.SubWorld.ZoneType.MagmaCore, "Magma", null, "Abyss", "Magma and Niobium"),
-			new PatternGroup(ProcGen.SubWorld.ZoneType.Barren, "Barren (regolith)", null, "Abyss", "Barren (regolith), Aquatic (water asteroid)"),
-			new PatternGroup(ProcGen.SubWorld.ZoneType.Swamp, "Swamp", DlcManager.EXPANSION1_ID, "Kelp", "Swamp, Aquatic (water asteroid)"),
-			new PatternGroup(ProcGen.SubWorld.ZoneType.Wasteland, "Wasteland", DlcManager.EXPANSION1_ID, "Abyss", "Wasteland"),
-			new PatternGroup(ProcGen.SubWorld.ZoneType.Metallic, "Metallic", DlcManager.EXPANSION1_ID, "Abyss", "Metallic"),
-			new PatternGroup(ProcGen.SubWorld.ZoneType.Moo, "Moo", DlcManager.EXPANSION1_ID, "Reef", "Moo"),
-			new PatternGroup(ProcGen.SubWorld.ZoneType.Radioactive, "Radioactive", DlcManager.EXPANSION1_ID, "Abyss", "Radioactive"),
-			new PatternGroup(ProcGen.SubWorld.ZoneType.CarrotQuarry, "Cool Pool (carrot quarry)", DlcManager.DLC2_ID, "Reef", "Cool Pool (carrot quarry)"),
-			new PatternGroup(ProcGen.SubWorld.ZoneType.IceCaves, "Ice Caves", DlcManager.DLC2_ID, "Reef", "Ice Caves"),
-			new PatternGroup(ProcGen.SubWorld.ZoneType.SugarWoods, "Nectar (sugar woods)", DlcManager.DLC2_ID, "Kelp", "Nectar (sugar woods)"),
-			new PatternGroup(ProcGen.SubWorld.ZoneType.PrehistoricGarden, "Garden", DlcManager.DLC4_ID, "Kelp", "Garden"),
-			new PatternGroup(ProcGen.SubWorld.ZoneType.PrehistoricRaptor, "Feather (raptor)", DlcManager.DLC4_ID, "Reef", "Feather (raptor)"),
-			new PatternGroup(ProcGen.SubWorld.ZoneType.PrehistoricWetlands, "Wetlands", DlcManager.DLC4_ID, "Kelp", "Wetlands"),
-			new PatternGroup(ProcGen.SubWorld.ZoneType.Beach, "Beach (Aquatic pack)", DlcManager.DLC5_ID, Pattern.VanillaId, "Beach (Aquatic pack)", vanilla: true),
-			new PatternGroup(ProcGen.SubWorld.ZoneType.Reef, "Reef (Aquatic pack)", DlcManager.DLC5_ID, Pattern.VanillaId, "Reef (Aquatic pack)", vanilla: true),
-			new PatternGroup(ProcGen.SubWorld.ZoneType.KelpForest, "Kelp Forest (Aquatic pack)", DlcManager.DLC5_ID, Pattern.VanillaId, "Kelp Forest (Aquatic pack)", vanilla: true),
-			new PatternGroup(ProcGen.SubWorld.ZoneType.Abyss, "Abyss (Aquatic pack)", DlcManager.DLC5_ID, Pattern.VanillaId, "Abyss (Aquatic pack)", vanilla: true),
+			new PatternGroup(ProcGen.SubWorld.ZoneType.Sandstone, null, "Reef"),
+			new PatternGroup(ProcGen.SubWorld.ZoneType.Forest, null, "Reef"),
+			new PatternGroup(ProcGen.SubWorld.ZoneType.FrozenWastes, null, "Reef"),
+			new PatternGroup(ProcGen.SubWorld.ZoneType.ToxicJungle, null, "Kelp"),
+			new PatternGroup(ProcGen.SubWorld.ZoneType.BoggyMarsh, null, "Kelp"),
+			new PatternGroup(ProcGen.SubWorld.ZoneType.Ocean, null, "Reef"),
+			new PatternGroup(ProcGen.SubWorld.ZoneType.OilField, null, "Abyss"),
+			new PatternGroup(ProcGen.SubWorld.ZoneType.Rust, null, "Abyss"),
+			new PatternGroup(ProcGen.SubWorld.ZoneType.MagmaCore, null, "Abyss"),
+			new PatternGroup(ProcGen.SubWorld.ZoneType.Barren, null, "Abyss"),
+			new PatternGroup(ProcGen.SubWorld.ZoneType.Swamp, DlcManager.EXPANSION1_ID, "Kelp"),
+			new PatternGroup(ProcGen.SubWorld.ZoneType.Wasteland, DlcManager.EXPANSION1_ID, "Abyss"),
+			new PatternGroup(ProcGen.SubWorld.ZoneType.Metallic, DlcManager.EXPANSION1_ID, "Abyss"),
+			new PatternGroup(ProcGen.SubWorld.ZoneType.Moo, DlcManager.EXPANSION1_ID, "Reef"),
+			new PatternGroup(ProcGen.SubWorld.ZoneType.Radioactive, DlcManager.EXPANSION1_ID, "Abyss"),
+			new PatternGroup(ProcGen.SubWorld.ZoneType.CarrotQuarry, DlcManager.DLC2_ID, "Reef"),
+			new PatternGroup(ProcGen.SubWorld.ZoneType.IceCaves, DlcManager.DLC2_ID, "Reef"),
+			new PatternGroup(ProcGen.SubWorld.ZoneType.SugarWoods, DlcManager.DLC2_ID, "Kelp"),
+			new PatternGroup(ProcGen.SubWorld.ZoneType.PrehistoricGarden, DlcManager.DLC4_ID, "Kelp"),
+			new PatternGroup(ProcGen.SubWorld.ZoneType.PrehistoricRaptor, DlcManager.DLC4_ID, "Reef"),
+			new PatternGroup(ProcGen.SubWorld.ZoneType.PrehistoricWetlands, DlcManager.DLC4_ID, "Kelp"),
+			new PatternGroup(ProcGen.SubWorld.ZoneType.Beach, DlcManager.DLC5_ID, Pattern.VanillaId, vanilla: true),
+			new PatternGroup(ProcGen.SubWorld.ZoneType.Reef, DlcManager.DLC5_ID, Pattern.VanillaId, vanilla: true),
+			new PatternGroup(ProcGen.SubWorld.ZoneType.KelpForest, DlcManager.DLC5_ID, Pattern.VanillaId, vanilla: true),
+			new PatternGroup(ProcGen.SubWorld.ZoneType.Abyss, DlcManager.DLC5_ID, Pattern.VanillaId, vanilla: true),
 		};
 
 		private static Dictionary<ProcGen.SubWorld.ZoneType, PatternGroup> byZone;

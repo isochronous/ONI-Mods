@@ -57,6 +57,10 @@ dotnet build natural-backwalls-everywhere/src/NaturalBackwalls -c Release
 - `SettleSimPatch.cs` transpiles `WorldGenSimUtil.DoSettleSim`, replacing the call to `BackwallManager.UpdateFromSim` with a worldgen-safe twin (that method dereferences `CellEventLogger.Instance` and spawns debris, neither of which exists before a game is loaded). `WorldgenThreadPatch.cs` is a finalizer on `Cluster.BeginGeneration`, the worldgen thread body, which otherwise has no exception handler.
 - Material lists live in `BiomeGroups.cs`, gathered from the worldgen yaml of build 744825; unknown or non-solid names are dropped at runtime.
 
+## Translations
+
+The mod is available in English and Chinese (Simplified); it loads the game's language from `translations/<locale>.po`. Other languages can be added from the template `translations/NaturalBackwalls.pot` in `src/NaturalBackwalls/translations/`.
+
 ## Previewing a biome without the game
 
 `tools/BiomePreview` is a small .NET 8 Windows tool (a window when started without arguments, a command line otherwise) that runs the game's own noise trees and band tables (from `Assembly-CSharp-firstpass` and `LibNoiseDotNet`, loaded straight from the game folder) for one biome, and writes an HTML page with the foreground, the backwalls, an outline mode that shows backwalls through solid tiles, and the numbers: open cells, backwalls placed, backwalls visible. It skips everything above the biome level (overworld layout, POIs, borders, rivers, sim settle), so it is a rough preview of shape and density, in about a second.

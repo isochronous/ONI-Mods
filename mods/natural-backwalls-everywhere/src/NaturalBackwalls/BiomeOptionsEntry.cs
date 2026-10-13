@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using PeterHan.PLib.Options;
 using PeterHan.PLib.UI;
+using OPTIONS = NaturalBackwalls.ModStrings.NATURALBACKWALLS.OPTIONS;
 using TMPro;
 using UnityEngine;
 
@@ -78,11 +79,11 @@ namespace NaturalBackwalls
 		}
 
 		public BiomeOptionsEntry(BiomeGroup group, Options options)
-			: base(group.Id, new OptionAttribute(group.Title, "", "Biomes"))
+			: base(group.Id, new OptionAttribute(group.Title, "", OPTIONS.CATEGORY.BIOMES))
 		{
 			this.group = group;
 			this.options = options;
-			choices.Add(new Choice(Options.NoMaterial, "None", "No natural backwall in this biome."));
+			choices.Add(new Choice(Options.NoMaterial, OPTIONS.NO_MATERIAL.NAME, OPTIONS.NO_MATERIAL.TOOLTIP));
 			foreach (string id in group.Materials)
 			{
 				Element element = ElementLoader.FindElementByName(id);
@@ -90,7 +91,7 @@ namespace NaturalBackwalls
 					continue;
 				string name = element.name;
 				if (id == group.DefaultMaterial)
-					name += " (default)";
+					name = string.Format(OPTIONS.DEFAULT_CHOICE, name);
 				choices.Add(new Choice(id, name, element.FullDescription(false)));
 			}
 			chosen = choices[0];
@@ -113,7 +114,7 @@ namespace NaturalBackwalls
 			PTextField field = new PTextField("Coverage")
 			{
 				OnTextChanged = OnTextChanged,
-				ToolTip = "Coverage when this is not the starting biome: fraction of its cells that get a backwall, 0 to 1. Default " + group.DefaultCoverage.ToString(CoverageFormat, CultureInfo.InvariantCulture) + ".",
+				ToolTip = string.Format(OPTIONS.COVERAGE_TOOLTIP, group.DefaultCoverage.ToString(CoverageFormat, CultureInfo.InvariantCulture)),
 				Text = coverage.ToString(CoverageFormat, CultureInfo.InvariantCulture),
 				MinWidth = 64,
 				MaxLength = 6,

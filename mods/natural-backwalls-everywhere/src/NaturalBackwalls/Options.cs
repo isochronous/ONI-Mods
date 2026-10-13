@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using PeterHan.PLib.Options;
+using OPTIONS = NaturalBackwalls.ModStrings.NATURALBACKWALLS.OPTIONS;
 
 namespace NaturalBackwalls
 {
@@ -15,36 +16,32 @@ namespace NaturalBackwalls
 	{
 		public const string NoMaterial = "None";
 
-		[Option("Backwalls behind carved caves and lakes", "Worldgen carves feature rooms (caves, lakes, geodes) into a biome after claiming their cells, and the game's own backwall pass skips claimed cells, so those rooms would stay bare. On, they get backwalls from the same noise as the rest of the biome.", "General")]
+		// Option titles, tooltips and categories are string table keys (see ModStrings), which PLib
+		// resolves when it builds the dialog, so the translation loaded for the game's language shows.
+		[Option("STRINGS.NATURALBACKWALLS.OPTIONS.FEATURE_BACKWALLS.NAME", "STRINGS.NATURALBACKWALLS.OPTIONS.FEATURE_BACKWALLS.TOOLTIP", "STRINGS.NATURALBACKWALLS.OPTIONS.CATEGORY.GENERAL")]
 		[JsonProperty]
 		public bool FeatureBackwalls { get; set; } = true;
 
-		[Option("Backwalls on other planetoids", "Spaced Out: also give the asteroids you did not start on backwalls. Off matches the Aquatic Planet Pack, whose other planetoids have none.", "General")]
+		[Option("STRINGS.NATURALBACKWALLS.OPTIONS.OTHER_PLANETOIDS.NAME", "STRINGS.NATURALBACKWALLS.OPTIONS.OTHER_PLANETOIDS.TOOLTIP", "STRINGS.NATURALBACKWALLS.OPTIONS.CATEGORY.GENERAL")]
 		[JsonProperty]
 		public bool OtherPlanetoids { get; set; } = false;
 
-		[Option("Backwalls in biomes from other mods", "Biomes this mod does not know (added by worldgen mods) get a backwall of their own most common solid at the coverage below, with the pattern of their zone. Off leaves them bare.", "General")]
+		[Option("STRINGS.NATURALBACKWALLS.OPTIONS.OTHER_MOD_BIOMES.NAME", "STRINGS.NATURALBACKWALLS.OPTIONS.OTHER_MOD_BIOMES.TOOLTIP", "STRINGS.NATURALBACKWALLS.OPTIONS.CATEGORY.GENERAL")]
 		[JsonProperty]
 		public bool OtherModBiomes { get; set; } = true;
 
-		[Option("Coverage in biomes from other mods", "Band size used for biomes this mod does not know.", "General", Format = "F2")]
+		[Option("STRINGS.NATURALBACKWALLS.OPTIONS.OTHER_MOD_COVERAGE.NAME", "STRINGS.NATURALBACKWALLS.OPTIONS.OTHER_MOD_COVERAGE.TOOLTIP", "STRINGS.NATURALBACKWALLS.OPTIONS.CATEGORY.GENERAL", Format = "F2")]
 		[Limit(0.0, 1.0)]
 		[JsonProperty]
 		public float OtherModCoverage { get; set; } = 0.4f;
 
-		[Option("Export worldgen overlay", "Writes the current settings as a mod-style folder of worldgen YAML (NaturalBackwalls-overlay next to your saves) for external renderers such as onimaxxing.com/worldgen or the BiomePreview tool. Feature caves and the starting-biome coverage are not representable there.", "General")]
+		[Option("STRINGS.NATURALBACKWALLS.OPTIONS.EXPORT_OVERLAY.NAME", "STRINGS.NATURALBACKWALLS.OPTIONS.EXPORT_OVERLAY.TOOLTIP", "STRINGS.NATURALBACKWALLS.OPTIONS.CATEGORY.GENERAL")]
 		public System.Action<object> ExportOverlayButton => _ => ExportOverlay.Run();
 
-		[Option("Starting biome coverage", "Coverage in whatever biome the colony starts in, replacing that biome's own value. The Aquatic Planet Pack fully walls its beach, hence 1.", "Starting biome", Format = "F2")]
+		[Option("STRINGS.NATURALBACKWALLS.OPTIONS.START_COVERAGE.NAME", "STRINGS.NATURALBACKWALLS.OPTIONS.START_COVERAGE.TOOLTIP", "STRINGS.NATURALBACKWALLS.OPTIONS.CATEGORY.STARTING_BIOME", Format = "F2")]
 		[Limit(0.0, 1.0)]
 		[JsonProperty]
 		public float StartCoverage { get; set; } = 1f;
-
-		// Help above each dynamic section, as dynamic text blocks: static categories are sorted by name,
-		// dynamic ones keep the order they are yielded in, after the static ones. PLib's text block does
-		// not wrap on its own, so the line breaks are part of the string.
-		public const string BiomesHelp = "Per biome: the backwall material, from the solids found there (None leaves it bare),\nand the coverage, a 0 to 1 band size used when it is not the starting biome.";
-		public const string PatternsHelp = "Per subworld zone: the noise pattern the backwall patches follow. The pack's trees are shipped with the mod.\nThe kelp forest tree is about twice as dense as the others for the same coverage. Hover a zone for its biomes.";
 
 		/// <summary>Material element id per biome group id; missing means the group's default.</summary>
 		[JsonProperty]
@@ -83,13 +80,16 @@ namespace NaturalBackwalls
 			return group.DefaultCoverage;
 		}
 
+		// Help above each dynamic section, as dynamic text blocks: static categories are sorted by name,
+		// dynamic ones keep the order they are yielded in, after the static ones. The text is read here,
+		// each time the dialog is built, so it is the current language's.
 		public IEnumerable<IOptionsEntry> CreateOptions()
 		{
-			yield return new TextBlockOptionsEntry("BiomesHelp", new OptionAttribute(BiomesHelp, "", "Biomes"));
+			yield return new TextBlockOptionsEntry("BiomesHelp", new OptionAttribute(OPTIONS.BIOMES_HELP, "", OPTIONS.CATEGORY.BIOMES));
 			foreach (BiomeGroup group in BiomeGroups.All)
 				if (BiomeGroups.IsAvailable(group))
 					yield return new BiomeOptionsEntry(group, this);
-			yield return new TextBlockOptionsEntry("PatternsHelp", new OptionAttribute(PatternsHelp, "", "Patterns"));
+			yield return new TextBlockOptionsEntry("PatternsHelp", new OptionAttribute(OPTIONS.PATTERNS_HELP, "", OPTIONS.CATEGORY.PATTERNS));
 			foreach (PatternGroup group in Patterns.Groups)
 				if (group.IsAvailable)
 					yield return new PatternOptionsEntry(group, this);

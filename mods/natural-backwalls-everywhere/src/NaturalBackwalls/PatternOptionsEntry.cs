@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using PeterHan.PLib.Options;
 using PeterHan.PLib.UI;
+using OPTIONS = NaturalBackwalls.ModStrings.NATURALBACKWALLS.OPTIONS;
 using UnityEngine;
 
 namespace NaturalBackwalls
@@ -49,14 +50,14 @@ namespace NaturalBackwalls
 		}
 
 		public PatternOptionsEntry(PatternGroup group, Options options)
-			: base(group.Id, new OptionAttribute(group.Title, "Biomes: " + group.Biomes, "Patterns"))
+			: base(group.Id, new OptionAttribute(group.Title, string.Format(OPTIONS.ZONE_BIOMES_TOOLTIP, group.Biomes), OPTIONS.CATEGORY.PATTERNS))
 		{
 			this.group = group;
 			this.options = options;
 			if (group.Vanilla)
 				choices.Add(new Choice(Patterns.Vanilla.Id, Patterns.Vanilla.Title, Patterns.Vanilla.Description));
 			foreach (Pattern p in Patterns.All)
-				choices.Add(new Choice(p.Id, p.Title + (p.Id == group.DefaultPattern ? " (default)" : ""), p.Description));
+				choices.Add(new Choice(p.Id, p.Id == group.DefaultPattern ? string.Format(OPTIONS.DEFAULT_CHOICE, p.Title) : p.Title, p.Description));
 			Value = options.PatternFor(group).Id;
 		}
 

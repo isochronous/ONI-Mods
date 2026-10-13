@@ -7,6 +7,7 @@
     <RootNamespace>NaturalBackwalls</RootNamespace>
     <Version>0.1.4</Version>
     <UsePLib>true</UsePLib>
+    <UseTranslations>true</UseTranslations>
     <ReferenceUnityUI>true</ReferenceUnityUI>
     <!-- SettleSimPatch reads the sim's update buffer through its pointer struct. -->
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>

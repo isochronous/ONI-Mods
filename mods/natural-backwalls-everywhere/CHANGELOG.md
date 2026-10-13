@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Chinese (Simplified) translation. Translations load from translations/<locale>.po; the template for other languages is translations/NaturalBackwalls.pot.
+
 ## 0.1.4 - 2026-10-11
 
 - Feature rooms that reach past the world edge no longer log "Feature-room backwalls skipped for one cell: Index was outside the bounds of the array" (seen on Skewed Asteroid); the out-of-world points are skipped.
