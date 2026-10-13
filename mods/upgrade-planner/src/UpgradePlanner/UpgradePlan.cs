@@ -119,7 +119,26 @@ namespace UpgradePlanner
 			return true;
 		}
 
-		/// <summary>A one-line description for the hover card and the dialog footer.</summary>
+		/// <summary>What is chosen so far, for the dialog footer; the prompts for what comes next are the With side's.</summary>
+		public string Summary()
+		{
+			if (Source == null)
+				return "Nothing chosen yet.";
+			var text = new StringBuilder(Source.Name);
+			if (SourceMode == MaterialMode.Any)
+				text.Append(" (any material)");
+			else if (SourceMode == MaterialMode.Specific && AllValid(SourceMaterials))
+				text.Append(" (").Append(Names(SourceMaterials)).Append(")");
+			if (Target != null)
+			{
+				text.Append(" -> ").Append(Target.Name);
+				if (TargetComplete)
+					text.Append(" (").Append(Names(TargetMaterials)).Append(")");
+			}
+			return text.ToString();
+		}
+
+		/// <summary>A one-line description for the hover card.</summary>
 		public string Describe()
 		{
 			var text = new StringBuilder();

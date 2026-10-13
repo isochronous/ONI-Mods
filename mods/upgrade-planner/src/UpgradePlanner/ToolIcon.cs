@@ -3,15 +3,19 @@ using UnityEngine;
 namespace UpgradePlanner
 {
 	/// <summary>
-	/// Registers the toolbar icon: a procedurally drawn glyph (a pipe run with an upward
-	/// chevron over it) in the game's white-on-transparent tool-icon style. Replace with
-	/// embedded art later; the drawn glyph keeps the toolbar button visible meanwhile.
+	/// Registers the tool's icon, drawn at start-up: a green plate with a pale dashed border
+	/// and a light plus in the middle, the design Factorio's own upgrade planner uses, which
+	/// this tool is modelled on.
 	/// </summary>
 	internal static class ToolIcon
 	{
 		public const string SpriteName = "isochronous_upgradeplanner_tool";
 
 		private const int Size = 64;
+		private static readonly Color32 Plate = new Color32(16, 140, 16, 255);
+		private static readonly Color32 PlateLight = new Color32(22, 158, 22, 255);
+		private static readonly Color32 Dash = new Color32(168, 228, 168, 255);
+		private static readonly Color32 Plus = new Color32(222, 222, 222, 255);
 
 		public static void Register()
 		{
@@ -26,16 +30,24 @@ namespace UpgradePlanner
 		{
 			Color32[] pixels = new Color32[Size * Size];
 
-			// A horizontal pipe along the bottom third: two rails with a gap.
-			FillRect(pixels, 4, 10, 56, 5);
-			FillRect(pixels, 4, 21, 56, 5);
-			// Pipe joints.
-			FillRect(pixels, 16, 8, 5, 20);
-			FillRect(pixels, 43, 8, 5, 20);
+			// The plate, a shade lighter down the middle band, as the original shades it.
+			FillRect(pixels, 0, 0, Size, Size, Plate);
+			FillRect(pixels, 20, 0, 24, Size, PlateLight);
 
-			// Upward chevron above the pipe.
-			Stroke(pixels, 12, 36, 32, 56, 6);
-			Stroke(pixels, 32, 56, 52, 36, 6);
+			// A dashed border just inside the edge: 6 px dashes, 4 px gaps, 4 px thick.
+			const int inset = 2, thick = 4, dash = 6, gap = 4;
+			for (int start = inset; start < Size - inset; start += dash + gap)
+			{
+				int length = Mathf.Min(dash, Size - inset - start);
+				FillRect(pixels, start, inset, length, thick, Dash);
+				FillRect(pixels, start, Size - inset - thick, length, thick, Dash);
+				FillRect(pixels, inset, start, thick, length, Dash);
+				FillRect(pixels, Size - inset - thick, start, thick, length, Dash);
+			}
+
+			// The plus: arms 10 px thick, 36 px long, centred.
+			FillRect(pixels, 14, 27, 36, 10, Plus);
+			FillRect(pixels, 27, 14, 10, 36, Plus);
 
 			Texture2D texture = new Texture2D(Size, Size, TextureFormat.RGBA32, mipChain: false)
 			{
@@ -48,25 +60,12 @@ namespace UpgradePlanner
 			return Sprite.Create(texture, new Rect(0f, 0f, Size, Size), new Vector2(0.5f, 0.5f));
 		}
 
-		private static void FillRect(Color32[] pixels, int x, int y, int width, int height)
+		private static void FillRect(Color32[] pixels, int x, int y, int width, int height, Color32 color)
 		{
-			Color32 white = new Color32(byte.MaxValue, byte.MaxValue, byte.MaxValue, byte.MaxValue);
 			for (int row = y; row < y + height; row++)
 				for (int col = x; col < x + width; col++)
 					if (col >= 0 && col < Size && row >= 0 && row < Size)
-						pixels[row * Size + col] = white;
-		}
-
-		/// <summary>A thick line from (x0,y0) to (x1,y1), drawn as a stack of short vertical bars.</summary>
-		private static void Stroke(Color32[] pixels, int x0, int y0, int x1, int y1, int thickness)
-		{
-			if (x1 == x0)
-				return;
-			for (int x = x0; x <= x1; x++)
-			{
-				int y = y0 + (y1 - y0) * (x - x0) / (x1 - x0);
-				FillRect(pixels, x, y - thickness / 2, 1, thickness);
-			}
+						pixels[row * Size + col] = color;
 		}
 	}
 }

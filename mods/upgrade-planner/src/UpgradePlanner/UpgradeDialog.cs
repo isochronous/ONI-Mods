@@ -110,7 +110,7 @@ namespace UpgradePlanner
 			dialog.Body.AddChild(BuildColumns());
 			dialog.Body.AddChild(new PLabel("Status")
 			{
-				Text = plan.Describe(),
+				Text = plan.Summary(),
 				TextStyle = PUITuning.Fonts.TextDarkStyle,
 				TextAlignment = TextAnchor.MiddleLeft,
 				FlexSize = new Vector2(1f, 0f),
@@ -251,7 +251,7 @@ namespace UpgradePlanner
 		{
 			LocText text = status != null ? status.GetComponent<LocText>() : null;
 			if (text != null)
-				text.text = plan.Describe();
+				text.text = plan.Summary();
 			onChanged?.Invoke();
 		}
 
@@ -413,6 +413,19 @@ namespace UpgradePlanner
 			return card;
 		}
 
+		/// <summary>What the With side needs next, in larger dark text across the top of the column.</summary>
+		private static void AddPrompt(PPanel column, string text)
+		{
+			column.AddChild(new PLabel("Prompt")
+			{
+				Text = text,
+				TextStyle = PUITuning.Fonts.TextDarkStyle.DeriveStyle(17),
+				TextAlignment = TextAnchor.MiddleLeft,
+				FlexSize = new Vector2(1f, 0f),
+				Margin = new RectOffset(4, 4, 8, 10),
+			});
+		}
+
 		private static void AddNote(PPanel column, string text)
 		{
 			column.AddChild(new PLabel("Note")
@@ -496,8 +509,11 @@ namespace UpgradePlanner
 			PPanel column = NewColumn("Target");
 			if (!plan.SourceComplete)
 			{
-				// Nothing to choose from until the Replace side is complete: the whole catalogue,
-				// greyed, shows what the column will hold. The footer says what is still needed.
+				// Nothing to choose from until the Replace side is complete: what is needed, in
+				// words, over the whole catalogue greyed, which shows what the column will hold.
+				AddPrompt(column, plan.Source == null ? ModStrings.ChooseSourceFirst
+					: plan.SourceMode == UpgradePlan.MaterialMode.Specific ? ModStrings.PickSourceMaterialFirst
+					: ModStrings.ChooseMaterialModeFirst);
 				foreach (ReplacementRules.Category category in ReplacementRules.SourceCategories())
 					AddCategory(column, category, null, null);
 				return column;
@@ -505,6 +521,8 @@ namespace UpgradePlanner
 			List<ReplacementRules.Category> categories = ReplacementRules.TargetCategories(plan.Source);
 			if (categories.Count == 0)
 				AddNote(column, ModStrings.NoTargets);
+			else if (plan.Target == null)
+				AddPrompt(column, ModStrings.ChooseTarget);
 			foreach (ReplacementRules.Category category in categories)
 				AddCategory(column, category, plan.Target, family => { plan.SetTarget(family); Rebuild(); });
 			if (plan.Target == null)
