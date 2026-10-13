@@ -215,7 +215,10 @@ namespace UpgradePlanner
 		/// <summary>Every replaceable type, grouped by replacement layer, in registration order (vanilla first, then mods).</summary>
 		public static List<Category> SourceCategories()
 		{
-			return Group(f => IsReplaceableSource(f.Representative));
+			// Only types something can be built over: the game names a replacement layer for
+			// power and automation wires too, but gives nothing the tags to replace them, so
+			// they would be a dead end in the Replace column ("nothing can be built over this").
+			return Group(f => IsReplaceableSource(f.Representative) && TargetCategories(f).Count > 0);
 		}
 
 		/// <summary>Every buildable type that can be built over <paramref name="source"/>, grouped the same way.</summary>

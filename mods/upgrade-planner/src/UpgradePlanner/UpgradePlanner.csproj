@@ -10,6 +10,11 @@
     <ReferenceUnityUI>true</ReferenceUnityUI>
   </PropertyGroup>
 
+  <!-- -p:PLibDraggable=true with a PLib that has PDialog.Draggable (see UpgradeDialog.Show). -->
+  <PropertyGroup Condition="'$(PLibDraggable)' == 'true'">
+    <DefineConstants>$(DefineConstants);PLIB_DRAGGABLE</DefineConstants>
+  </PropertyGroup>
+
   <Import Project="$(MSBuildThisFileDirectory)..\..\common\oni-mod.targets" />
 
 </Project>

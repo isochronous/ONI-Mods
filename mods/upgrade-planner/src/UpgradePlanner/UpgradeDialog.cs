@@ -67,6 +67,10 @@ namespace UpgradePlanner
 				SortKey = 200f,
 				DialogBackColor = PUITuning.Colors.DialogBackground,
 				DialogClosed = OnDialogClosed,
+#if PLIB_DRAGGABLE
+				// A PLib with the draggable title bar (built with -p:PLibVersion=... from a modified PLib).
+				Draggable = true,
+#endif
 			};
 			dialog.AddButton(ApplyKey, ModStrings.Apply, ModStrings.ApplyTooltip, PUITuning.Colors.ButtonPinkStyle);
 			dialog.Body.Direction = PanelDirection.Vertical;
