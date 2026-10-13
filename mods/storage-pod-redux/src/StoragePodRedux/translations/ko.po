@@ -1,0 +1,128 @@
+msgid ""
+msgstr ""
+"Application: Oxygen Not Included\n"
+"POT Version: 2.0\n"
+"Language: ko_KR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. STRINGS.BUILDINGS.PREFABS.COOLPODCONFIG.DESC
+msgctxt "STRINGS.BUILDINGS.PREFABS.COOLPODCONFIG.DESC"
+msgid "A small refrigerated pod that fits where a fridge will not."
+msgstr "냉장고가 들어가지 않는 곳에도 들어가는 작은 냉장 포드입니다."
+
+#. STRINGS.BUILDINGS.PREFABS.COOLPODCONFIG.EFFECT
+msgctxt "STRINGS.BUILDINGS.PREFABS.COOLPODCONFIG.EFFECT"
+msgid "Stores <link=\"FOOD\">Food</link> and slows its spoilage.\n\nCompact, and can be built anywhere. Uses less power once its contents are cold."
+msgstr "<link=\"FOOD\">식품</link>을 보관하고 부패를 늦춥니다.\n\n소형이며 어디에나 건조할 수 있습니다. 내용물이 차가워지면 전력을 덜 사용합니다."
+
+#. STRINGS.BUILDINGS.PREFABS.COOLPODCONFIG.NAME
+msgctxt "STRINGS.BUILDINGS.PREFABS.COOLPODCONFIG.NAME"
+msgid "<link=\"COOLPODCONFIG\">Cool Pod</link>"
+msgstr "<link=\"COOLPODCONFIG\">냉장 포드</link>"
+
+#. STRINGS.BUILDINGS.PREFABS.STORAGEPODCONFIG.DESC
+msgctxt "STRINGS.BUILDINGS.PREFABS.STORAGEPODCONFIG.DESC"
+msgid "A sealed pod that keeps a lot of material in very little space, and does not care what it is bolted to."
+msgstr "아주 작은 공간에 많은 재료를 보관하는 밀폐 포드로, 어디에 고정되든 상관하지 않습니다."
+
+#. STRINGS.BUILDINGS.PREFABS.STORAGEPODCONFIG.EFFECT
+msgctxt "STRINGS.BUILDINGS.PREFABS.STORAGEPODCONFIG.EFFECT"
+msgid "Stores the <link=\"ELEMENTSSOLID\">Solid</link> resources of your choosing.\n\nCompact, and can be built anywhere."
+msgstr "선택한 <link=\"ELEMENTSSOLID\">고체</link> 자원을 보관합니다.\n\n소형이며 어디에나 건조할 수 있습니다."
+
+#. STRINGS.BUILDINGS.PREFABS.STORAGEPODCONFIG.NAME
+msgctxt "STRINGS.BUILDINGS.PREFABS.STORAGEPODCONFIG.NAME"
+msgid "<link=\"STORAGEPODCONFIG\">Storage Pod</link>"
+msgstr "<link=\"STORAGEPODCONFIG\">보관 포드</link>"
+
+#. STRINGS.STORAGEPODREDUX.OPTIONS.CATEGORY.COOL_POD
+msgctxt "STRINGS.STORAGEPODREDUX.OPTIONS.CATEGORY.COOL_POD"
+msgid "Cool Pod"
+msgstr "냉장 포드"
+
+#. STRINGS.STORAGEPODREDUX.OPTIONS.CATEGORY.STORAGE_POD
+msgctxt "STRINGS.STORAGEPODREDUX.OPTIONS.CATEGORY.STORAGE_POD"
+msgid "Storage Pod"
+msgstr "보관 포드"
+
+#. STRINGS.STORAGEPODREDUX.OPTIONS.COOL_POD.NAME
+msgctxt "STRINGS.STORAGEPODREDUX.OPTIONS.COOL_POD.NAME"
+msgid "Cool Pod"
+msgstr "냉장 포드"
+
+#. STRINGS.STORAGEPODREDUX.OPTIONS.COOL_POD.TOOLTIP
+msgctxt "STRINGS.STORAGEPODREDUX.OPTIONS.COOL_POD.TOOLTIP"
+msgid "Add the Cool Pod building. Takes effect after a restart."
+msgstr "냉장 포드 건조물을 추가합니다. 게임을 다시 시작한 뒤 적용됩니다."
+
+#. STRINGS.STORAGEPODREDUX.OPTIONS.COOL_POD_CAPACITY.NAME
+msgctxt "STRINGS.STORAGEPODREDUX.OPTIONS.COOL_POD_CAPACITY.NAME"
+msgid "Capacity (kg)"
+msgstr "용량(kg)"
+
+#. STRINGS.STORAGEPODREDUX.OPTIONS.COOL_POD_CAPACITY.TOOLTIP
+msgctxt "STRINGS.STORAGEPODREDUX.OPTIONS.COOL_POD_CAPACITY.TOOLTIP"
+msgid "How much food the Cool Pod holds."
+msgstr "냉장 포드에 보관할 수 있는 식품의 양입니다."
+
+#. STRINGS.STORAGEPODREDUX.OPTIONS.COOL_POD_MODE.AUTO.NAME
+msgctxt "STRINGS.STORAGEPODREDUX.OPTIONS.COOL_POD_MODE.AUTO.NAME"
+msgid "Auto"
+msgstr "자동"
+
+#. STRINGS.STORAGEPODREDUX.OPTIONS.COOL_POD_MODE.AUTO.TOOLTIP
+msgctxt "STRINGS.STORAGEPODREDUX.OPTIONS.COOL_POD_MODE.AUTO.TOOLTIP"
+msgid "Enabled, unless Ronivan's Legacy - Industrial Revolution is enabled with its Fridge Pod turned on."
+msgstr "Ronivan's Legacy - Industrial Revolution 모드가 활성화되어 있고 그 Fridge Pod가 켜져 있는 경우가 아니면 활성화합니다."
+
+#. STRINGS.STORAGEPODREDUX.OPTIONS.COOL_POD_MODE.DISABLED.NAME
+msgctxt "STRINGS.STORAGEPODREDUX.OPTIONS.COOL_POD_MODE.DISABLED.NAME"
+msgid "Disabled"
+msgstr "비활성화"
+
+#. STRINGS.STORAGEPODREDUX.OPTIONS.COOL_POD_MODE.DISABLED.TOOLTIP
+msgctxt "STRINGS.STORAGEPODREDUX.OPTIONS.COOL_POD_MODE.DISABLED.TOOLTIP"
+msgid "Never add the Cool Pod."
+msgstr "냉장 포드를 추가하지 않습니다."
+
+#. STRINGS.STORAGEPODREDUX.OPTIONS.COOL_POD_MODE.ENABLED.NAME
+msgctxt "STRINGS.STORAGEPODREDUX.OPTIONS.COOL_POD_MODE.ENABLED.NAME"
+msgid "Enabled"
+msgstr "활성화"
+
+#. STRINGS.STORAGEPODREDUX.OPTIONS.COOL_POD_MODE.ENABLED.TOOLTIP
+msgctxt "STRINGS.STORAGEPODREDUX.OPTIONS.COOL_POD_MODE.ENABLED.TOOLTIP"
+msgid "Always add the Cool Pod."
+msgstr "냉장 포드를 항상 추가합니다."
+
+#. STRINGS.STORAGEPODREDUX.OPTIONS.STORAGE_POD_CAPACITY.NAME
+msgctxt "STRINGS.STORAGEPODREDUX.OPTIONS.STORAGE_POD_CAPACITY.NAME"
+msgid "Capacity (kg)"
+msgstr "용량(kg)"
+
+#. STRINGS.STORAGEPODREDUX.OPTIONS.STORAGE_POD_CAPACITY.TOOLTIP
+msgctxt "STRINGS.STORAGEPODREDUX.OPTIONS.STORAGE_POD_CAPACITY.TOOLTIP"
+msgid "How much the Storage Pod holds."
+msgstr "보관 포드에 보관할 수 있는 양입니다."
+
+#. STRINGS.STORAGEPODREDUX.OPTIONS.STORAGE_POD_ENABLED.NAME
+msgctxt "STRINGS.STORAGEPODREDUX.OPTIONS.STORAGE_POD_ENABLED.NAME"
+msgid "Storage Pod"
+msgstr "보관 포드"
+
+#. STRINGS.STORAGEPODREDUX.OPTIONS.STORAGE_POD_ENABLED.TOOLTIP
+msgctxt "STRINGS.STORAGEPODREDUX.OPTIONS.STORAGE_POD_ENABLED.TOOLTIP"
+msgid "Add the Storage Pod building. Takes effect after a restart."
+msgstr "보관 포드 건조물을 추가합니다. 게임을 다시 시작한 뒤 적용됩니다."
+
+#. STRINGS.STORAGEPODREDUX.OPTIONS.STORAGE_POD_STORES_FOOD.NAME
+msgctxt "STRINGS.STORAGEPODREDUX.OPTIONS.STORAGE_POD_STORES_FOOD.NAME"
+msgid "Stores food"
+msgstr "식품 보관"
+
+#. STRINGS.STORAGEPODREDUX.OPTIONS.STORAGE_POD_STORES_FOOD.TOOLTIP
+msgctxt "STRINGS.STORAGEPODREDUX.OPTIONS.STORAGE_POD_STORES_FOOD.TOOLTIP"
+msgid "Let the Storage Pod hold food as well as other solids. It is not refrigerated."
+msgstr "보관 포드에 다른 고체와 함께 식품도 보관할 수 있게 합니다. 냉장되지는 않습니다."

@@ -39,7 +39,7 @@ A successful build merges [PLib](https://github.com/peterhaneve/ONIMods/tree/mai
 
 ## Translations
 
-The mod is available in Chinese (Simplified). Translations are loaded from `translations/<locale>.po` next to the mod DLL; other languages can be added by translating the template `src/StoragePodRedux/translations/StoragePodRedux.pot`.
+The mod is available in Chinese (Simplified), Korean and Russian. Translations are loaded from `translations/<locale>.po` next to the mod DLL; other languages can be added by translating the template `src/StoragePodRedux/translations/StoragePodRedux.pot`.
 
 ## Art
 
