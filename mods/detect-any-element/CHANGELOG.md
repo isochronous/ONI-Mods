@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Korean: the "Any" choice now reads 아무 원소 (any element), the game's own phrase, instead of a bare 아무.
+
 ## 0.2.0 - 2026-10-12
 
 - Chinese (Simplified), Korean and Russian translations. Translations load from translations/<locale>.po; the template for other languages is translations/DetectAnyElement.pot.

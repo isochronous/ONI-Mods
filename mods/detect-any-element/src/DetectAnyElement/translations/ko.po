@@ -10,4 +10,4 @@ msgstr ""
 #. STRINGS.MISC.TAGS.DETECTANYELEMENT_ANY
 msgctxt "STRINGS.MISC.TAGS.DETECTANYELEMENT_ANY"
 msgid "Any"
-msgstr "아무"
+msgstr "아무 원소"
