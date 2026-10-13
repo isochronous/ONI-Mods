@@ -11,23 +11,31 @@ namespace UpgradePlanner.Tests
 		[OniTest("Upgrade Planner: screenshots of the window with a plan in it", Timeout = 40), Layer(2)]
 		public static IEnumerator Window(TestContext t)
 		{
-			BuildingDef pipe = Assets.GetBuildingDef("LiquidConduit");
-			UpgradePlan plan = UpgradePlan.Current;
-			plan.SetSource(ReplacementRules.FamilyOf(pipe));
-			plan.SetSourceAnyMaterial();
-			plan.SetTarget(ReplacementRules.FamilyOf(Assets.GetBuildingDef("InsulatedLiquidConduit")));
-			plan.SetTargetMaterials(new List<Tag> { SimHashes.Ceramic.CreateTag() });
 			UpgradeTool tool = null;
 			foreach (InterfaceTool candidate in PlayerController.Instance.tools)
 				if (candidate is UpgradeTool found)
 					tool = found;
 			t.Assert.NotNull(tool, "the Upgrade Planner tool is among the player's tools");
-			PlayerController.Instance.ActivateTool(tool);
 			t.Cleanup(() =>
 			{
 				if (PlayerController.Instance.ActiveTool == tool)
 					PlayerController.Instance.ActivateTool(SelectTool.Instance);
 			});
+			// Fresh: nothing chosen yet.
+			UpgradePlan plan = UpgradePlan.Current;
+			plan.Clear();
+			PlayerController.Instance.ActivateTool(tool);
+			yield return t.Frames(5);
+			t.Assert.NotNull(GameObject.Find("UpgradePlannerDialog"), "the planner window is open");
+			yield return t.Screenshot("fresh");
+			// A whole plan in it.
+			PlayerController.Instance.ActivateTool(SelectTool.Instance);
+			BuildingDef pipe = Assets.GetBuildingDef("LiquidConduit");
+			plan.SetSource(ReplacementRules.FamilyOf(pipe));
+			plan.SetSourceAnyMaterial();
+			plan.SetTarget(ReplacementRules.FamilyOf(Assets.GetBuildingDef("InsulatedLiquidConduit")));
+			plan.SetTargetMaterials(new List<Tag> { SimHashes.Ceramic.CreateTag() });
+			PlayerController.Instance.ActivateTool(tool);
 			yield return t.Frames(5);
 			GameObject window = GameObject.Find("UpgradePlannerDialog");
 			t.Assert.NotNull(window, "the planner window is open");

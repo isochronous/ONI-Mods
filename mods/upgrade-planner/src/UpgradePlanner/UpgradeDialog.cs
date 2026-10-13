@@ -18,6 +18,8 @@ namespace UpgradePlanner
 	internal sealed class UpgradeDialog
 	{
 		private const int ButtonsPerRow = 7;
+		/// <summary>Both columns ask for this much, so they split the window evenly whatever their rows hold.</summary>
+		private const float ColumnWidth = 460f;
 		private const string SourceScroll = "SourceScroll";
 		private const string TargetScroll = "TargetScroll";
 		private static readonly Vector2 IconSize = new Vector2(44f, 44f);
@@ -31,6 +33,17 @@ namespace UpgradePlanner
 		private static readonly Color HeaderStripColor = new Color32(95, 107, 119, 255);
 		private static readonly Color RowAreaColor = new Color32(201, 201, 201, 255);
 		private static readonly ColorStyleSetting ActionBarStyle = MakeActionBarStyle();
+		/// <summary>A button that cannot be picked yet: the blue style's disabled grey in every state.</summary>
+		private static readonly ColorStyleSetting DisabledStyle = MakeDisabledStyle();
+
+		private static ColorStyleSetting MakeDisabledStyle()
+		{
+			var style = ScriptableObject.CreateInstance<ColorStyleSetting>();
+			Color grey = PUITuning.Colors.ButtonBlueStyle.disabledColor;
+			style.inactiveColor = style.hoverColor = style.activeColor = grey;
+			style.disabledColor = style.disabledActiveColor = style.disabledhoverColor = grey;
+			return style;
+		}
 
 		private static ColorStyleSetting MakeActionBarStyle()
 		{
@@ -283,9 +296,50 @@ namespace UpgradePlanner
 				FlexSize = Vector2.one,
 				Margin = new RectOffset(6, 6, 4, 0),
 			};
-			columns.AddChild(Scrollable(SourceScroll, BuildSourceColumn()));
-			columns.AddChild(Scrollable(TargetScroll, BuildTargetColumn()));
+			columns.AddChild(Side("Source", ModStrings.ReplaceHeading, SourceScroll, BuildSourceColumn(), clear: true));
+			columns.AddChild(Side("Target", ModStrings.WithHeading, TargetScroll, BuildTargetColumn(), clear: false));
 			return columns;
+		}
+
+		/// <summary>
+		/// One side of the window: its heading on a fixed row above the scroll area, so it stays
+		/// put while the column scrolls; the Replace side's row has the Clear button at its end.
+		/// </summary>
+		private PPanel Side(string name, string heading, string scrollName, PPanel column, bool clear)
+		{
+			var side = new PPanel(name + "Side")
+			{
+				Direction = PanelDirection.Vertical,
+				Alignment = TextAnchor.UpperLeft,
+				Spacing = 6,
+				FlexSize = Vector2.one,
+			};
+			var header = new PPanel(name + "Header")
+			{
+				Direction = PanelDirection.Horizontal,
+				Alignment = TextAnchor.MiddleLeft,
+				FlexSize = new Vector2(1f, 0f),
+			};
+			header.AddChild(new PLabel(name + "Heading")
+			{
+				Text = heading,
+				TextStyle = PUITuning.Fonts.TextDarkStyle.DeriveStyle(20),
+				TextAlignment = TextAnchor.MiddleLeft,
+				FlexSize = new Vector2(1f, 0f),
+			});
+			if (clear)
+				header.AddChild(new PButton("Clear")
+				{
+					Text = ModStrings.Clear,
+					ToolTip = ModStrings.ClearTooltip,
+					TextStyle = PUITuning.Fonts.TextLightStyle,
+					Color = PUITuning.Colors.ButtonBlueStyle,
+					Margin = new RectOffset(12, 12, 6, 6),
+					OnClick = _ => { plan.Clear(); Rebuild(); },
+				});
+			side.AddChild(header);
+			side.AddChild(Scrollable(scrollName, column));
+			return side;
 		}
 
 		/// <summary>A column in a scroll pane of its own, so each side scrolls independently.</summary>
@@ -301,7 +355,7 @@ namespace UpgradePlanner
 			};
 		}
 
-		private static PPanel NewColumn(string name, string heading)
+		private static PPanel NewColumn(string name)
 		{
 			var column = new PPanel(name)
 			{
@@ -311,13 +365,7 @@ namespace UpgradePlanner
 				FlexSize = new Vector2(1f, 0f),
 				Margin = new RectOffset(0, 12, 0, 8),
 			};
-			column.AddChild(new PLabel(name + "Heading")
-			{
-				Text = heading,
-				TextStyle = PUITuning.Fonts.TextDarkStyle.DeriveStyle(20),
-				TextAlignment = TextAnchor.MiddleLeft,
-				Margin = new RectOffset(0, 0, 0, 6),
-			});
+			column.AddChild(new PSpacer { PreferredSize = new Vector2(ColumnWidth, 0f) });
 			return column;
 		}
 
@@ -416,7 +464,7 @@ namespace UpgradePlanner
 
 		private PPanel BuildSourceColumn()
 		{
-			PPanel column = NewColumn("Source", ModStrings.ReplaceHeading);
+			PPanel column = NewColumn("Source");
 			foreach (ReplacementRules.Category category in ReplacementRules.SourceCategories())
 				AddCategory(column, category, plan.Source, family =>
 				{
@@ -445,18 +493,13 @@ namespace UpgradePlanner
 
 		private PPanel BuildTargetColumn()
 		{
-			PPanel column = NewColumn("Target", ModStrings.WithHeading);
-			if (plan.Source == null)
-			{
-				AddNote(column, ModStrings.ChooseSourceFirst);
-				return column;
-			}
+			PPanel column = NewColumn("Target");
 			if (!plan.SourceComplete)
 			{
-				// The type is chosen; what is missing is its material choice on the other side.
-				AddNote(column, plan.SourceMode == UpgradePlan.MaterialMode.Specific
-					? ModStrings.PickSourceMaterialFirst
-					: ModStrings.ChooseMaterialModeFirst);
+				// Nothing to choose from until the Replace side is complete: the whole catalogue,
+				// greyed, shows what the column will hold. The footer says what is still needed.
+				foreach (ReplacementRules.Category category in ReplacementRules.SourceCategories())
+					AddCategory(column, category, null, null);
 				return column;
 			}
 			List<ReplacementRules.Category> categories = ReplacementRules.TargetCategories(plan.Source);
@@ -475,6 +518,7 @@ namespace UpgradePlanner
 			return column;
 		}
 
+		/// <summary>A category card; with no <paramref name="onPick"/> its buttons are greyed and do nothing.</summary>
 		private static void AddCategory(PPanel column, ReplacementRules.Category category, ReplacementRules.Family selected, System.Action<ReplacementRules.Family> onPick)
 		{
 			PPanel group = NewGroup("Category" + category.Layer, category.Name, out PPanel rows);
@@ -482,7 +526,7 @@ namespace UpgradePlanner
 			foreach (ReplacementRules.Family family in category.Families)
 			{
 				ReplacementRules.Family chosen = family;
-				buttons.Add(BuildingButton(chosen, chosen == selected, () => onPick(chosen)));
+				buttons.Add(BuildingButton(chosen, chosen == selected, onPick == null ? null : () => onPick(chosen)));
 			}
 			AddRows(rows, buttons);
 			column.AddChild(group);
@@ -496,7 +540,7 @@ namespace UpgradePlanner
 			string tooltip = def.Name;
 			if (family.Members.Count > 1)
 				tooltip += ModStrings.VariantsTooltip.Replace("{0}", family.Members.Count.ToString());
-			return new PButton(def.PrefabID)
+			var button = new PButton(def.PrefabID)
 			{
 				Sprite = def.GetUISprite(),
 				SpriteSize = IconSize,
@@ -504,8 +548,24 @@ namespace UpgradePlanner
 				ToolTip = tooltip,
 				Margin = ButtonMargin,
 				Color = selected ? PUITuning.Colors.ButtonPinkStyle : PUITuning.Colors.ButtonBlueStyle,
-				OnClick = _ => onClick(),
 			};
+			if (onClick != null)
+				button.OnClick = _ => onClick();
+			else
+			{
+				// Greyed: the disabled grey for the plate, the icon faded, and no clicks or hover.
+				button.Color = DisabledStyle;
+				button.AddOnRealize(go =>
+				{
+					KButton k = go.GetComponent<KButton>();
+					if (k != null)
+						k.isInteractable = false;
+					foreach (UnityEngine.UI.Image image in go.GetComponentsInChildren<UnityEngine.UI.Image>())
+						if (!(image is KImage))
+							image.color = new Color(1f, 1f, 1f, 0.45f);
+				});
+			}
+			return button;
 		}
 
 		private static PButton TextButton(string text, string tooltip, bool selected, System.Action onClick)

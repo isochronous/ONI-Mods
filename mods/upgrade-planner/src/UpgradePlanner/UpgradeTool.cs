@@ -63,48 +63,57 @@ namespace UpgradePlanner
 			dialog = new UpgradeDialog(plan, OnPlanChanged, OnDialogClosedByUser, RefreshConfigButton);
 		}
 
-		// ---- the window toggle: a toolbar icon of its own above the toolbar's right end ----
+		// ---- the window toggle: a button like the top-right menu's (icon and label), left of the priority bar ----
+
+		private static readonly FieldInfo ToggleMenuPrefab = typeof(KIconToggleMenu).GetField("prefab", BindingFlags.NonPublic | BindingFlags.Instance);
 
 		/// <summary>
-		/// One of the toolbar's own tool toggles (icon, pressed state, tooltip), made the way the
-		/// toolbar makes them, standing alone just above the toolbar's right end: the anchor the
-		/// tool filter menu hangs from, which sits above the sandbox row too when that is shown.
-		/// A click opens the window; while the window is open it shows pressed and does nothing.
+		/// One of the toggles the top-right menu (Vitals, Consumables...) is made of, hung off
+		/// the left edge of the priority bar, outside the bar's own layout so the bar stays as it
+		/// is. It goes wherever the bar goes. A click opens the window; while the window is open
+		/// it shows pressed and does nothing.
 		/// </summary>
 		private void AddConfigButton()
 		{
-			ToolParameterMenu menu = ToolMenu.Instance != null ? ToolMenu.Instance.toolParameterMenu : null;
-			if (menu == null || ToolMenu.Instance.toolIconPrefab == null)
+			ManagementMenu menu = ManagementMenu.Instance;
+			PriorityScreen bar = ToolMenu.Instance != null ? ToolMenu.Instance.PriorityScreen : null;
+			KToggle prefab = menu != null && ToggleMenuPrefab != null ? ToggleMenuPrefab.GetValue(menu) as KToggle : null;
+			if (prefab == null || bar == null)
 				return;
 			RemoveConfigButton();
-			configButton = Util.KInstantiateUI(ToolMenu.Instance.toolIconPrefab, menu.gameObject, force_active: true);
+			configButton = Util.KInstantiateUI(prefab.gameObject, bar.gameObject, force_active: true);
+			configButton.name = "UpgradePlannerToggle";
+			configButton.AddOrGet<UnityEngine.UI.LayoutElement>().ignoreLayout = true;
 			RectTransform rect = configButton.rectTransform();
-			rect.anchorMin = rect.anchorMax = new Vector2(1f, 0f);
-			rect.pivot = new Vector2(1f, 0f);
-			rect.anchoredPosition = Vector2.zero;
-			// In the toolbar a layout group sizes the icon from its layout element; alone it needs the size itself.
-			UnityEngine.UI.LayoutElement element = configButton.GetComponent<UnityEngine.UI.LayoutElement>();
-			rect.sizeDelta = element != null && element.minWidth > 0f ? new Vector2(element.minWidth, element.minHeight) : new Vector2(43f, 43f);
-			Transform fg = configButton.transform.Find("FG");
-			Sprite sprite = Assets.GetSprite(ToolIcon.SpriteName);
-			if (fg != null && sprite != null)
-				fg.GetComponent<UnityEngine.UI.Image>().sprite = sprite;
-			Transform text = configButton.transform.Find("Text");
-			if (text != null)
-			{
-				LocText label = text.GetComponent<LocText>();
-				if (label != null)
-					label.text = "";
-			}
-			ToolTip tooltip = configButton.GetComponent<ToolTip>();
-			if (tooltip != null)
-				tooltip.SetSimpleTooltip(ModStrings.ConfigButtonTooltip);
+			rect.anchorMin = rect.anchorMax = new Vector2(0f, 0.5f);
+			rect.pivot = new Vector2(1f, 0.5f);
+			rect.anchoredPosition = new Vector2(-12f, 0f);
 			configToggle = configButton.GetComponent<KToggle>();
+			float width = 160f;
 			if (configToggle != null)
 			{
-				configToggle.soundPlayer.Enabled = false;
+				configToggle.group = null;
+				LocText label = configToggle.GetComponentInChildren<LocText>();
+				if (label != null)
+				{
+					// The prefab's label looks its text up by key when it spawns: our key, our text.
+					label.key = ModStrings.ConfigButtonKey;
+					label.SetText(ModStrings.ConfigButton);
+					// The menu's layout sizes its toggles to their content; alone, this one does the
+					// sum itself: padding, the icon, the spacing, the text and its container's padding.
+					width = label.preferredWidth + 56f;
+				}
+				Sprite sprite = Assets.GetSprite(ToolIcon.SpriteName);
+				if (configToggle.fgImage != null && sprite != null)
+					configToggle.fgImage.sprite = sprite;
 				configToggle.onClick += OnConfigButton;
 			}
+			// The prefab's alert badge (the menu shows it for a screen that wants attention) is not ours.
+			Transform alert = configButton.transform.Find("AlertIcon");
+			if (alert != null)
+				alert.gameObject.SetActive(false);
+			rect.sizeDelta = new Vector2(width, 32f);
+			configButton.AddOrGet<ToolTip>().SetSimpleTooltip(ModStrings.ConfigButtonTooltip);
 			RefreshConfigButton();
 		}
 

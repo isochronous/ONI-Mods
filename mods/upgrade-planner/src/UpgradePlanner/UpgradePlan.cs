@@ -56,6 +56,15 @@ namespace UpgradePlanner
 			Version++;
 		}
 
+		/// <summary>Back to nothing chosen, as a fresh plan.</summary>
+		public void Clear()
+		{
+			Source = null;
+			SourceMode = MaterialMode.Unset;
+			SourceMaterials = new Tag[0];
+			SetTarget(null);
+		}
+
 		public void SetSourceAnyMaterial()
 		{
 			SourceMode = MaterialMode.Any;
