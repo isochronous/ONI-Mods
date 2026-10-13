@@ -41,6 +41,14 @@ The build deploys the mod into the game's local mods folder. See `common/README.
 
 ## Testing
 
+Automated in-game tests live in `src/DirectAutomationBridges.Tests` and run through the harness in `common/tools/TestRunner` (see its README): the game loads a fixture save, the tests build in a cleared area and drive the real wire tool, and the results land in a run folder.
+
+```
+pwsh common/tools/TestRunner/Invoke-OniTests.ps1 -Mods DirectAutomationBridges
+```
+
+So far: the sensor-bridge-machine signal check (API layer) and the "wire dragged from a bridge end to its neighbour" check (tool layer). The rest of the checklist below is still done by hand.
+
 In-game checks, from the investigation's sections 5 and 6. Run them in sandbox mode with the automation overlay open; each line is one check.
 
 Placement

@@ -77,6 +77,14 @@ namespace DirectAutomationBridges
 			controller.initialAnim = "None";
 			controller.sceneLayer = Grid.SceneLayer.LogicWires;
 			controller.isMovable = false;
+			// The wire tool's BuildPath, with instant build off, reads the element of whatever sits on
+			// the wire tile layer at each cell of the drag to decide whether an order replaces it
+			// (gameObject2.GetComponent<PrimaryElement>().Element.tag); a node without one throws
+			// there, mid-drag, with the UI event system still switched off. The bridge's own element
+			// is the honest answer, and nothing else reads it: the node has no mass and no building.
+			PrimaryElement bridgeElement = bridge.GetComponent<PrimaryElement>();
+			PrimaryElement element = go.AddComponent<PrimaryElement>();
+			element.ElementID = bridgeElement != null ? bridgeElement.ElementID : SimHashes.Copper;
 			BridgeEndNode node = go.AddComponent<BridgeEndNode>();
 			node.owners.Add(bridge);
 			node.Cell = cell;
