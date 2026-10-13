@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 1.1.0 - 2026-10-12
 
 - Chinese (Simplified), Korean and Russian translations. Translations load from translations/<locale>.po; the template for other languages is translations/StoragePodRedux.pot.
 
