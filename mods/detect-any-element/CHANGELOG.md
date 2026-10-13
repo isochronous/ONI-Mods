@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Chinese (Simplified) translation. Translations load from translations/<locale>.po; the template for other languages is translations/DetectAnyElement.pot.
+
 ## 0.1.0 - 2026-10-12
 
 - First version: an "Any" choice under "None" in the element sensors' side screen. The Liquid Pipe, Gas Pipe and Conveyor Rail Element Sensors go green for any packet passing through; the Gas and Liquid Element Sensors for any gas or liquid in their cell. Picking an element switches Any off again.

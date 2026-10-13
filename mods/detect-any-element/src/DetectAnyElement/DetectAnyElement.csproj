@@ -6,6 +6,7 @@
     <AssemblyName>DetectAnyElement</AssemblyName>
     <RootNamespace>DetectAnyElement</RootNamespace>
     <Version>0.1.0</Version>
+    <UseTranslations>true</UseTranslations>
     <ReferenceUnityUI>true</ReferenceUnityUI>
   </PropertyGroup>
 

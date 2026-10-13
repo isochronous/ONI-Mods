@@ -1,4 +1,5 @@
 using HarmonyLib;
+using Isochronous;
 using KMod;
 using UnityEngine;
 
@@ -9,6 +10,9 @@ namespace DetectAnyElement
 		public override void OnLoad(Harmony harmony)
 		{
 			base.OnLoad(harmony);
+			// The game keeps its own copy of a tag's proper name, so it is set again after every
+			// language pass (TagManager.Create with a proper name renames an existing tag).
+			Translations.Register(harmony, typeof(ModStrings), () => TagManager.Create(AnyElement.TagName, ModStrings.MISC.TAGS.DETECTANYELEMENT_ANY));
 			Debug.Log("[DetectAnyElement] Loaded version " + typeof(DetectAnyElementMod).Assembly.GetName().Version);
 		}
 	}
@@ -22,9 +26,12 @@ namespace DetectAnyElement
 	public static class AnyElement
 	{
 		public const string TagName = "DetectAnyElement_Any";
-		public const string Label = "Any";
 
-		public static readonly Tag Tag = TagManager.Create(TagName, Label);
+		/// <summary>
+		/// Created with its English name so the tag exists before anything else; the name in the
+		/// player's language is set by DetectAnyElementMod.OnLoad.
+		/// </summary>
+		public static readonly Tag Tag = TagManager.Create(TagName, ModStrings.MISC.TAGS.DETECTANYELEMENT_ANY);
 
 		public static bool Is(Tag tag) => tag == Tag;
 	}
