@@ -6,6 +6,9 @@
 - Requires Blueprints Expanded. Upgraded buildings keep their settings: a replacement order carries them to the new building, saved with the colony.
 - All buildings: a checkbox in the Buildings header also offers the buildings the game does not let you build over, grouped as the build menu groups them. They are deconstructed and rebuilt in the new material through the game's own reconstruct, keeping their settings. The select-all checkbox moved to the left of the Buildings header.
 - Presets, one list per tab: save the current tab's plan under a name, and load or delete that tab's saved ones. They are kept in the game's mod config folder.
+- Buildings made of two materials (refined metal and plastic, say) change only the one you pick, either of the two; the other keeps the material the building was made of, so a copper and plastium germ sensor changed to steel stays plastium.
+- The window can be moved by dragging its title bar, and stays on screen.
+- A new look, in the colours of the game's own management screens: each column is one card under its header, with the picker and building rows on white. The Replace type tab's material pickers no longer show the game's header bar.
 
 ## 0.1.0 - 2026-10-13
 
