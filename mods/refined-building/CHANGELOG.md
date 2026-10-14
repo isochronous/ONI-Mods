@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 1.0.1 - 2026-10-14
 
 - The mod's description now lists the buildings it actually affects (wire, pneumatic doors and airlocks, mesh tiles, batteries, pumps, valves, vents, coal generators, the electrolyzer, sinks and showers). It used to name pipes, ladders and plain tiles, which are built from raw minerals and never took metal.
 
