@@ -39,6 +39,23 @@ namespace UpgradePlanner
 			}
 		}
 
+		/// <summary>
+		/// The game sets a material picker's height and scrollbar for the build menu's side bar every
+		/// time it refreshes the toggles (every 200 ms, from its own LateUpdate). For the planner's
+		/// pickers only, the planner's size is put back in the same call, so the game's never reaches
+		/// a drawn frame. Build menu pickers carry no keeper and are left as they are.
+		/// </summary>
+		[HarmonyPatch(typeof(MaterialSelector), "UpdateScrollBar")]
+		public static class MaterialSelector_UpdateScrollBar_Patch
+		{
+			public static void Postfix(MaterialSelector __instance)
+			{
+				MaterialPanel.SizeKeeper keeper = __instance.GetComponent<MaterialPanel.SizeKeeper>();
+				if (keeper != null)
+					keeper.Apply();
+			}
+		}
+
 		/// <summary>Adds the toolbar button.</summary>
 		[HarmonyPatch(typeof(ToolMenu), "CreateBasicTools")]
 		public static class ToolMenu_CreateBasicTools_Patch

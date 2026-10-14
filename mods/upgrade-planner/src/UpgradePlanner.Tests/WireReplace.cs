@@ -54,6 +54,7 @@ namespace UpgradePlanner.Tests
 			// and the fixture has researched nothing.
 			BuildingDef def = Assets.GetBuildingDef(wireId);
 			UpgradePlan plan = UpgradePlan.Current;
+			plan.SetMode(UpgradePlan.PlanMode.ReplaceType);
 			plan.SetSource(ReplacementRules.FamilyOf(def));
 			plan.SetSourceAnyMaterial();
 			t.Assert.True(ReplacementRules.TargetCategories(plan.Source).Exists(c => c.Families.Exists(f => f.Contains(def))), "the wire is offered as its own replacement");

@@ -28,5 +28,11 @@ namespace UpgradePlanner
 			ToolAction = action.GetKAction();
 			Debug.Log("[UpgradePlanner] Loaded version " + typeof(UpgradePlannerMod).Assembly.GetName().Version);
 		}
+
+		public override void OnAllModsLoaded(Harmony harmony, System.Collections.Generic.IReadOnlyList<Mod> mods)
+		{
+			base.OnAllModsLoaded(harmony, mods);
+			ModCompat.Apply(harmony);
+		}
 	}
 }

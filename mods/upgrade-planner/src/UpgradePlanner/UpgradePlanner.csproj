@@ -15,6 +15,14 @@
     <DefineConstants>$(DefineConstants);PLIB_DRAGGABLE</DefineConstants>
   </PropertyGroup>
 
+  <!-- The game's own Newtonsoft, for the presets file. -->
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>$(GameLibsFolder)\Newtonsoft.Json.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
   <Import Project="$(MSBuildThisFileDirectory)..\..\common\oni-mod.targets" />
 
 </Project>

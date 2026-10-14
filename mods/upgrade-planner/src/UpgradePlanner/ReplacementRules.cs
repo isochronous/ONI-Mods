@@ -24,7 +24,8 @@ namespace UpgradePlanner
 			public BuildingDef Representative;
 			public readonly List<BuildingDef> Members = new List<BuildingDef>();
 
-			public string Name => Representative.Name;
+			/// <summary>The build menu's name, without the link markup the game's names carry.</summary>
+			public string Name => STRINGS.UI.StripLinkFormatting(Representative.Name);
 			public bool Contains(BuildingDef def) => def != null && Members.Contains(def);
 		}
 
@@ -241,7 +242,7 @@ namespace UpgradePlanner
 			return categories;
 		}
 
-		private static List<Category> Group(Predicate<Family> include)
+		internal static List<Category> Group(Predicate<Family> include)
 		{
 			EnsureFamilies();
 			var byLayer = new Dictionary<ObjectLayer, Category>();
@@ -366,7 +367,7 @@ namespace UpgradePlanner
 		public static string MaterialName(Tag material)
 		{
 			Element element = ElementLoader.GetElement(material);
-			return element != null ? element.name : material.ProperName();
+			return STRINGS.UI.StripLinkFormatting(element != null ? element.name : material.ProperName());
 		}
 	}
 }

@@ -7,7 +7,8 @@ namespace UpgradePlanner
 {
 	/// <summary>
 	/// Box-drag tool that queues a replacement build order on every finished building in the
-	/// box matching the plan (type, and material if one was chosen), using the same calls the
+	/// box matching the plan (on the Change material tab, the picked types in the material to
+	/// replace; on the Replace type tab, the type, and material if one was chosen), using the same calls the
 	/// build tool makes when a pipe is dragged over an existing pipe. The plan is edited in
 	/// <see cref="UpgradeDialog"/>, which opens with the tool; until the plan is complete a
 	/// drag does nothing but show an error.
@@ -234,10 +235,16 @@ namespace UpgradePlanner
 		private void ApplyOverlay()
 		{
 			OverlayScreen overlay = OverlayScreen.Instance;
-			if (overlay == null || plan.SourceDef == null)
+			if (overlay == null)
 				return;
-			HashedString wanted = plan.SourceDef.ViewMode;
-			if (wanted == OverlayModes.None.ID || overlay.mode == wanted)
+			HashedString wanted = SharedViewMode(plan.TouchedDefs());
+			if (wanted == OverlayModes.None.ID)
+			{
+				// A plan over pipes and tiles together has no one view; back to the one the player had.
+				RestoreOverlay();
+				return;
+			}
+			if (overlay.mode == wanted)
 				return;
 			if (!overlayChanged)
 			{
@@ -245,6 +252,20 @@ namespace UpgradePlanner
 				overlayChanged = true;
 			}
 			overlay.ToggleOverlay(wanted, allowSound: false);
+		}
+
+		/// <summary>The view every one of these types is built in, or None when they differ or need none.</summary>
+		private static HashedString SharedViewMode(List<BuildingDef> defs)
+		{
+			HashedString shared = OverlayModes.None.ID;
+			for (int i = 0; i < defs.Count; i++)
+			{
+				if (i == 0)
+					shared = defs[i].ViewMode;
+				else if (defs[i].ViewMode != shared)
+					return OverlayModes.None.ID;
+			}
+			return shared;
 		}
 
 		private void RestoreOverlay()
@@ -278,9 +299,28 @@ namespace UpgradePlanner
 		{
 			if (!plan.IsComplete)
 				return;
-			Consider(Grid.Objects[cell, (int)plan.SourceDef.ObjectLayer]);
-			if (plan.SourceDef.TileLayer != ObjectLayer.NumLayers)
-				Consider(Grid.Objects[cell, (int)plan.SourceDef.TileLayer]);
+			foreach (ObjectLayer layer in SearchLayers())
+				Consider(Grid.Objects[cell, (int)layer]);
+		}
+
+		private readonly List<ObjectLayer> searchLayers = new List<ObjectLayer>();
+		private int searchLayersVersion = -1;
+
+		/// <summary>The layers the plan's types sit on (each type's object layer and tile layer), worked out once per plan change.</summary>
+		private List<ObjectLayer> SearchLayers()
+		{
+			if (searchLayersVersion == plan.Version)
+				return searchLayers;
+			searchLayersVersion = plan.Version;
+			searchLayers.Clear();
+			foreach (BuildingDef def in plan.TouchedDefs())
+			{
+				if (!searchLayers.Contains(def.ObjectLayer))
+					searchLayers.Add(def.ObjectLayer);
+				if (def.TileLayer != ObjectLayer.NumLayers && !searchLayers.Contains(def.TileLayer))
+					searchLayers.Add(def.TileLayer);
+			}
+			return searchLayers;
 		}
 
 		private void Consider(GameObject go)
@@ -314,16 +354,14 @@ namespace UpgradePlanner
 		}
 
 		/// <summary>
-		/// The build tool's replacement sequence for one building: the def the chosen materials
-		/// stand for (a family of per-material variants resolves to one of them), candidate found
+		/// The build tool's replacement sequence for one building: the def and materials the plan
+		/// rebuilds it as (a family of per-material variants resolves to one of them), candidate found
 		/// on the target's layer, nothing already pending there, not the same type in the same
 		/// materials, then TryReplaceTile with the building's own orientation and the materials.
 		/// </summary>
 		private bool TryQueue(BuildingComplete building)
 		{
-			var materials = new List<Tag>(plan.TargetMaterials);
-			BuildingDef target = ReplacementRules.ResolveVariant(plan.Target, materials);
-			if (target == null)
+			if (!plan.TryResolve(building, out BuildingDef target, out List<Tag> materials))
 				return false;
 			GameObject go = building.gameObject;
 			int cell = Grid.PosToCell(go);
@@ -414,7 +452,7 @@ namespace UpgradePlanner
 		public override void GetOverlayColorData(out HashSet<ToolMenu.CellColorData> colors)
 		{
 			colors = cellColors;
-			if (!plan.SourceComplete)
+			if (!plan.CanHighlight)
 			{
 				cellColors.Clear();
 				return;
