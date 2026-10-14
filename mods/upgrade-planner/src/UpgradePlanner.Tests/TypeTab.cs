@@ -22,7 +22,7 @@ namespace UpgradePlanner.Tests
 					PlayerController.Instance.ActivateTool(SelectTool.Instance);
 			});
 			UpgradePlan plan = UpgradePlan.Current;
-			plan.SetMode(UpgradePlan.PlanMode.ReplaceType);
+			plan.Mode = PlanMode.ReplaceType;
 			plan.Clear();
 			PlayerController.Instance.ActivateTool(tool);
 			yield return t.WaitRealSeconds(1);
@@ -31,8 +31,8 @@ namespace UpgradePlanner.Tests
 			Check(t, window, "with nothing picked");
 
 			PlayerController.Instance.ActivateTool(SelectTool.Instance);
-			plan.SetSource(ReplacementRules.FamilyOf(Assets.GetBuildingDef("LiquidConduit")));
-			plan.SetSourceAnyMaterial();
+			plan.ReplaceType.SetSource(Families.Of(Assets.GetBuildingDef("LiquidConduit")));
+			plan.ReplaceType.SetSourceAny();
 			PlayerController.Instance.ActivateTool(tool);
 			yield return t.WaitRealSeconds(1);
 			window = GameObject.Find("UpgradePlannerDialog");
@@ -50,16 +50,16 @@ namespace UpgradePlanner.Tests
 			t.Assert.NotNull(pane, "the source picker is in a pane of the material card");
 			MaterialSelector source = pane.GetComponentInChildren<MaterialSelector>();
 			t.Assert.NotNull(source, "the pane holds the picker");
-			int rows = Mathf.Max(MaterialPanel.RowsNeeded(source), 1);
-			t.Assert.Eq(MaterialPanel.Columns, source.LayoutContainer.GetComponent<UnityEngine.UI.GridLayoutGroup>().constraintCount, "the source picker is " + MaterialPanel.Columns + " toggles wide");
-			t.Assert.Eq(MaterialPanel.FitHeight(source, rows), source.ScrollRect.GetComponent<UnityEngine.UI.LayoutElement>().minHeight, "the source picker shows all " + rows + " rows, for its pane to scroll");
+			int rows = Mathf.Max(MaterialPicker.RowsNeeded(source), 1);
+			t.Assert.Eq(MaterialPicker.Columns, source.LayoutContainer.GetComponent<UnityEngine.UI.GridLayoutGroup>().constraintCount, "the source picker is " + MaterialPicker.Columns + " toggles wide");
+			t.Assert.Eq(MaterialPicker.FitHeight(source, rows), source.ScrollRect.GetComponent<UnityEngine.UI.LayoutElement>().minHeight, "the source picker shows all " + rows + " rows, for its pane to scroll");
 			t.Assert.False(source.Scrollbar != null && source.Scrollbar.activeInHierarchy, "the source picker has no scrollbar of its own");
 
 			// A target: the With picker is taller than the side bar's, up to six rows. The source in
 			// any material, so the With side shows its choices.
 			PlayerController.Instance.ActivateTool(SelectTool.Instance);
-			plan.SetSourceAnyMaterial();
-			plan.SetTarget(ReplacementRules.FamilyOf(Assets.GetBuildingDef("InsulatedLiquidConduit")));
+			plan.ReplaceType.SetSourceAny();
+			plan.ReplaceType.SetTarget(Families.Of(Assets.GetBuildingDef("InsulatedLiquidConduit")));
 			PlayerController.Instance.ActivateTool(tool);
 			yield return t.WaitRealSeconds(1.5);
 			window = GameObject.Find("UpgradePlannerDialog");
@@ -69,11 +69,11 @@ namespace UpgradePlanner.Tests
 				if (Find(window.transform, "TargetSide") != null && selector.transform.IsChildOf(Find(window.transform, "TargetSide").transform))
 					target = selector;
 			t.Assert.NotNull(target, "the With side has a picker");
-			int needed = MaterialPanel.RowsNeeded(target);
+			int needed = MaterialPicker.RowsNeeded(target);
 			int shown = Mathf.Clamp(needed, 1, 6);
 			t.Log("With picker: " + needed + " rows of materials, " + shown + " shown");
-			t.Assert.Eq(MaterialPanel.Columns, target.LayoutContainer.GetComponent<UnityEngine.UI.GridLayoutGroup>().constraintCount, "the With picker is " + MaterialPanel.Columns + " toggles wide");
-			t.Assert.Eq(MaterialPanel.FitHeight(target, shown), target.ScrollRect.GetComponent<UnityEngine.UI.LayoutElement>().minHeight, "the With picker shows " + shown + " rows");
+			t.Assert.Eq(MaterialPicker.Columns, target.LayoutContainer.GetComponent<UnityEngine.UI.GridLayoutGroup>().constraintCount, "the With picker is " + MaterialPicker.Columns + " toggles wide");
+			t.Assert.Eq(MaterialPicker.FitHeight(target, shown), target.ScrollRect.GetComponent<UnityEngine.UI.LayoutElement>().minHeight, "the With picker shows " + shown + " rows");
 			bool bar = target.Scrollbar != null && target.Scrollbar.activeInHierarchy;
 			t.Log("With picker scrollbar " + (target.Scrollbar != null ? target.Scrollbar.name + " active " + target.Scrollbar.activeSelf + ", in hierarchy " + bar : "none") + "; scroll rect bar " + (target.ScrollRect.verticalScrollbar != null ? target.ScrollRect.verticalScrollbar.name + " " + target.ScrollRect.verticalScrollbar.gameObject.activeInHierarchy : "none"));
 			t.Assert.Eq(needed > 6, bar, "the With picker has a scrollbar only past six rows");

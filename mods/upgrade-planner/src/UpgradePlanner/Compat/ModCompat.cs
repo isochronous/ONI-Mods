@@ -5,17 +5,6 @@ using UnityEngine;
 namespace UpgradePlanner
 {
 	/// <summary>
-	/// Marks a container whose material pickers are the planner's own. Placed before the game's
-	/// picker is made inside it, so a mod that lays pickers out from the picker's own setup (its
-	/// OnPrefabInit) already finds it.
-	/// </summary>
-	internal sealed class PlannerPickerHost : MonoBehaviour
-	{
-		public static bool Holds(Component component) =>
-			component != null && component.GetComponentInParent<PlannerPickerHost>() != null;
-	}
-
-	/// <summary>
 	/// Other mods that lay out every material picker in the game, set to leave the planner's alone.
 	/// Each is patched only when it is loaded, and found by name, so the planner needs none of them.
 	/// </summary>
@@ -34,7 +23,7 @@ namespace UpgradePlanner
 
 		public static void Apply(Harmony harmony)
 		{
-			MethodInfo prefix = AccessTools.Method(typeof(ModCompat), nameof(LeavePlannerPickers));
+			var prefix = new HarmonyMethod(AccessTools.Method(typeof(ModCompat), nameof(LeavePlannerPickers)));
 			foreach (string[] target in SkipFor)
 			{
 				System.Type type = AccessTools.TypeByName(target[0]);
@@ -46,7 +35,7 @@ namespace UpgradePlanner
 					Debug.LogWarning("[UpgradePlanner] " + target[0] + " has no " + target[1] + "; its layout may fight the planner's pickers.");
 					continue;
 				}
-				harmony.Patch(method, prefix: new HarmonyMethod(prefix));
+				harmony.Patch(method, prefix: prefix);
 				Debug.Log("[UpgradePlanner] " + target[0] + "." + target[1] + " leaves the planner's material pickers alone.");
 			}
 		}

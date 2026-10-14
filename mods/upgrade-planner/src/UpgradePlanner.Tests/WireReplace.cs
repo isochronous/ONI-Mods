@@ -54,13 +54,13 @@ namespace UpgradePlanner.Tests
 			// and the fixture has researched nothing.
 			BuildingDef def = Assets.GetBuildingDef(wireId);
 			UpgradePlan plan = UpgradePlan.Current;
-			plan.SetMode(UpgradePlan.PlanMode.ReplaceType);
-			plan.SetSource(ReplacementRules.FamilyOf(def));
-			plan.SetSourceAnyMaterial();
-			t.Assert.True(ReplacementRules.TargetCategories(plan.Source).Exists(c => c.Families.Exists(f => f.Contains(def))), "the wire is offered as its own replacement");
-			plan.SetTarget(ReplacementRules.FamilyOf(def));
-			plan.SetTargetMaterials(new List<Tag> { SimHashes.Gold.CreateTag() });
-			t.Assert.True(plan.IsComplete, "the plan is complete: " + plan.Describe());
+			plan.Mode = PlanMode.ReplaceType;
+			plan.ReplaceType.SetSource(Families.Of(def));
+			plan.ReplaceType.SetSourceAny();
+			t.Assert.True(ReplacementRules.TargetCategories(plan.ReplaceType.Source).Exists(c => c.Families.Exists(f => f.Contains(def))), "the wire is offered as its own replacement");
+			plan.ReplaceType.SetTarget(Families.Of(def));
+			plan.ReplaceType.SetTargetMaterials(new List<Tag> { SimHashes.Gold.CreateTag() });
+			t.Assert.True(plan.IsComplete, "the plan is complete: " + plan.Summary());
 			t.InstantBuild(instant);
 
 			// The planner tool, driven as the player drives it: a box from the first wire to the last.

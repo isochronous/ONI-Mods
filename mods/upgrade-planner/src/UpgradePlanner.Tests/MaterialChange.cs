@@ -30,19 +30,19 @@ namespace UpgradePlanner.Tests
 		public static IEnumerator BlockedReasons(TestContext t)
 		{
 			var plan = new UpgradePlan();
-			ReplacementRules.Family tile = Family("Tile");
-			ReplacementRules.Family metalTile = Family("MetalTile");
+			Family tile = FamilyOf("Tile");
+			Family metalTile = FamilyOf("MetalTile");
 			t.Assert.True(Offered(tile), "Tile is offered on the tab");
 			t.Assert.True(Offered(metalTile), "Metal Tile is offered on the tab");
-			plan.SetMaterialTarget(SimHashes.Steel.CreateTag());
-			t.Assert.Eq("Can't be built in Steel", MaterialSwap.Blocked(tile, plan), "a tile cannot be steel");
-			t.Assert.Null(MaterialSwap.Blocked(metalTile, plan), "a metal tile can be steel");
-			plan.SetMaterialSource(SimHashes.SandStone.CreateTag());
-			t.Assert.Eq("Never built from Sandstone", MaterialSwap.Blocked(metalTile, plan), "no metal tile is made of sandstone");
-			plan.SetMaterialSourceAny();
-			plan.SetMaterialTarget(SimHashes.Granite.CreateTag());
-			t.Assert.Null(MaterialSwap.Blocked(tile, plan), "a tile can be granite");
-			t.Assert.Eq("Can't be built in Granite", MaterialSwap.Blocked(metalTile, plan), "a metal tile cannot be granite");
+			plan.ChangeMaterial.SetTarget(SimHashes.Steel.CreateTag());
+			t.Assert.Eq("Can't be built in Steel", plan.ChangeMaterial.Blocked(tile), "a tile cannot be steel");
+			t.Assert.Null(plan.ChangeMaterial.Blocked(metalTile), "a metal tile can be steel");
+			plan.ChangeMaterial.SetSource(SimHashes.SandStone.CreateTag());
+			t.Assert.Eq("Never built from Sandstone", plan.ChangeMaterial.Blocked(metalTile), "no metal tile is made of sandstone");
+			plan.ChangeMaterial.SetSourceAny();
+			plan.ChangeMaterial.SetTarget(SimHashes.Granite.CreateTag());
+			t.Assert.Null(plan.ChangeMaterial.Blocked(tile), "a tile can be granite");
+			t.Assert.Eq("Can't be built in Granite", plan.ChangeMaterial.Blocked(metalTile), "a metal tile cannot be granite");
 			yield break;
 		}
 
@@ -63,40 +63,40 @@ namespace UpgradePlanner.Tests
 
 			var plan = new UpgradePlan();
 			plan.Clear();
-			plan.SetMaterialTypesSelected(new[] { Family("Tile"), Family("Ladder") }, true);
-			plan.SetMaterialSource(SimHashes.SandStone.CreateTag());
-			plan.SetMaterialTarget(SimHashes.Granite.CreateTag());
+			plan.ChangeMaterial.Pick(new[] { FamilyOf("Tile"), FamilyOf("Ladder") }, true);
+			plan.ChangeMaterial.SetSource(SimHashes.SandStone.CreateTag());
+			plan.ChangeMaterial.SetTarget(SimHashes.Granite.CreateTag());
 			Presets.Put(plan.ToPreset("tiles"));
 			var typed = new UpgradePlan();
-			typed.SetMode(UpgradePlan.PlanMode.ReplaceType);
-			typed.SetSource(Family("LiquidConduit"));
-			typed.SetSourceAnyMaterial();
-			typed.SetTarget(Family("InsulatedLiquidConduit"));
-			typed.SetTargetMaterials(new List<Tag> { SimHashes.Ceramic.CreateTag() });
+			typed.Mode = PlanMode.ReplaceType;
+			typed.ReplaceType.SetSource(FamilyOf("LiquidConduit"));
+			typed.ReplaceType.SetSourceAny();
+			typed.ReplaceType.SetTarget(FamilyOf("InsulatedLiquidConduit"));
+			typed.ReplaceType.SetTargetMaterials(new List<Tag> { SimHashes.Ceramic.CreateTag() });
 			Presets.Put(typed.ToPreset("insulate"));
 			t.Assert.True(File.Exists(file), "the presets file is written");
 
 			// Read back from the file, not from memory.
 			Presets.UseFile(file);
 			t.Assert.Eq(2, Presets.All.Count, "both presets are in the file");
-			t.Assert.Eq(1, Presets.For(UpgradePlan.PlanMode.ChangeMaterial).Count, "the Change material tab lists one");
-			t.Assert.Eq("tiles", Presets.For(UpgradePlan.PlanMode.ChangeMaterial)[0].Name, "the Change material tab lists its own");
-			t.Assert.Eq(1, Presets.For(UpgradePlan.PlanMode.ReplaceType).Count, "the Replace type tab lists one");
-			t.Assert.Eq("insulate", Presets.For(UpgradePlan.PlanMode.ReplaceType)[0].Name, "the Replace type tab lists its own");
+			t.Assert.Eq(1, Presets.For(PlanMode.ChangeMaterial).Count, "the Change material tab lists one");
+			t.Assert.Eq("tiles", Presets.For(PlanMode.ChangeMaterial)[0].Name, "the Change material tab lists its own");
+			t.Assert.Eq(1, Presets.For(PlanMode.ReplaceType).Count, "the Replace type tab lists one");
+			t.Assert.Eq("insulate", Presets.For(PlanMode.ReplaceType)[0].Name, "the Replace type tab lists its own");
 			var back = new UpgradePlan();
-			back.Apply(Presets.Find("tiles", UpgradePlan.PlanMode.ChangeMaterial));
-			t.Assert.Eq(UpgradePlan.PlanMode.ChangeMaterial, back.Mode, "the tiles preset is on the Change material tab");
+			back.Load(Presets.Find("tiles", PlanMode.ChangeMaterial));
+			t.Assert.Eq(PlanMode.ChangeMaterial, back.Mode, "the tiles preset is on the Change material tab");
 			t.Assert.Eq(plan.Summary(), back.Summary(), "the tiles preset is the same plan");
-			t.Assert.True(back.IsMaterialTypeSelected("Tile") && back.IsMaterialTypeSelected("Ladder"), "tiles and ladders are picked");
-			t.Assert.False(back.IsMaterialTypeSelected("MetalTile"), "metal tiles are not");
-			back.Apply(Presets.Find("insulate", UpgradePlan.PlanMode.ReplaceType));
-			t.Assert.Eq(UpgradePlan.PlanMode.ReplaceType, back.Mode, "the insulate preset is on the Replace type tab");
+			t.Assert.True(back.ChangeMaterial.IsPicked("Tile") && back.ChangeMaterial.IsPicked("Ladder"), "tiles and ladders are picked");
+			t.Assert.False(back.ChangeMaterial.IsPicked("MetalTile"), "metal tiles are not");
+			back.Load(Presets.Find("insulate", PlanMode.ReplaceType));
+			t.Assert.Eq(PlanMode.ReplaceType, back.Mode, "the insulate preset is on the Replace type tab");
 			t.Assert.Eq(typed.Summary(), back.Summary(), "the insulate preset is the same plan");
 			t.Assert.True(back.IsComplete, "the insulate plan is complete");
 			// A name is the tab's own: the same name on the other tab is another preset.
 			t.Assert.False(Presets.Put(plan.ToPreset("insulate")), "a Change material preset named as a Replace type one is a new preset");
 			t.Assert.Eq(3, Presets.All.Count, "three presets");
-			t.Assert.Eq(UpgradePlan.PlanMode.ReplaceType.ToString(), Presets.Find("insulate", UpgradePlan.PlanMode.ReplaceType).Mode, "the Replace type one is untouched");
+			t.Assert.Eq(PlanMode.ReplaceType.ToString(), Presets.Find("insulate", PlanMode.ReplaceType).Mode, "the Replace type one is untouched");
 			// Saving under a name the tab already has replaces that preset.
 			t.Assert.True(Presets.Put(plan.ToPreset("tiles")), "a second save under one name on one tab replaces the first");
 			t.Assert.Eq(3, Presets.All.Count, "still three presets");
@@ -118,15 +118,15 @@ namespace UpgradePlanner.Tests
 				File.Delete(file);
 			Presets.UseFile(file);
 			var material = new UpgradePlan();
-			material.SetMaterialTarget(SimHashes.Granite.CreateTag());
+			material.ChangeMaterial.SetTarget(SimHashes.Granite.CreateTag());
 			Presets.Put(material.ToPreset("Granite everything"));
 			var typed = new UpgradePlan();
-			typed.SetMode(UpgradePlan.PlanMode.ReplaceType);
+			typed.Mode = PlanMode.ReplaceType;
 			Presets.Put(typed.ToPreset("Insulate pipes"));
 
 			UpgradeTool tool = Tool(t);
 			UpgradePlan plan = UpgradePlan.Current;
-			plan.SetMode(UpgradePlan.PlanMode.ChangeMaterial);
+			plan.Mode = PlanMode.ChangeMaterial;
 			PlayerController.Instance.ActivateTool(tool);
 			yield return t.WaitRealSeconds(1);
 			t.Assert.Eq("Granite everything", PresetShown(), "the Change material tab shows its own preset");
@@ -136,13 +136,13 @@ namespace UpgradePlanner.Tests
 			yield return t.WaitRealSeconds(1);
 			t.Assert.Eq("Insulate pipes", PresetShown(), "the Replace type tab shows its own preset, with no suffix");
 			// Loading it stays on its tab and changes only that tab's choices.
-			plan.SetMaterialTarget(SimHashes.Steel.CreateTag());
+			plan.ChangeMaterial.SetTarget(SimHashes.Steel.CreateTag());
 			KButton load = Find(GameObject.Find("UpgradePlannerDialog").transform, "PresetLoad")?.GetComponent<KButton>();
 			t.Assert.NotNull(load, "the Load button is there");
 			load.SignalClick(KKeyCode.Mouse0);
 			yield return t.WaitRealSeconds(1);
-			t.Assert.Eq(UpgradePlan.PlanMode.ReplaceType, plan.Mode, "loading keeps the Replace type tab");
-			t.Assert.Eq(SimHashes.Steel.CreateTag(), plan.MaterialTarget, "the Change material tab's choices are untouched");
+			t.Assert.Eq(PlanMode.ReplaceType, plan.Mode, "loading keeps the Replace type tab");
+			t.Assert.Eq(SimHashes.Steel.CreateTag(), plan.ChangeMaterial.Target, "the Change material tab's choices are untouched");
 			yield return t.Screenshot("type-presets");
 		}
 
@@ -160,11 +160,11 @@ namespace UpgradePlanner.Tests
 		{
 			UpgradeTool tool = Tool(t);
 			UpgradePlan plan = UpgradePlan.Current;
-			plan.SetMode(UpgradePlan.PlanMode.ChangeMaterial);
+			plan.Mode = PlanMode.ChangeMaterial;
 			plan.Clear();
-			plan.SetMaterialTypesSelected(new[] { Family("Tile"), Family("MetalTile") }, true);
-			plan.SetMaterialSourceAny();
-			plan.SetMaterialTarget(SimHashes.Steel.CreateTag());
+			plan.ChangeMaterial.Pick(new[] { FamilyOf("Tile"), FamilyOf("MetalTile") }, true);
+			plan.ChangeMaterial.SetSourceAny();
+			plan.ChangeMaterial.SetTarget(SimHashes.Steel.CreateTag());
 			PlayerController.Instance.ActivateTool(tool);
 			yield return t.WaitRealSeconds(1);
 			GameObject window = GameObject.Find("UpgradePlannerDialog");
@@ -191,7 +191,7 @@ namespace UpgradePlanner.Tests
 			// Sandbox mode: every material is shown, far more than half the column holds.
 			UpgradeTool tool = Tool(t);
 			UpgradePlan plan = UpgradePlan.Current;
-			plan.SetMode(UpgradePlan.PlanMode.ChangeMaterial);
+			plan.Mode = PlanMode.ChangeMaterial;
 			plan.Clear();
 			PlayerController.Instance.ActivateTool(tool);
 			yield return t.WaitRealSeconds(1);
@@ -229,9 +229,9 @@ namespace UpgradePlanner.Tests
 				t.Assert.NotNull(scroll, pane + " is there");
 				MaterialSelector selector = scroll.GetComponentInChildren<MaterialSelector>();
 				t.Assert.NotNull(selector, pane + " holds a picker");
-				int rows = Mathf.Max(MaterialPanel.RowsNeeded(selector), 1);
-				t.Assert.Eq(MaterialPanel.Columns, selector.LayoutContainer.GetComponent<UnityEngine.UI.GridLayoutGroup>().constraintCount, "the picker in " + pane + " is " + MaterialPanel.Columns + " toggles wide");
-				t.Assert.Eq(MaterialPanel.FitHeight(selector, rows), selector.ScrollRect.GetComponent<UnityEngine.UI.LayoutElement>().minHeight, "the picker in " + pane + " shows all " + rows + " rows");
+				int rows = Mathf.Max(MaterialPicker.RowsNeeded(selector), 1);
+				t.Assert.Eq(MaterialPicker.Columns, selector.LayoutContainer.GetComponent<UnityEngine.UI.GridLayoutGroup>().constraintCount, "the picker in " + pane + " is " + MaterialPicker.Columns + " toggles wide");
+				t.Assert.Eq(MaterialPicker.FitHeight(selector, rows), selector.ScrollRect.GetComponent<UnityEngine.UI.LayoutElement>().minHeight, "the picker in " + pane + " shows all " + rows + " rows");
 				t.Assert.False(selector.Scrollbar != null && selector.Scrollbar.activeInHierarchy, "the picker in " + pane + " has no scrollbar of its own");
 				t.Assert.True(scroll.rectTransform().rect.height < selector.ScrollRect.rectTransform().rect.height, "the pane " + pane + " is shorter than its picker, so it scrolls");
 			}
@@ -253,16 +253,16 @@ namespace UpgradePlanner.Tests
 			yield return t.Frames(2);
 			UpgradeTool tool = Tool(t);
 			UpgradePlan plan = UpgradePlan.Current;
-			plan.SetMode(UpgradePlan.PlanMode.ChangeMaterial);
+			plan.Mode = PlanMode.ChangeMaterial;
 			plan.Clear();
-			plan.SetMaterialSourceSpecific();
+			plan.ChangeMaterial.SetSourceSpecific();
 			PlayerController.Instance.ActivateTool(tool);
 			yield return t.WaitRealSeconds(1);
 			GameObject window = GameObject.Find("UpgradePlannerDialog");
 			t.Assert.NotNull(window, "the planner window is open");
 			var selectors = new List<MaterialSelector>(window.GetComponentsInChildren<MaterialSelector>());
 			t.Assert.Eq(2, selectors.Count, "two pickers: Replace and With");
-			t.Log(MaterialPanel.RowsNeeded(selectors[0]) + " rows of materials shown");
+			t.Log(MaterialPicker.RowsNeeded(selectors[0]) + " rows of materials shown");
 			// What each frame draws: every scrollbar in the window and each picker's height, just
 			// before the canvases render, for two seconds, across ten of the game's refreshes.
 			var bars = new List<UnityEngine.UI.Scrollbar>(window.GetComponentsInChildren<UnityEngine.UI.Scrollbar>(true));
@@ -310,7 +310,7 @@ namespace UpgradePlanner.Tests
 			// frame's scripts in, its side bar size must not be left for any frame to draw.
 			foreach (MaterialSelector selector in selectors)
 			{
-				float height = MaterialPanel.FitHeight(selector, Mathf.Max(MaterialPanel.RowsNeeded(selector), 1));
+				float height = MaterialPicker.FitHeight(selector, Mathf.Max(MaterialPicker.RowsNeeded(selector), 1));
 				selector.RefreshToggleContents();
 				t.Assert.Eq(height, selector.ScrollRect.GetComponent<UnityEngine.UI.LayoutElement>().minHeight, "right after the game's refresh the picker keeps its height");
 				t.Assert.False(selector.Scrollbar != null && selector.Scrollbar.activeSelf, "right after the game's refresh the picker has no scrollbar");
@@ -323,7 +323,7 @@ namespace UpgradePlanner.Tests
 		{
 			UpgradeTool tool = Tool(t);
 			UpgradePlan plan = UpgradePlan.Current;
-			plan.SetMode(UpgradePlan.PlanMode.ChangeMaterial);
+			plan.Mode = PlanMode.ChangeMaterial;
 			plan.Clear();
 			PlayerController.Instance.ActivateTool(tool);
 			yield return t.WaitRealSeconds(1);
@@ -407,11 +407,11 @@ namespace UpgradePlanner.Tests
 			yield return t.Frames(2);
 
 			UpgradePlan plan = UpgradePlan.Current;
-			plan.SetMode(UpgradePlan.PlanMode.ChangeMaterial);
+			plan.Mode = PlanMode.ChangeMaterial;
 			plan.Clear();
-			plan.SetMaterialTypesSelected(new[] { Family("Tile") }, true);
-			plan.SetMaterialSource(SimHashes.SandStone.CreateTag());
-			plan.SetMaterialTarget(SimHashes.Granite.CreateTag());
+			plan.ChangeMaterial.Pick(new[] { FamilyOf("Tile") }, true);
+			plan.ChangeMaterial.SetSource(SimHashes.SandStone.CreateTag());
+			plan.ChangeMaterial.SetTarget(SimHashes.Granite.CreateTag());
 			t.Assert.True(plan.IsComplete, "the plan is complete: " + plan.Summary());
 			t.InstantBuild(instant);
 
@@ -467,14 +467,14 @@ namespace UpgradePlanner.Tests
 			return go.name + (element != null ? " in " + element.ElementID : "") + (go.GetComponent<Constructable>() != null ? " (order)" : "");
 		}
 
-		private static ReplacementRules.Family Family(string prefabId)
+		private static Family FamilyOf(string prefabId)
 		{
-			return ReplacementRules.FamilyOf(Assets.GetBuildingDef(prefabId));
+			return Families.Of(Assets.GetBuildingDef(prefabId));
 		}
 
-		private static bool Offered(ReplacementRules.Family family)
+		private static bool Offered(Family family)
 		{
-			foreach (ReplacementRules.Category category in MaterialSwap.Categories(false))
+			foreach (Category category in MaterialSwap.Categories(false))
 				if (category.Families.Contains(family))
 					return true;
 			return false;

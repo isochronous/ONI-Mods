@@ -21,9 +21,10 @@ namespace UpgradePlanner
 		{
 			base.OnLoad(harmony);
 			PUtil.InitLibrary(false);
+			Isochronous.Translations.Register(harmony, typeof(ModStrings));
 			PAction action = new PActionManager().CreateAction(
 				"Isochronous.UpgradePlanner.Tool",
-				ModStrings.ToolName + " tool",
+				ModStrings.UI.TOOLS.UPGRADEPLANNER.TOOLNAME,
 				new PKeyBinding(KKeyCode.U, Modifier.Shift));
 			ToolAction = action.GetKAction();
 			Debug.Log("[UpgradePlanner] Loaded version " + typeof(UpgradePlannerMod).Assembly.GetName().Version);

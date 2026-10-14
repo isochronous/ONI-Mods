@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using HarmonyLib;
 using Isochronous.TestKit;
@@ -20,23 +21,23 @@ namespace UpgradePlanner.Tests
 		public static IEnumerator Offered(TestContext t)
 		{
 			RequireBlueprints(t);
-			ReplacementRules.Family locker = Family("StorageLocker");
+			Family locker = FamilyOf("StorageLocker");
 			MaterialSwap.Refresh();
 			t.Assert.False(Offered(MaterialSwap.Categories(false), locker), "without All buildings, the storage bin is not offered");
-			List<ReplacementRules.Category> all = MaterialSwap.Categories(true);
+			List<Category> all = MaterialSwap.Categories(true);
 			t.Assert.True(Offered(all, locker), "with All buildings, the storage bin is offered");
-			t.Assert.True(Offered(all, Family("Tile")), "with All buildings, tiles are still offered");
+			t.Assert.True(Offered(all, FamilyOf("Tile")), "with All buildings, tiles are still offered");
 			t.Log("categories: " + string.Join(", ", all.ConvertAll(c => c.Name)));
 			t.Assert.True(all.Count > 5, "grouped as the build menu (" + all.Count + " categories)");
 			t.Assert.False(MaterialSwap.Rebuilds(Assets.GetBuildingDef("Tile")), "a tile is built over");
 			t.Assert.True(MaterialSwap.Rebuilds(Assets.GetBuildingDef("StorageLocker")), "a storage bin is rebuilt");
 			// Turning All buildings on leaves what it adds unpicked.
 			var plan = new UpgradePlan();
-			plan.SetMaterialAllBuildings(true);
-			t.Assert.True(plan.IsMaterialTypeSelected("Tile"), "tiles, offered before, stay picked");
-			t.Assert.False(plan.IsMaterialTypeSelected("StorageLocker"), "the storage bin, newly offered, starts unpicked");
+			plan.ChangeMaterial.SetAllBuildings(true);
+			t.Assert.True(plan.ChangeMaterial.IsPicked("Tile"), "tiles, offered before, stay picked");
+			t.Assert.False(plan.ChangeMaterial.IsPicked("StorageLocker"), "the storage bin, newly offered, starts unpicked");
 			plan.Clear();
-			t.Assert.False(plan.MaterialAllBuildings, "Clear turns All buildings off with the rest of the tab's choices");
+			t.Assert.False(plan.ChangeMaterial.AllBuildings, "Clear turns All buildings off with the rest of the tab's choices");
 			yield break;
 		}
 
@@ -94,6 +95,106 @@ namespace UpgradePlanner.Tests
 			t.Assert.Eq(Capacity, rebuilt.GetComponent<IUserControlledCapacity>().UserMaxCapacity, "it keeps its capacity");
 		}
 
+		[OniTest("Upgrade Planner: with instant build, every storage bin of a drag is rebuilt, none left as an order", Timeout = 40), Layer(1)]
+		public static IEnumerator RebuildInstantMany(TestContext t)
+		{
+			RequireBlueprints(t);
+			// The game places each bin's new order a frame after its deconstruction, through the
+			// same scheduler as the planner's finish, which keeps no order among entries due together.
+			const int Count = 12;
+			CellRect r = t.Rect(Count + 2, 3);
+			for (int x = 1; x <= Count; x++)
+				BuildLocker(t, r, x);
+			yield return t.Frames(2);
+			yield return Drag(t, r, "StorageLocker", instant: true, allBuildings: true);
+			yield return t.WaitRealSeconds(2);
+			var left = new List<int>();
+			for (int x = 1; x <= Count; x++)
+				if (!Granite(t.World.At(r.Cell(x, 1), ObjectLayer.Building)))
+					left.Add(x);
+			t.Assert.Eq(0, left.Count, "bins not rebuilt in granite, by column: " + string.Join(", ", left));
+		}
+
+		[OniTest("Upgrade Planner: with instant build, a tempshift plate is rebuilt with no error from the sim", Timeout = 40), Layer(1)]
+		public static IEnumerator RebuildSolidInstant(TestContext t)
+		{
+			RequireBlueprints(t);
+			// A building that occupies its cell in the sim, rebuilt on the spot; any error the game
+			// logs in the seconds after fails the test.
+			CellRect r = t.Rect(4, 2);
+			int cell = r.Cell(1, 0);
+			ObjectLayer layer = Assets.GetBuildingDef("ThermalBlock").ObjectLayer;
+			t.World.Build("ThermalBlock", cell, element: SimHashes.SandStone);
+			yield return t.WaitGameSeconds(1);
+			yield return Drag(t, r, "ThermalBlock", instant: true, allBuildings: true);
+			GameObject now = t.World.At(cell, layer);
+			t.Log("after the drag, on " + layer + ": " + (now != null ? now.name + " " + now.GetComponent<PrimaryElement>()?.ElementID : "nothing"));
+			yield return t.WaitUntil(() => Granite(t.World.At(cell, layer)), 10, "the tempshift plate rebuilt in granite");
+			yield return t.WaitGameSeconds(3);
+		}
+
+		[OniTest("Upgrade Planner: with instant build, a carpeted tile is built over with no error from the sim", Timeout = 40), Layer(1)]
+		public static IEnumerator CarpetInstant(TestContext t)
+		{
+			RequireBlueprints(t);
+			// A tile the game builds over, of an element and an item (reed fiber): its order finishes
+			// from a sim callback, which must still find the materials the planner gave it.
+			BuildingDef def = Assets.GetBuildingDef("CarpetTile");
+			t.Log("carpet ingredients: " + string.Join(", ", def.CraftRecipe.Ingredients.ConvertAll(i => i.tag.Name + " " + i.amount)));
+			CellRect r = t.Rect(4, 2);
+			int cell = r.Cell(1, 0);
+			var built = new List<Tag>();
+			foreach (Recipe.Ingredient ingredient in def.CraftRecipe.Ingredients)
+				built.Add(ingredient.tag == GameTags.BuildableRaw || Materials.Valid(ingredient.tag).Contains(SimHashes.SandStone.CreateTag()) ? SimHashes.SandStone.CreateTag() : Materials.Valid(ingredient.tag).OrderBy(tag => tag.Name).First());
+			t.Log("built of " + string.Join(", ", built.ConvertAll(tag => tag.Name)));
+			def.Build(cell, Orientation.Neutral, null, built, 293f, playsound: false, timeBuilt: GameClock.Instance.GetTime());
+			yield return t.WaitGameSeconds(1);
+			yield return Drag(t, r, "CarpetTile", instant: true, allBuildings: true);
+			yield return t.WaitUntil(() => Granite(t.World.At(cell, def.ObjectLayer)), 10, "the carpeted tile built over in granite");
+			yield return t.WaitGameSeconds(3);
+		}
+
+		[OniTest("Upgrade Planner: with instant build, a wide hydroponic tile is rebuilt, not lost", Timeout = 40), Layer(1)]
+		public static IEnumerator WideTileRebuilt(TestContext t)
+		{
+			RequireBlueprints(t);
+			// The game places a rebuilt building's order a frame after taking the old one down; for
+			// a 3-wide tile its cells are not clear by then, and the game placed nothing.
+			BuildingDef def = Assets.GetBuildingDef("WideFarmTile");
+			List<Tag> materials = BuildingSettings.Materials(def);
+			Tag to = BuildingSettings.Target(def).Value;
+			CellRect r = t.Rect(7, 3);
+			for (int x = 0; x < r.W; x++)
+				t.World.Build("Tile", r.Cell(x, 0), element: SimHashes.Granite);
+			yield return t.WaitGameSeconds(1);
+			int cell = r.Cell(3, 1);
+			def.Build(cell, Orientation.Neutral, null, materials, 293f, playsound: false, timeBuilt: GameClock.Instance.GetTime());
+			yield return t.WaitGameSeconds(1);
+			yield return Drag(t, r, "WideFarmTile", instant: true, allBuildings: true, oldElement: ElementLoader.GetElement(materials[0]).id, newElement: ElementLoader.GetElement(to).id);
+			yield return t.WaitUntil(() => Made(t.World.At(cell, def.ObjectLayer), ElementLoader.GetElement(to).id), 10, "the wide tile rebuilt in " + to.Name);
+		}
+
+		[OniTest("Upgrade Planner: All buildings leaves out the mini-pod, which the game will not deconstruct", Timeout = 20), Layer(0)]
+		public static IEnumerator MiniPodLeftOut(TestContext t)
+		{
+			RequireBlueprints(t);
+			MaterialSwap.Refresh();
+			Family pod = FamilyOf("ExobaseHeadquarters");
+			t.Assert.False(Offered(MaterialSwap.Categories(true), pod), "the mini-pod is not offered");
+			CellRect r = t.Rect(5, 4);
+			t.World.Build("Tile", r.Cell(2, 0), element: SimHashes.Granite);
+			GameObject built = t.World.Build("ExobaseHeadquarters", r.Cell(2, 1), element: SimHashes.SandStone);
+			yield return t.WaitGameSeconds(1);
+			UpgradePlan plan = UpgradePlan.Current;
+			plan.Mode = PlanMode.ChangeMaterial;
+			plan.Clear();
+			plan.ChangeMaterial.SetAllBuildings(true);
+			plan.ChangeMaterial.Pick(new[] { pod }, true);
+			plan.ChangeMaterial.SetSourceAny();
+			plan.ChangeMaterial.SetTarget(SimHashes.Granite.CreateTag());
+			t.Assert.False(Takes(plan, built, out _), "a plan does not take a built mini-pod");
+		}
+
 		[OniTest("Upgrade Planner: a two-ingredient building keeps the ingredient the plan does not change", Timeout = 40), Layer(1)]
 		public static IEnumerator OtherIngredientKept(TestContext t)
 		{
@@ -103,7 +204,7 @@ namespace UpgradePlanner.Tests
 			BuildingDef def = Assets.GetBuildingDef("LogicDiseaseSensor");
 			Tag plastium = SimHashes.HardPolypropylene.CreateTag();
 			t.Assert.Eq(2, def.CraftRecipe.Ingredients.Count, "the germ sensor has two ingredients");
-			t.Assert.True(MaterialSwap.Valid(def.CraftRecipe.Ingredients[1].tag).Contains(plastium), "plastium is one of its plastics");
+			t.Assert.True(Materials.Valid(def.CraftRecipe.Ingredients[1].tag).Contains(plastium), "plastium is one of its plastics");
 			CellRect r = t.Rect(4, 2);
 			int cell = r.Cell(1, 0);
 			var built = new List<Tag> { SimHashes.Copper.CreateTag(), plastium };
@@ -111,13 +212,13 @@ namespace UpgradePlanner.Tests
 			GameObject sensor = def.Build(cell, Orientation.Neutral, null, built, temperature, playsound: false, timeBuilt: GameClock.Instance.GetTime());
 			yield return t.Frames(2);
 			UpgradePlan plan = UpgradePlan.Current;
-			plan.SetMode(UpgradePlan.PlanMode.ChangeMaterial);
+			plan.Mode = PlanMode.ChangeMaterial;
 			plan.Clear();
-			plan.SetMaterialAllBuildings(true);
-			plan.SetMaterialTypesSelected(new[] { Family("LogicDiseaseSensor") }, true);
-			plan.SetMaterialSource(SimHashes.Copper.CreateTag());
-			plan.SetMaterialTarget(SimHashes.Steel.CreateTag());
-			t.Assert.True(MaterialSwap.TryPlan(plan, sensor.GetComponent<BuildingComplete>(), out _, out List<Tag> materials), "the plan takes the germ sensor");
+			plan.ChangeMaterial.SetAllBuildings(true);
+			plan.ChangeMaterial.Pick(new[] { FamilyOf("LogicDiseaseSensor") }, true);
+			plan.ChangeMaterial.SetSource(SimHashes.Copper.CreateTag());
+			plan.ChangeMaterial.SetTarget(SimHashes.Steel.CreateTag());
+			t.Assert.True(Takes(plan, sensor, out List<Tag> materials), "the plan takes the germ sensor");
 			t.Assert.Eq(SimHashes.Steel.CreateTag(), materials[0], "the refined metal becomes steel");
 			t.Assert.Eq(plastium, materials[1], "the plastic stays plastium");
 			yield return Drag(t, r, "LogicDiseaseSensor", instant: true, allBuildings: true, oldElement: SimHashes.Copper, newElement: SimHashes.Steel);
@@ -142,18 +243,18 @@ namespace UpgradePlanner.Tests
 			GameObject sensor = def.Build(cell, Orientation.Neutral, null, built, temperature, playsound: false, timeBuilt: GameClock.Instance.GetTime());
 			yield return t.Frames(2);
 			UpgradePlan plan = UpgradePlan.Current;
-			plan.SetMode(UpgradePlan.PlanMode.ChangeMaterial);
+			plan.Mode = PlanMode.ChangeMaterial;
 			plan.Clear();
-			plan.SetMaterialAllBuildings(true);
-			plan.SetMaterialTypesSelected(new[] { Family("LogicDiseaseSensor") }, true);
-			plan.SetMaterialSource(plastic);
-			plan.SetMaterialTarget(plastium);
+			plan.ChangeMaterial.SetAllBuildings(true);
+			plan.ChangeMaterial.Pick(new[] { FamilyOf("LogicDiseaseSensor") }, true);
+			plan.ChangeMaterial.SetSource(plastic);
+			plan.ChangeMaterial.SetTarget(plastium);
 			MaterialSwap.Refresh();
 			string picker = MaterialSwap.PickerRecipe().Ingredients[0].tag.Name;
 			t.Log("picker offers " + picker);
 			t.Assert.True(System.Array.IndexOf(picker.Split('&'), def.CraftRecipe.Ingredients[1].tag.Name) >= 0, "the picker offers the plastics");
-			t.Assert.Eq(null, MaterialSwap.Blocked(Family("LogicDiseaseSensor"), plan), "plastic to plastium leaves the germ sensor offered");
-			t.Assert.True(MaterialSwap.TryPlan(plan, sensor.GetComponent<BuildingComplete>(), out _, out List<Tag> materials), "the plan takes the germ sensor");
+			t.Assert.Eq(null, plan.ChangeMaterial.Blocked(FamilyOf("LogicDiseaseSensor")), "plastic to plastium leaves the germ sensor offered");
+			t.Assert.True(Takes(plan, sensor, out List<Tag> materials), "the plan takes the germ sensor");
 			t.Assert.Eq(SimHashes.Copper.CreateTag(), materials[0], "the refined metal stays copper");
 			t.Assert.Eq(plastium, materials[1], "the plastic becomes plastium");
 			yield return Drag(t, r, "LogicDiseaseSensor", instant: true, allBuildings: true, oldElement: SimHashes.Polypropylene, newElement: SimHashes.HardPolypropylene);
@@ -193,12 +294,12 @@ namespace UpgradePlanner.Tests
 			SimHashes oldElement = SimHashes.SandStone, SimHashes newElement = SimHashes.Granite)
 		{
 			UpgradePlan plan = UpgradePlan.Current;
-			plan.SetMode(UpgradePlan.PlanMode.ChangeMaterial);
+			plan.Mode = PlanMode.ChangeMaterial;
 			plan.Clear();
-			plan.SetMaterialAllBuildings(allBuildings);
-			plan.SetMaterialTypesSelected(new[] { Family(type) }, true);
-			plan.SetMaterialSource(oldElement.CreateTag());
-			plan.SetMaterialTarget(newElement.CreateTag());
+			plan.ChangeMaterial.SetAllBuildings(allBuildings);
+			plan.ChangeMaterial.Pick(new[] { FamilyOf(type) }, true);
+			plan.ChangeMaterial.SetSource(oldElement.CreateTag());
+			plan.ChangeMaterial.SetTarget(newElement.CreateTag());
 			t.Assert.True(plan.IsComplete, "the plan is complete: " + plan.Summary());
 			t.InstantBuild(instant);
 			UpgradeTool tool = null;
@@ -235,14 +336,25 @@ namespace UpgradePlanner.Tests
 			return carrier != null && field != null ? new Dictionary<string, string>((Dictionary<string, string>)field.GetValue(carrier)) : new Dictionary<string, string>();
 		}
 
-		private static ReplacementRules.Family Family(string prefabId)
+		/// <summary>What the plan, worked out as a drag would, makes of the building: its new materials, or false when it leaves it alone.</summary>
+		private static bool Takes(UpgradePlan plan, GameObject building, out List<Tag> materials)
 		{
-			return ReplacementRules.FamilyOf(Assets.GetBuildingDef(prefabId));
+			materials = null;
+			Matcher matcher = plan.Compile();
+			if (matcher == null || !matcher.TryPlan(building.GetComponent<BuildingComplete>(), out Upgrade upgrade))
+				return false;
+			materials = upgrade.Materials;
+			return true;
 		}
 
-		private static bool Offered(List<ReplacementRules.Category> categories, ReplacementRules.Family family)
+		private static Family FamilyOf(string prefabId)
 		{
-			foreach (ReplacementRules.Category category in categories)
+			return Families.Of(Assets.GetBuildingDef(prefabId));
+		}
+
+		private static bool Offered(List<Category> categories, Family family)
+		{
+			foreach (Category category in categories)
 				if (category.Families.Contains(family))
 					return true;
 			return false;

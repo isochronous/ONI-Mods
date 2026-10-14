@@ -31,11 +31,11 @@ namespace UpgradePlanner.Tests
 			// A whole plan in it.
 			PlayerController.Instance.ActivateTool(SelectTool.Instance);
 			BuildingDef pipe = Assets.GetBuildingDef("LiquidConduit");
-			plan.SetMode(UpgradePlan.PlanMode.ReplaceType);
-			plan.SetSource(ReplacementRules.FamilyOf(pipe));
-			plan.SetSourceAnyMaterial();
-			plan.SetTarget(ReplacementRules.FamilyOf(Assets.GetBuildingDef("InsulatedLiquidConduit")));
-			plan.SetTargetMaterials(new List<Tag> { SimHashes.Ceramic.CreateTag() });
+			plan.Mode = PlanMode.ReplaceType;
+			plan.ReplaceType.SetSource(Families.Of(pipe));
+			plan.ReplaceType.SetSourceAny();
+			plan.ReplaceType.SetTarget(Families.Of(Assets.GetBuildingDef("InsulatedLiquidConduit")));
+			plan.ReplaceType.SetTargetMaterials(new List<Tag> { SimHashes.Ceramic.CreateTag() });
 			PlayerController.Instance.ActivateTool(tool);
 			yield return t.WaitRealSeconds(1);
 			GameObject window = GameObject.Find("UpgradePlannerDialog");
@@ -66,18 +66,18 @@ namespace UpgradePlanner.Tests
 					PlayerController.Instance.ActivateTool(SelectTool.Instance);
 			});
 			UpgradePlan plan = UpgradePlan.Current;
-			plan.SetMode(UpgradePlan.PlanMode.ChangeMaterial);
+			plan.Mode = PlanMode.ChangeMaterial;
 			plan.Clear();
 			PlayerController.Instance.ActivateTool(tool);
 			yield return t.WaitRealSeconds(1);
 			yield return t.Screenshot("material-fresh");
 			PlayerController.Instance.ActivateTool(SelectTool.Instance);
-			var all = new List<ReplacementRules.Family>();
-			foreach (ReplacementRules.Category category in MaterialSwap.Categories(false))
+			var all = new List<Family>();
+			foreach (Category category in MaterialSwap.Categories(false))
 				all.AddRange(category.Families);
-			plan.SetMaterialTypesSelected(all, true);
-			plan.SetMaterialSource(SimHashes.SandStone.CreateTag());
-			plan.SetMaterialTarget(SimHashes.Granite.CreateTag());
+			plan.ChangeMaterial.Pick(all, true);
+			plan.ChangeMaterial.SetSource(SimHashes.SandStone.CreateTag());
+			plan.ChangeMaterial.SetTarget(SimHashes.Granite.CreateTag());
 			// Two saved presets, in a file of the test's own, so the preset row shows its list.
 			string file = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "upgrade-planner-looks-presets.json");
 			string original = Presets.FilePath;
@@ -92,7 +92,7 @@ namespace UpgradePlanner.Tests
 			Presets.UseFile(file);
 			Presets.Put(plan.ToPreset("Sandstone to granite"));
 			var typed = new UpgradePlan();
-			typed.SetMode(UpgradePlan.PlanMode.ReplaceType);
+			typed.Mode = PlanMode.ReplaceType;
 			Presets.Put(typed.ToPreset("Insulate liquid pipes"));
 			PlayerController.Instance.ActivateTool(tool);
 			yield return t.WaitRealSeconds(1);

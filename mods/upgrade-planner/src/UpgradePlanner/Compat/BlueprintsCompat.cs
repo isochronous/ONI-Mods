@@ -52,6 +52,8 @@ namespace UpgradePlanner
 			if (setDataToApply == null)
 				Debug.LogWarning("[UpgradePlanner] " + Carrier + ".SetDataToApply not found.");
 			Loaded = bound && setDataToApply != null;
+			if (Loaded)
+				OtherModSettings.Register();
 			Debug.Log("[UpgradePlanner] Blueprints Expanded integration: " + (Loaded
 				? "settings are kept when buildings are upgraded."
 				: "its API has changed; upgraded buildings lose their settings."));
@@ -67,6 +69,30 @@ namespace UpgradePlanner
 		{
 			if (!Loaded || building == null || order == null)
 				return 0;
+			return GiveSettings(TakeSettings(building), order, building.name);
+		}
+
+		/// <summary>The settings Blueprints Expanded stores for a building, to give an order later (null when there are none or it is not loaded).</summary>
+		public static Dictionary<string, JObject> TakeSettings(GameObject building)
+		{
+			if (!Loaded || building == null)
+				return null;
+			try
+			{
+				return getAllData(building);
+			}
+			catch (Exception e)
+			{
+				Debug.LogWarning("[UpgradePlanner] Could not read the settings of " + building.name + ": " + e.GetBaseException().Message);
+				return null;
+			}
+		}
+
+		/// <summary>Puts settings taken from a building in an order's carrier, for Blueprints Expanded to apply when it is built. Returns how many.</summary>
+		public static int GiveSettings(Dictionary<string, JObject> data, GameObject order, string from)
+		{
+			if (!Loaded || data == null || order == null)
+				return 0;
 			Component carrier = order.GetComponent(carrierType);
 			if (carrier == null)
 				return 0;
@@ -74,20 +100,32 @@ namespace UpgradePlanner
 			try
 			{
 				var setData = (SetDataToApplyDelegate)Delegate.CreateDelegate(typeof(SetDataToApplyDelegate), carrier, setDataToApply);
-				Dictionary<string, JObject> data = getAllData(building);
-				if (data != null)
-					foreach (KeyValuePair<string, JObject> entry in data)
-						if (!string.IsNullOrEmpty(entry.Key) && entry.Value != null)
-						{
-							setData(entry.Key, entry.Value);
-							copied++;
-						}
+				foreach (KeyValuePair<string, JObject> entry in data)
+					if (!string.IsNullOrEmpty(entry.Key) && entry.Value != null)
+					{
+						setData(entry.Key, entry.Value);
+						copied++;
+					}
 			}
 			catch (Exception e)
 			{
-				Debug.LogWarning("[UpgradePlanner] Could not copy the settings of " + building.name + ": " + e.GetBaseException().Message);
+				Debug.LogWarning("[UpgradePlanner] Could not copy the settings of " + from + ": " + e.GetBaseException().Message);
 			}
 			return copied;
+		}
+
+		/// <summary>The settings Blueprints Expanded stores for a building, by key, as JSON text (for tests).</summary>
+		internal static Dictionary<string, string> SettingsOf(GameObject building)
+		{
+			var settings = new Dictionary<string, string>();
+			if (!Loaded || building == null)
+				return settings;
+			Dictionary<string, JObject> data = getAllData(building);
+			if (data != null)
+				foreach (KeyValuePair<string, JObject> entry in data)
+					if (!string.IsNullOrEmpty(entry.Key) && entry.Value != null)
+						settings[entry.Key] = entry.Value.ToString(Newtonsoft.Json.Formatting.None);
+			return settings;
 		}
 
 		/// <summary>The parameter types of a delegate type's signature.</summary>
