@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.2.0 - 2026-10-13
 
 - A Change material tab, now the first: pick the material to replace (any, or one) and the one to build in, in the game's own material picker, and which building types to rebuild, as build menu toggle buttons grouped by family with select-all, fold and expand/collapse-all. A drag rebuilds every picked building in the new material. Types the materials rule out are greyed, with the reason in their tooltip; the footer lists the first four types and counts the rest.
 - Requires Blueprints Expanded. Upgraded buildings keep their settings: a replacement order carries them to the new building, saved with the colony.
