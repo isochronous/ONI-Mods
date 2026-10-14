@@ -126,6 +126,22 @@ namespace UpgradePlanner
 			}
 		}
 
+		private readonly Dictionary<string, BuildingDef> variants = new Dictionary<string, BuildingDef>();
+
+		/// <summary>
+		/// The def to build for a family in these materials (<see cref="Variants.Resolve"/>), worked out
+		/// once per family and materials: it can run other mods' build tool patches.
+		/// </summary>
+		protected BuildingDef Resolve(Family family, List<Tag> materials)
+		{
+			if (family.Members.Count == 1)
+				return family.Representative;
+			string key = family.PrefabID + "|" + string.Join("|", materials);
+			if (!variants.TryGetValue(key, out BuildingDef def))
+				variants[key] = def = Variants.Resolve(family, materials);
+			return def;
+		}
+
 		/// <summary>True if the plan takes this building (whether or not it is complete enough to say what it becomes).</summary>
 		public abstract bool Matches(BuildingComplete building);
 

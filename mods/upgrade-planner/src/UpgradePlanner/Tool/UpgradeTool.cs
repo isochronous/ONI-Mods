@@ -177,26 +177,23 @@ namespace UpgradePlanner
 		{
 			if (dragMatcher == null)
 				return;
-			int placed = 0, skipped = 0;
-			PrioritySetting priority = ToolMenu.Instance.PriorityScreen.GetLastSelectedPriority();
+			// What each building becomes is settled now, from the plan as it was dragged; the placing
+			// is spread over frames (PlacementQueue), each building checked again as it is placed.
+			var upgrades = new List<KeyValuePair<BuildingComplete, Upgrade>>();
+			int refused = 0;
 			foreach (BuildingComplete building in dragged)
 			{
 				if (building == null)
 					continue;
-				if (dragMatcher.TryPlan(building, out Upgrade upgrade) && Orders.Place(building, upgrade, priority))
-					placed++;
+				if (dragMatcher.TryPlan(building, out Upgrade upgrade))
+					upgrades.Add(new KeyValuePair<BuildingComplete, Upgrade>(building, upgrade));
 				else
-					skipped++;
+					refused++;
 			}
 			dragged.Clear();
 			dragMatcher = null;
 			matcher = null;
-			if (placed + skipped == 0)
-				return;
-			string text = (Orders.InstantBuild ? ModStrings.UPGRADEPLANNER.PopupReplaced : ModStrings.UPGRADEPLANNER.PopupMarked).Replace("{0}", placed.ToString());
-			if (skipped > 0)
-				text = ModStrings.UPGRADEPLANNER.PopupSkipped.Replace("{0}", text).Replace("{1}", skipped.ToString());
-			PopFXManager.Instance.SpawnFX(PopFXManager.Instance.sprite_Building, text, null, cursorUp);
+			PlacementQueue.Add(upgrades, refused, ToolMenu.Instance.PriorityScreen.GetLastSelectedPriority(), cursorUp);
 		}
 
 		// ---- the highlight of every building the plan would touch ----

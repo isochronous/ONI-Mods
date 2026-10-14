@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+### Changed
+
+- A large drag no longer freezes the game for a moment when the button is released: the buildings are marked (or, with instant build, replaced) a few at a time over the next frames, and the popup counting them comes when the last is done.
+
+### Fixed
+
 - Picking a material in the planner's window no longer changes the material the build menu offers first for a building. Before, the Change material tab's picks changed it for the Printing Pod, which some mods let you rebuild.
 
 ## 0.3.0 - 2026-10-14

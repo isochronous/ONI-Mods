@@ -198,7 +198,7 @@ namespace UpgradePlanner
 				if (target == null || !Matches(building))
 					return false;
 				var materials = new List<Tag>(targetMaterials);
-				upgrade = new Upgrade { Target = Variants.Resolve(target, materials), Materials = materials };
+				upgrade = new Upgrade { Target = Resolve(target, materials), Materials = materials };
 				return upgrade.Target != null;
 			}
 		}

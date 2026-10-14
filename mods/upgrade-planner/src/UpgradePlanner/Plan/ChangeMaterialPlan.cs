@@ -236,7 +236,7 @@ namespace UpgradePlanner
 				List<Tag> materials = NewMaterials(building, out Family family, out bool rebuild);
 				if (materials == null)
 					return false;
-				upgrade = new Upgrade { Target = Variants.Resolve(family, materials), Materials = materials, Rebuild = rebuild };
+				upgrade = new Upgrade { Target = Resolve(family, materials), Materials = materials, Rebuild = rebuild };
 				return upgrade.Target != null;
 			}
 
