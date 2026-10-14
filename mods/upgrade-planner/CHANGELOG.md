@@ -1,5 +1,23 @@
 # Changelog
 
+## Unreleased
+
+### Added
+
+- Chinese, Korean and Russian translations.
+- With Suppress Notifications or No Manual Delivery installed, an upgraded building keeps their settings too: its suppressed notifications, status items and damage bar, and its hold on deliveries.
+
+### Changed
+
+- Dragging over a large area, the highlight of what the plan touches, and opening the Replace type tab are faster in a big colony.
+
+### Fixed
+
+- With instant build, every building a drag rebuilds is finished at once; some (storage bins, airlocks, logic gates) were left as orders.
+- A wide tile rebuilt in another material (a 3-wide farm tile) is rebuilt instead of lost with nothing ordered in its place.
+- With instant build, a carpeted tile built over in another material is finished with no error from the game.
+- All buildings no longer offers the mini-pod, which the game will not take down to rebuild.
+
 ## 0.2.0 - 2026-10-13
 
 - A Change material tab, now the first: pick the material to replace (any, or one) and the one to build in, in the game's own material picker, and which building types to rebuild, as build menu toggle buttons grouped by family with select-all, fold and expand/collapse-all. A drag rebuilds every picked building in the new material. Types the materials rule out are greyed, with the reason in their tooltip; the footer lists the first four types and counts the rest.
