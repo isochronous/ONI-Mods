@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Picking a material in the planner's window no longer changes the material the build menu offers first for a building. Before, the Change material tab's picks changed it for the Printing Pod, which some mods let you rebuild.
+
 ## 0.3.0 - 2026-10-14
 
 ### Added

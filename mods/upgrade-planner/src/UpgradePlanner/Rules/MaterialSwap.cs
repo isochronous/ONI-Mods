@@ -14,9 +14,9 @@ namespace UpgradePlanner
 	internal static class MaterialSwap
 	{
 		/// <summary>
-		/// The result the pickers' recipe names. The game remembers the last material picked for a
-		/// recipe's result and offers it first next time; this is a real building (the game asks the
-		/// result for its def) that the player never builds, so no build menu choice is changed.
+		/// The building the pickers' recipe names: it must be a real building, since the game looks up
+		/// the recipe's building. The game would also remember a pick under it, but picks in the
+		/// planner's pickers are kept out of that memory (Patches.MaterialSelector_OnSelectMaterial_Patch).
 		/// </summary>
 		private const string PickerResult = "Headquarters";
 

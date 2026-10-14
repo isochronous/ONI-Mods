@@ -146,6 +146,69 @@ namespace UpgradePlanner.Tests
 			yield return t.Screenshot("type-presets");
 		}
 
+		[OniTest("Upgrade Planner: picks in the window leave the build menu's remembered materials alone", Timeout = 40), Layer(2)]
+		public static IEnumerator BuildMenuMemoryKept(TestContext t)
+		{
+			// The game's memory of the last material picked, per building and ingredient, set to a
+			// marker for the Printing Pod (the Change material recipe's building) and the insulated
+			// pipe (the Replace type tab's With), and put back as it was after the test.
+			MaterialSelectorSerializer memory = SaveGame.Instance.materialSelectorSerializer;
+			int world = ClusterManager.Instance.activeWorldId;
+			Tag pod = new Tag("Headquarters");
+			Tag pipe = new Tag("InsulatedLiquidConduit");
+			Tag marker = SimHashes.Obsidian.CreateTag();
+			Tag podBefore = memory.GetPreviousElement(world, 0, pod);
+			Tag pipeBefore = memory.GetPreviousElement(world, 0, pipe);
+			t.Cleanup(() =>
+			{
+				memory.SetSelectedElement(world, 0, pod, podBefore);
+				memory.SetSelectedElement(world, 0, pipe, pipeBefore);
+			});
+			memory.SetSelectedElement(world, 0, pod, marker);
+			memory.SetSelectedElement(world, 0, pipe, marker);
+
+			// Change material: Specific, then a material clicked in each picker, as the player does.
+			UpgradeTool tool = Tool(t);
+			UpgradePlan plan = UpgradePlan.Current;
+			plan.Mode = PlanMode.ChangeMaterial;
+			plan.Clear();
+			plan.ChangeMaterial.SetSourceSpecific();
+			PlayerController.Instance.ActivateTool(tool);
+			yield return t.WaitRealSeconds(1);
+			yield return ClickMaterial(t, "MaterialSourceScroll", SimHashes.SandStone);
+			yield return ClickMaterial(t, "MaterialTargetScroll", SimHashes.Granite);
+			t.Assert.Eq(SimHashes.SandStone.CreateTag(), plan.ChangeMaterial.Source, "the click picked sandstone to replace");
+			t.Assert.Eq(SimHashes.Granite.CreateTag(), plan.ChangeMaterial.Target, "the click picked granite to build in");
+			t.Assert.Eq(marker, memory.GetPreviousElement(world, 0, pod), "the Printing Pod's remembered material is unchanged");
+
+			// Replace type: plain pipes with insulated ones, the With picker opened (it starts from a
+			// material in stock) and a material clicked in it.
+			PlayerController.Instance.ActivateTool(SelectTool.Instance);
+			plan.Mode = PlanMode.ReplaceType;
+			plan.Clear();
+			plan.ReplaceType.SetSource(Families.Of(Assets.GetBuildingDef("LiquidConduit")));
+			plan.ReplaceType.SetSourceAny();
+			plan.ReplaceType.SetTarget(Families.Of(Assets.GetBuildingDef("InsulatedLiquidConduit")));
+			PlayerController.Instance.ActivateTool(tool);
+			yield return t.WaitRealSeconds(1);
+			yield return ClickMaterial(t, "TargetSide", SimHashes.Ceramic);
+			t.Assert.Eq(SimHashes.Ceramic.CreateTag(), plan.ReplaceType.TargetMaterials[0], "the click picked ceramic for the insulated pipe");
+			t.Assert.Eq(marker, memory.GetPreviousElement(world, 0, pipe), "the insulated pipe's remembered material is unchanged");
+		}
+
+		/// <summary>A click on a material's toggle in the picker under <paramref name="under"/>, then a moment for the window.</summary>
+		private static IEnumerator ClickMaterial(TestContext t, string under, SimHashes element)
+		{
+			GameObject holder = Find(GameObject.Find("UpgradePlannerDialog").transform, under);
+			t.Assert.NotNull(holder, under + " is in the window");
+			MaterialSelector selector = holder.GetComponentInChildren<MaterialSelector>();
+			t.Assert.NotNull(selector, under + " holds a picker");
+			t.Assert.True(selector.ElementToggles.TryGetValue(element.CreateTag(), out KToggle toggle), under + " offers " + element);
+			var data = new PointerEventData(UnityEngine.EventSystems.EventSystem.current) { button = PointerEventData.InputButton.Left };
+			ExecuteEvents.Execute(toggle.gameObject, data, ExecuteEvents.pointerClickHandler);
+			yield return t.WaitRealSeconds(1);
+		}
+
 		/// <summary>The name the preset list shows.</summary>
 		private static string PresetShown()
 		{

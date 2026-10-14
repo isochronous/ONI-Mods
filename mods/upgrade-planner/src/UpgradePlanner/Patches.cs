@@ -67,6 +67,23 @@ namespace UpgradePlanner
 			}
 		}
 
+		/// <summary>
+		/// The game remembers the material last picked for each building, saved with the colony, and
+		/// offers it first in the build menu; a pick writes it under the recipe's building. A pick in
+		/// one of the planner's pickers leaves that memory alone: the planner never changes the build
+		/// menu's choices, and the building its Change material recipe names (the Printing Pod, which
+		/// some mods let players rebuild) keeps its own. The recipe is used for nothing else there.
+		/// </summary>
+		[HarmonyPatch(typeof(MaterialSelector), nameof(MaterialSelector.OnSelectMaterial))]
+		public static class MaterialSelector_OnSelectMaterial_Patch
+		{
+			public static void Prefix(MaterialSelector __instance, ref Recipe recipe)
+			{
+				if (recipe != null && PlannerPickerHost.Holds(__instance))
+					recipe = null;
+			}
+		}
+
 		/// <summary>A rebuilt building whose new order the game could not place in time is placed once its spot is clear; see <see cref="Orders.PlaceRebuildIfMissing"/>.</summary>
 		[HarmonyPatch(typeof(Reconstructable), "TryCommenceReconstruct")]
 		public static class Reconstructable_TryCommenceReconstruct_Patch
