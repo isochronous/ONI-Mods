@@ -10,7 +10,12 @@
     <ReferenceUnityUI>true</ReferenceUnityUI>
   </PropertyGroup>
 
-  <!-- -p:PLibDraggable=true with a PLib that has PDialog.Draggable (see UpgradeDialog.Show). -->
+  <!-- PLib with PDialog.Draggable (lib/PLib, see its README), by default; -p:PLibDll= -p:PLibDraggable=false
+       builds with the NuGet PLib instead. -->
+  <PropertyGroup>
+    <PLibDll Condition="'$(PLibDll)' == ''">$(MSBuildThisFileDirectory)..\..\lib\PLib\PLib.dll</PLibDll>
+    <PLibDraggable Condition="'$(PLibDraggable)' == ''">true</PLibDraggable>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(PLibDraggable)' == 'true'">
     <DefineConstants>$(DefineConstants);PLIB_DRAGGABLE</DefineConstants>
   </PropertyGroup>

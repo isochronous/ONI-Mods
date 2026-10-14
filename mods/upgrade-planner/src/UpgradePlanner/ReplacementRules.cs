@@ -33,6 +33,8 @@ namespace UpgradePlanner
 		internal sealed class Category
 		{
 			public ObjectLayer Layer;
+			/// <summary>Names the category in the window (folding, object names): its layer, or its build menu category.</summary>
+			public string Key;
 			public string Name;
 			public readonly List<Family> Families = new List<Family>();
 		}
@@ -242,6 +244,42 @@ namespace UpgradePlanner
 			return categories;
 		}
 
+		/// <summary>
+		/// Every type <paramref name="include"/> takes, grouped by build menu category in the build
+		/// menu's order (Base, Oxygen, Power...), each type once, under the entry the menu lists.
+		/// </summary>
+		internal static List<Category> GroupByBuildMenu(Predicate<Family> include)
+		{
+			EnsureFamilies();
+			var result = new List<Category>();
+			var seen = new HashSet<Family>();
+			// The menu names buildings a DLC or mod may not have; only loaded ones are looked up.
+			var byId = new Dictionary<string, BuildingDef>();
+			foreach (BuildingDef loaded in Assets.BuildingDefs)
+				if (loaded != null)
+					byId[loaded.PrefabID] = loaded;
+			foreach (PlanScreen.PlanInfo plan in TUNING.BUILDINGS.PLANORDER)
+			{
+				string id = HashCache.Get().Get(plan.category);
+				var category = new Category
+				{
+					Layer = ObjectLayer.NumLayers,
+					Key = "Menu" + id,
+					Name = STRINGS.UI.StripLinkFormatting(Strings.Get("STRINGS.UI.BUILDCATEGORIES." + id.ToUpper() + ".NAME")),
+				};
+				foreach (KeyValuePair<string, string> entry in plan.buildingAndSubcategoryData)
+				{
+					if (!byId.TryGetValue(entry.Key, out BuildingDef def) || !familyOf.TryGetValue(def, out Family family) || family.Representative != def)
+						continue;
+					if (seen.Add(family) && include(family))
+						category.Families.Add(family);
+				}
+				if (category.Families.Count > 0)
+					result.Add(category);
+			}
+			return result;
+		}
+
 		internal static List<Category> Group(Predicate<Family> include)
 		{
 			EnsureFamilies();
@@ -255,7 +293,7 @@ namespace UpgradePlanner
 				ObjectLayer layer = def.ReplacementLayer;
 				if (!byLayer.TryGetValue(layer, out Category category))
 				{
-					category = new Category { Layer = layer, Name = CategoryName(layer) };
+					category = new Category { Layer = layer, Key = layer.ToString(), Name = CategoryName(layer) };
 					byLayer.Add(layer, category);
 					result.Add(category);
 				}

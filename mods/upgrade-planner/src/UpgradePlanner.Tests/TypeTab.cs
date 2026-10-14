@@ -94,16 +94,27 @@ namespace UpgradePlanner.Tests
 			yield return t.Screenshot("type-tab");
 		}
 
-		/// <summary>The types take two thirds of the Replace side and the material card one; the two sides are as wide as each other.</summary>
+		/// <summary>
+		/// The types, in one card under the Replace strip, take two thirds of the Replace side and the
+		/// material card one (each with its strip); the two sides are as wide as each other.
+		/// </summary>
 		private static void Check(TestContext t, GameObject window, string when)
 		{
 			RectTransform types = Find(window.transform, "SourceListCard").rectTransform();
-			t.Assert.True(Find(window.transform, "SourceScroll").transform.IsChildOf(types), "the types scroll inside one white card " + when);
-			t.Assert.Eq(Color.white, types.GetComponent<UnityEngine.UI.Image>().color, "the types' card is white " + when);
+			t.Assert.True(Find(window.transform, "SourceScroll").transform.IsChildOf(types), "the types scroll inside one card " + when);
+			t.Assert.Eq((Color)new Color32(201, 201, 201, 255), types.GetComponent<UnityEngine.UI.Image>().color, "the types' card is the cards' grey " + when);
+			t.Assert.True(types.transform.IsChildOf(Find(window.transform, "SourceGroup").transform), "the types' card is under the Replace strip " + when);
+			RectTransform group = Find(window.transform, "SourceGroup").rectTransform();
 			RectTransform card = Find(window.transform, "SourceMaterialCard").rectTransform();
-			float ratio = types.rect.height / card.rect.height;
-			t.Log("types " + types.rect.height + " tall, material card " + card.rect.height + ", " + when);
+			float ratio = group.rect.height / card.rect.height;
+			t.Log("types with their strip " + group.rect.height + " tall, material card " + card.rect.height + ", " + when);
 			t.Assert.True(ratio > 1.9f && ratio < 2.1f, "the types are twice as tall as the material card " + when + " (" + ratio + ")");
+			// The material card ends where the side does, level with the With column's foot.
+			var sideCorners = new Vector3[4];
+			var cardCorners = new Vector3[4];
+			Find(window.transform, "SourceSide").rectTransform().GetWorldCorners(sideCorners);
+			card.GetWorldCorners(cardCorners);
+			t.Assert.True(Mathf.Abs(cardCorners[0].y - sideCorners[0].y) < 1f, "the material card ends at the foot of the Replace side " + when + " (" + cardCorners[0].y + ", " + sideCorners[0].y + ")");
 			float source = Find(window.transform, "SourceSide").rectTransform().rect.width;
 			float target = Find(window.transform, "TargetSide").rectTransform().rect.width;
 			t.Assert.True(Mathf.Abs(source - target) < 2f, "the Replace and With sides are as wide as each other " + when + " (" + source + ", " + target + ")");

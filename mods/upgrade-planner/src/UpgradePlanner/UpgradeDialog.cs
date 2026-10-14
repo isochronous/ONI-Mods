@@ -44,17 +44,17 @@ namespace UpgradePlanner
 		/// <summary>The game's tooltip colour for a reason something cannot be done.</summary>
 		private const string ReasonColor = "#F44A47";
 		/// <summary>Families folded away on the Change material tab, for the session.</summary>
-		private static readonly HashSet<ObjectLayer> collapsed = new HashSet<ObjectLayer>();
+		private static readonly HashSet<string> collapsed = new HashSet<string>();
 		private static readonly Vector2 IconSize = new Vector2(44f, 44f);
 		private static readonly RectOffset ButtonMargin = new RectOffset(5, 5, 5, 5);
 		private static readonly RectOffset SectionPadding = new RectOffset(10, 10, 6, 10);
 
-		// The schedule editor's palette: a grey body, white cards with a slate header strip and
-		// a grey row area, and one dark action bar across the bottom.
+		// The game's management screens' palette: a grey body, grey cards with a slate header
+		// strip framing white content (rows, pickers), and one dark action bar across the bottom.
 		private static readonly Color BodyColor = new Color32(149, 151, 160, 255);
-		private static readonly Color CardColor = new Color32(255, 255, 255, 255);
+		private static readonly Color CardColor = new Color32(201, 201, 201, 255);
 		private static readonly Color HeaderStripColor = new Color32(95, 107, 119, 255);
-		private static readonly Color RowAreaColor = new Color32(201, 201, 201, 255);
+		private static readonly Color RowAreaColor = new Color32(255, 255, 255, 255);
 		private static readonly ColorStyleSetting ActionBarStyle = MakeActionBarStyle();
 		/// <summary>A button that is part of a header strip (a family's chevron and name): the strip's colour, a shade lighter under the pointer.</summary>
 		private static readonly ColorStyleSetting HeaderStripStyle = MakeHeaderStripStyle();
@@ -101,7 +101,14 @@ namespace UpgradePlanner
 		private GameObject materialSourceHost;
 		private GameObject materialTargetHost;
 		private GameObject presetNameField;
-		private PlanPreset selectedPreset;
+		/// <summary>The preset picked in the list, per tab: each tab lists its own.</summary>
+		private readonly Dictionary<UpgradePlan.PlanMode, PlanPreset> selectedPresets = new Dictionary<UpgradePlan.PlanMode, PlanPreset>();
+
+		private PlanPreset selectedPreset
+		{
+			get => selectedPresets.TryGetValue(plan.Mode, out PlanPreset preset) ? preset : null;
+			set => selectedPresets[plan.Mode] = value;
+		}
 		/// <summary>What the last preset action did, shown in the footer until the next change.</summary>
 		private string notice;
 		/// <summary>The Change material tab's families, listed once per build of the window.</summary>
@@ -135,9 +142,9 @@ namespace UpgradePlanner
 			{
 				if (!wasOpen)
 					MaterialSwap.Refresh();
-				materialCategories = MaterialSwap.Categories();
+				materialCategories = MaterialSwap.Categories(plan.MaterialAllBuildings);
 			}
-			if (selectedPreset != null && !Presets.All.Contains(selectedPreset))
+			if (selectedPreset != null && !Presets.For(plan.Mode).Contains(selectedPreset))
 				selectedPreset = null;
 			float height = WindowHeight();
 			var dialog = new PDialog("UpgradePlannerDialog")
@@ -363,14 +370,14 @@ namespace UpgradePlanner
 						Rebuild();
 					else
 						RefreshStatus();
-				}, maxRows: MaterialPanel.AllRows);
+				}, maxRows: MaterialPanel.AllRows, hideHeader: true);
 			if (targetHost != null && plan.Target != null)
 			{
 				MaterialSelectionPanel panel = MaterialPanel.Attach(targetHost, plan.Target.Representative.CraftRecipe, plan.TargetMaterials, forBuilding: true, choices =>
 				{
 					plan.SetTargetMaterials(choices);
 					RefreshStatus();
-				}, maxRows: TargetPickerRows);
+				}, maxRows: TargetPickerRows, hideHeader: true);
 				// Nothing chosen yet: start from what the build menu would pick, the material in stock.
 				if (panel != null && !plan.TargetComplete)
 					panel.AutoSelectAvailableMaterial();
@@ -396,17 +403,18 @@ namespace UpgradePlanner
 				columns.AddChild(Side("Materials", ModStrings.MaterialsHeading, null, BuildMaterialsColumn(), new List<IUIComponent>
 				{
 					ClearButton(ModStrings.ClearMaterialTooltip),
-				}));
-				columns.AddChild(Side("Buildings", ModStrings.BuildingsHeading, BuildingsScroll, BuildBuildingsColumn(), BuildingsHeaderTools()));
+				}, carded: true));
+				columns.AddChild(Side("Buildings", ModStrings.BuildingsHeading, BuildingsScroll, BuildBuildingsColumn(), BuildingsHeaderTools(),
+					new List<IUIComponent> { SelectBox("SelectAll", null, ModStrings.SelectAllTooltip, Usable(AllListed())) }, carded: true));
 				return columns;
 			}
-			// The Replace side does not scroll as a whole: the types scroll in its top two thirds and
-			// the material card has the bottom third.
-			columns.AddChild(Side("Source", ModStrings.ReplaceHeading, null, BuildSourceSide(), new List<IUIComponent>
+			// The Replace side does not scroll as a whole: the types scroll in one card in its top two
+			// thirds and the material card has the bottom third.
+			columns.AddChild(Side("Source", ModStrings.ReplaceHeading, SourceScroll, BuildSourceColumn(), new List<IUIComponent>
 			{
 				ClearButton(ModStrings.ClearTooltip),
-			}));
-			columns.AddChild(Side("Target", ModStrings.WithHeading, TargetScroll, BuildTargetColumn(), null));
+			}, carded: true, after: SourceMaterialCard()));
+			columns.AddChild(Side("Target", ModStrings.WithHeading, TargetScroll, BuildTargetColumn(), null, carded: true));
 			return columns;
 		}
 
@@ -451,7 +459,8 @@ namespace UpgradePlanner
 				TextStyle = PUITuning.Fonts.TextDarkStyle,
 				TextAlignment = TextAnchor.MiddleLeft,
 			});
-			List<PlanPreset> presets = Presets.All;
+			// Only this tab's presets: a preset is saved from and loaded into its own tab.
+			List<PlanPreset> presets = Presets.For(plan.Mode);
 			if (presets.Count == 0)
 				row.AddChild(new PLabel("NoPresets")
 				{
@@ -546,7 +555,8 @@ namespace UpgradePlanner
 		/// put while the column scrolls, with <paramref name="tools"/> (the Clear button, say) at its end.
 		/// With no <paramref name="scrollName"/> the column fills the side and does not scroll.
 		/// </summary>
-		private PPanel Side(string name, string heading, string scrollName, PPanel column, List<IUIComponent> tools)
+		private PPanel Side(string name, string heading, string scrollName, PPanel column, List<IUIComponent> tools, List<IUIComponent> leading = null,
+			bool carded = false, IUIComponent after = null)
 		{
 			var side = new PPanel(name + "Side")
 			{
@@ -571,12 +581,15 @@ namespace UpgradePlanner
 				Spacing = 6,
 				FlexSize = new Vector2(1f, 0f),
 				// A strip like the cards' own headers; the room on the right keeps the Clear
-				// button clear of the scrollbar below it.
+				// button clear of the scrollbar below it (inside a card, the card's frame does).
 				BackColor = HeaderStripColor,
-				Margin = new RectOffset(10, 24, 4, 4),
+				Margin = new RectOffset(10, carded ? 10 : 24, 4, 4),
 			};
 			// Both header rows the height of the one with the button, so the two columns start level.
 			header.AddChild(new PSpacer { PreferredSize = new Vector2(0f, HeaderHeight), FlexSize = Vector2.zero });
+			if (leading != null)
+				foreach (IUIComponent part in leading)
+					header.AddChild(part);
 			header.AddChild(new PLabel(name + "Heading")
 			{
 				Text = heading,
@@ -587,13 +600,59 @@ namespace UpgradePlanner
 			if (tools != null)
 				foreach (IUIComponent tool in tools)
 					header.AddChild(tool);
-			side.AddChild(header);
+			if (!carded)
+			{
+				side.AddChild(header);
+				if (scrollName != null)
+					side.AddChild(Scrollable(scrollName, column));
+				else
+				{
+					column.FlexSize = Vector2.one;
+					side.AddChild(column);
+				}
+				return side;
+			}
+			// One card under the strip, as the mockup's columns: the strip on top, then the content
+			// in the card's grey; with something after it, the card has two shares to its one.
+			var group = new PPanel(name + "Group")
+			{
+				Direction = PanelDirection.Vertical,
+				Alignment = TextAnchor.UpperLeft,
+				Spacing = 0,
+				FlexSize = Vector2.one,
+			};
+			if (after != null)
+				group.AddOnRealize(go => TakeShares(go, 2f));
+			group.AddChild(header);
+			var card = new PPanel(name + "ListCard")
+			{
+				Direction = PanelDirection.Vertical,
+				Alignment = TextAnchor.UpperLeft,
+				FlexSize = Vector2.one,
+				Margin = new RectOffset(4, 4, 4, 4),
+				BackColor = CardColor,
+			}.AddOnRealize(TakeAShare);
 			if (scrollName != null)
-				side.AddChild(Scrollable(scrollName, column));
+				card.AddChild(Scrollable(scrollName, column).AddOnRealize(TakeAShare));
 			else
 			{
 				column.FlexSize = Vector2.one;
-				side.AddChild(column);
+				card.AddChild(column);
+			}
+			group.AddChild(card);
+			side.AddChild(group);
+			if (after != null)
+			{
+				// The gap above it is the holder's margin, not the side's spacing: the shares are of
+				// the side's whole height, and spacing between them would push the card past its foot.
+				side.Spacing = 0;
+				side.AddChild(new PPanel(name + "After")
+				{
+					Direction = PanelDirection.Vertical,
+					Alignment = TextAnchor.UpperLeft,
+					FlexSize = Vector2.one,
+					Margin = new RectOffset(0, 0, 6, 0),
+				}.AddChild(after).AddOnRealize(TakeAShare));
 			}
 			return side;
 		}
@@ -630,20 +689,26 @@ namespace UpgradePlanner
 		/// <summary>The slate strip the schedule editor heads each of its cards with.</summary>
 		private static void AddHeader(PPanel card, string text)
 		{
-			card.AddChild(new PLabel(text)
+			// The label in a strip of its own: a label's margin does not inset its text as far.
+			card.AddChild(new PPanel(text + "Strip")
+			{
+				Direction = PanelDirection.Horizontal,
+				Alignment = TextAnchor.MiddleLeft,
+				BackColor = HeaderStripColor,
+				FlexSize = new Vector2(1f, 0f),
+				Margin = new RectOffset(10, 10, 6, 6),
+			}.AddChild(new PLabel(text)
 			{
 				Text = text,
 				TextStyle = PUITuning.Fonts.TextLightStyle.DeriveStyle(15),
 				TextAlignment = TextAnchor.MiddleLeft,
-				BackColor = HeaderStripColor,
 				FlexSize = new Vector2(1f, 0f),
-				Margin = new RectOffset(10, 10, 6, 6),
-			});
+			}));
 		}
 
 		/// <summary>
-		/// A card of the column, as the schedule editor lays out each schedule: a white card with
-		/// a slate header strip and a grey area holding the rows. One per building category, and
+		/// A card of the column, as the schedule editor lays out each schedule: a grey card with
+		/// a slate header strip and a white area holding the rows. One per building category, and
 		/// one for the materials. Returns the card; the rows go into <paramref name="rows"/>.
 		/// </summary>
 		private static PPanel NewGroup(string name, string heading, out PPanel rows)
@@ -654,7 +719,6 @@ namespace UpgradePlanner
 				Alignment = TextAnchor.UpperLeft,
 				Spacing = 0,
 				FlexSize = new Vector2(1f, 0f),
-				Margin = new RectOffset(4, 4, 4, 4),
 				BackColor = CardColor,
 			};
 			AddHeader(card, heading);
@@ -667,8 +731,24 @@ namespace UpgradePlanner
 				Margin = SectionPadding,
 				BackColor = RowAreaColor,
 			};
-			card.AddChild(rows);
+			card.AddChild(Framed(rows, new Vector2(1f, 0f)));
 			return card;
+		}
+
+		/// <summary>
+		/// <paramref name="rows"/> in the card's grey frame, on its sides and bottom only: the strip
+		/// above runs flush to the card's edges, as in the game's schedule editor.
+		/// </summary>
+		private static PPanel Framed(PPanel rows, Vector2 flex)
+		{
+			return new PPanel(rows.Name + "Frame")
+			{
+				Direction = PanelDirection.Vertical,
+				Alignment = TextAnchor.UpperLeft,
+				Spacing = 0,
+				FlexSize = flex,
+				Margin = new RectOffset(4, 4, 0, 4),
+			}.AddChild(rows);
 		}
 
 		/// <summary>The steps of a plan, one line each, the one at <paramref name="current"/> in bold with a marker.</summary>
@@ -759,6 +839,9 @@ namespace UpgradePlanner
 		private PPanel BuildMaterialsColumn()
 		{
 			PPanel column = NewColumn("Materials");
+			// The column never scrolls (its cards share its fixed height), so no room is kept for a
+			// scrollbar: the cards sit as far from the card's frame on every side.
+			column.Margin = new RectOffset(0, 0, 0, 0);
 			bool specific = plan.MaterialSourceMode == UpgradePlan.MaterialMode.Specific;
 			// Any or Specific in Replace's strip; the card holds the picker, or a line saying what Any does.
 			var choice = new List<IUIComponent>
@@ -801,7 +884,7 @@ namespace UpgradePlanner
 
 		/// <summary>
 		/// A card of the Materials column: the slate strip with its heading and
-		/// <paramref name="headerTools"/>, then the grey area holding <paramref name="content"/> (a
+		/// <paramref name="headerTools"/>, then the white area holding <paramref name="content"/> (a
 		/// picker in a pane of its own, which scrolls when the picker is taller than the card). Every
 		/// card asks for no height and an equal share of what is left, so two of them split the
 		/// column in half whatever they hold.
@@ -814,7 +897,6 @@ namespace UpgradePlanner
 				Alignment = TextAnchor.UpperLeft,
 				Spacing = 0,
 				FlexSize = Vector2.one,
-				Margin = new RectOffset(4, 4, 4, 4),
 				BackColor = CardColor,
 			}.AddOnRealize(TakeAShare);
 			var header = new PPanel(name + "Header")
@@ -849,7 +931,7 @@ namespace UpgradePlanner
 				BackColor = RowAreaColor,
 			};
 			rows.AddChild(content);
-			card.AddChild(rows);
+			card.AddChild(Framed(rows, Vector2.one));
 			return card;
 		}
 
@@ -893,7 +975,7 @@ namespace UpgradePlanner
 				holder.SetActive(true);
 				label.text = text;
 				label.alignment = TMPro.TextAlignmentOptions.TopLeft;
-				label.enableWordWrapping = true;
+				label.textWrappingMode = TMPro.TextWrappingModes.Normal;
 				label.raycastTarget = false;
 				// The width is the panel's, whatever the sentence would ask for on one line.
 				var width = holder.AddComponent<UnityEngine.UI.LayoutElement>();
@@ -934,21 +1016,40 @@ namespace UpgradePlanner
 			return on > 0 ? PCheckBox.STATE_PARTIAL : PCheckBox.STATE_UNCHECKED;
 		}
 
-		/// <summary>Select all (every type the materials allow), Expand all and Collapse all, in the Buildings header.</summary>
+		/// <summary>
+		/// All buildings (offered with Blueprints Expanded, which keeps the settings of what is rebuilt),
+		/// Expand all and Collapse all, in the Buildings header after its name; the select-all box goes
+		/// before the name.
+		/// </summary>
 		private List<IUIComponent> BuildingsHeaderTools()
 		{
-			List<ReplacementRules.Family> usable = Usable(AllListed());
-			return new List<IUIComponent>
+			var tools = new List<IUIComponent>();
+			if (BlueprintsCompat.Loaded)
+				tools.Add(new PCheckBox("AllBuildings")
+				{
+					Text = ModStrings.AllBuildings,
+					ToolTip = ModStrings.AllBuildingsTooltip,
+					TextStyle = PUITuning.Fonts.TextLightStyle.DeriveStyle(14),
+					InitialState = plan.MaterialAllBuildings ? PCheckBox.STATE_CHECKED : PCheckBox.STATE_UNCHECKED,
+					CheckColor = PUITuning.Colors.ComponentLightStyle,
+					Margin = new RectOffset(0, 8, 0, 0),
+					OnChecked = (_, current) =>
+					{
+						plan.SetMaterialAllBuildings(current != PCheckBox.STATE_CHECKED);
+						Rebuild();
+					},
+				});
+			tools.AddRange(new List<IUIComponent>
 			{
-				SelectBox("SelectAll", ModStrings.SelectAll, ModStrings.SelectAllTooltip, usable),
 				HeaderButton("ExpandAll", ModStrings.ExpandAll, null, () => { collapsed.Clear(); Rebuild(); }),
 				HeaderButton("CollapseAll", ModStrings.CollapseAll, null, () =>
 				{
 					foreach (ReplacementRules.Category category in materialCategories)
-						collapsed.Add(category.Layer);
+						collapsed.Add(category.Key);
 					Rebuild();
 				}),
-			};
+			});
+			return tools;
 		}
 
 		/// <summary>
@@ -987,7 +1088,7 @@ namespace UpgradePlanner
 		/// <summary>
 		/// One family's card, as the Replace type tab's: the slate strip holds its select-all box, the
 		/// chevron that folds it and its name (a click on the name folds it too), and how many of it
-		/// are picked; the grey area holds the types as the build menu shows them.
+		/// are picked; the white area holds the types as the build menu shows them.
 		/// </summary>
 		/// <summary>A button drawn as part of the strip it sits on: its colour without the border every button has.</summary>
 		private static void Flatten(GameObject button)
@@ -999,11 +1100,11 @@ namespace UpgradePlanner
 
 		private PPanel FamilyCard(ReplacementRules.Category category)
 		{
-			bool open = !collapsed.Contains(category.Layer);
+			bool open = !collapsed.Contains(category.Key);
 			System.Action fold = () =>
 			{
-				if (!collapsed.Remove(category.Layer))
-					collapsed.Add(category.Layer);
+				if (!collapsed.Remove(category.Key))
+					collapsed.Add(category.Key);
 				Rebuild();
 			};
 			List<ReplacementRules.Family> usable = Usable(category.Families);
@@ -1011,16 +1112,15 @@ namespace UpgradePlanner
 			foreach (ReplacementRules.Family family in usable)
 				if (plan.IsMaterialTypeSelected(family.Representative.PrefabID))
 					picked++;
-			var card = new PPanel("Family" + category.Layer)
+			var card = new PPanel("Family" + category.Key)
 			{
 				Direction = PanelDirection.Vertical,
 				Alignment = TextAnchor.UpperLeft,
 				Spacing = 0,
 				FlexSize = new Vector2(1f, 0f),
-				Margin = new RectOffset(4, 4, 4, 4),
 				BackColor = CardColor,
 			};
-			var header = new PPanel("FamilyHeader" + category.Layer)
+			var header = new PPanel("FamilyHeader" + category.Key)
 			{
 				Direction = PanelDirection.Horizontal,
 				Alignment = TextAnchor.MiddleLeft,
@@ -1029,8 +1129,8 @@ namespace UpgradePlanner
 				BackColor = HeaderStripColor,
 				Margin = new RectOffset(10, 10, 4, 4),
 			};
-			header.AddChild(SelectBox("FamilySelect" + category.Layer, null, ModStrings.SelectAllTooltip, usable));
-			header.AddChild(new PButton("FamilyFold" + category.Layer)
+			header.AddChild(SelectBox("FamilySelect" + category.Key, null, ModStrings.SelectAllTooltip, usable));
+			header.AddChild(new PButton("FamilyFold" + category.Key)
 			{
 				Sprite = open ? PUITuning.Images.Contract : PUITuning.Images.Expand,
 				SpriteSize = new Vector2(14f, 14f),
@@ -1038,7 +1138,7 @@ namespace UpgradePlanner
 				Margin = new RectOffset(3, 3, 3, 3),
 				OnClick = _ => fold(),
 			}.AddOnRealize(Flatten));
-			header.AddChild(new PButton("FamilyName" + category.Layer)
+			header.AddChild(new PButton("FamilyName" + category.Key)
 			{
 				Text = category.Name,
 				TextStyle = PUITuning.Fonts.TextLightStyle.DeriveStyle(15),
@@ -1048,7 +1148,7 @@ namespace UpgradePlanner
 				FlexSize = new Vector2(1f, 0f),
 				OnClick = _ => fold(),
 			}.AddOnRealize(Flatten));
-			header.AddChild(new PLabel("FamilyCount" + category.Layer)
+			header.AddChild(new PLabel("FamilyCount" + category.Key)
 			{
 				Text = ModStrings.CategoryCount.Replace("{0}", picked.ToString()).Replace("{1}", category.Families.Count.ToString()),
 				TextStyle = PUITuning.Fonts.TextLightStyle.DeriveStyle(13),
@@ -1057,7 +1157,7 @@ namespace UpgradePlanner
 			card.AddChild(header);
 			if (!open)
 				return card;
-			var rows = new PPanel("FamilyRows" + category.Layer)
+			var rows = new PPanel("FamilyRows" + category.Key)
 			{
 				Direction = PanelDirection.Vertical,
 				Alignment = TextAnchor.UpperLeft,
@@ -1082,38 +1182,11 @@ namespace UpgradePlanner
 					}, selected ? ModStrings.LeaveOutTooltip : ModStrings.IncludeTooltip, isReason: false));
 			}
 			AddRows(rows, buttons);
-			card.AddChild(rows);
+			card.AddChild(Framed(rows, new Vector2(1f, 0f)));
 			return card;
 		}
 
 		// ---- Replace type ----
-
-		/// <summary>The Replace side: the types in a pane of two shares over the material card's one.</summary>
-		private PPanel BuildSourceSide()
-		{
-			var side = new PPanel("SourceParts")
-			{
-				Direction = PanelDirection.Vertical,
-				Alignment = TextAnchor.UpperLeft,
-				Spacing = 4,
-				FlexSize = Vector2.one,
-				Margin = new RectOffset(0, 12, 0, 8),
-			};
-			side.AddChild(new PSpacer { PreferredSize = new Vector2(ColumnWidth, 0f), FlexSize = new Vector2(1f, 0f) });
-			// The types in one white card, as the material card under it, two shares to its one.
-			var list = new PPanel("SourceListCard")
-			{
-				Direction = PanelDirection.Vertical,
-				Alignment = TextAnchor.UpperLeft,
-				FlexSize = Vector2.one,
-				Margin = new RectOffset(4, 4, 4, 4),
-				BackColor = CardColor,
-			}.AddOnRealize(go => TakeShares(go, 2f));
-			list.AddChild(Scrollable(SourceScroll, BuildSourceColumn()).AddOnRealize(TakeAShare));
-			side.AddChild(list);
-			side.AddChild(SourceMaterialCard());
-			return side;
-		}
 
 		private PPanel BuildSourceColumn()
 		{
@@ -1159,6 +1232,9 @@ namespace UpgradePlanner
 		private PPanel BuildTargetColumn()
 		{
 			PPanel column = NewColumn("Target");
+			// Its cards fit the side (the picker scrolls inside its own), so no room is kept for a
+			// scrollbar: they sit as far from the card's frame on every side.
+			column.Margin = new RectOffset(0, 0, 0, 0);
 			if (!plan.SourceComplete)
 			{
 				// Nothing to choose from until the Replace side is complete: the steps, with the

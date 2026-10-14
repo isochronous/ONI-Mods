@@ -6,7 +6,10 @@ namespace UpgradePlanner
 	/// The Change material tab: which building types can be rebuilt in another material, why a
 	/// type is left out for a choice of materials, and what a finished building is rebuilt with.
 	/// A type qualifies when the game lets it be built over by itself, the same-type swap the
-	/// build tool allows as long as the material changes.
+	/// build tool allows as long as the material changes: the old building works until the new one
+	/// is built. With all buildings offered, any other type the game can reconstruct qualifies too:
+	/// it is deconstructed and rebuilt in the new material (the game's Reconstructable), out of
+	/// service in between. Either way Blueprints Expanded keeps its settings.
 	/// </summary>
 	internal static class MaterialSwap
 	{
@@ -30,29 +33,67 @@ namespace UpgradePlanner
 			return valid;
 		}
 
-		/// <summary>Whether each family qualifies; asked once per building on every highlight pass, so kept.</summary>
-		private static readonly Dictionary<ReplacementRules.Family, bool> qualifies = new Dictionary<ReplacementRules.Family, bool>();
+		/// <summary>Whether each family can be built over by itself, and whether it can be reconstructed; asked once per building on every highlight pass, so kept.</summary>
+		private static readonly Dictionary<ReplacementRules.Family, bool> replaceable = new Dictionary<ReplacementRules.Family, bool>();
+		private static readonly Dictionary<ReplacementRules.Family, bool> rebuildable = new Dictionary<ReplacementRules.Family, bool>();
 
-		/// <summary>Every type the tab offers, grouped as the Replace type tab groups them.</summary>
-		public static List<ReplacementRules.Category> Categories()
+		/// <summary>
+		/// Every type the tab offers. Only the types that can be built over: grouped by family, as
+		/// the Replace type tab groups them. All buildings: grouped as the build menu groups them.
+		/// </summary>
+		public static List<ReplacementRules.Category> Categories(bool allBuildings)
 		{
-			return ReplacementRules.Group(Qualifies);
+			if (allBuildings && BlueprintsCompat.Loaded)
+				return ReplacementRules.GroupByBuildMenu(f => Qualifies(f, true));
+			return ReplacementRules.Group(Replaceable);
 		}
 
 		/// <summary>Looks at every type afresh (the window does, each time it opens): a ladder's tag shows on a finished one.</summary>
 		public static void Refresh()
 		{
-			qualifies.Clear();
+			replaceable.Clear();
+			rebuildable.Clear();
 		}
 
-		private static bool Qualifies(ReplacementRules.Family family)
+		/// <summary>True if the tab offers the type: built over by itself, or with all buildings offered, reconstructed.</summary>
+		public static bool Qualifies(ReplacementRules.Family family, bool allBuildings)
 		{
-			if (!qualifies.TryGetValue(family, out bool result))
-				qualifies[family] = result = Check(family);
+			return Replaceable(family) || (allBuildings && BlueprintsCompat.Loaded && Rebuildable(family));
+		}
+
+		/// <summary>True if a building of this type is deconstructed and rebuilt, rather than built over.</summary>
+		public static bool Rebuilds(BuildingDef def)
+		{
+			return !Replaceable(ReplacementRules.FamilyOf(def));
+		}
+
+		private static bool Replaceable(ReplacementRules.Family family)
+		{
+			if (!replaceable.TryGetValue(family, out bool result))
+				replaceable[family] = result = CheckReplaceable(family);
 			return result;
 		}
 
-		private static bool Check(ReplacementRules.Family family)
+		private static bool Rebuildable(ReplacementRules.Family family)
+		{
+			if (!rebuildable.TryGetValue(family, out bool result))
+				rebuildable[family] = result = CheckRebuildable(family);
+			return result;
+		}
+
+		/// <summary>A type of the build menu, made from materials, that the game can reconstruct.</summary>
+		private static bool CheckRebuildable(ReplacementRules.Family family)
+		{
+			BuildingDef def = family.Representative;
+			if (def == null || def.Deprecated || !def.IsAvailable() || !def.ShouldShowInBuildMenu() || def.BuildingComplete == null)
+				return false;
+			if (def.CraftRecipe?.Ingredients == null || def.CraftRecipe.Ingredients.Count == 0)
+				return false;
+			Deconstructable deconstructable = def.BuildingComplete.GetComponent<Deconstructable>();
+			return def.BuildingComplete.GetComponent<Reconstructable>() != null && deconstructable != null && deconstructable.allowDeconstruction;
+		}
+
+		private static bool CheckReplaceable(ReplacementRules.Family family)
 		{
 			BuildingDef def = family.Representative;
 			return ReplacementRules.IsReplaceableSource(def) && def.IsAvailable() && def.ShouldShowInBuildMenu()
@@ -106,7 +147,7 @@ namespace UpgradePlanner
 			if (building == null || !plan.MaterialTarget.IsValid)
 				return false;
 			ReplacementRules.Family family = ReplacementRules.FamilyOf(building.Def);
-			if (!plan.IsMaterialTypeSelected(family.Representative.PrefabID) || !Qualifies(family) || Blocked(family, plan) != null)
+			if (!plan.IsMaterialTypeSelected(family.Representative.PrefabID) || !Qualifies(family, plan.MaterialAllBuildings) || Blocked(family, plan) != null)
 				return false;
 			bool specific = plan.MaterialSourceMode == UpgradePlan.MaterialMode.Specific;
 			if (specific && !plan.MaterialSource.IsValid)
@@ -135,7 +176,7 @@ namespace UpgradePlanner
 		public static Recipe PickerRecipe()
 		{
 			var parts = new List<string>();
-			foreach (ReplacementRules.Category category in Categories())
+			foreach (ReplacementRules.Category category in Categories(true))
 				foreach (ReplacementRules.Family family in category.Families)
 					foreach (Recipe.Ingredient ingredient in family.Representative.CraftRecipe.Ingredients)
 						foreach (string part in ingredient.tag.Name.Split('&'))

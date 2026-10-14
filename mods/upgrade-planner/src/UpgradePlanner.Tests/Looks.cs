@@ -73,7 +73,7 @@ namespace UpgradePlanner.Tests
 			yield return t.Screenshot("material-fresh");
 			PlayerController.Instance.ActivateTool(SelectTool.Instance);
 			var all = new List<ReplacementRules.Family>();
-			foreach (ReplacementRules.Category category in MaterialSwap.Categories())
+			foreach (ReplacementRules.Category category in MaterialSwap.Categories(false))
 				all.AddRange(category.Families);
 			plan.SetMaterialTypesSelected(all, true);
 			plan.SetMaterialSource(SimHashes.SandStone.CreateTag());

@@ -4,6 +4,8 @@ An [Oxygen Not Included](https://www.klei.com/games/oxygen-not-included) mod: a 
 
 Status: **first version, in use**.
 
+Requires [Blueprints Expanded](https://steamcommunity.com/sharedfiles/filedetails/?id=3468585385) by Sgt_Imalas, which keeps an upgraded building's settings and makes every building available to the Change material tab.
+
 ## What it does
 
 Dragging a pipe over an existing pipe in the build tool is a *replacement*: the old pipe keeps flowing until the new one is built in its place. The game decides which replacements are legal from the building definitions (a replacement layer, a set of replacement tags, and the layer it looks for candidates on), and it allows a same-type swap as long as the material changes. The mod reads those same rules and queues the same replacement order the build tool would, once per matching building in a box, with each building's own orientation.
@@ -11,6 +13,10 @@ Dragging a pipe over an existing pipe in the build tool is a *replacement*: the 
 **Using it.** Select the Upgrade Planner from the toolbar (or its hotkey, Shift+U by default, rebindable under Options, Controls, Mods). A window opens with two tabs.
 
 **Change material** rebuilds buildings as the same type in another material. Its left column holds **Replace** (Any material, or Specific and one material in the game's own material picker) over **With** (the one material to build in, in the same picker). Its right column lists every type that can be rebuilt as itself (tiles, backwalls, ladders, pipes, rails, wires and the modded ones), grouped by family as toggle buttons with their build menu icons. Each family's header has a checkbox that picks the whole family, a chevron that folds it away, and a count of how many are picked; Select all, Expand all and Collapse all sit at the top. A type the chosen materials rule out is greyed, and its tooltip says why: not researched yet, never built from the material to replace, or unable to be built in the new one. The footer names what a drag does, listing the first four types and counting the rest. A building with a two-ingredient recipe has the ingredient that holds the material to replace swapped.
+
+**All buildings**, a checkbox in the Buildings header, also offers the buildings the game does not let you build over (machines, sensors, automation gates, storage...), grouped as the build menu groups them. Those are deconstructed by a Duplicant and rebuilt in the new material through the game's own reconstruct (the material button in a building's side screen), so they are out of service until rebuilt; types it adds start unpicked. The select-all checkbox sits at the left of the Buildings header.
+
+**Settings are kept.** Blueprints Expanded stores a building's settings (thresholds, filters, access, capacity, name, enabled state and the rest it knows) and applies them to the rebuilt building, whether it was built over or reconstructed, and across a save and reload. A building replaced with another type keeps none.
 
 **Replace type** replaces one type with another, in two columns, each scrolling on its own:
 
@@ -21,9 +27,9 @@ While the tool is active, every building the plan would touch is highlighted in 
 
 **Apply** closes the window and keeps the tool active for dragging; an **Upgrade Planner Config** button next to the priority picker opens it again (it shows as pressed, and does nothing, while the window is open). Closing the window with its X or Escape ends the tool. The plan is remembered for the session, so selecting the tool again resumes where you left off.
 
-**Presets.** The row above the tabs saves the current tab's plan under a name (saving under a name in use replaces that preset), and loads or deletes a saved one. Presets are kept in `mods/config/UpgradePlanner/presets.json` in the game's data folder, so they last across colonies and mod updates.
+**Presets.** Each tab has its own presets. The row above the tabs lists the current tab's, saves that tab's plan under a name (saving under a name the tab already has replaces that preset), and loads or deletes a saved one; loading changes only that tab's choices. Presets are kept in `mods/config/UpgradePlanner/presets.json` in the game's data folder, so they last across colonies and mod updates.
 
-**What it never does.** It does not change what can replace what, and it never deconstructs. A pair the game refuses in the build tool is refused here too. Cancel pending replacements with the Cancel tool, as with any build order.
+**What it never does.** It does not change what can replace what: a pair the game refuses in the build tool is refused here too. Nothing is deconstructed except the buildings All buildings adds, rebuilt as the game's own reconstruct does. Cancel pending replacements with the Cancel tool, as with any build order, and a reconstruct by cancelling its deconstruction.
 
 ## Installing
 
@@ -47,6 +53,7 @@ PLib is merged into the DLL by the shared build, so the mod ships as a single fi
 ## Notes for modders
 
 - No game logic is patched. Three Harmony patches register strings and the icon (`Db.Initialize`), add the tool to the player's tools (`PlayerController.OnPrefabInit`), and add the toolbar button (`ToolMenu.CreateBasicTools`). A fourth, a postfix on `MaterialSelector.UpdateScrollBar`, gives the planner's own material pickers their size back each time the game sets the build menu's (every 200 ms); pickers without the planner's `SizeKeeper` are left alone.
+- Blueprints Expanded is found in `OnAllModsLoaded` by its static ID (`BlueprintsV2`, enabled for the active DLC), as its author asks of integrations, and reached through delegates made from its API (`BlueprintsCompat`). A replacement order gets the old building's settings from `API_Methods.GetAllAdditionalBuildingData` written into its `UnderConstructionDataTransfer`, which Blueprints Expanded applies to the finished building of the same type in that cell; the order itself is left alone, so its priority stays the tool's. A reconstruct goes through `Reconstructable.RequestReconstruct`, with every ingredient set (the game's button sets only the first), and Blueprints Expanded's own patch on it carries the settings. With instant build the planner finishes the deconstruction and then the new order, as instant build finishes a replacement.
 - Adaptive Building Menu lays out every material picker for the build menu's side bar; when it is loaded, its two layout methods are patched (found by name, in `ModCompat`) to skip the planner's pickers, whose containers carry a `PlannerPickerHost` from before the picker is made.
 - A picker's own scroll view is on only when its rows overflow: its scrollbar is set to show permanently, which Unity enforces every frame while the view is on, and the game hides it on each refresh, so it flickered.
 - The Replace type tab's Replace side does not scroll as a whole: the types scroll in one white card taking two shares of the height, over the material card's one.

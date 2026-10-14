@@ -33,6 +33,7 @@ namespace UpgradePlanner
 		{
 			base.OnAllModsLoaded(harmony, mods);
 			ModCompat.Apply(harmony);
+			BlueprintsCompat.Init(mods);
 		}
 	}
 }

@@ -363,6 +363,8 @@ namespace UpgradePlanner
 		{
 			if (!plan.TryResolve(building, out BuildingDef target, out List<Tag> materials))
 				return false;
+			if (plan.Mode == UpgradePlan.PlanMode.ChangeMaterial && MaterialSwap.Rebuilds(building.Def))
+				return TryRebuild(building, materials);
 			GameObject go = building.gameObject;
 			int cell = Grid.PosToCell(go);
 			if (!Grid.IsValidCell(cell) || !building.Def.Replaceable)
@@ -388,6 +390,9 @@ namespace UpgradePlanner
 			if (built == null)
 				return false;
 			Grid.Objects[cell, (int)target.ReplacementLayer] = built;
+			// The old building's settings ride with the order, for Blueprints Expanded to apply to
+			// the new building when it is built (of the same type: a type change keeps none).
+			BlueprintsCompat.CarrySettings(go, built);
 			// A wire or pipe order over a wire or pipe draws the connections of the one it
 			// replaces, as the utility build tool's BuildPath gives it; the game carries them to
 			// the new building when the order completes.
@@ -404,6 +409,54 @@ namespace UpgradePlanner
 			if (InstantBuild)
 				Complete(built, target, materials, pos);
 			return true;
+		}
+
+		private static readonly AccessTools.FieldRef<Reconstructable, Tag[]> ReconstructMaterials =
+			AccessTools.FieldRefAccess<Reconstructable, Tag[]>("selectedElementsTags");
+
+		/// <summary>
+		/// A type the game does not let you build over: the game's own reconstruct, as its material
+		/// button in the building's side screen does. A Duplicant deconstructs the building, and the
+		/// same building is placed again in the new materials (every ingredient, not only the first
+		/// one the game's button sets). Blueprints Expanded reapplies its settings. Skipped when a
+		/// reconstruct is already asked for (asking again would cancel it).
+		/// </summary>
+		private static bool TryRebuild(BuildingComplete building, List<Tag> materials)
+		{
+			Reconstructable reconstructable = building.GetComponent<Reconstructable>();
+			if (reconstructable == null || !reconstructable.AllowReconstruct || reconstructable.ReconstructRequested || materials.Count == 0)
+				return false;
+			reconstructable.RequestReconstruct(materials[0]);
+			if (!reconstructable.ReconstructRequested)
+				return false;
+			ReconstructMaterials(reconstructable) = materials.ToArray();
+			if (InstantBuild)
+				FinishRebuild(building, materials);
+			return true;
+		}
+
+		/// <summary>
+		/// Instant build: the deconstruction is finished on the spot (the game finishes its own
+		/// deconstruct tool's only in debug mode), the game places the new building's order the next
+		/// frame, and that order is finished as soon as it is there, the way instant build finishes a
+		/// replacement. Blueprints Expanded reapplies the settings after that.
+		/// </summary>
+		private static void FinishRebuild(BuildingComplete building, List<Tag> materials)
+		{
+			BuildingDef def = building.Def;
+			int cell = Grid.PosToCell(building);
+			Vector3 pos = Grid.CellToPosCBC(cell, Grid.SceneLayer.Building);
+			Deconstructable deconstructable = building.GetComponent<Deconstructable>();
+			if (deconstructable == null)
+				return;
+			deconstructable.CompleteWork(null);
+			// Scheduled after the game's own placement, which the deconstruction scheduled for the next frame.
+			GameScheduler.Instance.ScheduleNextFrame("Upgrade Planner instant rebuild", _ =>
+			{
+				GameObject order = Grid.Objects[cell, (int)def.ObjectLayer];
+				if (order != null && order.GetComponent<Constructable>() != null)
+					Complete(order, def, materials, pos);
+			});
 		}
 
 		/// <summary>The build tool's own test: the debug toggle, or sandbox mode with its instant build setting on.</summary>
@@ -470,8 +523,12 @@ namespace UpgradePlanner
 				int cell = Grid.PosToCell(building);
 				if (!Grid.IsValidCell(cell) || Grid.WorldIdx[cell] != worldId)
 					continue;
-				// Marked already: something is pending on the replacement layer, as TryQueue checks.
-				Color color = building.Def.IsReplacementLayerOccupied(cell) ? MarkedColor : HighlightColor;
+				// Marked already: something is pending on the replacement layer, as TryQueue checks, or
+				// a reconstruct is asked for.
+				Reconstructable reconstructable = building.GetComponent<Reconstructable>();
+				bool marked = (building.Def.ReplacementLayer != ObjectLayer.NumLayers && building.Def.IsReplacementLayerOccupied(cell))
+					|| (reconstructable != null && reconstructable.ReconstructRequested);
+				Color color = marked ? MarkedColor : HighlightColor;
 				building.RunOnArea(delegate(int offset_cell)
 				{
 					cellColors.Add(new ToolMenu.CellColorData(offset_cell, color));

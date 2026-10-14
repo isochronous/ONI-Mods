@@ -3,7 +3,9 @@
 ## Unreleased
 
 - A Change material tab, now the first: pick the material to replace (any, or one) and the one to build in, in the game's own material picker, and which building types to rebuild, as build menu toggle buttons grouped by family with select-all, fold and expand/collapse-all. A drag rebuilds every picked building in the new material. Types the materials rule out are greyed, with the reason in their tooltip; the footer lists the first four types and counts the rest.
-- Presets: save the current tab's plan under a name, and load or delete saved ones. They are kept in the game's mod config folder.
+- Requires Blueprints Expanded. Upgraded buildings keep their settings: a replacement order carries them to the new building, saved with the colony.
+- All buildings: a checkbox in the Buildings header also offers the buildings the game does not let you build over, grouped as the build menu groups them. They are deconstructed and rebuilt in the new material through the game's own reconstruct, keeping their settings. The select-all checkbox moved to the left of the Buildings header.
+- Presets, one list per tab: save the current tab's plan under a name, and load or delete that tab's saved ones. They are kept in the game's mod config folder.
 
 ## 0.1.0 - 2026-10-13
 

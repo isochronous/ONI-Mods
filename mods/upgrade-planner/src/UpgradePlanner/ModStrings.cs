@@ -45,14 +45,12 @@ namespace UpgradePlanner
 		public const string PresetLabel = "Preset";
 		public const string NoPresets = "No saved presets";
 		public const string PresetLoad = "Load";
-		public const string PresetLoadTooltip = "Replace the current plan with the picked preset";
+		public const string PresetLoadTooltip = "Replace this tab's choices with the picked preset";
 		public const string PresetDelete = "Delete";
 		public const string PresetDeleteTooltip = "Forget the picked preset";
 		public const string PresetNamePlaceholder = "Preset name";
 		public const string PresetSave = "Save current plan";
-		public const string PresetSaveTooltip = "Save this tab's choices under the name typed beside it; a preset with that name is replaced";
-		/// <summary>After a Replace type preset's name in the list.</summary>
-		public const string PresetTypeSuffix = " (replace type)";
+		public const string PresetSaveTooltip = "Save this tab's choices under the name typed beside it; this tab's preset with that name is replaced";
 		public const string PresetNeedsName = "Type a name for the preset first.";
 		public const string PresetSaved = "Saved {0}.";
 		public const string PresetUpdated = "Updated {0}.";
@@ -65,8 +63,9 @@ namespace UpgradePlanner
 		public const string MaterialAnyTooltip = "Replace the picked buildings whatever they are made of";
 		public const string MaterialSpecificTooltip = "Replace only the picked buildings made of the material picked below";
 		public const string ClearMaterialTooltip = "Forget this tab's choices and start over";
-		public const string SelectAll = "Select all";
 		public const string SelectAllTooltip = "Pick every building that can use these materials";
+		public const string AllBuildings = "All buildings";
+		public const string AllBuildingsTooltip = "Also offer the buildings the game does not let you build over. Those are deconstructed and rebuilt in the new material, out of service until rebuilt; Blueprints Expanded keeps their settings";
 		public const string ExpandAll = "Expand all";
 		public const string CollapseAll = "Collapse all";
 		public const string CategoryCount = "{0} of {1}";

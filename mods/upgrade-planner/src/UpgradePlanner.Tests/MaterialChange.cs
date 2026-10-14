@@ -79,20 +79,80 @@ namespace UpgradePlanner.Tests
 			// Read back from the file, not from memory.
 			Presets.UseFile(file);
 			t.Assert.Eq(2, Presets.All.Count, "both presets are in the file");
+			t.Assert.Eq(1, Presets.For(UpgradePlan.PlanMode.ChangeMaterial).Count, "the Change material tab lists one");
+			t.Assert.Eq("tiles", Presets.For(UpgradePlan.PlanMode.ChangeMaterial)[0].Name, "the Change material tab lists its own");
+			t.Assert.Eq(1, Presets.For(UpgradePlan.PlanMode.ReplaceType).Count, "the Replace type tab lists one");
+			t.Assert.Eq("insulate", Presets.For(UpgradePlan.PlanMode.ReplaceType)[0].Name, "the Replace type tab lists its own");
 			var back = new UpgradePlan();
-			back.Apply(Presets.Find("tiles"));
+			back.Apply(Presets.Find("tiles", UpgradePlan.PlanMode.ChangeMaterial));
 			t.Assert.Eq(UpgradePlan.PlanMode.ChangeMaterial, back.Mode, "the tiles preset is on the Change material tab");
 			t.Assert.Eq(plan.Summary(), back.Summary(), "the tiles preset is the same plan");
 			t.Assert.True(back.IsMaterialTypeSelected("Tile") && back.IsMaterialTypeSelected("Ladder"), "tiles and ladders are picked");
 			t.Assert.False(back.IsMaterialTypeSelected("MetalTile"), "metal tiles are not");
-			back.Apply(Presets.Find("insulate"));
+			back.Apply(Presets.Find("insulate", UpgradePlan.PlanMode.ReplaceType));
 			t.Assert.Eq(UpgradePlan.PlanMode.ReplaceType, back.Mode, "the insulate preset is on the Replace type tab");
 			t.Assert.Eq(typed.Summary(), back.Summary(), "the insulate preset is the same plan");
 			t.Assert.True(back.IsComplete, "the insulate plan is complete");
-			// Saving under a name that is taken replaces that preset.
-			t.Assert.True(Presets.Put(plan.ToPreset("insulate")), "a second save under one name replaces the first");
-			t.Assert.Eq(2, Presets.All.Count, "still two presets");
+			// A name is the tab's own: the same name on the other tab is another preset.
+			t.Assert.False(Presets.Put(plan.ToPreset("insulate")), "a Change material preset named as a Replace type one is a new preset");
+			t.Assert.Eq(3, Presets.All.Count, "three presets");
+			t.Assert.Eq(UpgradePlan.PlanMode.ReplaceType.ToString(), Presets.Find("insulate", UpgradePlan.PlanMode.ReplaceType).Mode, "the Replace type one is untouched");
+			// Saving under a name the tab already has replaces that preset.
+			t.Assert.True(Presets.Put(plan.ToPreset("tiles")), "a second save under one name on one tab replaces the first");
+			t.Assert.Eq(3, Presets.All.Count, "still three presets");
 			yield break;
+		}
+
+		[OniTest("Upgrade Planner: each tab lists only its own presets", Timeout = 40), Layer(2)]
+		public static IEnumerator PresetListsPerTab(TestContext t)
+		{
+			string file = Path.Combine(Path.GetTempPath(), "upgrade-planner-tab-presets.json");
+			string original = Presets.FilePath;
+			t.Cleanup(() =>
+			{
+				Presets.UseFile(original);
+				if (File.Exists(file))
+					File.Delete(file);
+			});
+			if (File.Exists(file))
+				File.Delete(file);
+			Presets.UseFile(file);
+			var material = new UpgradePlan();
+			material.SetMaterialTarget(SimHashes.Granite.CreateTag());
+			Presets.Put(material.ToPreset("Granite everything"));
+			var typed = new UpgradePlan();
+			typed.SetMode(UpgradePlan.PlanMode.ReplaceType);
+			Presets.Put(typed.ToPreset("Insulate pipes"));
+
+			UpgradeTool tool = Tool(t);
+			UpgradePlan plan = UpgradePlan.Current;
+			plan.SetMode(UpgradePlan.PlanMode.ChangeMaterial);
+			PlayerController.Instance.ActivateTool(tool);
+			yield return t.WaitRealSeconds(1);
+			t.Assert.Eq("Granite everything", PresetShown(), "the Change material tab shows its own preset");
+			KButton tab = Find(GameObject.Find("UpgradePlannerDialog").transform, "TabReplaceType")?.GetComponent<KButton>();
+			t.Assert.NotNull(tab, "the Replace type tab button is there");
+			tab.SignalClick(KKeyCode.Mouse0);
+			yield return t.WaitRealSeconds(1);
+			t.Assert.Eq("Insulate pipes", PresetShown(), "the Replace type tab shows its own preset, with no suffix");
+			// Loading it stays on its tab and changes only that tab's choices.
+			plan.SetMaterialTarget(SimHashes.Steel.CreateTag());
+			KButton load = Find(GameObject.Find("UpgradePlannerDialog").transform, "PresetLoad")?.GetComponent<KButton>();
+			t.Assert.NotNull(load, "the Load button is there");
+			load.SignalClick(KKeyCode.Mouse0);
+			yield return t.WaitRealSeconds(1);
+			t.Assert.Eq(UpgradePlan.PlanMode.ReplaceType, plan.Mode, "loading keeps the Replace type tab");
+			t.Assert.Eq(SimHashes.Steel.CreateTag(), plan.MaterialTarget, "the Change material tab's choices are untouched");
+			yield return t.Screenshot("type-presets");
+		}
+
+		/// <summary>The name the preset list shows.</summary>
+		private static string PresetShown()
+		{
+			GameObject window = GameObject.Find("UpgradePlannerDialog");
+			GameObject choice = window != null ? Find(window.transform, "PresetChoice") : null;
+			LocText text = choice != null ? choice.GetComponentInChildren<LocText>() : null;
+			return text != null ? text.text : null;
 		}
 
 		[OniTest("Upgrade Planner: a greyed type's button cannot be clicked and its tooltip says why", Timeout = 40), Layer(2)]
@@ -414,7 +474,7 @@ namespace UpgradePlanner.Tests
 
 		private static bool Offered(ReplacementRules.Family family)
 		{
-			foreach (ReplacementRules.Category category in MaterialSwap.Categories())
+			foreach (ReplacementRules.Category category in MaterialSwap.Categories(false))
 				if (category.Families.Contains(family))
 					return true;
 			return false;

@@ -16,6 +16,7 @@ namespace UpgradePlanner
 
 		// Change material
 		public List<string> Types;
+		public bool AllBuildings;
 		public string Source;
 		public string Target;
 
@@ -25,15 +26,21 @@ namespace UpgradePlanner
 		public string TargetType;
 		public List<string> TargetMaterials;
 
-		public string GetProperName()
+		public string GetProperName() => Name;
+
+		/// <summary>True if this is a preset of that tab; one saved before presets had a tab is a Change material one.</summary>
+		public bool IsFor(UpgradePlan.PlanMode mode)
 		{
-			return Mode == UpgradePlan.PlanMode.ReplaceType.ToString() ? Name + ModStrings.PresetTypeSuffix : Name;
+			if (!System.Enum.TryParse(Mode, out UpgradePlan.PlanMode own))
+				own = UpgradePlan.PlanMode.ChangeMaterial;
+			return own == mode;
 		}
 	}
 
 	/// <summary>
 	/// The player's saved plans, kept in one JSON file in the game's mod config folder, beside
-	/// what other mods keep there, so they last across colonies and mod updates.
+	/// what other mods keep there, so they last across colonies and mod updates. Each preset
+	/// belongs to one tab: each tab lists only its own, and a name is unique within a tab.
 	/// </summary>
 	internal static class Presets
 	{
@@ -75,10 +82,15 @@ namespace UpgradePlanner
 			}
 		}
 
-		/// <summary>Adds the preset, or replaces the one with its name. Returns true when one was replaced.</summary>
+		/// <summary>The presets of one tab, in the order they were saved.</summary>
+		public static List<PlanPreset> For(UpgradePlan.PlanMode mode) => All.FindAll(p => p.IsFor(mode));
+
+		/// <summary>Adds the preset, or replaces the one of its tab with its name. Returns true when one was replaced.</summary>
 		public static bool Put(PlanPreset preset)
 		{
-			int index = All.FindIndex(p => p.Name == preset.Name);
+			if (!System.Enum.TryParse(preset.Mode, out UpgradePlan.PlanMode mode))
+				mode = UpgradePlan.PlanMode.ChangeMaterial;
+			int index = All.FindIndex(p => p.Name == preset.Name && p.IsFor(mode));
 			if (index >= 0)
 				all[index] = preset;
 			else
@@ -93,7 +105,7 @@ namespace UpgradePlanner
 				Save();
 		}
 
-		public static PlanPreset Find(string name) => All.Find(p => p.Name == name);
+		public static PlanPreset Find(string name, UpgradePlan.PlanMode mode) => All.Find(p => p.Name == name && p.IsFor(mode));
 
 		private static void Save()
 		{

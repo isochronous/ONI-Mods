@@ -41,6 +41,8 @@ namespace UpgradePlanner
 		public MaterialMode MaterialSourceMode { get; private set; } = MaterialMode.Any;
 		public Tag MaterialSource { get; private set; } = Tag.Invalid;
 		public Tag MaterialTarget { get; private set; } = Tag.Invalid;
+		/// <summary>Offer every building the game can reconstruct, not only the ones it lets you build over.</summary>
+		public bool MaterialAllBuildings { get; private set; }
 
 		/// <summary>Bumped on every change, so caches (the highlight, the dialog) know to refresh.</summary>
 		public int Version { get; private set; }
@@ -101,6 +103,7 @@ namespace UpgradePlanner
 			if (Mode == PlanMode.ChangeMaterial)
 			{
 				materialTypes = new HashSet<string>();
+				MaterialAllBuildings = false;
 				MaterialSourceMode = MaterialMode.Any;
 				MaterialSource = Tag.Invalid;
 				MaterialTarget = Tag.Invalid;
@@ -161,7 +164,7 @@ namespace UpgradePlanner
 			if (materialTypes == null)
 			{
 				materialTypes = new HashSet<string>();
-				foreach (ReplacementRules.Category category in MaterialSwap.Categories())
+				foreach (ReplacementRules.Category category in MaterialSwap.Categories(MaterialAllBuildings))
 					foreach (ReplacementRules.Family family in category.Families)
 						materialTypes.Add(family.Representative.PrefabID);
 			}
@@ -172,6 +175,21 @@ namespace UpgradePlanner
 				else
 					materialTypes.Remove(family.Representative.PrefabID);
 			}
+			Version++;
+		}
+
+		/// <summary>
+		/// Offers all buildings, or only the ones that can be built over. The types newly offered
+		/// start unpicked: a plan that picked everything picks only what it offered before, so turning
+		/// this on never sends every machine in a drag to be rebuilt.
+		/// </summary>
+		public void SetMaterialAllBuildings(bool all)
+		{
+			if (MaterialAllBuildings == all)
+				return;
+			if (materialTypes == null)
+				SetMaterialTypesSelected(new ReplacementRules.Family[0], true);
+			MaterialAllBuildings = all;
 			Version++;
 		}
 
@@ -217,7 +235,7 @@ namespace UpgradePlanner
 			usableVersion = Version;
 			usableTime = now;
 			var usable = usableCache = new List<ReplacementRules.Family>();
-			foreach (ReplacementRules.Category category in MaterialSwap.Categories())
+			foreach (ReplacementRules.Category category in MaterialSwap.Categories(MaterialAllBuildings))
 				foreach (ReplacementRules.Family family in category.Families)
 					if (IsMaterialTypeSelected(family.Representative.PrefabID) && MaterialSwap.Blocked(family, this) == null)
 						usable.Add(family);
@@ -285,10 +303,11 @@ namespace UpgradePlanner
 			if (Mode == PlanMode.ChangeMaterial)
 			{
 				preset.Types = new List<string>();
-				foreach (ReplacementRules.Category category in MaterialSwap.Categories())
+				foreach (ReplacementRules.Category category in MaterialSwap.Categories(MaterialAllBuildings))
 					foreach (ReplacementRules.Family family in category.Families)
 						if (IsMaterialTypeSelected(family.Representative.PrefabID))
 							preset.Types.Add(family.Representative.PrefabID);
+				preset.AllBuildings = MaterialAllBuildings;
 				preset.SourceMode = MaterialSourceMode.ToString();
 				preset.Source = MaterialSource.IsValid ? MaterialSource.Name : null;
 				preset.Target = MaterialTarget.IsValid ? MaterialTarget.Name : null;
@@ -314,6 +333,7 @@ namespace UpgradePlanner
 			if (mode == PlanMode.ChangeMaterial)
 			{
 				materialTypes = new HashSet<string>(preset.Types ?? new List<string>());
+				MaterialAllBuildings = preset.AllBuildings;
 				MaterialSourceMode = sourceMode == MaterialMode.Specific ? MaterialMode.Specific : MaterialMode.Any;
 				MaterialSource = TagOf(preset.Source);
 				MaterialTarget = TagOf(preset.Target);

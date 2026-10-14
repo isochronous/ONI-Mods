@@ -26,12 +26,13 @@ namespace UpgradePlanner
 		/// pick. With <paramref name="forBuilding"/> the game's "research required" check applies, as
 		/// in the build menu. <paramref name="strip"/> is for a picker that stands for no one building
 		/// (the Change material tab's): its header (which would list every material class) and the
-		/// amount each toggle says a building needs are hidden. <paramref name="maxRows"/> is how many
+		/// amount each toggle says a building needs are hidden; <paramref name="hideHeader"/> hides only
+		/// the header (the Replace type tab's, whose amounts are its type's). <paramref name="maxRows"/> is how many
 		/// rows show before the picker's own scrollbar; with <see cref="AllRows"/> every row shows, for
 		/// a scroll pane of the window's to scroll (the picker's own scroll view is on only when its
 		/// rows overflow; see Widen). Null if the game's prefab is not around (no colony loaded).
 		/// </summary>
-		public static MaterialSelectionPanel Attach(GameObject parent, Recipe recipe, IList<Tag> preselect, bool forBuilding, System.Action<IList<Tag>> onChanged, bool strip = false, int maxRows = DefaultRows)
+		public static MaterialSelectionPanel Attach(GameObject parent, Recipe recipe, IList<Tag> preselect, bool forBuilding, System.Action<IList<Tag>> onChanged, bool strip = false, int maxRows = DefaultRows, bool hideHeader = false)
 		{
 			ProductInfoScreen productInfo = PlanScreen.Instance?.ProductInfoScreen;
 			if (parent == null || recipe == null || productInfo == null || productInfo.materialSelectionPanelPrefab == null)
@@ -57,8 +58,10 @@ namespace UpgradePlanner
 				keeper.Selector = selector;
 				keeper.MaxRows = maxRows;
 				keeper.Apply();
+				if (strip || hideHeader)
+					HideHeader(selector);
 				if (strip)
-					Strip(selector);
+					HideAmounts(selector);
 				int index = selector.selectorIndex;
 				if (preselect != null && index < preselect.Count && preselect[index].IsValid && selector.ElementToggles.ContainsKey(preselect[index]))
 					selector.OnSelectMaterial(preselect[index], recipe);
@@ -83,18 +86,25 @@ namespace UpgradePlanner
 		}
 
 		/// <summary>
-		/// Hides the header and the per-toggle amount. Both are still set by the game every 200 ms
-		/// (MaterialSelector.RefreshToggleContents, which finds the labels by position among the
-		/// active ones), so the objects stay active: the header is shrunk out of the layout and the
-		/// amount's text component is switched off.
+		/// Hides the header. The game still sets it every 200 ms (MaterialSelector.RefreshToggleContents),
+		/// so it stays active, shrunk out of the layout.
 		/// </summary>
-		private static void Strip(MaterialSelector selector)
+		private static void HideHeader(MaterialSelector selector)
 		{
 			if (selector.Headerbar != null)
 			{
 				selector.Headerbar.AddOrGet<LayoutElement>().ignoreLayout = true;
 				selector.Headerbar.transform.localScale = Vector3.zero;
 			}
+		}
+
+		/// <summary>
+		/// Hides the per-toggle amount. The game still sets it every 200 ms (RefreshToggleContents,
+		/// which finds the labels by position among the active ones), so only the text component is
+		/// switched off.
+		/// </summary>
+		private static void HideAmounts(MaterialSelector selector)
+		{
 			foreach (KToggle toggle in selector.ElementToggles.Values)
 			{
 				LocText[] labels = toggle.GetComponentsInChildren<LocText>();
