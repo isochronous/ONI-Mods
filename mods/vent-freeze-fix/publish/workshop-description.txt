@@ -18,7 +18,7 @@ Both are options, on by default.
 
 Made by a professional software developer with assistance from Claude Fable (and Sgt_Imalas).
 
-Source and issues: https://github.com/isochronous/vent-freeze-fix
+Source and issues: https://github.com/isochronous/ONI-Mods
 
 Translations done via artificial intelligence. Please submit corrections via GitHub issues.
 翻译由人工智能完成。如有错误，请通过 GitHub Issues 提交更正。

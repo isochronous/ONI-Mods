@@ -24,4 +24,4 @@ Formerly published as "Fridges Only Cool". If you had that version enabled, enab
 
 Developed by a professional software developer with assistance from Claude Code.
 
-Source and issue tracker: https://github.com/isochronous/no-magic-fridges
+Source and issue tracker: https://github.com/isochronous/ONI-Mods

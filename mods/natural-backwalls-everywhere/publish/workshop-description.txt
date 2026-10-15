@@ -24,7 +24,7 @@ The Aquatic pack has no special backwall algorithm. Its subworlds name a backwal
 
 Made by a professional software developer with assistance from Claude Fable. Comes with a no slop guarantee.
 
-Source and issues: https://github.com/isochronous/natural-backwalls-everywhere
+Source and issues: https://github.com/isochronous/ONI-Mods
 
 Translations done via artificial intelligence. Please submit corrections via GitHub issues.
 翻译由人工智能完成。如有错误，请通过 GitHub Issues 提交更正。

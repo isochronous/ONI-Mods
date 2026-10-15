@@ -28,7 +28,7 @@ Art by 3GuB, commissioned for this mod and used with permission. Thank you!
 
 Developed by a professional software developer (hello!) with assistance from Claude Code.
 
-Source and issue tracker: https://github.com/isochronous/multichannel-critter-sensor
+Source and issue tracker: https://github.com/isochronous/ONI-Mods
 
 Translations done via artificial intelligence. Please submit corrections via GitHub issues.
 翻译由人工智能完成。如有错误，请通过 GitHub Issues 提交更正。

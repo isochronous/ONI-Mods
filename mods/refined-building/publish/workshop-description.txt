@@ -15,4 +15,4 @@ Works with the base game and all DLCs, on build 744825 (U59) or newer. No depend
 
 Developed by a professional software developer with assistance from Claude Code.
 
-Source and issue tracker: https://github.com/isochronous/refined-building
+Source and issue tracker: https://github.com/isochronous/ONI-Mods

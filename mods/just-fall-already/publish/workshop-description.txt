@@ -10,4 +10,4 @@ Does nothing unless a door just changed state, so there is no cost the rest of t
 
 Developed by a professional software developer with assistance from Claude Fable.
 
-Source and issues: https://github.com/isochronous/just-fall-already
+Source and issues: https://github.com/isochronous/ONI-Mods

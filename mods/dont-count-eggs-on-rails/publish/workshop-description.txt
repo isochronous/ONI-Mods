@@ -7,6 +7,6 @@ Critter sensors no longer count eggs that are riding a conveyor rail through the
 
 One small patch on how eggs report their room; sensors and rails are not touched.
 
-Made by a professional software developer with assistance from Claude Fable. Comes with a no slop guarantee.
+Made by a professional software developer with assistance from Claude Fable.
 
-Source and issues: https://github.com/isochronous/dont-count-eggs-on-rails
+Source and issues: https://github.com/isochronous/ONI-Mods
