@@ -1,0 +1,12 @@
+Critter sensors no longer count eggs that are riding a conveyor rail through the room.
+
+[list]
+[*]An egg on a rail is not counted by any critter sensor while it passes through, so automation built on the egg count stops misfiring whenever a rail crosses the room.
+[*]Eggs on the floor, in incubators, in storage, or carried by duplicants count exactly as before.
+[/list]
+
+One small patch on how eggs report their room; sensors and rails are not touched.
+
+Made by a professional software developer with assistance from Claude Fable. Comes with a no slop guarantee.
+
+Source and issues: https://github.com/isochronous/dont-count-eggs-on-rails
