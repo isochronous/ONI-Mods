@@ -5,8 +5,9 @@ namespace UpgradePlanner
 	/// <summary>
 	/// The marker that follows the cursor over the cells while the tool is active: a copy of the
 	/// Sweep tool's (corner brackets round a picture of the tool, white, tinted by its material) with
-	/// the tool icon's dashed border in place of Sweep's dolly, a dashed square with its middle left
-	/// clear so the cell shows through. A copy, so Sweep keeps its own.
+	/// the tool icon's dashed border in place of Sweep's dolly: a dashed square over a fill of the
+	/// same colour at <see cref="Fill"/> opacity, so the cell shows through. A copy, so Sweep keeps
+	/// its own.
 	/// </summary>
 	internal static class ToolMarker
 	{
@@ -14,6 +15,8 @@ namespace UpgradePlanner
 		private const float Middle = 0.34f;
 		/// <summary>The square's half width, its thickness, and its dash and gap, as shares of the picture's size.</summary>
 		private const float Plate = 0.27f, Thick = 0.034f, Dash = 0.055f, Gap = 0.035f;
+		/// <summary>The square's fill opacity; the material tints it the brackets' colour.</summary>
+		private const float Fill = 0.4f;
 
 		private static Texture2D picture;
 
@@ -50,7 +53,7 @@ namespace UpgradePlanner
 					float dx = Mathf.Abs(x + 0.5f - half) / size, dy = Mathf.Abs(y + 0.5f - half) / size;
 					if (dx > Middle || dy > Middle)
 						continue;
-					pixels[y * size + x] = PlatePixel(dx, dy) ? Color.white : Color.clear;
+					pixels[y * size + x] = new Color(1f, 1f, 1f, PlateAlpha(dx, dy));
 				}
 			var texture = new Texture2D(size, size, TextureFormat.RGBA32, mipChain: true)
 			{
@@ -64,17 +67,20 @@ namespace UpgradePlanner
 		}
 
 		/// <summary>
-		/// The dashed square: <paramref name="dx"/> and <paramref name="dy"/> are the distance from
-		/// the middle, as shares of the picture's size.
+		/// The dashed square's opacity, solid on a dash and <see cref="Fill"/> elsewhere inside:
+		/// <paramref name="dx"/> and <paramref name="dy"/> are the distance from the middle, as
+		/// shares of the picture's size.
 		/// </summary>
-		private static bool PlatePixel(float dx, float dy)
+		private static float PlateAlpha(float dx, float dy)
 		{
 			float far = Mathf.Max(dx, dy);
-			if (far > Plate || far <= Plate - Thick)
-				return false;
+			if (far > Plate)
+				return 0f;
+			if (far <= Plate - Thick)
+				return Fill;
 			// Along the side this pixel is on, from the corner, dashes then gaps.
 			float along = Plate - Mathf.Min(dx, dy);
-			return along % (Dash + Gap) < Dash;
+			return along % (Dash + Gap) < Dash ? 1f : Fill;
 		}
 	}
 }
