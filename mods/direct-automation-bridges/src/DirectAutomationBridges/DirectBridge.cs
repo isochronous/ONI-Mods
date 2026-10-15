@@ -69,12 +69,17 @@ namespace DirectAutomationBridges
 			return connections;
 		}
 
-		/// <summary>Next frame, fill any end that has no wire and no node. Harmless when nothing is missing.</summary>
+		/// <summary>
+		/// Next frame, fill any end that has no wire and no node. Harmless when nothing is missing.
+		/// On the UI scheduler, whose clock is real time: the game scheduler runs nothing while the
+		/// game clock stands still, so a bridge built while paused would stay unconnected until
+		/// the game was unpaused.
+		/// </summary>
 		public void ScheduleCreate()
 		{
 			if (pending.IsValid)
 				return;
-			pending = GameScheduler.Instance.ScheduleNextFrame("DirectBridge.CreateNodes", CreateNodes);
+			pending = UIScheduler.Instance.ScheduleNextFrame("DirectBridge.CreateNodes", CreateNodes);
 		}
 
 		private void CreateNodes(object data)
