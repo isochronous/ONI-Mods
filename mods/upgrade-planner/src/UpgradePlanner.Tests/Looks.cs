@@ -145,6 +145,51 @@ namespace UpgradePlanner.Tests
 			yield return t.Screenshot("marker");
 		}
 
+		[OniTest("Upgrade Planner: a screenshot of the hover card over a box of several types", Timeout = 60, Explicit = true), Layer(2)]
+		public static IEnumerator SelectionCard(TestContext t)
+		{
+			t.ResearchAll();
+			CellRect r = t.Rect(12, 4);
+			var defs = new[] { "FirePole", "WireRefined", "WireRubber" }.Select(Assets.GetBuildingDef).ToList();
+			for (int x = 0; x < 9; x++)
+			{
+				BuildingDef def = defs[x % 3];
+				ByHand.Build(t, def, BuildingSettings.Materials(def), r.Cell(x + 1, 1));
+			}
+			yield return t.WaitGameSeconds(1);
+			t.InstantBuild(false);
+			UpgradePlan plan = UpgradePlan.Current;
+			plan.Mode = PlanMode.ChangeMaterial;
+			plan.Clear();
+			plan.ChangeMaterial.Pick(defs.Select(Families.Of).Distinct().ToList(), true);
+			plan.ChangeMaterial.SetSourceAny();
+			plan.ChangeMaterial.SetTarget(SimHashes.Steel.CreateTag());
+			t.Assert.True(plan.IsComplete, "the plan is complete: " + plan.Summary());
+			UpgradeTool tool = (UpgradeTool)PlayerController.Instance.tools.First(x => x is UpgradeTool);
+			t.Cleanup(() =>
+			{
+				if (PlayerController.Instance.ActiveTool == tool)
+					PlayerController.Instance.ActivateTool(SelectTool.Instance);
+			});
+			PlayerController.Instance.ActivateTool(tool);
+			PlannerWindow.PressApply(t);
+			CameraController.Instance.SnapTo(Grid.CellToPosCCC(r.Cell(5, 1), Grid.SceneLayer.Building), 8f);
+			yield return t.WaitRealSeconds(0.5);
+			Vector3 from = Grid.CellToPosCCC(r.Cell(0, 0), Grid.SceneLayer.Building), to = Grid.CellToPosCCC(r.Cell(10, 3), Grid.SceneLayer.Building);
+			tool.OnMouseMove(from);
+			yield return t.WaitRealSeconds(0.2);
+			tool.OnLeftClickDown(from);
+			yield return t.WaitRealSeconds(0.2);
+			t.PointAt(r.Cell(10, 3));
+			tool.OnMouseMove(to);
+			yield return t.WaitRealSeconds(1);
+			var card = (PlannerHoverCard)tool.GetComponent<HoverTextConfiguration>();
+			t.Log("card: " + string.Join(" | ", card.Types) + " || " + string.Join(" | ", card.Materials));
+			yield return t.Screenshot("card");
+			tool.OnRightClickDown(to, null);
+			yield return t.WaitRealSeconds(0.3);
+		}
+
 		/// <summary>Logs a marker's objects and their parts, saving any picture they show.</summary>
 		private static void Describe(TestContext t, string dir, string name, Transform node, int depth)
 		{
