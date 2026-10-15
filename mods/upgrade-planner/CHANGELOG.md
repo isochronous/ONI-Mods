@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- New mod preview image.
+
 ## 0.3.1 - 2026-10-14
 
 ### Changed
