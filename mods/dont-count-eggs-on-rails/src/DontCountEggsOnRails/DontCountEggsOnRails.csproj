@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <Import Project="$(MSBuildThisFileDirectory)..\..\common\oni-mod.props" />
+  <Import Project="$(OniCommon)oni-mod.props" />
 
   <PropertyGroup>
     <AssemblyName>DontCountEggsOnRails</AssemblyName>
@@ -8,6 +8,6 @@
     <Version>0.1.0</Version>
   </PropertyGroup>
 
-  <Import Project="$(MSBuildThisFileDirectory)..\..\common\oni-mod.targets" />
+  <Import Project="$(OniCommon)oni-mod.targets" />
 
 </Project>

@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <Import Project="$(MSBuildThisFileDirectory)..\..\common\oni-mod.props" />
+  <Import Project="$(OniCommon)oni-mod.props" />
 
   <PropertyGroup>
     <AssemblyName>DirectAutomationBridges.Tests</AssemblyName>
@@ -11,9 +11,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DirectAutomationBridges\DirectAutomationBridges.csproj" Private="false" />
-    <ProjectReference Include="..\..\common\tools\TestRunner\TestRunner.csproj" Private="false" />
+    <ProjectReference Include="$(OniCommon)tools\TestRunner\TestRunner.csproj" Private="false" />
   </ItemGroup>
 
-  <Import Project="$(MSBuildThisFileDirectory)..\..\common\oni-mod.targets" />
+  <Import Project="$(OniCommon)oni-mod.targets" />
 
 </Project>

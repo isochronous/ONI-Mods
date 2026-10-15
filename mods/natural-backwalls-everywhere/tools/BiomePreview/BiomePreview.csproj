@@ -2,7 +2,7 @@
 
   <!-- Standalone single-biome worldgen preview. Runs the game's own noise and band code
        (Assembly-CSharp-firstpass + LibNoiseDotNet) outside the game; see Program.cs. -->
-  <Import Project="$(MSBuildThisFileDirectory)..\..\common\oni-mod.props" />
+  <Import Project="$(OniCommon)oni-mod.props" />
 
   <PropertyGroup>
     <!-- .NET 8, not net48: the game's merged YamlDotNet uses BCL overloads that .NET Framework lacks. -->

@@ -20,7 +20,7 @@ import sys
 from PIL import Image, ImageChops, ImageDraw, ImageFilter
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-sys.path.insert(0, os.path.join(ROOT, "common", "tools", "MakeKanim"))
+sys.path.insert(0, os.path.join(ROOT, "..", "..", "common", "tools", "MakeKanim"))
 from kanim_writer import Sprite, place_outline, write_kanim  # noqa: E402
 
 NAME = "smart_weight_plate"

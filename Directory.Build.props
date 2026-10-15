@@ -1,0 +1,6 @@
+<Project>
+  <!-- The shared build, test harness and tools, checked out once for every mod (the common submodule). -->
+  <PropertyGroup>
+    <OniCommon>$(MSBuildThisFileDirectory)common\</OniCommon>
+  </PropertyGroup>
+</Project>

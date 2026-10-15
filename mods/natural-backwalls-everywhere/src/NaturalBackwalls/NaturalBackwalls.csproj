@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <Import Project="$(MSBuildThisFileDirectory)..\..\common\oni-mod.props" />
+  <Import Project="$(OniCommon)oni-mod.props" />
 
   <PropertyGroup>
     <AssemblyName>NaturalBackwalls</AssemblyName>
@@ -21,7 +21,7 @@
     </Reference>
   </ItemGroup>
 
-  <Import Project="$(MSBuildThisFileDirectory)..\..\common\oni-mod.targets" />
+  <Import Project="$(OniCommon)oni-mod.targets" />
 
   <!-- The mod ships a worldgen noise tree; the game layers a mod's worldgen folder over its own. -->
   <ItemGroup>

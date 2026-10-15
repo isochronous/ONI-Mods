@@ -32,7 +32,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 TOOLS = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(TOOLS)
-sys.path.insert(0, os.path.join(ROOT, "common", "tools", "MakeKanim"))
+sys.path.insert(0, os.path.join(ROOT, "..", "..", "common", "tools", "MakeKanim"))
 from kanim_writer import Sprite, write_kanim  # noqa: E402
 
 NAME = "detect_any_asterisk"
