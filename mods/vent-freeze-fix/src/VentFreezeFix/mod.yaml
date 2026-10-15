@@ -1,0 +1,3 @@
+title: "Vent Freeze Fix"
+description: "Super-cooled liquid in flight from a liquid vent when a save is written comes back from the load as a natural tile: in the vent, where it entombs it, or on the floor under it, where it takes the debris pile with it. The mod keeps the packet a vent holds from being solidified into the vent, and for a second after a load digs up any tile that formed at or under a vent out of less liquid than a tile needs, dropping it as debris at full mass. Both fixes can be switched off."
+staticID: "Isochronous.VentFreezeFix"

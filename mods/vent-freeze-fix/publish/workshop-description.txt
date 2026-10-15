@@ -1,0 +1,26 @@
+Fixes the save/load bug where super-cooled liquid in flight from a liquid vent comes back from the load as a natural tile: inside the vent, entombing it, or on the floor under it, taking the debris pile with it.
+
+[h2]The two causes[/h2]
+[list]
+[*]Inside the vent: the packet a vent is holding is an item in its storage, and the game leaves it temperature simulated. After a load the sim reports the super-cooled packet as frozen and the game turns it into a tile in the vent's cell, with no mass rule. In running play the vent emits first, so you only see it after a load, and not every time.
+[*]Under the vent: a packet that landed but had not frozen yet is restored by the sim's own load as a tile in place, before any mod can act.
+[/list]
+
+[h2]The two fixes[/h2]
+Both are options, on by default.
+[list]
+[*][b]Insulate vent storage[/b] gives the vent's storage the game's sealed and insulated modifiers, so the packet stays in the vent and is emitted as usual. The solution is Sgt_Imalas's (thanks for the sanity check), the option is there so you can turn it off if a game update fixes it first. Needs a restart.
+[*][b]Repair tiles after loading[/b]: for 5 ticks after a load, a natural tile that formed at or under a vent out of less liquid than a tile needs (80% of the element's default mass) is dug up through the game's own dig path and dropped as debris at its full mass, pile included. Real pools that freeze are left alone.
+[/list]
+
+[h2]Developer options[/h2]
+"Add button to reproduce bug conditions" puts a "Save on next vent emit" button on the game screen. Arm it and the next liquid vent emit writes VentFreezeRepro.sav next to your current save, on the exact tick, which is otherwise a real pain to hit by hand. "Enable debug mode" adds verbose logging.
+
+Made by a professional software developer with assistance from Claude Fable (and Sgt_Imalas).
+
+Source and issues: https://github.com/isochronous/vent-freeze-fix
+
+Translations done via artificial intelligence. Please submit corrections via GitHub issues.
+翻译由人工智能完成。如有错误，请通过 GitHub Issues 提交更正。
+번역은 인공지능으로 이루어졌습니다. 수정 사항은 GitHub 이슈로 제출해 주세요.
+Перевод выполнен с помощью искусственного интеллекта. Исправления присылайте через GitHub Issues.
