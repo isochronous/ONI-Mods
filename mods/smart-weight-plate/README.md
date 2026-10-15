@@ -1,0 +1,53 @@
+# Smart Weight Plate
+
+An [Oxygen Not Included](https://www.klei.com/games/oxygen-not-included) mod that adds a **Smart Weight Plate**: a weight plate with a low and a high threshold, so its signal behaves like a Liquid or Gas Reservoir's instead of a single cut-off.
+
+Status: **work in progress**. The building has its own art: `publish/sprite.png` is cut into a body (red and green panel variants) and a moving cap, and built into the kanim under `src/SmartWeightPlate/anim/assets/smart_weight_plate/` by `tools/make_art.py`, so it shows the signal colour and sinks when pressed just like the vanilla plate. The same sprite is the build-menu icon; the construction ghost is its white outline, as in vanilla art.
+
+## What it does
+
+The plate weighs whatever sits on the tile above it, exactly like the vanilla Weight Plate: a solid tile, loose items and debris, and Duplicants or critters standing on it. Gases and liquids do not count.
+
+- Sends a **green** signal once the weight reaches the **High Threshold**, and keeps sending it until the weight drops to the **Low Threshold**, like the vanilla Weight Plate with a band instead of a single cut-off.
+- Sends a **red** signal once the weight drops to the Low Threshold, and keeps sending it until the weight reaches the High Threshold.
+- Comparisons are inclusive, as with the reservoirs. If the two thresholds are equal the plate acts as a plain "at or above" threshold.
+- **Invert Signal** swaps green and red without a NOT gate.
+- Thresholds run from 0 to 2000 kg in whole kilograms, using the same two-slider panel as the reservoirs. The plate's own panel shows the current weight and the invert checkbox.
+- The plate looks pressed while it is holding in the heavy state, its two knobs slide across when it is pressed and back when it is released, and its light shows the signal it is sending.
+- Supports the copy-settings tool; all settings are saved with the building.
+
+Typical use: stop a conveyor chute from refilling a pile once it reaches the high threshold, and let it refill again only after the pile has dropped to the low threshold; or stop a sweeper from collecting a pile once it has dropped to the low threshold, and let it collect again only once the pile is back at the high threshold. Either way the machine is not chattering around a single threshold.
+
+Unlocked by **Advanced Automation** (the tier after the Weight Plate's Generic Sensors). Costs 75 kg Refined Metal. Found under Automation > Sensors, next to the vanilla Weight Plate.
+
+## Installing
+
+As a local mod:
+
+1. Download `SmartWeightPlate-<version>.zip` from the [latest release](https://github.com/isochronous/smart-weight-plate/releases/latest).
+2. Extract it into a new folder named `SmartWeightPlate` inside the game's local mods folder, so that `mod.yaml` ends up directly inside it (create `local` if it does not exist):
+   - Windows: `Documents\Klei\OxygenNotIncluded\mods\local\SmartWeightPlate`
+   - Linux: `~/.config/unity3d/Klei/Oxygen Not Included/mods/local/SmartWeightPlate`
+   - macOS: `~/Library/Application Support/unity.Klei.Oxygen Not Included/mods/local/SmartWeightPlate`
+3. Start the game, enable the mod under **Mods** in the main menu, and let the game restart.
+
+## Translations
+
+The mod is available in Chinese (Simplified), Korean and Russian; the game's language setting picks it. Other languages come from `src/SmartWeightPlate/translations/SmartWeightPlate.pot`: translate it as `<locale>.po` (`ko.po`, `ru.po`, the game's locale codes) in that folder and the game loads it.
+
+## Building
+
+Requires the .NET SDK (8+). Shared build configuration lives in the [oni-mods-common](https://github.com/isochronous/oni-mods-common) submodule, so clone with `--recurse-submodules` (or run `git submodule update --init`). The game DLLs are referenced directly from the game install; override the path if yours differs:
+
+```
+dotnet build src/SmartWeightPlate -c Release -p:GameFolder="<path-to>\OxygenNotIncluded"
+```
+
+A successful build merges [PLib](https://github.com/peterhaneve/ONIMods/tree/main/PLib) into the DLL and deploys the mod to `Documents\Klei\OxygenNotIncluded\mods\local\SmartWeightPlate` (disable with `-p:ModDeployFolder=none`).
+
+## Implementation notes
+
+- `SmartWeightPlate` (the building component) measures mass the same three ways as the vanilla `LogicMassSensor`, re-evaluates its latch every 200 ms, and sends on its own output port. It implements `IActivationRangeTarget`, so the vanilla `ActiveRangeSideScreen` supplies the threshold sliders with no custom UI. Note that interface's naming is inverted: `ActivateValue` is the upper slider (high threshold) and `DeactivateValue` the lower one, the same swap the reservoirs' `SmartReservoir` component makes.
+- `SmartWeightPlateSideScreen` is a small PLib panel (current weight, invert checkbox) sorted above the vanilla slider panel.
+- Compatibility: if [Better Automation Overlay](https://steamcommunity.com/sharedfiles/filedetails/?id=1878896484) is installed, a postfix on its range label (applied in `OnAllModsLoaded`, skipped when the mod is absent) shows the plate's thresholds as `0 - 35 kg` instead of that mod's default percentages.
+- Patch points: `GeneratedBuildings.LoadGeneratedBuildings` (plan screen), `Db.Initialize` (tech), `DetailsScreen.OnPrefabInit` (side screen registration), `ActiveRangeSideScreen.SetTarget` (the vanilla screen sets its text boxes' range only once, from the first target it shows, so without this they clamp typed values to 100).
