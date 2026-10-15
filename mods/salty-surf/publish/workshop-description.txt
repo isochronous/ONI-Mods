@@ -1,0 +1,10 @@
+The Mechanical Surfboard runs on Salt Water as well as Water. The board spills what it was fed, so a Salt Water board leaves Salt Water puddles.
+
+Made by a professional software developer with assistance from Claude Fable. Comes with a no slop guarantee.
+
+Source and issues: https://github.com/isochronous/salty-surf
+
+Translations done via artificial intelligence. Please submit corrections via GitHub issues.
+翻译由人工智能完成。如有错误，请通过 GitHub Issues 提交更正。
+번역은 인공지능으로 이루어졌습니다. 수정 사항은 GitHub 이슈로 제출해 주세요.
+Перевод выполнен с помощью искусственного интеллекта. Исправления присылайте через GitHub Issues.
