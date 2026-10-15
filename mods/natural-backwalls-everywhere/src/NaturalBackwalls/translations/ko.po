@@ -1,0 +1,563 @@
+msgid ""
+msgstr ""
+"Application: Oxygen Not Included\n"
+"POT Version: 2.0\n"
+"Language: ko_KR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. STRINGS.NATURALBACKWALLS.BIOMES.ABYSS
+msgctxt "STRINGS.NATURALBACKWALLS.BIOMES.ABYSS"
+msgid "Abyss (Aquatic pack)"
+msgstr "심해 생물군계 (Aquatic Planet Pack)"
+
+#. STRINGS.NATURALBACKWALLS.BIOMES.AQUATIC
+msgctxt "STRINGS.NATURALBACKWALLS.BIOMES.AQUATIC"
+msgid "Aquatic (water asteroid)"
+msgstr "수생 생물군계 (물 소행성)"
+
+#. STRINGS.NATURALBACKWALLS.BIOMES.BARREN
+msgctxt "STRINGS.NATURALBACKWALLS.BIOMES.BARREN"
+msgid "Barren (regolith)"
+msgstr "불모의 생물군계 (표토)"
+
+#. STRINGS.NATURALBACKWALLS.BIOMES.BEACH
+msgctxt "STRINGS.NATURALBACKWALLS.BIOMES.BEACH"
+msgid "Beach (Aquatic pack)"
+msgstr "해변 생물군계 (Aquatic Planet Pack)"
+
+#. STRINGS.NATURALBACKWALLS.BIOMES.CARROTQUARRY
+msgctxt "STRINGS.NATURALBACKWALLS.BIOMES.CARROTQUARRY"
+msgid "Cool Pool (carrot quarry)"
+msgstr "서늘한 웅덩이 생물군계 (당근 채석장)"
+
+#. STRINGS.NATURALBACKWALLS.BIOMES.CAUSTIC
+msgctxt "STRINGS.NATURALBACKWALLS.BIOMES.CAUSTIC"
+msgid "Caustic (jungle)"
+msgstr "부식성 생물군계 (정글)"
+
+#. STRINGS.NATURALBACKWALLS.BIOMES.FOREST
+msgctxt "STRINGS.NATURALBACKWALLS.BIOMES.FOREST"
+msgid "Forest"
+msgstr "숲 생물군계"
+
+#. STRINGS.NATURALBACKWALLS.BIOMES.FROZEN
+msgctxt "STRINGS.NATURALBACKWALLS.BIOMES.FROZEN"
+msgid "Tundra (frozen)"
+msgstr "툰드라 생물군계 (동결)"
+
+#. STRINGS.NATURALBACKWALLS.BIOMES.GARDEN
+msgctxt "STRINGS.NATURALBACKWALLS.BIOMES.GARDEN"
+msgid "Garden"
+msgstr "정원 생물군계"
+
+#. STRINGS.NATURALBACKWALLS.BIOMES.ICECAVES
+msgctxt "STRINGS.NATURALBACKWALLS.BIOMES.ICECAVES"
+msgid "Ice Caves"
+msgstr "얼음 동굴 생물군계"
+
+#. STRINGS.NATURALBACKWALLS.BIOMES.KELPFOREST
+msgctxt "STRINGS.NATURALBACKWALLS.BIOMES.KELPFOREST"
+msgid "Kelp Forest (Aquatic pack)"
+msgstr "켈프 숲 생물군계 (Aquatic Planet Pack)"
+
+#. STRINGS.NATURALBACKWALLS.BIOMES.MAGMA
+msgctxt "STRINGS.NATURALBACKWALLS.BIOMES.MAGMA"
+msgid "Magma and Niobium"
+msgstr "마그마 및 나이오븀 생물군계"
+
+#. STRINGS.NATURALBACKWALLS.BIOMES.MARSH
+msgctxt "STRINGS.NATURALBACKWALLS.BIOMES.MARSH"
+msgid "Marsh"
+msgstr "습지 생물군계"
+
+#. STRINGS.NATURALBACKWALLS.BIOMES.METALLIC
+msgctxt "STRINGS.NATURALBACKWALLS.BIOMES.METALLIC"
+msgid "Metallic"
+msgstr "금속 생물군계"
+
+#. STRINGS.NATURALBACKWALLS.BIOMES.MOO
+msgctxt "STRINGS.NATURALBACKWALLS.BIOMES.MOO"
+msgid "Moo"
+msgstr "음메 생물군계"
+
+#. STRINGS.NATURALBACKWALLS.BIOMES.OCEAN
+msgctxt "STRINGS.NATURALBACKWALLS.BIOMES.OCEAN"
+msgid "Ocean (tide pool)"
+msgstr "해양 생물군계 (조수 웅덩이)"
+
+#. STRINGS.NATURALBACKWALLS.BIOMES.OIL
+msgctxt "STRINGS.NATURALBACKWALLS.BIOMES.OIL"
+msgid "Oily"
+msgstr "기름 생물군계"
+
+#. STRINGS.NATURALBACKWALLS.BIOMES.RADIOACTIVE
+msgctxt "STRINGS.NATURALBACKWALLS.BIOMES.RADIOACTIVE"
+msgid "Radioactive"
+msgstr "방사능 생물군계"
+
+#. STRINGS.NATURALBACKWALLS.BIOMES.RAPTOR
+msgctxt "STRINGS.NATURALBACKWALLS.BIOMES.RAPTOR"
+msgid "Feather (raptor)"
+msgstr "깃털 생물군계 (랩터)"
+
+#. STRINGS.NATURALBACKWALLS.BIOMES.REEF
+msgctxt "STRINGS.NATURALBACKWALLS.BIOMES.REEF"
+msgid "Reef (Aquatic pack)"
+msgstr "암초 생물군계 (Aquatic Planet Pack)"
+
+#. STRINGS.NATURALBACKWALLS.BIOMES.RUST
+msgctxt "STRINGS.NATURALBACKWALLS.BIOMES.RUST"
+msgid "Rust"
+msgstr "녹 생물군계"
+
+#. STRINGS.NATURALBACKWALLS.BIOMES.SANDSTONE
+msgctxt "STRINGS.NATURALBACKWALLS.BIOMES.SANDSTONE"
+msgid "Sandstone"
+msgstr "사암 생물군계"
+
+#. STRINGS.NATURALBACKWALLS.BIOMES.SUGARWOODS
+msgctxt "STRINGS.NATURALBACKWALLS.BIOMES.SUGARWOODS"
+msgid "Nectar (sugar woods)"
+msgstr "넥타 생물군계 (설탕 숲)"
+
+#. STRINGS.NATURALBACKWALLS.BIOMES.SWAMP
+msgctxt "STRINGS.NATURALBACKWALLS.BIOMES.SWAMP"
+msgid "Swamp"
+msgstr "늪지대 생물군계"
+
+#. STRINGS.NATURALBACKWALLS.BIOMES.WASTELAND
+msgctxt "STRINGS.NATURALBACKWALLS.BIOMES.WASTELAND"
+msgid "Wasteland"
+msgstr "황무지 생물군계"
+
+#. STRINGS.NATURALBACKWALLS.BIOMES.WETLANDS
+msgctxt "STRINGS.NATURALBACKWALLS.BIOMES.WETLANDS"
+msgid "Wetlands"
+msgstr "습지 생물군계 (선사 시대 행성)"
+
+#. STRINGS.NATURALBACKWALLS.OPTIONS.BIOMES_HELP
+msgctxt "STRINGS.NATURALBACKWALLS.OPTIONS.BIOMES_HELP"
+msgid "Per biome: the backwall material, from the solids found there (None leaves it bare),\nand the coverage, a 0 to 1 band size used when it is not the starting biome."
+msgstr "생물군계별 설정: 후면벽 재료는 해당 생물군계에 있는 고체 중에서 고릅니다(없음을 고르면 비워 둡니다).\n커버리지는 0에서 1 사이의 밴드 크기이며, 해당 생물군계가 시작 생물군계가 아닐 때 사용됩니다."
+
+#. STRINGS.NATURALBACKWALLS.OPTIONS.CATEGORY.BIOMES
+msgctxt "STRINGS.NATURALBACKWALLS.OPTIONS.CATEGORY.BIOMES"
+msgid "Biomes"
+msgstr "생물군계"
+
+#. STRINGS.NATURALBACKWALLS.OPTIONS.CATEGORY.GENERAL
+msgctxt "STRINGS.NATURALBACKWALLS.OPTIONS.CATEGORY.GENERAL"
+msgid "General"
+msgstr "일반"
+
+#. STRINGS.NATURALBACKWALLS.OPTIONS.CATEGORY.PATTERNS
+msgctxt "STRINGS.NATURALBACKWALLS.OPTIONS.CATEGORY.PATTERNS"
+msgid "Patterns"
+msgstr "패턴"
+
+#. STRINGS.NATURALBACKWALLS.OPTIONS.CATEGORY.STARTING_BIOME
+msgctxt "STRINGS.NATURALBACKWALLS.OPTIONS.CATEGORY.STARTING_BIOME"
+msgid "Starting biome"
+msgstr "시작 생물군계"
+
+#. STRINGS.NATURALBACKWALLS.OPTIONS.COVERAGE_TOOLTIP
+msgctxt "STRINGS.NATURALBACKWALLS.OPTIONS.COVERAGE_TOOLTIP"
+msgid "Coverage when this is not the starting biome: fraction of its cells that get a backwall, 0 to 1. Default {0}."
+msgstr "이 생물군계가 시작 생물군계가 아닐 때의 커버리지: 후면벽이 생기는 타일의 비율로, 0에서 1 사이입니다. 기본값 {0}."
+
+#. STRINGS.NATURALBACKWALLS.OPTIONS.DEFAULT_CHOICE
+msgctxt "STRINGS.NATURALBACKWALLS.OPTIONS.DEFAULT_CHOICE"
+msgid "{0} (default)"
+msgstr "{0} (기본값)"
+
+#. STRINGS.NATURALBACKWALLS.OPTIONS.EXPORT_OVERLAY.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.OPTIONS.EXPORT_OVERLAY.NAME"
+msgid "Export worldgen overlay"
+msgstr "세계 생성 오버레이 내보내기"
+
+#. STRINGS.NATURALBACKWALLS.OPTIONS.EXPORT_OVERLAY.TOOLTIP
+msgctxt "STRINGS.NATURALBACKWALLS.OPTIONS.EXPORT_OVERLAY.TOOLTIP"
+msgid "Writes the current settings as a mod-style folder of worldgen YAML (NaturalBackwalls-overlay next to your saves) for external renderers such as onimaxxing.com/worldgen or the BiomePreview tool. Feature caves and the starting-biome coverage are not representable there."
+msgstr "현재 설정을 모드 형식의 세계 생성 YAML 폴더(저장 파일 옆의 NaturalBackwalls-overlay)로 기록하여 onimaxxing.com/worldgen이나 BiomePreview 도구 같은 외부 렌더러에서 사용할 수 있게 합니다. 특징 동굴과 시작 생물군계 커버리지는 거기에서 표현되지 않습니다."
+
+#. STRINGS.NATURALBACKWALLS.OPTIONS.FEATURE_BACKWALLS.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.OPTIONS.FEATURE_BACKWALLS.NAME"
+msgid "Backwalls behind carved caves and lakes"
+msgstr "깎아 낸 동굴과 호수 뒤의 후면벽"
+
+#. STRINGS.NATURALBACKWALLS.OPTIONS.FEATURE_BACKWALLS.TOOLTIP
+msgctxt "STRINGS.NATURALBACKWALLS.OPTIONS.FEATURE_BACKWALLS.TOOLTIP"
+msgid "Worldgen carves feature rooms (caves, lakes, geodes) into a biome after claiming their cells, and the game's own backwall pass skips claimed cells, so those rooms would stay bare. On, they get backwalls from the same noise as the rest of the biome."
+msgstr "세계 생성은 타일을 먼저 점유한 뒤에 특징 공간(동굴, 호수, 정동)을 생물군계에 깎아 넣는데, 게임 자체의 후면벽 단계는 점유된 타일을 건너뛰므로 그 공간은 비어 있게 됩니다. 켜면 생물군계의 나머지 부분과 같은 노이즈로 후면벽이 생깁니다."
+
+#. STRINGS.NATURALBACKWALLS.OPTIONS.NO_MATERIAL.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.OPTIONS.NO_MATERIAL.NAME"
+msgid "None"
+msgstr "없음"
+
+#. STRINGS.NATURALBACKWALLS.OPTIONS.NO_MATERIAL.TOOLTIP
+msgctxt "STRINGS.NATURALBACKWALLS.OPTIONS.NO_MATERIAL.TOOLTIP"
+msgid "No natural backwall in this biome."
+msgstr "이 생물군계에는 자연 후면벽을 두지 않습니다."
+
+#. STRINGS.NATURALBACKWALLS.OPTIONS.OTHER_MOD_BIOMES.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.OPTIONS.OTHER_MOD_BIOMES.NAME"
+msgid "Backwalls in biomes from other mods"
+msgstr "다른 모드의 생물군계에 후면벽"
+
+#. STRINGS.NATURALBACKWALLS.OPTIONS.OTHER_MOD_BIOMES.TOOLTIP
+msgctxt "STRINGS.NATURALBACKWALLS.OPTIONS.OTHER_MOD_BIOMES.TOOLTIP"
+msgid "Biomes this mod does not know (added by worldgen mods) get a backwall of their own most common solid at the coverage below, with the pattern of their zone. Off leaves them bare."
+msgstr "이 모드가 모르는 생물군계(세계 생성 모드가 추가한 것)에는 그 생물군계에서 가장 흔한 고체로 된 후면벽이 아래의 커버리지와 해당 구역의 패턴으로 생깁니다. 끄면 비워 둡니다."
+
+#. STRINGS.NATURALBACKWALLS.OPTIONS.OTHER_MOD_COVERAGE.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.OPTIONS.OTHER_MOD_COVERAGE.NAME"
+msgid "Coverage in biomes from other mods"
+msgstr "다른 모드의 생물군계 커버리지"
+
+#. STRINGS.NATURALBACKWALLS.OPTIONS.OTHER_MOD_COVERAGE.TOOLTIP
+msgctxt "STRINGS.NATURALBACKWALLS.OPTIONS.OTHER_MOD_COVERAGE.TOOLTIP"
+msgid "Band size used for biomes this mod does not know."
+msgstr "이 모드가 모르는 생물군계에 사용하는 밴드 크기입니다."
+
+#. STRINGS.NATURALBACKWALLS.OPTIONS.OTHER_PLANETOIDS.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.OPTIONS.OTHER_PLANETOIDS.NAME"
+msgid "Backwalls on other planetoids"
+msgstr "다른 미행성에 후면벽"
+
+#. STRINGS.NATURALBACKWALLS.OPTIONS.OTHER_PLANETOIDS.TOOLTIP
+msgctxt "STRINGS.NATURALBACKWALLS.OPTIONS.OTHER_PLANETOIDS.TOOLTIP"
+msgid "Spaced Out: also give the asteroids you did not start on backwalls. Off matches the Aquatic Planet Pack, whose other planetoids have none."
+msgstr "Spaced Out!: 시작하지 않은 소행성에도 후면벽을 둡니다. 끄면 다른 미행성에 후면벽이 없는 Aquatic Planet Pack과 같아집니다."
+
+#. STRINGS.NATURALBACKWALLS.OPTIONS.PATTERNS_HELP
+msgctxt "STRINGS.NATURALBACKWALLS.OPTIONS.PATTERNS_HELP"
+msgid "Per subworld zone: the noise pattern the backwall patches follow. The pack's trees are shipped with the mod.\nThe kelp forest tree is about twice as dense as the others for the same coverage. Hover a zone for its biomes."
+msgstr "하위 세계 구역별 설정: 후면벽 조각이 따르는 노이즈 패턴입니다. 팩의 노이즈 트리는 모드에 함께 들어 있습니다.\n켈프 숲 트리는 같은 커버리지에서 다른 트리보다 약 두 배 조밀합니다. 구역에 마우스를 올리면 해당 생물군계가 표시됩니다."
+
+#. STRINGS.NATURALBACKWALLS.OPTIONS.START_COVERAGE.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.OPTIONS.START_COVERAGE.NAME"
+msgid "Starting biome coverage"
+msgstr "시작 생물군계 커버리지"
+
+#. STRINGS.NATURALBACKWALLS.OPTIONS.START_COVERAGE.TOOLTIP
+msgctxt "STRINGS.NATURALBACKWALLS.OPTIONS.START_COVERAGE.TOOLTIP"
+msgid "Coverage in whatever biome the colony starts in, replacing that biome's own value. The Aquatic Planet Pack fully walls its beach, hence 1."
+msgstr "콜로니가 시작하는 생물군계가 무엇이든 그곳에 적용되는 커버리지로, 해당 생물군계 자체의 값을 대신합니다. Aquatic Planet Pack은 해변을 완전히 후면벽으로 채우므로 기본값은 1입니다."
+
+#. STRINGS.NATURALBACKWALLS.OPTIONS.ZONE_BIOMES_TOOLTIP
+msgctxt "STRINGS.NATURALBACKWALLS.OPTIONS.ZONE_BIOMES_TOOLTIP"
+msgid "Biomes: {0}"
+msgstr "생물군계: {0}"
+
+#. STRINGS.NATURALBACKWALLS.PATTERNS.ABYSS.DESC
+msgctxt "STRINGS.NATURALBACKWALLS.PATTERNS.ABYSS.DESC"
+msgid "The pack's abyss (murky brine) pattern. About 45% of cells for a 0.4 band, in a different shape from the reef."
+msgstr "팩의 심해(오염된 염수) 패턴입니다. 0.4 밴드에서 타일의 약 45%를 덮으며, 암초와는 다른 모양입니다."
+
+#. STRINGS.NATURALBACKWALLS.PATTERNS.ABYSS.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.PATTERNS.ABYSS.NAME"
+msgid "Abyss"
+msgstr "심해"
+
+#. STRINGS.NATURALBACKWALLS.PATTERNS.BEACH.DESC
+msgctxt "STRINGS.NATURALBACKWALLS.PATTERNS.BEACH.DESC"
+msgid "The pack's beach terrain pattern. About 45% of cells for a 0.4 band."
+msgstr "팩의 해변 지형 패턴입니다. 0.4 밴드에서 타일의 약 45%를 덮습니다."
+
+#. STRINGS.NATURALBACKWALLS.PATTERNS.BEACH.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.PATTERNS.BEACH.NAME"
+msgid "Beach"
+msgstr "해변"
+
+#. STRINGS.NATURALBACKWALLS.PATTERNS.KELP.DESC
+msgctxt "STRINGS.NATURALBACKWALLS.PATTERNS.KELP.DESC"
+msgid "The pack's kelp forest pattern: broad and dense. About 78% of cells for a 0.4 band, 52% for 0.2."
+msgstr "팩의 켈프 숲 패턴으로, 넓고 조밀합니다. 0.4 밴드에서 타일의 약 78%, 0.2 밴드에서 약 52%를 덮습니다."
+
+#. STRINGS.NATURALBACKWALLS.PATTERNS.KELP.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.PATTERNS.KELP.NAME"
+msgid "Kelp forest"
+msgstr "켈프 숲"
+
+#. STRINGS.NATURALBACKWALLS.PATTERNS.REEF.DESC
+msgctxt "STRINGS.NATURALBACKWALLS.PATTERNS.REEF.DESC"
+msgid "The pack's reef and beach pattern. Patches at about 45% of cells for a 0.4 band."
+msgstr "팩의 암초와 해변 패턴입니다. 0.4 밴드에서 조각이 타일의 약 45%를 덮습니다."
+
+#. STRINGS.NATURALBACKWALLS.PATTERNS.REEF.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.PATTERNS.REEF.NAME"
+msgid "Reef"
+msgstr "암초"
+
+#. STRINGS.NATURALBACKWALLS.PATTERNS.STRANGE.DESC
+msgctxt "STRINGS.NATURALBACKWALLS.PATTERNS.STRANGE.DESC"
+msgid "The base game's SandstoneStrange tree, which the pack uses for two subworlds. Dense: about 80% of cells for a 0.4 band."
+msgstr "기본 게임의 SandstoneStrange 트리로, 팩에서는 두 하위 세계에 사용합니다. 조밀함: 0.4 밴드에서 타일의 약 80%를 덮습니다."
+
+#. STRINGS.NATURALBACKWALLS.PATTERNS.STRANGE.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.PATTERNS.STRANGE.NAME"
+msgid "Strange (base game)"
+msgstr "Strange (기본 게임)"
+
+#. STRINGS.NATURALBACKWALLS.PATTERNS.VANILLA.DESC
+msgctxt "STRINGS.NATURALBACKWALLS.PATTERNS.VANILLA.DESC"
+msgid "Keeps the subworld's own backwall noise tree."
+msgstr "하위 세계 자체의 후면벽 노이즈 트리를 유지합니다."
+
+#. STRINGS.NATURALBACKWALLS.PATTERNS.VANILLA.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.PATTERNS.VANILLA.NAME"
+msgid "As the game made it"
+msgstr "게임 원본 그대로"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.ABYSS.BIOMES
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.ABYSS.BIOMES"
+msgid "Abyss (Aquatic pack)"
+msgstr "심해 생물군계 (Aquatic Planet Pack)"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.ABYSS.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.ABYSS.NAME"
+msgid "Abyss (Aquatic pack)"
+msgstr "심해 생물군계 (Aquatic Planet Pack)"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.BARREN.BIOMES
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.BARREN.BIOMES"
+msgid "Barren (regolith), Aquatic (water asteroid)"
+msgstr "불모의 생물군계 (표토), 수생 생물군계 (물 소행성)"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.BARREN.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.BARREN.NAME"
+msgid "Barren (regolith)"
+msgstr "불모의 생물군계 (표토)"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.BEACH.BIOMES
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.BEACH.BIOMES"
+msgid "Beach (Aquatic pack)"
+msgstr "해변 생물군계 (Aquatic Planet Pack)"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.BEACH.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.BEACH.NAME"
+msgid "Beach (Aquatic pack)"
+msgstr "해변 생물군계 (Aquatic Planet Pack)"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.BOGGYMARSH.BIOMES
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.BOGGYMARSH.BIOMES"
+msgid "Marsh"
+msgstr "습지 생물군계"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.BOGGYMARSH.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.BOGGYMARSH.NAME"
+msgid "Marsh"
+msgstr "습지 생물군계"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.CARROTQUARRY.BIOMES
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.CARROTQUARRY.BIOMES"
+msgid "Cool Pool (carrot quarry)"
+msgstr "서늘한 웅덩이 생물군계 (당근 채석장)"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.CARROTQUARRY.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.CARROTQUARRY.NAME"
+msgid "Cool Pool (carrot quarry)"
+msgstr "서늘한 웅덩이 생물군계 (당근 채석장)"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.FOREST.BIOMES
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.FOREST.BIOMES"
+msgid "Forest"
+msgstr "숲 생물군계"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.FOREST.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.FOREST.NAME"
+msgid "Forest"
+msgstr "숲 생물군계"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.FROZENWASTES.BIOMES
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.FROZENWASTES.BIOMES"
+msgid "Tundra (frozen), Moo"
+msgstr "툰드라 생물군계 (동결), 음메 생물군계"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.FROZENWASTES.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.FROZENWASTES.NAME"
+msgid "Tundra (frozen)"
+msgstr "툰드라 생물군계 (동결)"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.ICECAVES.BIOMES
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.ICECAVES.BIOMES"
+msgid "Ice Caves"
+msgstr "얼음 동굴 생물군계"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.ICECAVES.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.ICECAVES.NAME"
+msgid "Ice Caves"
+msgstr "얼음 동굴 생물군계"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.KELPFOREST.BIOMES
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.KELPFOREST.BIOMES"
+msgid "Kelp Forest (Aquatic pack)"
+msgstr "켈프 숲 생물군계 (Aquatic Planet Pack)"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.KELPFOREST.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.KELPFOREST.NAME"
+msgid "Kelp Forest (Aquatic pack)"
+msgstr "켈프 숲 생물군계 (Aquatic Planet Pack)"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.MAGMACORE.BIOMES
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.MAGMACORE.BIOMES"
+msgid "Magma and Niobium"
+msgstr "마그마 및 나이오븀 생물군계"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.MAGMACORE.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.MAGMACORE.NAME"
+msgid "Magma"
+msgstr "마그마 생물군계"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.METALLIC.BIOMES
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.METALLIC.BIOMES"
+msgid "Metallic"
+msgstr "금속 생물군계"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.METALLIC.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.METALLIC.NAME"
+msgid "Metallic"
+msgstr "금속 생물군계"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.MOO.BIOMES
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.MOO.BIOMES"
+msgid "Moo"
+msgstr "음메 생물군계"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.MOO.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.MOO.NAME"
+msgid "Moo"
+msgstr "음메 생물군계"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.OCEAN.BIOMES
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.OCEAN.BIOMES"
+msgid "Ocean (tide pool)"
+msgstr "해양 생물군계 (조수 웅덩이)"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.OCEAN.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.OCEAN.NAME"
+msgid "Ocean (tide pool)"
+msgstr "해양 생물군계 (조수 웅덩이)"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.OILFIELD.BIOMES
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.OILFIELD.BIOMES"
+msgid "Oily, Magma and Niobium"
+msgstr "기름 생물군계, 마그마 및 나이오븀 생물군계"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.OILFIELD.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.OILFIELD.NAME"
+msgid "Oily"
+msgstr "기름 생물군계"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.PREHISTORICGARDEN.BIOMES
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.PREHISTORICGARDEN.BIOMES"
+msgid "Garden"
+msgstr "정원 생물군계"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.PREHISTORICGARDEN.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.PREHISTORICGARDEN.NAME"
+msgid "Garden"
+msgstr "정원 생물군계"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.PREHISTORICRAPTOR.BIOMES
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.PREHISTORICRAPTOR.BIOMES"
+msgid "Feather (raptor)"
+msgstr "깃털 생물군계 (랩터)"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.PREHISTORICRAPTOR.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.PREHISTORICRAPTOR.NAME"
+msgid "Feather (raptor)"
+msgstr "깃털 생물군계 (랩터)"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.PREHISTORICWETLANDS.BIOMES
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.PREHISTORICWETLANDS.BIOMES"
+msgid "Wetlands"
+msgstr "습지 생물군계 (선사 시대 행성)"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.PREHISTORICWETLANDS.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.PREHISTORICWETLANDS.NAME"
+msgid "Wetlands"
+msgstr "습지 생물군계 (선사 시대 행성)"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.RADIOACTIVE.BIOMES
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.RADIOACTIVE.BIOMES"
+msgid "Radioactive"
+msgstr "방사능 생물군계"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.RADIOACTIVE.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.RADIOACTIVE.NAME"
+msgid "Radioactive"
+msgstr "방사능 생물군계"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.REEF.BIOMES
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.REEF.BIOMES"
+msgid "Reef (Aquatic pack)"
+msgstr "암초 생물군계 (Aquatic Planet Pack)"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.REEF.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.REEF.NAME"
+msgid "Reef (Aquatic pack)"
+msgstr "암초 생물군계 (Aquatic Planet Pack)"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.RUST.BIOMES
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.RUST.BIOMES"
+msgid "Rust, Metallic"
+msgstr "녹 생물군계, 금속 생물군계"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.RUST.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.RUST.NAME"
+msgid "Rust"
+msgstr "녹 생물군계"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.SANDSTONE.BIOMES
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.SANDSTONE.BIOMES"
+msgid "Sandstone, Barren (regolith)"
+msgstr "사암 생물군계, 불모의 생물군계 (표토)"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.SANDSTONE.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.SANDSTONE.NAME"
+msgid "Sandstone"
+msgstr "사암 생물군계"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.SUGARWOODS.BIOMES
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.SUGARWOODS.BIOMES"
+msgid "Nectar (sugar woods)"
+msgstr "넥타 생물군계 (설탕 숲)"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.SUGARWOODS.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.SUGARWOODS.NAME"
+msgid "Nectar (sugar woods)"
+msgstr "넥타 생물군계 (설탕 숲)"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.SWAMP.BIOMES
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.SWAMP.BIOMES"
+msgid "Swamp, Aquatic (water asteroid)"
+msgstr "늪지대 생물군계, 수생 생물군계 (물 소행성)"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.SWAMP.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.SWAMP.NAME"
+msgid "Swamp"
+msgstr "늪지대 생물군계"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.TOXICJUNGLE.BIOMES
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.TOXICJUNGLE.BIOMES"
+msgid "Caustic (jungle)"
+msgstr "부식성 생물군계 (정글)"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.TOXICJUNGLE.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.TOXICJUNGLE.NAME"
+msgid "Caustic (jungle)"
+msgstr "부식성 생물군계 (정글)"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.WASTELAND.BIOMES
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.WASTELAND.BIOMES"
+msgid "Wasteland"
+msgstr "황무지 생물군계"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.WASTELAND.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.WASTELAND.NAME"
+msgid "Wasteland"
+msgstr "황무지 생물군계"

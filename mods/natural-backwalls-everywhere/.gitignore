@@ -1,0 +1,10 @@
+bin/
+obj/
+.vs/
+*.user
+publish/content/
+publish/*.zip
+publish/workshop-description.live.txt
+tools/BiomePreview/out/
+tools/BiomePreview/publish/
+tools/BiomePreview/dist/

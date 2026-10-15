@@ -1,0 +1,32 @@
+Natural backwall tiles in every biome, not just the Aquatic Planet Pack's beach, reef, kelp forest, and abyss.
+
+[h2]How it works[/h2]
+The Aquatic pack has no special backwall algorithm. Its subworlds name a backwall noise tree and its biome files carry a "_backwall" element band, which the game samples exactly like ordinary terrain bands and writes wherever the result is a solid. This mod adds the same data to every other biome during world generation, using copies of the pack's backwall noise trees shipped with the mod, alongside one from the base game, so the pack itself is not required.
+
+[h2]Options[/h2]
+[list]
+[*]One row per biome family (Sandstone, Forest, Tundra, Caustic, Marsh, Ocean, Oily, Rust, Magma, Barren, and the Spaced Out, Frosty Planet, and Prehistoric Planet biomes when active): a material dropdown listing the solids found in that biome plus None, and a coverage box. Want ice walls behind your tundra or lead behind the oil biome? Pick them.
+[*]A Patterns section picks, per subworld zone, the noise the patches follow: the pack's reef, kelp forest, abyss and beach trees (shipped with the mod, no DLC needed) or the base game's Strange tree. Lush biomes default to the dense kelp forest pattern, hot rocky ones to the abyss, the rest to the reef.
+[*]Coverage is the band size; 0.4 by default with the reef and abyss patterns and 0.15 with the kelp forest one, which come to about the same density, since rock biomes hide most backwalls behind solid tiles. A separate starting-biome coverage (1 by default, like the pack's beach) applies to whatever biome you start in.
+[/list]
+
+[h2]Good to know[/h2]
+[list]
+[*]New worlds only. Backwalls are placed by world generation, so existing colonies are unchanged.
+[*]Carved caves, lakes and geodes get backwalls as well. The game's own pass skips them, which is why the pack's logic leaves most rock-biome caves bare; turn it off in the options if you prefer that.
+[*]An options button exports your settings as a worldgen YAML overlay, for browser renderers such as onimaxxing.com/worldgen.
+[*]In Spaced Out, only the starting asteroid gets backwalls unless you turn on the option for the other planetoids, matching the pack.
+[*]Works alongside other worldgen mods: their subworlds and biomes are handled like the game's, unknown biomes get their own most common solid (or nothing, your choice), and anything that already has backwalls keeps them.
+[*]Surface and space subworlds are never given backwalls; a backwalled cell is no longer open to space.
+[*]Backwalls can be dug like the pack's, so they yield their material. The defaults are each biome's filler rock.
+[*]The Aquatic pack's own biomes are listed too, with the pack's values as defaults; leave them alone and their worldgen is untouched, or give them your own material and coverage.
+[/list]
+
+Made by a professional software developer with assistance from Claude Fable. Comes with a no slop guarantee.
+
+Source and issues: https://github.com/isochronous/natural-backwalls-everywhere
+
+Translations done via artificial intelligence. Please submit corrections via GitHub issues.
+翻译由人工智能完成。如有错误，请通过 GitHub Issues 提交更正。
+번역은 인공지능으로 이루어졌습니다. 수정 사항은 GitHub 이슈로 제출해 주세요.
+Перевод выполнен с помощью искусственного интеллекта. Исправления присылайте через GitHub Issues.

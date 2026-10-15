@@ -1,0 +1,563 @@
+msgid ""
+msgstr ""
+"Application: Oxygen Not Included\n"
+"POT Version: 2.0\n"
+"Language: ru_RU\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. STRINGS.NATURALBACKWALLS.BIOMES.ABYSS
+msgctxt "STRINGS.NATURALBACKWALLS.BIOMES.ABYSS"
+msgid "Abyss (Aquatic pack)"
+msgstr "Биом бездны (набор \"Водная планета\")"
+
+#. STRINGS.NATURALBACKWALLS.BIOMES.AQUATIC
+msgctxt "STRINGS.NATURALBACKWALLS.BIOMES.AQUATIC"
+msgid "Aquatic (water asteroid)"
+msgstr "Водный биом (водный астероид)"
+
+#. STRINGS.NATURALBACKWALLS.BIOMES.BARREN
+msgctxt "STRINGS.NATURALBACKWALLS.BIOMES.BARREN"
+msgid "Barren (regolith)"
+msgstr "Бесплодный биом (реголит)"
+
+#. STRINGS.NATURALBACKWALLS.BIOMES.BEACH
+msgctxt "STRINGS.NATURALBACKWALLS.BIOMES.BEACH"
+msgid "Beach (Aquatic pack)"
+msgstr "Пляжный биом (набор \"Водная планета\")"
+
+#. STRINGS.NATURALBACKWALLS.BIOMES.CARROTQUARRY
+msgctxt "STRINGS.NATURALBACKWALLS.BIOMES.CARROTQUARRY"
+msgid "Cool Pool (carrot quarry)"
+msgstr "Биом \"Холодный бассейн\" (морковный карьер)"
+
+#. STRINGS.NATURALBACKWALLS.BIOMES.CAUSTIC
+msgctxt "STRINGS.NATURALBACKWALLS.BIOMES.CAUSTIC"
+msgid "Caustic (jungle)"
+msgstr "Едкий биом (джунгли)"
+
+#. STRINGS.NATURALBACKWALLS.BIOMES.FOREST
+msgctxt "STRINGS.NATURALBACKWALLS.BIOMES.FOREST"
+msgid "Forest"
+msgstr "Лесной биом"
+
+#. STRINGS.NATURALBACKWALLS.BIOMES.FROZEN
+msgctxt "STRINGS.NATURALBACKWALLS.BIOMES.FROZEN"
+msgid "Tundra (frozen)"
+msgstr "Биом тундры (замёрзший)"
+
+#. STRINGS.NATURALBACKWALLS.BIOMES.GARDEN
+msgctxt "STRINGS.NATURALBACKWALLS.BIOMES.GARDEN"
+msgid "Garden"
+msgstr "Садовый биом"
+
+#. STRINGS.NATURALBACKWALLS.BIOMES.ICECAVES
+msgctxt "STRINGS.NATURALBACKWALLS.BIOMES.ICECAVES"
+msgid "Ice Caves"
+msgstr "Ледяной пещерный биом"
+
+#. STRINGS.NATURALBACKWALLS.BIOMES.KELPFOREST
+msgctxt "STRINGS.NATURALBACKWALLS.BIOMES.KELPFOREST"
+msgid "Kelp Forest (Aquatic pack)"
+msgstr "Биом водорослевого леса (набор \"Водная планета\")"
+
+#. STRINGS.NATURALBACKWALLS.BIOMES.MAGMA
+msgctxt "STRINGS.NATURALBACKWALLS.BIOMES.MAGMA"
+msgid "Magma and Niobium"
+msgstr "Магмовый биом и биом ниобия"
+
+#. STRINGS.NATURALBACKWALLS.BIOMES.MARSH
+msgctxt "STRINGS.NATURALBACKWALLS.BIOMES.MARSH"
+msgid "Marsh"
+msgstr "Биом топи"
+
+#. STRINGS.NATURALBACKWALLS.BIOMES.METALLIC
+msgctxt "STRINGS.NATURALBACKWALLS.BIOMES.METALLIC"
+msgid "Metallic"
+msgstr "Металлический биом"
+
+#. STRINGS.NATURALBACKWALLS.BIOMES.MOO
+msgctxt "STRINGS.NATURALBACKWALLS.BIOMES.MOO"
+msgid "Moo"
+msgstr "Биом му-му"
+
+#. STRINGS.NATURALBACKWALLS.BIOMES.OCEAN
+msgctxt "STRINGS.NATURALBACKWALLS.BIOMES.OCEAN"
+msgid "Ocean (tide pool)"
+msgstr "Океанический биом (приливный бассейн)"
+
+#. STRINGS.NATURALBACKWALLS.BIOMES.OIL
+msgctxt "STRINGS.NATURALBACKWALLS.BIOMES.OIL"
+msgid "Oily"
+msgstr "Нефтяной биом"
+
+#. STRINGS.NATURALBACKWALLS.BIOMES.RADIOACTIVE
+msgctxt "STRINGS.NATURALBACKWALLS.BIOMES.RADIOACTIVE"
+msgid "Radioactive"
+msgstr "Радиоактивный биом"
+
+#. STRINGS.NATURALBACKWALLS.BIOMES.RAPTOR
+msgctxt "STRINGS.NATURALBACKWALLS.BIOMES.RAPTOR"
+msgid "Feather (raptor)"
+msgstr "Перьевой биом (раптор)"
+
+#. STRINGS.NATURALBACKWALLS.BIOMES.REEF
+msgctxt "STRINGS.NATURALBACKWALLS.BIOMES.REEF"
+msgid "Reef (Aquatic pack)"
+msgstr "Рифовый биом (набор \"Водная планета\")"
+
+#. STRINGS.NATURALBACKWALLS.BIOMES.RUST
+msgctxt "STRINGS.NATURALBACKWALLS.BIOMES.RUST"
+msgid "Rust"
+msgstr "Ржавый биом"
+
+#. STRINGS.NATURALBACKWALLS.BIOMES.SANDSTONE
+msgctxt "STRINGS.NATURALBACKWALLS.BIOMES.SANDSTONE"
+msgid "Sandstone"
+msgstr "Песчаный биом"
+
+#. STRINGS.NATURALBACKWALLS.BIOMES.SUGARWOODS
+msgctxt "STRINGS.NATURALBACKWALLS.BIOMES.SUGARWOODS"
+msgid "Nectar (sugar woods)"
+msgstr "Нектарный биом (сахарный лес)"
+
+#. STRINGS.NATURALBACKWALLS.BIOMES.SWAMP
+msgctxt "STRINGS.NATURALBACKWALLS.BIOMES.SWAMP"
+msgid "Swamp"
+msgstr "Болотный биом"
+
+#. STRINGS.NATURALBACKWALLS.BIOMES.WASTELAND
+msgctxt "STRINGS.NATURALBACKWALLS.BIOMES.WASTELAND"
+msgid "Wasteland"
+msgstr "Биом пустошей"
+
+#. STRINGS.NATURALBACKWALLS.BIOMES.WETLANDS
+msgctxt "STRINGS.NATURALBACKWALLS.BIOMES.WETLANDS"
+msgid "Wetlands"
+msgstr "Трясинный биом"
+
+#. STRINGS.NATURALBACKWALLS.OPTIONS.BIOMES_HELP
+msgctxt "STRINGS.NATURALBACKWALLS.OPTIONS.BIOMES_HELP"
+msgid "Per biome: the backwall material, from the solids found there (None leaves it bare),\nand the coverage, a 0 to 1 band size used when it is not the starting biome."
+msgstr "Для каждого биома: материал задней стены из твёрдых веществ, которые в нём встречаются (\"Нет\" оставляет его пустым),\nи покрытие — размер полосы от 0 до 1, который используется, когда биом не является стартовым."
+
+#. STRINGS.NATURALBACKWALLS.OPTIONS.CATEGORY.BIOMES
+msgctxt "STRINGS.NATURALBACKWALLS.OPTIONS.CATEGORY.BIOMES"
+msgid "Biomes"
+msgstr "Биомы"
+
+#. STRINGS.NATURALBACKWALLS.OPTIONS.CATEGORY.GENERAL
+msgctxt "STRINGS.NATURALBACKWALLS.OPTIONS.CATEGORY.GENERAL"
+msgid "General"
+msgstr "Общее"
+
+#. STRINGS.NATURALBACKWALLS.OPTIONS.CATEGORY.PATTERNS
+msgctxt "STRINGS.NATURALBACKWALLS.OPTIONS.CATEGORY.PATTERNS"
+msgid "Patterns"
+msgstr "Узоры"
+
+#. STRINGS.NATURALBACKWALLS.OPTIONS.CATEGORY.STARTING_BIOME
+msgctxt "STRINGS.NATURALBACKWALLS.OPTIONS.CATEGORY.STARTING_BIOME"
+msgid "Starting biome"
+msgstr "Стартовый биом"
+
+#. STRINGS.NATURALBACKWALLS.OPTIONS.COVERAGE_TOOLTIP
+msgctxt "STRINGS.NATURALBACKWALLS.OPTIONS.COVERAGE_TOOLTIP"
+msgid "Coverage when this is not the starting biome: fraction of its cells that get a backwall, 0 to 1. Default {0}."
+msgstr "Покрытие, когда этот биом не является стартовым: доля его клеток, получающих заднюю стену, от 0 до 1. По умолчанию {0}."
+
+#. STRINGS.NATURALBACKWALLS.OPTIONS.DEFAULT_CHOICE
+msgctxt "STRINGS.NATURALBACKWALLS.OPTIONS.DEFAULT_CHOICE"
+msgid "{0} (default)"
+msgstr "{0} (по умолчанию)"
+
+#. STRINGS.NATURALBACKWALLS.OPTIONS.EXPORT_OVERLAY.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.OPTIONS.EXPORT_OVERLAY.NAME"
+msgid "Export worldgen overlay"
+msgstr "Экспортировать оверлей генерации мира"
+
+#. STRINGS.NATURALBACKWALLS.OPTIONS.EXPORT_OVERLAY.TOOLTIP
+msgctxt "STRINGS.NATURALBACKWALLS.OPTIONS.EXPORT_OVERLAY.TOOLTIP"
+msgid "Writes the current settings as a mod-style folder of worldgen YAML (NaturalBackwalls-overlay next to your saves) for external renderers such as onimaxxing.com/worldgen or the BiomePreview tool. Feature caves and the starting-biome coverage are not representable there."
+msgstr "Записывает текущие настройки в виде папки YAML генерации мира в формате мода (NaturalBackwalls-overlay рядом с вашими сохранениями) для внешних визуализаторов, таких как onimaxxing.com/worldgen или инструмент BiomePreview. Пещеры-особенности и покрытие стартового биома там представить нельзя."
+
+#. STRINGS.NATURALBACKWALLS.OPTIONS.FEATURE_BACKWALLS.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.OPTIONS.FEATURE_BACKWALLS.NAME"
+msgid "Backwalls behind carved caves and lakes"
+msgstr "Задние стены за вырезанными пещерами и озёрами"
+
+#. STRINGS.NATURALBACKWALLS.OPTIONS.FEATURE_BACKWALLS.TOOLTIP
+msgctxt "STRINGS.NATURALBACKWALLS.OPTIONS.FEATURE_BACKWALLS.TOOLTIP"
+msgid "Worldgen carves feature rooms (caves, lakes, geodes) into a biome after claiming their cells, and the game's own backwall pass skips claimed cells, so those rooms would stay bare. On, they get backwalls from the same noise as the rest of the biome."
+msgstr "Генерация мира вырезает в биоме помещения-особенности (пещеры, озёра, жеоды) после того, как займёт их клетки, а собственный проход игры по задним стенам пропускает занятые клетки, поэтому эти помещения остались бы пустыми. Если включено, они получают задние стены из того же шума, что и остальная часть биома."
+
+#. STRINGS.NATURALBACKWALLS.OPTIONS.NO_MATERIAL.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.OPTIONS.NO_MATERIAL.NAME"
+msgid "None"
+msgstr "Нет"
+
+#. STRINGS.NATURALBACKWALLS.OPTIONS.NO_MATERIAL.TOOLTIP
+msgctxt "STRINGS.NATURALBACKWALLS.OPTIONS.NO_MATERIAL.TOOLTIP"
+msgid "No natural backwall in this biome."
+msgstr "В этом биоме нет естественной задней стены."
+
+#. STRINGS.NATURALBACKWALLS.OPTIONS.OTHER_MOD_BIOMES.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.OPTIONS.OTHER_MOD_BIOMES.NAME"
+msgid "Backwalls in biomes from other mods"
+msgstr "Задние стены в биомах из других модов"
+
+#. STRINGS.NATURALBACKWALLS.OPTIONS.OTHER_MOD_BIOMES.TOOLTIP
+msgctxt "STRINGS.NATURALBACKWALLS.OPTIONS.OTHER_MOD_BIOMES.TOOLTIP"
+msgid "Biomes this mod does not know (added by worldgen mods) get a backwall of their own most common solid at the coverage below, with the pattern of their zone. Off leaves them bare."
+msgstr "Биомы, неизвестные этому моду (добавленные модами генерации мира), получают заднюю стену из своего самого распространённого твёрдого вещества с указанным ниже покрытием и узором своей зоны. Если выключено, они остаются пустыми."
+
+#. STRINGS.NATURALBACKWALLS.OPTIONS.OTHER_MOD_COVERAGE.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.OPTIONS.OTHER_MOD_COVERAGE.NAME"
+msgid "Coverage in biomes from other mods"
+msgstr "Покрытие в биомах из других модов"
+
+#. STRINGS.NATURALBACKWALLS.OPTIONS.OTHER_MOD_COVERAGE.TOOLTIP
+msgctxt "STRINGS.NATURALBACKWALLS.OPTIONS.OTHER_MOD_COVERAGE.TOOLTIP"
+msgid "Band size used for biomes this mod does not know."
+msgstr "Размер полосы для биомов, неизвестных этому моду."
+
+#. STRINGS.NATURALBACKWALLS.OPTIONS.OTHER_PLANETOIDS.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.OPTIONS.OTHER_PLANETOIDS.NAME"
+msgid "Backwalls on other planetoids"
+msgstr "Задние стены на других планетоидах"
+
+#. STRINGS.NATURALBACKWALLS.OPTIONS.OTHER_PLANETOIDS.TOOLTIP
+msgctxt "STRINGS.NATURALBACKWALLS.OPTIONS.OTHER_PLANETOIDS.TOOLTIP"
+msgid "Spaced Out: also give the asteroids you did not start on backwalls. Off matches the Aquatic Planet Pack, whose other planetoids have none."
+msgstr "Spaced Out!: задние стены получают и те астероиды, на которых вы не начинали. Если выключено, поведение совпадает с набором \"Водная планета\", где на других планетоидах их нет."
+
+#. STRINGS.NATURALBACKWALLS.OPTIONS.PATTERNS_HELP
+msgctxt "STRINGS.NATURALBACKWALLS.OPTIONS.PATTERNS_HELP"
+msgid "Per subworld zone: the noise pattern the backwall patches follow. The pack's trees are shipped with the mod.\nThe kelp forest tree is about twice as dense as the others for the same coverage. Hover a zone for its biomes."
+msgstr "Для каждой зоны подмиров: узор шума, по которому ложатся участки задней стены. Деревья шума из набора поставляются вместе с модом.\nДерево водорослевого леса примерно вдвое плотнее остальных при том же покрытии. Наведите курсор на зону, чтобы увидеть её биомы."
+
+#. STRINGS.NATURALBACKWALLS.OPTIONS.START_COVERAGE.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.OPTIONS.START_COVERAGE.NAME"
+msgid "Starting biome coverage"
+msgstr "Покрытие стартового биома"
+
+#. STRINGS.NATURALBACKWALLS.OPTIONS.START_COVERAGE.TOOLTIP
+msgctxt "STRINGS.NATURALBACKWALLS.OPTIONS.START_COVERAGE.TOOLTIP"
+msgid "Coverage in whatever biome the colony starts in, replacing that biome's own value. The Aquatic Planet Pack fully walls its beach, hence 1."
+msgstr "Покрытие в том биоме, в котором начинает колония, каким бы он ни был; заменяет собственное значение этого биома. В наборе \"Водная планета\" пляж закрыт задней стеной полностью, отсюда 1."
+
+#. STRINGS.NATURALBACKWALLS.OPTIONS.ZONE_BIOMES_TOOLTIP
+msgctxt "STRINGS.NATURALBACKWALLS.OPTIONS.ZONE_BIOMES_TOOLTIP"
+msgid "Biomes: {0}"
+msgstr "Биомы: {0}"
+
+#. STRINGS.NATURALBACKWALLS.PATTERNS.ABYSS.DESC
+msgctxt "STRINGS.NATURALBACKWALLS.PATTERNS.ABYSS.DESC"
+msgid "The pack's abyss (murky brine) pattern. About 45% of cells for a 0.4 band, in a different shape from the reef."
+msgstr "Узор бездны (загрязненной рапы) из набора. Около 45% клеток при полосе 0,4, по форме отличается от рифа."
+
+#. STRINGS.NATURALBACKWALLS.PATTERNS.ABYSS.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.PATTERNS.ABYSS.NAME"
+msgid "Abyss"
+msgstr "Бездна"
+
+#. STRINGS.NATURALBACKWALLS.PATTERNS.BEACH.DESC
+msgctxt "STRINGS.NATURALBACKWALLS.PATTERNS.BEACH.DESC"
+msgid "The pack's beach terrain pattern. About 45% of cells for a 0.4 band."
+msgstr "Узор пляжного рельефа из набора. Около 45% клеток при полосе 0,4."
+
+#. STRINGS.NATURALBACKWALLS.PATTERNS.BEACH.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.PATTERNS.BEACH.NAME"
+msgid "Beach"
+msgstr "Пляж"
+
+#. STRINGS.NATURALBACKWALLS.PATTERNS.KELP.DESC
+msgctxt "STRINGS.NATURALBACKWALLS.PATTERNS.KELP.DESC"
+msgid "The pack's kelp forest pattern: broad and dense. About 78% of cells for a 0.4 band, 52% for 0.2."
+msgstr "Узор водорослевого леса из набора: широкий и плотный. Около 78% клеток при полосе 0,4 и 52% при 0,2."
+
+#. STRINGS.NATURALBACKWALLS.PATTERNS.KELP.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.PATTERNS.KELP.NAME"
+msgid "Kelp forest"
+msgstr "Водорослевый лес"
+
+#. STRINGS.NATURALBACKWALLS.PATTERNS.REEF.DESC
+msgctxt "STRINGS.NATURALBACKWALLS.PATTERNS.REEF.DESC"
+msgid "The pack's reef and beach pattern. Patches at about 45% of cells for a 0.4 band."
+msgstr "Узор рифа и пляжа из набора. Участки занимают около 45% клеток при полосе 0,4."
+
+#. STRINGS.NATURALBACKWALLS.PATTERNS.REEF.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.PATTERNS.REEF.NAME"
+msgid "Reef"
+msgstr "Риф"
+
+#. STRINGS.NATURALBACKWALLS.PATTERNS.STRANGE.DESC
+msgctxt "STRINGS.NATURALBACKWALLS.PATTERNS.STRANGE.DESC"
+msgid "The base game's SandstoneStrange tree, which the pack uses for two subworlds. Dense: about 80% of cells for a 0.4 band."
+msgstr "Дерево SandstoneStrange из базовой игры, которое набор использует для двух подмиров. Плотный: около 80% клеток при полосе 0,4."
+
+#. STRINGS.NATURALBACKWALLS.PATTERNS.STRANGE.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.PATTERNS.STRANGE.NAME"
+msgid "Strange (base game)"
+msgstr "Strange (базовая игра)"
+
+#. STRINGS.NATURALBACKWALLS.PATTERNS.VANILLA.DESC
+msgctxt "STRINGS.NATURALBACKWALLS.PATTERNS.VANILLA.DESC"
+msgid "Keeps the subworld's own backwall noise tree."
+msgstr "Сохраняет собственное дерево шума задней стены подмира."
+
+#. STRINGS.NATURALBACKWALLS.PATTERNS.VANILLA.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.PATTERNS.VANILLA.NAME"
+msgid "As the game made it"
+msgstr "Как в самой игре"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.ABYSS.BIOMES
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.ABYSS.BIOMES"
+msgid "Abyss (Aquatic pack)"
+msgstr "Биом бездны (набор \"Водная планета\")"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.ABYSS.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.ABYSS.NAME"
+msgid "Abyss (Aquatic pack)"
+msgstr "Биом бездны (набор \"Водная планета\")"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.BARREN.BIOMES
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.BARREN.BIOMES"
+msgid "Barren (regolith), Aquatic (water asteroid)"
+msgstr "Бесплодный биом (реголит), Водный биом (водный астероид)"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.BARREN.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.BARREN.NAME"
+msgid "Barren (regolith)"
+msgstr "Бесплодный биом (реголит)"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.BEACH.BIOMES
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.BEACH.BIOMES"
+msgid "Beach (Aquatic pack)"
+msgstr "Пляжный биом (набор \"Водная планета\")"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.BEACH.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.BEACH.NAME"
+msgid "Beach (Aquatic pack)"
+msgstr "Пляжный биом (набор \"Водная планета\")"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.BOGGYMARSH.BIOMES
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.BOGGYMARSH.BIOMES"
+msgid "Marsh"
+msgstr "Биом топи"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.BOGGYMARSH.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.BOGGYMARSH.NAME"
+msgid "Marsh"
+msgstr "Биом топи"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.CARROTQUARRY.BIOMES
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.CARROTQUARRY.BIOMES"
+msgid "Cool Pool (carrot quarry)"
+msgstr "Биом \"Холодный бассейн\" (морковный карьер)"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.CARROTQUARRY.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.CARROTQUARRY.NAME"
+msgid "Cool Pool (carrot quarry)"
+msgstr "Биом \"Холодный бассейн\" (морковный карьер)"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.FOREST.BIOMES
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.FOREST.BIOMES"
+msgid "Forest"
+msgstr "Лесной биом"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.FOREST.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.FOREST.NAME"
+msgid "Forest"
+msgstr "Лесной биом"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.FROZENWASTES.BIOMES
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.FROZENWASTES.BIOMES"
+msgid "Tundra (frozen), Moo"
+msgstr "Биом тундры (замёрзший), Биом му-му"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.FROZENWASTES.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.FROZENWASTES.NAME"
+msgid "Tundra (frozen)"
+msgstr "Биом тундры (замёрзший)"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.ICECAVES.BIOMES
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.ICECAVES.BIOMES"
+msgid "Ice Caves"
+msgstr "Ледяной пещерный биом"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.ICECAVES.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.ICECAVES.NAME"
+msgid "Ice Caves"
+msgstr "Ледяной пещерный биом"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.KELPFOREST.BIOMES
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.KELPFOREST.BIOMES"
+msgid "Kelp Forest (Aquatic pack)"
+msgstr "Биом водорослевого леса (набор \"Водная планета\")"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.KELPFOREST.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.KELPFOREST.NAME"
+msgid "Kelp Forest (Aquatic pack)"
+msgstr "Биом водорослевого леса (набор \"Водная планета\")"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.MAGMACORE.BIOMES
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.MAGMACORE.BIOMES"
+msgid "Magma and Niobium"
+msgstr "Магмовый биом и биом ниобия"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.MAGMACORE.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.MAGMACORE.NAME"
+msgid "Magma"
+msgstr "Магмовый биом"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.METALLIC.BIOMES
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.METALLIC.BIOMES"
+msgid "Metallic"
+msgstr "Металлический биом"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.METALLIC.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.METALLIC.NAME"
+msgid "Metallic"
+msgstr "Металлический биом"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.MOO.BIOMES
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.MOO.BIOMES"
+msgid "Moo"
+msgstr "Биом му-му"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.MOO.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.MOO.NAME"
+msgid "Moo"
+msgstr "Биом му-му"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.OCEAN.BIOMES
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.OCEAN.BIOMES"
+msgid "Ocean (tide pool)"
+msgstr "Океанический биом (приливный бассейн)"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.OCEAN.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.OCEAN.NAME"
+msgid "Ocean (tide pool)"
+msgstr "Океанический биом (приливный бассейн)"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.OILFIELD.BIOMES
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.OILFIELD.BIOMES"
+msgid "Oily, Magma and Niobium"
+msgstr "Нефтяной биом, Магмовый биом и биом ниобия"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.OILFIELD.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.OILFIELD.NAME"
+msgid "Oily"
+msgstr "Нефтяной биом"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.PREHISTORICGARDEN.BIOMES
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.PREHISTORICGARDEN.BIOMES"
+msgid "Garden"
+msgstr "Садовый биом"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.PREHISTORICGARDEN.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.PREHISTORICGARDEN.NAME"
+msgid "Garden"
+msgstr "Садовый биом"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.PREHISTORICRAPTOR.BIOMES
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.PREHISTORICRAPTOR.BIOMES"
+msgid "Feather (raptor)"
+msgstr "Перьевой биом (раптор)"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.PREHISTORICRAPTOR.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.PREHISTORICRAPTOR.NAME"
+msgid "Feather (raptor)"
+msgstr "Перьевой биом (раптор)"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.PREHISTORICWETLANDS.BIOMES
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.PREHISTORICWETLANDS.BIOMES"
+msgid "Wetlands"
+msgstr "Трясинный биом"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.PREHISTORICWETLANDS.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.PREHISTORICWETLANDS.NAME"
+msgid "Wetlands"
+msgstr "Трясинный биом"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.RADIOACTIVE.BIOMES
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.RADIOACTIVE.BIOMES"
+msgid "Radioactive"
+msgstr "Радиоактивный биом"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.RADIOACTIVE.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.RADIOACTIVE.NAME"
+msgid "Radioactive"
+msgstr "Радиоактивный биом"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.REEF.BIOMES
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.REEF.BIOMES"
+msgid "Reef (Aquatic pack)"
+msgstr "Рифовый биом (набор \"Водная планета\")"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.REEF.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.REEF.NAME"
+msgid "Reef (Aquatic pack)"
+msgstr "Рифовый биом (набор \"Водная планета\")"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.RUST.BIOMES
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.RUST.BIOMES"
+msgid "Rust, Metallic"
+msgstr "Ржавый биом, Металлический биом"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.RUST.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.RUST.NAME"
+msgid "Rust"
+msgstr "Ржавый биом"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.SANDSTONE.BIOMES
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.SANDSTONE.BIOMES"
+msgid "Sandstone, Barren (regolith)"
+msgstr "Песчаный биом, Бесплодный биом (реголит)"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.SANDSTONE.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.SANDSTONE.NAME"
+msgid "Sandstone"
+msgstr "Песчаный биом"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.SUGARWOODS.BIOMES
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.SUGARWOODS.BIOMES"
+msgid "Nectar (sugar woods)"
+msgstr "Нектарный биом (сахарный лес)"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.SUGARWOODS.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.SUGARWOODS.NAME"
+msgid "Nectar (sugar woods)"
+msgstr "Нектарный биом (сахарный лес)"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.SWAMP.BIOMES
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.SWAMP.BIOMES"
+msgid "Swamp, Aquatic (water asteroid)"
+msgstr "Болотный биом, Водный биом (водный астероид)"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.SWAMP.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.SWAMP.NAME"
+msgid "Swamp"
+msgstr "Болотный биом"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.TOXICJUNGLE.BIOMES
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.TOXICJUNGLE.BIOMES"
+msgid "Caustic (jungle)"
+msgstr "Едкий биом (джунгли)"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.TOXICJUNGLE.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.TOXICJUNGLE.NAME"
+msgid "Caustic (jungle)"
+msgstr "Едкий биом (джунгли)"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.WASTELAND.BIOMES
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.WASTELAND.BIOMES"
+msgid "Wasteland"
+msgstr "Биом пустошей"
+
+#. STRINGS.NATURALBACKWALLS.ZONES.WASTELAND.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.ZONES.WASTELAND.NAME"
+msgid "Wasteland"
+msgstr "Биом пустошей"
