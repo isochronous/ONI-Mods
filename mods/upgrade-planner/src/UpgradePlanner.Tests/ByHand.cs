@@ -464,12 +464,15 @@ namespace UpgradePlanner.Tests
 
 		/// <summary>
 		/// Doors asked to open finish opening first (up to a game minute), as a player would not
-		/// rebuild one halfway. A mechanical airlock without power never does, and is not waited for.
+		/// rebuild one halfway. Not waited for: a mechanical airlock without power, which never does,
+		/// and a door whose change is a Duplicant's errand (any door, outside debug instant build),
+		/// which the crew does on arriving.
 		/// </summary>
 		internal static IEnumerator Settle(IEnumerable<GameObject> built)
 		{
 			List<Door> doors = built.Where(go => go != null).Select(go => go.GetComponent<Door>())
-				.Where(door => door != null && door.GetComponent<EnergyConsumer>() == null).ToList();
+				.Where(door => door != null && door.GetComponent<EnergyConsumer>() == null
+					&& !door.GetComponent<KSelectable>().HasStatusItem(Db.Get().BuildingStatusItems.ChangeDoorControlState)).ToList();
 			float until = GameClock.Instance.GetTime() + 60f;
 			while (GameClock.Instance.GetTime() < until && doors.Any(door => door != null && door.CurrentState != door.RequestedState))
 				yield return null;

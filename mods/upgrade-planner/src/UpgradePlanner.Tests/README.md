@@ -70,6 +70,15 @@ update. Its tests are `Explicit`, with a crew of three and a pile of materials a
 box, every crew with every skill (conductive and Heavi-Watt wire and conveyor rails ask one); they
 collect every problem and report them together, logging each as it is found:
 
+- `RepresentativeTypes` (about a minute) and `RepresentativeReplacements` (about a minute): the
+  same as the two below over the fewest types (30) and pairings (17) that between them show every
+  trait of all of them. A type's traits are what the planner and the game branch on: rebuilt or
+  built over, layer, placement rule, size, ingredients and item ingredients, rotations, a skill
+  to build it, pipe, power and automation ports, door, storage, and each kind of setting it holds;
+  a pairing's are both types' traits, whether it is built over itself or another type on its
+  layer, the layers it goes between, and whether it is bigger or smaller. The run logs what was
+  taken and why. A type the game adds is taken when it brings a trait no other shows. This is the
+  run for after an update; the full runs are for when it finds something.
 - `EveryType` (about 12 minutes): every type All buildings offers, 307 of them in 31 batches along
   the floor, its settings changed, built again in its second material by the crews, about 1040
   settings checked. Dev-only types are left out: they are built only at once, never by hand.
@@ -83,6 +92,7 @@ collect every problem and report them together, logging each as it is found:
   problem with, on their own, for a closer look; edit their lists.
 
 ```
+pwsh common/tools/TestRunner/Invoke-OniTests.ps1 -Mods UpgradePlanner -Steam 3468585385,3724635599,1832319118,2047308624 -Filter "*ByHandAll.Representative*" -TimeoutSec 900 -TestTimeoutSec 600
 pwsh common/tools/TestRunner/Invoke-OniTests.ps1 -Mods UpgradePlanner -Steam 3468585385,3724635599,1832319118,2047308624 -Filter "*ByHandAll.Every*" -TimeoutSec 3600 -TestTimeoutSec 3000
 ```
 

@@ -9,13 +9,16 @@ namespace UpgradePlanner.Tests
 {
 	/// <summary>
 	/// The by-hand tests over everything the planner offers, for when a game or mod update may have
-	/// changed what Duplicants do with its orders. Both are Explicit (most of an hour together):
+	/// changed what Duplicants do with its orders. All are Explicit:
 	///
 	/// EveryType: every type All buildings offers, in batches along the box's floor, its settings
 	/// changed, then changed to its second material and built again by the crew, settings kept.
 	///
 	/// EveryReplacement: every pairing the Replace type tab offers (a type and each type that can be
 	/// built over it, its own included), three of the type laid down and built over by the crew.
+	///
+	/// RepresentativeTypes and RepresentativeReplacements: the same over the fewest types and
+	/// pairings that between them show every trait of all of them (see <see cref="Coverage"/>).
 	///
 	/// A crew and a pile of materials at each end of the box, so a door that closes cuts nothing
 	/// off. Problems are collected and reported together at the end rather than stopping at the first.
@@ -54,6 +57,22 @@ namespace UpgradePlanner.Tests
 		[OniTest("Upgrade Planner: Duplicants build every type All buildings offers again in another material, with its settings", Timeout = 5400, Boxed = true, Explicit = true), Layer(1)]
 		public static IEnumerator EveryType(TestContext t)
 		{
+			return Types(t, EligibleTypes(t));
+		}
+
+		[OniTest("Upgrade Planner: Duplicants build one of each kind of type again in another material, with its settings", Timeout = 1800, Boxed = true, Explicit = true), Layer(1)]
+		public static IEnumerator RepresentativeTypes(TestContext t)
+		{
+			List<BuildingDef> defs = EligibleTypes(t);
+			List<BuildingDef> chosen = Coverage.Cover(defs, def => Coverage.Of(def, settings: true));
+			t.Log(chosen.Count + " of " + defs.Count + " types show every trait: "
+				+ string.Join("; ", chosen.Select(def => def.PrefabID + " (" + string.Join(", ", Coverage.Of(def, settings: true)) + ")")));
+			return Types(t, chosen);
+		}
+
+		/// <summary>The types All buildings offers that can be built by hand in the box.</summary>
+		private static List<BuildingDef> EligibleTypes(TestContext t)
+		{
 			BuildingSettings.RequireBlueprints(t);
 			t.ResearchAll();
 			List<BuildingDef> defs = BuildingSettings.Eligible(t, out List<string> excluded);
@@ -63,7 +82,7 @@ namespace UpgradePlanner.Tests
 				excluded.Add(def.PrefabID + ": dev-only, never built by hand");
 			defs.RemoveAll(def => def.DebugOnly);
 			t.Log(defs.Count + " types; left out: " + string.Join("; ", excluded));
-			return Types(t, defs);
+			return defs;
 		}
 
 		private static IEnumerator Types(TestContext t, List<BuildingDef> defs)
@@ -87,14 +106,7 @@ namespace UpgradePlanner.Tests
 				var expected = built.Where(go => go != null).Select(go => new Expected(go, ChangeSettings(t, go, Leave))).ToList();
 				yield return Settle(built);
 
-				SpawnCrews(t, inside);
-				foreach (Expected e in expected)
-				{
-					Supply(t, e.Def, Remake(e.Def), 1, inside.Cell(0, 0));
-					Supply(t, e.Def, Remake(e.Def), 1, inside.Cell(inside.W - 1, 0));
-				}
-				yield return t.WaitGameSeconds(2);
-
+				// The orders first, then the crews and their materials, so they set to work on arriving.
 				foreach (var group in expected.Select(e => e.Def).Distinct().GroupBy(def => def.CraftRecipe.Ingredients[0].tag))
 				{
 					UpgradePlan plan = UpgradePlan.Current;
@@ -112,6 +124,12 @@ namespace UpgradePlanner.Tests
 					}
 					yield return Drag(t, inside.Cell(2, 0), inside.Cell(inside.W - 3, inside.H - 1));
 					yield return t.WaitGameSeconds(1);
+				}
+				SpawnCrews(t, inside);
+				foreach (Expected e in expected)
+				{
+					Supply(t, e.Def, Remake(e.Def), 1, inside.Cell(0, 0));
+					Supply(t, e.Def, Remake(e.Def), 1, inside.Cell(inside.W - 1, 0));
 				}
 
 				float start = GameClock.Instance.GetTime();
@@ -166,6 +184,31 @@ namespace UpgradePlanner.Tests
 			return Replacements(t, null);
 		}
 
+		[OniTest("Upgrade Planner: Duplicants build one of each kind of pairing the Replace type tab offers", Timeout = 1800, Boxed = true, Explicit = true), Layer(1)]
+		public static IEnumerator RepresentativeReplacements(TestContext t)
+		{
+			return Replacements(t, pairs => Coverage.Cover(pairs, Traits));
+		}
+
+		/// <summary>
+		/// What sets a pairing apart: the two types' traits, settings aside (a type change keeps none,
+		/// and a type built over itself shows its settings in the types' run), and how they meet.
+		/// </summary>
+		private static HashSet<string> Traits(Pair pair)
+		{
+			var traits = new HashSet<string>(Coverage.Of(pair.Source, settings: false).Select(trait => "from " + trait));
+			traits.UnionWith(Coverage.Of(pair.Target, settings: false).Select(trait => "to " + trait));
+			// Built over itself or another type on each layer: a wire changed to another kind of wire
+			// meets the game differently from a tile changed to another kind of tile.
+			traits.Add((pair.Source == pair.Target ? "over itself on " : "over another type on ") + pair.Target.ObjectLayer);
+			traits.Add(pair.Source.ObjectLayer + " to " + pair.Target.ObjectLayer);
+			if (pair.Target.WidthInCells > pair.Source.WidthInCells || pair.Target.HeightInCells > pair.Source.HeightInCells)
+				traits.Add("bigger than what it replaces");
+			if (pair.Target.WidthInCells < pair.Source.WidthInCells || pair.Target.HeightInCells < pair.Source.HeightInCells)
+				traits.Add("smaller than what it replaces");
+			return traits;
+		}
+
 		/// <summary>Pairings EveryReplacement once found a problem with, run on their own for a closer look.</summary>
 		private static readonly string[] Suspects =
 		{
@@ -175,10 +218,11 @@ namespace UpgradePlanner.Tests
 		[OniTest("Upgrade Planner: Duplicants build the pairings EveryReplacement had a problem with", Timeout = 900, Boxed = true, Explicit = true), Layer(1)]
 		public static IEnumerator SuspectReplacements(TestContext t)
 		{
-			return Replacements(t, pair => Suspects.Any(s => pair.ToString().StartsWith(s + " (")));
+			return Replacements(t, pairs => pairs.Where(pair => Suspects.Any(s => pair.ToString().StartsWith(s + " ("))).ToList());
 		}
 
-		private static IEnumerator Replacements(TestContext t, System.Func<Pair, bool> only)
+		/// <summary>The pairings the Replace type tab offers, or those <paramref name="choose"/> takes of them, built over by hand.</summary>
+		private static IEnumerator Replacements(TestContext t, System.Func<List<Pair>, List<Pair>> choose)
 		{
 			t.ResearchAll();
 			CellRect inside = t.Dupes.Box();
@@ -193,8 +237,6 @@ namespace UpgradePlanner.Tests
 						foreach (Family target in targets.Families)
 						{
 							Pair pair = Pair.Make(source, target, out string why);
-							if (only != null && (pair == null || !only(pair)))
-								continue;
 							if (pair != null)
 								pairs.Add(pair);
 							else
@@ -202,6 +244,12 @@ namespace UpgradePlanner.Tests
 						}
 			t.Log(pairs.Count + " pairings: " + string.Join(", ", pairs.Select(p => p.ToString())));
 			t.Log(leftOut.Count + " left out: " + string.Join("; ", leftOut));
+			if (choose != null)
+			{
+				int offered = pairs.Count;
+				pairs = choose(pairs);
+				t.Log(pairs.Count + " of " + offered + " pairings taken: " + string.Join(", ", pairs.Select(p => p.ToString())));
+			}
 
 			int batches = 0, done = 0;
 			// Three of each source in a row, a cell between pairings, as many pairings as fit between the crews.
@@ -232,14 +280,8 @@ namespace UpgradePlanner.Tests
 				foreach (Pair pair in batch)
 					pair.Remember();
 				t.InstantBuild(false);
-				SpawnCrews(t, inside);
-				foreach (Pair pair in batch)
-				{
-					Supply(t, pair.Target, pair.Materials, pair.Cells.Count, inside.Cell(0, 0));
-					Supply(t, pair.Target, pair.Materials, pair.Cells.Count, inside.Cell(inside.W - 1, 0));
-				}
-				yield return t.WaitGameSeconds(2);
 
+				// The orders first, then the crews and their materials, so they set to work on arriving.
 				foreach (Pair pair in batch)
 				{
 					if (!pair.Laid)
@@ -260,6 +302,12 @@ namespace UpgradePlanner.Tests
 					int orders = pair.Cells.Count(cell => Grid.Objects[cell, (int)pair.Target.ReplacementLayer]?.GetComponent<Constructable>() != null);
 					if (orders < pair.Cells.Count)
 						failures.Add(pair + ": " + orders + " of " + pair.Cells.Count + " orders placed");
+				}
+				SpawnCrews(t, inside);
+				foreach (Pair pair in batch.Where(pair => pair.Laid))
+				{
+					Supply(t, pair.Target, pair.Materials, pair.Cells.Count, inside.Cell(0, 0));
+					Supply(t, pair.Target, pair.Materials, pair.Cells.Count, inside.Cell(inside.W - 1, 0));
 				}
 
 				float start = GameClock.Instance.GetTime();
