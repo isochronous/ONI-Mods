@@ -56,6 +56,8 @@ namespace UpgradePlanner
 				return false;
 			if (building.Def == target && Materials.Same(Materials.Of(building), materials))
 				return false;
+			if (!JointPlateEndsClear(target, cell, orientation))
+				return false;
 			Vector3 pos = Grid.CellToPosCBC(cell, Grid.SceneLayer.Building);
 			GameObject order = target.TryReplaceTile(null, pos, orientation, materials);
 			if (order == null)
@@ -77,6 +79,33 @@ namespace UpgradePlanner
 			order.GetComponent<Prioritizable>()?.SetMasterPriority(priority);
 			if (InstantBuild)
 				Finish(order, target, materials);
+			return true;
+		}
+
+		/// <summary>
+		/// The game checks where a Heavi-Watt joint plate's two wire ends fall against the building
+		/// being placed, the build tool's preview; with none, as the planner places, the check passes
+		/// whatever is there. It is made here the same way: both ends in the world, neither in a tile,
+		/// a door (built or ordered) or another plate's end.
+		/// </summary>
+		private static bool JointPlateEndsClear(BuildingDef target, int cell, Orientation orientation)
+		{
+			if (target.BuildLocationRule != BuildLocationRule.HighWattBridgeTile)
+				return true;
+			UtilityNetworkLink link = target.BuildingPreview.GetComponent<UtilityNetworkLink>() ?? target.BuildingComplete.GetComponent<UtilityNetworkLink>();
+			if (link == null)
+				return true;
+			if (!link.AreCellsValid(cell, orientation))
+				return false;
+			link.GetCells(cell, orientation, out int first, out int second);
+			foreach (int end in new[] { first, second })
+			{
+				if (Grid.Objects[end, (int)ObjectLayer.WireConnectors] != null || Grid.Objects[end, (int)ObjectLayer.FoundationTile] != null || Grid.HasDoor[end])
+					return false;
+				BuildingUnderConstruction order = Grid.Objects[end, (int)ObjectLayer.Building]?.GetComponent<BuildingUnderConstruction>();
+				if (order != null && order.Def.BuildingComplete.GetComponent<Door>() != null)
+					return false;
+			}
 			return true;
 		}
 
@@ -139,6 +168,11 @@ namespace UpgradePlanner
 		/// yet: the old tile's cells are still being cleared, the placement is refused, and the
 		/// building is gone with nothing ordered in its place. Called as the reconstruct commences,
 		/// this places the same order once the spot is valid, if the game's own placement did not.
+		/// Either way the order gets the old building's settings from here: Blueprints Expanded gives
+		/// them to whatever stands in the cell 0.1 game seconds after, from the game's scheduler, which
+		/// keeps no order among entries due together, so at speed 3 it could run before the game's
+		/// placement and find the old building, and the new one was built with none (4 of 307
+		/// types in a by-hand run of every type, 4 of 24 buildings rebuilt together under load).
 		/// </summary>
 		public static void PlaceRebuildIfMissing(Reconstructable reconstructable)
 		{
@@ -153,8 +187,7 @@ namespace UpgradePlanner
 			string facade = reconstructable.GetComponent<BuildingFacade>()?.CurrentFacade;
 			int cell = Grid.PosToCell(position);
 			string name = building.name;
-			// Blueprints Expanded gives its settings to the order the game places; one placed here
-			// gets them from the old building, read while it still stands.
+			// Read while the old building still stands.
 			Dictionary<string, JObject> settings = BlueprintsCompat.TakeSettings(building.gameObject);
 			Game.Instance.StartCoroutine(PlaceLater(building.gameObject, def, cell, position, orientation, materials, facade, settings, name));
 		}
@@ -168,12 +201,15 @@ namespace UpgradePlanner
 		private static IEnumerator PlaceLater(GameObject old, BuildingDef def, int cell, Vector3 position, Orientation orientation, Tag[] materials, string facade,
 			Dictionary<string, JObject> settings, string name)
 		{
-			// Done as soon as the game's own placement shows (the old building can stand a frame longer): once it has, whatever happens to that
-			// building after (finished and taken down within the grace, say) is not for this to undo.
+			// Done as soon as the game's own placement shows (the old building can stand a frame longer), its order given the settings: once it
+			// has, whatever happens to that building after (finished and taken down within the grace, say) is not for this to undo.
 			bool Placed()
 			{
 				GameObject there = Grid.Objects[cell, (int)def.ObjectLayer];
-				return there != null && there != old && there.GetComponent<Building>()?.Def == def;
+				if (there == null || there == old || there.GetComponent<Building>()?.Def != def)
+					return false;
+				BlueprintsCompat.GiveSettings(settings, there, name);
+				return true;
 			}
 			int frames = 0;
 			float due = GameClock.Instance.GetTime() + PlacementGrace;

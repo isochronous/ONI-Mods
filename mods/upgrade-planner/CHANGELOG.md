@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+### Fixed
+
+- A building rebuilt by Duplicants in its new material now and then came back with none of its settings (Blueprints Expanded handed them over at a moment the new building was not always there yet). The planner now hands them over itself.
+- Replace type no longer orders a Heavi-Watt joint plate where the game's own build tool would refuse one: with its wire ends inside tiles, on a door or on another plate's ends.
+
 ## 0.3.2 - 2026-10-14
 
 - New mod preview image.
