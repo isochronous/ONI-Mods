@@ -18,9 +18,6 @@ namespace UpgradePlanner
 		internal static readonly AccessTools.FieldRef<Reconstructable, Tag[]> ReconstructMaterials =
 			AccessTools.FieldRefAccess<Reconstructable, Tag[]>("selectedElementsTags");
 
-		/// <summary>Unpaused frames an instant rebuild waits for the game to place the new building's order.</summary>
-		private const int RebuildFrames = 150;
-
 		/// <summary>The build tool's own test: the debug toggle, or sandbox mode with its instant build setting on.</summary>
 		public static bool InstantBuild =>
 			DebugHandler.InstantBuildMode
@@ -83,10 +80,11 @@ namespace UpgradePlanner
 		}
 
 		/// <summary>
-		/// The game checks where a Heavi-Watt joint plate's two wire ends fall against the building
-		/// being placed, the build tool's preview; with none, as the planner places, the check passes
-		/// whatever is there. It is made here the same way: both ends in the world, neither in a tile,
-		/// a door (built or ordered) or another plate's end.
+		/// The game's own test of where a Heavi-Watt joint plate's two wire ends fall
+		/// (BuildingDef.IsValidHighWattBridgeLocation): both ends in the world, neither in a tile, a
+		/// door (built or ordered) or another plate's end. The game reads the ends off the placing
+		/// tool's preview, standing at the cell, and passes any spot without one; the planner places
+		/// with none, so it makes the same test from the cell.
 		/// </summary>
 		private static bool JointPlateEndsClear(BuildingDef target, int cell, Orientation orientation)
 		{
@@ -126,112 +124,144 @@ namespace UpgradePlanner
 				return false;
 			ReconstructMaterials(reconstructable) = materials.ToArray();
 			if (InstantBuild)
-				FinishReconstruct(building, materials);
+				FinishReconstruct(building);
 			return true;
 		}
 
 		/// <summary>
 		/// Instant build: the deconstruction is finished on the spot (the game finishes its own
-		/// deconstruct tool's only in debug mode), the game places the new building's order, and that
-		/// order is finished as soon as it is there, the way instant build finishes a replacement.
+		/// deconstruct tool's only in debug mode). That commences the reconstruct, and
+		/// <see cref="FollowRebuild"/> finishes the new building's order as soon as it is there, the
+		/// way instant build finishes a replacement.
 		/// </summary>
-		private static void FinishReconstruct(BuildingComplete building, List<Tag> materials)
+		private static void FinishReconstruct(BuildingComplete building)
 		{
 			Deconstructable deconstructable = building.GetComponent<Deconstructable>();
 			if (deconstructable == null)
 				return;
-			BuildingDef def = building.Def;
-			int cell = Grid.PosToCell(building);
-			string name = building.name;
-			// Blueprints Expanded gives the new order the old building's settings a moment after the
-			// game places it; finished on the spot, the order could beat it to it. They are read here,
-			// while the building stands, and given to the order just before it is finished.
-			Dictionary<string, JObject> settings = BlueprintsCompat.TakeSettings(building.gameObject);
-			deconstructable.CompleteWork(null);
-			// The game places the order from its scheduler, due next frame. That scheduler keeps no
-			// order among entries due at the same moment, so anything scheduled beside it can run first
-			// and find no order: this looks once a frame instead.
-			Game.Instance.StartCoroutine(EachUnpausedFrame(RebuildFrames, () =>
+			finishing = building.gameObject;
+			try
 			{
-				GameObject order = Grid.Objects[cell, (int)def.ObjectLayer];
-				if (order == null || order.GetComponent<Constructable>() == null)
-					return false;
-				BlueprintsCompat.GiveSettings(settings, order, name);
-				Finish(order, def, materials);
-				return true;
-			}, () => Debug.LogWarning("[UpgradePlanner] Instant rebuild of " + def.PrefabID + " at cell " + cell + ": the game placed no order to finish.")));
+				deconstructable.CompleteWork(null);
+			}
+			finally
+			{
+				finishing = null;
+			}
 		}
 
+		/// <summary>The building <see cref="FinishReconstruct"/> is taking down, while it does.</summary>
+		private static GameObject finishing;
+
 		/// <summary>
-		/// The game places a reconstructed building's new order the frame after the old one is taken
-		/// down, and only if the spot is valid by then. For a wide tile (a 3-wide farm tile) it is not
-		/// yet: the old tile's cells are still being cleared, the placement is refused, and the
-		/// building is gone with nothing ordered in its place. Called as the reconstruct commences,
-		/// this places the same order once the spot is valid, if the game's own placement did not.
-		/// Either way the order gets the old building's settings from here: Blueprints Expanded gives
-		/// them to whatever stands in the cell 0.1 game seconds after, from the game's scheduler, which
-		/// keeps no order among entries due together, so at speed 3 it could run before the game's
-		/// placement and find the old building, and the new one was built with none (4 of 307
-		/// types in a by-hand run of every type, 4 of 24 buildings rebuilt together under load).
+		/// Called as a reconstruct commences, the old building still standing: sees its new order
+		/// through. The game places that order from its scheduler the frame after; this hands it the
+		/// old building's Blueprints Expanded settings, places it if the game could not, and finishes
+		/// it on the spot for a rebuild <see cref="FinishReconstruct"/> began.
+		/// <para>The settings are handed over here, not left to Blueprints Expanded: it gives them to
+		/// whatever stands in the cell 0.1 game seconds after, from the same scheduler, which keeps no
+		/// order among entries due together, so at speed 3 it could find the old building still there
+		/// and the new one was built with none.</para>
+		/// <para>The game places the order only if the spot is valid by then. For a wide tile (a
+		/// 3-wide farm tile) it is not yet: the old tile's cells are still being cleared, the placement
+		/// is refused, and the building would be gone with nothing ordered in its place.</para>
 		/// </summary>
-		public static void PlaceRebuildIfMissing(Reconstructable reconstructable)
+		public static void FollowRebuild(Reconstructable reconstructable)
 		{
 			Building building = reconstructable.GetComponent<Building>();
 			Deconstructable deconstructable = reconstructable.GetComponent<Deconstructable>();
 			if (building == null || deconstructable == null || !deconstructable.allowDeconstruction || !reconstructable.ReconstructRequested)
 				return;
-			BuildingDef def = building.Def;
-			Vector3 position = building.transform.position;
-			Orientation orientation = building.Orientation;
-			Tag[] materials = (Tag[])ReconstructMaterials(reconstructable).Clone();
-			string facade = reconstructable.GetComponent<BuildingFacade>()?.CurrentFacade;
-			int cell = Grid.PosToCell(position);
-			string name = building.name;
-			// Read while the old building still stands.
-			Dictionary<string, JObject> settings = BlueprintsCompat.TakeSettings(building.gameObject);
-			Game.Instance.StartCoroutine(PlaceLater(building.gameObject, def, cell, position, orientation, materials, facade, settings, name));
+			var rebuild = new Rebuild
+			{
+				Old = building.gameObject,
+				Def = building.Def,
+				Cell = Grid.PosToCell(building),
+				Position = building.transform.position,
+				Orientation = building.Orientation,
+				Materials = (Tag[])ReconstructMaterials(reconstructable).Clone(),
+				Facade = reconstructable.GetComponent<BuildingFacade>()?.CurrentFacade,
+				Settings = BlueprintsCompat.TakeSettings(building.gameObject),
+				Name = building.name,
+				Finish = building.gameObject == finishing,
+			};
+			Game.Instance.StartCoroutine(Follow(rebuild));
 		}
 
-		/// <summary>Unpaused frames <see cref="PlaceRebuildIfMissing"/> keeps trying before giving the building up.</summary>
+		/// <summary>Unpaused frames <see cref="FollowRebuild"/> keeps trying to place the order before giving the building up.</summary>
 		private const int PlaceFrames = 240;
 
 		/// <summary>Game seconds the game's own placement is given first.</summary>
 		private const float PlacementGrace = 0.5f;
 
-		private static IEnumerator PlaceLater(GameObject old, BuildingDef def, int cell, Vector3 position, Orientation orientation, Tag[] materials, string facade,
-			Dictionary<string, JObject> settings, string name)
+		/// <summary>A reconstruct being seen through: what the old building was, read while it stood.</summary>
+		private sealed class Rebuild
 		{
-			// Done as soon as the game's own placement shows (the old building can stand a frame longer), its order given the settings: once it
-			// has, whatever happens to that building after (finished and taken down within the grace, say) is not for this to undo.
-			bool Placed()
+			public GameObject Old;
+			public BuildingDef Def;
+			public int Cell;
+			public Vector3 Position;
+			public Orientation Orientation;
+			public Tag[] Materials;
+			public string Facade;
+			public Dictionary<string, JObject> Settings;
+			public string Name;
+			public bool Finish;
+
+			/// <summary>The new building's order, once the game has placed it (the old building can stand a frame longer).</summary>
+			public GameObject Placed()
 			{
-				GameObject there = Grid.Objects[cell, (int)def.ObjectLayer];
-				if (there == null || there == old || there.GetComponent<Building>()?.Def != def)
-					return false;
-				BlueprintsCompat.GiveSettings(settings, there, name);
-				return true;
+				GameObject there = Grid.Objects[Cell, (int)Def.ObjectLayer];
+				return there != null && there != Old && there.GetComponent<Building>()?.Def == Def ? there : null;
 			}
+
+			/// <summary>The order the game did not place, placed as it would have.</summary>
+			public GameObject Place()
+			{
+				GameObject order = Def.TryPlace(null, Position, Orientation, Materials, Facade, restrictToActiveWorld: false);
+				if (order != null)
+					Debug.Log("[UpgradePlanner] Placed the rebuilt " + Def.PrefabID + " at cell " + Cell + ".");
+				return order;
+			}
+
+			/// <summary>The order given the settings and, for an instant rebuild, finished.</summary>
+			public void Complete(GameObject order)
+			{
+				BlueprintsCompat.GiveSettings(Settings, order, Name);
+				if (Finish && order.GetComponent<Constructable>() != null)
+					Orders.Finish(order, Def, Materials);
+			}
+		}
+
+		/// <summary>
+		/// Waits for the game's placement, then places the order itself; either way completes it.
+		/// Once an order is there, whatever happens to it after (finished and taken down within the
+		/// grace, say) is not for this to undo.
+		/// </summary>
+		private static IEnumerator Follow(Rebuild rebuild)
+		{
 			int frames = 0;
 			float due = GameClock.Instance.GetTime() + PlacementGrace;
 			while (GameClock.Instance.GetTime() < due)
 			{
 				yield return null;
-				if (Placed())
+				GameObject order = rebuild.Placed();
+				if (order != null)
+				{
+					rebuild.Complete(order);
 					yield break;
+				}
 				if (!Paused)
 					frames++;
 			}
 			yield return EachUnpausedFrame(PlaceFrames - frames, () =>
 			{
-				if (Placed())
-					return true;
-				GameObject order = def.TryPlace(null, position, orientation, materials, facade, restrictToActiveWorld: false);
+				GameObject order = rebuild.Placed() ?? rebuild.Place();
 				if (order == null)
 					return false;
-				int given = BlueprintsCompat.GiveSettings(settings, order, name);
-				Debug.Log("[UpgradePlanner] Placed the rebuilt " + def.PrefabID + " at cell " + cell + ", with " + given + " settings.");
+				rebuild.Complete(order);
 				return true;
-			}, () => Debug.LogWarning("[UpgradePlanner] Could not place the rebuilt " + def.PrefabID + " at cell " + cell + "."), checkFirst: true);
+			}, () => Debug.LogWarning("[UpgradePlanner] Could not place the rebuilt " + rebuild.Def.PrefabID + " at cell " + rebuild.Cell + "."), checkFirst: true);
 		}
 
 		/// <summary>

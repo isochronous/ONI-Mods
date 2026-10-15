@@ -84,13 +84,13 @@ namespace UpgradePlanner
 			}
 		}
 
-		/// <summary>A rebuilt building whose new order the game could not place in time is placed once its spot is clear; see <see cref="Orders.PlaceRebuildIfMissing"/>.</summary>
+		/// <summary>A rebuilt building's new order is seen through as the reconstruct commences; see <see cref="Orders.FollowRebuild"/>.</summary>
 		[HarmonyPatch(typeof(Reconstructable), "TryCommenceReconstruct")]
 		public static class Reconstructable_TryCommenceReconstruct_Patch
 		{
 			public static void Postfix(Reconstructable __instance)
 			{
-				Orders.PlaceRebuildIfMissing(__instance);
+				Orders.FollowRebuild(__instance);
 			}
 		}
 	}
