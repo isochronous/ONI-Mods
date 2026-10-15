@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="$(MSBuildThisFileDirectory)..\..\common\oni-mod.props" />
+
+  <PropertyGroup>
+    <AssemblyName>SweepZones</AssemblyName>
+    <RootNamespace>SweepZones</RootNamespace>
+    <Version>1.6.0</Version>
+    <UsePLib>true</UsePLib>
+    <UseTranslations>true</UseTranslations>
+    <ReferenceUnityUI>true</ReferenceUnityUI>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="assets\tool_icon.png" />
+  </ItemGroup>
+
+  <Import Project="$(MSBuildThisFileDirectory)..\..\common\oni-mod.targets" />
+
+</Project>

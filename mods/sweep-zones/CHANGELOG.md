@@ -1,0 +1,20 @@
+# Changelog
+
+## 1.6.0 - 2026-10-12
+
+- Chinese (Simplified), Korean and Russian translations. Translations load from translations/<locale>.po; the template for other languages is translations/SweepZones.pot.
+
+## 1.5.1 - 2026-10-03
+
+- The zone outline is still drawn when the game's label prefab cannot be found; before, the outline vanished together with the priority labels.
+- Internal cleanup; zones behave as before.
+
+## 1.5.0 - 2026-09-29
+
+- Zones prune themselves: each time the tool is opened or its mode switched, zone cells whose floor was dug out or that were built over are dropped, so only valid zones are shown.
+
+## 1.4.1 - 2026-09-08
+
+- Zones can only be painted on open cells directly above solid ground.
+- Renamed to Sweep Zones Redux; new two-tone broom tool icon; thinner zone outlines.
+- Only the active mode's zones are shown: sweep modes display sweep zones, mop modes mop zones.
