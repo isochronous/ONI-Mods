@@ -17,7 +17,7 @@ This is a spiritual successor to Rubacava's Sweep Zones, which crashes on curren
 [h2]Compatibility[/h2]
 Works with the base game and all DLCs, on build 744825 (U59) or newer. Does not touch the overlay system, so mods that add overlays are unaffected. PLib is included; there is nothing else to install.
 
-Developed by a professional software developer with assistance from Claude Code.
+Developed by a professional software developer with assistance from Claude Code. Comes with a no slop guarantee.
 
 Source and issue tracker: https://github.com/isochronous/ONI-Mods
 

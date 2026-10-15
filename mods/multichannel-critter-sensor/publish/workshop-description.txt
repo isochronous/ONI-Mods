@@ -26,7 +26,7 @@ Works with the base game and all DLCs, on build 744825 (U59) or newer. No depend
 [h2]Art[/h2]
 Art by 3GuB, commissioned for this mod and used with permission. Thank you!
 
-Developed by a professional software developer (hello!) with assistance from Claude Code.
+Developed by a professional software developer (hello!) with assistance from Claude Code. Comes with a no slop guarantee.
 
 Source and issue tracker: https://github.com/isochronous/ONI-Mods
 

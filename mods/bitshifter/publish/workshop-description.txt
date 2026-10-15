@@ -16,6 +16,6 @@ Works with the base game and all DLCs, on build 744825 (U59) or newer. No depend
 
 The mod stands down automatically (and says so in the log) when Digital CPU (ONICPU, which already makes ribbons, the Reader, and the Writer 32-bit) is enabled, or when any other mod has already patched the Reader's or Writer's bit depth, so it never doubles up with a mod that does the same thing.
 
-Developed by a professional software developer with assistance from Claude Code.
+Developed by a professional software developer with assistance from Claude Code. Comes with a no slop guarantee.
 
 Source and issue tracker: https://github.com/isochronous/ONI-Mods

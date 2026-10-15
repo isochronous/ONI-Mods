@@ -16,7 +16,7 @@ Both are options, on by default.
 [h2]Developer options[/h2]
 "Add button to reproduce bug conditions" puts a "Save on next vent emit" button on the game screen. Arm it and the next liquid vent emit writes VentFreezeRepro.sav next to your current save, on the exact tick, which is otherwise a real pain to hit by hand. "Enable debug mode" adds verbose logging.
 
-Made by a professional software developer with assistance from Claude Fable (and Sgt_Imalas).
+Made by a professional software developer with assistance from Claude Fable (and Sgt_Imalas). Comes with a no slop guarantee.
 
 Source and issues: https://github.com/isochronous/ONI-Mods
 

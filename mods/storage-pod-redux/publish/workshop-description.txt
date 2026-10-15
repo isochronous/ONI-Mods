@@ -23,7 +23,7 @@ The pod animations are the original mod's, drawn by 3GuB and used with permissio
 [h2]Compatibility[/h2]
 Works with the base game and all DLCs, on build 744825 (U59) or newer. No separate dependencies (PLib is bundled). Safe to add to an existing save; remove it only after deconstructing the pods.
 
-Developed by a professional software developer with assistance from Claude Code.
+Developed by a professional software developer with assistance from Claude Code. Comes with a no slop guarantee.
 
 Source and issue tracker: https://github.com/isochronous/ONI-Mods
 
