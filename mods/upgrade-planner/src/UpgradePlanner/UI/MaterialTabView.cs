@@ -51,7 +51,7 @@ namespace UpgradePlanner
 				Picker(TargetPickerScroll, "MaterialTargetPicker", go => targetHost = go)));
 			// The side does not scroll: its two cards share its height and scroll their pickers inside.
 			return Widgets.Side("Materials", ModStrings.UPGRADEPLANNER.MaterialsHeading, column, scrollName: null,
-				trailing: new[] { Widgets.StripButton("Clear", ModStrings.UPGRADEPLANNER.Clear, ModStrings.UPGRADEPLANNER.ClearMaterialTooltip, () => { plan.Clear(); dialog.Rebuild(); }) });
+				trailing: new[] { Widgets.StripButton("Clear", ModStrings.UPGRADEPLANNER.Clear, ModStrings.UPGRADEPLANNER.ClearMaterialTooltip, dialog.ClearPlan) });
 		}
 
 		/// <summary>A card of the Materials side: its strip with the heading and <paramref name="tools"/>, and the white area holding <paramref name="content"/>, half the side.</summary>

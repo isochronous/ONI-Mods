@@ -202,6 +202,16 @@ msgctxt "STRINGS.UPGRADEPLANNER.HoverActionReady"
 msgid "MARK FOR UPGRADE"
 msgstr "ОТМЕТИТЬ ДЛЯ УЛУЧШЕНИЯ"
 
+#. STRINGS.UPGRADEPLANNER.HoverActionApplyFirst
+msgctxt "STRINGS.UPGRADEPLANNER.HoverActionApplyFirst"
+msgid "APPLY SETTINGS FIRST"
+msgstr "СНАЧАЛА ПРИМЕНИТЕ НАСТРОЙКИ"
+
+#. STRINGS.UPGRADEPLANNER.ErrorNotApplied
+msgctxt "STRINGS.UPGRADEPLANNER.ErrorNotApplied"
+msgid "Apply settings first"
+msgstr "Сначала примените настройки"
+
 #. STRINGS.UPGRADEPLANNER.HowToHeading
 msgctxt "STRINGS.UPGRADEPLANNER.HowToHeading"
 msgid "How it works"

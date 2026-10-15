@@ -202,6 +202,16 @@ msgctxt "STRINGS.UPGRADEPLANNER.HoverActionReady"
 msgid "MARK FOR UPGRADE"
 msgstr "标记升级"
 
+#. STRINGS.UPGRADEPLANNER.HoverActionApplyFirst
+msgctxt "STRINGS.UPGRADEPLANNER.HoverActionApplyFirst"
+msgid "APPLY SETTINGS FIRST"
+msgstr "请先应用设置"
+
+#. STRINGS.UPGRADEPLANNER.ErrorNotApplied
+msgctxt "STRINGS.UPGRADEPLANNER.ErrorNotApplied"
+msgid "Apply settings first"
+msgstr "请先应用设置"
+
 #. STRINGS.UPGRADEPLANNER.HowToHeading
 msgctxt "STRINGS.UPGRADEPLANNER.HowToHeading"
 msgid "How it works"

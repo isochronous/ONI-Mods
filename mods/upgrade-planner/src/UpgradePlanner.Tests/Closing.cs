@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using Isochronous.TestKit;
 using PeterHan.PLib.UI;
@@ -8,8 +9,10 @@ namespace UpgradePlanner.Tests
 {
 	/// <summary>
 	/// Closing the planner's window keeps the tool, whichever way it is closed: a player may open it
-	/// only to look at the plan. A second Escape ends the tool, as does its toolbar button. The tool
-	/// is picked from the toolbar each time, as a player picks it.
+	/// only to look at the plan. A second Escape ends the tool, as does its toolbar button. Apply
+	/// hands drags the plan as it stands, and they keep it until the next Apply or a Clear, whatever
+	/// is changed meanwhile; with nothing applied the cursor shows a "no" sign and the hover card
+	/// asks for Apply. The tool is picked from the toolbar each time, as a player picks it.
 	/// </summary>
 	public static class Closing
 	{
@@ -62,6 +65,147 @@ namespace UpgradePlanner.Tests
 			yield return t.WaitRealSeconds(0.5);
 			t.Assert.True(PlayerController.Instance.IsUsingDefaultTool(), "the tool ended, now " + PlayerController.Instance.ActiveTool?.name);
 			t.Assert.Null(GameObject.Find(WindowName), "the window is closed");
+		}
+
+		[OniTest("Upgrade Planner: closed without Apply, the tool shows the no sign and a drag marks nothing", Timeout = 40), Layer(2)]
+		public static IEnumerator NotAppliedMarksNothing(TestContext t)
+		{
+			// What an earlier Apply left stays applied until a Clear: cleared first, then a plan made and not applied.
+			yield return Pick(t);
+			PressClear(t);
+			yield return t.WaitRealSeconds(0.5);
+			List<int> cells = Tiles(t);
+			yield return t.WaitGameSeconds(1);
+			yield return t.Press(Action.Escape);
+			yield return t.WaitRealSeconds(0.5);
+			UpgradeTool tool = (UpgradeTool)PlayerController.Instance.ActiveTool;
+			ExpectReady(t, tool, false, "closed without Apply");
+			yield return Drag(t, tool, cells);
+			t.Assert.Eq(0, Orders(cells), "orders placed by a drag before Apply");
+			t.Assert.NotNull(GameObject.Find(WindowName), "the refused drag opened the window again");
+			yield return t.Screenshot("refused");
+		}
+
+		[OniTest("Upgrade Planner: after Apply, opening the window only to look and closing it keeps the tool ready", Timeout = 40), Layer(2)]
+		public static IEnumerator LookAgainKeepsReady(TestContext t)
+		{
+			List<int> cells = Tiles(t);
+			yield return t.WaitGameSeconds(1);
+			yield return Pick(t);
+			PlannerWindow.PressApply(t);
+			yield return t.WaitRealSeconds(0.5);
+			UpgradeTool tool = (UpgradeTool)PlayerController.Instance.ActiveTool;
+			ExpectReady(t, tool, true, "after Apply");
+			// The button by the priority bar opens the window again; its X closes it.
+			KToggle again = GameObject.Find("UpgradePlannerToggle")?.GetComponent<KToggle>();
+			t.Assert.NotNull(again, "the button that opens the window again is there");
+			again.Click();
+			yield return t.WaitRealSeconds(0.5);
+			t.Assert.NotNull(GameObject.Find(WindowName), "the window opened again");
+			Find(GameObject.Find(WindowName).transform, PDialog.DIALOG_KEY_CLOSE).GetComponent<KButton>().SignalClick(KKeyCode.Mouse0);
+			yield return t.WaitRealSeconds(0.5);
+			ExpectReady(t, tool, true, "looked at and closed");
+			yield return Drag(t, tool, cells);
+			t.Assert.Eq(cells.Count, Orders(cells), "orders placed by the drag");
+		}
+
+		[OniTest("Upgrade Planner: a change after Apply waits for the next Apply; drags keep the applied plan", Timeout = 40), Layer(2)]
+		public static IEnumerator ChangeWaitsForApply(TestContext t)
+		{
+			List<int> cells = Tiles(t);
+			yield return t.WaitGameSeconds(1);
+			yield return Pick(t);
+			PlannerWindow.PressApply(t);
+			yield return t.WaitRealSeconds(0.5);
+			UpgradeTool tool = (UpgradeTool)PlayerController.Instance.ActiveTool;
+			GameObject.Find("UpgradePlannerToggle").GetComponent<KToggle>().Click();
+			yield return t.WaitRealSeconds(0.5);
+			UpgradePlan.Current.ChangeMaterial.SetTarget(SimHashes.IgneousRock.CreateTag());
+			yield return t.Press(Action.Escape);
+			yield return t.WaitRealSeconds(0.5);
+			ExpectReady(t, tool, true, "changed and closed without Apply");
+			yield return Drag(t, tool, cells);
+			t.Assert.Eq(cells.Count, Orders(cells), "orders placed by the drag");
+			BuildingDef tile = Assets.GetBuildingDef("Tile");
+			foreach (int cell in cells)
+			{
+				Tag material = Grid.Objects[cell, (int)tile.ReplacementLayer].GetComponent<Constructable>().SelectedElementsTags[0];
+				t.Assert.Eq(SimHashes.Granite.CreateTag(), material, "the order at " + Cells.Describe(cell) + " is in the applied material");
+			}
+		}
+
+		[OniTest("Upgrade Planner: Clear takes back what was applied", Timeout = 40), Layer(2)]
+		public static IEnumerator ClearTakesBackApply(TestContext t)
+		{
+			Tiles(t);
+			yield return Pick(t);
+			PlannerWindow.PressApply(t);
+			yield return t.WaitRealSeconds(0.5);
+			UpgradeTool tool = (UpgradeTool)PlayerController.Instance.ActiveTool;
+			ExpectReady(t, tool, true, "after Apply");
+			GameObject.Find("UpgradePlannerToggle").GetComponent<KToggle>().Click();
+			yield return t.WaitRealSeconds(0.5);
+			PressClear(t);
+			yield return t.WaitRealSeconds(0.5);
+			yield return t.Press(Action.Escape);
+			yield return t.WaitRealSeconds(0.5);
+			ExpectReady(t, tool, false, "cleared", ModStrings.UPGRADEPLANNER.HoverActionIdle);
+		}
+
+		/// <summary>Three sandstone tiles in the test area, and the plan "tiles, sandstone to granite"; instant build off.</summary>
+		private static List<int> Tiles(TestContext t)
+		{
+			CellRect r = t.Rect(5, 2);
+			var cells = new List<int> { r.Cell(1, 0), r.Cell(2, 0), r.Cell(3, 0) };
+			foreach (int cell in cells)
+				t.World.Build("Tile", cell, element: SimHashes.SandStone);
+			UpgradePlan plan = UpgradePlan.Current;
+			plan.Mode = PlanMode.ChangeMaterial;
+			plan.Clear();
+			plan.ChangeMaterial.Pick(new[] { Families.Of(Assets.GetBuildingDef("Tile")) }, true);
+			plan.ChangeMaterial.SetSource(SimHashes.SandStone.CreateTag());
+			plan.ChangeMaterial.SetTarget(SimHashes.Granite.CreateTag());
+			t.Assert.True(plan.IsComplete, "the plan is complete: " + plan.Summary());
+			t.InstantBuild(false);
+			return cells;
+		}
+
+		/// <summary>The open window's Clear, on the tab showing.</summary>
+		private static void PressClear(TestContext t)
+		{
+			KButton clear = Find(GameObject.Find(WindowName).transform, "Clear")?.GetComponent<KButton>();
+			t.Assert.NotNull(clear, "the tab's Clear button is there");
+			clear.SignalClick(KKeyCode.Mouse0);
+		}
+
+		private static void ExpectReady(TestContext t, UpgradeTool tool, bool ready, string when, string notReadyHover = null)
+		{
+			Texture2D shown = HarmonyLib.AccessTools.Field(typeof(DragTool), "boxCursor").GetValue(tool) as Texture2D;
+			t.Assert.True(shown == (ready ? ToolCursor.Ready : ToolCursor.Prohibited), when + ": the " + (ready ? "ready" : "no sign") + " cursor, shown " + shown?.name);
+			string action = tool.GetComponent<HoverTextConfiguration>().ActionName;
+			string expected = ready ? ModStrings.UPGRADEPLANNER.HoverActionReady : notReadyHover ?? ModStrings.UPGRADEPLANNER.HoverActionApplyFirst;
+			t.Assert.Eq(expected, action, when + ": the hover card");
+		}
+
+		private static IEnumerator Drag(TestContext t, UpgradeTool tool, List<int> cells)
+		{
+			Vector3 from = Grid.CellToPosCCC(cells.First(), Grid.SceneLayer.Building);
+			Vector3 to = Grid.CellToPosCCC(cells.Last(), Grid.SceneLayer.Building);
+			tool.OnMouseMove(from);
+			yield return t.WaitRealSeconds(0.2);
+			tool.OnLeftClickDown(from);
+			yield return t.WaitRealSeconds(0.2);
+			tool.OnMouseMove(to);
+			yield return t.WaitRealSeconds(0.3);
+			tool.OnLeftClickUp(to);
+			yield return t.WaitUntil(() => !PlacementQueue.Busy, 10, "the drag's orders placed");
+			yield return t.WaitRealSeconds(0.3);
+		}
+
+		private static int Orders(List<int> cells)
+		{
+			BuildingDef tile = Assets.GetBuildingDef("Tile");
+			return cells.Count(cell => Grid.Objects[cell, (int)tile.ReplacementLayer]?.GetComponent<Constructable>() != null);
 		}
 
 		/// <summary>The tool picked with its toolbar button, its window open.</summary>

@@ -480,6 +480,7 @@ namespace UpgradePlanner.Tests
 
 			UpgradeTool tool = Tool(t);
 			PlayerController.Instance.ActivateTool(tool);
+			PlannerWindow.PressApply(t);
 			yield return t.Frames(2);
 			Vector3 from = Grid.CellToPosCCC(r.Cell(0, 0), Grid.SceneLayer.Building);
 			Vector3 to = Grid.CellToPosCCC(r.Cell(5, 0), Grid.SceneLayer.Building);

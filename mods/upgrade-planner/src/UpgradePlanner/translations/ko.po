@@ -202,6 +202,16 @@ msgctxt "STRINGS.UPGRADEPLANNER.HoverActionReady"
 msgid "MARK FOR UPGRADE"
 msgstr "업그레이드 표시"
 
+#. STRINGS.UPGRADEPLANNER.HoverActionApplyFirst
+msgctxt "STRINGS.UPGRADEPLANNER.HoverActionApplyFirst"
+msgid "APPLY SETTINGS FIRST"
+msgstr "먼저 설정 적용"
+
+#. STRINGS.UPGRADEPLANNER.ErrorNotApplied
+msgctxt "STRINGS.UPGRADEPLANNER.ErrorNotApplied"
+msgid "Apply settings first"
+msgstr "먼저 설정을 적용하세요"
+
 #. STRINGS.UPGRADEPLANNER.HowToHeading
 msgctxt "STRINGS.UPGRADEPLANNER.HowToHeading"
 msgid "How it works"

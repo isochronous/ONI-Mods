@@ -42,6 +42,10 @@ namespace UpgradePlanner
 		/// active, the plan as it stands. A second Escape ends the tool, as it ends any tool.
 		/// </summary>
 		public System.Action Closed;
+		/// <summary>Called when Apply closes the window, before <see cref="Closed"/>: drags use the plan as it stands now, until the next Apply.</summary>
+		public System.Action Applied;
+		/// <summary>Called when a tab's Clear empties the plan: nothing is applied any more.</summary>
+		public System.Action Cleared;
 
 		public UpgradeDialog(UpgradePlan plan)
 		{
@@ -173,6 +177,14 @@ namespace UpgradePlanner
 			return Mathf.Floor(screen * ScreenShare);
 		}
 
+		/// <summary>A tab's Clear: its choices emptied, and the plan applied before them with them.</summary>
+		internal void ClearPlan()
+		{
+			plan.Clear();
+			Cleared?.Invoke();
+			Rebuild();
+		}
+
 		/// <summary>After a choice: the window is laid out again, with <paramref name="newNotice"/> in the footer.</summary>
 		internal void Rebuild(string newNotice = null)
 		{
@@ -222,6 +234,7 @@ namespace UpgradePlanner
 		private void Apply()
 		{
 			Close();
+			Applied?.Invoke();
 			Closed?.Invoke();
 		}
 

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Isochronous.TestKit;
 using UnityEngine;
 
@@ -98,6 +99,105 @@ namespace UpgradePlanner.Tests
 			yield return t.WaitRealSeconds(1);
 			t.Assert.NotNull(GameObject.Find("UpgradePlannerDialog"), "the planner window is open");
 			yield return t.Screenshot("material-plan");
+		}
+
+		[OniTest("Upgrade Planner: the game's tool cursors and the planner's, saved as pictures", Timeout = 40, Explicit = true), Layer(2)]
+		public static IEnumerator Cursors(TestContext t)
+		{
+			string dir = System.IO.Path.Combine(Isochronous.TestRunner.Session.Dir, "artifacts");
+			System.IO.Directory.CreateDirectory(dir);
+			var cursor = HarmonyLib.AccessTools.Field(typeof(InterfaceTool), "cursor");
+			var boxCursor = HarmonyLib.AccessTools.Field(typeof(DragTool), "boxCursor");
+			foreach (InterfaceTool tool in PlayerController.Instance.tools)
+			{
+				Save(t, dir, tool.name + "-cursor", cursor.GetValue(tool) as Texture2D);
+				if (tool is DragTool)
+					Save(t, dir, tool.name + "-box", boxCursor.GetValue(tool) as Texture2D);
+			}
+			// The marker that follows the cursor over the cells: the planner's, and Sweep's it was cloned from.
+			foreach (InterfaceTool tool in new InterfaceTool[] { ClearTool.Instance, PlayerController.Instance.tools.First(x => x is UpgradeTool) })
+				Describe(t, dir, tool.name + "-visualizer", tool.visualizer != null ? tool.visualizer.transform : null, 0);
+			Save(t, dir, "planner-ready", ToolCursor.Ready);
+			Save(t, dir, "planner-no", ToolCursor.Prohibited);
+			Save(t, dir, "planner-icon", Assets.GetSprite(ToolIcon.SpriteName)?.texture);
+			yield return null;
+		}
+
+		[OniTest("Upgrade Planner: a screenshot of the cell marker over tiles", Timeout = 40, Explicit = true), Layer(2)]
+		public static IEnumerator Marker(TestContext t)
+		{
+			CellRect r = t.Rect(6, 3);
+			for (int x = 0; x < 6; x++)
+				t.World.Build("Tile", r.Cell(x, 0), element: SimHashes.SandStone);
+			yield return t.WaitGameSeconds(1);
+			UpgradeTool tool = (UpgradeTool)PlayerController.Instance.tools.First(x => x is UpgradeTool);
+			t.Cleanup(() =>
+			{
+				if (PlayerController.Instance.ActiveTool == tool)
+					PlayerController.Instance.ActivateTool(SelectTool.Instance);
+			});
+			PlayerController.Instance.ActivateTool(tool);
+			PlannerWindow.PressApply(t);
+			int cell = r.Cell(2, 0);
+			CameraController.Instance.SnapTo(Grid.CellToPosCCC(cell, Grid.SceneLayer.Building), 6f);
+			yield return t.WaitRealSeconds(0.5);
+			t.PointAt(cell);
+			tool.OnMouseMove(Grid.CellToPosCCC(cell, Grid.SceneLayer.Building));
+			yield return t.WaitRealSeconds(0.5);
+			yield return t.Screenshot("marker");
+		}
+
+		/// <summary>Logs a marker's objects and their parts, saving any picture they show.</summary>
+		private static void Describe(TestContext t, string dir, string name, Transform node, int depth)
+		{
+			if (node == null)
+			{
+				t.Log(name + ": none");
+				return;
+			}
+			foreach (Component part in node.GetComponents<Component>())
+			{
+				string what = part.GetType().Name;
+				if (part is SpriteRenderer sr && sr.sprite != null)
+				{
+					what += " sprite " + sr.sprite.name;
+					Save(t, dir, name + "-" + node.name, sr.sprite.texture);
+				}
+				else if (part is UnityEngine.UI.Image image && image.sprite != null)
+				{
+					what += " sprite " + image.sprite.name;
+					Save(t, dir, name + "-" + node.name, image.sprite.texture);
+				}
+				else if (part is Renderer renderer && renderer.sharedMaterial != null)
+				{
+					what += " material " + renderer.sharedMaterial.name + " texture " + renderer.sharedMaterial.mainTexture?.name;
+					Save(t, dir, name + "-" + node.name, renderer.sharedMaterial.mainTexture as Texture2D);
+				}
+				else if (part is KBatchedAnimController anim)
+					what += " anim " + string.Join(",", System.Linq.Enumerable.Select(anim.AnimFiles ?? new KAnimFile[0], f => f != null ? f.name : "null")) + " initial " + anim.initialAnim;
+				t.Log(name + ": " + new string(' ', depth * 2) + node.name + " (" + (node.gameObject.activeSelf ? "on" : "off") + "): " + what);
+			}
+			for (int i = 0; i < node.childCount; i++)
+				Describe(t, dir, name, node.GetChild(i), depth + 1);
+		}
+
+		/// <summary>A texture written as a PNG through a render texture, readable or not.</summary>
+		private static void Save(TestContext t, string dir, string name, Texture2D texture)
+		{
+			if (texture == null)
+				return;
+			RenderTexture rt = RenderTexture.GetTemporary(texture.width, texture.height, 0, RenderTextureFormat.ARGB32, RenderTextureReadWrite.sRGB);
+			Graphics.Blit(texture, rt);
+			RenderTexture was = RenderTexture.active;
+			RenderTexture.active = rt;
+			var copy = new Texture2D(texture.width, texture.height, TextureFormat.RGBA32, false);
+			copy.ReadPixels(new Rect(0, 0, texture.width, texture.height), 0, 0);
+			copy.Apply();
+			RenderTexture.active = was;
+			RenderTexture.ReleaseTemporary(rt);
+			string file = System.IO.Path.Combine(dir, name + ".png");
+			System.IO.File.WriteAllBytes(file, copy.EncodeToPNG());
+			t.Log(name + ": " + texture.name + " " + texture.width + "x" + texture.height);
 		}
 	}
 }

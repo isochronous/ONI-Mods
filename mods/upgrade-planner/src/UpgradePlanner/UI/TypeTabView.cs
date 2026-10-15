@@ -38,7 +38,7 @@ namespace UpgradePlanner
 			foreach (Category category in ReplacementRules.SourceCategories())
 				column.AddChild(CategoryCard(category, plan.Source, family => { plan.SetSource(family); dialog.Rebuild(); }));
 			return Widgets.Side("Source", ModStrings.UPGRADEPLANNER.ReplaceHeading, column, SourceScroll,
-				trailing: new[] { Widgets.StripButton("Clear", ModStrings.UPGRADEPLANNER.Clear, ModStrings.UPGRADEPLANNER.ClearTooltip, () => { plan.Clear(); dialog.Rebuild(); }) },
+				trailing: new[] { Widgets.StripButton("Clear", ModStrings.UPGRADEPLANNER.Clear, ModStrings.UPGRADEPLANNER.ClearTooltip, dialog.ClearPlan) },
 				below: SourceMaterialCard());
 		}
 

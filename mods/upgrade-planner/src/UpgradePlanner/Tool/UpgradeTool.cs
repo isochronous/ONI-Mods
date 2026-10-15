@@ -10,8 +10,11 @@ namespace UpgradePlanner
 	/// plan makes of it: a replacement order, built over it as the build tool does when a pipe is
 	/// dragged over a pipe, or for a type the game does not let you build over, the game's own
 	/// reconstruct. The plan is edited in <see cref="UpgradeDialog"/>, which opens with the tool;
-	/// until it is complete a drag shows an error instead. While the tool is active, every building
-	/// the plan would touch is highlighted, and the overlay is the one the plan's types are built in.
+	/// Apply hands drags a copy of it, which they use until the next Apply or a Clear, whatever is
+	/// changed in the window meanwhile. Until something is applied the cursor shows a "no" sign and
+	/// a drag shows an error instead. While the tool is active, every building the plan would touch
+	/// is highlighted (the plan being edited while the window is open, the applied one once it is
+	/// closed), and the overlay is the one the plan's types are built in.
 	/// </summary>
 	public sealed class UpgradeTool : DragTool
 	{
@@ -25,6 +28,7 @@ namespace UpgradePlanner
 			AccessTools.Field(typeof(DragTool), "areaVisualizerTextPrefab"),
 		};
 		private static readonly FieldInfo AreaColourField = AccessTools.Field(typeof(DragTool), "areaColour");
+		private static readonly FieldInfo BoxCursorField = AccessTools.Field(typeof(DragTool), "boxCursor");
 
 		private static readonly Color32 AreaColor = new Color32(96, 200, 255, 96);
 		/// <summary>A building the plan would touch.</summary>
@@ -39,9 +43,17 @@ namespace UpgradePlanner
 		private readonly WindowToggle toggle = new WindowToggle();
 		private HoverTextConfiguration hoverCard;
 		private readonly Overlay overlay = new Overlay();
+		/// <summary>The plan as it stood at the last Apply, which drags use; null before one, or after a Clear.</summary>
+		private UpgradePlan applied;
+
+		private bool Ready => applied != null && applied.IsComplete;
+
+		/// <summary>The plan the highlight and overlay show: the one being edited while the window is open, else the applied one.</summary>
+		private UpgradePlan Shown => dialog.IsOpen ? plan : applied;
 
 		/// <summary>The plan as the highlight sees it, worked out again when it changes or after <see cref="RecompileSeconds"/>.</summary>
 		private Matcher matcher;
+		private UpgradePlan matcherPlan;
 		private int matcherVersion = -1;
 		private float matcherTime;
 		private readonly HashSet<ToolMenu.CellColorData> cellColors = new HashSet<ToolMenu.CellColorData>();
@@ -56,7 +68,8 @@ namespace UpgradePlanner
 			DragTool donor = ClearTool.Instance;
 			if (donor != null)
 			{
-				visualizer = donor.visualizer;
+				// Sweep's cell marker, with the planner's picture in place of its dolly.
+				visualizer = ToolMarker.Make(donor.visualizer) ?? donor.visualizer;
 				visualizerLayer = donor.visualizerLayer;
 				foreach (FieldInfo field in DonorFields)
 				{
@@ -67,6 +80,7 @@ namespace UpgradePlanner
 						Debug.LogWarning("[UpgradePlanner] A donor tool field is missing; the cursor or drag area may look wrong.");
 				}
 				AreaColourField?.SetValue(this, AreaColor);
+				ToolCursor.Make(cursor);
 				AddHoverCard(donor);
 			}
 			base.OnPrefabInit();
@@ -74,7 +88,13 @@ namespace UpgradePlanner
 			dialog = new UpgradeDialog(plan)
 			{
 				Changed = OnPlanChanged,
-				Closed = () => toggle.SetPressed(false),
+				Applied = OnApplied,
+				Cleared = () => applied = null,
+				Closed = () =>
+				{
+					toggle.SetPressed(false);
+					OnPlanChanged();
+				},
 			};
 		}
 
@@ -126,21 +146,46 @@ namespace UpgradePlanner
 			toggle.SetPressed(true);
 		}
 
+		/// <summary>A copy of the plan for drags, through the same save and load presets use. An unfinished plan applies nothing and leaves the last one.</summary>
+		private void OnApplied()
+		{
+			if (!plan.IsComplete)
+				return;
+			applied = new UpgradePlan();
+			applied.Load(plan.ToPreset(null));
+		}
+
 		private void OnPlanChanged()
 		{
-			overlay.Follow(plan.TouchedDefs());
+			overlay.Follow(Shown?.TouchedDefs() ?? new List<BuildingDef>());
+			ShowReadiness();
+		}
+
+		/// <summary>The cursor and the hover card say whether a drag would mark anything.</summary>
+		private void ShowReadiness()
+		{
 			if (hoverCard != null)
-				hoverCard.ActionName = plan.IsComplete ? ModStrings.UPGRADEPLANNER.HoverActionReady : ModStrings.UPGRADEPLANNER.HoverActionIdle;
+				hoverCard.ActionName = Ready ? ModStrings.UPGRADEPLANNER.HoverActionReady
+					: plan.IsComplete ? ModStrings.UPGRADEPLANNER.HoverActionApplyFirst : ModStrings.UPGRADEPLANNER.HoverActionIdle;
+			Texture2D look = Ready ? ToolCursor.Ready : ToolCursor.Prohibited;
+			if (look == null)
+				return;
+			cursor = look;
+			BoxCursorField?.SetValue(this, look);
+			if (PlayerController.Instance != null && PlayerController.Instance.ActiveTool == this)
+				SetCursor(look, cursorOffset, CursorMode.Auto);
 		}
 
 		// ---- dragging ----
 
 		public override void OnLeftClickDown(Vector3 cursor_pos)
 		{
-			dragMatcher = plan.IsComplete ? plan.Compile() : null;
+			dragMatcher = Ready ? applied.Compile() : null;
 			if (dragMatcher == null)
 			{
-				PopFXManager.Instance.SpawnFX(PopFXManager.Instance.sprite_Negative, ModStrings.UPGRADEPLANNER.ErrorIncomplete, null, cursor_pos);
+				// Nothing applied: finish the choices, or apply the finished ones.
+				string error = plan.IsComplete ? ModStrings.UPGRADEPLANNER.ErrorNotApplied : ModStrings.UPGRADEPLANNER.ErrorIncomplete;
+				PopFXManager.Instance.SpawnFX(PopFXManager.Instance.sprite_Negative, error, null, cursor_pos);
 				OpenWindow();
 				return;
 			}
@@ -189,10 +234,12 @@ namespace UpgradePlanner
 		public override void GetOverlayColorData(out HashSet<ToolMenu.CellColorData> colors)
 		{
 			colors = cellColors;
-			if (matcher != null && matcherVersion == plan.Version && Time.unscaledTime - matcherTime < RecompileSeconds)
+			UpgradePlan shown = Shown;
+			if (matcher != null && matcherPlan == shown && matcherVersion == (shown?.Version ?? -1) && Time.unscaledTime - matcherTime < RecompileSeconds)
 				return;
-			matcher = plan.Compile();
-			matcherVersion = plan.Version;
+			matcher = shown?.Compile();
+			matcherPlan = shown;
+			matcherVersion = shown?.Version ?? -1;
 			matcherTime = Time.unscaledTime;
 			cellColors.Clear();
 			if (matcher == null)

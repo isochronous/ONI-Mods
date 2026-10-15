@@ -237,6 +237,7 @@ namespace UpgradePlanner.Tests
 					tool = found;
 			t.Assert.NotNull(tool, "the Upgrade Planner tool is among the player's tools");
 			PlayerController.Instance.ActivateTool(tool);
+			PlannerWindow.PressApply(t);
 			// At a hand's pace: a moment between each step of the drag.
 			yield return t.WaitRealSeconds(0.3);
 			CellRect bay = Bay(t);

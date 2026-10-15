@@ -542,6 +542,7 @@ namespace UpgradePlanner.Tests
 					PlayerController.Instance.ActivateTool(SelectTool.Instance);
 			});
 			PlayerController.Instance.ActivateTool(tool);
+			PlannerWindow.PressApply(t);
 			yield return t.WaitRealSeconds(0.3);
 			Vector3 from = Grid.CellToPosCCC(fromCell, Grid.SceneLayer.Building);
 			Vector3 to = Grid.CellToPosCCC(toCell, Grid.SceneLayer.Building);

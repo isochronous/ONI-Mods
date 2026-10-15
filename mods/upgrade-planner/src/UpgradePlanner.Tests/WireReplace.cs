@@ -70,6 +70,7 @@ namespace UpgradePlanner.Tests
 					tool = found;
 			t.Assert.NotNull(tool, "the Upgrade Planner tool is among the player's tools");
 			PlayerController.Instance.ActivateTool(tool);
+			PlannerWindow.PressApply(t);
 			t.Cleanup(() =>
 			{
 				if (PlayerController.Instance.ActiveTool == tool)

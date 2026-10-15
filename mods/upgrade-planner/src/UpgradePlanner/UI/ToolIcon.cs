@@ -3,9 +3,9 @@ using UnityEngine;
 namespace UpgradePlanner
 {
 	/// <summary>
-	/// Registers the tool's icon, drawn at start-up: a green plate with a pale dashed border
-	/// and a light plus in the middle, the design Factorio's own upgrade planner uses, which
-	/// this tool is modelled on.
+	/// Registers the tool's icon, drawn at start-up: a green plate with a pale dashed border, after
+	/// the design of Factorio's own upgrade planner, which this tool is modelled on. The tool's
+	/// cursor carries a small copy of it (<see cref="ToolCursor"/>).
 	/// </summary>
 	internal static class ToolIcon
 	{
@@ -15,8 +15,7 @@ namespace UpgradePlanner
 		private static readonly Color32 Plate = new Color32(16, 140, 16, 255);
 		private static readonly Color32 PlateLight = new Color32(22, 158, 22, 255);
 		private static readonly Color32 Dash = new Color32(168, 228, 168, 255);
-		private static readonly Color32 Plus = new Color32(222, 222, 222, 255);
-
+	
 		public static void Register()
 		{
 			if (Assets.Sprites == null || Assets.Sprites.ContainsKey(SpriteName))
@@ -44,10 +43,6 @@ namespace UpgradePlanner
 				FillRect(pixels, inset, start, thick, length, Dash);
 				FillRect(pixels, Size - inset - thick, start, thick, length, Dash);
 			}
-
-			// The plus: arms 10 px thick, 36 px long, centred.
-			FillRect(pixels, 14, 27, 36, 10, Plus);
-			FillRect(pixels, 27, 14, 10, 36, Plus);
 
 			Texture2D texture = new Texture2D(Size, Size, TextureFormat.RGBA32, mipChain: false)
 			{

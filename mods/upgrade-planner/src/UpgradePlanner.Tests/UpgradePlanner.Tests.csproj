@@ -8,6 +8,7 @@
     <!-- Never deployed as a mod; the TestRunner launcher copies the DLL into its run folder. -->
     <ModDeployFolder>none</ModDeployFolder>
     <ReferenceUnityUI>true</ReferenceUnityUI>
+    <ReferenceImageConversion>true</ReferenceImageConversion>
   </PropertyGroup>
 
   <!-- The mod's PLib has PDialog.Draggable by default (lib/PLib); -p:PLibDraggable=false with the NuGet PLib. -->

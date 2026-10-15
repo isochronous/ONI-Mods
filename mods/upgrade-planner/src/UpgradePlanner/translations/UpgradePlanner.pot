@@ -141,6 +141,11 @@ msgctxt "STRINGS.UPGRADEPLANNER.ErrorIncomplete"
 msgid "Finish the Upgrade Planner choices first"
 msgstr ""
 
+#. STRINGS.UPGRADEPLANNER.ErrorNotApplied
+msgctxt "STRINGS.UPGRADEPLANNER.ErrorNotApplied"
+msgid "Apply settings first"
+msgstr ""
+
 #. STRINGS.UPGRADEPLANNER.ExpandAll
 msgctxt "STRINGS.UPGRADEPLANNER.ExpandAll"
 msgid "Expand all"
@@ -189,6 +194,11 @@ msgstr ""
 #. STRINGS.UPGRADEPLANNER.FamilyWires
 msgctxt "STRINGS.UPGRADEPLANNER.FamilyWires"
 msgid "Wires"
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.HoverActionApplyFirst
+msgctxt "STRINGS.UPGRADEPLANNER.HoverActionApplyFirst"
+msgid "APPLY SETTINGS FIRST"
 msgstr ""
 
 #. STRINGS.UPGRADEPLANNER.HoverActionIdle
