@@ -1,0 +1,55 @@
+# Multichannel Critter Sensor
+
+An [Oxygen Not Included](https://www.klei.com/games/oxygen-not-included) mod that adds a **Multichannel Critter Sensor**: a room-based critter/egg counter that outputs over an **Automation Ribbon** and lets you choose exactly which species and egg types to count.
+
+The art is by 3GuB, commissioned for this mod and used with permission: the kanim under `src/MultichannelCritterSensor/anim/assets/critter_sensor_advanced/` has an `off` pose, an `on` reaction the sensor plays once whenever it starts seeing something it tracks, and two indicator meters that the code pins in front of the body at the kanim's `meter_target_critter` and `meter_target_egg` symbols with the game's `MeterController`; each plays a static `_off` anim (red lights) or a looping `_on` anim (green lights, its paw or egg pulsing, the egg half a period out of phase) depending on that channel's signal. The critter indicator follows bit 0 and the egg indicator bit 1; in combined mode bit 0 covers both kinds, so both light up.
+
+## What it does
+
+The sensor counts critters and eggs in its room, like the vanilla Critter Sensor, and writes a 4-bit value to its ribbon output port:
+
+| Bit | Combined-threshold mode | Separate-thresholds mode |
+|---|---|---|
+| 1 | Green when the combined count passes the threshold | Green when the **critter** count passes its threshold |
+| 2 | Off | Green when the **egg** count passes its threshold |
+| 3 | One logic tick (100 ms) green pulse each time the tracked count rises | Same |
+| 4 | One logic tick (100 ms) green pulse each time the tracked count falls | Same |
+
+- **Species filters.** Ticking *Count Critters* shows the list of discovered baggable species (the same list as the Critter Pick-Up). Ticking *Count Eggs* shows discovered egg types (the incubator's list). Each list has an *All* row; with *All* on, newly discovered species count automatically. Unticking a single row from the *All* state keeps everything else selected.
+- **Thresholds** use the vanilla threshold controls (above/below, +/- 1, +/- 10, number field, slider, 0 to 64).
+- **Pulses** fire once per 200 ms scan in which the tracked total changed, regardless of how many critters arrived or left in that window. Consecutive pulses are always separated by at least one low tick. A hatch (one egg out, one critter in) leaves the total unchanged and fires nothing. Configuration edits never fire a pulse.
+- Connect the output with an Automation Ribbon; a plain automation wire overloads when more than one bit is on, as with the vanilla Ribbon Writer.
+- Supports the copy-settings tool; all settings are saved with the building.
+
+Unlocked by **Multiplexing** (two research tiers past the vanilla sensor's Animal Control). Costs 50 kg Refined Metal and 50 kg Plastic. Found under Automation > Sensors, next to the vanilla Critter Sensor.
+
+## Installing
+
+As a local mod:
+
+1. Download `MultichannelCritterSensor-<version>.zip` from the [latest release](https://github.com/isochronous/multichannel-critter-sensor/releases/latest).
+2. Extract it into a new folder named `MultichannelCritterSensor` inside the game's local mods folder, so that `mod.yaml` ends up directly inside it (create `local` if it does not exist):
+   - Windows: `Documents\Klei\OxygenNotIncluded\mods\local\MultichannelCritterSensor`
+   - Linux: `~/.config/unity3d/Klei/Oxygen Not Included/mods/local/MultichannelCritterSensor`
+   - macOS: `~/Library/Application Support/unity.Klei.Oxygen Not Included/mods/local/MultichannelCritterSensor`
+3. Start the game, enable the mod under **Mods** in the main menu, and let the game restart.
+
+## Building
+
+Requires the .NET SDK (8+). Shared build configuration lives in the [oni-mods-common](https://github.com/isochronous/oni-mods-common) submodule, so clone with `--recurse-submodules` (or run `git submodule update --init`). The game DLLs are referenced directly from the game install; override the path if yours differs:
+
+```
+dotnet build src/MultichannelCritterSensor -c Release -p:GameFolder="<path-to>\OxygenNotIncluded"
+```
+
+A successful build merges [PLib](https://github.com/peterhaneve/ONIMods/tree/main/PLib) into the DLL and deploys the mod to `Documents\Klei\OxygenNotIncluded\mods\local\MultichannelCritterSensor` (disable with `-p:ModDeployFolder=none`).
+
+## Translations
+
+The mod is available in English, Chinese (Simplified), Korean and Russian. The game's language setting picks the translation; it loads from `translations/<locale>.po` next to the mod DLL. Other languages can be added by translating the template `src/MultichannelCritterSensor/translations/MultichannelCritterSensor.pot` into `<locale>.po` in the same folder.
+
+## Implementation notes
+
+- `MultichannelCritterSensor` (the building component) walks the room cavity's creature and egg lists every 200 ms, filtering each entry by prefab tag, and sends the packed value through a `RibbonOutputPort`. Pulse bits are cleared from the circuit manager's `onLogicTick` callback, which fires right after the network samples sender values, so each pulse is read by exactly one tick.
+- The side screen is built with PLib UI. The three threshold editors are runtime clones of the vanilla `ThresholdSwitchSideScreen` prefab, each targeting a small `IThresholdSwitch` adapter object, so they look and behave exactly like the stock sensor's controls.
+- Patch points: `GeneratedBuildings.LoadGeneratedBuildings` (plan screen), `Db.Initialize` (tech), `DetailsScreen.OnPrefabInit` (side screen registration).

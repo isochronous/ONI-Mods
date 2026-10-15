@@ -1,0 +1,48 @@
+using System.Collections.Generic;
+using STRINGS;
+using TUNING;
+using UnityEngine;
+using PREFAB = MultichannelCritterSensor.ModStrings.BUILDINGS.PREFABS.MULTICHANNELCRITTERSENSOR;
+
+namespace MultichannelCritterSensor
+{
+	/// <summary>
+	/// Building definition: a 1x1 sensor with its own kanim (anim/assets/critter_sensor_advanced, drawn
+	/// by 3GuB) and a single 4-bit ribbon output.
+	/// </summary>
+	public sealed class MultichannelCritterSensorConfig : IBuildingConfig
+	{
+		public const string ID = "MultichannelCritterSensor";
+
+		public override BuildingDef CreateBuildingDef()
+		{
+			BuildingDef def = BuildingTemplates.CreateBuildingDef(ID, 1, 1, "critter_sensor_advanced_kanim", 30, 30f,
+				new float[] { 50f, 50f },
+				new string[] { MATERIALS.REFINED_METALS[0], MATERIALS.PLASTICS[0] },
+				1600f, BuildLocationRule.Anywhere,
+				noise: NOISE_POLLUTION.NONE, decor: TUNING.BUILDINGS.DECOR.PENALTY.TIER0);
+			def.Overheatable = false;
+			def.Floodable = false;
+			def.Entombable = false;
+			def.ViewMode = OverlayModes.Logic.ID;
+			def.AudioCategory = "Metal";
+			def.SceneLayer = Grid.SceneLayer.Building;
+			def.AlwaysOperational = true;
+			def.LogicOutputPorts = new List<LogicPorts.Port>
+			{
+				LogicPorts.Port.RibbonOutputPort(MultichannelCritterSensor.PortId, new CellOffset(0, 0),
+					PREFAB.LOGIC_PORT, PREFAB.LOGIC_PORT_ACTIVE, PREFAB.LOGIC_PORT_INACTIVE, show_wire_missing_icon: true)
+			};
+			def.AddSearchTerms(SEARCH_TERMS.CRITTER);
+			def.AddSearchTerms(SEARCH_TERMS.AUTOMATION);
+			GeneratedBuildings.RegisterWithOverlay(OverlayModes.Logic.HighlightItemIDs, ID);
+			return def;
+		}
+
+		public override void DoPostConfigureComplete(GameObject go)
+		{
+			go.AddOrGet<MultichannelCritterSensor>();
+			go.GetComponent<KPrefabID>().AddTag(GameTags.OverlayInFrontOfConduits);
+		}
+	}
+}
