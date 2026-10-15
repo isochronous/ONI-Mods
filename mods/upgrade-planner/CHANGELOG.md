@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+### Changed
+
+- Buildings now highlight as soon as your drag-select covers them, and the hover card counts them by type along with the materials needed.
+- The tool uses the normal cursor again; dragging with nothing applied still tells you to apply your settings first.
+
 ## 0.4.0 - 2026-10-15
 
 ### Changed
