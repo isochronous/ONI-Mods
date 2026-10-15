@@ -11,4 +11,6 @@ A cell that can only be reached diagonally, the classic corner, is one the game 
 
 Two small patches on the game's construction and deconstruction setup; no cost while playing. New and existing colonies alike, and safe to remove.
 
-Source and issues: https://github.com/isochronous/corner-build-anything
+Made by a professional software developer with assistance from Claude Code. Comes with a no slop guarantee.
+
+Source and issues: https://github.com/isochronous/ONI-Mods
