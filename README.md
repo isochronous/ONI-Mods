@@ -25,8 +25,8 @@
 ## Building
 
 ```
-git clone --recurse-submodules https://github.com/isochronous/oni-mods.git
-dotnet build oni-mods/ONI-Mods.sln -c Release
+git clone --recurse-submodules https://github.com/isochronous/ONI-Mods.git
+dotnet build ONI-Mods/ONI-Mods.sln -c Release
 ```
 
 `common/` is [oni-mods-common](https://github.com/isochronous/oni-mods-common), the shared build, test harness and release tools, as a submodule; `Directory.Build.props` points every project at it as `$(OniCommon)`. Building a mod deploys it into the game's local mods folder; add `-p:ModDeployFolder=none` to build without deploying. See `common/README.md` for the build, test and release tooling.
