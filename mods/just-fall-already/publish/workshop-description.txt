@@ -1,0 +1,13 @@
+Critters fall without doing a Wile E. Coyote impression first, even in laggy bases
+
+[list]
+[*]Critter droppers make critters fall the moment the door has closed on the critter.
+[*]With Sgt_Imalas's [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3816086407]Critters fall through open doors[/url] installed, critters drop the moment a door opens under them (or, for climbers, above them).
+[*]Dupes, boops, remote workers, and robots are not affected.
+[/list]
+
+Does nothing unless a door just changed state, so there is no cost the rest of the time. Checked against Fast Track.
+
+Developed by a professional software developer with assistance from Claude Fable.
+
+Source and issues: https://github.com/isochronous/just-fall-already
