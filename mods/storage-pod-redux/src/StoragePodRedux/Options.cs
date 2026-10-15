@@ -1,0 +1,45 @@
+using Newtonsoft.Json;
+using PeterHan.PLib.Options;
+
+namespace StoragePodRedux
+{
+	// Titles, tooltips and categories are keys into ModStrings (see ModStrings.STORAGEPODREDUX.OPTIONS);
+	// PLib resolves them through the string table, so the options screen follows the translation.
+	public enum CoolPodMode
+	{
+		[Option("STRINGS.STORAGEPODREDUX.OPTIONS.COOL_POD_MODE.AUTO.NAME", "STRINGS.STORAGEPODREDUX.OPTIONS.COOL_POD_MODE.AUTO.TOOLTIP")]
+		Auto,
+		[Option("STRINGS.STORAGEPODREDUX.OPTIONS.COOL_POD_MODE.ENABLED.NAME", "STRINGS.STORAGEPODREDUX.OPTIONS.COOL_POD_MODE.ENABLED.TOOLTIP")]
+		Enabled,
+		[Option("STRINGS.STORAGEPODREDUX.OPTIONS.COOL_POD_MODE.DISABLED.NAME", "STRINGS.STORAGEPODREDUX.OPTIONS.COOL_POD_MODE.DISABLED.TOOLTIP")]
+		Disabled,
+	}
+
+	[JsonObject(MemberSerialization.OptIn)]
+	[ConfigFile(SharedConfigLocation: true)]
+	[RestartRequired]
+	public sealed class Options : SingletonOptions<Options>
+	{
+		[Option("STRINGS.STORAGEPODREDUX.OPTIONS.STORAGE_POD_ENABLED.NAME", "STRINGS.STORAGEPODREDUX.OPTIONS.STORAGE_POD_ENABLED.TOOLTIP", "STRINGS.STORAGEPODREDUX.OPTIONS.CATEGORY.STORAGE_POD")]
+		[JsonProperty]
+		public bool StoragePodEnabled { get; set; } = true;
+
+		[Option("STRINGS.STORAGEPODREDUX.OPTIONS.STORAGE_POD_CAPACITY.NAME", "STRINGS.STORAGEPODREDUX.OPTIONS.STORAGE_POD_CAPACITY.TOOLTIP", "STRINGS.STORAGEPODREDUX.OPTIONS.CATEGORY.STORAGE_POD", Format = "F0")]
+		[Limit(100, 50000)]
+		[JsonProperty]
+		public float StoragePodCapacity { get; set; } = 5000f;
+
+		[Option("STRINGS.STORAGEPODREDUX.OPTIONS.STORAGE_POD_STORES_FOOD.NAME", "STRINGS.STORAGEPODREDUX.OPTIONS.STORAGE_POD_STORES_FOOD.TOOLTIP", "STRINGS.STORAGEPODREDUX.OPTIONS.CATEGORY.STORAGE_POD")]
+		[JsonProperty]
+		public bool StoragePodStoresFood { get; set; } = false;
+
+		[Option("STRINGS.STORAGEPODREDUX.OPTIONS.COOL_POD.NAME", "STRINGS.STORAGEPODREDUX.OPTIONS.COOL_POD.TOOLTIP", "STRINGS.STORAGEPODREDUX.OPTIONS.CATEGORY.COOL_POD")]
+		[JsonProperty]
+		public CoolPodMode CoolPod { get; set; } = CoolPodMode.Auto;
+
+		[Option("STRINGS.STORAGEPODREDUX.OPTIONS.COOL_POD_CAPACITY.NAME", "STRINGS.STORAGEPODREDUX.OPTIONS.COOL_POD_CAPACITY.TOOLTIP", "STRINGS.STORAGEPODREDUX.OPTIONS.CATEGORY.COOL_POD", Format = "F0")]
+		[Limit(10, 5000)]
+		[JsonProperty]
+		public float CoolPodCapacity { get; set; } = 50f;
+	}
+}

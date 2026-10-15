@@ -1,0 +1,128 @@
+msgid ""
+msgstr ""
+"Application: Oxygen Not Included\n"
+"POT Version: 2.0\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. STRINGS.BUILDINGS.PREFABS.COOLPODCONFIG.DESC
+msgctxt "STRINGS.BUILDINGS.PREFABS.COOLPODCONFIG.DESC"
+msgid "A small refrigerated pod that fits where a fridge will not."
+msgstr "一个小型冷藏舱，能装进冰箱放不下的地方。"
+
+#. STRINGS.BUILDINGS.PREFABS.COOLPODCONFIG.EFFECT
+msgctxt "STRINGS.BUILDINGS.PREFABS.COOLPODCONFIG.EFFECT"
+msgid "Stores <link=\"FOOD\">Food</link> and slows its spoilage.\n\nCompact, and can be built anywhere. Uses less power once its contents are cold."
+msgstr "储存<link=\"FOOD\">食物</link>并减慢其变质速度。\n\n结构紧凑，可建造在任何地方。内容物冷却后耗电更少。"
+
+#. STRINGS.BUILDINGS.PREFABS.COOLPODCONFIG.NAME
+msgctxt "STRINGS.BUILDINGS.PREFABS.COOLPODCONFIG.NAME"
+msgid "<link=\"COOLPODCONFIG\">Cool Pod</link>"
+msgstr "<link=\"COOLPODCONFIG\">冷藏舱</link>"
+
+#. STRINGS.BUILDINGS.PREFABS.STORAGEPODCONFIG.DESC
+msgctxt "STRINGS.BUILDINGS.PREFABS.STORAGEPODCONFIG.DESC"
+msgid "A sealed pod that keeps a lot of material in very little space, and does not care what it is bolted to."
+msgstr "一个密封舱，用极小的空间存放大量材料，而且不在乎自己固定在什么东西上。"
+
+#. STRINGS.BUILDINGS.PREFABS.STORAGEPODCONFIG.EFFECT
+msgctxt "STRINGS.BUILDINGS.PREFABS.STORAGEPODCONFIG.EFFECT"
+msgid "Stores the <link=\"ELEMENTSSOLID\">Solid</link> resources of your choosing.\n\nCompact, and can be built anywhere."
+msgstr "储存你所选的<link=\"ELEMENTSSOLID\">固体</link>资源。\n\n结构紧凑，可建造在任何地方。"
+
+#. STRINGS.BUILDINGS.PREFABS.STORAGEPODCONFIG.NAME
+msgctxt "STRINGS.BUILDINGS.PREFABS.STORAGEPODCONFIG.NAME"
+msgid "<link=\"STORAGEPODCONFIG\">Storage Pod</link>"
+msgstr "<link=\"STORAGEPODCONFIG\">存储舱</link>"
+
+#. STRINGS.STORAGEPODREDUX.OPTIONS.CATEGORY.COOL_POD
+msgctxt "STRINGS.STORAGEPODREDUX.OPTIONS.CATEGORY.COOL_POD"
+msgid "Cool Pod"
+msgstr "冷藏舱"
+
+#. STRINGS.STORAGEPODREDUX.OPTIONS.CATEGORY.STORAGE_POD
+msgctxt "STRINGS.STORAGEPODREDUX.OPTIONS.CATEGORY.STORAGE_POD"
+msgid "Storage Pod"
+msgstr "存储舱"
+
+#. STRINGS.STORAGEPODREDUX.OPTIONS.COOL_POD.NAME
+msgctxt "STRINGS.STORAGEPODREDUX.OPTIONS.COOL_POD.NAME"
+msgid "Cool Pod"
+msgstr "冷藏舱"
+
+#. STRINGS.STORAGEPODREDUX.OPTIONS.COOL_POD.TOOLTIP
+msgctxt "STRINGS.STORAGEPODREDUX.OPTIONS.COOL_POD.TOOLTIP"
+msgid "Add the Cool Pod building. Takes effect after a restart."
+msgstr "添加冷藏舱建筑。重启后生效。"
+
+#. STRINGS.STORAGEPODREDUX.OPTIONS.COOL_POD_CAPACITY.NAME
+msgctxt "STRINGS.STORAGEPODREDUX.OPTIONS.COOL_POD_CAPACITY.NAME"
+msgid "Capacity (kg)"
+msgstr "容量（千克）"
+
+#. STRINGS.STORAGEPODREDUX.OPTIONS.COOL_POD_CAPACITY.TOOLTIP
+msgctxt "STRINGS.STORAGEPODREDUX.OPTIONS.COOL_POD_CAPACITY.TOOLTIP"
+msgid "How much food the Cool Pod holds."
+msgstr "冷藏舱能存放多少食物。"
+
+#. STRINGS.STORAGEPODREDUX.OPTIONS.COOL_POD_MODE.AUTO.NAME
+msgctxt "STRINGS.STORAGEPODREDUX.OPTIONS.COOL_POD_MODE.AUTO.NAME"
+msgid "Auto"
+msgstr "自动"
+
+#. STRINGS.STORAGEPODREDUX.OPTIONS.COOL_POD_MODE.AUTO.TOOLTIP
+msgctxt "STRINGS.STORAGEPODREDUX.OPTIONS.COOL_POD_MODE.AUTO.TOOLTIP"
+msgid "Enabled, unless Ronivan's Legacy - Industrial Revolution is enabled with its Fridge Pod turned on."
+msgstr "启用，除非 Ronivan's Legacy - Industrial Revolution 模组已启用且其 Fridge Pod 已开启。"
+
+#. STRINGS.STORAGEPODREDUX.OPTIONS.COOL_POD_MODE.DISABLED.NAME
+msgctxt "STRINGS.STORAGEPODREDUX.OPTIONS.COOL_POD_MODE.DISABLED.NAME"
+msgid "Disabled"
+msgstr "禁用"
+
+#. STRINGS.STORAGEPODREDUX.OPTIONS.COOL_POD_MODE.DISABLED.TOOLTIP
+msgctxt "STRINGS.STORAGEPODREDUX.OPTIONS.COOL_POD_MODE.DISABLED.TOOLTIP"
+msgid "Never add the Cool Pod."
+msgstr "从不添加冷藏舱。"
+
+#. STRINGS.STORAGEPODREDUX.OPTIONS.COOL_POD_MODE.ENABLED.NAME
+msgctxt "STRINGS.STORAGEPODREDUX.OPTIONS.COOL_POD_MODE.ENABLED.NAME"
+msgid "Enabled"
+msgstr "启用"
+
+#. STRINGS.STORAGEPODREDUX.OPTIONS.COOL_POD_MODE.ENABLED.TOOLTIP
+msgctxt "STRINGS.STORAGEPODREDUX.OPTIONS.COOL_POD_MODE.ENABLED.TOOLTIP"
+msgid "Always add the Cool Pod."
+msgstr "始终添加冷藏舱。"
+
+#. STRINGS.STORAGEPODREDUX.OPTIONS.STORAGE_POD_CAPACITY.NAME
+msgctxt "STRINGS.STORAGEPODREDUX.OPTIONS.STORAGE_POD_CAPACITY.NAME"
+msgid "Capacity (kg)"
+msgstr "容量（千克）"
+
+#. STRINGS.STORAGEPODREDUX.OPTIONS.STORAGE_POD_CAPACITY.TOOLTIP
+msgctxt "STRINGS.STORAGEPODREDUX.OPTIONS.STORAGE_POD_CAPACITY.TOOLTIP"
+msgid "How much the Storage Pod holds."
+msgstr "存储舱能存放多少。"
+
+#. STRINGS.STORAGEPODREDUX.OPTIONS.STORAGE_POD_ENABLED.NAME
+msgctxt "STRINGS.STORAGEPODREDUX.OPTIONS.STORAGE_POD_ENABLED.NAME"
+msgid "Storage Pod"
+msgstr "存储舱"
+
+#. STRINGS.STORAGEPODREDUX.OPTIONS.STORAGE_POD_ENABLED.TOOLTIP
+msgctxt "STRINGS.STORAGEPODREDUX.OPTIONS.STORAGE_POD_ENABLED.TOOLTIP"
+msgid "Add the Storage Pod building. Takes effect after a restart."
+msgstr "添加存储舱建筑。重启后生效。"
+
+#. STRINGS.STORAGEPODREDUX.OPTIONS.STORAGE_POD_STORES_FOOD.NAME
+msgctxt "STRINGS.STORAGEPODREDUX.OPTIONS.STORAGE_POD_STORES_FOOD.NAME"
+msgid "Stores food"
+msgstr "存放食物"
+
+#. STRINGS.STORAGEPODREDUX.OPTIONS.STORAGE_POD_STORES_FOOD.TOOLTIP
+msgctxt "STRINGS.STORAGEPODREDUX.OPTIONS.STORAGE_POD_STORES_FOOD.TOOLTIP"
+msgid "Let the Storage Pod hold food as well as other solids. It is not refrigerated."
+msgstr "让存储舱除其他固体外也能存放食物。它不具备冷藏功能。"

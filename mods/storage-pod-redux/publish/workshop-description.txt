@@ -1,0 +1,33 @@
+Two compact 1x1 storage buildings that can be built anywhere, including inside rockets. Mod originally by Skyrunner.
+
+[h2]The pods[/h2]
+[list]
+[*][b]Storage Pod[/b]: a Storage Bin in one cell. Holds 5,000 kg of solids (configurable), needs no power, costs 100 kg of Refined Metal, and unlocks with Refined Renovations. Base > Storage, next to the Storage Bin.
+[*][b]Cool Pod[/b]: a fridge in one cell. Holds 50 kg of food (configurable), uses 60 W, dropping to 10 W once everything inside is cold, costs 100 kg of Refined Metal, and unlocks with Agriculture. Food > Storage, next to the Refrigerator. Satisfies the Kitchen room's refrigerator requirement and has the same Full automation output.
+[/list]
+
+[h2]Why a redux[/h2]
+A from-scratch rewrite of the code of Skyrunner's Storage Pod, whose Cool Pod has crashed on completion since the Sweet Dreams update. The Cool Pod here is built the way the game builds its own Mini Fridge. It uses the original mod's building IDs, so a save made with the original keeps its pods when you switch. Do not run both mods at once; if you do, this one steps aside and logs a warning.
+
+[h2]Options[/h2]
+Main menu > Mods > Storage Pod Redux > Options (changes need a restart):
+[list]
+[*]Storage Pod: on/off, capacity, and whether it may hold (unrefrigerated) food.
+[*]Cool Pod: Auto / Enabled / Disabled, and capacity. Auto adds the Cool Pod unless Ronivan's Legacy - Industrial Revolution is enabled with its own Fridge Pod turned on.
+[/list]
+A building that is turned off is not added at all, so it is absent from the build menu, tech tree, and codex.
+
+[h2]Art[/h2]
+The pod animations are the original mod's, drawn by 3GuB and used with permission. Thank you!
+
+[h2]Compatibility[/h2]
+Works with the base game and all DLCs, on build 744825 (U59) or newer. No separate dependencies (PLib is bundled). Safe to add to an existing save; remove it only after deconstructing the pods.
+
+Developed by a professional software developer with assistance from Claude Code.
+
+Source and issue tracker: https://github.com/isochronous/storage-pod-redux
+
+Translations done via artificial intelligence. Please submit corrections via GitHub issues.
+翻译由人工智能完成。如有错误，请通过 GitHub Issues 提交更正。
+번역은 인공지능으로 이루어졌습니다. 수정 사항은 GitHub 이슈로 제출해 주세요.
+Перевод выполнен с помощью искусственного интеллекта. Исправления присылайте через GitHub Issues.
