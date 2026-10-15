@@ -74,8 +74,7 @@ namespace UpgradePlanner
 			dialog = new UpgradeDialog(plan)
 			{
 				Changed = OnPlanChanged,
-				ClosedByPlayer = OnClosedByPlayer,
-				Applied = () => toggle.SetPressed(false),
+				Closed = () => toggle.SetPressed(false),
 			};
 		}
 
@@ -132,17 +131,6 @@ namespace UpgradePlanner
 			overlay.Follow(plan.TouchedDefs());
 			if (hoverCard != null)
 				hoverCard.ActionName = plan.IsComplete ? ModStrings.UPGRADEPLANNER.HoverActionReady : ModStrings.UPGRADEPLANNER.HoverActionIdle;
-		}
-
-		/// <summary>The X or Escape on the window ends the tool, as closing a sandbox tool's panel does.</summary>
-		private void OnClosedByPlayer()
-		{
-			PlayerController controller = PlayerController.Instance;
-			if (controller == null || controller.ActiveTool != this)
-				return;
-			ToolMenu.Instance.ClearSelection();
-			if (controller.ActiveTool == this)
-				controller.ActivateTool(SelectTool.Instance);
 		}
 
 		// ---- dragging ----

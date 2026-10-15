@@ -37,10 +37,11 @@ namespace UpgradePlanner
 
 		/// <summary>Called whenever the plan changes.</summary>
 		public System.Action Changed;
-		/// <summary>Called when the X or Escape closes the window: the tool is done with.</summary>
-		public System.Action ClosedByPlayer;
-		/// <summary>Called when Apply closes the window: the tool stays active.</summary>
-		public System.Action Applied;
+		/// <summary>
+		/// Called when the player closes the window, with Apply, its X or Escape: the tool stays
+		/// active, the plan as it stands. A second Escape ends the tool, as it ends any tool.
+		/// </summary>
+		public System.Action Closed;
 
 		public UpgradeDialog(UpgradePlan plan)
 		{
@@ -208,20 +209,20 @@ namespace UpgradePlanner
 			return string.IsNullOrEmpty(notice) ? summary : summary + "    " + notice;
 		}
 
-		/// <summary>The X or Escape: the player is done with the tool.</summary>
+		/// <summary>The X or Escape: PLib has closed the window.</summary>
 		private void OnClosed(string key)
 		{
 			if (closing)
 				return;
 			window = null;
-			ClosedByPlayer?.Invoke();
+			Closed?.Invoke();
 		}
 
-		/// <summary>The action bar: the window closes and the tool stays active.</summary>
+		/// <summary>The action bar.</summary>
 		private void Apply()
 		{
 			Close();
-			Applied?.Invoke();
+			Closed?.Invoke();
 		}
 
 		// ---- the top row: tabs, then the tab's presets ----
