@@ -1,0 +1,114 @@
+name: Bug report
+description: Something in one of the mods does not work as it should.
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report this. One bug per report, please.
+
+  - type: dropdown
+    id: mod
+    attributes:
+      label: Mod
+      options:
+        - Bitshifter
+        - Corner Build Anything
+        - Detect Any Element
+        - Direct Automation Bridges
+        - Don't Count Eggs on Rails
+        - Just Fall Already!
+        - Motion Sensor Range
+        - Multichannel Critter Sensor
+        - Natural Backwalls Everywhere
+        - No Magic Fridges
+        - Refined Building
+        - Salty Surf
+        - Smart Weight Plate
+        - Storage Pod Redux
+        - Sweep Zones Redux
+        - Upgrade Planner
+        - Vent Freeze Fix
+    validations:
+      required: true
+
+  - type: input
+    id: mod-version
+    attributes:
+      label: Mod version
+      description: Shown in the game's Mods screen, or in the mod's mod_info.yaml.
+      placeholder: "0.5.0"
+    validations:
+      required: true
+
+  - type: input
+    id: game-version
+    attributes:
+      label: Game version
+      description: The build number in the bottom-left corner of the main menu.
+      placeholder: "U59-744825"
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: dlc
+    attributes:
+      label: DLCs enabled
+      options:
+        - label: Spaced Out!
+        - label: The Frosty Planet Pack
+        - label: The Bionic Booster Pack
+        - label: The Prehistoric Planet Pack
+        - label: The Aquatic Planet Pack
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: What you saw.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected to happen
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: The shortest way to make it happen again.
+      placeholder: |
+        1. Build ...
+        2. Select ...
+        3. ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: other-mods
+    attributes:
+      label: Other mods enabled
+      description: Other mods often explain a bug. A list of names is fine; a mod-profile export is better.
+
+  - type: textarea
+    id: log
+    attributes:
+      label: Player.log
+      description: |
+        Drag the file in here. It is rewritten on every launch, so grab it right after the bug, before starting the game again.
+        - Windows: `%USERPROFILE%\AppData\LocalLow\Klei\Oxygen Not Included\Player.log`
+        - macOS: `~/Library/Logs/Klei/Oxygen Not Included/Player.log`
+        - Linux: `~/.config/unity3d/Klei/Oxygen Not Included/Player.log`
+    validations:
+      required: true
+
+  - type: textarea
+    id: extra
+    attributes:
+      label: Screenshots, save file, anything else
+      description: A screenshot or a save where the bug shows makes it much quicker to fix. Zip a save before attaching it.

@@ -1,0 +1,52 @@
+name: Feature request
+description: An idea for one of the mods, or for a new one.
+title: "[Feature] "
+labels: ["enhancement"]
+body:
+  - type: dropdown
+    id: mod
+    attributes:
+      label: Mod
+      options:
+        - A new mod
+        - Bitshifter
+        - Corner Build Anything
+        - Detect Any Element
+        - Direct Automation Bridges
+        - Don't Count Eggs on Rails
+        - Just Fall Already!
+        - Motion Sensor Range
+        - Multichannel Critter Sensor
+        - Natural Backwalls Everywhere
+        - No Magic Fridges
+        - Refined Building
+        - Salty Surf
+        - Smart Weight Plate
+        - Storage Pod Redux
+        - Sweep Zones Redux
+        - Upgrade Planner
+        - Vent Freeze Fix
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What you want to do
+      description: The situation in your colony and what gets in the way today.
+    validations:
+      required: true
+
+  - type: textarea
+    id: idea
+    attributes:
+      label: How it could work
+      description: What you picture the mod doing. Rough is fine.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Anything you tried instead
+      description: Workarounds, settings, or other mods that come close.
