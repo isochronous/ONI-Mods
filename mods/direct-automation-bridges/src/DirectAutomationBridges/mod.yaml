@@ -1,0 +1,3 @@
+title: "Direct Automation Bridges"
+description: "An Automation Wire Bridge or Automation Ribbon Bridge can be placed with either end directly on a building's automation port, and that port counts as connected: the bridge end acts as its own piece of wire, drawn like one, with nothing to build, deconstruct or pay for. A wire dragged up to a bridge end joins it as it would join a wire. Bridges whose ends sit on real wires work exactly as before."
+staticID: "Isochronous.DirectAutomationBridges"
