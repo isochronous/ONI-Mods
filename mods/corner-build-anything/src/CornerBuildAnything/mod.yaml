@@ -1,0 +1,3 @@
+title: "Corner Build Anything"
+description: "Duplicants can build and deconstruct any building through a diagonal gap, the way they already can with tiles. Bridges count from either end, not just their middle."
+staticID: "Isochronous.CornerBuildAnything"
