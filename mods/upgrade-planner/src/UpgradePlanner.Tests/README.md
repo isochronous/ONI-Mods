@@ -53,12 +53,41 @@ floor, the game at speed 3.
 | `Wires` | Copper wires to gold, connections kept. |
 | `Rebuilt` | A sensor, a gate, a floor machine and the wide farm tile taken down and built again through the game's reconstruct, settings kept. |
 | `ReplacedWithSettings` | A storage tile and a carpet built over in another material: the filter kept, the carpet's reed fiber fetched. |
+| `Doors` | The four doors, across the corridor the crew walks along, rebuilt with their settings (access left open). |
+| `TwoIngredients` | A germ sensor's plastic changed to plastium with its copper kept, and another's copper changed to steel with its plastium kept. |
+| `CancelledOrders` | Replacement orders cancelled with the Cancel tool are never built, even with granite to fetch. |
+| `CancelledRebuild` | A rebuild cancelled with the Cancel tool before the crew comes leaves the bin as it was. |
 
-The last two need Blueprints Expanded. About two minutes for the five:
+`Rebuilt`, `ReplacedWithSettings`, `Doors` and `TwoIngredients` need Blueprints Expanded. About three
+minutes for the nine:
 
 ```
 pwsh common/tools/TestRunner/Invoke-OniTests.ps1 -Mods UpgradePlanner -Steam 3468585385,3724635599,1832319118,2047308624 -Filter "*ByHand*"
 ```
+
+`ByHandAll` holds the same by hand over everything the planner offers, for after a game or mod
+update. Its tests are `Explicit`, with a crew of three and a pile of materials at each end of the
+box, every crew with every skill (conductive and Heavi-Watt wire and conveyor rails ask one); they
+collect every problem and report them together, logging each as it is found:
+
+- `EveryType` (about 12 minutes): every type All buildings offers, 307 of them in 31 batches along
+  the floor, its settings changed, built again in its second material by the crews, about 1040
+  settings checked. Dev-only types are left out: they are built only at once, never by hand.
+- `EveryReplacement` (about 20 minutes): every pairing the Replace type tab offers (each type and
+  every type that can be built over it, its own included, about 440), three pieces each (joint
+  plates in a wall, where the game allows them), built over by the crews. Left out: a type built
+  over itself when it comes in one material, and snow, which melts in the box's air.
+- `SettingsUnderLoad`: four rounds of six types rebuilt at speed 3, all keeping their settings; it
+  caught the race in Blueprints Expanded's reconstruct (see the changelog).
+- `SuspectTypesRebuilt` and `SuspectReplacements`: the types and pairings a full run last had a
+  problem with, on their own, for a closer look; edit their lists.
+
+```
+pwsh common/tools/TestRunner/Invoke-OniTests.ps1 -Mods UpgradePlanner -Steam 3468585385,3724635599,1832319118,2047308624 -Filter "*ByHandAll.Every*" -TimeoutSec 3600 -TestTimeoutSec 3000
+```
+
+`ToolParity` (in the default run) has the game's own build tool and the planner each order joint
+plates over the same tiles, in a row and in a wall, and compares where they put them.
 
 ## Tests on a player's save
 
