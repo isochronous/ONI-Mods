@@ -1,0 +1,14 @@
+Build and deconstruct anything through a corner, not just tiles.
+
+A cell that can only be reached diagonally, the classic corner, is one the game lets duplicants dig, sweep, and build tiles in, but nothing else: any other building placed there is "unreachable" until you open a side. This mod gives every building the same diagonal reach tiles have.
+
+[list]
+[*]Every building, from a ladder to a pipe to a generator, can be built and deconstructed from the diagonal.
+[*]Bridges (liquid, gas, conveyor, wire, automation) count from either end as well as the middle, so a bridge with only one end in the corner is reachable.
+[*]Materials are delivered through the corner too, not just the construction work.
+[*]Nothing about placement changes: what you can place where is exactly as before. Only who can reach it.
+[/list]
+
+Two small patches on the game's construction and deconstruction setup; no cost while playing. New and existing colonies alike, and safe to remove.
+
+Source and issues: https://github.com/isochronous/corner-build-anything
