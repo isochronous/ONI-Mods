@@ -3,7 +3,7 @@ Adds a tool to allow mass-changing of building materials, or mass upgrades betwe
 [b]Requires [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3468585385]Blueprints Expanded[/url] by Sgt_Imalas[/b] as a dependency.
 
 [h2]How it works[/h2]
-Dragging a pipe over an existing pipe is already a replacement in the game: the old one keeps working until the new one is built over it. This mod does that for a whole area at once. Pick what to replace and what to replace it with, then box-drag; every matching building gets a replacement order at the current priority.
+Dragging a pipe over an existing pipe is already a replacement in the game: the old one keeps working until the new one is built over it. This mod does that for a whole area at once. Pick what to replace and what to replace it with, then drag-select; every matching building gets a replacement order at the current priority.
 
 [h2]Using it[/h2]
 Select the Upgrade Planner from the toolbar (or Shift+U, rebindable). The dialog it opens has two modes.
