@@ -1,0 +1,478 @@
+msgid ""
+msgstr ""
+"Application: Oxygen Not Included\n"
+"POT Version: 2.0\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. STRINGS.UI.TOOLS.UPGRADEPLANNER.NAME
+msgctxt "STRINGS.UI.TOOLS.UPGRADEPLANNER.NAME"
+msgid "Upgrade Planner"
+msgstr ""
+
+#. STRINGS.UI.TOOLS.UPGRADEPLANNER.TOGGLE
+msgctxt "STRINGS.UI.TOOLS.UPGRADEPLANNER.TOGGLE"
+msgid "Upgrade Planner"
+msgstr ""
+
+#. STRINGS.UI.TOOLS.UPGRADEPLANNER.TOOLNAME
+msgctxt "STRINGS.UI.TOOLS.UPGRADEPLANNER.TOOLNAME"
+msgid "Upgrade Planner tool"
+msgstr ""
+
+#. STRINGS.UI.TOOLS.UPGRADEPLANNER.TOOLTIP
+msgctxt "STRINGS.UI.TOOLS.UPGRADEPLANNER.TOOLTIP"
+msgid "Pick buildings and the material to rebuild them in, or a type and what to replace it with, then box-drag: every matching building in the area is marked for replacement"
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.AllBuildings
+msgctxt "STRINGS.UPGRADEPLANNER.AllBuildings"
+msgid "All buildings"
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.AllBuildingsTooltip
+msgctxt "STRINGS.UPGRADEPLANNER.AllBuildingsTooltip"
+msgid "Also offer the buildings the game does not let you build over. Those are deconstructed and rebuilt in the new material, out of service until rebuilt; Blueprints Expanded keeps their settings"
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.AnyMaterial
+msgctxt "STRINGS.UPGRADEPLANNER.AnyMaterial"
+msgid "Any"
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.AnyMaterialLower
+msgctxt "STRINGS.UPGRADEPLANNER.AnyMaterialLower"
+msgid "any material"
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.AnyMaterialTooltip
+msgctxt "STRINGS.UPGRADEPLANNER.AnyMaterialTooltip"
+msgid "Replace these buildings whatever they are made of"
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.Apply
+msgctxt "STRINGS.UPGRADEPLANNER.Apply"
+msgid "Apply"
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.ApplyTooltip
+msgctxt "STRINGS.UPGRADEPLANNER.ApplyTooltip"
+msgid "Close the window and keep the tool: box-drag to mark buildings. The button by the priority bar opens it again"
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.BlockedResearch
+msgctxt "STRINGS.UPGRADEPLANNER.BlockedResearch"
+msgid "Not researched yet"
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.BlockedSource
+msgctxt "STRINGS.UPGRADEPLANNER.BlockedSource"
+msgid "Never built from {0}"
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.BlockedTarget
+msgctxt "STRINGS.UPGRADEPLANNER.BlockedTarget"
+msgid "Can't be built in {0}"
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.BuildingsHeading
+msgctxt "STRINGS.UPGRADEPLANNER.BuildingsHeading"
+msgid "Buildings"
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.CategoryCount
+msgctxt "STRINGS.UPGRADEPLANNER.CategoryCount"
+msgid "{0} of {1}"
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.ChooseTarget
+msgctxt "STRINGS.UPGRADEPLANNER.ChooseTarget"
+msgid "Choose what to replace it with."
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.Clear
+msgctxt "STRINGS.UPGRADEPLANNER.Clear"
+msgid "Clear"
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.ClearMaterialTooltip
+msgctxt "STRINGS.UPGRADEPLANNER.ClearMaterialTooltip"
+msgid "Forget this tab's choices and start over"
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.ClearTooltip
+msgctxt "STRINGS.UPGRADEPLANNER.ClearTooltip"
+msgid "Forget every choice and start over"
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.CollapseAll
+msgctxt "STRINGS.UPGRADEPLANNER.CollapseAll"
+msgid "Collapse all"
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.ConfigButtonTooltip
+msgctxt "STRINGS.UPGRADEPLANNER.ConfigButtonTooltip"
+msgid "Open the Upgrade Planner window to change what is replaced with what"
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.DescribeAnyMaterial
+msgctxt "STRINGS.UPGRADEPLANNER.DescribeAnyMaterial"
+msgid "{0} (any material)"
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.DescribeMaterials
+msgctxt "STRINGS.UPGRADEPLANNER.DescribeMaterials"
+msgid "{0} ({1})"
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.DescribeReplace
+msgctxt "STRINGS.UPGRADEPLANNER.DescribeReplace"
+msgid "{0} -> {1}"
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.DialogTitle
+msgctxt "STRINGS.UPGRADEPLANNER.DialogTitle"
+msgid "Upgrade Planner"
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.ErrorIncomplete
+msgctxt "STRINGS.UPGRADEPLANNER.ErrorIncomplete"
+msgid "Finish the Upgrade Planner choices first"
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.ErrorNotApplied
+msgctxt "STRINGS.UPGRADEPLANNER.ErrorNotApplied"
+msgid "Apply settings first"
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.ExpandAll
+msgctxt "STRINGS.UPGRADEPLANNER.ExpandAll"
+msgid "Expand all"
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.FamilyAutomationWires
+msgctxt "STRINGS.UPGRADEPLANNER.FamilyAutomationWires"
+msgid "Automation Wires"
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.FamilyBackwalls
+msgctxt "STRINGS.UPGRADEPLANNER.FamilyBackwalls"
+msgid "Backwalls"
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.FamilyConveyorRails
+msgctxt "STRINGS.UPGRADEPLANNER.FamilyConveyorRails"
+msgid "Conveyor Rails"
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.FamilyLadders
+msgctxt "STRINGS.UPGRADEPLANNER.FamilyLadders"
+msgid "Ladders"
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.FamilyLiquidPipes
+msgctxt "STRINGS.UPGRADEPLANNER.FamilyLiquidPipes"
+msgid "Liquid Pipes"
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.FamilyTiles
+msgctxt "STRINGS.UPGRADEPLANNER.FamilyTiles"
+msgid "Tiles"
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.FamilyTransitTubes
+msgctxt "STRINGS.UPGRADEPLANNER.FamilyTransitTubes"
+msgid "Transit Tubes"
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.FamilyVentilationPipes
+msgctxt "STRINGS.UPGRADEPLANNER.FamilyVentilationPipes"
+msgid "Ventilation Pipes"
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.FamilyWires
+msgctxt "STRINGS.UPGRADEPLANNER.FamilyWires"
+msgid "Wires"
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.HoverActionIdle
+msgctxt "STRINGS.UPGRADEPLANNER.HoverActionIdle"
+msgid "CHOOSE AN UPGRADE"
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.HoverActionReady
+msgctxt "STRINGS.UPGRADEPLANNER.HoverActionReady"
+msgid "MARK FOR UPGRADE"
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.HoverMaterials
+msgctxt "STRINGS.UPGRADEPLANNER.HoverMaterials"
+msgid "Materials needed:"
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.HoverSelected
+msgctxt "STRINGS.UPGRADEPLANNER.HoverSelected"
+msgid "SELECTED"
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.HowToHeading
+msgctxt "STRINGS.UPGRADEPLANNER.HowToHeading"
+msgid "How it works"
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.IncludeTooltip
+msgctxt "STRINGS.UPGRADEPLANNER.IncludeTooltip"
+msgid "Click to include"
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.LeaveOutTooltip
+msgctxt "STRINGS.UPGRADEPLANNER.LeaveOutTooltip"
+msgid "Click to leave out"
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.ListAnd
+msgctxt "STRINGS.UPGRADEPLANNER.ListAnd"
+msgid "{0} and {1}"
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.ListAndMore
+msgctxt "STRINGS.UPGRADEPLANNER.ListAndMore"
+msgid "{0} and {1} more"
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.ListSeparator
+msgctxt "STRINGS.UPGRADEPLANNER.ListSeparator"
+msgid ", "
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.MaterialAnyContent
+msgctxt "STRINGS.UPGRADEPLANNER.MaterialAnyContent"
+msgid "Replaces the selected buildings, made from any material, with the material chosen below"
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.MaterialAnyTooltip
+msgctxt "STRINGS.UPGRADEPLANNER.MaterialAnyTooltip"
+msgid "Replace the picked buildings whatever they are made of"
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.MaterialHeading
+msgctxt "STRINGS.UPGRADEPLANNER.MaterialHeading"
+msgid "Material"
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.MaterialPromptSource
+msgctxt "STRINGS.UPGRADEPLANNER.MaterialPromptSource"
+msgid "Pick the material to replace, or choose Any."
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.MaterialPromptTarget
+msgctxt "STRINGS.UPGRADEPLANNER.MaterialPromptTarget"
+msgid "Pick the material to build in."
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.MaterialPromptTypes
+msgctxt "STRINGS.UPGRADEPLANNER.MaterialPromptTypes"
+msgid "Pick at least one building that can be built in {0}."
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.MaterialSameMaterial
+msgctxt "STRINGS.UPGRADEPLANNER.MaterialSameMaterial"
+msgid "Replace and With are the same material. Pick a different one."
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.MaterialSpecificTooltip
+msgctxt "STRINGS.UPGRADEPLANNER.MaterialSpecificTooltip"
+msgid "Replace only the picked buildings made of the material picked below"
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.MaterialSummary
+msgctxt "STRINGS.UPGRADEPLANNER.MaterialSummary"
+msgid "Replace {0} with {1} in {2}."
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.MaterialsHeading
+msgctxt "STRINGS.UPGRADEPLANNER.MaterialsHeading"
+msgid "Materials"
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.NoMaterials
+msgctxt "STRINGS.UPGRADEPLANNER.NoMaterials"
+msgid "No usable material for this ingredient."
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.NoPresets
+msgctxt "STRINGS.UPGRADEPLANNER.NoPresets"
+msgid "No saved presets"
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.NoTargets
+msgctxt "STRINGS.UPGRADEPLANNER.NoTargets"
+msgid "Nothing can be built over this."
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.PopupMarked
+msgctxt "STRINGS.UPGRADEPLANNER.PopupMarked"
+msgid "{0} marked for upgrade"
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.PopupReplaced
+msgctxt "STRINGS.UPGRADEPLANNER.PopupReplaced"
+msgid "{0} replaced"
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.PopupSkipped
+msgctxt "STRINGS.UPGRADEPLANNER.PopupSkipped"
+msgid "{0}, {1} skipped"
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.PresetDelete
+msgctxt "STRINGS.UPGRADEPLANNER.PresetDelete"
+msgid "Delete"
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.PresetDeleteTooltip
+msgctxt "STRINGS.UPGRADEPLANNER.PresetDeleteTooltip"
+msgid "Forget the picked preset"
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.PresetDeleted
+msgctxt "STRINGS.UPGRADEPLANNER.PresetDeleted"
+msgid "Deleted {0}."
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.PresetLabel
+msgctxt "STRINGS.UPGRADEPLANNER.PresetLabel"
+msgid "Preset"
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.PresetLoad
+msgctxt "STRINGS.UPGRADEPLANNER.PresetLoad"
+msgid "Load"
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.PresetLoadTooltip
+msgctxt "STRINGS.UPGRADEPLANNER.PresetLoadTooltip"
+msgid "Replace this tab's choices with the picked preset"
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.PresetLoaded
+msgctxt "STRINGS.UPGRADEPLANNER.PresetLoaded"
+msgid "Loaded {0}."
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.PresetNamePlaceholder
+msgctxt "STRINGS.UPGRADEPLANNER.PresetNamePlaceholder"
+msgid "Preset name"
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.PresetNeedsName
+msgctxt "STRINGS.UPGRADEPLANNER.PresetNeedsName"
+msgid "Type a name for the preset first."
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.PresetSave
+msgctxt "STRINGS.UPGRADEPLANNER.PresetSave"
+msgid "Save current plan"
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.PresetSaveTooltip
+msgctxt "STRINGS.UPGRADEPLANNER.PresetSaveTooltip"
+msgid "Save this tab's choices under the name typed beside it; this tab's preset with that name is replaced"
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.PresetSaved
+msgctxt "STRINGS.UPGRADEPLANNER.PresetSaved"
+msgid "Saved {0}."
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.PresetUpdated
+msgctxt "STRINGS.UPGRADEPLANNER.PresetUpdated"
+msgid "Updated {0}."
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.ReplaceHeading
+msgctxt "STRINGS.UPGRADEPLANNER.ReplaceHeading"
+msgid "Replace"
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.SelectAllTooltip
+msgctxt "STRINGS.UPGRADEPLANNER.SelectAllTooltip"
+msgid "Pick every building that can use these materials"
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.SourceAnyContent
+msgctxt "STRINGS.UPGRADEPLANNER.SourceAnyContent"
+msgid "Replaces every building of the chosen type, made from any material"
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.SourceMaterialPrompt
+msgctxt "STRINGS.UPGRADEPLANNER.SourceMaterialPrompt"
+msgid "Pick the type of building to replace above."
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.SpecificMaterial
+msgctxt "STRINGS.UPGRADEPLANNER.SpecificMaterial"
+msgid "Specific"
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.SpecificMaterialTooltip
+msgctxt "STRINGS.UPGRADEPLANNER.SpecificMaterialTooltip"
+msgid "Replace only the ones built from the materials picked below"
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.StepApply
+msgctxt "STRINGS.UPGRADEPLANNER.StepApply"
+msgid "Apply, then box-drag over the buildings to mark them."
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.StepPickSource
+msgctxt "STRINGS.UPGRADEPLANNER.StepPickSource"
+msgid "Under Replace, pick the type of building to replace."
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.StepPickSourceMaterial
+msgctxt "STRINGS.UPGRADEPLANNER.StepPickSourceMaterial"
+msgid "Choose Any material, or Specific and pick which."
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.StepPickTarget
+msgctxt "STRINGS.UPGRADEPLANNER.StepPickTarget"
+msgid "Pick what to replace it with here, and its material."
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.SummaryNothing
+msgctxt "STRINGS.UPGRADEPLANNER.SummaryNothing"
+msgid "Nothing chosen yet."
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.TabMaterial
+msgctxt "STRINGS.UPGRADEPLANNER.TabMaterial"
+msgid "Change material"
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.TabMaterialTooltip
+msgctxt "STRINGS.UPGRADEPLANNER.TabMaterialTooltip"
+msgid "Rebuild buildings of the picked types in another material"
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.TabType
+msgctxt "STRINGS.UPGRADEPLANNER.TabType"
+msgid "Replace type"
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.TabTypeTooltip
+msgctxt "STRINGS.UPGRADEPLANNER.TabTypeTooltip"
+msgid "Replace one type of building with another, in the materials you pick"
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.VariantsTooltip
+msgctxt "STRINGS.UPGRADEPLANNER.VariantsTooltip"
+msgid " ({0} variants behind one build menu entry; the material picks which)"
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.WithHeading
+msgctxt "STRINGS.UPGRADEPLANNER.WithHeading"
+msgid "With"
+msgstr ""
+

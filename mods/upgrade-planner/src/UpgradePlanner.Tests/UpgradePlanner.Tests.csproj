@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="$(MSBuildThisFileDirectory)..\..\common\oni-mod.props" />
+
+  <PropertyGroup>
+    <AssemblyName>UpgradePlanner.Tests</AssemblyName>
+    <RootNamespace>UpgradePlanner.Tests</RootNamespace>
+    <!-- Never deployed as a mod; the TestRunner launcher copies the DLL into its run folder. -->
+    <ModDeployFolder>none</ModDeployFolder>
+    <ReferenceUnityUI>true</ReferenceUnityUI>
+    <ReferenceImageConversion>true</ReferenceImageConversion>
+  </PropertyGroup>
+
+  <!-- The mod's PLib has PDialog.Draggable by default (lib/PLib); -p:PLibDraggable=false with the NuGet PLib. -->
+  <PropertyGroup>
+    <PLibDraggable Condition="'$(PLibDraggable)' == ''">true</PLibDraggable>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(PLibDraggable)' == 'true'">
+    <DefineConstants>$(DefineConstants);PLIB_DRAGGABLE</DefineConstants>
+  </PropertyGroup>
+
+  <!-- The game's own Newtonsoft, for the settings Blueprints Expanded stores. -->
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>$(GameLibsFolder)\Newtonsoft.Json.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- PLib's types come from the copy merged into the mod; the test must not reference the package itself. -->
+    <ProjectReference Include="..\UpgradePlanner\UpgradePlanner.csproj" Private="false" />
+    <ProjectReference Include="..\..\common\tools\TestRunner\TestRunner.csproj" Private="false" />
+  </ItemGroup>
+
+  <Import Project="$(MSBuildThisFileDirectory)..\..\common\oni-mod.targets" />
+
+</Project>

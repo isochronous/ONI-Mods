@@ -1,0 +1,479 @@
+msgid ""
+msgstr ""
+"Application: Oxygen Not Included\n"
+"POT Version: 2.0\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. STRINGS.UI.TOOLS.UPGRADEPLANNER.NAME
+msgctxt "STRINGS.UI.TOOLS.UPGRADEPLANNER.NAME"
+msgid "Upgrade Planner"
+msgstr "绿图（升级规划）"
+
+#. STRINGS.UI.TOOLS.UPGRADEPLANNER.TOGGLE
+msgctxt "STRINGS.UI.TOOLS.UPGRADEPLANNER.TOGGLE"
+msgid "Upgrade Planner"
+msgstr "绿图（升级规划）"
+
+#. STRINGS.UI.TOOLS.UPGRADEPLANNER.TOOLNAME
+msgctxt "STRINGS.UI.TOOLS.UPGRADEPLANNER.TOOLNAME"
+msgid "Upgrade Planner tool"
+msgstr "绿图（升级规划）工具"
+
+#. STRINGS.UI.TOOLS.UPGRADEPLANNER.TOOLTIP
+msgctxt "STRINGS.UI.TOOLS.UPGRADEPLANNER.TOOLTIP"
+msgid "Pick buildings and the material to rebuild them in, or a type and what to replace it with, then box-drag: every matching building in the area is marked for replacement"
+msgstr "选择建筑和用来重建它们的材料，或选择一种建筑类型以及要替换成的类型，然后框选：区域内所有符合条件的建筑都会被标记替换"
+
+#. STRINGS.UPGRADEPLANNER.AllBuildings
+msgctxt "STRINGS.UPGRADEPLANNER.AllBuildings"
+msgid "All buildings"
+msgstr "所有建筑"
+
+#. STRINGS.UPGRADEPLANNER.AllBuildingsTooltip
+msgctxt "STRINGS.UPGRADEPLANNER.AllBuildingsTooltip"
+msgid "Also offer the buildings the game does not let you build over. Those are deconstructed and rebuilt in the new material, out of service until rebuilt; Blueprints Expanded keeps their settings"
+msgstr "同时列出游戏不允许直接覆盖建造的建筑。这些建筑会被拆除，再用新材料重建，重建完成前无法使用；Blueprints Expanded 会保留它们的设置"
+
+#. STRINGS.UPGRADEPLANNER.AnyMaterial
+msgctxt "STRINGS.UPGRADEPLANNER.AnyMaterial"
+msgid "Any"
+msgstr "任意"
+
+#. STRINGS.UPGRADEPLANNER.AnyMaterialLower
+msgctxt "STRINGS.UPGRADEPLANNER.AnyMaterialLower"
+msgid "any material"
+msgstr "任意材料"
+
+#. STRINGS.UPGRADEPLANNER.AnyMaterialTooltip
+msgctxt "STRINGS.UPGRADEPLANNER.AnyMaterialTooltip"
+msgid "Replace these buildings whatever they are made of"
+msgstr "无论这些建筑由什么材料建造都替换"
+
+#. STRINGS.UPGRADEPLANNER.Apply
+msgctxt "STRINGS.UPGRADEPLANNER.Apply"
+msgid "Apply"
+msgstr "应用"
+
+#. STRINGS.UPGRADEPLANNER.ApplyTooltip
+msgctxt "STRINGS.UPGRADEPLANNER.ApplyTooltip"
+msgid "Close the window and keep the tool: box-drag to mark buildings. The button by the priority bar opens it again"
+msgstr "关闭窗口并保留工具：框选建筑进行标记。优先级栏旁的按钮可以再次打开窗口"
+
+#. STRINGS.UPGRADEPLANNER.BlockedResearch
+msgctxt "STRINGS.UPGRADEPLANNER.BlockedResearch"
+msgid "Not researched yet"
+msgstr "尚未研究"
+
+#. STRINGS.UPGRADEPLANNER.BlockedSource
+msgctxt "STRINGS.UPGRADEPLANNER.BlockedSource"
+msgid "Never built from {0}"
+msgstr "从未用{0}建造过"
+
+#. STRINGS.UPGRADEPLANNER.BlockedTarget
+msgctxt "STRINGS.UPGRADEPLANNER.BlockedTarget"
+msgid "Can't be built in {0}"
+msgstr "无法用{0}建造"
+
+#. STRINGS.UPGRADEPLANNER.BuildingsHeading
+msgctxt "STRINGS.UPGRADEPLANNER.BuildingsHeading"
+msgid "Buildings"
+msgstr "建筑"
+
+#. STRINGS.UPGRADEPLANNER.CategoryCount
+msgctxt "STRINGS.UPGRADEPLANNER.CategoryCount"
+msgid "{0} of {1}"
+msgstr "{0} / {1}"
+
+#. STRINGS.UPGRADEPLANNER.ChooseTarget
+msgctxt "STRINGS.UPGRADEPLANNER.ChooseTarget"
+msgid "Choose what to replace it with."
+msgstr "选择要替换成什么。"
+
+#. STRINGS.UPGRADEPLANNER.Clear
+msgctxt "STRINGS.UPGRADEPLANNER.Clear"
+msgid "Clear"
+msgstr "清除"
+
+#. STRINGS.UPGRADEPLANNER.ClearMaterialTooltip
+msgctxt "STRINGS.UPGRADEPLANNER.ClearMaterialTooltip"
+msgid "Forget this tab's choices and start over"
+msgstr "清除此标签页的选择，重新开始"
+
+#. STRINGS.UPGRADEPLANNER.ClearTooltip
+msgctxt "STRINGS.UPGRADEPLANNER.ClearTooltip"
+msgid "Forget every choice and start over"
+msgstr "清除所有选择，重新开始"
+
+#. STRINGS.UPGRADEPLANNER.CollapseAll
+msgctxt "STRINGS.UPGRADEPLANNER.CollapseAll"
+msgid "Collapse all"
+msgstr "全部折叠"
+
+#. STRINGS.UPGRADEPLANNER.ConfigButtonTooltip
+msgctxt "STRINGS.UPGRADEPLANNER.ConfigButtonTooltip"
+msgid "Open the Upgrade Planner window to change what is replaced with what"
+msgstr "打开绿图（升级规划）窗口，修改替换内容"
+
+#. STRINGS.UPGRADEPLANNER.DescribeAnyMaterial
+msgctxt "STRINGS.UPGRADEPLANNER.DescribeAnyMaterial"
+msgid "{0} (any material)"
+msgstr "{0}（任意材料）"
+
+#. STRINGS.UPGRADEPLANNER.DescribeMaterials
+msgctxt "STRINGS.UPGRADEPLANNER.DescribeMaterials"
+msgid "{0} ({1})"
+msgstr "{0}（{1}）"
+
+#. STRINGS.UPGRADEPLANNER.DescribeReplace
+msgctxt "STRINGS.UPGRADEPLANNER.DescribeReplace"
+msgid "{0} -> {1}"
+msgstr "{0} → {1}"
+
+#. STRINGS.UPGRADEPLANNER.DialogTitle
+msgctxt "STRINGS.UPGRADEPLANNER.DialogTitle"
+msgid "Upgrade Planner"
+msgstr "绿图（升级规划）"
+
+#. STRINGS.UPGRADEPLANNER.ErrorIncomplete
+msgctxt "STRINGS.UPGRADEPLANNER.ErrorIncomplete"
+msgid "Finish the Upgrade Planner choices first"
+msgstr "请先完成绿图（升级规划）的选择"
+
+#. STRINGS.UPGRADEPLANNER.ExpandAll
+msgctxt "STRINGS.UPGRADEPLANNER.ExpandAll"
+msgid "Expand all"
+msgstr "全部展开"
+
+#. STRINGS.UPGRADEPLANNER.FamilyAutomationWires
+msgctxt "STRINGS.UPGRADEPLANNER.FamilyAutomationWires"
+msgid "Automation Wires"
+msgstr "信号线"
+
+#. STRINGS.UPGRADEPLANNER.FamilyBackwalls
+msgctxt "STRINGS.UPGRADEPLANNER.FamilyBackwalls"
+msgid "Backwalls"
+msgstr "背景墙"
+
+#. STRINGS.UPGRADEPLANNER.FamilyConveyorRails
+msgctxt "STRINGS.UPGRADEPLANNER.FamilyConveyorRails"
+msgid "Conveyor Rails"
+msgstr "运输轨道"
+
+#. STRINGS.UPGRADEPLANNER.FamilyLadders
+msgctxt "STRINGS.UPGRADEPLANNER.FamilyLadders"
+msgid "Ladders"
+msgstr "梯子"
+
+#. STRINGS.UPGRADEPLANNER.FamilyLiquidPipes
+msgctxt "STRINGS.UPGRADEPLANNER.FamilyLiquidPipes"
+msgid "Liquid Pipes"
+msgstr "液体管道"
+
+#. STRINGS.UPGRADEPLANNER.FamilyTiles
+msgctxt "STRINGS.UPGRADEPLANNER.FamilyTiles"
+msgid "Tiles"
+msgstr "砖块"
+
+#. STRINGS.UPGRADEPLANNER.FamilyTransitTubes
+msgctxt "STRINGS.UPGRADEPLANNER.FamilyTransitTubes"
+msgid "Transit Tubes"
+msgstr "运载管道"
+
+#. STRINGS.UPGRADEPLANNER.FamilyVentilationPipes
+msgctxt "STRINGS.UPGRADEPLANNER.FamilyVentilationPipes"
+msgid "Ventilation Pipes"
+msgstr "气体管道"
+
+#. STRINGS.UPGRADEPLANNER.FamilyWires
+msgctxt "STRINGS.UPGRADEPLANNER.FamilyWires"
+msgid "Wires"
+msgstr "电线"
+
+#. STRINGS.UPGRADEPLANNER.HoverActionIdle
+msgctxt "STRINGS.UPGRADEPLANNER.HoverActionIdle"
+msgid "CHOOSE AN UPGRADE"
+msgstr "选择升级内容"
+
+#. STRINGS.UPGRADEPLANNER.HoverActionReady
+msgctxt "STRINGS.UPGRADEPLANNER.HoverActionReady"
+msgid "MARK FOR UPGRADE"
+msgstr "标记升级"
+
+#. STRINGS.UPGRADEPLANNER.HoverSelected
+msgctxt "STRINGS.UPGRADEPLANNER.HoverSelected"
+msgid "SELECTED"
+msgstr "已选择"
+
+#. STRINGS.UPGRADEPLANNER.HoverMaterials
+msgctxt "STRINGS.UPGRADEPLANNER.HoverMaterials"
+msgid "Materials needed:"
+msgstr "所需材料："
+
+#. STRINGS.UPGRADEPLANNER.ErrorNotApplied
+msgctxt "STRINGS.UPGRADEPLANNER.ErrorNotApplied"
+msgid "Apply settings first"
+msgstr "请先应用设置"
+
+#. STRINGS.UPGRADEPLANNER.HowToHeading
+msgctxt "STRINGS.UPGRADEPLANNER.HowToHeading"
+msgid "How it works"
+msgstr "使用方法"
+
+#. STRINGS.UPGRADEPLANNER.IncludeTooltip
+msgctxt "STRINGS.UPGRADEPLANNER.IncludeTooltip"
+msgid "Click to include"
+msgstr "点击加入"
+
+#. STRINGS.UPGRADEPLANNER.LeaveOutTooltip
+msgctxt "STRINGS.UPGRADEPLANNER.LeaveOutTooltip"
+msgid "Click to leave out"
+msgstr "点击排除"
+
+#. STRINGS.UPGRADEPLANNER.ListAnd
+msgctxt "STRINGS.UPGRADEPLANNER.ListAnd"
+msgid "{0} and {1}"
+msgstr "{0}和{1}"
+
+#. STRINGS.UPGRADEPLANNER.ListAndMore
+msgctxt "STRINGS.UPGRADEPLANNER.ListAndMore"
+msgid "{0} and {1} more"
+msgstr "{0}等 {1} 个以上"
+
+#. STRINGS.UPGRADEPLANNER.ListSeparator
+msgctxt "STRINGS.UPGRADEPLANNER.ListSeparator"
+msgid ", "
+msgstr "、"
+
+#. STRINGS.UPGRADEPLANNER.MaterialAnyContent
+msgctxt "STRINGS.UPGRADEPLANNER.MaterialAnyContent"
+msgid "Replaces the selected buildings, made from any material, with the material chosen below"
+msgstr "将所选建筑（无论由什么材料建造）替换为下方选择的材料"
+
+#. STRINGS.UPGRADEPLANNER.MaterialAnyTooltip
+msgctxt "STRINGS.UPGRADEPLANNER.MaterialAnyTooltip"
+msgid "Replace the picked buildings whatever they are made of"
+msgstr "无论所选建筑由什么材料建造都替换"
+
+#. STRINGS.UPGRADEPLANNER.MaterialHeading
+msgctxt "STRINGS.UPGRADEPLANNER.MaterialHeading"
+msgid "Material"
+msgstr "材料"
+
+#. STRINGS.UPGRADEPLANNER.MaterialPromptSource
+msgctxt "STRINGS.UPGRADEPLANNER.MaterialPromptSource"
+msgid "Pick the material to replace, or choose Any."
+msgstr "选择要替换的材料，或选择任意。"
+
+#. STRINGS.UPGRADEPLANNER.MaterialPromptTarget
+msgctxt "STRINGS.UPGRADEPLANNER.MaterialPromptTarget"
+msgid "Pick the material to build in."
+msgstr "选择用来建造的材料。"
+
+#. STRINGS.UPGRADEPLANNER.MaterialPromptTypes
+msgctxt "STRINGS.UPGRADEPLANNER.MaterialPromptTypes"
+msgid "Pick at least one building that can be built in {0}."
+msgstr "至少选择一种可以用{0}建造的建筑。"
+
+#. STRINGS.UPGRADEPLANNER.MaterialSameMaterial
+msgctxt "STRINGS.UPGRADEPLANNER.MaterialSameMaterial"
+msgid "Replace and With are the same material. Pick a different one."
+msgstr "替换和替换为是同一种材料，请选择不同的材料。"
+
+#. STRINGS.UPGRADEPLANNER.MaterialSpecificTooltip
+msgctxt "STRINGS.UPGRADEPLANNER.MaterialSpecificTooltip"
+msgid "Replace only the picked buildings made of the material picked below"
+msgstr "只替换由下方所选材料建造的所选建筑"
+
+#. STRINGS.UPGRADEPLANNER.MaterialSummary
+msgctxt "STRINGS.UPGRADEPLANNER.MaterialSummary"
+msgid "Replace {0} with {1} in {2}."
+msgstr "将{2}中的{0}替换为{1}。"
+
+#. STRINGS.UPGRADEPLANNER.MaterialsHeading
+msgctxt "STRINGS.UPGRADEPLANNER.MaterialsHeading"
+msgid "Materials"
+msgstr "材料"
+
+#. STRINGS.UPGRADEPLANNER.NoMaterials
+msgctxt "STRINGS.UPGRADEPLANNER.NoMaterials"
+msgid "No usable material for this ingredient."
+msgstr "这种原料没有可用的材料。"
+
+#. STRINGS.UPGRADEPLANNER.NoPresets
+msgctxt "STRINGS.UPGRADEPLANNER.NoPresets"
+msgid "No saved presets"
+msgstr "没有已保存的预设"
+
+#. STRINGS.UPGRADEPLANNER.NoTargets
+msgctxt "STRINGS.UPGRADEPLANNER.NoTargets"
+msgid "Nothing can be built over this."
+msgstr "没有建筑可以覆盖建造在它上面。"
+
+#. STRINGS.UPGRADEPLANNER.PopupMarked
+msgctxt "STRINGS.UPGRADEPLANNER.PopupMarked"
+msgid "{0} marked for upgrade"
+msgstr "已标记升级 {0} 个"
+
+#. STRINGS.UPGRADEPLANNER.PopupReplaced
+msgctxt "STRINGS.UPGRADEPLANNER.PopupReplaced"
+msgid "{0} replaced"
+msgstr "已替换 {0} 个"
+
+#. STRINGS.UPGRADEPLANNER.PopupSkipped
+msgctxt "STRINGS.UPGRADEPLANNER.PopupSkipped"
+msgid "{0}, {1} skipped"
+msgstr "{0}，跳过 {1} 个"
+
+#. STRINGS.UPGRADEPLANNER.PresetDelete
+msgctxt "STRINGS.UPGRADEPLANNER.PresetDelete"
+msgid "Delete"
+msgstr "删除"
+
+#. STRINGS.UPGRADEPLANNER.PresetDeleteTooltip
+msgctxt "STRINGS.UPGRADEPLANNER.PresetDeleteTooltip"
+msgid "Forget the picked preset"
+msgstr "删除所选预设"
+
+#. STRINGS.UPGRADEPLANNER.PresetDeleted
+msgctxt "STRINGS.UPGRADEPLANNER.PresetDeleted"
+msgid "Deleted {0}."
+msgstr "已删除{0}。"
+
+#. STRINGS.UPGRADEPLANNER.PresetLabel
+msgctxt "STRINGS.UPGRADEPLANNER.PresetLabel"
+msgid "Preset"
+msgstr "预设"
+
+#. STRINGS.UPGRADEPLANNER.PresetLoad
+msgctxt "STRINGS.UPGRADEPLANNER.PresetLoad"
+msgid "Load"
+msgstr "载入"
+
+#. STRINGS.UPGRADEPLANNER.PresetLoadTooltip
+msgctxt "STRINGS.UPGRADEPLANNER.PresetLoadTooltip"
+msgid "Replace this tab's choices with the picked preset"
+msgstr "用所选预设替换此标签页的选择"
+
+#. STRINGS.UPGRADEPLANNER.PresetLoaded
+msgctxt "STRINGS.UPGRADEPLANNER.PresetLoaded"
+msgid "Loaded {0}."
+msgstr "已载入{0}。"
+
+#. STRINGS.UPGRADEPLANNER.PresetNamePlaceholder
+msgctxt "STRINGS.UPGRADEPLANNER.PresetNamePlaceholder"
+msgid "Preset name"
+msgstr "预设名称"
+
+#. STRINGS.UPGRADEPLANNER.PresetNeedsName
+msgctxt "STRINGS.UPGRADEPLANNER.PresetNeedsName"
+msgid "Type a name for the preset first."
+msgstr "请先输入预设名称。"
+
+#. STRINGS.UPGRADEPLANNER.PresetSave
+msgctxt "STRINGS.UPGRADEPLANNER.PresetSave"
+msgid "Save current plan"
+msgstr "保存当前方案"
+
+#. STRINGS.UPGRADEPLANNER.PresetSaveTooltip
+msgctxt "STRINGS.UPGRADEPLANNER.PresetSaveTooltip"
+msgid "Save this tab's choices under the name typed beside it; this tab's preset with that name is replaced"
+msgstr "用旁边输入的名称保存此标签页的选择；此标签页中同名的预设会被替换"
+
+#. STRINGS.UPGRADEPLANNER.PresetSaved
+msgctxt "STRINGS.UPGRADEPLANNER.PresetSaved"
+msgid "Saved {0}."
+msgstr "已保存{0}。"
+
+#. STRINGS.UPGRADEPLANNER.PresetUpdated
+msgctxt "STRINGS.UPGRADEPLANNER.PresetUpdated"
+msgid "Updated {0}."
+msgstr "已更新{0}。"
+
+#. STRINGS.UPGRADEPLANNER.ReplaceHeading
+msgctxt "STRINGS.UPGRADEPLANNER.ReplaceHeading"
+msgid "Replace"
+msgstr "替换"
+
+#. STRINGS.UPGRADEPLANNER.SelectAllTooltip
+msgctxt "STRINGS.UPGRADEPLANNER.SelectAllTooltip"
+msgid "Pick every building that can use these materials"
+msgstr "选择所有可以使用这些材料的建筑"
+
+#. STRINGS.UPGRADEPLANNER.SourceAnyContent
+msgctxt "STRINGS.UPGRADEPLANNER.SourceAnyContent"
+msgid "Replaces every building of the chosen type, made from any material"
+msgstr "替换所选类型的所有建筑，无论由什么材料建造"
+
+#. STRINGS.UPGRADEPLANNER.SourceMaterialPrompt
+msgctxt "STRINGS.UPGRADEPLANNER.SourceMaterialPrompt"
+msgid "Pick the type of building to replace above."
+msgstr "在上方选择要替换的建筑类型。"
+
+#. STRINGS.UPGRADEPLANNER.SpecificMaterial
+msgctxt "STRINGS.UPGRADEPLANNER.SpecificMaterial"
+msgid "Specific"
+msgstr "指定"
+
+#. STRINGS.UPGRADEPLANNER.SpecificMaterialTooltip
+msgctxt "STRINGS.UPGRADEPLANNER.SpecificMaterialTooltip"
+msgid "Replace only the ones built from the materials picked below"
+msgstr "只替换由下方所选材料建造的建筑"
+
+#. STRINGS.UPGRADEPLANNER.StepApply
+msgctxt "STRINGS.UPGRADEPLANNER.StepApply"
+msgid "Apply, then box-drag over the buildings to mark them."
+msgstr "应用，然后框选建筑进行标记。"
+
+#. STRINGS.UPGRADEPLANNER.StepPickSource
+msgctxt "STRINGS.UPGRADEPLANNER.StepPickSource"
+msgid "Under Replace, pick the type of building to replace."
+msgstr "在替换下选择要替换的建筑类型。"
+
+#. STRINGS.UPGRADEPLANNER.StepPickSourceMaterial
+msgctxt "STRINGS.UPGRADEPLANNER.StepPickSourceMaterial"
+msgid "Choose Any material, or Specific and pick which."
+msgstr "选择任意材料，或选择指定并选出材料。"
+
+#. STRINGS.UPGRADEPLANNER.StepPickTarget
+msgctxt "STRINGS.UPGRADEPLANNER.StepPickTarget"
+msgid "Pick what to replace it with here, and its material."
+msgstr "在这里选择要替换成什么，以及它的材料。"
+
+#. STRINGS.UPGRADEPLANNER.SummaryNothing
+msgctxt "STRINGS.UPGRADEPLANNER.SummaryNothing"
+msgid "Nothing chosen yet."
+msgstr "尚未选择。"
+
+#. STRINGS.UPGRADEPLANNER.TabMaterial
+msgctxt "STRINGS.UPGRADEPLANNER.TabMaterial"
+msgid "Change material"
+msgstr "更换材料"
+
+#. STRINGS.UPGRADEPLANNER.TabMaterialTooltip
+msgctxt "STRINGS.UPGRADEPLANNER.TabMaterialTooltip"
+msgid "Rebuild buildings of the picked types in another material"
+msgstr "用另一种材料重建所选类型的建筑"
+
+#. STRINGS.UPGRADEPLANNER.TabType
+msgctxt "STRINGS.UPGRADEPLANNER.TabType"
+msgid "Replace type"
+msgstr "替换类型"
+
+#. STRINGS.UPGRADEPLANNER.TabTypeTooltip
+msgctxt "STRINGS.UPGRADEPLANNER.TabTypeTooltip"
+msgid "Replace one type of building with another, in the materials you pick"
+msgstr "用所选材料将一种建筑替换为另一种"
+
+#. STRINGS.UPGRADEPLANNER.VariantsTooltip
+msgctxt "STRINGS.UPGRADEPLANNER.VariantsTooltip"
+msgid " ({0} variants behind one build menu entry; the material picks which)"
+msgstr "（一个建造菜单条目包含 {0} 个变体，由材料决定使用哪一个）"
+
+#. STRINGS.UPGRADEPLANNER.WithHeading
+msgctxt "STRINGS.UPGRADEPLANNER.WithHeading"
+msgid "With"
+msgstr "替换为"
+

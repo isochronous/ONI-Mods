@@ -1,0 +1,34 @@
+Adds a tool to allow mass-changing of building materials, or mass upgrades between swappable building types (pipes -> insulated pipes, for example)
+
+[b]Requires [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3468585385]Blueprints Expanded[/url] by Sgt_Imalas[/b] as a dependency.
+
+[h2]How it works[/h2]
+Dragging a pipe over an existing pipe is already a replacement in the game: the old one keeps working until the new one is built over it. This mod does that for a whole area at once. Pick what to replace and what to replace it with, then drag-select; every matching building gets a replacement order at the current priority.
+
+[h2]Using it[/h2]
+Select the Upgrade Planner from the toolbar (or Shift+U, rebindable). The dialog it opens has two modes.
+[list]
+[*][b]Change material[/b]: pick the material to replace (any, or one specific material) and the one to replace it with, then the buildings to rebuild. Tick [b]All buildings[/b] to offer machines, sensors, gates and everything else too if for some reason you have a dozen lavatories you need to upgrade to gold or something.
+[*][b]Replace type[/b]: pick a type and one of its valid replacements, and specify the materials to use.
+[*]Once you've got things set, click apply and then drag-select an area. Everything the plan would touch is highlighted while the tool is active, and a popup reports how many were marked.
+[*]Save plans as presets, one list per tab.
+[/list]
+
+[h2]Good to know[/h2]
+[list]
+[*]The configuration dialog can be dragged by its titlebar if you want to see what's behind it.
+[*]Sidegrades and downgrades work too: convert your insulite pipes back to igneous, or your insulated pipes to radiant.
+[*]Modded pipes appear automatically, since the list comes from the game's own replacement rules.
+[*]Nothing the build tool would refuse is allowed, so no trying to replace your printing pod with a cheap fake. Cancel orders with the Cancel tool as usual.
+[*]Closing the window ends the tool; the plan is remembered for the session. Configuration can be reopened while the tool is active by the "Upgrade Planner" button that will appear at bottom right.
+[*]Acts as you'd expect in sandbox/debug, though it will process changes in a queue rather than all at once for performance reasons.
+[/list]
+
+Made by a professional software developer with assistance from Claude Code. Comes with a no slop guarantee.
+
+Source and issues: https://github.com/isochronous/upgrade-planner
+
+Translations done via artificial intelligence. Please submit corrections via GitHub issues.
+翻译由人工智能完成。如有错误，请通过 GitHub Issues 提交更正。
+번역은 인공지능으로 이루어졌습니다. 수정 사항은 GitHub 이슈로 제출해 주세요.
+Перевод выполнен с помощью искусственного интеллекта. Исправления присылайте через GitHub Issues.

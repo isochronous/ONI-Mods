@@ -1,0 +1,479 @@
+msgid ""
+msgstr ""
+"Application: Oxygen Not Included\n"
+"POT Version: 2.0\n"
+"Language: ko_KR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. STRINGS.UI.TOOLS.UPGRADEPLANNER.NAME
+msgctxt "STRINGS.UI.TOOLS.UPGRADEPLANNER.NAME"
+msgid "Upgrade Planner"
+msgstr "업그레이드 계획기"
+
+#. STRINGS.UI.TOOLS.UPGRADEPLANNER.TOGGLE
+msgctxt "STRINGS.UI.TOOLS.UPGRADEPLANNER.TOGGLE"
+msgid "Upgrade Planner"
+msgstr "업그레이드 계획기"
+
+#. STRINGS.UI.TOOLS.UPGRADEPLANNER.TOOLNAME
+msgctxt "STRINGS.UI.TOOLS.UPGRADEPLANNER.TOOLNAME"
+msgid "Upgrade Planner tool"
+msgstr "업그레이드 계획기 도구"
+
+#. STRINGS.UI.TOOLS.UPGRADEPLANNER.TOOLTIP
+msgctxt "STRINGS.UI.TOOLS.UPGRADEPLANNER.TOOLTIP"
+msgid "Pick buildings and the material to rebuild them in, or a type and what to replace it with, then box-drag: every matching building in the area is marked for replacement"
+msgstr "건물과 다시 지을 재료를 고르거나, 건물 종류와 바꿀 종류를 고른 뒤 드래그로 영역을 지정하세요. 영역 안의 해당 건물이 모두 교체 대상으로 표시됩니다"
+
+#. STRINGS.UPGRADEPLANNER.AllBuildings
+msgctxt "STRINGS.UPGRADEPLANNER.AllBuildings"
+msgid "All buildings"
+msgstr "모든 건물"
+
+#. STRINGS.UPGRADEPLANNER.AllBuildingsTooltip
+msgctxt "STRINGS.UPGRADEPLANNER.AllBuildingsTooltip"
+msgid "Also offer the buildings the game does not let you build over. Those are deconstructed and rebuilt in the new material, out of service until rebuilt; Blueprints Expanded keeps their settings"
+msgstr "게임이 덧지을 수 없게 하는 건물도 함께 표시합니다. 이 건물들은 해체된 뒤 새 재료로 다시 지어지며, 다시 지어질 때까지 작동하지 않습니다. Blueprints Expanded가 설정을 유지합니다"
+
+#. STRINGS.UPGRADEPLANNER.AnyMaterial
+msgctxt "STRINGS.UPGRADEPLANNER.AnyMaterial"
+msgid "Any"
+msgstr "아무거나"
+
+#. STRINGS.UPGRADEPLANNER.AnyMaterialLower
+msgctxt "STRINGS.UPGRADEPLANNER.AnyMaterialLower"
+msgid "any material"
+msgstr "아무 재료"
+
+#. STRINGS.UPGRADEPLANNER.AnyMaterialTooltip
+msgctxt "STRINGS.UPGRADEPLANNER.AnyMaterialTooltip"
+msgid "Replace these buildings whatever they are made of"
+msgstr "재료와 상관없이 이 건물들을 교체합니다"
+
+#. STRINGS.UPGRADEPLANNER.Apply
+msgctxt "STRINGS.UPGRADEPLANNER.Apply"
+msgid "Apply"
+msgstr "적용"
+
+#. STRINGS.UPGRADEPLANNER.ApplyTooltip
+msgctxt "STRINGS.UPGRADEPLANNER.ApplyTooltip"
+msgid "Close the window and keep the tool: box-drag to mark buildings. The button by the priority bar opens it again"
+msgstr "창을 닫고 도구는 유지합니다. 드래그로 건물을 표시하세요. 우선순위 표시줄 옆의 버튼으로 다시 열 수 있습니다"
+
+#. STRINGS.UPGRADEPLANNER.BlockedResearch
+msgctxt "STRINGS.UPGRADEPLANNER.BlockedResearch"
+msgid "Not researched yet"
+msgstr "아직 연구하지 않음"
+
+#. STRINGS.UPGRADEPLANNER.BlockedSource
+msgctxt "STRINGS.UPGRADEPLANNER.BlockedSource"
+msgid "Never built from {0}"
+msgstr "{0}(으)로 지어지지 않는 건물"
+
+#. STRINGS.UPGRADEPLANNER.BlockedTarget
+msgctxt "STRINGS.UPGRADEPLANNER.BlockedTarget"
+msgid "Can't be built in {0}"
+msgstr "{0}(으)로 지을 수 없음"
+
+#. STRINGS.UPGRADEPLANNER.BuildingsHeading
+msgctxt "STRINGS.UPGRADEPLANNER.BuildingsHeading"
+msgid "Buildings"
+msgstr "건물"
+
+#. STRINGS.UPGRADEPLANNER.CategoryCount
+msgctxt "STRINGS.UPGRADEPLANNER.CategoryCount"
+msgid "{0} of {1}"
+msgstr "{1}개 중 {0}개"
+
+#. STRINGS.UPGRADEPLANNER.ChooseTarget
+msgctxt "STRINGS.UPGRADEPLANNER.ChooseTarget"
+msgid "Choose what to replace it with."
+msgstr "무엇으로 바꿀지 고르세요."
+
+#. STRINGS.UPGRADEPLANNER.Clear
+msgctxt "STRINGS.UPGRADEPLANNER.Clear"
+msgid "Clear"
+msgstr "지우기"
+
+#. STRINGS.UPGRADEPLANNER.ClearMaterialTooltip
+msgctxt "STRINGS.UPGRADEPLANNER.ClearMaterialTooltip"
+msgid "Forget this tab's choices and start over"
+msgstr "이 탭의 선택을 지우고 처음부터 시작합니다"
+
+#. STRINGS.UPGRADEPLANNER.ClearTooltip
+msgctxt "STRINGS.UPGRADEPLANNER.ClearTooltip"
+msgid "Forget every choice and start over"
+msgstr "모든 선택을 지우고 처음부터 시작합니다"
+
+#. STRINGS.UPGRADEPLANNER.CollapseAll
+msgctxt "STRINGS.UPGRADEPLANNER.CollapseAll"
+msgid "Collapse all"
+msgstr "모두 접기"
+
+#. STRINGS.UPGRADEPLANNER.ConfigButtonTooltip
+msgctxt "STRINGS.UPGRADEPLANNER.ConfigButtonTooltip"
+msgid "Open the Upgrade Planner window to change what is replaced with what"
+msgstr "업그레이드 계획기 창을 열어 무엇을 무엇으로 바꿀지 정합니다"
+
+#. STRINGS.UPGRADEPLANNER.DescribeAnyMaterial
+msgctxt "STRINGS.UPGRADEPLANNER.DescribeAnyMaterial"
+msgid "{0} (any material)"
+msgstr "{0} (아무 재료)"
+
+#. STRINGS.UPGRADEPLANNER.DescribeMaterials
+msgctxt "STRINGS.UPGRADEPLANNER.DescribeMaterials"
+msgid "{0} ({1})"
+msgstr "{0} ({1})"
+
+#. STRINGS.UPGRADEPLANNER.DescribeReplace
+msgctxt "STRINGS.UPGRADEPLANNER.DescribeReplace"
+msgid "{0} -> {1}"
+msgstr "{0} → {1}"
+
+#. STRINGS.UPGRADEPLANNER.DialogTitle
+msgctxt "STRINGS.UPGRADEPLANNER.DialogTitle"
+msgid "Upgrade Planner"
+msgstr "업그레이드 계획기"
+
+#. STRINGS.UPGRADEPLANNER.ErrorIncomplete
+msgctxt "STRINGS.UPGRADEPLANNER.ErrorIncomplete"
+msgid "Finish the Upgrade Planner choices first"
+msgstr "먼저 업그레이드 계획기의 선택을 마치세요"
+
+#. STRINGS.UPGRADEPLANNER.ExpandAll
+msgctxt "STRINGS.UPGRADEPLANNER.ExpandAll"
+msgid "Expand all"
+msgstr "모두 펼치기"
+
+#. STRINGS.UPGRADEPLANNER.FamilyAutomationWires
+msgctxt "STRINGS.UPGRADEPLANNER.FamilyAutomationWires"
+msgid "Automation Wires"
+msgstr "자동화 와이어"
+
+#. STRINGS.UPGRADEPLANNER.FamilyBackwalls
+msgctxt "STRINGS.UPGRADEPLANNER.FamilyBackwalls"
+msgid "Backwalls"
+msgstr "후면벽"
+
+#. STRINGS.UPGRADEPLANNER.FamilyConveyorRails
+msgctxt "STRINGS.UPGRADEPLANNER.FamilyConveyorRails"
+msgid "Conveyor Rails"
+msgstr "컨베이어 레일"
+
+#. STRINGS.UPGRADEPLANNER.FamilyLadders
+msgctxt "STRINGS.UPGRADEPLANNER.FamilyLadders"
+msgid "Ladders"
+msgstr "사다리"
+
+#. STRINGS.UPGRADEPLANNER.FamilyLiquidPipes
+msgctxt "STRINGS.UPGRADEPLANNER.FamilyLiquidPipes"
+msgid "Liquid Pipes"
+msgstr "액체 파이프"
+
+#. STRINGS.UPGRADEPLANNER.FamilyTiles
+msgctxt "STRINGS.UPGRADEPLANNER.FamilyTiles"
+msgid "Tiles"
+msgstr "타일"
+
+#. STRINGS.UPGRADEPLANNER.FamilyTransitTubes
+msgctxt "STRINGS.UPGRADEPLANNER.FamilyTransitTubes"
+msgid "Transit Tubes"
+msgstr "수송 튜브"
+
+#. STRINGS.UPGRADEPLANNER.FamilyVentilationPipes
+msgctxt "STRINGS.UPGRADEPLANNER.FamilyVentilationPipes"
+msgid "Ventilation Pipes"
+msgstr "기체 파이프"
+
+#. STRINGS.UPGRADEPLANNER.FamilyWires
+msgctxt "STRINGS.UPGRADEPLANNER.FamilyWires"
+msgid "Wires"
+msgstr "와이어"
+
+#. STRINGS.UPGRADEPLANNER.HoverActionIdle
+msgctxt "STRINGS.UPGRADEPLANNER.HoverActionIdle"
+msgid "CHOOSE AN UPGRADE"
+msgstr "업그레이드 선택"
+
+#. STRINGS.UPGRADEPLANNER.HoverActionReady
+msgctxt "STRINGS.UPGRADEPLANNER.HoverActionReady"
+msgid "MARK FOR UPGRADE"
+msgstr "업그레이드 표시"
+
+#. STRINGS.UPGRADEPLANNER.HoverSelected
+msgctxt "STRINGS.UPGRADEPLANNER.HoverSelected"
+msgid "SELECTED"
+msgstr "선택됨"
+
+#. STRINGS.UPGRADEPLANNER.HoverMaterials
+msgctxt "STRINGS.UPGRADEPLANNER.HoverMaterials"
+msgid "Materials needed:"
+msgstr "필요한 재료:"
+
+#. STRINGS.UPGRADEPLANNER.ErrorNotApplied
+msgctxt "STRINGS.UPGRADEPLANNER.ErrorNotApplied"
+msgid "Apply settings first"
+msgstr "먼저 설정을 적용하세요"
+
+#. STRINGS.UPGRADEPLANNER.HowToHeading
+msgctxt "STRINGS.UPGRADEPLANNER.HowToHeading"
+msgid "How it works"
+msgstr "사용 방법"
+
+#. STRINGS.UPGRADEPLANNER.IncludeTooltip
+msgctxt "STRINGS.UPGRADEPLANNER.IncludeTooltip"
+msgid "Click to include"
+msgstr "클릭하여 포함"
+
+#. STRINGS.UPGRADEPLANNER.LeaveOutTooltip
+msgctxt "STRINGS.UPGRADEPLANNER.LeaveOutTooltip"
+msgid "Click to leave out"
+msgstr "클릭하여 제외"
+
+#. STRINGS.UPGRADEPLANNER.ListAnd
+msgctxt "STRINGS.UPGRADEPLANNER.ListAnd"
+msgid "{0} and {1}"
+msgstr "{0}, {1}"
+
+#. STRINGS.UPGRADEPLANNER.ListAndMore
+msgctxt "STRINGS.UPGRADEPLANNER.ListAndMore"
+msgid "{0} and {1} more"
+msgstr "{0} 외 {1}개"
+
+#. STRINGS.UPGRADEPLANNER.ListSeparator
+msgctxt "STRINGS.UPGRADEPLANNER.ListSeparator"
+msgid ", "
+msgstr ", "
+
+#. STRINGS.UPGRADEPLANNER.MaterialAnyContent
+msgctxt "STRINGS.UPGRADEPLANNER.MaterialAnyContent"
+msgid "Replaces the selected buildings, made from any material, with the material chosen below"
+msgstr "선택한 건물을 재료와 상관없이 아래에서 고른 재료로 교체합니다"
+
+#. STRINGS.UPGRADEPLANNER.MaterialAnyTooltip
+msgctxt "STRINGS.UPGRADEPLANNER.MaterialAnyTooltip"
+msgid "Replace the picked buildings whatever they are made of"
+msgstr "선택한 건물을 재료와 상관없이 교체합니다"
+
+#. STRINGS.UPGRADEPLANNER.MaterialHeading
+msgctxt "STRINGS.UPGRADEPLANNER.MaterialHeading"
+msgid "Material"
+msgstr "재료"
+
+#. STRINGS.UPGRADEPLANNER.MaterialPromptSource
+msgctxt "STRINGS.UPGRADEPLANNER.MaterialPromptSource"
+msgid "Pick the material to replace, or choose Any."
+msgstr "바꿀 재료를 고르거나 아무거나를 선택하세요."
+
+#. STRINGS.UPGRADEPLANNER.MaterialPromptTarget
+msgctxt "STRINGS.UPGRADEPLANNER.MaterialPromptTarget"
+msgid "Pick the material to build in."
+msgstr "지을 재료를 고르세요."
+
+#. STRINGS.UPGRADEPLANNER.MaterialPromptTypes
+msgctxt "STRINGS.UPGRADEPLANNER.MaterialPromptTypes"
+msgid "Pick at least one building that can be built in {0}."
+msgstr "{0}(으)로 지을 수 있는 건물을 하나 이상 고르세요."
+
+#. STRINGS.UPGRADEPLANNER.MaterialSameMaterial
+msgctxt "STRINGS.UPGRADEPLANNER.MaterialSameMaterial"
+msgid "Replace and With are the same material. Pick a different one."
+msgstr "교체할 재료와 새 재료가 같습니다. 다른 재료를 고르세요."
+
+#. STRINGS.UPGRADEPLANNER.MaterialSpecificTooltip
+msgctxt "STRINGS.UPGRADEPLANNER.MaterialSpecificTooltip"
+msgid "Replace only the picked buildings made of the material picked below"
+msgstr "아래에서 고른 재료로 지어진 선택한 건물만 교체합니다"
+
+#. STRINGS.UPGRADEPLANNER.MaterialSummary
+msgctxt "STRINGS.UPGRADEPLANNER.MaterialSummary"
+msgid "Replace {0} with {1} in {2}."
+msgstr "{2}의 {0}을(를) {1}(으)로 교체합니다."
+
+#. STRINGS.UPGRADEPLANNER.MaterialsHeading
+msgctxt "STRINGS.UPGRADEPLANNER.MaterialsHeading"
+msgid "Materials"
+msgstr "재료"
+
+#. STRINGS.UPGRADEPLANNER.NoMaterials
+msgctxt "STRINGS.UPGRADEPLANNER.NoMaterials"
+msgid "No usable material for this ingredient."
+msgstr "이 재료 칸에 쓸 수 있는 재료가 없습니다."
+
+#. STRINGS.UPGRADEPLANNER.NoPresets
+msgctxt "STRINGS.UPGRADEPLANNER.NoPresets"
+msgid "No saved presets"
+msgstr "저장된 프리셋 없음"
+
+#. STRINGS.UPGRADEPLANNER.NoTargets
+msgctxt "STRINGS.UPGRADEPLANNER.NoTargets"
+msgid "Nothing can be built over this."
+msgstr "이 위에 덧지을 수 있는 건물이 없습니다."
+
+#. STRINGS.UPGRADEPLANNER.PopupMarked
+msgctxt "STRINGS.UPGRADEPLANNER.PopupMarked"
+msgid "{0} marked for upgrade"
+msgstr "{0}개 업그레이드 표시됨"
+
+#. STRINGS.UPGRADEPLANNER.PopupReplaced
+msgctxt "STRINGS.UPGRADEPLANNER.PopupReplaced"
+msgid "{0} replaced"
+msgstr "{0}개 교체됨"
+
+#. STRINGS.UPGRADEPLANNER.PopupSkipped
+msgctxt "STRINGS.UPGRADEPLANNER.PopupSkipped"
+msgid "{0}, {1} skipped"
+msgstr "{0}, {1}개 건너뜀"
+
+#. STRINGS.UPGRADEPLANNER.PresetDelete
+msgctxt "STRINGS.UPGRADEPLANNER.PresetDelete"
+msgid "Delete"
+msgstr "삭제"
+
+#. STRINGS.UPGRADEPLANNER.PresetDeleteTooltip
+msgctxt "STRINGS.UPGRADEPLANNER.PresetDeleteTooltip"
+msgid "Forget the picked preset"
+msgstr "선택한 프리셋을 삭제합니다"
+
+#. STRINGS.UPGRADEPLANNER.PresetDeleted
+msgctxt "STRINGS.UPGRADEPLANNER.PresetDeleted"
+msgid "Deleted {0}."
+msgstr "{0}을(를) 삭제했습니다."
+
+#. STRINGS.UPGRADEPLANNER.PresetLabel
+msgctxt "STRINGS.UPGRADEPLANNER.PresetLabel"
+msgid "Preset"
+msgstr "프리셋"
+
+#. STRINGS.UPGRADEPLANNER.PresetLoad
+msgctxt "STRINGS.UPGRADEPLANNER.PresetLoad"
+msgid "Load"
+msgstr "불러오기"
+
+#. STRINGS.UPGRADEPLANNER.PresetLoadTooltip
+msgctxt "STRINGS.UPGRADEPLANNER.PresetLoadTooltip"
+msgid "Replace this tab's choices with the picked preset"
+msgstr "이 탭의 선택을 고른 프리셋으로 바꿉니다"
+
+#. STRINGS.UPGRADEPLANNER.PresetLoaded
+msgctxt "STRINGS.UPGRADEPLANNER.PresetLoaded"
+msgid "Loaded {0}."
+msgstr "{0}을(를) 불러왔습니다."
+
+#. STRINGS.UPGRADEPLANNER.PresetNamePlaceholder
+msgctxt "STRINGS.UPGRADEPLANNER.PresetNamePlaceholder"
+msgid "Preset name"
+msgstr "프리셋 이름"
+
+#. STRINGS.UPGRADEPLANNER.PresetNeedsName
+msgctxt "STRINGS.UPGRADEPLANNER.PresetNeedsName"
+msgid "Type a name for the preset first."
+msgstr "먼저 프리셋 이름을 입력하세요."
+
+#. STRINGS.UPGRADEPLANNER.PresetSave
+msgctxt "STRINGS.UPGRADEPLANNER.PresetSave"
+msgid "Save current plan"
+msgstr "현재 계획 저장"
+
+#. STRINGS.UPGRADEPLANNER.PresetSaveTooltip
+msgctxt "STRINGS.UPGRADEPLANNER.PresetSaveTooltip"
+msgid "Save this tab's choices under the name typed beside it; this tab's preset with that name is replaced"
+msgstr "옆에 입력한 이름으로 이 탭의 선택을 저장합니다. 이 탭에 같은 이름의 프리셋이 있으면 바뀝니다"
+
+#. STRINGS.UPGRADEPLANNER.PresetSaved
+msgctxt "STRINGS.UPGRADEPLANNER.PresetSaved"
+msgid "Saved {0}."
+msgstr "{0}을(를) 저장했습니다."
+
+#. STRINGS.UPGRADEPLANNER.PresetUpdated
+msgctxt "STRINGS.UPGRADEPLANNER.PresetUpdated"
+msgid "Updated {0}."
+msgstr "{0}을(를) 업데이트했습니다."
+
+#. STRINGS.UPGRADEPLANNER.ReplaceHeading
+msgctxt "STRINGS.UPGRADEPLANNER.ReplaceHeading"
+msgid "Replace"
+msgstr "교체"
+
+#. STRINGS.UPGRADEPLANNER.SelectAllTooltip
+msgctxt "STRINGS.UPGRADEPLANNER.SelectAllTooltip"
+msgid "Pick every building that can use these materials"
+msgstr "이 재료를 쓸 수 있는 건물을 모두 고릅니다"
+
+#. STRINGS.UPGRADEPLANNER.SourceAnyContent
+msgctxt "STRINGS.UPGRADEPLANNER.SourceAnyContent"
+msgid "Replaces every building of the chosen type, made from any material"
+msgstr "고른 종류의 건물을 재료와 상관없이 모두 교체합니다"
+
+#. STRINGS.UPGRADEPLANNER.SourceMaterialPrompt
+msgctxt "STRINGS.UPGRADEPLANNER.SourceMaterialPrompt"
+msgid "Pick the type of building to replace above."
+msgstr "위에서 교체할 건물 종류를 고르세요."
+
+#. STRINGS.UPGRADEPLANNER.SpecificMaterial
+msgctxt "STRINGS.UPGRADEPLANNER.SpecificMaterial"
+msgid "Specific"
+msgstr "지정"
+
+#. STRINGS.UPGRADEPLANNER.SpecificMaterialTooltip
+msgctxt "STRINGS.UPGRADEPLANNER.SpecificMaterialTooltip"
+msgid "Replace only the ones built from the materials picked below"
+msgstr "아래에서 고른 재료로 지어진 건물만 교체합니다"
+
+#. STRINGS.UPGRADEPLANNER.StepApply
+msgctxt "STRINGS.UPGRADEPLANNER.StepApply"
+msgid "Apply, then box-drag over the buildings to mark them."
+msgstr "적용한 뒤 드래그로 건물을 표시하세요."
+
+#. STRINGS.UPGRADEPLANNER.StepPickSource
+msgctxt "STRINGS.UPGRADEPLANNER.StepPickSource"
+msgid "Under Replace, pick the type of building to replace."
+msgstr "교체에서 교체할 건물 종류를 고르세요."
+
+#. STRINGS.UPGRADEPLANNER.StepPickSourceMaterial
+msgctxt "STRINGS.UPGRADEPLANNER.StepPickSourceMaterial"
+msgid "Choose Any material, or Specific and pick which."
+msgstr "아무 재료를 선택하거나, 지정을 선택하고 재료를 고르세요."
+
+#. STRINGS.UPGRADEPLANNER.StepPickTarget
+msgctxt "STRINGS.UPGRADEPLANNER.StepPickTarget"
+msgid "Pick what to replace it with here, and its material."
+msgstr "여기서 무엇으로 바꿀지와 그 재료를 고르세요."
+
+#. STRINGS.UPGRADEPLANNER.SummaryNothing
+msgctxt "STRINGS.UPGRADEPLANNER.SummaryNothing"
+msgid "Nothing chosen yet."
+msgstr "아직 선택하지 않았습니다."
+
+#. STRINGS.UPGRADEPLANNER.TabMaterial
+msgctxt "STRINGS.UPGRADEPLANNER.TabMaterial"
+msgid "Change material"
+msgstr "재료 변경"
+
+#. STRINGS.UPGRADEPLANNER.TabMaterialTooltip
+msgctxt "STRINGS.UPGRADEPLANNER.TabMaterialTooltip"
+msgid "Rebuild buildings of the picked types in another material"
+msgstr "고른 종류의 건물을 다른 재료로 다시 짓습니다"
+
+#. STRINGS.UPGRADEPLANNER.TabType
+msgctxt "STRINGS.UPGRADEPLANNER.TabType"
+msgid "Replace type"
+msgstr "종류 교체"
+
+#. STRINGS.UPGRADEPLANNER.TabTypeTooltip
+msgctxt "STRINGS.UPGRADEPLANNER.TabTypeTooltip"
+msgid "Replace one type of building with another, in the materials you pick"
+msgstr "한 종류의 건물을 고른 재료의 다른 종류로 교체합니다"
+
+#. STRINGS.UPGRADEPLANNER.VariantsTooltip
+msgctxt "STRINGS.UPGRADEPLANNER.VariantsTooltip"
+msgid " ({0} variants behind one build menu entry; the material picks which)"
+msgstr " (건설 메뉴 항목 하나에 변형 {0}개, 재료에 따라 결정됨)"
+
+#. STRINGS.UPGRADEPLANNER.WithHeading
+msgctxt "STRINGS.UPGRADEPLANNER.WithHeading"
+msgid "With"
+msgstr "새 재료"
+
