@@ -1,0 +1,181 @@
+using System;
+using System.Reflection;
+using System.Runtime.Serialization;
+using HarmonyLib;
+using KSerialization;
+using UnityEngine;
+
+#pragma warning disable 649, 169 // [MyCmpGet]/[MyCmpAdd] fields are handled by the game via reflection
+
+namespace MotionSensorRange
+{
+	/// <summary>
+	/// Adds a range slider side screen to the Duplicant Motion Sensor and applies the
+	/// chosen range to the sensor's detection logic, partitioner registration and
+	/// range visualizer.
+	/// </summary>
+	[SerializationConfig(MemberSerialization.OptIn)]
+	public sealed class RangeSlider : KMonoBehaviour, IIntSliderControl
+	{
+		public const int MinRange = 2;
+		public const int MaxRange = 16;
+		public const int DefaultRange = 4;
+
+		// The keys ModStrings.UI.UISIDESCREENS.MOTION_SENSOR_RANGE_SIDE_SCREEN registers; the slider screen looks them up.
+		public const string TitleKey = "STRINGS.UI.UISIDESCREENS.MOTION_SENSOR_RANGE_SIDE_SCREEN.TITLE";
+		public const string TooltipKey = "STRINGS.UI.UISIDESCREENS.MOTION_SENSOR_RANGE_SIDE_SCREEN.TOOLTIP";
+
+		// LogicDuplicantSensor keeps its scene partitioner state in private members;
+		// these are re-applied whenever the range changes (names verified against U59-744825).
+		private static readonly FieldInfo ExtentsField = AccessTools.Field(typeof(LogicDuplicantSensor), "pickupableExtents");
+		private static readonly FieldInfo EntryField = AccessTools.Field(typeof(LogicDuplicantSensor), "pickupablesChangedEntry");
+		private static readonly FieldInfo DirtyField = AccessTools.Field(typeof(LogicDuplicantSensor), "pickupablesDirty");
+		private static readonly MethodInfo OnPickupablesChangedMethod = AccessTools.Method(typeof(LogicDuplicantSensor), "OnPickupablesChanged");
+		private static readonly MethodInfo RefreshReachableCellsMethod = AccessTools.Method(typeof(LogicDuplicantSensor), "RefreshReachableCells");
+		private static readonly bool SensorInternalsFound = ExtentsField != null && EntryField != null && DirtyField != null
+			&& OnPickupablesChangedMethod != null && RefreshReachableCellsMethod != null;
+		private static bool warnedMissingInternals;
+
+		private static readonly EventSystem.IntraObjectHandler<RangeSlider> OnCopySettingsDelegate =
+			new EventSystem.IntraObjectHandler<RangeSlider>(delegate(RangeSlider component, object data)
+			{
+				component.OnCopySettings(data);
+			});
+
+		[Serialize]
+		private int range = DefaultRange;
+
+		// Opts the motion sensor into the vanilla copy-settings system (the vanilla
+		// building has nothing copyable, so it lacks this component).
+		[MyCmpAdd]
+		private CopyBuildingSettings copyBuildingSettings;
+
+		[MyCmpGet]
+		private LogicDuplicantSensor sensor;
+
+		[MyCmpGet]
+		private RangeVisualizer visualizer;
+
+		[MyCmpGet]
+		private Rotatable rotatable;
+
+		public string SliderTitleKey => TitleKey;
+
+		public string SliderUnits => string.Empty;
+
+		public int SliderDecimalPlaces(int index) => 0;
+
+		public float GetSliderMin(int index) => MinRange;
+
+		public float GetSliderMax(int index) => MaxRange;
+
+		public float GetSliderValue(int index) => range;
+
+		public string GetSliderTooltipKey(int index) => TooltipKey;
+
+		public string GetSliderTooltip(int index) => string.Format(ModStrings.UI.UISIDESCREENS.MOTION_SENSOR_RANGE_SIDE_SCREEN.SLIDER_TOOLTIP, range);
+
+		public void SetSliderValue(float value, int index)
+		{
+			// The sensor's scan area is only symmetric for even ranges
+			// (it spans range/2 tiles to each side), so snap to even values.
+			int newRange = Mathf.Clamp(Mathf.RoundToInt(value / 2f) * 2, MinRange, MaxRange);
+			if (newRange == range)
+				return;
+
+			range = newRange;
+			ApplyRange();
+		}
+
+		protected override void OnPrefabInit()
+		{
+			base.OnPrefabInit();
+			Subscribe((int)GameHashes.CopySettings, OnCopySettingsDelegate);
+		}
+
+		protected override void OnSpawn()
+		{
+			base.OnSpawn();
+			// LogicDuplicantSensor.OnSpawn has already registered with the default
+			// range at this point; re-apply the deserialized value.
+			ApplyRange();
+		}
+
+		// Blueprint/preconfigure-style mods restore settings by deserializing state
+		// onto the live building, which writes the field without going through the
+		// slider; re-apply so the sensor and visualizer pick the value up.
+		[OnDeserialized]
+		private void OnDeserialized()
+		{
+			if (isSpawned)
+				ApplyRange();
+		}
+
+		private void OnCopySettings(object data)
+		{
+			GameObject sourceGo = data as GameObject;
+			if (sourceGo != null)
+				CopyRangeFrom(sourceGo.GetComponent<RangeSlider>());
+		}
+
+		/// <summary>
+		/// Takes the range from another slider (copy-settings tool, or the
+		/// under-construction building when construction completes). Safe before
+		/// spawn: OnSpawn applies the stored value.
+		/// </summary>
+		internal void CopyRangeFrom(RangeSlider source)
+		{
+			if (source == null || source.range == range)
+				return;
+			range = source.range;
+			if (isSpawned)
+				ApplyRange();
+		}
+
+		private void ApplyRange()
+		{
+			if (sensor == null || GameScenePartitioner.Instance == null)
+				return;
+
+			sensor.pickupRange = range;
+
+			if (!SensorInternalsFound)
+			{
+				if (!warnedMissingInternals)
+					Debug.LogWarning("[MotionSensorRange] LogicDuplicantSensor internals not found; the range setting has no effect until the mod is updated");
+				warnedMissingInternals = true;
+				return;
+			}
+
+			// Mirror the extents math from LogicDuplicantSensor.OnSpawn.
+			int origin = this.NaturalBuildingCell();
+			Vector2I xy = Grid.CellToXY(origin);
+			int cell = Grid.XYToCell(xy.x, xy.y + range / 2);
+			CellOffset offset = new CellOffset(0, range / 2);
+			if (rotatable != null)
+			{
+				offset = rotatable.GetRotatedCellOffset(offset);
+				if (Grid.IsCellOffsetValid(origin, offset))
+					cell = Grid.OffsetCell(origin, offset);
+			}
+			Extents extents = new Extents(cell, range / 2);
+			ExtentsField.SetValue(sensor, extents);
+
+			var entry = (HandleVector<int>.Handle)EntryField.GetValue(sensor);
+			GameScenePartitioner.Instance.Free(ref entry);
+			var callback = (Action<object>)Delegate.CreateDelegate(typeof(Action<object>), sensor, OnPickupablesChangedMethod);
+			EntryField.SetValue(sensor, GameScenePartitioner.Instance.Add(
+				"DuplicantSensor.PickupablesChanged", gameObject, extents,
+				GameScenePartitioner.Instance.pickupablesChangedLayer, callback));
+
+			DirtyField.SetValue(sensor, true);
+			RefreshReachableCellsMethod.Invoke(sensor, null);
+
+			if (visualizer != null)
+			{
+				visualizer.RangeMin = new Vector2I(-range / 2, 0);
+				visualizer.RangeMax = new Vector2I(range / 2, range);
+			}
+		}
+	}
+}

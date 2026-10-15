@@ -1,0 +1,42 @@
+# Motion Sensor Range
+
+An [Oxygen Not Included](https://www.klei.com/games/oxygen-not-included) mod that makes the range of the **Duplicant Motion Sensor** configurable via a slider in the building's side screen (2–16 tiles, default 4 — the vanilla range).
+
+Inspired by [Cairath's Configurable Motion Sensor Range](https://github.com/Cairath/ONI-Mods/tree/master/src/ConfigurableMotionSensorRange), which crashes on current game versions (`TypeLoadException: VTable setup of type RangeSwitcher failed` — the game's `ISliderControl` interface changed shape). This is a from-scratch rewrite against the current game (U59+, all DLCs).
+
+## How it works
+
+- A `RangeSlider` component (implementing the game's current `IIntSliderControl`) is added to the motion sensor prefab via a Harmony postfix on `LogicDuplicantSensorConfig.DoPostConfigureComplete`, giving the building an int slider side screen.
+- When the slider changes (or a saved value is loaded), the mod sets `LogicDuplicantSensor.pickupRange`, rebuilds the sensor's scene-partitioner registration to match the new detection area, and resizes the `RangeVisualizer` overlay.
+- The chosen range is saved with the building (`KSerialization`).
+- The building participates in the vanilla **copy-settings** system (the mirror button / drag tool copies range between motion sensors), and a range set on an under-construction building — via mods that expose settings pre-construction — carries over when construction completes.
+- Ranges snap to even numbers because the sensor's scan area is only symmetric for even ranges.
+
+## Installing
+
+**Steam Workshop:** subscribe on the [Workshop page](https://steamcommunity.com/sharedfiles/filedetails/?id=3804025857) and enable the mod in the game's Mods menu.
+
+**As a local mod** (no Steam needed):
+
+1. Download `MotionSensorRange-<version>.zip` from the [latest release](https://github.com/isochronous/motion-sensor-range/releases/latest).
+2. Extract it into a new folder named `MotionSensorRange` inside the game's local mods folder, so that `mod.yaml` ends up directly inside it (create `local` if it does not exist):
+   - Windows: `Documents\Klei\OxygenNotIncluded\mods\local\MotionSensorRange`
+   - Linux: `~/.config/unity3d/Klei/Oxygen Not Included/mods/local/MotionSensorRange`
+   - macOS: `~/Library/Application Support/unity.Klei.Oxygen Not Included/mods/local/MotionSensorRange`
+3. Start the game, enable the mod under **Mods** in the main menu, and let the game restart.
+
+Use one copy or the other: with both the Workshop and the local copy enabled the mod loads twice.
+
+## Translations
+
+The mod is available in Chinese (Simplified), Korean and Russian; the game's language setting picks it. Other languages come from `src/MotionSensorRange/translations/MotionSensorRange.pot`: translate it as `<locale>.po` (`ko.po`, `ru.po`, the game's locale codes) in that folder and the game loads it.
+
+## Building
+
+Requires the .NET SDK (8+). Shared build configuration lives in the [oni-mods-common](https://github.com/isochronous/oni-mods-common) submodule, so clone with `--recurse-submodules` (or run `git submodule update --init`). The game DLLs are referenced directly from the game install; override the path if yours differs:
+
+```
+dotnet build src/MotionSensorRange -c Release -p:GameFolder="<path-to>\OxygenNotIncluded"
+```
+
+A successful build automatically deploys `MotionSensorRange.dll`, `mod.yaml` and `mod_info.yaml` to `Documents\Klei\OxygenNotIncluded\mods\local\MotionSensorRange` (disable with `-p:ModDeployFolder=none`).
