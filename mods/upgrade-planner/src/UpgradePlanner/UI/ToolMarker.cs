@@ -45,7 +45,7 @@ namespace UpgradePlanner
 		private static Texture2D Draw(Texture2D original)
 		{
 			int size = original.width;
-			Color[] pixels = ToolCursor.Readable(original);
+			Color[] pixels = Readable(original);
 			float half = size / 2f;
 			for (int y = 0; y < size; y++)
 				for (int x = 0; x < size; x++)
@@ -81,6 +81,23 @@ namespace UpgradePlanner
 			// Along the side this pixel is on, from the corner, dashes then gaps.
 			float along = Plate - Mathf.Min(dx, dy);
 			return along % (Dash + Gap) < Dash ? 1f : Fill;
+		}
+
+		/// <summary>The pixels of a texture the game keeps unreadable, copied through a render texture.</summary>
+		private static Color[] Readable(Texture2D texture)
+		{
+			RenderTexture rt = RenderTexture.GetTemporary(texture.width, texture.height, 0, RenderTextureFormat.ARGB32, RenderTextureReadWrite.sRGB);
+			Graphics.Blit(texture, rt);
+			RenderTexture was = RenderTexture.active;
+			RenderTexture.active = rt;
+			var copy = new Texture2D(texture.width, texture.height, TextureFormat.RGBA32, mipChain: false);
+			copy.ReadPixels(new Rect(0, 0, texture.width, texture.height), 0, 0);
+			copy.Apply();
+			RenderTexture.active = was;
+			RenderTexture.ReleaseTemporary(rt);
+			Color[] pixels = copy.GetPixels();
+			Object.Destroy(copy);
+			return pixels;
 		}
 	}
 }

@@ -196,11 +196,6 @@ msgctxt "STRINGS.UPGRADEPLANNER.FamilyWires"
 msgid "Wires"
 msgstr ""
 
-#. STRINGS.UPGRADEPLANNER.HoverActionApplyFirst
-msgctxt "STRINGS.UPGRADEPLANNER.HoverActionApplyFirst"
-msgid "APPLY SETTINGS FIRST"
-msgstr ""
-
 #. STRINGS.UPGRADEPLANNER.HoverActionIdle
 msgctxt "STRINGS.UPGRADEPLANNER.HoverActionIdle"
 msgid "CHOOSE AN UPGRADE"
@@ -209,6 +204,16 @@ msgstr ""
 #. STRINGS.UPGRADEPLANNER.HoverActionReady
 msgctxt "STRINGS.UPGRADEPLANNER.HoverActionReady"
 msgid "MARK FOR UPGRADE"
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.HoverMaterials
+msgctxt "STRINGS.UPGRADEPLANNER.HoverMaterials"
+msgid "Materials needed:"
+msgstr ""
+
+#. STRINGS.UPGRADEPLANNER.HoverSelected
+msgctxt "STRINGS.UPGRADEPLANNER.HoverSelected"
+msgid "SELECTED"
 msgstr ""
 
 #. STRINGS.UPGRADEPLANNER.HowToHeading

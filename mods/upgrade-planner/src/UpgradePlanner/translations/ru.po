@@ -202,10 +202,15 @@ msgctxt "STRINGS.UPGRADEPLANNER.HoverActionReady"
 msgid "MARK FOR UPGRADE"
 msgstr "ОТМЕТИТЬ ДЛЯ УЛУЧШЕНИЯ"
 
-#. STRINGS.UPGRADEPLANNER.HoverActionApplyFirst
-msgctxt "STRINGS.UPGRADEPLANNER.HoverActionApplyFirst"
-msgid "APPLY SETTINGS FIRST"
-msgstr "СНАЧАЛА ПРИМЕНИТЕ НАСТРОЙКИ"
+#. STRINGS.UPGRADEPLANNER.HoverSelected
+msgctxt "STRINGS.UPGRADEPLANNER.HoverSelected"
+msgid "SELECTED"
+msgstr "ВЫБРАНО"
+
+#. STRINGS.UPGRADEPLANNER.HoverMaterials
+msgctxt "STRINGS.UPGRADEPLANNER.HoverMaterials"
+msgid "Materials needed:"
+msgstr "Нужные материалы:"
 
 #. STRINGS.UPGRADEPLANNER.ErrorNotApplied
 msgctxt "STRINGS.UPGRADEPLANNER.ErrorNotApplied"

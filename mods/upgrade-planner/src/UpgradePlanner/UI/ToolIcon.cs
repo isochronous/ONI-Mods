@@ -4,8 +4,7 @@ namespace UpgradePlanner
 {
 	/// <summary>
 	/// Registers the tool's icon, drawn at start-up: a green plate with a pale dashed border, after
-	/// the design of Factorio's own upgrade planner, which this tool is modelled on. The tool's
-	/// cursor carries a small copy of it (<see cref="ToolCursor"/>).
+	/// the design of Factorio's own upgrade planner, which this tool is modelled on.
 	/// </summary>
 	internal static class ToolIcon
 	{

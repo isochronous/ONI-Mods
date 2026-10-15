@@ -202,10 +202,15 @@ msgctxt "STRINGS.UPGRADEPLANNER.HoverActionReady"
 msgid "MARK FOR UPGRADE"
 msgstr "标记升级"
 
-#. STRINGS.UPGRADEPLANNER.HoverActionApplyFirst
-msgctxt "STRINGS.UPGRADEPLANNER.HoverActionApplyFirst"
-msgid "APPLY SETTINGS FIRST"
-msgstr "请先应用设置"
+#. STRINGS.UPGRADEPLANNER.HoverSelected
+msgctxt "STRINGS.UPGRADEPLANNER.HoverSelected"
+msgid "SELECTED"
+msgstr "已选择"
+
+#. STRINGS.UPGRADEPLANNER.HoverMaterials
+msgctxt "STRINGS.UPGRADEPLANNER.HoverMaterials"
+msgid "Materials needed:"
+msgstr "所需材料："
 
 #. STRINGS.UPGRADEPLANNER.ErrorNotApplied
 msgctxt "STRINGS.UPGRADEPLANNER.ErrorNotApplied"

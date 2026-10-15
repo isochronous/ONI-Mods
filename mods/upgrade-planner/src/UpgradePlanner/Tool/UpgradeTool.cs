@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using HarmonyLib;
 using UnityEngine;
@@ -28,12 +29,14 @@ namespace UpgradePlanner
 			AccessTools.Field(typeof(DragTool), "areaVisualizerTextPrefab"),
 		};
 		private static readonly FieldInfo AreaColourField = AccessTools.Field(typeof(DragTool), "areaColour");
-		private static readonly FieldInfo BoxCursorField = AccessTools.Field(typeof(DragTool), "boxCursor");
 
 		private static readonly Color32 AreaColor = new Color32(96, 200, 255, 96);
 		/// <summary>A building the plan would touch.</summary>
 		private static readonly Color HighlightColor = new Color(0.35f, 0.8f, 1f, 0.45f);
-		/// <summary>One already marked: a replacement is pending on it or a rebuild asked for, so a drag skips it.</summary>
+		/// <summary>
+		/// One already marked (a replacement is pending on it or a rebuild asked for, so a drag skips
+		/// it), or one the box being dragged holds, which the drag will mark.
+		/// </summary>
 		private static readonly Color MarkedColor = new Color(0.45f, 1f, 0.4f, 0.5f);
 		/// <summary>Research and sandbox mode change what a plan allows without changing the plan, so it is worked out again this often.</summary>
 		private const float RecompileSeconds = 1f;
@@ -41,7 +44,7 @@ namespace UpgradePlanner
 		private UpgradePlan plan;
 		private UpgradeDialog dialog;
 		private readonly WindowToggle toggle = new WindowToggle();
-		private HoverTextConfiguration hoverCard;
+		private PlannerHoverCard hoverCard;
 		private readonly Overlay overlay = new Overlay();
 		/// <summary>The plan as it stood at the last Apply, which drags use; null before one, or after a Clear.</summary>
 		private UpgradePlan applied;
@@ -62,6 +65,11 @@ namespace UpgradePlanner
 		private Matcher dragMatcher;
 		private readonly HashSet<BuildingComplete> dragged = new HashSet<BuildingComplete>();
 
+		/// <summary>What the box being dragged holds that the drag would mark, with what each becomes; the cells it covers; and a count of its changes, for the highlight.</summary>
+		private readonly Dictionary<BuildingComplete, Upgrade> boxed = new Dictionary<BuildingComplete, Upgrade>();
+		private RectInt boxCells;
+		private int boxVersion, colorsBoxVersion = -1;
+
 		protected override void OnPrefabInit()
 		{
 			plan = UpgradePlan.Current;
@@ -80,7 +88,6 @@ namespace UpgradePlanner
 						Debug.LogWarning("[UpgradePlanner] A donor tool field is missing; the cursor or drag area may look wrong.");
 				}
 				AreaColourField?.SetValue(this, AreaColor);
-				ToolCursor.Make(cursor);
 				AddHoverCard(donor);
 			}
 			base.OnPrefabInit();
@@ -103,7 +110,7 @@ namespace UpgradePlanner
 			HoverTextConfiguration donorCard = donor.GetComponent<HoverTextConfiguration>();
 			if (donorCard == null)
 				return;
-			hoverCard = gameObject.AddComponent<HoverTextConfiguration>();
+			hoverCard = gameObject.AddComponent<PlannerHoverCard>();
 			hoverCard.ToolName = ModStrings.UI.TOOLS.UPGRADEPLANNER.NAME.ToString().ToUpper();
 			hoverCard.ActionName = ModStrings.UPGRADEPLANNER.HoverActionIdle;
 			hoverCard.HoverTextStyleSettings = donorCard.HoverTextStyleSettings;
@@ -134,6 +141,7 @@ namespace UpgradePlanner
 			ToolMenu.Instance.PriorityScreen.Show(show: false);
 			dragMatcher = null;
 			dragged.Clear();
+			ClearBox();
 			matcher = null;
 			cellColors.Clear();
 			base.OnDeactivateTool(new_tool);
@@ -158,22 +166,8 @@ namespace UpgradePlanner
 		private void OnPlanChanged()
 		{
 			overlay.Follow(Shown?.TouchedDefs() ?? new List<BuildingDef>());
-			ShowReadiness();
-		}
-
-		/// <summary>The cursor and the hover card say whether a drag would mark anything.</summary>
-		private void ShowReadiness()
-		{
 			if (hoverCard != null)
-				hoverCard.ActionName = Ready ? ModStrings.UPGRADEPLANNER.HoverActionReady
-					: plan.IsComplete ? ModStrings.UPGRADEPLANNER.HoverActionApplyFirst : ModStrings.UPGRADEPLANNER.HoverActionIdle;
-			Texture2D look = Ready ? ToolCursor.Ready : ToolCursor.Prohibited;
-			if (look == null)
-				return;
-			cursor = look;
-			BoxCursorField?.SetValue(this, look);
-			if (PlayerController.Instance != null && PlayerController.Instance.ActiveTool == this)
-				SetCursor(look, cursorOffset, CursorMode.Auto);
+				hoverCard.ActionName = Ready ? ModStrings.UPGRADEPLANNER.HoverActionReady : ModStrings.UPGRADEPLANNER.HoverActionIdle;
 		}
 
 		// ---- dragging ----
@@ -190,7 +184,73 @@ namespace UpgradePlanner
 				return;
 			}
 			dragged.Clear();
+			ClearBox();
 			base.OnLeftClickDown(cursor_pos);
+		}
+
+		/// <summary>As the box grows or shrinks by a cell, what it holds is looked at again: the highlight marks it and the hover card counts it.</summary>
+		public override void OnMouseMove(Vector3 cursorPos)
+		{
+			base.OnMouseMove(cursorPos);
+			if (!Dragging || dragMatcher == null)
+				return;
+			Grid.PosToXY(downPos, out int x0, out int y0);
+			Grid.PosToXY(cursorPos, out int x1, out int y1);
+			var cells = new RectInt(Mathf.Min(x0, x1), Mathf.Min(y0, y1), Mathf.Abs(x1 - x0) + 1, Mathf.Abs(y1 - y0) + 1);
+			if (cells.Equals(boxCells))
+				return;
+			boxCells = cells;
+			boxed.Clear();
+			int world = ClusterManager.Instance.activeWorldId;
+			for (int y = cells.yMin; y < cells.yMax; y++)
+				for (int x = cells.xMin; x < cells.xMax; x++)
+				{
+					int cell = Grid.XYToCell(x, y);
+					if (!Grid.IsValidCell(cell) || Grid.WorldIdx[cell] != world)
+						continue;
+					foreach (ObjectLayer layer in dragMatcher.Layers)
+					{
+						BuildingComplete building = Grid.Objects[cell, (int)layer]?.GetComponent<BuildingComplete>();
+						if (building != null && !boxed.ContainsKey(building) && dragMatcher.Matches(building) && dragMatcher.TryPlan(building, out Upgrade upgrade))
+							boxed[building] = upgrade;
+					}
+				}
+			boxVersion++;
+			Count();
+		}
+
+		/// <summary>The hover card's counts: one line per type in the box, the most first, and one per material all of them take, the most first.</summary>
+		private void Count()
+		{
+			if (hoverCard == null)
+				return;
+			var types = new Dictionary<BuildingDef, int>();
+			var materials = new Dictionary<Tag, float>();
+			foreach (KeyValuePair<BuildingComplete, Upgrade> entry in boxed)
+			{
+				BuildingDef def = entry.Key.Def;
+				types[def] = types.TryGetValue(def, out int count) ? count + 1 : 1;
+				Upgrade upgrade = entry.Value;
+				if (upgrade.Target?.CraftRecipe == null)
+					continue;
+				foreach (Recipe.Ingredient ingredient in upgrade.Target.CraftRecipe.GetAllIngredients(upgrade.Materials))
+					materials[ingredient.tag] = (materials.TryGetValue(ingredient.tag, out float mass) ? mass : 0f) + ingredient.amount;
+			}
+			hoverCard.Types = types.OrderByDescending(type => type.Value).ThenBy(type => type.Key.Name)
+				.Select(type => type.Key.Name + ": " + type.Value).ToList();
+			hoverCard.Materials = materials.OrderByDescending(material => material.Value)
+				.Select(material => GameUtil.GetFormattedMass(material.Value) + " " + material.Key.ProperName()).ToList();
+		}
+
+		/// <summary>No box: nothing marked by it in the highlight, nothing counted in the hover card.</summary>
+		private void ClearBox()
+		{
+			if (boxed.Count == 0 && boxCells.width == 0)
+				return;
+			boxed.Clear();
+			boxCells = default;
+			boxVersion++;
+			Count();
 		}
 
 		protected override void OnDragTool(int cell, int distFromOrigin)
@@ -225,6 +285,7 @@ namespace UpgradePlanner
 			}
 			dragged.Clear();
 			dragMatcher = null;
+			ClearBox();
 			matcher = null;
 			PlacementQueue.Add(upgrades, refused, ToolMenu.Instance.PriorityScreen.GetLastSelectedPriority(), cursorUp);
 		}
@@ -234,8 +295,11 @@ namespace UpgradePlanner
 		public override void GetOverlayColorData(out HashSet<ToolMenu.CellColorData> colors)
 		{
 			colors = cellColors;
+			// A drag let go some other way than its end (a right click, say) leaves a box behind.
+			if (!Dragging && boxed.Count > 0)
+				ClearBox();
 			UpgradePlan shown = Shown;
-			if (matcher != null && matcherPlan == shown && matcherVersion == (shown?.Version ?? -1) && Time.unscaledTime - matcherTime < RecompileSeconds)
+			if (colorsBoxVersion == boxVersion && matcher != null && matcherPlan == shown && matcherVersion == (shown?.Version ?? -1) && Time.unscaledTime - matcherTime < RecompileSeconds)
 				return;
 			matcher = shown?.Compile();
 			matcherPlan = shown;
@@ -252,7 +316,7 @@ namespace UpgradePlanner
 				int cell = Grid.PosToCell(building);
 				if (!Grid.IsValidCell(cell) || Grid.WorldIdx[cell] != world)
 					continue;
-				Color color = IsMarked(building, cell) ? MarkedColor : HighlightColor;
+				Color color = boxed.ContainsKey(building) || IsMarked(building, cell) ? MarkedColor : HighlightColor;
 				building.RunOnArea(offsetCell => cellColors.Add(new ToolMenu.CellColorData(offsetCell, color)));
 			}
 		}

@@ -108,7 +108,8 @@ namespace UpgradePlanner
 			public static LocString ErrorIncomplete = "Finish the Upgrade Planner choices first";
 			public static LocString HoverActionIdle = "CHOOSE AN UPGRADE";
 			public static LocString HoverActionReady = "MARK FOR UPGRADE";
-			public static LocString HoverActionApplyFirst = "APPLY SETTINGS FIRST";
+			public static LocString HoverSelected = "SELECTED";
+			public static LocString HoverMaterials = "Materials needed:";
 			public static LocString ErrorNotApplied = "Apply settings first";
 			// The popup over the cursor after a drag: {0} the number marked (or replaced, with instant
 			// build); PopupSkipped adds {1} the number skipped to that text.

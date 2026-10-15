@@ -117,8 +117,6 @@ namespace UpgradePlanner.Tests
 			// The marker that follows the cursor over the cells: the planner's, and Sweep's it was cloned from.
 			foreach (InterfaceTool tool in new InterfaceTool[] { ClearTool.Instance, PlayerController.Instance.tools.First(x => x is UpgradeTool) })
 				Describe(t, dir, tool.name + "-visualizer", tool.visualizer != null ? tool.visualizer.transform : null, 0);
-			Save(t, dir, "planner-ready", ToolCursor.Ready);
-			Save(t, dir, "planner-no", ToolCursor.Prohibited);
 			Save(t, dir, "planner-icon", Assets.GetSprite(ToolIcon.SpriteName)?.texture);
 			yield return null;
 		}

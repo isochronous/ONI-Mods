@@ -11,8 +11,8 @@ namespace UpgradePlanner.Tests
 	/// Closing the planner's window keeps the tool, whichever way it is closed: a player may open it
 	/// only to look at the plan. A second Escape ends the tool, as does its toolbar button. Apply
 	/// hands drags the plan as it stands, and they keep it until the next Apply or a Clear, whatever
-	/// is changed meanwhile; with nothing applied the cursor shows a "no" sign and the hover card
-	/// asks for Apply. The tool is picked from the toolbar each time, as a player picks it.
+	/// is changed meanwhile; with nothing applied a drag marks nothing and says to apply the
+	/// settings first. The tool is picked from the toolbar each time, as a player picks it.
 	/// </summary>
 	public static class Closing
 	{
@@ -67,7 +67,7 @@ namespace UpgradePlanner.Tests
 			t.Assert.Null(GameObject.Find(WindowName), "the window is closed");
 		}
 
-		[OniTest("Upgrade Planner: closed without Apply, the tool shows the no sign and a drag marks nothing", Timeout = 40), Layer(2)]
+		[OniTest("Upgrade Planner: closed without Apply, a drag marks nothing and asks for Apply", Timeout = 40), Layer(2)]
 		public static IEnumerator NotAppliedMarksNothing(TestContext t)
 		{
 			// What an earlier Apply left stays applied until a Clear: cleared first, then a plan made and not applied.
@@ -149,7 +149,56 @@ namespace UpgradePlanner.Tests
 			yield return t.WaitRealSeconds(0.5);
 			yield return t.Press(Action.Escape);
 			yield return t.WaitRealSeconds(0.5);
-			ExpectReady(t, tool, false, "cleared", ModStrings.UPGRADEPLANNER.HoverActionIdle);
+			ExpectReady(t, tool, false, "cleared");
+		}
+
+		[OniTest("Upgrade Planner: a box being dragged marks what it holds as it grows and lets go of what it no longer holds; the hover card counts it", Timeout = 40), Layer(2)]
+		public static IEnumerator BoxMarksAsItMoves(TestContext t)
+		{
+			List<int> cells = Tiles(t);
+			yield return t.WaitGameSeconds(1);
+			yield return Pick(t);
+			PlannerWindow.PressApply(t);
+			yield return t.WaitRealSeconds(0.5);
+			UpgradeTool tool = (UpgradeTool)PlayerController.Instance.ActiveTool;
+			int focus = cells[1];
+			CameraController.Instance.SnapTo(Grid.CellToPosCCC(focus, Grid.SceneLayer.Building), 8f);
+			Vector3 Pos(int cell) => Grid.CellToPosCCC(cell, Grid.SceneLayer.Building);
+			tool.OnMouseMove(Pos(cells[0]));
+			yield return t.WaitRealSeconds(0.2);
+			tool.OnLeftClickDown(Pos(cells[0]));
+			yield return t.WaitRealSeconds(0.2);
+			tool.OnMouseMove(Pos(cells[1]));
+			yield return t.WaitRealSeconds(0.3);
+			ExpectBox(t, tool, cells, 2, "the box over two tiles");
+			t.PointAt(cells[2]);
+			tool.OnMouseMove(Pos(cells[2]));
+			yield return t.WaitRealSeconds(0.5);
+			ExpectBox(t, tool, cells, 3, "grown over three");
+			yield return t.Screenshot("box");
+			tool.OnMouseMove(Pos(cells[0]));
+			yield return t.WaitRealSeconds(0.3);
+			ExpectBox(t, tool, cells, 1, "shrunk back to one");
+			tool.OnLeftClickUp(Pos(cells[0]));
+			yield return t.WaitUntil(() => !PlacementQueue.Busy, 10, "the drag's orders placed");
+			yield return t.WaitRealSeconds(0.3);
+			t.Assert.Eq(1, Orders(cells), "orders placed by the drag let go over one tile");
+			t.Assert.Eq(0, ((PlannerHoverCard)tool.GetComponent<HoverTextConfiguration>()).Types.Count, "the hover card counts nothing once the drag is done");
+		}
+
+		/// <summary>The first <paramref name="held"/> tiles marked in the highlight, the rest not, and the hover card counting them.</summary>
+		private static void ExpectBox(TestContext t, UpgradeTool tool, List<int> cells, int held, string when)
+		{
+			Color marked = (Color)HarmonyLib.AccessTools.Field(typeof(UpgradeTool), "MarkedColor").GetValue(null);
+			tool.GetOverlayColorData(out HashSet<ToolMenu.CellColorData> colors);
+			for (int i = 0; i < cells.Count; i++)
+			{
+				bool isMarked = colors.Any(c => c.cell == cells[i] && c.color == marked);
+				t.Assert.Eq(i < held, isMarked, when + ": the tile at " + Cells.Describe(cells[i]) + (i < held ? " marked" : " not marked"));
+			}
+			var card = (PlannerHoverCard)tool.GetComponent<HoverTextConfiguration>();
+			t.Assert.Eq(Assets.GetBuildingDef("Tile").Name + ": " + held, string.Join(" | ", card.Types), when + ": the hover card's count");
+			t.Assert.True(card.Materials.Count == 1 && card.Materials[0].EndsWith(ElementLoader.FindElementByHash(SimHashes.Granite).tag.ProperName()), when + ": the hover card's materials, " + string.Join(" | ", card.Materials));
 		}
 
 		/// <summary>Three sandstone tiles in the test area, and the plan "tiles, sandstone to granite"; instant build off.</summary>
@@ -178,12 +227,11 @@ namespace UpgradePlanner.Tests
 			clear.SignalClick(KKeyCode.Mouse0);
 		}
 
-		private static void ExpectReady(TestContext t, UpgradeTool tool, bool ready, string when, string notReadyHover = null)
+		/// <summary>Ready or not as the hover card says it: marking with the applied plan, or asking for one.</summary>
+		private static void ExpectReady(TestContext t, UpgradeTool tool, bool ready, string when)
 		{
-			Texture2D shown = HarmonyLib.AccessTools.Field(typeof(DragTool), "boxCursor").GetValue(tool) as Texture2D;
-			t.Assert.True(shown == (ready ? ToolCursor.Ready : ToolCursor.Prohibited), when + ": the " + (ready ? "ready" : "no sign") + " cursor, shown " + shown?.name);
 			string action = tool.GetComponent<HoverTextConfiguration>().ActionName;
-			string expected = ready ? ModStrings.UPGRADEPLANNER.HoverActionReady : notReadyHover ?? ModStrings.UPGRADEPLANNER.HoverActionApplyFirst;
+			string expected = ready ? ModStrings.UPGRADEPLANNER.HoverActionReady : ModStrings.UPGRADEPLANNER.HoverActionIdle;
 			t.Assert.Eq(expected, action, when + ": the hover card");
 		}
 
