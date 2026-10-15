@@ -1,5 +1,15 @@
 # Changelog
 
+## Unreleased
+
+### Changed
+
+- Closing the window with its X or Escape keeps the tool, as Apply does, so you can open it just to check your settings. A second Escape ends the tool, as does its toolbar button.
+- Apply sets the plan your drags use, and it stays until you press Apply again or a tab's Clear: changes in the window take effect at the next Apply. While the window is open, the highlight shows the plan you are editing; once it is closed, the applied one.
+- Until a plan is applied, the cursor shows a red "no" sign, the hover card says to apply your settings first, and a drag says so and opens the window.
+- New cursor: the game's yellow tool arrow with the planner's green plate. The marker over the cells is a yellow dashed square instead of Sweep's dolly.
+- The tool icon no longer has a plus in the middle.
+
 ## 0.3.3 - 2026-10-15
 
 ### Fixed
