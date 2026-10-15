@@ -1,25 +1,29 @@
-Rebuild every building in an area in another material, or replace one type with another, in one box-drag. Settings are kept.
+Adds a tool to allow mass-changing of building materials, or mass upgrades between swappable building types (pipes -> insulated pipes, for example)
 
-[b]Requires [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3468585385]Blueprints Expanded[/url] by Sgt_Imalas[/b], which keeps each building's settings across the upgrade.
+[b]Requires [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3468585385]Blueprints Expanded[/url] by Sgt_Imalas[/b] as a dependency.
 
 [h2]How it works[/h2]
 Dragging a pipe over an existing pipe is already a replacement in the game: the old one keeps working until the new one is built over it. This mod does that for a whole area at once. Pick what to replace and what to replace it with, then box-drag; every matching building gets a replacement order at the current priority.
 
 [h2]Using it[/h2]
-Select the Upgrade Planner from the toolbar (or Shift+U, rebindable). The window has two tabs.
+Select the Upgrade Planner from the toolbar (or Shift+U, rebindable). The dialog it opens has two modes.
 [list]
-[*][b]Change material[/b]: pick the material to replace (any, or one) and the one to build in, then the buildings to rebuild, as the build menu shows them. Tick [b]All buildings[/b] to offer machines, sensors, gates and everything else too: those are deconstructed and rebuilt in the new material through the game's own reconstruct, with their settings.
+[*][b]Change material[/b]: pick the material to replace (any, or one specific material) and the one to replace it with, then the buildings to rebuild. Tick [b]All buildings[/b] to offer machines, sensors, gates and everything else too if for some reason you have a dozen lavatories you need to upgrade to gold or something.
 [*][b]Replace type[/b]: pick a type and what to replace it with (the types the game lets you build over it), each with its materials.
-[*]Box-drag. Everything the plan would touch is highlighted while the tool is active, and a popup reports how many were marked.
+[*]Once you've got things set, click apply and then drag-select an area. Everything the plan would touch is highlighted while the tool is active, and a popup reports how many were marked.
 [*]Save plans as presets, one list per tab.
 [/list]
 
 [h2]Good to know[/h2]
 [list]
-[*]Sidegrades and downgrades work too: sandstone to steel, insulated back to plain.
-[*]Modded pipes appear automatically, since the list comes from the game's own replacement rules. Two-ingredient recipes (steel and plastic) get two material rows.
-[*]Nothing the build tool would refuse is allowed, and only the buildings All buildings adds are deconstructed. Cancel orders with the Cancel tool as usual.
-[*]Closing the window ends the tool; the plan is remembered for the session.
+[*]The configuration dialog can be dragged by its titlebar if you want to see what's behind it.
+[*]Sidegrades and downgrades work too: convert your insulite pipes back to igneous, or your insulated pipes to radiant.
+[*]Modded pipes appear automatically, since the list comes from the game's own replacement rules.
+[*]Nothing the build tool would refuse is allowed, so no trying to replace your printing pod with a cheap fake. Cancel orders with the Cancel tool as usual.
+[*]Closing the window ends the tool; the plan is remembered for the session. Configuration can be reopened while the tool is active by the "Upgrade Planner" button that will appear at bottom right.
+[*]Acts as you'd expect in sandbox/debug, though it will process changes in a queue rather than all at once for performance reasons.
 [/list]
+
+Made by a professional software developer with assistance from Claude Code. Comes with a no slop guarantee.
 
 Source and issues: https://github.com/isochronous/upgrade-planner
