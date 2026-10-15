@@ -6,8 +6,9 @@ using UnityEngine;
 namespace UpgradePlanner.Tests
 {
 	/// <summary>
-	/// A reported case, run on the player's own colony (-Fixture "...\Mod Test\ActuallyTestMapNow.sav";
-	/// skipped elsewhere): the right-most door crusher at the bottom of the map, two mechanical
+	/// A reported case, run on the player's own colony (-Fixture "...\Mod Test\ActuallyTestMapNow.sav",
+	/// the only save with the door crusher; Explicit, so a run selects it by name, and skipped on a
+	/// save without it): the right-most door crusher at the bottom of the map, two mechanical
 	/// airlocks laid flat and stacked, changed to steel from any material with every type picked,
 	/// in sandbox, dragged over the insulated tiles around it. With the sandbox's instant build on,
 	/// the airlocks and the logic gates beside them were left as orders: the planner finished each
@@ -18,10 +19,10 @@ namespace UpgradePlanner.Tests
 	{
 		private const SimHashes Target = SimHashes.Steel;
 
-		[OniTest("Upgrade Planner: a door crusher's airlocks are rebuilt in steel with sandbox instant build", Timeout = 60, FreshSave = true), Layer(1)]
+		[OniTest("Upgrade Planner: a door crusher's airlocks are rebuilt in steel with sandbox instant build", Timeout = 60, FreshSave = true, Explicit = true), Layer(1)]
 		public static IEnumerator AirlocksInstant(TestContext t) => Run(t, instant: true);
 
-		[OniTest("Upgrade Planner: in sandbox without instant build, a door crusher's airlocks are marked, not torn down", Timeout = 60, FreshSave = true), Layer(1)]
+		[OniTest("Upgrade Planner: in sandbox without instant build, a door crusher's airlocks are marked, not torn down", Timeout = 60, FreshSave = true, Explicit = true), Layer(1)]
 		public static IEnumerator AirlocksSandboxOnly(TestContext t) => Run(t, instant: false);
 
 		private static IEnumerator Run(TestContext t, bool instant)

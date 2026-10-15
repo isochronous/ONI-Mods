@@ -39,9 +39,31 @@ game shows it only on some buildings.
 
 Add a type to `ProblemTypes` whenever the full run finds something new.
 
+## Work done by Duplicants
+
+`ByHand` researches everything, turns instant build off and has Duplicants carry out the planner's
+orders: the fixture area boxed in with air and life support (`t.Dupes`, one box for the whole
+class), a crew of three spawned inside with every attribute at 20, the materials dropped on the
+floor, the game at speed 3.
+
+| Test | What the crew does |
+|---|---|
+| `Tiles` | Sandstone tiles to granite; the orders wait until there is granite to fetch. |
+| `Pipes` | Gas pipes to insulated pipes, connections kept. |
+| `Wires` | Copper wires to gold, connections kept. |
+| `Rebuilt` | A sensor, a gate, a floor machine and the wide farm tile taken down and built again through the game's reconstruct, settings kept. |
+| `ReplacedWithSettings` | A storage tile and a carpet built over in another material: the filter kept, the carpet's reed fiber fetched. |
+
+The last two need Blueprints Expanded. About two minutes for the five:
+
+```
+pwsh common/tools/TestRunner/Invoke-OniTests.ps1 -Mods UpgradePlanner -Steam 3468585385,3724635599,1832319118,2047308624 -Filter "*ByHand*"
+```
+
 ## Tests on a player's save
 
-`DoorCrusher` runs on the save the door crusher report came from and skips elsewhere:
+`DoorCrusher` runs on the save the door crusher report came from, the only one with the door
+crusher. Its tests are `Explicit`, so they run only when the filter names them:
 
 ```
 pwsh common/tools/TestRunner/Invoke-OniTests.ps1 -Mods UpgradePlanner -Steam 3468585385,3724635599 -Fixture "<Documents>\Klei\OxygenNotIncluded\save_files\Mod Test\ActuallyTestMapNow.sav" -Filter "*DoorCrusher*"
