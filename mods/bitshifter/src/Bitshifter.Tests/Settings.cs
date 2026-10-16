@@ -67,22 +67,16 @@ namespace Bitshifter.Tests
 			var writerAnim = writer.GetComponent<KBatchedAnimController>();
 			var readerAnim = reader.GetComponent<KBatchedAnimController>();
 
-			writerPart.SetBitSelection(1);
-			readerPart.SetBitSelection(1);
-			yield return t.WaitGameSeconds(1);
-			t.Assert.NotEq("idle", writerAnim.CurrentAnim.name, "the writer on a vanilla bit highlights it");
-			t.Assert.NotEq("idle", readerAnim.CurrentAnim.name, "the reader on a vanilla bit highlights it");
-			string vanillaWriter = writerAnim.CurrentAnim.name;
-
-			writerPart.SetBitSelection(4);
-			readerPart.SetBitSelection(30);
-			yield return t.WaitGameSeconds(1);
-			t.Assert.Eq("idle", writerAnim.CurrentAnim.name, "the writer on bit 5 is idle");
-			t.Assert.Eq("idle", readerAnim.CurrentAnim.name, "the reader on bit 31 is idle");
-
-			writerPart.SetBitSelection(3);
-			yield return t.WaitGameSeconds(1);
-			t.Assert.NotEq("idle", writerAnim.CurrentAnim.name, "bit 4, the last animated one, highlights again (" + vanillaWriter + " earlier)");
+			// The display kanims have one pose per set of wired ports, whatever the bit; the
+			// selected bit shows on the display (Readout covers the digits).
+			foreach (int bit in new[] { 1, 4, 30 })
+			{
+				writerPart.SetBitSelection(bit);
+				readerPart.SetBitSelection(bit);
+				yield return t.WaitGameSeconds(1);
+				t.Assert.Eq("net0", writerAnim.CurrentAnim?.name, "the unwired writer's pose on bit " + (bit + 1));
+				t.Assert.Eq("net0", readerAnim.CurrentAnim?.name, "the unwired reader's pose on bit " + (bit + 1));
+			}
 			yield return t.Screenshot("buildings");
 		}
 	}
