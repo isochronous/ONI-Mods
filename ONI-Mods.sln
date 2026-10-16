@@ -109,6 +109,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MotionSensorRange.Tests", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultichannelCritterSensor.Tests", "mods\multichannel-critter-sensor\src\MultichannelCritterSensor.Tests\MultichannelCritterSensor.Tests.csproj", "{67FBABFF-26E1-455F-A5D0-2A374277B046}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartWeightPlate.Tests", "mods\smart-weight-plate\src\SmartWeightPlate.Tests\SmartWeightPlate.Tests.csproj", "{B9881071-42D5-4C33-BDEF-40EC86879C22}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -258,6 +260,10 @@ Global
 		{67FBABFF-26E1-455F-A5D0-2A374277B046}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{67FBABFF-26E1-455F-A5D0-2A374277B046}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{67FBABFF-26E1-455F-A5D0-2A374277B046}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9881071-42D5-4C33-BDEF-40EC86879C22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9881071-42D5-4C33-BDEF-40EC86879C22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9881071-42D5-4C33-BDEF-40EC86879C22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9881071-42D5-4C33-BDEF-40EC86879C22}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{D5746850-9CB0-42E2-9249-D7F635855AB8} = {72AE865A-6A65-4766-97EB-11290F044A78}
@@ -295,5 +301,6 @@ Global
 		{BD81861E-EDBC-42B1-A43A-63E06F1D4EC6} = {72AE865A-6A65-4766-97EB-11290F044A78}
 		{65E2076B-9291-437D-B271-26FA64B14439} = {D46DC956-1FC8-49A3-B14E-13FB17E6B0CD}
 		{67FBABFF-26E1-455F-A5D0-2A374277B046} = {0C2CD3CD-3CCB-4544-AAFA-6B03D2729E7A}
+		{B9881071-42D5-4C33-BDEF-40EC86879C22} = {DCDC7767-A77D-49E6-9FB5-C76A694F7E6E}
 	EndGlobalSection
 EndGlobal
