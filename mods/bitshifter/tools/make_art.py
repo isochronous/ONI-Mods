@@ -21,7 +21,10 @@ box's flat face (measured from the art, inset from the bevel lines).
 
 The anims are net0, net1, net4 and net5, the vanilla "<ports>_1" poses without the bit lights
 (the number counts the wired ports as the vanilla code does: reader input 4, output 1; writer
-input 1, output 4), idle and off as copies of net0, and the vanilla place and ui. Output goes
+input 1, output 4), idle and off as copies of net0, and the vanilla place and ui with their
+art changed to match: the construction ghost loses the bit lights' white outlines and gets
+outlines of the panel and the signal light, and the build menu icon is the building itself, unlit,
+scaled down over the plain shadow the game's icons have. Output goes
 to src/Bitshifter/anim/assets/bitshifter_ribbon_reader and ..._writer. --check builds them in
 the temp folder instead and fails when they differ from those (after a game update, say).
 """
@@ -130,6 +133,19 @@ def display_sprites(turn):
     return out
 
 
+def face_region(image, face_colour, seed, window=20):
+    """The flat face of a box in an image: the face-coloured region with the most pixels near
+    the seed pixel, holes (the bit lights drawn on it) filled."""
+    rgb = np.array(image.convert("RGB")).astype(int)
+    alpha = np.array(image.convert("RGBA"))[:, :, 3] > 0
+    face = alpha & (np.abs(rgb - np.array(face_colour)).sum(axis=2) < 60)
+    face = ndimage.binary_opening(face, iterations=2)
+    labels, _ = ndimage.label(face)
+    x, y = seed
+    near = labels[max(y - window, 0):y + window, max(x - window, 0):x + window]
+    return ndimage.binary_fill_holes(labels == np.bincount(near[near > 0]).argmax())
+
+
 def face_centre(game, name, box_symbol, face_colour):
     """Centre of the flat face of the box that holds the display, in anim units: the bounding
     box of the face-coloured region around the box's own position, holes filled."""
@@ -141,16 +157,89 @@ def face_centre(game, name, box_symbol, face_colour):
     for image, _, _, m, _ in read_anims(anim)["5_1"][0]:
         if names.get(image) == box_symbol:
             seed = (int(ox + m[4] * scale), int(oy + m[5] * scale))
-    rgb = np.array(canvas.convert("RGB")).astype(int)
-    alpha = np.array(canvas)[:, :, 3] > 0
-    face = alpha & (np.abs(rgb - np.array(face_colour)).sum(axis=2) < 60)
-    face = ndimage.binary_opening(face, iterations=2)
-    labels, _ = ndimage.label(face)
-    x, y = seed
-    near = labels[y - 20:y + 20, x - 20:x + 20]
-    region = ndimage.binary_fill_holes(labels == np.bincount(near[near > 0]).argmax())
+    region = face_region(canvas, face_colour, seed)
     ys, xs = np.where(region)
     return (((xs.min() + xs.max()) / 2 - ox) / scale, ((ys.min() + ys.max()) / 2 - oy) / scale)
+
+
+def outline(alpha, thickness):
+    """White line art along the edge of an alpha mask (a PIL "L" image), `thickness` pixels
+    wide, drawn oversampled so the line is smooth."""
+    o = OVERSAMPLE
+    big = np.array(alpha.resize((alpha.width * o, alpha.height * o), Image.LANCZOS)) > 127
+    edge = big & ~ndimage.binary_erosion(big, iterations=max(1, round(thickness * o)))
+    line = Image.fromarray((edge * 255).astype(np.uint8)).resize(alpha.size, Image.BOX)
+    out = Image.new("RGBA", alpha.size, (255, 255, 255, 0))
+    out.putalpha(line)
+    return out
+
+
+def sprite_frame(sprite, element):
+    """(scale in texture pixels per anim unit, the anim position of the sprite's top left)."""
+    _, _, x, y, opts = element
+    a, b, c, d = opts["matrix"]
+    assert abs(a - 1) < 1e-3 and abs(d - 1) < 1e-3 and abs(b) < 1e-3 and abs(c) < 1e-3, "a transformed sprite"
+    return sprite.image.width / sprite.width, (x - sprite.width / 2, y - sprite.height / 2)
+
+
+def paste_at(canvas, image, scale, origin, centre):
+    """Pastes image (already at the canvas's scale) with its centre on an anim position."""
+    x = round((centre[0] - origin[0]) * scale - image.width / 2)
+    y = round((centre[1] - origin[1]) * scale - image.height / 2)
+    canvas.alpha_composite(image, (x, y))
+
+
+def place_art(symbols, anims, staircase, display):
+    """The construction ghost: vanilla's white outlines without the bit lights' outlines, plus
+    outlines of the display panel and the signal light. staircase lists the bit light elements
+    of a pose and display the display's elements."""
+    sprite = symbols["place"][0]
+    scale, origin = sprite_frame(sprite, anims["place"][0][0])
+    image = sprite.image.convert("RGBA")
+    # Clear what lies under the bit lights, a little beyond their edges.
+    mask = Image.new("L", image.size, 0)
+    for name, index, x, y, opts in staircase:
+        light = symbols[name][index]
+        alpha = light.image.getchannel("A").resize((round(light.width * scale), round(light.height * scale)), Image.LANCZOS)
+        layer = Image.new("RGBA", image.size, (0, 0, 0, 0))
+        paste_at(layer, Image.merge("RGBA", (alpha,) * 4), scale, origin, (x, y))
+        mask = Image.fromarray(np.maximum(np.array(mask), np.array(layer.getchannel("A"))))
+    cleared = ndimage.binary_dilation(np.array(mask) > 0, iterations=2)
+    pixels = np.array(image)
+    pixels[cleared, 3] = 0
+    image = Image.fromarray(pixels)
+    for name, index, x, y in display:
+        if name.startswith("seg_"):
+            continue
+        part = symbols[name][index]
+        alpha = part.image.getchannel("A").resize((round(part.width * scale), round(part.height * scale)), Image.LANCZOS)
+        paste_at(image, outline(alpha, 1.5), scale, origin, (x, y))
+    return Sprite(image, sprite.width, sprite.height)
+
+
+def ui_art(vanilla_icon, kanim):
+    """The build menu icon: the building itself in its unlit pose, scaled down to the size of
+    vanilla's icon, over the plain shadow the game's icons have (a black ellipse at 30%, as
+    wide as the building and an eighth as tall, centred a little above its bottom edge)."""
+    tex, build_bytes, anim_bytes = kanim
+    segs = {f"seg_{seg}_{position}" for position in (1, 2) for seg in "abcdefg"}
+    building, _ = render(tex, build_bytes, anim_bytes, "net0", scale=1.0, skip=segs)
+    building = building.crop(building.getbbox())
+    shadow_h = building.width / 8
+    # Fit building and shadow in the vanilla icon's texture, keeping its 0.5 pixels per unit.
+    room = vanilla_icon.image.width - 8, vanilla_icon.image.height - 8
+    fit = min(room[0] / building.width, room[1] / (building.height + shadow_h * 0.75))
+    building = building.resize((round(building.width * fit), round(building.height * fit)), Image.LANCZOS)
+    shadow_h *= fit
+    o = OVERSAMPLE
+    w, h = building.width + 8, round(building.height + shadow_h * 0.75) + 8
+    shadow = Image.new("RGBA", (w * o, h * o), (0, 0, 0, 0))
+    cy = (4 + building.height - shadow_h / 4) * o
+    ImageDraw.Draw(shadow).ellipse([4 * o, cy - shadow_h * o / 2, (4 + building.width) * o, cy + shadow_h * o / 2], fill=(0, 0, 0, 76))
+    icon = shadow.resize((w, h), Image.LANCZOS)
+    icon.alpha_composite(building, (4, 4))
+    scale = vanilla_icon.image.width / vanilla_icon.width
+    return Sprite(icon, icon.width / scale, icon.height / scale)
 
 
 def build(out_root, game, new_name, game_name, box_symbol, face_colour, turn):
@@ -195,9 +284,16 @@ def build(out_root, game, new_name, game_name, box_symbol, face_colour, turn):
         out[f"net{ports}"] = [frame]
     out["idle"] = out["off"] = out["net0"]
     out["place"], out["ui"] = anims["place"], anims["ui"]
+    staircase = [element for element, (_, _, _, _, layer) in zip(anims["5_1"][0], raw["5_1"][0])
+                 if element[0] in BIT_SYMBOLS and not (element[0] in ("bit1", "bit1_bloom") and layer not in layer_names)]
+    symbols["place"] = [place_art(symbols, anims, staircase, display(False))]
     for name in BIT_SYMBOLS:
         symbols.pop(name, None)
-    write_kanim(os.path.join(out_root, new_name), new_name, symbols, out, bloom=bloom)
+    folder = os.path.join(out_root, new_name)
+    write_kanim(folder, new_name, symbols, out, bloom=bloom)
+    # The icon is a render of the building, so it is drawn from the kanim just written.
+    symbols["ui"] = [ui_art(symbols["ui"][0], load(folder)[1:])]
+    write_kanim(folder, new_name, symbols, out, bloom=bloom)
     print(f"{new_name}: display centred at ({gx:.1f}, {gy:.1f})")
 
 
