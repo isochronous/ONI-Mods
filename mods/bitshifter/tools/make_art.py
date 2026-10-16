@@ -217,14 +217,26 @@ def place_art(symbols, anims, staircase, display):
     return Sprite(image, sprite.width, sprite.height)
 
 
+def mirrored(icon, building):
+    """Whether the building's outline matches the vanilla icon's better turned left to right."""
+    def mask(im):
+        im = im.crop(im.getbbox()).getchannel("A").resize((64, 32), Image.BILINEAR)
+        return np.asarray(im, dtype=float) / 255
+    target, own = mask(icon), mask(building)
+    return np.abs(target - own[:, ::-1]).sum() < np.abs(target - own).sum()
+
+
 def ui_art(vanilla_icon, kanim):
     """The build menu icon: the building itself in its unlit pose, scaled down to the size of
     vanilla's icon, over the plain shadow the game's icons have (a black ellipse at 30%, as
-    wide as the building and an eighth as tall, centred a little above its bottom edge)."""
+    wide as the building and an eighth as tall, centred a little above its bottom edge).
+    Facing the way vanilla's icon faces: the reader's is drawn mirrored from the building."""
     tex, build_bytes, anim_bytes = kanim
     segs = {f"seg_{seg}_{position}" for position in (1, 2) for seg in "abcdefg"}
     building, _ = render(tex, build_bytes, anim_bytes, "net0", scale=1.0, skip=segs)
     building = building.crop(building.getbbox())
+    if mirrored(vanilla_icon.image, building):
+        building = building.transpose(Image.FLIP_LEFT_RIGHT)
     shadow_h = building.width / 8
     # Fit building and shadow in the vanilla icon's texture, keeping its 0.5 pixels per unit.
     room = vanilla_icon.image.width - 8, vanilla_icon.image.height - 8

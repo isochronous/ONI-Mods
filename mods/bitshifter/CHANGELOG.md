@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+- A NOT gate on a ribbon inverts all 31 bits, not just bits 1-4.
+- The bit number reads the right way up on a Reader or Writer stood on end either way.
+- The Ribbon Reader's build menu icon faces the same way as the original.
+
 ## 1.1.0 - 2026-10-16
 
 - The Ribbon Reader and Ribbon Writer show the selected bit on a small display, with a light for that bit's state.

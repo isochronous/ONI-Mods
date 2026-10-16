@@ -40,6 +40,45 @@ namespace Bitshifter.Tests
 			AssertDigits(t, rd, "bc", "abcdef", "the reader showing 10");
 		}
 
+		/// <summary>
+		/// The digits lie on their side in the art and read upright on a writer at R90 and a reader
+		/// at R270. Stood on end the other way, the buildings draw the display turned back: the tens
+		/// on the second digit's symbols, the ones on the first, each segment on its opposite
+		/// (a-d, b-e, c-f). The screenshot has the upright pair on the left, the turned pair on the right.
+		/// </summary>
+		[OniTest("Bitshifter: the display reads upright on a building stood on end either way, with a screenshot", Timeout = 60), Layer(0)]
+		public static IEnumerator TurnedHalfRound(TestContext t)
+		{
+			CellRect r = t.Rect(4, 3);
+			LogicRibbonWriter upWriter = t.World.Build("LogicRibbonWriter", r.Cell(0, 1), Orientation.R90).GetComponent<LogicRibbonWriter>();
+			LogicRibbonReader upReader = t.World.Build("LogicRibbonReader", r.Cell(1, 1), Orientation.R270).GetComponent<LogicRibbonReader>();
+			LogicRibbonWriter writer = t.World.Build("LogicRibbonWriter", r.Cell(2, 1), Orientation.R270).GetComponent<LogicRibbonWriter>();
+			LogicRibbonReader reader = t.World.Build("LogicRibbonReader", r.Cell(3, 1), Orientation.R90).GetComponent<LogicRibbonReader>();
+			yield return t.WaitGameSeconds(1);
+			foreach (ILogicRibbonBitSelector b in new ILogicRibbonBitSelector[] { upWriter, writer })
+				b.SetBitSelection(22); // Bit 23
+			foreach (ILogicRibbonBitSelector b in new ILogicRibbonBitSelector[] { upReader, reader })
+				b.SetBitSelection(6);  // Bit 7
+			yield return t.WaitGameSeconds(1);
+			AssertDigits(t, upWriter.GetComponent<KBatchedAnimController>(), "abdeg", "abcdg", "the upright writer showing 23");
+			AssertDigits(t, upReader.GetComponent<KBatchedAnimController>(), "", "abc", "the upright reader showing 7");
+			AssertDigits(t, writer.GetComponent<KBatchedAnimController>(), Turn("abcdg"), Turn("abdeg"), "the turned writer showing 23");
+			AssertDigits(t, reader.GetComponent<KBatchedAnimController>(), Turn("abc"), "", "the turned reader showing 7, no leading zero");
+			yield return t.LookAt(r.Cell(2, 1), 4);
+			yield return t.Screenshot("turned");
+		}
+
+		/// <summary>The segments a digit lights when drawn turned half round.</summary>
+		private static string Turn(string lit)
+		{
+			const string from = "abcdefg", to = "defabcg";
+			char[] turned = new char[lit.Length];
+			for (int i = 0; i < lit.Length; i++)
+				turned[i] = to[from.IndexOf(lit[i])];
+			return new string(turned);
+		}
+
+		/// <summary>Tens and ones here are the symbols seg_x_1 and seg_x_2, whichever way the building faces.</summary>
 		private static void AssertDigits(TestContext t, KBatchedAnimController kbac, string tens, string ones, string what)
 		{
 			for (int position = 0; position < 2; position++)

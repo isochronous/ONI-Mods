@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Reflection.Emit;
 using HarmonyLib;
 using UnityEngine;
 
@@ -43,6 +45,12 @@ namespace Bitshifter
 		public static readonly KAnimHashedString OutputLight = "output_light_bloom";
 		public static readonly KAnimHashedString InputLight = "input_light_bloom";
 
+		/// <summary>
+		/// The orientation that shows each building's digits upside down. The writer's digits face
+		/// left in the art and the reader's right, so they read upright at R90 and R270 respectively.
+		/// </summary>
+		public const Orientation WriterUpsideDown = Orientation.R270, ReaderUpsideDown = Orientation.R90;
+
 		/// <summary>The segments lit for each digit, a to g clockwise from the top with g in the middle.</summary>
 		private static readonly string[] Digits =
 		{
@@ -83,7 +91,7 @@ namespace Bitshifter
 		/// and the signal light the selected bit of the ribbon, which shows as its 1-based number.
 		/// </summary>
 		public static void Update<T>(T building, KBatchedAnimController kbac, HashedString ribbonPort, HashedString bitPort,
-			KAnimHashedString bitLight, int bitValue, Color on, Color off) where T : KMonoBehaviour, ILogicRibbonBitSelector
+			KAnimHashedString bitLight, int bitValue, Color on, Color off, Orientation upsideDown) where T : KMonoBehaviour, ILogicRibbonBitSelector
 		{
 			if (kbac == null)
 				return;
@@ -93,16 +101,25 @@ namespace Bitshifter
 				kbac.SetSymbolTint(bitLight, LogicCircuitNetwork.IsBitActive(0, bitValue) ? on : off);
 			kbac.Play("net" + ((ribbonWired ? 4 : 0) + (bitWired ? 1 : 0)));
 			int selected = building.GetBitSelection(), number = selected + 1;
-			SetDigit(kbac, 0, number >= 10 ? number / 10 : -1);
-			SetDigit(kbac, 1, number % 10);
+			// The digits lie on their side in the art and read upright with the building stood on
+			// end one way; stood on end the other way, the display is drawn turned back: the digits
+			// trade places and each segment trades with its opposite.
+			Rotatable rotatable = building.GetComponent<Rotatable>();
+			bool turned = rotatable != null && rotatable.GetOrientation() == upsideDown;
+			SetDigit(kbac, turned ? 1 : 0, number >= 10 ? number / 10 : -1, turned);
+			SetDigit(kbac, turned ? 0 : 1, number % 10, turned);
 			kbac.SetSymbolTint(Signal, ribbonWired && building.IsBitActive(selected) ? on : off);
 		}
 
-		private static void SetDigit(KBatchedAnimController kbac, int position, int digit)
+		private static void SetDigit(KBatchedAnimController kbac, int position, int digit, bool turned)
 		{
 			string lit = digit < 0 ? "" : Digits[digit];
 			for (int segment = 0; segment < 7; segment++)
-				kbac.SetSymbolVisiblity(Segments[position, segment], lit.IndexOf((char)('a' + segment)) >= 0);
+			{
+				// a, b, c face d, e, f across the digit; g is its own opposite.
+				int drawn = turned && segment < 6 ? (segment + 3) % 6 : segment;
+				kbac.SetSymbolVisiblity(Segments[position, drawn], lit.IndexOf((char)('a' + segment)) >= 0);
+			}
 		}
 	}
 
@@ -136,7 +153,7 @@ namespace Bitshifter
 		private static bool Prefix(LogicRibbonReader __instance, KBatchedAnimController ___kbac)
 		{
 			Display.Update(__instance, ___kbac, LogicRibbonReader.INPUT_PORT_ID, LogicRibbonReader.OUTPUT_PORT_ID,
-				Display.OutputLight, __instance.GetOutputValue(), ColorOn(__instance), ColorOff(__instance));
+				Display.OutputLight, __instance.GetOutputValue(), ColorOn(__instance), ColorOff(__instance), Display.ReaderUpsideDown);
 			return false;
 		}
 	}
@@ -150,8 +167,31 @@ namespace Bitshifter
 		private static bool Prefix(LogicRibbonWriter __instance, KBatchedAnimController ___kbac)
 		{
 			Display.Update(__instance, ___kbac, LogicRibbonWriter.OUTPUT_PORT_ID, LogicRibbonWriter.INPUT_PORT_ID,
-				Display.InputLight, __instance.GetInputValue(), ColorOn(__instance), ColorOff(__instance));
+				Display.InputLight, __instance.GetInputValue(), ColorOn(__instance), ColorOff(__instance), Display.WriterUpsideDown);
 			return false;
+		}
+	}
+
+	// A NOT gate with a ribbon on its input inverts the value and keeps the low four bits
+	// ("num &= 0xF" in UpdateState, its only 15). This widens that mask to every bit the reader
+	// and writer offer.
+	[HarmonyPatch(typeof(LogicGate), "UpdateState")]
+	internal static class LogicGate_UpdateState_Patch
+	{
+		public const int Mask = (int)((1L << BitshifterMod.Bits) - 1);
+
+		private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+		{
+			List<CodeInstruction> code = new List<CodeInstruction>(instructions);
+			List<int> masks = new List<int>();
+			for (int i = 0; i + 1 < code.Count; i++)
+				if (code[i].LoadsConstant(15) && code[i + 1].opcode == OpCodes.And)
+					masks.Add(i);
+			if (masks.Count == 1)
+				code[masks[0]] = new CodeInstruction(OpCodes.Ldc_I4, Mask).MoveLabelsFrom(code[masks[0]]);
+			else
+				Debug.LogWarning("[Bitshifter] LogicGate.UpdateState has " + masks.Count + " four-bit masks, expected 1; the NOT gate is left inverting four bits");
+			return code;
 		}
 	}
 }
