@@ -73,8 +73,8 @@ Chains
 
 - [ ] Two bridges end-to-end across a gap (second bridge's end on the first's end, one shared cell): a signal entering the far end of the first reaches the far end of the second, with no wire anywhere; the shared cell is one piece of wire in the overlay.
 - [ ] Three bridges meeting at one cell: a signal entering any of the three outer ends reaches the other two.
-- [ ] Deconstruct each bridge of the chain by dragging the deconstruct tool over each of its three cells in turn (shared end, middle, own end): each cell marks it; the other bridges and the shared cell's wire piece stay and keep conducting.
-- [ ] Cancel tool on a queued bridge whose ends are both on gates, by its middle cell.
+- [ ] Deconstruct each bridge of the chain by dragging the deconstruct tool over its two end cells in turn (shared end, own end): each end marks it, and the middle cell does not, as in the base game; the other bridges and the shared cell's wire piece stay and keep conducting.
+- [ ] Cancel tool on a queued bridge whose ends are both on gates, by one of its end cells.
 - [ ] Save and load with a chain: the chain still conducts; no "already has a utility network connector" warnings in the log.
 
 Wires meeting bridge ends

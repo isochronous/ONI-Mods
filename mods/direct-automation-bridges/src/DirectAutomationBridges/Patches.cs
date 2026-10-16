@@ -91,16 +91,16 @@ namespace DirectAutomationBridges
 
 	/// <summary>
 	/// A bridge that could not take the LogicGate layer at a cell is invisible to the tools that
-	/// sweep Grid.Objects. Each tool's per-cell action gets the bridges registered at the cell
-	/// (ends and middle) that the sweep did not already reach, and does to them what it does to
-	/// a layer object. Deconstruct and cancel are triggers (idempotent on the receiver);
+	/// sweep Grid.Objects. Each tool's per-cell action gets the bridges with an end at the cell
+	/// that the sweep did not already reach, and does to them what it does to a layer object.
+	/// Only the ends, as in the base game, where a bridge is on the layer at its end cells alone. Deconstruct and cancel are triggers (idempotent on the receiver);
 	/// prioritize goes through the tool's own TryPrioritizeGameObject.
 	/// </summary>
 	internal static class SweptBridges
 	{
 		public static List<GameObject> Missed(int cell)
 		{
-			List<GameObject> result = BridgeFootprint.At(cell);
+			List<GameObject> result = BridgeFootprint.EndsAt(cell);
 			result.RemoveAll(go => Grid.Objects[cell, (int)ObjectLayer.LogicGate] == go);
 			return result;
 		}

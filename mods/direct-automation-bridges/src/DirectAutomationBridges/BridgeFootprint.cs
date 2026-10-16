@@ -9,8 +9,8 @@ namespace DirectAutomationBridges
 	/// bridge on the LogicGate layer at its two end cells, and this mod stops a bridge from taking
 	/// that layer slot away from a gate or an earlier bridge (BuildingDef.MarkArea prefix), so a
 	/// bridge whose end cells are both taken is on no layer at all. The deconstruct, cancel and
-	/// prioritize tools then find it here instead, by any of its three cells. On the
-	/// under-construction and the complete prefab.
+	/// prioritize tools then find it here instead, by its end cells. On the under-construction
+	/// and the complete prefab.
 	/// </summary>
 	public sealed class BridgeFootprint : KMonoBehaviour
 	{
@@ -19,6 +19,18 @@ namespace DirectAutomationBridges
 		[MyCmpReq] private LogicUtilityNetworkLink link;
 
 		private readonly List<int> cells = new List<int>(3);
+		private int end1 = Grid.InvalidCell, end2 = Grid.InvalidCell;
+
+		/// <summary>The bridges with an end on the cell; a fresh list.</summary>
+		public static List<GameObject> EndsAt(int cell)
+		{
+			List<GameObject> result = new List<GameObject>();
+			if (byCell.TryGetValue(cell, out List<BridgeFootprint> list))
+				foreach (BridgeFootprint footprint in list)
+					if (footprint != null && (footprint.end1 == cell || footprint.end2 == cell))
+						result.Add(footprint.gameObject);
+			return result;
+		}
 
 		/// <summary>The bridges with an end or their middle on the cell; a fresh list.</summary>
 		public static List<GameObject> At(int cell)
@@ -34,10 +46,10 @@ namespace DirectAutomationBridges
 		protected override void OnSpawn()
 		{
 			base.OnSpawn();
-			link.GetCells(out int cell1, out int cell2);
-			Add(cell1);
+			link.GetCells(out end1, out end2);
+			Add(end1);
 			Add(Grid.PosToCell(this));
-			Add(cell2);
+			Add(end2);
 		}
 
 		protected override void OnCleanUp()
