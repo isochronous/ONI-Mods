@@ -125,6 +125,26 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VentFreezeFix.Tests", "mods
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NaturalBackwalls.Tests", "mods\natural-backwalls-everywhere\src\NaturalBackwalls.Tests\NaturalBackwalls.Tests.csproj", "{0C255B21-1680-4DC9-8169-D3EF6DCB6782}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{70C0E597-6A30-451E-B618-417970FD42A2}"
+	ProjectSection(SolutionItems) = preProject
+		mods\bitshifter\tools\make_art.py = mods\bitshifter\tools\make_art.py
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{B8CE36E7-573E-4218-8F52-B973D2415624}"
+	ProjectSection(SolutionItems) = preProject
+		mods\detect-any-element\tools\make_art.py = mods\detect-any-element\tools\make_art.py
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{83BBB3E8-3AB3-4703-A285-7C4B05E33530}"
+	ProjectSection(SolutionItems) = preProject
+		mods\smart-weight-plate\tools\knobs_follow_pressure.py = mods\smart-weight-plate\tools\knobs_follow_pressure.py
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Kanim", "Kanim", "{E7007C9E-2ABB-4D67-BEB3-E1E3E3B9300F}"
+	ProjectSection(SolutionItems) = preProject
+		common\tools\Kanim\kanim.py = common\tools\Kanim\kanim.py
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -308,6 +328,10 @@ Global
 		{0C255B21-1680-4DC9-8169-D3EF6DCB6782}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{70C0E597-6A30-451E-B618-417970FD42A2} = {72AE865A-6A65-4766-97EB-11290F044A78}
+		{B8CE36E7-573E-4218-8F52-B973D2415624} = {B162831E-F60D-465C-9E76-81A3DF841CD3}
+		{83BBB3E8-3AB3-4703-A285-7C4B05E33530} = {DCDC7767-A77D-49E6-9FB5-C76A694F7E6E}
+		{E7007C9E-2ABB-4D67-BEB3-E1E3E3B9300F} = {92EA55CD-521F-4AD0-BC78-EC9B2906025B}
 		{D5746850-9CB0-42E2-9249-D7F635855AB8} = {72AE865A-6A65-4766-97EB-11290F044A78}
 		{49D34188-F005-4E75-87B6-CDFAE5A3202C} = {B35A0A8C-92C0-4780-9170-57436FD2DD5F}
 		{9DDBBE6E-D7EE-4868-BD38-9BBFA4519321} = {B162831E-F60D-465C-9E76-81A3DF841CD3}
