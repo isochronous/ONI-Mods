@@ -125,8 +125,15 @@ namespace UpgradePlanner
 			public static void SetDamageBar(GameObject go, JObject data)
 			{
 				Component comp = go.GetComponent(damageBar);
-				if (comp != null && data != null)
-					setDamageBar.Invoke(comp, new object[] { data.Value<bool>("hide") });
+				if (comp == null || data == null)
+					return;
+				bool hide = data.Value<bool>("hide");
+				// SetDamageBar reads BuildingHP's state machine, which a building only has once spawned;
+				// before that the field is enough, as the bar reads it when it is created.
+				if (((KMonoBehaviour)comp).isSpawned)
+					setDamageBar.Invoke(comp, new object[] { hide });
+				else
+					damageBarHidden.SetValue(comp, hide);
 			}
 		}
 
