@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.3.0 - 2026-10-15
 
 - New Developer options section with one setting, Log backwall census, off by default. When it is on, the backwall census is written to Player.log at every colony load; before, it was never written.
 
