@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 1.1.0 - 2026-10-16
 
 - The Ribbon Reader and Ribbon Writer show the selected bit on a small display, with a light for that bit's state.
 - New preview image
