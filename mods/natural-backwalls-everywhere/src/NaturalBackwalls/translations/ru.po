@@ -162,6 +162,21 @@ msgctxt "STRINGS.NATURALBACKWALLS.OPTIONS.CATEGORY.STARTING_BIOME"
 msgid "Starting biome"
 msgstr "Стартовый биом"
 
+#. STRINGS.NATURALBACKWALLS.OPTIONS.CATEGORY.DEVELOPER
+msgctxt "STRINGS.NATURALBACKWALLS.OPTIONS.CATEGORY.DEVELOPER"
+msgid "Developer options"
+msgstr "Параметры разработчика"
+
+#. STRINGS.NATURALBACKWALLS.OPTIONS.LOG_CENSUS.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.OPTIONS.LOG_CENSUS.NAME"
+msgid "Log backwall census"
+msgstr "Записывать подсчёт задних стен"
+
+#. STRINGS.NATURALBACKWALLS.OPTIONS.LOG_CENSUS.TOOLTIP
+msgctxt "STRINGS.NATURALBACKWALLS.OPTIONS.LOG_CENSUS.TOOLTIP"
+msgid "Logs backwall counts per zone type to Player.log at each load."
+msgstr "При каждой загрузке записывает в Player.log число задних стен по типам зон."
+
 #. STRINGS.NATURALBACKWALLS.OPTIONS.COVERAGE_TOOLTIP
 msgctxt "STRINGS.NATURALBACKWALLS.OPTIONS.COVERAGE_TOOLTIP"
 msgid "Coverage when this is not the starting biome: fraction of its cells that get a backwall, 0 to 1. Default {0}."

@@ -19,6 +19,13 @@ namespace NaturalBackwalls
 					public static LocString STARTING_BIOME = "Starting biome";
 					public static LocString BIOMES = "Biomes";
 					public static LocString PATTERNS = "Patterns";
+					public static LocString DEVELOPER = "Developer options";
+				}
+
+				public static class LOG_CENSUS
+				{
+					public static LocString NAME = "Log backwall census";
+					public static LocString TOOLTIP = "Logs backwall counts per zone type to Player.log at each load.";
 				}
 
 				public static class FEATURE_BACKWALLS

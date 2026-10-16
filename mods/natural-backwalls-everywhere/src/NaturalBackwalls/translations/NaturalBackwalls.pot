@@ -146,6 +146,11 @@ msgctxt "STRINGS.NATURALBACKWALLS.OPTIONS.CATEGORY.BIOMES"
 msgid "Biomes"
 msgstr ""
 
+#. STRINGS.NATURALBACKWALLS.OPTIONS.CATEGORY.DEVELOPER
+msgctxt "STRINGS.NATURALBACKWALLS.OPTIONS.CATEGORY.DEVELOPER"
+msgid "Developer options"
+msgstr ""
+
 #. STRINGS.NATURALBACKWALLS.OPTIONS.CATEGORY.GENERAL
 msgctxt "STRINGS.NATURALBACKWALLS.OPTIONS.CATEGORY.GENERAL"
 msgid "General"
@@ -189,6 +194,16 @@ msgstr ""
 #. STRINGS.NATURALBACKWALLS.OPTIONS.FEATURE_BACKWALLS.TOOLTIP
 msgctxt "STRINGS.NATURALBACKWALLS.OPTIONS.FEATURE_BACKWALLS.TOOLTIP"
 msgid "Worldgen carves feature rooms (caves, lakes, geodes) into a biome after claiming their cells, and the game's own backwall pass skips claimed cells, so those rooms would stay bare. On, they get backwalls from the same noise as the rest of the biome."
+msgstr ""
+
+#. STRINGS.NATURALBACKWALLS.OPTIONS.LOG_CENSUS.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.OPTIONS.LOG_CENSUS.NAME"
+msgid "Log backwall census"
+msgstr ""
+
+#. STRINGS.NATURALBACKWALLS.OPTIONS.LOG_CENSUS.TOOLTIP
+msgctxt "STRINGS.NATURALBACKWALLS.OPTIONS.LOG_CENSUS.TOOLTIP"
+msgid "Logs backwall counts per zone type to Player.log at each load."
 msgstr ""
 
 #. STRINGS.NATURALBACKWALLS.OPTIONS.NO_MATERIAL.NAME

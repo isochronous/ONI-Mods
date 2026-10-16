@@ -162,6 +162,21 @@ msgctxt "STRINGS.NATURALBACKWALLS.OPTIONS.CATEGORY.STARTING_BIOME"
 msgid "Starting biome"
 msgstr "初始生态"
 
+#. STRINGS.NATURALBACKWALLS.OPTIONS.CATEGORY.DEVELOPER
+msgctxt "STRINGS.NATURALBACKWALLS.OPTIONS.CATEGORY.DEVELOPER"
+msgid "Developer options"
+msgstr "开发者选项"
+
+#. STRINGS.NATURALBACKWALLS.OPTIONS.LOG_CENSUS.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.OPTIONS.LOG_CENSUS.NAME"
+msgid "Log backwall census"
+msgstr "记录背景墙统计"
+
+#. STRINGS.NATURALBACKWALLS.OPTIONS.LOG_CENSUS.TOOLTIP
+msgctxt "STRINGS.NATURALBACKWALLS.OPTIONS.LOG_CENSUS.TOOLTIP"
+msgid "Logs backwall counts per zone type to Player.log at each load."
+msgstr "每次读档时将各区域类型的背景墙数量写入 Player.log。"
+
 #. STRINGS.NATURALBACKWALLS.OPTIONS.COVERAGE_TOOLTIP
 msgctxt "STRINGS.NATURALBACKWALLS.OPTIONS.COVERAGE_TOOLTIP"
 msgid "Coverage when this is not the starting biome: fraction of its cells that get a backwall, 0 to 1. Default {0}."

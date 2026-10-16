@@ -43,6 +43,14 @@ namespace NaturalBackwalls
 		[JsonProperty]
 		public float StartCoverage { get; set; } = 1f;
 
+		/// <summary>
+		/// Developer option: log the backwall census at every colony load (see Census). Shown by
+		/// CreateOptions as the last section rather than through an Option attribute, since static
+		/// categories sort by name and would put it first.
+		/// </summary>
+		[JsonProperty]
+		public bool LogCensus { get; set; } = false;
+
 		/// <summary>Material element id per biome group id; missing means the group's default.</summary>
 		[JsonProperty]
 		public Dictionary<string, string> Materials { get; set; } = new Dictionary<string, string>();
@@ -93,6 +101,7 @@ namespace NaturalBackwalls
 			foreach (PatternGroup group in Patterns.Groups)
 				if (group.IsAvailable)
 					yield return new PatternOptionsEntry(group, this);
+			yield return new CheckboxOptionsEntry(nameof(LogCensus), new OptionAttribute(OPTIONS.LOG_CENSUS.NAME, OPTIONS.LOG_CENSUS.TOOLTIP, OPTIONS.CATEGORY.DEVELOPER));
 		}
 
 		public void OnOptionsChanged()

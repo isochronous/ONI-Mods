@@ -162,6 +162,21 @@ msgctxt "STRINGS.NATURALBACKWALLS.OPTIONS.CATEGORY.STARTING_BIOME"
 msgid "Starting biome"
 msgstr "시작 생물군계"
 
+#. STRINGS.NATURALBACKWALLS.OPTIONS.CATEGORY.DEVELOPER
+msgctxt "STRINGS.NATURALBACKWALLS.OPTIONS.CATEGORY.DEVELOPER"
+msgid "Developer options"
+msgstr "개발자 옵션"
+
+#. STRINGS.NATURALBACKWALLS.OPTIONS.LOG_CENSUS.NAME
+msgctxt "STRINGS.NATURALBACKWALLS.OPTIONS.LOG_CENSUS.NAME"
+msgid "Log backwall census"
+msgstr "후면벽 통계 기록"
+
+#. STRINGS.NATURALBACKWALLS.OPTIONS.LOG_CENSUS.TOOLTIP
+msgctxt "STRINGS.NATURALBACKWALLS.OPTIONS.LOG_CENSUS.TOOLTIP"
+msgid "Logs backwall counts per zone type to Player.log at each load."
+msgstr "불러올 때마다 구역 유형별 후면벽 수를 Player.log에 기록합니다."
+
 #. STRINGS.NATURALBACKWALLS.OPTIONS.COVERAGE_TOOLTIP
 msgctxt "STRINGS.NATURALBACKWALLS.OPTIONS.COVERAGE_TOOLTIP"
 msgid "Coverage when this is not the starting biome: fraction of its cells that get a backwall, 0 to 1. Default {0}."

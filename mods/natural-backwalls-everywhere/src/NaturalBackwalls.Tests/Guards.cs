@@ -173,16 +173,19 @@ namespace NaturalBackwalls.Tests
 		}
 
 		/// <summary>
-		/// The census at a saved colony's load. It used to run from Game.OnSpawn alone, which came before
-		/// the world's zone types were filled in, so it returned without a word and no load logged it.
+		/// The census is a developer option, off by default: a colony load logs none. Asked directly, with
+		/// the loaded world's zone types, it writes its table.
 		/// </summary>
-		[OniTest("NB: the backwall census is logged when a saved colony loads", Timeout = 20), Layer(0)]
-		public static IEnumerator CensusAtLoad(TestContext t)
+		[OniTest("NB: the backwall census is off by default and writes its table when asked", Timeout = 20), Layer(0)]
+		public static IEnumerator CensusOption(TestContext t)
 		{
+			t.Assert.False(new Options().LogCensus, "the census option is off by default");
 			string log = ReadLog();
-			t.Assert.True(log.Contains("[NaturalBackwalls] Backwall census"), "the census line after the colony's load");
-			t.Assert.False(log.Contains("[NaturalBackwalls] census skipped"), "no census skipped at the load");
-			yield break;
+			t.Assert.False(log.Contains("[NaturalBackwalls] Backwall census"), "no census line at the colony's load");
+			t.Assert.False(log.Contains("[NaturalBackwalls] census skipped"), "and no census skipped");
+			Game_OnSpawn_Census.Write(World.Instance.zoneRenderData.worldZoneTypes);
+			yield return t.Frames(2);
+			t.Assert.True(ReadLog().Contains("[NaturalBackwalls] Backwall census"), "the census writes its table");
 		}
 	}
 }
