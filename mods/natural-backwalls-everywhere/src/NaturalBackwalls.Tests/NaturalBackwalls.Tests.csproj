@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="$(OniCommon)oni-mod.props" />
+
+  <PropertyGroup>
+    <AssemblyName>NaturalBackwalls.Tests</AssemblyName>
+    <RootNamespace>NaturalBackwalls.Tests</RootNamespace>
+    <!-- Never deployed as a mod; the TestRunner launcher copies the DLL into its run folder. -->
+    <ModDeployFolder>none</ModDeployFolder>
+    <ReferenceUnityUI>true</ReferenceUnityUI>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>$(GameLibsFolder)/Newtonsoft.Json.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <ProjectReference Include="..\NaturalBackwalls\NaturalBackwalls.csproj" Private="false" />
+    <ProjectReference Include="$(OniCommon)tools\TestRunner\TestRunner.csproj" Private="false" />
+  </ItemGroup>
+
+  <Import Project="$(OniCommon)oni-mod.targets" />
+
+</Project>

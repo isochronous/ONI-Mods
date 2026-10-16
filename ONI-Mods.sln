@@ -123,6 +123,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SaltySurf.Tests", "mods\sal
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VentFreezeFix.Tests", "mods\vent-freeze-fix\src\VentFreezeFix.Tests\VentFreezeFix.Tests.csproj", "{5748118E-1B8E-4945-BBF9-2AC4125EAAD2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NaturalBackwalls.Tests", "mods\natural-backwalls-everywhere\src\NaturalBackwalls.Tests\NaturalBackwalls.Tests.csproj", "{0C255B21-1680-4DC9-8169-D3EF6DCB6782}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -300,6 +302,10 @@ Global
 		{5748118E-1B8E-4945-BBF9-2AC4125EAAD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5748118E-1B8E-4945-BBF9-2AC4125EAAD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5748118E-1B8E-4945-BBF9-2AC4125EAAD2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C255B21-1680-4DC9-8169-D3EF6DCB6782}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C255B21-1680-4DC9-8169-D3EF6DCB6782}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C255B21-1680-4DC9-8169-D3EF6DCB6782}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C255B21-1680-4DC9-8169-D3EF6DCB6782}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{D5746850-9CB0-42E2-9249-D7F635855AB8} = {72AE865A-6A65-4766-97EB-11290F044A78}
@@ -344,5 +350,6 @@ Global
 		{7F849EB1-ED83-4086-9A79-A0CF6CB01626} = {B162831E-F60D-465C-9E76-81A3DF841CD3}
 		{573F2AB9-5B6C-46B6-8022-363D040A8223} = {04095F9D-16E8-4A49-963E-C83463E02822}
 		{5748118E-1B8E-4945-BBF9-2AC4125EAAD2} = {2ED9D888-3781-4F08-B976-56CD5CFB785A}
+		{0C255B21-1680-4DC9-8169-D3EF6DCB6782} = {85FCA55A-B0CF-4A5D-86F8-97153416254A}
 	EndGlobalSection
 EndGlobal
