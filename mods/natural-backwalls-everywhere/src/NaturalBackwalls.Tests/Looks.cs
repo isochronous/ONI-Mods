@@ -9,7 +9,7 @@ namespace NaturalBackwalls.Tests
 	/// <summary>Screenshots, for looking at; out of the default run.</summary>
 	public static class Looks
 	{
-		[OniTest("looks: the options dialog, top and bottom (Developer options last)", Timeout = 40, Explicit = true), Layer(0)]
+		[OniTest("looks: the options dialog, top and bottom (Developer options last)", Timeout = 40, Explicit = true, NoColony = true), Layer(0)]
 		public static IEnumerator OptionsDialog(TestContext t)
 		{
 			POptions.ShowDialog(typeof(Options));
