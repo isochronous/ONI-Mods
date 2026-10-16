@@ -17,58 +17,28 @@ What it changes, and why:
   the game renders through a separate layering path that behaves differently in overlays; the
   flag is cleared so every view draws the frame in plain element order.
 
-Klei anim format: "ANIM", int version, int elementCount, int frameCount, int animCount,
-  per anim: str name, uint hash, float rate, int frameCount,
-    per frame: float x, y, w, h, int elementCount,
-      per element (60 bytes): uint symbol, int frame, uint folder, int flags, float a, b, g, r,
-                              float m1..m6, float order
-  int maxVisSymbolFrames, int hashCount, per hash: uint hash, str name.
-Build format: "BILD", int version, int symbolCount, int frameCount, str name,
-  per symbol: uint hash, uint path, uint color, int flags, int frameCount, per frame 44 bytes,
-  int hashCount, per hash: uint hash, str name.
-Strings are int length + bytes. The game's parser ignores the two anim header counts.
+The anim and build files are read and written with common/tools/Kanim (see its format notes).
 """
-import struct, os
+import os
+import sys
+
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "..", "common", "tools", "Kanim"))
+from kanim import FOREGROUND, read_anim_file, read_build_file, write_anim_file, write_build_file  # noqa: E402
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "src", "SmartWeightPlate", "anim", "assets", "smart_weight_plate")
 ANIM = os.path.join(ROOT, "smart_weight_plate_anim.bytes")
 BUILD = os.path.join(ROOT, "smart_weight_plate_build.bytes")
 TRANSITION_FRAMES = 10
-FG_FLAG = 8
 # How far the button sinks when pressed, in animation units. The artist's export used 56, which
 # puts the whole button behind the base; 32 leaves its top visible over the base, like the vanilla plate.
 BUTTON_PRESS_TRAVEL = 32.0
 
 # ---------------------------------------------------------------- anim
-b = open(ANIM, "rb").read()
-o = 0
-def rs():
-    global o
-    n = struct.unpack_from("<i", b, o)[0]; o += 4
-    s = b[o:o+n].decode(); o += n
-    return s
-assert b[:4] == b"ANIM"; o = 4
-version, _ec, _fc, anim_count = struct.unpack_from("<iiii", b, o); o += 16
-anims = []
-for _ in range(anim_count):
-    name = rs()
-    hsh, rate, nframes = struct.unpack_from("<Ifi", b, o); o += 12
-    frames = []
-    for _f in range(nframes):
-        x, y, w, h, nel = struct.unpack_from("<ffffi", b, o); o += 20
-        els = []
-        for _e in range(nel):
-            els.append(list(struct.unpack_from("<IiIifffffffffff", b, o))); o += 60   # [0 sym,1 frame,2 folder,3 flags,4-7 abgr,8-13 m1..m6,14 order]
-        frames.append([x, y, w, h, els])
-    anims.append([name, hsh, rate, frames])
-max_vis = struct.unpack_from("<i", b, o)[0]; o += 4
-nh = struct.unpack_from("<i", b, o)[0]; o += 4
-hashes = []
-for _ in range(nh):
-    h = struct.unpack_from("<I", b, o)[0]; o += 4
-    hashes.append((h, rs()))
-assert o == len(b)
-names = dict(hashes)
+# Elements are [0 symbol, 1 frame, 2 layer, 3 flags, 4-7 abgr, 8-13 m1..m6, 14 order].
+with open(ANIM, "rb") as f:
+    anim = read_anim_file(f.read())
+anims = anim.anims
+names = dict(anim.hashes)
 by_name = {a[0]: a for a in anims}
 def sym_is(el, n): return names.get(el[0]) == n
 LIGHT_OFF, LIGHT_ON = 0, 1
@@ -128,44 +98,19 @@ for name, hsh, rate, frames in anims:
         btn = [el for el in fr[4] if sym_is(el, "button")]
         fr[4] = [el for el in fr[4] if not sym_is(el, "button")] + btn
 
-out = bytearray(b"ANIM")
-def ws(s):
-    e = s.encode(); out.extend(struct.pack("<i", len(e))); out.extend(e)
-total_frames = sum(len(a[3]) for a in anims)
-total_elements = sum(len(fr[4]) for a in anims for fr in a[3])
-out.extend(struct.pack("<iiii", version, total_elements, total_frames, len(anims)))
-for name, hsh, rate, frames in anims:
-    ws(name); out.extend(struct.pack("<Ifi", hsh, rate, len(frames)))
-    for x, y, w, h, els in frames:
-        out.extend(struct.pack("<ffffi", x, y, w, h, len(els)))
-        for el in els:
-            out.extend(struct.pack("<IiIifffffffffff", *el))
-out.extend(struct.pack("<ii", max_vis, len(hashes)))
-for h, s in hashes:
-    out.extend(struct.pack("<I", h)); ws(s)
-open(ANIM, "wb").write(out)
+with open(ANIM, "wb") as f:
+    f.write(write_anim_file(anim))
 for a in anims:
     print("  %-13s %2d frames  front-to-back: %s" % (a[0], len(a[3]), [names.get(el[0]) for el in a[3][0][4]]))
 
 # ---------------------------------------------------------------- build: clear the Foreground flag
-bb = bytearray(open(BUILD, "rb").read())
-o = 4
-version, nsym, nfr = struct.unpack_from("<iii", bb, o); o += 12
-n = struct.unpack_from("<i", bb, o)[0]; o += 4 + n
-sym_offsets = []
-for _ in range(nsym):
-    sym_offsets.append(o)
-    h, path, color, flags, nf = struct.unpack_from("<IIIii", bb, o); o += 20 + 44 * nf
-nh = struct.unpack_from("<i", bb, o)[0]; o += 4
-bnames = {}
-for _ in range(nh):
-    h = struct.unpack_from("<I", bb, o)[0]; o += 4
-    n = struct.unpack_from("<i", bb, o)[0]; o += 4
-    bnames[h] = bb[o:o+n].decode(); o += n
-for so in sym_offsets:
-    h, flags = struct.unpack_from("<I", bb, so)[0], struct.unpack_from("<i", bb, so + 12)[0]
-    if flags & FG_FLAG:
-        struct.pack_into("<i", bb, so + 12, flags & ~FG_FLAG)
-        print("  cleared Foreground on", bnames.get(h, hex(h)))
-open(BUILD, "wb").write(bb)
+with open(BUILD, "rb") as f:
+    build = read_build_file(f.read())
+bnames = dict(build.hashes)
+for symbol in build.symbols:
+    if symbol[3] & FOREGROUND:
+        symbol[3] &= ~FOREGROUND
+        print("  cleared Foreground on", bnames.get(symbol[0], hex(symbol[0])))
+with open(BUILD, "wb") as f:
+    f.write(write_build_file(build))
 print("done")

@@ -1,6 +1,6 @@
 """Build the asterisk the element sensors flash while they are set to Any.
 
-    python tools/make_art.py
+    python tools/make_art.py [--check]
 
 In the vanilla sensor kanims (liquid_element_sensor, gas_element_sensor,
 conveyor_element_sensor, world_element_sensor, world_liquid_sensor) the icon that flashes on
@@ -22,18 +22,21 @@ The asterisk is the plain asterisk of Liberation Sans Bold (the game's own UI fa
 Font License, see LICENSE-LiberationSans.txt), rendered large, thickened with a round stroke
 so it reads as solid as the vanilla icons, and scaled down.
 
-Writes src/DetectAnyElement/anim/assets/detect_any_asterisk/.
+Writes src/DetectAnyElement/anim/assets/detect_any_asterisk/. --check builds it in the temp
+folder instead and fails when it differs from that one.
 """
+import argparse
 import math
 import os
 import sys
+import tempfile
 
 from PIL import Image, ImageDraw, ImageFont
 
 TOOLS = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(TOOLS)
-sys.path.insert(0, os.path.join(ROOT, "..", "..", "common", "tools", "MakeKanim"))
-from kanim_writer import Sprite, write_kanim  # noqa: E402
+sys.path.insert(0, os.path.join(ROOT, "..", "..", "common", "tools", "Kanim"))
+from kanim import Sprite, drift, write_kanim  # noqa: E402
 
 NAME = "detect_any_asterisk"
 OUT = os.path.join(ROOT, "src", "DetectAnyElement", "anim", "assets", NAME)
@@ -112,6 +115,10 @@ def symbol_frames(mask, colour, offset):
 
 
 def main():
+    p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    p.add_argument("--check", action="store_true", help="build in the temp folder and compare with the committed kanim")
+    a = p.parse_args()
+    out = tempfile.mkdtemp(prefix="detect-any-art-") if a.check else OUT
     mask = glyph_mask().resize((round(SIZE_UNITS * TEXTURE_SCALE),) * 2, Image.LANCZOS)
     # How far the asterisk's alpha centroid sits from its box centre, in symbol units.
     mx, my = centroid(mask)
@@ -129,8 +136,13 @@ def main():
     # The anim is not played by the mod; a kanim just needs one, and this one shows the glyphs.
     peak = FRAMES // 2
     row = [(name, peak, (i - 2) * SIZE_UNITS * 1.5, -100.0) for i, name in enumerate(symbols)]
-    write_kanim(OUT, NAME, symbols, {"ui": [row]}, texture_size=1024)
-    print("wrote %s: %d symbols of %d frames, %.0f units" % (OUT, len(symbols), FRAMES, SIZE_UNITS))
+    write_kanim(out, NAME, symbols, {"ui": [row]}, texture_size=1024)
+    print("wrote %s: %d symbols of %d frames, %.0f units" % (out, len(symbols), FRAMES, SIZE_UNITS))
+    if a.check:
+        changed = drift(out, OUT)
+        if changed:
+            sys.exit("the committed kanim differs from a fresh build: " + ", ".join(changed))
+        print("the committed kanim matches a fresh build")
 
 
 if __name__ == "__main__":
