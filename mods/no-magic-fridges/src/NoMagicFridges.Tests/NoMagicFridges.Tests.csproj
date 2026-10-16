@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="$(OniCommon)oni-mod.props" />
+
+  <PropertyGroup>
+    <AssemblyName>NoMagicFridges.Tests</AssemblyName>
+    <RootNamespace>NoMagicFridges.Tests</RootNamespace>
+    <!-- Never deployed as a mod; the TestRunner launcher copies the DLL into its run folder. -->
+    <ModDeployFolder>none</ModDeployFolder>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NoMagicFridges\NoMagicFridges.csproj" Private="false" />
+    <ProjectReference Include="$(OniCommon)tools\TestRunner\TestRunner.csproj" Private="false" />
+  </ItemGroup>
+
+  <Import Project="$(OniCommon)oni-mod.targets" />
+
+</Project>

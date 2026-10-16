@@ -99,6 +99,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CornerBuildAnything.Tests",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DontCountEggsOnRails.Tests", "mods\dont-count-eggs-on-rails\src\DontCountEggsOnRails.Tests\DontCountEggsOnRails.Tests.csproj", "{5E9334A0-91F1-4EBC-8BA2-295D5A86C7A3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoMagicFridges.Tests", "mods\no-magic-fridges\src\NoMagicFridges.Tests\NoMagicFridges.Tests.csproj", "{4699BD7A-0A9A-4A18-8CEB-49184D7C5B91}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -228,6 +230,10 @@ Global
 		{5E9334A0-91F1-4EBC-8BA2-295D5A86C7A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5E9334A0-91F1-4EBC-8BA2-295D5A86C7A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5E9334A0-91F1-4EBC-8BA2-295D5A86C7A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4699BD7A-0A9A-4A18-8CEB-49184D7C5B91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4699BD7A-0A9A-4A18-8CEB-49184D7C5B91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4699BD7A-0A9A-4A18-8CEB-49184D7C5B91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4699BD7A-0A9A-4A18-8CEB-49184D7C5B91}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{D5746850-9CB0-42E2-9249-D7F635855AB8} = {72AE865A-6A65-4766-97EB-11290F044A78}
@@ -260,5 +266,6 @@ Global
 		{9FA1BDD7-A655-4147-B897-6416551413E1} = {92EA55CD-521F-4AD0-BC78-EC9B2906025B}
 		{56E903F6-C43A-487D-BB63-E1923B5265A3} = {B35A0A8C-92C0-4780-9170-57436FD2DD5F}
 		{5E9334A0-91F1-4EBC-8BA2-295D5A86C7A3} = {DB35A6E0-A4AE-45CC-829E-99C81D5D193D}
+		{4699BD7A-0A9A-4A18-8CEB-49184D7C5B91} = {25FED978-74EB-42D8-BD90-0C22238666E7}
 	EndGlobalSection
 EndGlobal
