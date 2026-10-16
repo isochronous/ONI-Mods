@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.1.1 - 2026-10-15
 
 - A bridge built while the game is paused now connects its ends right away, instead of only once the game is unpaused.
 
