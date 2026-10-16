@@ -117,6 +117,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoragePodRedux.Tests", "mo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SweepZones.Tests", "mods\sweep-zones\src\SweepZones.Tests\SweepZones.Tests.csproj", "{7DE04891-CA03-4B6D-BA92-F663213F7B00}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DetectAnyElement.Tests", "mods\detect-any-element\src\DetectAnyElement.Tests\DetectAnyElement.Tests.csproj", "{7F849EB1-ED83-4086-9A79-A0CF6CB01626}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -282,6 +284,10 @@ Global
 		{7DE04891-CA03-4B6D-BA92-F663213F7B00}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7DE04891-CA03-4B6D-BA92-F663213F7B00}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7DE04891-CA03-4B6D-BA92-F663213F7B00}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F849EB1-ED83-4086-9A79-A0CF6CB01626}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F849EB1-ED83-4086-9A79-A0CF6CB01626}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F849EB1-ED83-4086-9A79-A0CF6CB01626}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F849EB1-ED83-4086-9A79-A0CF6CB01626}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{D5746850-9CB0-42E2-9249-D7F635855AB8} = {72AE865A-6A65-4766-97EB-11290F044A78}
@@ -323,5 +329,6 @@ Global
 		{5D90A0D0-71CC-46EB-B111-6037BE1E67BF} = {2594ACB9-F9F9-4DEE-AF2A-0C786253FCF2}
 		{A2BB98B4-3E92-432D-81AD-0743A55A8FC3} = {4D0BF52B-D1A3-4004-8355-AD028585A2CC}
 		{7DE04891-CA03-4B6D-BA92-F663213F7B00} = {6CA393B0-44F2-4856-BE6D-8CD3F925187E}
+		{7F849EB1-ED83-4086-9A79-A0CF6CB01626} = {B162831E-F60D-465C-9E76-81A3DF841CD3}
 	EndGlobalSection
 EndGlobal
