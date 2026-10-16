@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- New Developer options section with one setting, Log backwall census, off by default. When it is on, the backwall census is written to Player.log at every colony load; before, it was never written.
+
 ## 0.2.0 - 2026-10-12
 
 - Chinese (Simplified), Korean and Russian translations. Translations load from translations/<locale>.po; the template for other languages is translations/NaturalBackwalls.pot.
