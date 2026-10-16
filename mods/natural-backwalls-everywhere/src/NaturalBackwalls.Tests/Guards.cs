@@ -173,14 +173,15 @@ namespace NaturalBackwalls.Tests
 		}
 
 		/// <summary>
-		/// KNOWN BUG, left out of the default run: the README says the census is logged "at every world
-		/// load", but loading a saved colony logs nothing. The census runs from a postfix on Game.OnSpawn
-		/// and returns silently when World.Instance.zoneRenderData is not there yet.
+		/// The census at a saved colony's load. It used to run from Game.OnSpawn alone, which came before
+		/// the world's zone types were filled in, so it returned without a word and no load logged it.
 		/// </summary>
-		[OniTest("NB: the backwall census is logged when a saved colony loads (known bug: it is not)", Timeout = 20, Explicit = true), Layer(0)]
+		[OniTest("NB: the backwall census is logged when a saved colony loads", Timeout = 20), Layer(0)]
 		public static IEnumerator CensusAtLoad(TestContext t)
 		{
-			t.Assert.True(ReadLog().Contains("[NaturalBackwalls] Backwall census"), "the census line after the colony's load");
+			string log = ReadLog();
+			t.Assert.True(log.Contains("[NaturalBackwalls] Backwall census"), "the census line after the colony's load");
+			t.Assert.False(log.Contains("[NaturalBackwalls] census skipped"), "no census skipped at the load");
 			yield break;
 		}
 	}

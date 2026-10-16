@@ -9,19 +9,52 @@ namespace NaturalBackwalls
 	/// Logs, once per game load, how many cells of each zone type have a backwall and how many of
 	/// those are visible (not behind a solid cell). The numbers are directly comparable with the
 	/// BiomePreview tool's, so settings can be checked against the real generator.
+	///
+	/// It needs two things that arrive separately on a load: the sim's first data (the backwall
+	/// buffers), which Game.OnSpawn steps the sim for, and the zone type of every cell, which
+	/// SubworldZoneRenderData.OnSpawn fills in and which may come after the game. Both spawns ask;
+	/// the census runs on whichever finds both ready, once.
 	/// </summary>
 	[HarmonyPatch(typeof(Game), "OnSpawn")]
 	public static class Game_OnSpawn_Census
 	{
 		private sealed class Tally { public int Cells, Open, Backwalls, Visible; }
 
+		/// <summary>Set by each game spawn, cleared once the census has run for that load.</summary>
+		private static bool pending;
+
 		public static void Postfix()
 		{
+			pending = true;
+			TryRun(World.Instance?.zoneRenderData?.worldZoneTypes, lastChance: false);
+		}
+
+		/// <summary>The zone data's spawn: the census runs here if the game's spawn came first.</summary>
+		[HarmonyPatch(typeof(SubworldZoneRenderData), "OnSpawn")]
+		public static class SubworldZoneRenderData_OnSpawn
+		{
+			public static void Postfix(SubworldZoneRenderData __instance)
+			{
+				TryRun(__instance.worldZoneTypes, lastChance: true);
+			}
+		}
+
+		private static void TryRun(SubWorld.ZoneType[] zones, bool lastChance)
+		{
+			if (!pending)
+				return;
 			try
 			{
-				SubWorld.ZoneType[] zones = World.Instance?.zoneRenderData?.worldZoneTypes;
 				if (zones == null || Grid.Element == null)
+				{
+					if (lastChance && Game.Instance != null)
+					{
+						pending = false;
+						Debug.LogWarning("[NaturalBackwalls] census skipped: " + (zones == null ? "no zone types" : "no grid elements") + " after the world's zone data spawned");
+					}
 					return;
+				}
+				pending = false;
 				var tallies = new SortedDictionary<string, Tally>();
 				int count = System.Math.Min(zones.Length, Grid.CellCount);
 				for (int cell = 0; cell < count; cell++)
