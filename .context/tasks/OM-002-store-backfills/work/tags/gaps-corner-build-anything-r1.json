@@ -1,0 +1,194 @@
+[
+ {
+  "id": "standards/README.md",
+  "reason": "no-good-match",
+  "suggestion": "coding standards index",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md",
+  "reason": "no-good-match",
+  "suggestion": "C# code style conventions",
+  "kept": []
+ },
+ {
+  "id": "standards/naming-conventions.md",
+  "reason": "no-good-match",
+  "suggestion": "naming conventions",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#formatting",
+  "reason": "no-good-match",
+  "suggestion": "C# formatting conventions",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#formatting/indentation",
+  "reason": "no-good-match",
+  "suggestion": "C# formatting conventions",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#formatting/line-length",
+  "reason": "no-good-match",
+  "suggestion": "C# formatting conventions",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#formatting/braces",
+  "reason": "no-good-match",
+  "suggestion": "C# formatting conventions",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#language-and-toolchain",
+  "reason": "no-good-match",
+  "suggestion": "C# language version and build toolchain",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#imports-includes",
+  "reason": "no-good-match",
+  "suggestion": "using directive organization",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#imports-includes/organization",
+  "reason": "no-good-match",
+  "suggestion": "using directive organization",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#imports-includes/example",
+  "reason": "no-good-match",
+  "suggestion": "using directive organization",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#comments",
+  "reason": "no-good-match",
+  "suggestion": "code comment conventions",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#comments/when-to-comment",
+  "reason": "no-good-match",
+  "suggestion": "code comment conventions",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#comments/when-not-to-comment",
+  "reason": "no-good-match",
+  "suggestion": "code comment conventions",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#comments/format",
+  "reason": "no-good-match",
+  "suggestion": "code comment conventions",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#control-structures",
+  "reason": "no-good-match",
+  "suggestion": "C# control structure conventions",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#control-structures/conditionals",
+  "reason": "no-good-match",
+  "suggestion": "C# control structure conventions",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#control-structures/loops",
+  "reason": "no-good-match",
+  "suggestion": "C# control structure conventions",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#control-structures/strings",
+  "reason": "no-good-match",
+  "suggestion": "string building and LocString text rules",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#game-components",
+  "reason": "no-good-match",
+  "suggestion": "KMonoBehaviour component conventions",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#project-specific-rules",
+  "reason": "no-good-match",
+  "suggestion": "mod options and project-wide rules",
+  "kept": []
+ },
+ {
+  "id": "standards/error-handling.md#guarding-patches/null-checks-on-game-objects",
+  "reason": "no-good-match",
+  "suggestion": "null guards on game objects and components",
+  "kept": []
+ },
+ {
+  "id": "standards/error-handling.md#try-catch",
+  "reason": "no-good-match",
+  "suggestion": "try/catch exception handling",
+  "kept": []
+ },
+ {
+  "id": "standards/error-handling.md#yielding-to-other-mods",
+  "reason": "no-good-match",
+  "suggestion": "yielding to other mods",
+  "kept": []
+ },
+ {
+  "id": "standards/naming-conventions.md#files-and-directories",
+  "reason": "no-good-match",
+  "suggestion": "file and directory naming",
+  "kept": []
+ },
+ {
+  "id": "standards/naming-conventions.md#files-and-directories/general-rules",
+  "reason": "no-good-match",
+  "suggestion": "file and directory naming",
+  "kept": []
+ },
+ {
+  "id": "standards/naming-conventions.md#code-naming",
+  "reason": "no-good-match",
+  "suggestion": "identifier naming conventions",
+  "kept": []
+ },
+ {
+  "id": "standards/naming-conventions.md#code-naming/variables",
+  "reason": "no-good-match",
+  "suggestion": "variable and constant naming",
+  "kept": []
+ },
+ {
+  "id": "standards/naming-conventions.md#code-naming/booleans",
+  "reason": "no-good-match",
+  "suggestion": "boolean naming",
+  "kept": []
+ },
+ {
+  "id": "standards/naming-conventions.md#code-naming/strings-modstrings",
+  "reason": "no-good-match",
+  "suggestion": "ModStrings key naming",
+  "kept": []
+ },
+ {
+  "id": "standards/naming-conventions.md#code-naming/ids-and-tags",
+  "reason": "no-good-match",
+  "suggestion": "building id, tag and test naming",
+  "kept": []
+ },
+ {
+  "id": "standards/naming-conventions.md#project-specific-conventions",
+  "reason": "no-good-match",
+  "suggestion": "naming conventions",
+  "kept": []
+ }
+]

@@ -1,0 +1,73 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/no-magic-fridges — round 0",
+  "node": "C:\\dev\\ONI-Mods\\mods\\no-magic-fridges",
+  "base": {
+    "domains/README.md": "sha256:274e50b6ee0161d4e0e00aa9bb92c1112781847a2ff1cb1c42ea45ca07f37dba",
+    "domains/entities.md": "sha256:2331bb54d5587a9d5205783706046c9ae87b0460c47a83256eb5e87b2dc7aff0",
+    "domains/glossary.md": "sha256:34f8d36b63184fa9518f0e50c22985ed7059fc439b161fd71552ac31ba7d814b",
+    "overview.md": "sha256:64321fbf74b2148f067e630139f06fea90fb4fefe554664e2a2880378dbf03ae",
+    "standards/error-handling.md": "sha256:8fd716cd5e1e79c6c5a414ee0500df6ed0f8f9d7fca46f7f861894db128235d2",
+    "standards/code-style.md": "sha256:895048d506bf9b35452cd73b86c7fc0815d550a27d3d821274385aa745c4fbe3",
+    "standards/naming-conventions.md": "sha256:a9019a04c6fe0e44f70570b812ac436efbbff9d4a96fa4088d003bd994d341e7"
+  },
+  "ops": [
+    {
+      "target": "domains/README.md",
+      "mode": "tag",
+      "add": [
+        "refrigerator"
+      ]
+    },
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "refrigerator",
+        "heat-exchange"
+      ]
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "refrigerator",
+        "heat-exchange"
+      ]
+    },
+    {
+      "target": "overview.md",
+      "mode": "tag",
+      "add": [
+        "refrigerator"
+      ]
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "vanilla-fallback",
+        "logging"
+      ]
+    },
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching",
+        "mod-entry-point",
+        "reflection"
+      ],
+      "section": "harmony-patches"
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "tag",
+      "add": [
+        "mod-entry-point",
+        "harmony-patching"
+      ],
+      "section": "files-and-directories/examples-by-type"
+    }
+  ]
+}

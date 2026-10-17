@@ -1,4 +1,5 @@
 ---
+tags: worldgen
 doc_id: doc-5d8e44113c75
 description: The worldgen patches, options, biome groups, noise patterns, export overlay and BiomePreview tool of Natural Backwalls Everywhere in src/NaturalBackwalls, with placement rules, file locations, code paths and saved state
 applies_to:
@@ -8,7 +9,8 @@ applies_to:
 # Natural Backwalls Everywhere domain
 
 ## Overview
-**Id:** blk-6a8da1feb411
+**Id:** blk-6a8da1feb411  
+**Tags:** biome-group, noise-pattern
 
 Natural Backwalls Everywhere gives every biome the natural backwall tiles the Aquatic Planet Pack places behind its own biomes. A backwall is plain worldgen data: a subworld opts in with a `backwallNoise` tree, and a biome band table named `<biome>_backwall` picks the element from that noise (a non-solid, usually Vacuum, means no backwall). The mod adds both pieces to every other subworld and biome on the per-world copy of the worldgen settings, right before the game computes band thresholds. Material and coverage are configurable per biome family, the noise pattern per subworld zone. It acts only during world generation, so it affects new worlds only and can be added or removed without touching a save. Aquatic Planet Pack is not required: the mod ships copies of the pack's four noise trees.
 
@@ -17,6 +19,7 @@ Natural Backwalls Everywhere gives every biome the natural backwall tiles the Aq
 
 ### CloneInToNewWorld_Patch
 **Id:** blk-e0426cc98c9b  
+**Tags:** harmony-patching, exception-handling, biome-group  
 **Description**: The core patch, a postfix on `SettingsCache.CloneInToNewWorld`. `Apply` loads the options, calls `Plan` for every subworld, writes the resulting band tables into `MutatedWorldData.biomes.BiomeBackgroundElementBandConfigurations` and sets each chosen `SubWorld.backwallNoise`. Any exception is caught and logged and worldgen continues untouched. `Plan` decides without changing anything and is reused by the YAML export.  
 **Location**: `src/NaturalBackwalls/Patches.cs`
 
@@ -33,6 +36,7 @@ Natural Backwalls Everywhere gives every biome the natural backwall tiles the Aq
 
 ### Options
 **Id:** blk-ced10beb987e  
+**Tags:** mod-options, developer-tooling  
 **Description**: The mod's settings, a PLib `IOptions` class stored in the shared config location and read again for each world generated, so changes need no restart.  
 **Location**: `src/NaturalBackwalls/Options.cs`
 
@@ -53,6 +57,7 @@ Natural Backwalls Everywhere gives every biome the natural backwall tiles the Aq
 
 ### BiomeGroup and BiomeGroups
 **Id:** blk-dbaa08df895f  
+**Tags:** biome-group  
 **Description**: A family of worldgen biome files sharing one material and coverage setting (Sandstone, Forest, Frozen, Caustic, Marsh, Ocean, Oil, Rust, Magma, Barren; Swamp, Wasteland, Metallic, Moo, Radioactive, Aquatic for Spaced Out; CarrotQuarry, IceCaves, SugarWoods for Frosty Planet; Garden, Raptor, Wetlands for Prehistoric Planet; Beach, Reef, KelpForest, Abyss for Aquatic Planet Pack).  
 **Location**: `src/NaturalBackwalls/BiomeGroups.cs`
 
@@ -68,21 +73,25 @@ Natural Backwalls Everywhere gives every biome the natural backwall tiles the Aq
 
 ### Pattern, PatternGroup and Patterns
 **Id:** blk-9fdaa6a295e8  
+**Tags:** noise-pattern  
 **Description**: A `Pattern` is a noise tree (Reef, Kelp, Abyss, Beach under `noise/NaturalBackwalls*`, plus the base-game `Strange`, plus `Vanilla` meaning the subworld's own tree). A `PatternGroup` is a subworld zone type (`SubWorld.ZoneType`) with a default pattern: Kelp for ToxicJungle, BoggyMarsh, Swamp, SugarWoods, PrehistoricGarden, PrehistoricWetlands; Abyss for OilField, Rust, MagmaCore, Barren, Wasteland, Metallic, Radioactive; Reef elsewhere; the Aquatic pack's own zones default to Vanilla.  
 **Location**: `src/NaturalBackwalls/Patterns.cs`
 
 ### Options entries
 **Id:** blk-91bd1415587e  
+**Tags:** mod-options, biome-group, noise-pattern  
 **Description**: Custom PLib option rows: `BiomeOptionsEntry` (material dropdown plus coverage text box per biome group) and `PatternOptionsEntry` (pattern dropdown showing each tree's density per zone).  
 **Location**: `src/NaturalBackwalls/BiomeOptionsEntry.cs`, `src/NaturalBackwalls/PatternOptionsEntry.cs`
 
 ### Worldgen noise trees
 **Id:** blk-966cbf23a002  
+**Tags:** noise-pattern  
 **Description**: Four YAML noise trees shipped with the mod (`NaturalBackwallsReef`, `Kelp`, `Abyss`, `Beach`). `mod.yaml` and the worldgen folder are deployed with the mod.  
 **Location**: `src/NaturalBackwalls/worldgen/noise/*.yaml` (copies for the Workshop package in `publish/content/worldgen/noise/`)
 
 ### Other Harmony patches
 **Id:** blk-e61211aa02df  
+**Tags:** harmony-patching, transpiler, settle-sim, exception-handling  
 **Location**: `src/NaturalBackwalls/`
 
 | Patch target | File | Purpose |
@@ -95,26 +104,31 @@ Natural Backwalls Everywhere gives every biome the natural backwall tiles the Aq
 
 ### ExportOverlay
 **Id:** blk-48d469661fa6  
+**Tags:** developer-tooling  
 **Description**: Writes the current settings as a mod-style worldgen YAML folder, `NaturalBackwalls-overlay` in the game's root folder (`Util.RootFolder()`), for external renderers and the preview tool. Reuses `Plan`.  
 **Location**: `src/NaturalBackwalls/ExportOverlay.cs`
 
 ### BiomePreview tool
 **Id:** blk-48a2302aeae3  
+**Tags:** developer-tooling, noise-pattern  
 **Description**: A .NET 8 Windows tool that runs the game's noise trees and band tables for one biome and writes an HTML preview. Not part of the mod DLL.  
 **Location**: `tools/BiomePreview/` (see `tools/BiomePreview/README.md`)
 
 ### Mod entry and strings
 **Id:** blk-80646e2a7680  
+**Tags:** mod-entry-point, mod-strings, mod-options  
 **Location**: `src/NaturalBackwalls/Mod.cs`, `ModStrings.cs`, `translations/`
 `NaturalBackwallsMod` initialises PLib, registers `ModStrings` through `Isochronous.Translations`, and registers `Options` with `POptions`. Chinese, Korean and Russian come from `translations/<locale>.po`. Mod id `Isochronous.NaturalBackwallsEverywhere` (`mod.yaml`).
 
 ### Saved state
-**Id:** blk-6a6e975cc857
+**Id:** blk-6a6e975cc857  
+**Tags:** mod-options
 
 None in saves. The only persistent state is the options file (shared config location).
 
 ## Business Rules
-**Id:** blk-0897bf42bb22
+**Id:** blk-0897bf42bb22  
+**Tags:** biome-group, settle-sim, exception-handling, vanilla-fallback
 
 - A subworld is enabled only if at least one of its biomes resolves to a solid material. A biome without one gets a Vacuum-only table, so a subworld with backwall noise never falls back to its terrain bands (which would give gas and ore backwalls).
 - Space, surface and rocket-interior subworlds are never touched: a backwalled cell is not open to space, which would break solar panels, rockets and meteors.
@@ -129,7 +143,8 @@ None in saves. The only persistent state is the options file (shared config loca
 - During the settle sim a backwall past its melting point becomes the liquid in its cell, applied by the mod's twin with a logged count.
 
 ## Key Code Paths
-**Id:** blk-eaf00ac88258
+**Id:** blk-eaf00ac88258  
+**Tags:** harmony-patching, settle-sim, in-game-testing, transpiler
 
 - **Planning**: `CloneInToNewWorld_Patch.Plan` per subworld, then `Apply` writes bands and noise — see `src/NaturalBackwalls/Patches.cs`
 - **Feature rooms**: `TerrainCell.ApplyBackground` postfix — see `src/NaturalBackwalls/FeaturePatch.cs`

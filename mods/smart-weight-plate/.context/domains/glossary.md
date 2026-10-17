@@ -1,4 +1,5 @@
 ---
+tags: weight-sensing, signal-threshold
 witness_digest: "sha256:5b3ee5d757a17cd91783a48a109e5d7802c20f030dd499f27722647cdbea5893"
 witness: loose
 applies_to:
@@ -12,7 +13,8 @@ description: "Glossary for Smart Weight Plate: abbreviations such as kanim and B
 Terms for the Smart Weight Plate mod. For the mod's entities, rules and code paths see [entities](entities.md).
 
 ## Abbreviations and Acronyms
-**Id:** blk-32c544c5e56e
+**Id:** blk-32c544c5e56e  
+**Tags:** kanim-art, mod-compatibility, side-screen
 
 | Abbreviation | Full Term | Context |
 |--------------|-----------|---------|
@@ -34,6 +36,7 @@ Terms for the Smart Weight Plate mod. For the mod's entities, rules and code pat
 
 ### Weight Plate
 **Id:** blk-7932dd8bb974  
+**Tags:** building-config  
 **Definition**: The vanilla building `FloorSwitchConfig`, a foundation tile that sends a logic signal when something heavy enough sits on the cell above. The mod's plate copies its tile setup and animation set.  
 **Used in**: `SmartWeightPlateConfig.cs`, `Patches.cs`, `SmartWeightPlate.cs`.
 
@@ -49,16 +52,19 @@ Terms for the Smart Weight Plate mod. For the mod's entities, rules and code pat
 
 ### FloorSwitchActivator
 **Id:** blk-1e43d779ad2e  
+**Tags:** game-component  
 **Definition**: The game component that makes an object (a Duplicant, a walking critter) press weight plates. The plate adds its `PrimaryElement.Mass` to the weight.  
 **Used in**: `SmartWeightPlate.OnActivatorsChanged`.
 
 ### Pickupable
 **Id:** blk-391d9b7596d6  
+**Tags:** game-component  
 **Definition**: A loose item or debris on the floor. Its mass counts; one that `wasAbsorbed` does not.  
 **Used in**: `SmartWeightPlate.OnPickupablesChanged`.
 
 ### Settings version
 **Id:** blk-b624aed199bb  
+**Tags:** saved-state  
 **Definition**: The saved `settingsVersion` integer. A plate with no version in its save is from before 0.2.0, when green meant light, and has its invert flag flipped once.  
 **Used in**: `SmartWeightPlate.OnSpawn`.
 

@@ -8,7 +8,8 @@ applies_to:
 # Error Handling Conventions
 
 ## Principles
-**Id:** blk-85618c9841c5
+**Id:** blk-85618c9841c5  
+**Tags:** vanilla-fallback, logging, reflection, harmony-patching
 
 1. **Never break the game for a mod's sake.** A patch that cannot do its job leaves the vanilla behaviour in place and says so in the log. It does not throw into the game's update loop.
 2. **Check what you patch.** Game updates rename fields and move code. Every reflection lookup, transpiler match and prefab or tech lookup is checked for a miss.
@@ -22,7 +23,8 @@ There is no custom exception hierarchy. Mods are small patches over game code, s
 **Id:** blk-a05f11350382
 
 ### Missing member: warn, leave vanilla
-**Id:** blk-0490b4fe2728
+**Id:** blk-0490b4fe2728  
+**Tags:** reflection, vanilla-fallback, harmony-patching
 
 A reflection lookup that returns null is checked before use. The patch then does nothing, or returns `true` from a prefix so the game's method runs.
 
@@ -33,7 +35,8 @@ if (ActiveField == null || StorageField == null)
 (`mods/no-magic-fridges/src/NoMagicFridges/Patches.cs`; the warning is logged once at load by `SimTransferMethod` in `FridgeThermostat.cs`.)
 
 ### Transpiler: count the match
-**Id:** blk-e8712dfdb1c4
+**Id:** blk-e8712dfdb1c4  
+**Tags:** harmony-patching, vanilla-fallback, logging
 
 A transpiler counts the instructions it replaced. Zero (or more than expected) logs a warning and returns the original code, so a game update disables the change instead of breaking the method.
 
@@ -44,7 +47,8 @@ if (swapped == 0)
 (`mods/corner-build-anything/src/CornerBuildAnything/ReachTablePatches.cs`; same pattern in `mods/bitshifter/src/Bitshifter/Patches.cs` and `mods/natural-backwalls-everywhere/src/NaturalBackwalls/SettleSimPatch.cs`.)
 
 ### Missing data: warn, continue
-**Id:** blk-0ec0eff52bb1
+**Id:** blk-0ec0eff52bb1  
+**Tags:** vanilla-fallback, logging
 
 A build-menu, tech or asset lookup that finds nothing warns and keeps the mod working:
 
@@ -59,17 +63,20 @@ if (tech == null)
 (`mods/smart-weight-plate/src/SmartWeightPlate/Patches.cs`; also `mods/multichannel-critter-sensor`, `mods/storage-pod-redux`.) Missing art or a missing vanilla prefab degrades the same way (`Display.UseAnim` in `mods/bitshifter/src/Bitshifter/Patches.cs`, `mods/multichannel-critter-sensor/src/MultichannelCritterSensor/MultichannelCritterSensorSideScreen.cs`).
 
 ### Null checks on game objects
-**Id:** blk-00c50af2c97d
+**Id:** blk-00c50af2c97d  
+**Tags:** vanilla-fallback
 
 Components and arguments that can be absent are tested before use: `if (stt == null || !Sim.IsValidHandle(stt.SimHandle)) return true;`, `if (sensor == null || GameScenePartitioner.Instance == null) return;` (`mods/motion-sensor-range/src/MotionSensorRange/RangeSlider.cs`).
 
 ### Warn once
-**Id:** blk-542b027cee07
+**Id:** blk-542b027cee07  
+**Tags:** logging
 
 Work that repeats every frame or tick warns once behind a flag (`warnedMissingInternals` in `RangeSlider.cs`).
 
 ## try/catch
-**Id:** blk-96ea55e00f65
+**Id:** blk-96ea55e00f65  
+**Tags:** logging, reflection
 
 `try`/`catch (Exception e)` is used in four situations and nowhere else:
 
@@ -81,7 +88,8 @@ Work that repeats every frame or tick warns once behind a flag (`warnedMissingIn
 The message form is `"[<Name>] <what was skipped>: " + e.Message`. Use `e.GetBaseException().Message` when the exception may be a reflection wrapper, and the full `e` when the stack trace is needed.
 
 ### Finalizer for a thread with no handler
-**Id:** blk-b4dcd0fc6c98
+**Id:** blk-b4dcd0fc6c98  
+**Tags:** harmony-patching
 
 `Cluster.BeginGeneration` is the worldgen thread body and has none; an exception ends the thread and the loading screen waits forever. A finalizer reports the failure through the game's own error path and logs the exception (`Cluster_BeginGeneration_Patch` in `mods/natural-backwalls-everywhere/src/NaturalBackwalls/WorldgenThreadPatch.cs`).
 
@@ -96,7 +104,8 @@ When another mod already does the job or shares an id, the mod steps aside and l
 **Id:** blk-6c3e4debe981
 
 ### Log Levels
-**Id:** blk-60dc75d735e6
+**Id:** blk-60dc75d735e6  
+**Tags:** logging
 
 | Level | Use For | Example |
 |-------|---------|---------|
@@ -105,7 +114,8 @@ When another mod already does the job or shares an id, the mod steps aside and l
 | `Debug.Log` | Load line, a one-line summary of what a pass changed | `Tagged N refined metal(s)` in `mods/refined-building` |
 
 ### What to Include
-**Id:** blk-2c4525433225
+**Id:** blk-2c4525433225  
+**Tags:** logging
 
 - The `[<ModName>] ` prefix on every line; `JumperBridgesMod.LogPrefix` holds it for that mod.
 - What was expected, what was found, and what the mod does instead.
@@ -118,27 +128,32 @@ PLib's `PUtil.Log*` helpers are not used; all mods log through `Debug`.
 **Id:** blk-d217b1718680
 
 ### Swallowing exceptions
-**Id:** blk-a59c48ae7d35
+**Id:** blk-a59c48ae7d35  
+**Tags:** logging
 
 An empty `catch` hides a broken patch. The one `catch` that returns a fallback without a log is `GuessLanguageCode` in `common/src/Translations.cs`, because a missing language preference is the normal case before the game has started.
 
 ### Throwing from a patch
-**Id:** blk-912a3a5fa34f
+**Id:** blk-912a3a5fa34f  
+**Tags:** harmony-patching
 
 An exception in a prefix or postfix on a per-frame or sim method repeats every frame. Guard, log once, return.
 
 ### Assuming the game's internals
-**Id:** blk-2c929231f375
+**Id:** blk-2c929231f375  
+**Tags:** reflection, harmony-patching, vanilla-fallback
 
 Reading a private field by name without a null check on the `FieldInfo`, or replacing an instruction without confirming it was found, breaks on the next game update.
 
 ### Silent degradation
-**Id:** blk-2b5456562299
+**Id:** blk-2b5456562299  
+**Tags:** logging
 
 Doing nothing without a log line leaves a player and the author guessing. Every skipped path logs.
 
 ### Spamming the log
-**Id:** blk-0ca74009af40
+**Id:** blk-0ca74009af40  
+**Tags:** logging
 
 A warning inside an update method fires thousands of times. Use a once-flag.
 
@@ -146,7 +161,8 @@ A warning inside an update method fires thousands of times. Use a once-flag.
 **Id:** blk-4c79ad3d6c2d
 
 ### Motion Sensor Range specifics
-**Id:** blk-8cd3b544ef00
+**Id:** blk-8cd3b544ef00  
+**Tags:** detection-range, vanilla-fallback, copy-settings, reflection
 
 - `ApplyRange` returns when `sensor` or `GameScenePartitioner.Instance` is null. If the sensor's private fields cannot be found (`SensorInternalsFound` false) it logs one warning (`warnedMissingInternals`) and the range setting has no effect until the mod is updated.
 - `CopyRangeFrom` ignores a null source and a source with the same range, and applies the value only when the building has spawned (`isSpawned`).

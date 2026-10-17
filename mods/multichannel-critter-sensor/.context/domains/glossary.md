@@ -1,4 +1,5 @@
 ---
+tags: critter-sensor, automation-ribbon
 witness_digest: "sha256:c4faee29e43d2b01855c3dcaaa107087f0eafb53ee94a8d86275f214e698eb99"
 witness: loose
 applies_to:
@@ -12,7 +13,8 @@ description: "Glossary for Multichannel Critter Sensor: abbreviations, terms to 
 Terms for the Multichannel Critter Sensor mod. For the code behind them, see [entities](entities.md).
 
 ## Abbreviations and Acronyms
-**Id:** blk-6e62c0f3760f
+**Id:** blk-6e62c0f3760f  
+**Tags:** kanim-art, in-game-testing
 
 | Abbreviation | Full Term | Context |
 |--------------|-----------|---------|
@@ -22,7 +24,8 @@ Terms for the Multichannel Critter Sensor mod. For the code behind them, see [en
 | kanim | Klei animation | The building's art format, under `anim/assets/critter_sensor_advanced/` |
 
 ## Terms to Avoid
-**Id:** blk-e2771d8b92cc
+**Id:** blk-e2771d8b92cc  
+**Tags:** signal-threshold
 
 | Avoid | Use Instead | Reason |
 |-------|-------------|--------|
@@ -60,11 +63,13 @@ Terms for the Multichannel Critter Sensor mod. For the code behind them, see [en
 
 ### Threshold (above / below)
 **Id:** blk-449051416ace  
+**Tags:** signal-threshold, side-screen  
 **Definition**: The count a signal is compared against, 0 to 64, with a direction. The side screen uses the vanilla threshold editor (slider, number field, +/- buttons).  
 **Used in**: `ThresholdAdapter.cs`
 
 ### Combined and separate mode
 **Id:** blk-a2cbe7d177ab  
+**Tags:** signal-threshold  
 **Definition**: Combined: one threshold on critters plus eggs, output on bit 1. Separate: one threshold for critters (bit 1) and one for eggs (bit 2).  
 **Used in**: `MultichannelCritterSensor.separateThresholds`
 
@@ -75,21 +80,25 @@ Terms for the Multichannel Critter Sensor mod. For the code behind them, see [en
 
 ### Prefab tag
 **Id:** blk-953f60378848  
+**Tags:** saved-state  
 **Definition**: `KPrefabID.PrefabTag`, the tag naming a species or egg type. Species selections are stored as these tags.  
 **Used in**: `critterTags`, `eggTags`
 
 ### IThresholdSwitch
 **Id:** blk-89218f16b429  
+**Tags:** signal-threshold, side-screen  
 **Definition**: The game's interface for anything the threshold side screen can edit. `ThresholdAdapter` implements it so a cloned vanilla screen drives the sensor's thresholds.  
 **Used in**: `ThresholdAdapter.cs`
 
 ### Multiplexing
 **Id:** blk-0701cca2bd9a  
+**Tags:** building-unlock  
 **Definition**: The research node that unlocks the building, two tiers past Animal Control, where the vanilla Critter Sensor unlocks.  
 **Used in**: `Patches.cs`
 
 ### Copy settings
 **Id:** blk-48503f178c60  
+**Tags:** copy-settings  
 **Definition**: The vanilla tool that copies a building's settings to others of its kind via the `CopySettings` event and `CopyBuildingSettings`.  
 **Used in**: `MultichannelCritterSensor.OnCopySettings`
 

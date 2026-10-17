@@ -1,0 +1,89 @@
+{
+ "documents": [
+  {
+   "id": "standards/naming-conventions.md",
+   "tags": [
+    "harmony-patching"
+   ]
+  }
+ ],
+ "sections": [
+  {
+   "id": "standards/naming-conventions.md#files-and-directories",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/naming-conventions.md#files-and-directories/general-rules",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "file, folder and release tag naming"
+  },
+  {
+   "id": "standards/naming-conventions.md#files-and-directories/examples-by-type",
+   "tags": [
+    "mod-entry-point",
+    "mod-strings"
+   ]
+  },
+  {
+   "id": "standards/naming-conventions.md#code-naming",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/naming-conventions.md#code-naming/variables",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "variable and constant naming"
+  },
+  {
+   "id": "standards/naming-conventions.md#code-naming/functions-methods",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/naming-conventions.md#code-naming/classes-types-interfaces",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/naming-conventions.md#code-naming/booleans",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "boolean naming"
+  },
+  {
+   "id": "standards/naming-conventions.md#code-naming/strings-modstrings",
+   "tags": [
+    "mod-strings"
+   ]
+  },
+  {
+   "id": "standards/naming-conventions.md#code-naming/ids-and-tags",
+   "tags": [
+    "hotkey",
+    "in-game-testing"
+   ]
+  },
+  {
+   "id": "standards/naming-conventions.md#project-specific-conventions",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/naming-conventions.md#project-specific-conventions/upgrade-planner-specifics",
+   "tags": [
+    "mod-strings",
+    "hotkey",
+    "in-game-testing",
+    "logging"
+   ]
+  },
+  {
+   "id": "standards/naming-conventions.md#related",
+   "tags": [],
+   "reason": "inherits"
+  }
+ ]
+}

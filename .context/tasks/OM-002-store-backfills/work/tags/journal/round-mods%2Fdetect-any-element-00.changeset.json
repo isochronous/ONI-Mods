@@ -1,0 +1,69 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/detect-any-element — round 0",
+  "node": "C:\\dev\\ONI-Mods\\mods\\detect-any-element",
+  "base": {
+    "domains/README.md": "sha256:63f2132914381996ee853d61cb52a9e109215db959c18aea379ba38ee9aab219",
+    "domains/entities.md": "sha256:47c0957f84d1a559ef556ae43ca0eced5516c68690446a81fb63d3249b3c6a72",
+    "domains/glossary.md": "sha256:69e21d65c1f073a6438b2ff27bfc46719e5774000196be60540cfba3e36cef24",
+    "overview.md": "sha256:aac9c9cd47151683d91af49c455e27206d4fe6777970acdbbf319b57b6c29a82",
+    "standards/error-handling.md": "sha256:a45b46f5c04924fd710f31a2d2cc9a89543d5fd8d6675db1915362d9f0e9d4cb",
+    "standards/code-style.md": "sha256:c664660ff02b9a1f414055e69add14c3c6797728b881e383121fff8bd544504d",
+    "standards/naming-conventions.md": "sha256:eba6f19c2628f68eb56a04d507d9abff41b067204491a7f3705d6105481373d4"
+  },
+  "ops": [
+    {
+      "target": "domains/README.md",
+      "mode": "tag",
+      "add": [
+        "element-sensor"
+      ]
+    },
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "element-sensor"
+      ]
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "element-sensor"
+      ]
+    },
+    {
+      "target": "overview.md",
+      "mode": "tag",
+      "add": [
+        "element-sensor"
+      ]
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "vanilla-fallback"
+      ]
+    },
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "mod-strings"
+      ],
+      "section": "control-structures/strings"
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "tag",
+      "add": [
+        "mod-entry-point",
+        "side-screen",
+        "game-component"
+      ],
+      "section": "files-and-directories/examples-by-type"
+    }
+  ]
+}

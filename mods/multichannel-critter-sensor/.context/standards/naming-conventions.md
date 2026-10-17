@@ -19,7 +19,8 @@ applies_to:
 - Release tags are `<mod-folder>-v<version>` (repository README).
 
 ### Examples by Type
-**Id:** blk-cdec4d90d437
+**Id:** blk-cdec4d90d437  
+**Tags:** building-config, side-screen, mod-entry-point, kanim-art
 
 | Type | Convention | Example |
 |------|------------|---------|
@@ -61,7 +62,8 @@ private static readonly Dictionary<int, float> armed = new Dictionary<int, float
 - Harmony methods are named for their kind: `Prefix`, `Postfix`, `Transpiler`, `Finalizer`, plus `Prepare`, `TargetMethod`, `TargetMethods`.
 
 ### Classes/Types/Interfaces
-**Id:** blk-37394129b5d7
+**Id:** blk-37394129b5d7  
+**Tags:** harmony-patching
 
 - PascalCase nouns. Interfaces take an `I` prefix (`IPlanTab` and `ITabView` in `mods/upgrade-planner`, and the game's own).
 - Harmony patch classes: `<PatchedType>_<PatchedMethod>_Patch` (`LogicRibbonReader_GetBitDepth_Patch`, `Db_Initialize_Patch`, `GeneratedBuildings_LoadGeneratedBuildings_Patch`). A patch for a type with one concern may use `<Type>_Patch` (`LiquidVentConfig_Patch`). Patches nested in a holder class may drop the suffix (`Constructable_OnSpawn` in `ReachTablePatches`).
@@ -74,7 +76,8 @@ private static readonly Dictionary<int, float> armed = new Dictionary<int, float
 - Prefix with `Is`, `Has`, `Can`, `Should` or name the state: `IsEnabled`, `OriginalActive`, `isSpawned`, `warnedMissingInternals`.
 
 ### Strings (`ModStrings`)
-**Id:** blk-84372c384c39
+**Id:** blk-84372c384c39  
+**Tags:** mod-strings
 
 - `ModStrings` mirrors the game's `STRINGS` tree: nested static classes and `LocString` fields in UPPER_SNAKE_CASE. `ModStrings.BUILDINGS.PREFABS.<BUILDINGID>.NAME` is registered as `STRINGS.BUILDINGS.PREFABS.<BUILDINGID>.NAME`, the key the game looks a building name up by (`mods/smart-weight-plate/src/SmartWeightPlate/ModStrings.cs`).
 - Mod-private text goes under a branch named for the mod in capitals (`ModStrings.SALTYSURF.ELEMENT_LIST`, `ModStrings.JUMPERBRIDGES.OPTIONS`).
@@ -82,7 +85,8 @@ private static readonly Dictionary<int, float> armed = new Dictionary<int, float
 - Long branches are shortened with an alias at the top of the file (`using OPTIONS = NaturalBackwalls.ModStrings.NATURALBACKWALLS.OPTIONS;`).
 
 ### Ids and Tags
-**Id:** blk-798858feda7e
+**Id:** blk-798858feda7e  
+**Tags:** building-config, in-game-testing
 
 - Building ids are PascalCase and match the config class (`SmartWeightPlate`); a mod that replaces another mod's buildings reuses that mod's ids (`StoragePodConfig`, `CoolPodConfig` in `mods/storage-pod-redux`).
 - Tags and PAction ids carry a mod prefix: `DetectAnyElement_Any`, `Isochronous.SweepZones.Tool`.
@@ -93,7 +97,8 @@ private static readonly Dictionary<int, float> armed = new Dictionary<int, float
 **Id:** blk-526d47c26030
 
 ### Multichannel Critter Sensor specifics
-**Id:** blk-6e1b5edea3c7
+**Id:** blk-6e1b5edea3c7  
+**Tags:** mod-strings, logging
 
 - `ModStrings` branches: `BUILDINGS.PREFABS.MULTICHANNELCRITTERSENSOR` and `UI.UISIDESCREENS.MULTICHANNEL_CRITTER_SENSOR_SIDE_SCREEN`, aliased in code as `SIDE_SCREEN`.
 - `ThresholdAdapter.NoUnits` is a `LocString` kept out of `ModStrings` on purpose: an empty string has no translation and an empty msgid is a header to po tools.

@@ -1,0 +1,50 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/sweep-zones — round 4",
+  "node": "C:\\dev\\ONI-Mods\\mods\\sweep-zones",
+  "base": {
+    "domains/entities.md": "sha256:d3438906255c02352257c00d1ef3aac0611b680c92a257972c2a2462852d5bc8",
+    "standards/error-handling.md": "sha256:c117fdf7fc75579301d19c7cfe3f772403ed7505c9228fb14fe44ca4c7b76bb3",
+    "standards/code-style.md": "sha256:278cf296f4ee3c35a9239a5678c51e55e768ddd0aa87131114860cca388c629e",
+    "standards/naming-conventions.md": "sha256:59293a936918bc608f654358537059a4b1307d2f961f882c9d22b561523f0b40"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching",
+        "in-game-testing"
+      ],
+      "section": "key-code-paths"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching",
+        "reflection"
+      ],
+      "section": "try-catch"
+    },
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "hotkey",
+        "saved-state",
+        "reflection"
+      ],
+      "section": "project-specific-rules/sweep-zones-redux-specifics"
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "tag",
+      "add": [
+        "hotkey",
+        "in-game-testing"
+      ],
+      "section": "code-naming/ids-and-tags"
+    }
+  ]
+}

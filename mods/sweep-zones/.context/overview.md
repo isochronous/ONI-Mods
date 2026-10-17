@@ -1,4 +1,5 @@
 ---
+tags: toolbar-tool, cleaning-errands, saved-state
 description: "Overview of the Sweep Zones Redux mod: the toolbar paint tool with four drag modes, per-cell priority and labels, version, and a map of its source, icon generator, tests, translations and publish folders"
 ---
 
@@ -10,7 +11,8 @@ description: "Overview of the Sweep Zones Redux mod: the toolbar paint tool with
 Sweep Zones Redux is an Oxygen Not Included mod that adds a Sweep Zones tool to the toolbar. Players paint persistent zones, and debris that lands in a sweep zone is marked for sweeping, and moppable puddles in a mop zone get mop errands, at the priority the zone was painted with, until the zone is erased. The tool has four box-drag modes (sweep zone, erase sweep zone, mop zone, erase mop zone), remembers priority per cell including yellow alert, and shows priority labels over each contiguous same-priority region. It is a ground-up rewrite of the feature set of Berkays/Rubacava's Sweep Zones and shares no code or assets with it. Version 1.6.0. Targets the current game (U59+) with all DLC content (minimumSupportedBuild 744825).
 
 ## Where things are
-**Id:** blk-7ba496c215ac
+**Id:** blk-7ba496c215ac  
+**Tags:** mod-entry-point, harmony-patching, mod-strings, in-game-testing
 
 - `README.md`, `CHANGELOG.md`: player-facing description and release notes.
 - `src/SweepZones/`: the mod. `Mod.cs` (entry point), `SweepZoneTool.cs` (the paint tool), `ZoneStore.cs` (the saved zone store), `ToolIcon.cs` (toolbar icons), `Patches.cs` (Harmony patches), `ModStrings.cs` (UI strings), `mod.yaml` and `mod_info.yaml` (manifests).

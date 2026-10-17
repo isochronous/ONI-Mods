@@ -138,7 +138,8 @@ if (idx == ushort.MaxValue || idx >= elements.Count)
 - Player-visible text is a `LocString` field in `ModStrings`, never a literal at the call site (see [naming conventions](naming-conventions.md)).
 
 ## Harmony Patches
-**Id:** blk-1ebc400095cd
+**Id:** blk-1ebc400095cd  
+**Tags:** harmony-patching, transpiler, mod-entry-point
 
 - A patch is a static class with `[HarmonyPatch(typeof(Type), nameof(Type.Method))]`, or `[HarmonyPatch(typeof(Type), "PrivateMethod")]` for a non-public method, and methods named `Prefix`, `Postfix`, `Transpiler` or `Finalizer` (`mods/bitshifter/src/Bitshifter/Patches.cs`).
 - Game state arrives through Harmony parameters: `__instance`, `__result`, `___field`. Fields read repeatedly use `AccessTools.FieldRefAccess` kept in a `static readonly` field (`mods/detect-any-element/src/DetectAnyElement/Patches.cs`).
@@ -162,7 +163,8 @@ if (idx == ushort.MaxValue || idx >= elements.Count)
 - Tests live in a separate `<Name>.Tests` project and are written as `[OniTest]` coroutines against the real game.
 
 ### Corner Build Anything specifics
-**Id:** blk-7a0bd3890da4
+**Id:** blk-7a0bd3890da4  
+**Tags:** transpiler, harmony-patching, mod-entry-point, reach-table
 
 - The mod is two transpilers over one shared method. They are nested in `internal static class ReachTablePatches` (`src/CornerBuildAnything/ReachTablePatches.cs`) and call `SwapTable(instructions, original)`.
 - No PLib, no translations, no options; `Mod.cs` only logs the version.

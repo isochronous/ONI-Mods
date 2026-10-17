@@ -1,0 +1,57 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/refined-building — round 1",
+  "node": "C:\\dev\\ONI-Mods\\mods\\refined-building",
+  "base": {
+    "domains/entities.md": "sha256:401b5d791c9667cead7c4c820373a96ab60bc22848fae103b0331b9e046c38af",
+    "domains/glossary.md": "sha256:76934b8bde809b8ad932a7be8244b08d631180fc5b98105d133fcd7a68a8f038",
+    "overview.md": "sha256:f471ac942d5143315d69d288099b63d3cf0da2aecfff7704902f129d86bb70b2",
+    "standards/code-style.md": "sha256:46dad43301d0d7d6335f5d20cf53323ae4212dc68f487f7a4800b3dc265dec3b",
+    "standards/naming-conventions.md": "sha256:a72e62db2e7f4dbaa98c608ef2cc68b475102363ac2076c6194a0774f084a4c3"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "logging"
+      ],
+      "section": "key-entities/elementloader-load-patch"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching"
+      ],
+      "section": "cross-domain-terms/elementloader"
+    },
+    {
+      "target": "overview.md",
+      "mode": "tag",
+      "add": [
+        "mod-entry-point",
+        "in-game-testing",
+        "harmony-patching"
+      ],
+      "section": "where-things-are"
+    },
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "logging",
+        "in-game-testing"
+      ],
+      "section": "project-specific-rules"
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching"
+      ],
+      "section": "code-naming/functions-methods"
+    }
+  ]
+}

@@ -1,4 +1,5 @@
 ---
+tags: element-sensor
 witness_digest: "sha256:9688b74ec6e9cba440970a13381f458489d3ef2313d82d57c9e72a7b1d5a4ab8"
 witness: loose
 applies_to:
@@ -12,7 +13,8 @@ description: "Glossary for the Detect Any Element mod: abbreviations such as kan
 Terms used in the Detect Any Element mod (`mods/detect-any-element`). For the classes and patches behind them, see the entities document.
 
 ## Abbreviations and Acronyms
-**Id:** blk-dd341ecb4ff1
+**Id:** blk-dd341ecb4ff1  
+**Tags:** kanim-art, mod-strings
 
 | Abbreviation | Full Term | Context |
 |--------------|-----------|---------|
@@ -21,7 +23,8 @@ Terms used in the Detect Any Element mod (`mods/detect-any-element`). For the cl
 | .po / .pot | Gettext translation file / template | `translations/<locale>.po` and `DetectAnyElement.pot` |
 
 ## Terms to Avoid
-**Id:** blk-567dd4463017
+**Id:** blk-567dd4463017  
+**Tags:** side-screen, game-tag
 
 | Avoid | Use Instead | Reason |
 |-------|-------------|--------|
@@ -33,6 +36,7 @@ Terms used in the Detect Any Element mod (`mods/detect-any-element`). For the cl
 
 ### Any
 **Id:** blk-c8ba999de59d  
+**Tags:** side-screen, game-tag  
 **Definition**: The extra choice under None in an element sensor's side screen; the sensor is on while anything is present.  
 **Used in**: `AnyElement`, `FilterSideScreen_SetTarget_Patch`
 
@@ -43,16 +47,19 @@ Terms used in the Detect Any Element mod (`mods/detect-any-element`). For the cl
 
 ### Filterable
 **Id:** blk-ba979d320f69  
+**Tags:** saved-state, game-component, game-tag  
 **Definition**: The component that holds a building's chosen tag (`SelectedTag`) and saves it. The Any tag is stored here like an element tag.  
 **Used in**: `AnyElement`, `AnyGlyph`, the sensor patches
 
 ### Tag
 **Id:** blk-4a8dea407a48  
+**Tags:** game-tag, mod-strings  
 **Definition**: The game's `Tag` identifier, used for elements, categories and filter choices. `DetectAnyElement_Any` is the mod's tag, with a proper name "Any".  
 **Used in**: `AnyElement`, `ModStrings`
 
 ### FilterSideScreen
 **Id:** blk-d8ac2b48b1c5  
+**Tags:** side-screen  
 **Definition**: The details-panel screen listing None and element categories for a filtering building. `isLogicFilter` is true for the sensors; the conveyor and pipe filters keep only None.  
 **Used in**: `FilterSideScreen_SetTarget_Patch`
 
@@ -68,6 +75,7 @@ Terms used in the Detect Any Element mod (`mods/detect-any-element`). For the cl
 
 ### Symbol override
 **Id:** blk-8b1e59874671  
+**Tags:** kanim-art  
 **Definition**: Replacing one named symbol of an animation at runtime (`SymbolOverrideController`). The sensor's `elements` symbol, the flashing icon, is replaced by the asterisk.  
 **Used in**: `AnyGlyph`
 

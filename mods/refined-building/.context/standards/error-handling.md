@@ -1,4 +1,5 @@
 ---
+tags: logging, harmony-patching
 doc_id: doc-2600cab43ce9
 description: "Error handling rules for Refined Building: guarding Harmony patches and transpilers, try/catch, logging levels and anti-patterns, plus how its element-load postfix skips ineligible elements and logs one summary"
 applies_to:

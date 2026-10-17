@@ -1,0 +1,58 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/just-fall-already — round 4",
+  "node": "C:\\dev\\ONI-Mods\\mods\\just-fall-already",
+  "base": {
+    "domains/entities.md": "sha256:0ef49958d14df1675e7266ed0a994fc92aa0d6bbc8670dec249701d3ae731dfc",
+    "domains/glossary.md": "sha256:0fc9aeb5eb269819901bf4dac918586048891e418e711a63934fa1f07a01e850",
+    "standards/error-handling.md": "sha256:cc4bbe5f7150e7927b17e52b2e9c494c1fe5ecac853ddbc4c743ccc3e1714065",
+    "standards/code-style.md": "sha256:a501c330afd6ff3c7cd897a1b9b539b464971faeedc1f41980dd9964ee84b4b4",
+    "standards/naming-conventions.md": "sha256:02e11d541280432109205b8057e91eac64d59ac3a28dbe9c603d68bd68ef01bc"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "navigation-grid",
+        "mod-compatibility",
+        "performance"
+      ],
+      "section": "business-rules"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "navigation-grid"
+      ],
+      "section": "cross-domain-terms/nav-grid-and-nav-type"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "logging"
+      ],
+      "section": "guarding-patches/transpiler-count-the-match"
+    },
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching"
+      ],
+      "section": "harmony-patches"
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching",
+        "in-game-testing",
+        "logging"
+      ],
+      "section": "project-specific-conventions/just-fall-already-specifics"
+    }
+  ]
+}

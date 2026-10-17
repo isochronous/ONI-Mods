@@ -1,4 +1,5 @@
 ---
+tags: refrigerator, heat-exchange
 witness_digest: "sha256:be1c3bfba2f3ba0bebbb432de154b8fb12c3f13303a0e342b572bcf2cb622932"
 witness: loose
 applies_to:
@@ -66,11 +67,13 @@ Terms for the No Magic Fridges mod. For the code behind them, see [entities](ent
 
 ### SimTemperatureTransfer
 **Id:** blk-c77fc14f105f  
+**Tags:** game-component  
 **Definition**: The component that links an item to the sim for heat exchange with the cell it sits in; `SurfaceArea` and `GroundTransferScale` set how fast.  
 **Used in**: `FridgeThermostat.Insulate`
 
 ### PrimaryElement
 **Id:** blk-b54dd85bb2d1  
+**Tags:** game-component  
 **Definition**: The component holding an item's element, mass and temperature. Writing `Temperature` forwards to the sim chunk.  
 **Used in**: `FridgeThermostat.Exchange`
 
@@ -81,6 +84,7 @@ Terms for the No Magic Fridges mod. For the code behind them, see [entities](ent
 
 ### Operational / powered
 **Id:** blk-98383b78254f  
+**Tags:** game-component  
 **Definition**: `Operational.IsActive` on the fridge; true while it has power. The mod's model runs only then.  
 **Used in**: `FridgeThermostat.Sim1000ms`
 

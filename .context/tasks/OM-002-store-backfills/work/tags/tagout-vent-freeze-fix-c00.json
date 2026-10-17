@@ -1,0 +1,67 @@
+{
+ "documents": [
+  {"id": "domains/README.md", "tags": [], "reason": "no-good-match", "suggestion": "index of a folder's documents"},
+  {"id": "domains/entities.md", "tags": ["liquid-vent", "liquid-freezing", "tile-repair"]},
+  {"id": "domains/glossary.md", "tags": ["liquid-vent", "liquid-freezing", "tile-repair"]},
+  {"id": "overview.md", "tags": ["liquid-vent", "liquid-freezing", "tile-repair"]},
+  {"id": "standards/README.md", "tags": [], "reason": "no-good-match", "suggestion": "index of a folder's documents"},
+  {"id": "standards/code-style.md", "tags": [], "reason": "no-good-match", "suggestion": "C# code style conventions"}
+ ],
+ "sections": [
+  {"id": "domains/README.md#domains", "tags": [], "reason": "no-good-match", "suggestion": "index of a folder's documents"},
+
+  {"id": "domains/entities.md#overview", "tags": [], "reason": "inherits"},
+  {"id": "domains/entities.md#key-entities", "tags": [], "reason": "inherits"},
+  {"id": "domains/entities.md#key-entities/insulated-vent-storage-patch-on-liquidventconfig", "tags": ["harmony-patching"]},
+  {"id": "domains/entities.md#key-entities/ventfreezewatcher-component", "tags": ["game-component", "saved-state"]},
+  {"id": "domains/entities.md#key-entities/digrequests", "tags": ["harmony-patching"]},
+  {"id": "domains/entities.md#key-entities/options", "tags": ["mod-options", "developer-tooling"]},
+  {"id": "domains/entities.md#key-entities/debugsave", "tags": ["developer-tooling", "logging"]},
+  {"id": "domains/entities.md#key-entities/harmony-patches", "tags": ["harmony-patching"]},
+  {"id": "domains/entities.md#key-entities/saved-state", "tags": ["saved-state"]},
+  {"id": "domains/entities.md#business-rules", "tags": [], "reason": "inherits"},
+  {"id": "domains/entities.md#domain-terminology", "tags": [], "reason": "inherits"},
+  {"id": "domains/entities.md#key-code-paths", "tags": ["harmony-patching", "saved-state", "developer-tooling", "in-game-testing"]},
+  {"id": "domains/entities.md#related", "tags": [], "reason": "inherits"},
+
+  {"id": "domains/glossary.md#abbreviations-and-acronyms", "tags": [], "reason": "inherits"},
+  {"id": "domains/glossary.md#terms-to-avoid", "tags": [], "reason": "inherits"},
+  {"id": "domains/glossary.md#cross-domain-terms", "tags": [], "reason": "inherits"},
+  {"id": "domains/glossary.md#cross-domain-terms/liquid-vent", "tags": [], "reason": "inherits"},
+  {"id": "domains/glossary.md#cross-domain-terms/super-cooled-liquid", "tags": [], "reason": "inherits"},
+  {"id": "domains/glossary.md#cross-domain-terms/phase-transition-handler", "tags": [], "reason": "inherits"},
+  {"id": "domains/glossary.md#cross-domain-terms/insulated-storage-modifiers", "tags": [], "reason": "inherits"},
+  {"id": "domains/glossary.md#cross-domain-terms/80-rule", "tags": [], "reason": "inherits"},
+  {"id": "domains/glossary.md#cross-domain-terms/dig", "tags": [], "reason": "inherits"},
+  {"id": "domains/glossary.md#cross-domain-terms/debris-pile", "tags": [], "reason": "inherits"},
+  {"id": "domains/glossary.md#cross-domain-terms/foundation-tile", "tags": [], "reason": "inherits"},
+  {"id": "domains/glossary.md#related", "tags": [], "reason": "inherits"},
+
+  {"id": "overview.md#what-this-is", "tags": [], "reason": "inherits"},
+  {"id": "overview.md#where-things-are", "tags": ["mod-entry-point", "mod-options", "mod-strings", "in-game-testing"]},
+
+  {"id": "standards/README.md#standards", "tags": [], "reason": "no-good-match", "suggestion": "index of a folder's documents"},
+
+  {"id": "standards/code-style.md#formatting", "tags": [], "reason": "no-good-match", "suggestion": "C# source formatting rules"},
+  {"id": "standards/code-style.md#formatting/indentation", "tags": [], "reason": "no-good-match", "suggestion": "C# source formatting rules"},
+  {"id": "standards/code-style.md#formatting/line-length", "tags": [], "reason": "no-good-match", "suggestion": "C# source formatting rules"},
+  {"id": "standards/code-style.md#formatting/braces", "tags": [], "reason": "no-good-match", "suggestion": "C# source formatting rules"},
+  {"id": "standards/code-style.md#language-and-toolchain", "tags": [], "reason": "no-good-match", "suggestion": "language version and build toolchain"},
+  {"id": "standards/code-style.md#imports-includes", "tags": [], "reason": "no-good-match", "suggestion": "using directive ordering"},
+  {"id": "standards/code-style.md#imports-includes/organization", "tags": [], "reason": "no-good-match", "suggestion": "using directive ordering"},
+  {"id": "standards/code-style.md#imports-includes/example", "tags": [], "reason": "no-good-match", "suggestion": "using directive ordering"},
+  {"id": "standards/code-style.md#comments", "tags": [], "reason": "no-good-match", "suggestion": "code commenting conventions"},
+  {"id": "standards/code-style.md#comments/when-to-comment", "tags": [], "reason": "no-good-match", "suggestion": "code commenting conventions"},
+  {"id": "standards/code-style.md#comments/when-not-to-comment", "tags": [], "reason": "no-good-match", "suggestion": "code commenting conventions"},
+  {"id": "standards/code-style.md#comments/format", "tags": [], "reason": "no-good-match", "suggestion": "code commenting conventions"},
+  {"id": "standards/code-style.md#control-structures", "tags": [], "reason": "no-good-match", "suggestion": "control flow and loop style"},
+  {"id": "standards/code-style.md#control-structures/conditionals", "tags": [], "reason": "no-good-match", "suggestion": "control flow and loop style"},
+  {"id": "standards/code-style.md#control-structures/loops", "tags": [], "reason": "no-good-match", "suggestion": "control flow and loop style"},
+  {"id": "standards/code-style.md#control-structures/strings", "tags": ["mod-strings"]},
+  {"id": "standards/code-style.md#harmony-patches", "tags": ["harmony-patching", "mod-entry-point", "mod-options"]},
+  {"id": "standards/code-style.md#game-components", "tags": ["game-component", "saved-state"]},
+  {"id": "standards/code-style.md#project-specific-rules", "tags": ["mod-options", "logging", "in-game-testing"]},
+  {"id": "standards/code-style.md#project-specific-rules/vent-freeze-fix-specifics", "tags": ["game-component", "saved-state", "mod-options", "developer-tooling"]},
+  {"id": "standards/code-style.md#related", "tags": [], "reason": "inherits"}
+ ]
+}

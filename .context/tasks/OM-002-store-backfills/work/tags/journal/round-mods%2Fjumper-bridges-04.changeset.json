@@ -1,0 +1,57 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/jumper-bridges — round 4",
+  "node": "C:\\dev\\ONI-Mods\\mods\\jumper-bridges",
+  "base": {
+    "domains/entities.md": "sha256:7c863c29ddb1665d8752f65dbca58c7ce78c8d976ac5758c5ffcea23569777da",
+    "domains/glossary.md": "sha256:19836029ee6576baa431489c46a429773e6ec1cbae9aa8aa1c1e5b8817f37d7d",
+    "standards/code-style.md": "sha256:4d99c0fec7f30127dc5fe0359ea74f900dfde253d52df157c5b6aec1166cf1c8",
+    "standards/error-handling.md": "sha256:94bff1ed6de3bd6e8d2ee65eb245966db0a27c2fa35927efd628be3906861038",
+    "standards/naming-conventions.md": "sha256:2356d81d628ed1ca2b1c7f8535abcbae9aa34e4b7513b1b7c545739acfdb8da0"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "utility-network"
+      ],
+      "section": "key-entities/bridgekind"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "utility-network"
+      ],
+      "section": "cross-domain-terms/utility-network"
+    },
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "mod-entry-point",
+        "game-component",
+        "bridge-end"
+      ],
+      "section": "project-specific-rules/jumper-bridges-specifics"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "vanilla-fallback",
+        "logging"
+      ],
+      "section": "guarding-patches/missing-data-warn-continue"
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "tag",
+      "add": [
+        "in-game-testing"
+      ],
+      "section": "code-naming/ids-and-tags"
+    }
+  ]
+}

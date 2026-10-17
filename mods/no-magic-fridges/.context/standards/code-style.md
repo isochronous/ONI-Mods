@@ -138,7 +138,8 @@ if (idx == ushort.MaxValue || idx >= elements.Count)
 - Player-visible text is a `LocString` field in `ModStrings`, never a literal at the call site (see [naming conventions](naming-conventions.md)).
 
 ## Harmony Patches
-**Id:** blk-d44c4a153c1c
+**Id:** blk-d44c4a153c1c  
+**Tags:** harmony-patching, mod-entry-point, reflection
 
 - A patch is a static class with `[HarmonyPatch(typeof(Type), nameof(Type.Method))]`, or `[HarmonyPatch(typeof(Type), "PrivateMethod")]` for a non-public method, and methods named `Prefix`, `Postfix`, `Transpiler` or `Finalizer` (`mods/bitshifter/src/Bitshifter/Patches.cs`).
 - Game state arrives through Harmony parameters: `__instance`, `__result`, `___field`. Fields read repeatedly use `AccessTools.FieldRefAccess` kept in a `static readonly` field (`mods/detect-any-element/src/DetectAnyElement/Patches.cs`).
@@ -148,7 +149,8 @@ if (idx == ushort.MaxValue || idx >= elements.Count)
 - Transpilers search for the instruction they change and report when it is not found; see [error handling](error-handling.md).
 
 ## Game Components
-**Id:** blk-d12bc1aff49d
+**Id:** blk-d12bc1aff49d  
+**Tags:** game-component
 
 - A component extends `KMonoBehaviour`, overrides `OnPrefabInit`, `OnSpawn` and `OnCleanUp` and calls `base` from each. Sibling components come in through `[MyCmpGet]` or `[MyCmpReq]` (`mods/no-magic-fridges/src/NoMagicFridges/FridgeThermostat.cs`).
 - Saved state uses `[Serialize]` fields with `[SerializationConfig(MemberSerialization.OptIn)]` on the class (`mods/sweep-zones/src/SweepZones/ZoneStore.cs`).
@@ -162,7 +164,8 @@ if (idx == ushort.MaxValue || idx >= elements.Count)
 - Tests live in a separate `<Name>.Tests` project and are written as `[OniTest]` coroutines against the real game.
 
 ### No Magic Fridges specifics
-**Id:** blk-6a0e4de0eca7
+**Id:** blk-6a0e4de0eca7  
+**Tags:** refrigerator, harmony-patching, game-component, reflection
 
 - `Patches.cs` is a `public static class Patches` with nested patch classes. `FridgeThermostat` is a `KMonoBehaviour` with `[MyCmpGet]` fields and a static `EventSystem.IntraObjectHandler` named `OnStorageChangeDelegate` (`src/NoMagicFridges/FridgeThermostat.cs`).
 - Private game members are reached through `static readonly FieldInfo` fields (`ActiveField`, `StorageField`) and delegates built with `AccessTools.MethodDelegate`.

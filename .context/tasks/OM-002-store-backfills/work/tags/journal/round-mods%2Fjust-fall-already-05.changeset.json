@@ -1,0 +1,48 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/just-fall-already — round 5",
+  "node": "C:\\dev\\ONI-Mods\\mods\\just-fall-already",
+  "base": {
+    "domains/entities.md": "sha256:131ff417566baad3d7be6a9f2b256c3fc9729d4cb3ffa68f4bfbf3a4226ddd38",
+    "domains/glossary.md": "sha256:e78604a6e0046df06459f9c722cf218a0cbd10675bc14dadceb0b75b4df615db",
+    "standards/error-handling.md": "sha256:09d74e74944dbf18f23915b8ca7af4c7aaba3a183dbcefd981820e255b369b37",
+    "standards/code-style.md": "sha256:f0490aedadc79e183af2096e1223060a6d72a76b481780a59847e084d8942b8d"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "navigation-grid",
+        "in-game-testing",
+        "logging"
+      ],
+      "section": "key-code-paths"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "mod-compatibility"
+      ],
+      "section": "cross-domain-terms/critters-fall-through-open-doors"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "logging"
+      ],
+      "section": "guarding-patches/missing-data-warn-continue"
+    },
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "logging",
+        "in-game-testing"
+      ],
+      "section": "project-specific-rules"
+    }
+  ]
+}

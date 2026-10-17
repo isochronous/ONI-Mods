@@ -1,0 +1,74 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/jumper-bridges — round 0",
+  "node": "C:\\dev\\ONI-Mods\\mods\\jumper-bridges",
+  "base": {
+    "domains/README.md": "sha256:a191da69ad82894cb145ab744fad0fe6c560440afce946ceeb30c6ca5f047160",
+    "domains/entities.md": "sha256:de7fe6b6b89614ef050fd67acecc668098654891897552593518a643bed642a2",
+    "domains/glossary.md": "sha256:c939e7054141b12b47a9e48887fd1495fbc17bcc86046969374c0ead420b9035",
+    "overview.md": "sha256:5bde7ce153c8ecbca46d241e7b8bc64329344309afc02a118f20b98ba49f1832",
+    "standards/code-style.md": "sha256:e7f1177f6c275562fad779fd7ec07a675fd3d5474f1924b4f5d7a7db08552622",
+    "standards/error-handling.md": "sha256:493fdc3bfd6c09b52958ebd5ca678ffc1d81a72c4d68f278ff068769799e4240",
+    "standards/naming-conventions.md": "sha256:3f0bff36b52f610b824d12d062e443936246e51a4191a142b7b507c8ee73779c"
+  },
+  "ops": [
+    {
+      "target": "domains/README.md",
+      "mode": "tag",
+      "add": [
+        "bridge-end"
+      ]
+    },
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "bridge-end"
+      ]
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "bridge-end"
+      ]
+    },
+    {
+      "target": "overview.md",
+      "mode": "tag",
+      "add": [
+        "bridge-end"
+      ]
+    },
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "mod-strings",
+        "logging"
+      ],
+      "section": "control-structures/strings"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "vanilla-fallback",
+        "logging",
+        "harmony-patching"
+      ],
+      "section": "principles"
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "tag",
+      "add": [
+        "mod-entry-point",
+        "harmony-patching",
+        "mod-strings",
+        "mod-options"
+      ],
+      "section": "files-and-directories/examples-by-type"
+    }
+  ]
+}

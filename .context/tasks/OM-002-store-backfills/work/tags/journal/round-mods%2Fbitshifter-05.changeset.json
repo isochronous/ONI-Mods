@@ -1,0 +1,38 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/bitshifter — round 5",
+  "node": "C:\\dev\\ONI-Mods\\mods\\bitshifter",
+  "base": {
+    "domains/entities.md": "sha256:1b26516c019b4f9a11c3aedc6769234fef05da82f590cac9766a5bbc2561e432",
+    "domains/glossary.md": "sha256:7d7540a2cd15557a302da13134eccebb9b26acb3fc12ccf7ef515c67636c6828",
+    "standards/error-handling.md": "sha256:8fe9fee896cad657c98db7931772e07a89075dd1f84d73c11bec234f401ab8a1"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "not-gate",
+        "transpiler",
+        "vanilla-fallback"
+      ],
+      "section": "key-entities/not-gate-mask"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "bit-depth"
+      ],
+      "section": "cross-domain-terms/ribbon-writer"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching"
+      ],
+      "section": "try-catch/finalizer-for-a-thread-with-no-handler"
+    }
+  ]
+}

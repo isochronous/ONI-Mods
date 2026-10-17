@@ -1,0 +1,59 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/natural-backwalls-everywhere — round 3",
+  "node": "C:\\dev\\ONI-Mods\\mods\\natural-backwalls-everywhere",
+  "base": {
+    "domains/entities.md": "sha256:d2996fc0005c64da37ea5e7ed99a9a11895b301e0033c3f0227b3820b72fc582",
+    "domains/glossary.md": "sha256:82cbdae8b282cdebe1a541883cbf6b8c7822593f11e6416efbb91469cc49962b",
+    "standards/error-handling.md": "sha256:7922ea05d2548132bdf5fd069767f8c3c293693e8ff7e7c8090a505ab1f4e46f",
+    "standards/code-style.md": "sha256:098e8fbfe84182f0599c638b08d274c25749294f1c5ed6577c37c6115e89f353",
+    "standards/naming-conventions.md": "sha256:2e1b001828f5cf894516ef0f81b0163e57b9519e5f65ea4801dfeca5460e25ad"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "mod-options",
+        "developer-tooling"
+      ],
+      "section": "key-entities/options"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "biome-group"
+      ],
+      "section": "cross-domain-terms/biome"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "transpiler",
+        "vanilla-fallback",
+        "logging"
+      ],
+      "section": "guarding-patches/transpiler-count-the-match"
+    },
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching",
+        "settle-sim",
+        "worldgen"
+      ],
+      "section": "project-specific-rules/natural-backwalls-everywhere-specifics"
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "tag",
+      "add": [
+        "mod-strings"
+      ],
+      "section": "code-naming/strings-modstrings"
+    }
+  ]
+}

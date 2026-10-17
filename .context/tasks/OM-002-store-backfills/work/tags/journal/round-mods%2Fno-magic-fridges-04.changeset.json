@@ -1,0 +1,18 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/no-magic-fridges — round 4",
+  "node": "C:\\dev\\ONI-Mods\\mods\\no-magic-fridges",
+  "base": {
+    "standards/error-handling.md": "sha256:903cea8cd858a3261e37bab23f64d41e5841f997a7459d8cc9fde2d8849e0c8c"
+  },
+  "ops": [
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching"
+      ],
+      "section": "try-catch/finalizer-for-a-thread-with-no-handler"
+    }
+  ]
+}

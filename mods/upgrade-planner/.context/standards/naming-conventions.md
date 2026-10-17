@@ -1,4 +1,5 @@
 ---
+tags: harmony-patching
 doc_id: doc-5393f7a6ddfb
 description: "Naming rules for the Upgrade Planner mod: files, namespaces, patch classes, variables, ModStrings keys, ids and tests, plus its string branch, hotkey id, folder-per-layer names, interfaces, test classes and log prefix"
 applies_to:
@@ -19,7 +20,8 @@ applies_to:
 - Release tags are `<mod-folder>-v<version>` (repository README).
 
 ### Examples by Type
-**Id:** blk-19a06aa47b06
+**Id:** blk-19a06aa47b06  
+**Tags:** mod-entry-point, mod-strings
 
 | Type | Convention | Example |
 |------|------------|---------|
@@ -74,7 +76,8 @@ private static readonly Dictionary<int, float> armed = new Dictionary<int, float
 - Prefix with `Is`, `Has`, `Can`, `Should` or name the state: `IsEnabled`, `OriginalActive`, `isSpawned`, `warnedMissingInternals`.
 
 ### Strings (`ModStrings`)
-**Id:** blk-311a0390ffc9
+**Id:** blk-311a0390ffc9  
+**Tags:** mod-strings
 
 - `ModStrings` mirrors the game's `STRINGS` tree: nested static classes and `LocString` fields in UPPER_SNAKE_CASE. `ModStrings.BUILDINGS.PREFABS.<BUILDINGID>.NAME` is registered as `STRINGS.BUILDINGS.PREFABS.<BUILDINGID>.NAME`, the key the game looks a building name up by (`mods/smart-weight-plate/src/SmartWeightPlate/ModStrings.cs`).
 - Mod-private text goes under a branch named for the mod in capitals (`ModStrings.SALTYSURF.ELEMENT_LIST`, `ModStrings.JUMPERBRIDGES.OPTIONS`).
@@ -82,7 +85,8 @@ private static readonly Dictionary<int, float> armed = new Dictionary<int, float
 - Long branches are shortened with an alias at the top of the file (`using OPTIONS = NaturalBackwalls.ModStrings.NATURALBACKWALLS.OPTIONS;`).
 
 ### Ids and Tags
-**Id:** blk-af8437bc3cd7
+**Id:** blk-af8437bc3cd7  
+**Tags:** hotkey, in-game-testing
 
 - Building ids are PascalCase and match the config class (`SmartWeightPlate`); a mod that replaces another mod's buildings reuses that mod's ids (`StoragePodConfig`, `CoolPodConfig` in `mods/storage-pod-redux`).
 - Tags and PAction ids carry a mod prefix: `DetectAnyElement_Any`, `Isochronous.SweepZones.Tool`.
@@ -93,7 +97,8 @@ private static readonly Dictionary<int, float> armed = new Dictionary<int, float
 **Id:** blk-8dd58a7cbfa9
 
 ### Upgrade Planner specifics
-**Id:** blk-14778d74c092
+**Id:** blk-14778d74c092  
+**Tags:** mod-strings, hotkey, in-game-testing, logging
 
 - `ModStrings.UI.TOOLS.UPGRADEPLANNER`; the hotkey id is `Isochronous.UpgradePlanner.Tool`.
 - Folder names are the layers: plan data in `Plan` (`UpgradePlan`, `ReplaceTypePlan`, `ChangeMaterialPlan`), matching rules in `Rules` (`Families`, `Materials`, `Variants`), the drag tool in `Tool`, views in `UI` (`TypeTabView`, `MaterialTabView`, `PresetBar`).

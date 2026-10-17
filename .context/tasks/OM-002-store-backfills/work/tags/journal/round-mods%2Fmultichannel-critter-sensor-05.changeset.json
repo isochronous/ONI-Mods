@@ -1,0 +1,36 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/multichannel-critter-sensor — round 5",
+  "node": "C:\\dev\\ONI-Mods\\mods\\multichannel-critter-sensor",
+  "base": {
+    "domains/entities.md": "sha256:abb9e2fb1af583d66165b7fcaa5cf10dda2b2b5644fdb768f3c8d0148af21241",
+    "domains/glossary.md": "sha256:bd5737f3481df00365a2560c1ee070eff16c64ded9d8743ae2560eae14026d9b",
+    "standards/error-handling.md": "sha256:6ca5545b6a1d54a1ebe521d83f988be6ab627c0d76221049e8f0fec6e216400f"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "side-screen"
+      ],
+      "section": "key-entities/multichannelcrittersensorsidescreen"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "saved-state"
+      ],
+      "section": "cross-domain-terms/prefab-tag"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching"
+      ],
+      "section": "anti-patterns-to-avoid/assuming-the-game-s-internals"
+    }
+  ]
+}

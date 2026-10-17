@@ -1,0 +1,47 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/natural-backwalls-everywhere — round 4",
+  "node": "C:\\dev\\ONI-Mods\\mods\\natural-backwalls-everywhere",
+  "base": {
+    "domains/entities.md": "sha256:b5a8b33f8b1219a5b149d6ce2187b89d39fff60b3c8a1b7f04c0d481b9f13b0c",
+    "domains/glossary.md": "sha256:0ff84b7246055f056ce4e3624d2c2ee8ead1c87bd51adf75aec0a0b25d182b4d",
+    "standards/error-handling.md": "sha256:9f5ffc487638ab7bc82c3302ae2a60a4b62a2a34f752f10999be8e7ff4888105",
+    "standards/naming-conventions.md": "sha256:bae641b0bf699475bccacb2c8f8e995104f20e8ac706da5b2b7aac2ffe787d79"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "biome-group"
+      ],
+      "section": "key-entities/biomegroup-and-biomegroups"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "biome-group"
+      ],
+      "section": "cross-domain-terms/biome-group"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "vanilla-fallback",
+        "logging"
+      ],
+      "section": "guarding-patches/missing-data-warn-continue"
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "tag",
+      "add": [
+        "mod-compatibility",
+        "in-game-testing"
+      ],
+      "section": "code-naming/ids-and-tags"
+    }
+  ]
+}

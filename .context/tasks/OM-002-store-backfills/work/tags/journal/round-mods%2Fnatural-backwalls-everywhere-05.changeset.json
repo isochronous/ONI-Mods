@@ -1,0 +1,49 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/natural-backwalls-everywhere — round 5",
+  "node": "C:\\dev\\ONI-Mods\\mods\\natural-backwalls-everywhere",
+  "base": {
+    "domains/entities.md": "sha256:e341341cb64420633719d89b26ed47bb6fb9f1982e26aac7a8bbd1a4c5070964",
+    "domains/glossary.md": "sha256:32be30ef041807e37ef7ec630263c2b28da13d05cd655eea9b4c2960589c5339",
+    "standards/error-handling.md": "sha256:4f4ad7e1871b6b9f65ab49d9eb82bf7c59c2025e8a44695d4d55975286b84f39",
+    "standards/naming-conventions.md": "sha256:a04ac0cdcd89df167f2677d0452847787738b8d87f53ea384f8aa1ebd2771925"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "noise-pattern"
+      ],
+      "section": "key-entities/pattern-patterngroup-and-patterns"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "noise-pattern"
+      ],
+      "section": "cross-domain-terms/zone-type"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "vanilla-fallback",
+        "harmony-patching"
+      ],
+      "section": "guarding-patches/null-checks-on-game-objects"
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "tag",
+      "add": [
+        "mod-strings",
+        "harmony-patching",
+        "in-game-testing",
+        "biome-group"
+      ],
+      "section": "project-specific-conventions/natural-backwalls-everywhere-specifics"
+    }
+  ]
+}

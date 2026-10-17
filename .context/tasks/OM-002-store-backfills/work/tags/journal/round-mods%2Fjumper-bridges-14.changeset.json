@@ -1,0 +1,21 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/jumper-bridges — round 14",
+  "node": "C:\\dev\\ONI-Mods\\mods\\jumper-bridges",
+  "base": {
+    "standards/error-handling.md": "sha256:662a4c0922cd14f147ed594d70a33e974053e0b02870f34e31f29459d9863a23"
+  },
+  "ops": [
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching",
+        "logging",
+        "mod-options",
+        "bridge-end"
+      ],
+      "section": "project-specific-patterns/jumper-bridges-specifics"
+    }
+  ]
+}

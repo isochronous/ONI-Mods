@@ -1,0 +1,236 @@
+{
+ "documents": [
+  {
+   "id": "standards/error-handling.md",
+   "tags": [
+    "vanilla-fallback"
+   ]
+  },
+  {
+   "id": "standards/naming-conventions.md",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "naming conventions for code and files"
+  }
+ ],
+ "sections": [
+  {
+   "id": "standards/error-handling.md#principles",
+   "tags": [
+    "logging",
+    "harmony-patching"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#guarding-patches",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#guarding-patches/missing-member-warn-leave-vanilla",
+   "tags": [
+    "harmony-patching"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#guarding-patches/transpiler-count-the-match",
+   "tags": [
+    "harmony-patching",
+    "logging"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#guarding-patches/missing-data-warn-continue",
+   "tags": [
+    "building-unlock",
+    "logging"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#guarding-patches/null-checks-on-game-objects",
+   "tags": [
+    "harmony-patching"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#guarding-patches/warn-once",
+   "tags": [
+    "logging"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#try-catch",
+   "tags": [
+    "mod-compatibility",
+    "logging"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#try-catch/finalizer-for-a-thread-with-no-handler",
+   "tags": [
+    "harmony-patching",
+    "logging"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#yielding-to-other-mods",
+   "tags": [
+    "mod-compatibility",
+    "logging"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#logging",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#logging/log-levels",
+   "tags": [
+    "logging"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#logging/what-to-include",
+   "tags": [
+    "logging"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#anti-patterns-to-avoid",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#anti-patterns-to-avoid/swallowing-exceptions",
+   "tags": [
+    "logging"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#anti-patterns-to-avoid/throwing-from-a-patch",
+   "tags": [
+    "harmony-patching"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#anti-patterns-to-avoid/assuming-the-game-s-internals",
+   "tags": [
+    "harmony-patching"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#anti-patterns-to-avoid/silent-degradation",
+   "tags": [
+    "logging"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#anti-patterns-to-avoid/spamming-the-log",
+   "tags": [
+    "logging"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#project-specific-patterns",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#project-specific-patterns/smart-weight-plate-specifics",
+   "tags": [
+    "mod-compatibility",
+    "building-unlock",
+    "side-screen",
+    "logging"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#related",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/naming-conventions.md#files-and-directories",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/naming-conventions.md#files-and-directories/general-rules",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "file and directory naming"
+  },
+  {
+   "id": "standards/naming-conventions.md#files-and-directories/examples-by-type",
+   "tags": [
+    "building-config",
+    "mod-entry-point",
+    "mod-strings",
+    "in-game-testing"
+   ]
+  },
+  {
+   "id": "standards/naming-conventions.md#code-naming",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/naming-conventions.md#code-naming/variables",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "identifier casing"
+  },
+  {
+   "id": "standards/naming-conventions.md#code-naming/functions-methods",
+   "tags": [
+    "harmony-patching",
+    "game-component"
+   ]
+  },
+  {
+   "id": "standards/naming-conventions.md#code-naming/classes-types-interfaces",
+   "tags": [
+    "harmony-patching"
+   ]
+  },
+  {
+   "id": "standards/naming-conventions.md#code-naming/booleans",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "identifier casing"
+  },
+  {
+   "id": "standards/naming-conventions.md#code-naming/strings-modstrings",
+   "tags": [
+    "mod-strings"
+   ]
+  },
+  {
+   "id": "standards/naming-conventions.md#code-naming/ids-and-tags",
+   "tags": [
+    "building-config",
+    "mod-entry-point",
+    "in-game-testing"
+   ]
+  },
+  {
+   "id": "standards/naming-conventions.md#project-specific-conventions",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/naming-conventions.md#project-specific-conventions/smart-weight-plate-specifics",
+   "tags": [
+    "mod-strings",
+    "in-game-testing",
+    "logging"
+   ]
+  },
+  {
+   "id": "standards/naming-conventions.md#related",
+   "tags": [],
+   "reason": "inherits"
+  }
+ ]
+}

@@ -1,0 +1,29 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/dont-count-eggs-on-rails — round 4",
+  "node": "C:\\dev\\ONI-Mods\\mods\\dont-count-eggs-on-rails",
+  "base": {
+    "domains/entities.md": "sha256:c5eb6383cb69533a92454ac2e9ca8c63e28455f9219c4401be5f7945c959a341",
+    "standards/naming-conventions.md": "sha256:573bd539effc3d3474cec1defeda3b5267a2f297545adc95a94609e1b5e7dc05"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "in-game-testing"
+      ],
+      "section": "key-code-paths"
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching",
+        "in-game-testing",
+        "logging"
+      ],
+      "section": "project-specific-conventions/don-t-count-eggs-on-rails-specifics"
+    }
+  ]
+}

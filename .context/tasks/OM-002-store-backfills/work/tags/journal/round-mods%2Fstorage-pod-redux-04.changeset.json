@@ -1,0 +1,59 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/storage-pod-redux — round 4",
+  "node": "C:\\dev\\ONI-Mods\\mods\\storage-pod-redux",
+  "base": {
+    "domains/entities.md": "sha256:77f229fdf3a3c1a8a2771fe0b05b31fc7e2fff87726d2c2ff7326d7dab1c26b8",
+    "domains/glossary.md": "sha256:5c14afbee8396c4a508e6896cbb40ebe0c27be9a5175985b009e4954d1609ee4",
+    "standards/error-handling.md": "sha256:38c9ce6bc665a041c870365f259155c499f61483c174d2929a05c8e10ffaa83c",
+    "standards/code-style.md": "sha256:922c667f27949d1a5129125d8ca0d5f64362c2a01520936d297c5cb67bfcaebc",
+    "standards/naming-conventions.md": "sha256:02fb49a20f693fb32213923134c33c3e6c76b9ebced5f092d3c12cea76040716"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "mod-compatibility",
+        "logging"
+      ],
+      "section": "key-entities/buildings-decision-state"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "refrigerator",
+        "building-config"
+      ],
+      "section": "cross-domain-terms/mini-fridge"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "mod-compatibility"
+      ],
+      "section": "try-catch"
+    },
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "mod-entry-point",
+        "harmony-patching",
+        "building-registration"
+      ],
+      "section": "project-specific-rules/storage-pod-redux-specifics"
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "tag",
+      "add": [
+        "building-config",
+        "in-game-testing"
+      ],
+      "section": "code-naming/ids-and-tags"
+    }
+  ]
+}

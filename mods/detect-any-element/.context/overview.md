@@ -1,16 +1,19 @@
 ---
+tags: element-sensor
 description: What the Detect Any Element mod does (an Any choice on five element sensors, drawn with an asterisk), its version and translations, and where its source, tests, art tool, README and publish folder sit
 ---
 
 # detect-any-element
 
 ## What this is
-**Id:** blk-d74e1e7b3ec3
+**Id:** blk-d74e1e7b3ec3  
+**Tags:** kanim-art, mod-strings
 
 Detect Any Element is an Oxygen Not Included mod that adds an Any choice, right under None, to the element sensors. The Liquid Pipe, Gas Pipe and Conveyor Rail Element Sensors go green for any packet passing through, and the Gas and Liquid Element Sensors for any gas or liquid in their cell. Picking an element switches the sensor back to normal. The Any choice carries an asterisk drawn by a small kanim. Version 0.2.1 in `mod_info.yaml` (released 2026-10-12), minimum supported build 744825, published on the Steam Workshop with Korean, Russian and Chinese translations.
 
 ## Where things are
-**Id:** blk-a4375e886775
+**Id:** blk-a4375e886775  
+**Tags:** mod-entry-point, mod-strings, kanim-art, in-game-testing
 
 Top-level folders and key files:
 

@@ -1,0 +1,67 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/salty-surf — round 1",
+  "node": "C:\\dev\\ONI-Mods\\mods\\salty-surf",
+  "base": {
+    "domains/entities.md": "sha256:c6b00f5bd6e2f6c17b4bc72623e10ea290ad219415957a4f9fe2c68c13e81c06",
+    "domains/glossary.md": "sha256:5bb9dab84cdfdf122ac232351e96155a8e9ee8cd62d775537d2259204e4adddd",
+    "overview.md": "sha256:bf7734ea8a55f62f901be50ea36821b8393d1f9dd41e75f9dd16dc1edfe55e23",
+    "standards/code-style.md": "sha256:5be7bd66d554d268d65906ea6e0c3291bcc866ea4cc07a4845042e00c55d7f6b",
+    "standards/error-handling.md": "sha256:baaa37f6a3f1d8e69681b9ef70b48733645c55ae712489bd9833b3f6de3b6ef0",
+    "standards/naming-conventions.md": "sha256:f285599358387c6176b140aeff2f5dc1503746332bab18f7aa0c8a58d7b6b5d7"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching",
+        "game-tag"
+      ],
+      "section": "overview"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "game-tag"
+      ],
+      "section": "cross-domain-terms/intake-capacity-tag"
+    },
+    {
+      "target": "overview.md",
+      "mode": "tag",
+      "add": [
+        "info-panel-text",
+        "mod-strings",
+        "vanilla-fallback"
+      ],
+      "section": "what-this-is"
+    },
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching"
+      ],
+      "section": "comments/when-to-comment"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching",
+        "vanilla-fallback"
+      ],
+      "section": "guarding-patches"
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching"
+      ],
+      "section": "code-naming/classes-types-interfaces"
+    }
+  ]
+}

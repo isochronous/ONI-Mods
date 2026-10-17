@@ -1,0 +1,69 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/sweep-zones — round 0",
+  "node": "C:\\dev\\ONI-Mods\\mods\\sweep-zones",
+  "base": {
+    "domains/entities.md": "sha256:16858c7398c831737ea3f8a64009098d719d0ebb1b0320654f6fcbef46fc2d94",
+    "domains/glossary.md": "sha256:023cce5e626805e42d90b8c48dd42f92a05b41798ff5679d9a24a1df6edd6455",
+    "overview.md": "sha256:4c37098fb2a9d54776b8a689610957f8932620682b17460e1d2cf5b409566698",
+    "standards/error-handling.md": "sha256:ca5dc9e4bda87d1441bcd566c5ee65ed4e0fc114119e5b8163b2773716916af7",
+    "standards/code-style.md": "sha256:9bcfd6101f3b3284b6460705d5af8bcb59a009dc9c75f484a2db3bf14216e8ca",
+    "standards/naming-conventions.md": "sha256:5bbe10d4d570b8b75d1abf4030bee044f927f9214b2e4d017a9288a34b02b36c"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "toolbar-tool",
+        "saved-state",
+        "cleaning-errands"
+      ]
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "cleaning-errands",
+        "toolbar-tool"
+      ]
+    },
+    {
+      "target": "overview.md",
+      "mode": "tag",
+      "add": [
+        "toolbar-tool",
+        "cleaning-errands",
+        "saved-state"
+      ]
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "vanilla-fallback",
+        "logging"
+      ]
+    },
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "mod-strings",
+        "logging"
+      ],
+      "section": "control-structures/strings"
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "tag",
+      "add": [
+        "mod-entry-point",
+        "harmony-patching",
+        "mod-strings",
+        "in-game-testing"
+      ],
+      "section": "files-and-directories/examples-by-type"
+    }
+  ]
+}

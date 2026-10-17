@@ -1,4 +1,5 @@
 ---
+tags: critter-falling
 witness_digest: "sha256:49eff80a7e3de4b75083d815cb6a92a69df8f2c9f195c336a66e79ed2725449c"
 witness: loose
 applies_to:
@@ -19,6 +20,7 @@ Just Fall Already makes a critter fall at once when a door takes its footing awa
 
 ### FallPoke
 **Id:** blk-7d0c65d332f3  
+**Tags:** harmony-patching, navigation-grid  
 **Description**: Static class with the whole mod. A postfix on `Pathfinding.AddNavGrid` subscribes to each navigation grid's `OnNavGridUpdateComplete`. A nested patch on `Door.SetWorldState` arms cells when a door finishes a state change. When a grid batch includes an armed cell, any critter standing in that cell whose navigation type is no longer valid there has `brain.UpdateBrain()` called, which runs normal chore selection and with it the game's fall check.  
 **Location**: `mods/just-fall-already/src/JustFallAlready/FallPoke.cs`
 
@@ -35,16 +37,19 @@ Just Fall Already makes a critter fall at once when a door takes its footing awa
 
 ### Door_SetWorldState_Patch
 **Id:** blk-f5bd93c3845d  
+**Tags:** harmony-patching, mod-compatibility  
 **Description**: Postfix on `Door.SetWorldState`. Acts only when `updateSim` is true (the door's state machine entered open, closed or locked after the animation) and a scene is not loading. Arms the door's `PlacementCells`; with Critters Fall Through Open Doors present it also arms the cells below, above, left and right of each.  
 **Location**: `mods/just-fall-already/src/JustFallAlready/FallPoke.cs`
 
 ### JustFallAlreadyMod
 **Id:** blk-09140514ea2f  
+**Tags:** mod-entry-point, logging  
 **Description**: The `UserMod2` entry point. Calls `base.OnLoad` (which applies the patches) and logs the version.  
 **Location**: `mods/just-fall-already/src/JustFallAlready/Mod.cs`
 
 ## Business Rules
-**Id:** blk-4ecf7695829b
+**Id:** blk-4ecf7695829b  
+**Tags:** navigation-grid, mod-compatibility, performance
 
 - A critter is poked only when it stands in an armed cell, its navigator belongs to the grid reporting the batch, its brain is running, and its current nav type is not valid in that cell.
 - Only a door that has finished changing state arms cells; a door still moving, other doors, and the stream of batches from digging and building never trigger a poke.
@@ -54,7 +59,8 @@ Just Fall Already makes a critter fall at once when a door takes its footing awa
 - What counts as floor stays with the game and other mods; the mod only brings the brain's fall check forward.
 
 ## Key Code Paths
-**Id:** blk-9d52ccfdb3df
+**Id:** blk-9d52ccfdb3df  
+**Tags:** navigation-grid, in-game-testing, logging
 
 - **Door finishes a state change**: `Door.SetWorldState` postfix arms cells — see `mods/just-fall-already/src/JustFallAlready/FallPoke.cs`
 - **Grid recomputed**: `OnGridUpdated` checks armed cells, finds critters, calls `brain.UpdateBrain()`, disarms after the last grid — same file

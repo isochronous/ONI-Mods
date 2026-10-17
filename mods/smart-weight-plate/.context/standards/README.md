@@ -1,4 +1,5 @@
 ---
+tags: harmony-patching, vanilla-fallback
 doc_id: doc-26f456c540ff
 description: Index of the Smart Weight Plate standards folder, linking its code style, error handling and naming conventions documents with a line on what each covers
 ---

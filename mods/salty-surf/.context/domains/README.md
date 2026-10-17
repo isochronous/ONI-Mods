@@ -1,4 +1,5 @@
 ---
+tags: mechanical-surfboard
 doc_id: doc-a3e2d3b6cf8a
 description: Index of the Salty Surf domains folder, linking the entities document on the Mechanical Surfboard patches for accepted liquids, readiness and spill and the glossary of ONI and mod terms
 ---

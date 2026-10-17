@@ -1,0 +1,41 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/bitshifter — round 8",
+  "node": "C:\\dev\\ONI-Mods\\mods\\bitshifter",
+  "base": {
+    "domains/entities.md": "sha256:004d56da4c225d54a5d4102c3b451a4de06d1790b3858515b2dcc3712bbf4f97",
+    "domains/glossary.md": "sha256:82058bffff1178355973e8cbfd91e677bddfaf234712fa1d00094a44e6f52787",
+    "standards/error-handling.md": "sha256:5fa49da0a905287ce8d77f5d830fa3ad6dfa71aacf8194fa01ce7ac75209c1b8"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "mod-entry-point",
+        "side-screen",
+        "kanim-art",
+        "in-game-testing"
+      ],
+      "section": "key-code-paths"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "saved-state",
+        "bit-depth"
+      ],
+      "section": "cross-domain-terms/selected-bit"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching",
+        "transpiler"
+      ],
+      "section": "anti-patterns-to-avoid/assuming-the-game-s-internals"
+    }
+  ]
+}

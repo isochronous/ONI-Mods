@@ -1,0 +1,31 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/sweep-zones — round 5",
+  "node": "C:\\dev\\ONI-Mods\\mods\\sweep-zones",
+  "base": {
+    "standards/error-handling.md": "sha256:bb57b721ca1f0df49875073fcea58c8316f12bfdaba3cfe880e8efd35e6bbe80",
+    "standards/naming-conventions.md": "sha256:56c11cf5719d8d54a42638585802b5328bcd4f28c4be4472a33ec3e839c63c80"
+  },
+  "ops": [
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching",
+        "mod-entry-point"
+      ],
+      "section": "yielding-to-other-mods"
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "tag",
+      "add": [
+        "mod-strings",
+        "hotkey",
+        "in-game-testing",
+        "logging"
+      ],
+      "section": "project-specific-conventions/sweep-zones-redux-specifics"
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/storage-pod-redux — round 6",
+  "node": "C:\\dev\\ONI-Mods\\mods\\storage-pod-redux",
+  "base": {
+    "domains/entities.md": "sha256:d58b7313dae9383ddc5300f6d687762fa8d3e71596565f249435ec0e1b0c65fb",
+    "domains/glossary.md": "sha256:21cfdb6ff2a9655544d641a02d2374439dc0399014b212d166b199febbad72cf",
+    "standards/error-handling.md": "sha256:9ecb4d785d8bbdec81a7f824b08086fb9920bc5117de233a7a8289d331afb797"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching",
+        "building-unlock"
+      ],
+      "section": "key-entities/harmony-patches"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "refrigerator",
+        "building-config"
+      ],
+      "section": "cross-domain-terms/kitchen-refrigerator-tag"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "mod-compatibility",
+        "building-registration"
+      ],
+      "section": "yielding-to-other-mods"
+    }
+  ]
+}

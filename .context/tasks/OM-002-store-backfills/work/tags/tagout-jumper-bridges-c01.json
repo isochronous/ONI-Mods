@@ -1,0 +1,253 @@
+{
+ "documents": [
+  {
+   "id": "standards/error-handling.md",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "mod coding conventions"
+  },
+  {
+   "id": "standards/naming-conventions.md",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "mod coding conventions"
+  }
+ ],
+ "sections": [
+  {
+   "id": "standards/error-handling.md#principles",
+   "tags": [
+    "vanilla-fallback",
+    "logging",
+    "harmony-patching"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#guarding-patches",
+   "tags": [
+    "harmony-patching"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#guarding-patches/missing-member-warn-leave-vanilla",
+   "tags": [
+    "vanilla-fallback",
+    "reflection"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#guarding-patches/transpiler-count-the-match",
+   "tags": [
+    "harmony-patching",
+    "vanilla-fallback",
+    "logging"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#guarding-patches/missing-data-warn-continue",
+   "tags": [
+    "vanilla-fallback",
+    "logging"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#guarding-patches/null-checks-on-game-objects",
+   "tags": [
+    "vanilla-fallback"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#guarding-patches/warn-once",
+   "tags": [
+    "logging"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#try-catch",
+   "tags": [
+    "logging",
+    "vanilla-fallback",
+    "reflection"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#try-catch/finalizer-for-a-thread-with-no-handler",
+   "tags": [
+    "harmony-patching",
+    "logging"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#yielding-to-other-mods",
+   "tags": [
+    "vanilla-fallback",
+    "logging"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#logging",
+   "tags": [
+    "logging"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#logging/log-levels",
+   "tags": [
+    "logging"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#logging/what-to-include",
+   "tags": [
+    "logging"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#anti-patterns-to-avoid",
+   "tags": [
+    "logging",
+    "vanilla-fallback"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#anti-patterns-to-avoid/swallowing-exceptions",
+   "tags": [
+    "logging"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#anti-patterns-to-avoid/throwing-from-a-patch",
+   "tags": [
+    "harmony-patching",
+    "logging"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#anti-patterns-to-avoid/assuming-the-game-s-internals",
+   "tags": [
+    "reflection",
+    "harmony-patching",
+    "vanilla-fallback"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#anti-patterns-to-avoid/silent-degradation",
+   "tags": [
+    "logging",
+    "vanilla-fallback"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#anti-patterns-to-avoid/spamming-the-log",
+   "tags": [
+    "logging"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#project-specific-patterns",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "mod-specific conventions"
+  },
+  {
+   "id": "standards/error-handling.md#project-specific-patterns/jumper-bridges-specifics",
+   "tags": [
+    "harmony-patching",
+    "logging",
+    "mod-options",
+    "bridge-end"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#related",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "mod coding conventions"
+  },
+  {
+   "id": "standards/naming-conventions.md#files-and-directories",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "file and folder naming"
+  },
+  {
+   "id": "standards/naming-conventions.md#files-and-directories/general-rules",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "file and folder naming"
+  },
+  {
+   "id": "standards/naming-conventions.md#files-and-directories/examples-by-type",
+   "tags": [
+    "mod-entry-point",
+    "harmony-patching",
+    "mod-strings",
+    "mod-options"
+   ]
+  },
+  {
+   "id": "standards/naming-conventions.md#code-naming",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "identifier naming"
+  },
+  {
+   "id": "standards/naming-conventions.md#code-naming/variables",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "identifier naming"
+  },
+  {
+   "id": "standards/naming-conventions.md#code-naming/functions-methods",
+   "tags": [
+    "harmony-patching"
+   ]
+  },
+  {
+   "id": "standards/naming-conventions.md#code-naming/classes-types-interfaces",
+   "tags": [
+    "harmony-patching"
+   ]
+  },
+  {
+   "id": "standards/naming-conventions.md#code-naming/booleans",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "identifier naming"
+  },
+  {
+   "id": "standards/naming-conventions.md#code-naming/strings-modstrings",
+   "tags": [
+    "mod-strings",
+    "mod-options"
+   ]
+  },
+  {
+   "id": "standards/naming-conventions.md#code-naming/ids-and-tags",
+   "tags": [
+    "in-game-testing"
+   ]
+  },
+  {
+   "id": "standards/naming-conventions.md#project-specific-conventions",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "mod-specific conventions"
+  },
+  {
+   "id": "standards/naming-conventions.md#project-specific-conventions/jumper-bridges-specifics",
+   "tags": [
+    "mod-options",
+    "mod-strings",
+    "harmony-patching",
+    "logging"
+   ]
+  },
+  {
+   "id": "standards/naming-conventions.md#related",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "mod coding conventions"
+  }
+ ]
+}

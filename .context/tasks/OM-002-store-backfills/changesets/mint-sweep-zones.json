@@ -1,0 +1,14 @@
+{
+ "task": "OM-002",
+ "why": "mint the sweep-zones node tag vocabulary for the tag backfill",
+ "node": "mods/sweep-zones",
+ "ops": [
+  {
+   "mode": "create",
+   "target": "tags.md",
+   "title": "Tags",
+   "description": "The sweep-zones node tag dictionary: each term that records here may carry, with the one sentence saying what a record must be about to earn it",
+   "body": "## harmony-patching\n\nA record earns this term when it is about writing or applying the Harmony patches through which a mod changes game methods.\n\n## vanilla-fallback\n\nA record earns this term when it is about how a mod keeps the game's own behaviour when something it depends on is missing or has changed.\n\n## logging\n\nA record earns this term when it is about what a mod writes to the game log and at which level.\n\n## saved-state\n\nA record earns this term when it is about what a mod stores in a save file and how that data is restored when the save loads.\n\n## in-game-testing\n\nA record earns this term when it is about testing a mod inside the running game with TestRunner and its [OniTest] coroutines.\n\n## mod-entry-point\n\nA record earns this term when it is about a mod's UserMod2 class and what it does when the game loads the mod.\n\n## mod-strings\n\nA record earns this term when it is about the player-visible text a mod defines in ModStrings and the translations of that text.\n\n## reflection\n\nA record earns this term when it is about reaching non-public members of the game or of another mod through reflection.\n\n## toolbar-tool\n\nA record earns this term when it is about a drag tool a mod adds to the toolbar and how the player uses it.\n\n## hotkey\n\nA record earns this term when it is about the rebindable key a mod registers to open its tool.\n\n## cleaning-errands\n\nA record earns this term when it is about the sweep and mop errands a mod creates and the priority they get.\n"
+  }
+ ]
+}

@@ -1,0 +1,38 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/natural-backwalls-everywhere — round 9",
+  "node": "C:\\dev\\ONI-Mods\\mods\\natural-backwalls-everywhere",
+  "base": {
+    "domains/entities.md": "sha256:1e18f0a80abfa425fce73017d2edd5873a7f60db28a236087208101e19665c5d",
+    "domains/glossary.md": "sha256:2180af4d0f0b712dd3db5c4a3de87eb1eef65d3645c8b9cd525d49eaaa61aeab",
+    "standards/error-handling.md": "sha256:f02e3a98b2e4dc9253d72ed74fb5e063c1ea6e7b43fb6bf2e30834b49e14f8f1"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "developer-tooling"
+      ],
+      "section": "key-entities/exportoverlay"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "settle-sim",
+        "harmony-patching"
+      ],
+      "section": "cross-domain-terms/settle-sim"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "mod-compatibility",
+        "logging"
+      ],
+      "section": "yielding-to-other-mods"
+    }
+  ]
+}

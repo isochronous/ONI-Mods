@@ -1,0 +1,69 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/salty-surf — round 2",
+  "node": "C:\\dev\\ONI-Mods\\mods\\salty-surf",
+  "base": {
+    "domains/entities.md": "sha256:f2291a481afc95797543958d23eeffb0c4bee43267e1e2b8c3f22393a00fb0ff",
+    "domains/glossary.md": "sha256:bccf11df1cecd0629362f902d9e7a180f168b97ef70037471a6772497aff16cf",
+    "overview.md": "sha256:5f4a9a456cf7b5317e578e097071f7d6528fc0812ace86acc4f6d470bf161ec7",
+    "standards/code-style.md": "sha256:26267183eea461c85084078a716f61ec66bcf8bf800e782bc5e75eb7e6788f5f",
+    "standards/error-handling.md": "sha256:b397faeac61bb2fa0f061ee629d43d5415ae4f1cfb1eb4c19cb709b107c2b387",
+    "standards/naming-conventions.md": "sha256:abf51a7aafc3f5133f6bab88fdd173a5b8ae5d8b773266d80cf146b4189e4376"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "game-tag",
+        "mod-strings"
+      ],
+      "section": "key-entities/surfwater"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "game-tag"
+      ],
+      "section": "cross-domain-terms/shared-tag-saltysurfwater"
+    },
+    {
+      "target": "overview.md",
+      "mode": "tag",
+      "add": [
+        "mod-entry-point",
+        "harmony-patching",
+        "mod-strings",
+        "in-game-testing"
+      ],
+      "section": "where-things-are"
+    },
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "mod-strings",
+        "logging"
+      ],
+      "section": "control-structures/strings"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "reflection",
+        "logging"
+      ],
+      "section": "guarding-patches/missing-member-warn-leave-vanilla"
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "tag",
+      "add": [
+        "mod-strings"
+      ],
+      "section": "code-naming/strings-modstrings"
+    }
+  ]
+}

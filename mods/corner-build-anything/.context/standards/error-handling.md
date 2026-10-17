@@ -1,4 +1,5 @@
 ---
+tags: vanilla-fallback, logging
 doc_id: doc-bec2d98ee48a
 description: "Error handling conventions for the Corner Build Anything mod: guarding patches and transpilers, logging levels, plus how SwapTable counts replaced loads and warns when none match"
 applies_to:
@@ -19,7 +20,8 @@ applies_to:
 There is no custom exception hierarchy. Mods are small patches over game code, so errors are handled where they occur.
 
 ## Guarding Patches
-**Id:** blk-a806354c0ca6
+**Id:** blk-a806354c0ca6  
+**Tags:** harmony-patching
 
 ### Missing member: warn, leave vanilla
 **Id:** blk-3246f83ea12b
@@ -33,7 +35,8 @@ if (ActiveField == null || StorageField == null)
 (`mods/no-magic-fridges/src/NoMagicFridges/Patches.cs`; the warning is logged once at load by `SimTransferMethod` in `FridgeThermostat.cs`.)
 
 ### Transpiler: count the match
-**Id:** blk-101f4f9d4623
+**Id:** blk-101f4f9d4623  
+**Tags:** transpiler
 
 A transpiler counts the instructions it replaced. Zero (or more than expected) logs a warning and returns the original code, so a game update disables the change instead of breaking the method.
 
@@ -81,7 +84,8 @@ Work that repeats every frame or tick warns once behind a flag (`warnedMissingIn
 The message form is `"[<Name>] <what was skipped>: " + e.Message`. Use `e.GetBaseException().Message` when the exception may be a reflection wrapper, and the full `e` when the stack trace is needed.
 
 ### Finalizer for a thread with no handler
-**Id:** blk-e5797c076f0c
+**Id:** blk-e5797c076f0c  
+**Tags:** harmony-patching
 
 `Cluster.BeginGeneration` is the worldgen thread body and has none; an exception ends the thread and the loading screen waits forever. A finalizer reports the failure through the game's own error path and logs the exception (`Cluster_BeginGeneration_Patch` in `mods/natural-backwalls-everywhere/src/NaturalBackwalls/WorldgenThreadPatch.cs`).
 
@@ -123,12 +127,14 @@ PLib's `PUtil.Log*` helpers are not used; all mods log through `Debug`.
 An empty `catch` hides a broken patch. The one `catch` that returns a fallback without a log is `GuessLanguageCode` in `common/src/Translations.cs`, because a missing language preference is the normal case before the game has started.
 
 ### Throwing from a patch
-**Id:** blk-0be6d9e365d6
+**Id:** blk-0be6d9e365d6  
+**Tags:** harmony-patching
 
 An exception in a prefix or postfix on a per-frame or sim method repeats every frame. Guard, log once, return.
 
 ### Assuming the game's internals
-**Id:** blk-b84f941bdb22
+**Id:** blk-b84f941bdb22  
+**Tags:** harmony-patching, transpiler
 
 Reading a private field by name without a null check on the `FieldInfo`, or replacing an instruction without confirming it was found, breaks on the next game update.
 
@@ -146,7 +152,8 @@ A warning inside an update method fires thousands of times. Use a once-flag.
 **Id:** blk-d861a9eb5703
 
 ### Corner Build Anything specifics
-**Id:** blk-be6bc503e715
+**Id:** blk-be6bc503e715  
+**Tags:** reach-table, transpiler
 
 - `SwapTable` counts the loads of `OffsetGroups.InvertedStandardTable` it replaced. Zero logs a warning naming `<Type>.<Method>` and returns the code unchanged; otherwise it logs that the corner table is in place.
 - The transpilers run once at patch time, so there is no run-time guard.

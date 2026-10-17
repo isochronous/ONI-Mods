@@ -1,4 +1,5 @@
 ---
+tags: reach-table
 description: What the Corner Build Anything mod does (building and deconstructing through diagonal gaps, bridges from either end), its version and release state, and where its source, tests, README and publish folder sit
 ---
 
@@ -10,7 +11,8 @@ description: What the Corner Build Anything mod does (building and deconstructin
 Corner Build Anything is an Oxygen Not Included mod that lets duplicants build and deconstruct any building through a diagonal gap, the way the game already lets them build tiles. Bridges of every kind count from either end, not just their middle. It swaps the reach table that Constructable and Deconstructable use when a building spawns. Version 0.1.0 in `mod_info.yaml`, minimum supported build 744825; the changelog lists it as Unreleased and the node holds no Workshop id.
 
 ## Where things are
-**Id:** blk-775902750f85
+**Id:** blk-775902750f85  
+**Tags:** mod-entry-point, in-game-testing
 
 Top-level folders and key files:
 

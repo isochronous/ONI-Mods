@@ -1,0 +1,58 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/smart-weight-plate — round 5",
+  "node": "C:\\dev\\ONI-Mods\\mods\\smart-weight-plate",
+  "base": {
+    "domains/entities.md": "sha256:891bd2d56b5462e810991e6dbfd831baf7866465fc5ee77313b63ce9b10bd7a4",
+    "domains/glossary.md": "sha256:3cb84de683866ae2998e8b02328130606fc22dd5980643a7f1a6d49421e77d76",
+    "standards/code-style.md": "sha256:d7518b1f46d3d3f8097b5ba5710a8a835c9b13fa39ca33250abae954c42d1f9f",
+    "standards/error-handling.md": "sha256:a5b93775ce1d1b811cf0f9e3bafd0d56dea9a559fa76e990013f26455bd0c529",
+    "standards/naming-conventions.md": "sha256:6073e430c6ee5057070fccb21373d03b9e35ca3262d4ebc14fe4e27f5a6a3a5b"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "saved-state"
+      ],
+      "section": "key-entities/saved-state"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "saved-state"
+      ],
+      "section": "cross-domain-terms/settings-version"
+    },
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "building-unlock",
+        "side-screen",
+        "mod-compatibility"
+      ],
+      "section": "project-specific-rules/smart-weight-plate-specifics"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching"
+      ],
+      "section": "guarding-patches/null-checks-on-game-objects"
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "tag",
+      "add": [
+        "mod-strings",
+        "in-game-testing",
+        "logging"
+      ],
+      "section": "project-specific-conventions/smart-weight-plate-specifics"
+    }
+  ]
+}

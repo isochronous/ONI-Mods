@@ -1,4 +1,5 @@
 ---
+tags: vanilla-fallback, logging
 doc_id: doc-fd60fdc16864
 description: "Error handling conventions for Multichannel Critter Sensor: guarding patches, try/catch cases, logging levels and anti-patterns, plus its missing Multiplexing tech warning and side screen prefab fallbacks"
 applies_to:
@@ -19,7 +20,8 @@ applies_to:
 There is no custom exception hierarchy. Mods are small patches over game code, so errors are handled where they occur.
 
 ## Guarding Patches
-**Id:** blk-dfbafd1ab00c
+**Id:** blk-dfbafd1ab00c  
+**Tags:** harmony-patching
 
 ### Missing member: warn, leave vanilla
 **Id:** blk-f0e4c750c725
@@ -44,7 +46,8 @@ if (swapped == 0)
 (`mods/corner-build-anything/src/CornerBuildAnything/ReachTablePatches.cs`; same pattern in `mods/bitshifter/src/Bitshifter/Patches.cs` and `mods/natural-backwalls-everywhere/src/NaturalBackwalls/SettleSimPatch.cs`.)
 
 ### Missing data: warn, continue
-**Id:** blk-cabc3c223f6a
+**Id:** blk-cabc3c223f6a  
+**Tags:** building-unlock
 
 A build-menu, tech or asset lookup that finds nothing warns and keeps the mod working:
 
@@ -81,7 +84,8 @@ Work that repeats every frame or tick warns once behind a flag (`warnedMissingIn
 The message form is `"[<Name>] <what was skipped>: " + e.Message`. Use `e.GetBaseException().Message` when the exception may be a reflection wrapper, and the full `e` when the stack trace is needed.
 
 ### Finalizer for a thread with no handler
-**Id:** blk-5a4e31b2e3ea
+**Id:** blk-5a4e31b2e3ea  
+**Tags:** harmony-patching
 
 `Cluster.BeginGeneration` is the worldgen thread body and has none; an exception ends the thread and the loading screen waits forever. A finalizer reports the failure through the game's own error path and logs the exception (`Cluster_BeginGeneration_Patch` in `mods/natural-backwalls-everywhere/src/NaturalBackwalls/WorldgenThreadPatch.cs`).
 
@@ -123,12 +127,14 @@ PLib's `PUtil.Log*` helpers are not used; all mods log through `Debug`.
 An empty `catch` hides a broken patch. The one `catch` that returns a fallback without a log is `GuessLanguageCode` in `common/src/Translations.cs`, because a missing language preference is the normal case before the game has started.
 
 ### Throwing from a patch
-**Id:** blk-7b03c69b3b6f
+**Id:** blk-7b03c69b3b6f  
+**Tags:** harmony-patching
 
 An exception in a prefix or postfix on a per-frame or sim method repeats every frame. Guard, log once, return.
 
 ### Assuming the game's internals
-**Id:** blk-76c85a4fc7ca
+**Id:** blk-76c85a4fc7ca  
+**Tags:** harmony-patching
 
 Reading a private field by name without a null check on the `FieldInfo`, or replacing an instruction without confirming it was found, breaks on the next game update.
 
@@ -146,7 +152,8 @@ A warning inside an update method fires thousands of times. Use a once-flag.
 **Id:** blk-7c61d1296744
 
 ### Multichannel Critter Sensor specifics
-**Id:** blk-acc3678206db
+**Id:** blk-acc3678206db  
+**Tags:** building-unlock, side-screen
 
 - The research patch warns `Tech 'Multiplexing' not found; building will be unlocked from the start` and returns (`Patches.cs`).
 - The side screen warns and degrades when the vanilla filter row prefab or the vanilla `ThresholdSwitchSideScreen` prefab is missing (`species list unavailable`, `threshold editor unavailable`).

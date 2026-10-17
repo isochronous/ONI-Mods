@@ -1,0 +1,60 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/salty-surf — round 4",
+  "node": "C:\\dev\\ONI-Mods\\mods\\salty-surf",
+  "base": {
+    "domains/entities.md": "sha256:63768c6d854e059e76bd778da7cf4f389f943bc3eb252a5db054d144472fe62a",
+    "domains/glossary.md": "sha256:55357f625ededf1eefd0e81f55f07222670677ec38fe3c39488c94535bf457e3",
+    "standards/code-style.md": "sha256:7c8b3c063a7a1080ecf217b6f3e1ef33b00527766064c0e743aad38a7b9b64ab",
+    "standards/error-handling.md": "sha256:d767a44b78beb070b8b187621a6f39528fe95b02bbaba04be8586e02905a202c",
+    "standards/naming-conventions.md": "sha256:46e8ebbbc2829683e90111db850275527c45a365842f653042817c2525673973"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "mod-entry-point",
+        "mod-strings"
+      ],
+      "section": "key-entities/mod-entry-and-strings"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching"
+      ],
+      "section": "cross-domain-terms/readiness-isready"
+    },
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "logging",
+        "in-game-testing",
+        "mod-strings"
+      ],
+      "section": "project-specific-rules"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "logging"
+      ],
+      "section": "guarding-patches/missing-data-warn-continue"
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "tag",
+      "add": [
+        "mod-strings",
+        "harmony-patching",
+        "game-tag",
+        "in-game-testing"
+      ],
+      "section": "project-specific-conventions/salty-surf-specifics"
+    }
+  ]
+}

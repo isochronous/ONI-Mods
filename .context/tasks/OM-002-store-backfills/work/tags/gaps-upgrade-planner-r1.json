@@ -1,0 +1,116 @@
+[
+ {
+  "id": "domains/entities.md#key-entities/upgradeplan-changematerialplan-replacetypeplan",
+  "reason": "no-good-match",
+  "suggestion": "session plan state and the plan tab contract",
+  "kept": []
+ },
+ {
+  "id": "domains/entities.md#key-entities/matcher-and-upgrade",
+  "reason": "no-good-match",
+  "suggestion": "compiled plan matcher and the upgrade it yields",
+  "kept": []
+ },
+ {
+  "id": "domains/entities.md#key-entities/family-and-category",
+  "reason": "no-good-match",
+  "suggestion": "building families and categories as the build menu lists them",
+  "kept": []
+ },
+ {
+  "id": "domains/entities.md#key-entities/window",
+  "reason": "no-good-match",
+  "suggestion": "planner dialog window and its tab views",
+  "kept": []
+ },
+ {
+  "id": "domains/glossary.md#cross-domain-terms/instant-build",
+  "reason": "no-good-match",
+  "suggestion": "instant build debug and sandbox mode",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#formatting/indentation",
+  "reason": "no-good-match",
+  "suggestion": "C# source formatting conventions",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#formatting/line-length",
+  "reason": "no-good-match",
+  "suggestion": "C# source formatting conventions",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#formatting/braces",
+  "reason": "no-good-match",
+  "suggestion": "C# source formatting conventions",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#language-and-toolchain",
+  "reason": "no-good-match",
+  "suggestion": "C# language version and build toolchain",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#imports-includes/organization",
+  "reason": "no-good-match",
+  "suggestion": "using directive ordering",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#imports-includes/example",
+  "reason": "no-good-match",
+  "suggestion": "using directive ordering",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#comments/when-to-comment",
+  "reason": "no-good-match",
+  "suggestion": "code comment conventions",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#comments/when-not-to-comment",
+  "reason": "no-good-match",
+  "suggestion": "code comment conventions",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#comments/format",
+  "reason": "no-good-match",
+  "suggestion": "code comment conventions",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#control-structures/conditionals",
+  "reason": "no-good-match",
+  "suggestion": "guard clause and control flow style",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#game-components",
+  "reason": "no-good-match",
+  "suggestion": "game component conventions (KMonoBehaviour, serialised state)",
+  "kept": []
+ },
+ {
+  "id": "standards/naming-conventions.md#files-and-directories/general-rules",
+  "reason": "no-good-match",
+  "suggestion": "file, folder and release tag naming",
+  "kept": []
+ },
+ {
+  "id": "standards/naming-conventions.md#code-naming/variables",
+  "reason": "no-good-match",
+  "suggestion": "variable and constant naming",
+  "kept": []
+ },
+ {
+  "id": "standards/naming-conventions.md#code-naming/booleans",
+  "reason": "no-good-match",
+  "suggestion": "boolean naming",
+  "kept": []
+ }
+]

@@ -1,0 +1,357 @@
+{
+ "documents": [
+  {
+   "id": "domains/README.md",
+   "tags": [
+    "storage-building"
+   ]
+  },
+  {
+   "id": "domains/entities.md",
+   "tags": [
+    "storage-building",
+    "building-registration"
+   ]
+  },
+  {
+   "id": "domains/glossary.md",
+   "tags": [
+    "storage-building"
+   ]
+  },
+  {
+   "id": "overview.md",
+   "tags": [
+    "storage-building"
+   ]
+  },
+  {
+   "id": "standards/README.md",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "project coding standards for a mod"
+  },
+  {
+   "id": "standards/code-style.md",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "C# source code style conventions"
+  }
+ ],
+ "sections": [
+  {
+   "id": "domains/README.md#domains",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/entities.md#overview",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/entities.md#key-entities",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/entities.md#key-entities/storage-pod-building",
+   "tags": [
+    "building-config",
+    "building-unlock",
+    "kanim-art"
+   ]
+  },
+  {
+   "id": "domains/entities.md#key-entities/cool-pod-building",
+   "tags": [
+    "building-config",
+    "building-unlock",
+    "refrigerator",
+    "kanim-art"
+   ]
+  },
+  {
+   "id": "domains/entities.md#key-entities/options",
+   "tags": [
+    "mod-options",
+    "mod-strings"
+   ]
+  },
+  {
+   "id": "domains/entities.md#key-entities/buildings-decision-state",
+   "tags": [
+    "mod-compatibility",
+    "logging"
+   ]
+  },
+  {
+   "id": "domains/entities.md#key-entities/mod-detection",
+   "tags": [
+    "mod-compatibility"
+   ]
+  },
+  {
+   "id": "domains/entities.md#key-entities/harmony-patches",
+   "tags": [
+    "harmony-patching",
+    "building-unlock"
+   ]
+  },
+  {
+   "id": "domains/entities.md#business-rules",
+   "tags": [
+    "saved-state",
+    "mod-compatibility"
+   ]
+  },
+  {
+   "id": "domains/entities.md#domain-terminology",
+   "tags": [
+    "refrigerator",
+    "mod-compatibility"
+   ]
+  },
+  {
+   "id": "domains/entities.md#key-code-paths",
+   "tags": [
+    "mod-entry-point",
+    "harmony-patching"
+   ]
+  },
+  {
+   "id": "domains/entities.md#related",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/glossary.md#abbreviations-and-acronyms",
+   "tags": [
+    "kanim-art",
+    "mod-options"
+   ]
+  },
+  {
+   "id": "domains/glossary.md#terms-to-avoid",
+   "tags": [
+    "mod-compatibility"
+   ]
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/storage-pod",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/cool-pod",
+   "tags": [
+    "refrigerator"
+   ]
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/mini-fridge",
+   "tags": [
+    "refrigerator",
+    "building-config"
+   ]
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/buildlocationrule-anywhere",
+   "tags": [
+    "building-config"
+   ]
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/kitchen-refrigerator-tag",
+   "tags": [
+    "refrigerator",
+    "building-config"
+   ]
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/full-output",
+   "tags": [
+    "refrigerator",
+    "building-config"
+   ]
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/prefab-id",
+   "tags": [
+    "saved-state",
+    "building-config"
+   ]
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/static-id",
+   "tags": [
+    "mod-compatibility"
+   ]
+  },
+  {
+   "id": "domains/glossary.md#related",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "overview.md#what-this-is",
+   "tags": [
+    "refrigerator",
+    "mod-options",
+    "kanim-art"
+   ]
+  },
+  {
+   "id": "overview.md#where-things-are",
+   "tags": [
+    "mod-entry-point",
+    "kanim-art",
+    "mod-strings",
+    "in-game-testing"
+   ]
+  },
+  {
+   "id": "standards/README.md#standards",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "project coding standards for a mod"
+  },
+  {
+   "id": "standards/code-style.md#formatting",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "C# source formatting"
+  },
+  {
+   "id": "standards/code-style.md#formatting/indentation",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "C# source formatting"
+  },
+  {
+   "id": "standards/code-style.md#formatting/line-length",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "C# source formatting"
+  },
+  {
+   "id": "standards/code-style.md#formatting/braces",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "C# source formatting"
+  },
+  {
+   "id": "standards/code-style.md#language-and-toolchain",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "C# language version and build toolchain"
+  },
+  {
+   "id": "standards/code-style.md#imports-includes",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "using directive layout"
+  },
+  {
+   "id": "standards/code-style.md#imports-includes/organization",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "using directive layout"
+  },
+  {
+   "id": "standards/code-style.md#imports-includes/example",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "using directive layout"
+  },
+  {
+   "id": "standards/code-style.md#comments",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "code commenting rules"
+  },
+  {
+   "id": "standards/code-style.md#comments/when-to-comment",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "code commenting rules"
+  },
+  {
+   "id": "standards/code-style.md#comments/when-not-to-comment",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "code commenting rules"
+  },
+  {
+   "id": "standards/code-style.md#comments/format",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "code commenting rules"
+  },
+  {
+   "id": "standards/code-style.md#control-structures",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "C# control-flow style"
+  },
+  {
+   "id": "standards/code-style.md#control-structures/conditionals",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "C# control-flow style"
+  },
+  {
+   "id": "standards/code-style.md#control-structures/loops",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "C# control-flow style"
+  },
+  {
+   "id": "standards/code-style.md#control-structures/strings",
+   "tags": [
+    "mod-strings",
+    "logging"
+   ]
+  },
+  {
+   "id": "standards/code-style.md#harmony-patches",
+   "tags": [
+    "harmony-patching"
+   ]
+  },
+  {
+   "id": "standards/code-style.md#game-components",
+   "tags": [
+    "saved-state",
+    "building-config"
+   ]
+  },
+  {
+   "id": "standards/code-style.md#project-specific-rules",
+   "tags": [
+    "mod-options",
+    "logging",
+    "in-game-testing"
+   ]
+  },
+  {
+   "id": "standards/code-style.md#project-specific-rules/storage-pod-redux-specifics",
+   "tags": [
+    "mod-options",
+    "mod-entry-point",
+    "harmony-patching",
+    "building-registration"
+   ]
+  },
+  {
+   "id": "standards/code-style.md#related",
+   "tags": [],
+   "reason": "inherits"
+  }
+ ]
+}

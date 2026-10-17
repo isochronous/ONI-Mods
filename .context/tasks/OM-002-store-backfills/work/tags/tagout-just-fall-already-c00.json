@@ -1,0 +1,311 @@
+{
+ "documents": [
+  {
+   "id": "domains/README.md",
+   "tags": [
+    "critter-falling"
+   ]
+  },
+  {
+   "id": "domains/entities.md",
+   "tags": [
+    "critter-falling"
+   ]
+  },
+  {
+   "id": "domains/glossary.md",
+   "tags": [
+    "critter-falling"
+   ]
+  },
+  {
+   "id": "overview.md",
+   "tags": [
+    "critter-falling"
+   ]
+  },
+  {
+   "id": "standards/README.md",
+   "tags": [
+    "harmony-patching",
+    "logging",
+    "vanilla-fallback"
+   ]
+  },
+  {
+   "id": "standards/code-style.md",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "C# code style conventions"
+  }
+ ],
+ "sections": [
+  {
+   "id": "domains/README.md#domains",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/entities.md#overview",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/entities.md#key-entities",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/entities.md#key-entities/fallpoke",
+   "tags": [
+    "harmony-patching",
+    "navigation-grid"
+   ]
+  },
+  {
+   "id": "domains/entities.md#key-entities/door-setworldstate-patch",
+   "tags": [
+    "harmony-patching",
+    "mod-compatibility"
+   ]
+  },
+  {
+   "id": "domains/entities.md#key-entities/justfallalreadymod",
+   "tags": [
+    "mod-entry-point",
+    "logging"
+   ]
+  },
+  {
+   "id": "domains/entities.md#business-rules",
+   "tags": [
+    "navigation-grid",
+    "mod-compatibility",
+    "performance"
+   ]
+  },
+  {
+   "id": "domains/entities.md#key-code-paths",
+   "tags": [
+    "navigation-grid",
+    "in-game-testing",
+    "logging"
+   ]
+  },
+  {
+   "id": "domains/entities.md#related",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/glossary.md#abbreviations-and-acronyms",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/glossary.md#terms-to-avoid",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/pez-dropper",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/poke",
+   "tags": [
+    "navigation-grid"
+   ]
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/armed-cell",
+   "tags": [
+    "navigation-grid"
+   ]
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/brain-and-brain-scheduler",
+   "tags": [
+    "navigation-grid"
+   ]
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/nav-grid-and-nav-type",
+   "tags": [
+    "navigation-grid"
+   ]
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/creaturefallmonitor",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/critters-fall-through-open-doors",
+   "tags": [
+    "mod-compatibility"
+   ]
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/fast-track",
+   "tags": [
+    "mod-compatibility",
+    "performance"
+   ]
+  },
+  {
+   "id": "domains/glossary.md#related",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "overview.md#what-this-is",
+   "tags": [
+    "mod-compatibility"
+   ]
+  },
+  {
+   "id": "overview.md#where-things-are",
+   "tags": [
+    "mod-entry-point",
+    "in-game-testing"
+   ]
+  },
+  {
+   "id": "standards/README.md#standards",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/code-style.md#formatting",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/code-style.md#formatting/indentation",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "code formatting conventions"
+  },
+  {
+   "id": "standards/code-style.md#formatting/line-length",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "code formatting conventions"
+  },
+  {
+   "id": "standards/code-style.md#formatting/braces",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "code formatting conventions"
+  },
+  {
+   "id": "standards/code-style.md#language-and-toolchain",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "C# language version and build toolchain"
+  },
+  {
+   "id": "standards/code-style.md#imports-includes",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/code-style.md#imports-includes/organization",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "using directive ordering"
+  },
+  {
+   "id": "standards/code-style.md#imports-includes/example",
+   "tags": [
+    "logging"
+   ]
+  },
+  {
+   "id": "standards/code-style.md#comments",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/code-style.md#comments/when-to-comment",
+   "tags": [
+    "harmony-patching",
+    "mod-compatibility"
+   ]
+  },
+  {
+   "id": "standards/code-style.md#comments/when-not-to-comment",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "code comment conventions"
+  },
+  {
+   "id": "standards/code-style.md#comments/format",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "code comment conventions"
+  },
+  {
+   "id": "standards/code-style.md#control-structures",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/code-style.md#control-structures/conditionals",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "control-flow style"
+  },
+  {
+   "id": "standards/code-style.md#control-structures/loops",
+   "tags": [
+    "performance"
+   ]
+  },
+  {
+   "id": "standards/code-style.md#control-structures/strings",
+   "tags": [
+    "logging"
+   ]
+  },
+  {
+   "id": "standards/code-style.md#harmony-patches",
+   "tags": [
+    "harmony-patching"
+   ]
+  },
+  {
+   "id": "standards/code-style.md#game-components",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "game component conventions"
+  },
+  {
+   "id": "standards/code-style.md#project-specific-rules",
+   "tags": [
+    "logging",
+    "in-game-testing"
+   ]
+  },
+  {
+   "id": "standards/code-style.md#project-specific-rules/just-fall-already-specifics",
+   "tags": [
+    "harmony-patching",
+    "navigation-grid",
+    "logging"
+   ]
+  },
+  {
+   "id": "standards/code-style.md#related",
+   "tags": [],
+   "reason": "inherits"
+  }
+ ]
+}

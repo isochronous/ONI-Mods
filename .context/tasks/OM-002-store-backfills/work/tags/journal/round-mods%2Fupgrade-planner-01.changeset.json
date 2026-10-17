@@ -1,0 +1,68 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/upgrade-planner — round 1",
+  "node": "C:\\dev\\ONI-Mods\\mods\\upgrade-planner",
+  "base": {
+    "domains/entities.md": "sha256:a86500b0de9bf5572ab7bd598577708007c0799e030db3d40331747f7dc8028a",
+    "domains/glossary.md": "sha256:2365cb9288ac3e266b956d84cf485e605f10f06d50f886b24de3a8b8b81021e8",
+    "overview.md": "sha256:ff960c918cf5a4780ac2d315aec9d43db97afcd7438c668241aea7824780ea1f",
+    "standards/code-style.md": "sha256:669c11ad2e05e4ae9848295265a5285ae5bb14b70e9b872b18781c7a2813a42a",
+    "standards/error-handling.md": "sha256:33c68f670e48175b3de0ebd96d60a07dbf368cb92b89c9aaa25c41542aee90b7",
+    "standards/naming-conventions.md": "sha256:3631e608386381cc4c468835a4b463f020730ea5f20d661f6d8be028d0a21679"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "reflection"
+      ],
+      "section": "key-entities/upgradetool"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "mod-compatibility"
+      ],
+      "section": "abbreviations-and-acronyms"
+    },
+    {
+      "target": "overview.md",
+      "mode": "tag",
+      "add": [
+        "mod-entry-point",
+        "harmony-patching",
+        "mod-strings",
+        "in-game-testing"
+      ],
+      "section": "where-things-are"
+    },
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "performance"
+      ],
+      "section": "control-structures/loops"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching",
+        "reflection"
+      ],
+      "section": "principles"
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "tag",
+      "add": [
+        "mod-entry-point",
+        "mod-strings"
+      ],
+      "section": "files-and-directories/examples-by-type"
+    }
+  ]
+}

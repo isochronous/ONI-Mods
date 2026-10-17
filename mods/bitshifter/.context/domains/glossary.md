@@ -1,4 +1,5 @@
 ---
+tags: automation-ribbon
 witness_digest: "sha256:382ad09629bed52ad2d65446588a629c6e203b36897fb157b4b1ad576692db06"
 witness: loose
 applies_to:
@@ -12,7 +13,8 @@ description: "Glossary for the Bitshifter mod: abbreviations such as BAO and ONI
 Terms used in the Bitshifter mod (`mods/bitshifter`). For the classes and patches behind them, see the entities document.
 
 ## Abbreviations and Acronyms
-**Id:** blk-c32654e0f564
+**Id:** blk-c32654e0f564  
+**Tags:** kanim-art, mod-compatibility
 
 | Abbreviation | Full Term | Context |
 |--------------|-----------|---------|
@@ -22,7 +24,8 @@ Terms used in the Bitshifter mod (`mods/bitshifter`). For the classes and patche
 | BAO | Better Automation Overlay (Workshop 1878896484) | Mod whose overlay labels `OverlayLabelGuard` protects |
 
 ## Terms to Avoid
-**Id:** blk-cf5e7783d48c
+**Id:** blk-cf5e7783d48c  
+**Tags:** bit-depth, saved-state
 
 | Avoid | Use Instead | Reason |
 |-------|-------------|--------|
@@ -34,31 +37,37 @@ Terms used in the Bitshifter mod (`mods/bitshifter`). For the classes and patche
 
 ### Ribbon
 **Id:** blk-21a5cd486094  
+**Tags:** bit-depth  
 **Definition**: An automation wire that carries a 32-bit integer signal; the game exposes the low four bits. A ribbon carries up to 31 independent signals with this mod.  
 **Used in**: Reader, Writer, NOT gate mask
 
 ### Automation Ribbon Reader
 **Id:** blk-e56d7b368a41  
+**Tags:** bit-depth  
 **Definition**: Building (`LogicRibbonReader`) that picks one bit from a ribbon, or shifts the value down by that many bits onto a ribbon output.  
 **Used in**: bit depth patch, `UpdateVisuals` patch, side screen
 
 ### Ribbon Writer
 **Id:** blk-0353e0e524cb  
+**Tags:** bit-depth  
 **Definition**: Building (`LogicRibbonWriter`) that shifts a 1-bit or ribbon input up by the selected bit onto a ribbon.  
 **Used in**: bit depth patch, `UpdateVisuals` patch, side screen
 
 ### Bit depth
 **Id:** blk-317285d31e79  
+**Tags:** bit-depth  
 **Definition**: What `GetBitDepth()` returns: how many bits the selector side screen lists. Vanilla returns 4; the mod returns 31.  
 **Used in**: `Patches.cs`, `Mod.cs` (`Bits`)
 
 ### Bit selector side screen
 **Id:** blk-64dad4f78a5e  
+**Tags:** side-screen, bit-depth  
 **Definition**: The details-panel screen (`LogicBitSelectorSideScreen`) with one row per bit. The mod puts its rows in a scroll view.  
 **Used in**: `SideScreen.cs`
 
 ### Selected bit
 **Id:** blk-a6c85b35c760  
+**Tags:** saved-state, bit-depth  
 **Definition**: The building's saved bit choice (`selectedBit`, 0-based internally, shown 1-based). Saved with the building and copied by copy-settings.  
 **Used in**: `Display.Update`, tests in `Settings.cs`
 
@@ -69,6 +78,7 @@ Terms used in the Bitshifter mod (`mods/bitshifter`). For the classes and patche
 
 ### Stand down
 **Id:** blk-ce9d17157555  
+**Tags:** mod-compatibility, vanilla-fallback, logging  
 **Definition**: The mod applies no patches (apart from the overlay guard) and logs why, because another mod already handles the widening.  
 **Used in**: `Mod.cs` (`WhyYield`)
 

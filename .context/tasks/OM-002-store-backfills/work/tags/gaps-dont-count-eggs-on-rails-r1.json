@@ -1,0 +1,266 @@
+[
+ {
+  "id": "standards/README.md",
+  "reason": "no-good-match",
+  "suggestion": "mod coding standards",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md",
+  "reason": "no-good-match",
+  "suggestion": "C# code style conventions",
+  "kept": []
+ },
+ {
+  "id": "standards/naming-conventions.md",
+  "reason": "no-good-match",
+  "suggestion": "C# naming conventions",
+  "kept": []
+ },
+ {
+  "id": "domains/glossary.md#abbreviations-and-acronyms",
+  "reason": "no-good-match",
+  "suggestion": "abbreviation table",
+  "kept": []
+ },
+ {
+  "id": "domains/glossary.md#cross-domain-terms/room-and-cavity",
+  "reason": "no-good-match",
+  "suggestion": "rooms and room cavities",
+  "kept": []
+ },
+ {
+  "id": "domains/glossary.md#cross-domain-terms/room-prober",
+  "reason": "no-good-match",
+  "suggestion": "room detection by the room prober",
+  "kept": []
+ },
+ {
+  "id": "domains/glossary.md#cross-domain-terms/overcrowding-monitor",
+  "reason": "no-good-match",
+  "suggestion": "the overcrowding monitor state machine",
+  "kept": []
+ },
+ {
+  "id": "standards/README.md#standards",
+  "reason": "no-good-match",
+  "suggestion": "mod coding standards",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#formatting",
+  "reason": "no-good-match",
+  "suggestion": "C# formatting rules",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#formatting/indentation",
+  "reason": "no-good-match",
+  "suggestion": "C# formatting rules",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#formatting/line-length",
+  "reason": "no-good-match",
+  "suggestion": "C# formatting rules",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#formatting/braces",
+  "reason": "no-good-match",
+  "suggestion": "C# formatting rules",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#language-and-toolchain",
+  "reason": "no-good-match",
+  "suggestion": "C# language version and build toolchain",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#imports-includes",
+  "reason": "no-good-match",
+  "suggestion": "C# using directives",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#imports-includes/organization",
+  "reason": "no-good-match",
+  "suggestion": "C# using directives",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#imports-includes/example",
+  "reason": "no-good-match",
+  "suggestion": "C# using directives",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#comments",
+  "reason": "no-good-match",
+  "suggestion": "code comments",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#comments/when-to-comment",
+  "reason": "no-good-match",
+  "suggestion": "code comments",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#comments/when-not-to-comment",
+  "reason": "no-good-match",
+  "suggestion": "code comments",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#comments/format",
+  "reason": "no-good-match",
+  "suggestion": "code comments",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#control-structures",
+  "reason": "no-good-match",
+  "suggestion": "C# control structures",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#control-structures/conditionals",
+  "reason": "no-good-match",
+  "suggestion": "C# control structures",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#control-structures/loops",
+  "reason": "no-good-match",
+  "suggestion": "C# control structures",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#control-structures/strings",
+  "reason": "no-good-match",
+  "suggestion": "building log and UI strings",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#game-components",
+  "reason": "no-good-match",
+  "suggestion": "game component conventions",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#related",
+  "reason": "no-good-match",
+  "suggestion": "C# code style conventions",
+  "kept": []
+ },
+ {
+  "id": "standards/error-handling.md#guarding-patches/missing-member-warn-leave-vanilla",
+  "reason": "no-good-match",
+  "suggestion": "guarding against missing game members and data",
+  "kept": []
+ },
+ {
+  "id": "standards/error-handling.md#guarding-patches/transpiler-count-the-match",
+  "reason": "no-good-match",
+  "suggestion": "guarding against missing game members and data",
+  "kept": []
+ },
+ {
+  "id": "standards/error-handling.md#guarding-patches/missing-data-warn-continue",
+  "reason": "no-good-match",
+  "suggestion": "guarding against missing game members and data",
+  "kept": []
+ },
+ {
+  "id": "standards/error-handling.md#guarding-patches/null-checks-on-game-objects",
+  "reason": "no-good-match",
+  "suggestion": "guarding against missing game members and data",
+  "kept": []
+ },
+ {
+  "id": "standards/error-handling.md#try-catch",
+  "reason": "no-good-match",
+  "suggestion": "exception handling with try/catch and finalizers",
+  "kept": []
+ },
+ {
+  "id": "standards/error-handling.md#try-catch/finalizer-for-a-thread-with-no-handler",
+  "reason": "no-good-match",
+  "suggestion": "exception handling with try/catch and finalizers",
+  "kept": []
+ },
+ {
+  "id": "standards/error-handling.md#yielding-to-other-mods",
+  "reason": "no-good-match",
+  "suggestion": "yielding to other mods",
+  "kept": []
+ },
+ {
+  "id": "standards/error-handling.md#anti-patterns-to-avoid/swallowing-exceptions",
+  "reason": "no-good-match",
+  "suggestion": "exception handling with try/catch and finalizers",
+  "kept": []
+ },
+ {
+  "id": "standards/error-handling.md#anti-patterns-to-avoid/throwing-from-a-patch",
+  "reason": "no-good-match",
+  "suggestion": "exception handling with try/catch and finalizers",
+  "kept": []
+ },
+ {
+  "id": "standards/error-handling.md#anti-patterns-to-avoid/assuming-the-game-s-internals",
+  "reason": "no-good-match",
+  "suggestion": "guarding against missing game members and data",
+  "kept": []
+ },
+ {
+  "id": "standards/naming-conventions.md#files-and-directories",
+  "reason": "no-good-match",
+  "suggestion": "C# naming conventions",
+  "kept": []
+ },
+ {
+  "id": "standards/naming-conventions.md#files-and-directories/general-rules",
+  "reason": "no-good-match",
+  "suggestion": "file and project layout naming",
+  "kept": []
+ },
+ {
+  "id": "standards/naming-conventions.md#code-naming",
+  "reason": "no-good-match",
+  "suggestion": "C# naming conventions",
+  "kept": []
+ },
+ {
+  "id": "standards/naming-conventions.md#code-naming/variables",
+  "reason": "no-good-match",
+  "suggestion": "C# naming conventions",
+  "kept": []
+ },
+ {
+  "id": "standards/naming-conventions.md#code-naming/booleans",
+  "reason": "no-good-match",
+  "suggestion": "C# naming conventions",
+  "kept": []
+ },
+ {
+  "id": "standards/naming-conventions.md#code-naming/strings-modstrings",
+  "reason": "no-good-match",
+  "suggestion": "C# naming conventions",
+  "kept": []
+ },
+ {
+  "id": "standards/naming-conventions.md#project-specific-conventions",
+  "reason": "no-good-match",
+  "suggestion": "C# naming conventions",
+  "kept": []
+ },
+ {
+  "id": "standards/naming-conventions.md#related",
+  "reason": "no-good-match",
+  "suggestion": "C# naming conventions",
+  "kept": []
+ }
+]

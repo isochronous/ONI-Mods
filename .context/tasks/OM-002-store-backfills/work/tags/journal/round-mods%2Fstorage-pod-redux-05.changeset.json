@@ -1,0 +1,48 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/storage-pod-redux — round 5",
+  "node": "C:\\dev\\ONI-Mods\\mods\\storage-pod-redux",
+  "base": {
+    "domains/entities.md": "sha256:6b58cafc3bef57169f0620c6bd6f521625f3fc226af5e6c74920151c44f7e17a",
+    "domains/glossary.md": "sha256:07d817525f50ed9d6d3f2b08f9f823b7eb632a40dc849f0c647fe5d1ec69e396",
+    "standards/error-handling.md": "sha256:3a449fa0757af2d53a30cff7c802d1217189d8316b6f9fd2057c47cdb3c40192",
+    "standards/naming-conventions.md": "sha256:b9e78f914e35366803c40dffc3efdba586d352338ddb3ba5aa94bf9dcd271551"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "mod-compatibility"
+      ],
+      "section": "key-entities/mod-detection"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "building-config"
+      ],
+      "section": "cross-domain-terms/buildlocationrule-anywhere"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching"
+      ],
+      "section": "try-catch/finalizer-for-a-thread-with-no-handler"
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "tag",
+      "add": [
+        "mod-strings",
+        "mod-options",
+        "in-game-testing",
+        "logging"
+      ],
+      "section": "project-specific-conventions/storage-pod-redux-specifics"
+    }
+  ]
+}

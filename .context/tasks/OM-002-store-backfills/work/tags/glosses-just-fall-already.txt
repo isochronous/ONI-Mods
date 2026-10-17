@@ -1,0 +1,10 @@
+term               count  gloss
+critter-falling        0  A record earns this term when it is about how a critter loses its footing at a door and falls.
+harmony-patching       0  A record earns this term when it is about writing or applying the Harmony patches through which a mod changes game methods.
+in-game-testing        0  A record earns this term when it is about testing a mod inside the running game with TestRunner and its [OniTest] coroutines.
+logging                0  A record earns this term when it is about what a mod writes to the game log and at which level.
+mod-compatibility      0  A record earns this term when it is about a mod working correctly alongside other authors' mods installed in the same game.
+mod-entry-point        0  A record earns this term when it is about a mod's UserMod2 class and what it does when the game loads the mod.
+navigation-grid        0  A record earns this term when it is about the navigation grids and brains that decide where a critter can move and when it reacts.
+performance            0  A record earns this term when it is about keeping a mod's per-tick or per-frame work cheap enough that it does not slow the game.
+vanilla-fallback       0  A record earns this term when it is about how a mod keeps the game's own behaviour when something it depends on is missing or has changed.

@@ -1,4 +1,5 @@
 ---
+tags: detection-range
 doc_id: doc-5c8eee6d9d3f
 description: Index of the two domain documents of Motion Sensor Range, the entities and the glossary, each with a one-line summary of the sensor range subject it covers
 ---

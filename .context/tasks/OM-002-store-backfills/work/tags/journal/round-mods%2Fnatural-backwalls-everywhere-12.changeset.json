@@ -1,0 +1,36 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/natural-backwalls-everywhere — round 12",
+  "node": "C:\\dev\\ONI-Mods\\mods\\natural-backwalls-everywhere",
+  "base": {
+    "domains/entities.md": "sha256:41639891787c697e290f5e723285576653eb457972eb63f32aeae194325f2448",
+    "domains/glossary.md": "sha256:15ee40450c4a1508a6846e9e560bbf29d97588d4d7200c134ef46715a6a3c554",
+    "standards/error-handling.md": "sha256:9e1dcbc92662359a02ae7a1d9935945791d795df48235f7e860927d391a20f48"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "mod-options"
+      ],
+      "section": "key-entities/saved-state"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching"
+      ],
+      "section": "cross-domain-terms/mutatedworlddata"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "logging"
+      ],
+      "section": "anti-patterns-to-avoid/swallowing-exceptions"
+    }
+  ]
+}

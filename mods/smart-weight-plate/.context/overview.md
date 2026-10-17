@@ -1,4 +1,5 @@
 ---
+tags: weight-sensing, signal-threshold
 description: "Overview of the Smart Weight Plate mod: the two-threshold weight plate building and its signal behaviour, version, status and credits, and a map of its source, art, translations, tests, tools and publish folders"
 ---
 
@@ -10,7 +11,8 @@ description: "Overview of the Smart Weight Plate mod: the two-threshold weight p
 Smart Weight Plate is an Oxygen Not Included mod that adds one building, a weight plate with a low and a high threshold. It weighs what sits on the tile above it like the vanilla Weight Plate (solid tiles, loose items and debris, Duplicants and critters; gases and liquids do not count). It sends a green signal once the weight reaches the High Threshold and holds it until the weight drops to the Low Threshold, then sends red, the way a Liquid or Gas Reservoir's signal behaves. Thresholds run 0 to 2000 kg, an Invert Signal option swaps the colours, and settings copy with the copy-settings tool. Art by 3GuB. Version 0.3.0, status work in progress. Targets the current game with all DLC content (minimumSupportedBuild 744825).
 
 ## Where things are
-**Id:** blk-fb799be8fbf0
+**Id:** blk-fb799be8fbf0  
+**Tags:** kanim-art, in-game-testing, mod-strings, mod-entry-point
 
 - `README.md`, `CHANGELOG.md`: player-facing description and release notes.
 - `src/SmartWeightPlate/`: the mod. `Mod.cs` (entry point), `SmartWeightPlateConfig.cs` (building definition), `SmartWeightPlate.cs` (the two-threshold latch component), `SmartWeightPlateSideScreen.cs` (the panel), `Patches.cs` (Harmony patches), `ModStrings.cs` (UI strings), `mod.yaml` and `mod_info.yaml` (mod manifests).

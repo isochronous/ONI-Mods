@@ -1,4 +1,5 @@
 ---
+tags: liquid-vent, liquid-freezing, tile-repair
 doc_id: doc-46d7dbd5e039
 description: The insulated liquid vent storage patch, post-load repair watcher, dig requests, options, debug save and Harmony patches of Vent Freeze Fix, with business rules, saved state and the source file each lives in
 applies_to:
@@ -17,11 +18,13 @@ Vent Freeze Fix repairs a save/load bug with liquid vents. Super-cooled liquid i
 
 ### Insulated vent storage (patch on LiquidVentConfig)
 **Id:** blk-e2a2326c0ab7  
+**Tags:** harmony-patching  
 **Description**: Gives each liquid vent's `Storage` the game's insulated storage modifiers (hide, seal, insulate), so the packet a vent is about to emit is skipped by the phase-transition handler and not temperature simulated. This prevents the tile inside the vent.  
 **Location**: `LiquidVentConfig_Storage_Patch` in `src/VentFreezeFix/Mod.cs`. Active when `Options.InsulateVents` is on; needs a restart.
 
 ### VentFreezeWatcher (component)
 **Id:** blk-98e7ce8731de  
+**Tags:** game-component, saved-state  
 **Description**: Added to every liquid vent. For the first second of running time after it spawns (five 200 ms ticks) it watches the vent cell and the landing cell, remembers what each held the previous tick, and asks the sim to dig a tile that could not have formed in normal play. Then it removes itself from the scheduler. Implements `ISim200ms`.  
 **Location**: `src/VentFreezeFix/VentFreezeWatcher.cs`
 
@@ -39,11 +42,13 @@ Vent Freeze Fix repairs a save/load bug with liquid vents. Super-cooled liquid i
 
 ### DigRequests
 **Id:** blk-5905b0e9316d  
+**Tags:** harmony-patching  
 **Description**: Static map of cells the watchers asked the sim to dig, and the patch that answers the sim's dig report for those cells by spawning the full mass as debris (a dug tile normally drops half). A request the sim ignores yields no report, so asking again is safe. Cleared on `Game.OnSpawn`.  
 **Location**: `src/VentFreezeFix/DigRequests.cs`
 
 ### Options
 **Id:** blk-63303acdea21  
+**Tags:** mod-options, developer-tooling  
 **Description**: PLib options, shared config location.  
 **Location**: `src/VentFreezeFix/Options.cs`
 
@@ -56,11 +61,13 @@ Vent Freeze Fix repairs a save/load bug with liquid vents. Super-cooled liquid i
 
 ### DebugSave
 **Id:** blk-7391df44fb7c  
+**Tags:** developer-tooling, logging  
 **Description**: Debug tooling. Reads the options once per game, logs vent emits in debug mode, and with the repro button arms a save that is written at the end of the frame in which a liquid vent next emits a packet, as `VentFreezeRepro.sav` next to the current save. That moment is the only one in which the bug's conditions can be captured.  
 **Location**: `src/VentFreezeFix/DebugSave.cs`
 
 ### Harmony patches
 **Id:** blk-138d9e285952  
+**Tags:** harmony-patching  
 **Location**: `src/VentFreezeFix/Mod.cs`, `src/VentFreezeFix/DigRequests.cs`, `src/VentFreezeFix/DebugSave.cs`
 
 | Target | Kind | Purpose |
@@ -73,7 +80,8 @@ Vent Freeze Fix repairs a save/load bug with liquid vents. Super-cooled liquid i
 | `Game.LateUpdate` | Postfix | Debug: writes the queued save at the end of the frame and updates the button text |
 
 ### Saved state
-**Id:** blk-75d011587898
+**Id:** blk-75d011587898  
+**Tags:** saved-state
 
 Only the watcher's two cell snapshots, so the first comparison after a load has a "previous tick". The mod changes nothing else in the save.
 
@@ -101,7 +109,8 @@ Only the watcher's two cell snapshots, so the first comparison after a load has 
 | Verdict | The reason a cell is left alone, or null when its tile is converted (`Verdict`) |
 
 ## Key Code Paths
-**Id:** blk-fdc3dcfd7c26
+**Id:** blk-fdc3dcfd7c26  
+**Tags:** harmony-patching, saved-state, developer-tooling, in-game-testing
 
 - **Install**: `LiquidVentConfig` postfixes add the insulated modifiers and the watcher. See `src/VentFreezeFix/Mod.cs`.
 - **Save and load**: `[OnSerializing]` captures both cells; `[OnDeserialized]` -> `Restore` fills `previous`. See `src/VentFreezeFix/VentFreezeWatcher.cs`.
