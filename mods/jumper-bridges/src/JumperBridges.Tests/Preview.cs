@@ -15,9 +15,11 @@ namespace JumperBridges.Tests
 	public static class Preview
 	{
 		/// <summary>
-		/// Two banks of three Ribbon Readers stood on end (ribbon end up, single-bit end down), a
-		/// cell apart. Each bank's ribbon ends are joined by a ribbon cable, and a Ribbon Bridge
-		/// spans the gap with its ends on the two inner readers' ribbon ports.
+		/// Two banks of three stood on end (ribbon end up, single-bit end down), a cell apart: the
+		/// left inner one a Ribbon Writer on bit 1, the rest Ribbon Readers. Each bank's ribbon ends
+		/// are joined by a ribbon cable, and a Ribbon Bridge spans the gap with its ends on the two
+		/// inner buildings' ribbon ports. A switch under the bridge, wired to the writer's input and
+		/// on, lights bit 1 across both cables and the bridge.
 		/// </summary>
 		[OniTest("looks: preview, automation bridges", Timeout = 90, Explicit = true), Layer(1)]
 		public static IEnumerator Automation(TestContext t)
@@ -25,18 +27,25 @@ namespace JumperBridges.Tests
 			const int width = 7, height = 2;
 			Setup s = new Setup(t, width, height);
 			for (int x = 0; x < width; x++)
-				if (x != 3)
+				if (x != 2 && x != 3)
 					s.Build("LogicRibbonReader", x, 1, orientation: Orientation.R90);
+			// R270 puts the writer's ribbon output (1,0) at (0,1): its input on row 0, its ribbon end on row 1.
+			s.Build("LogicRibbonWriter", 2, 0, orientation: Orientation.R270).GetComponent<LogicRibbonWriter>().SetBitSelection(0);
+			LogicSwitch logicSwitch = s.Build("LogicSwitch", 3, 0).GetComponent<LogicSwitch>();
 			yield return s.Drag("LogicRibbon", 0, 2, 1);
 			yield return s.Drag("LogicRibbon", 4, 6, 1);
+			yield return s.Drag("LogicWire", 3, 2, 0);
 			s.Build("LogicRibbonBridge", 3, 1);
+			if (!logicSwitch.IsSwitchedOn)
+				logicSwitch.HandleToggle();
 			yield return t.WaitGameSeconds(1);
 			yield return s.Shoot(OverlayModes.Logic.ID, "automation");
 		}
 
 		/// <summary>
 		/// Battery, Conductive Wire Bridge, lamp, lamp, Conductive Wire Bridge, battery on a glass
-		/// floor, the two bridge ends on the side-by-side lamps joined by a wire drag.
+		/// floor, the two bridge ends on the side-by-side lamps joined by a wire drag, the batteries
+		/// charged so the lamps are lit.
 		/// </summary>
 		[OniTest("looks: preview, power bridges", Timeout = 90, Explicit = true), Layer(1)]
 		public static IEnumerator Power(TestContext t)
@@ -45,19 +54,35 @@ namespace JumperBridges.Tests
 			Setup s = new Setup(t, width, height);
 			for (int x = 0; x < width; x++)
 				s.Build("GlassTile", x, 0, SimHashes.Glass);
-			s.Build("Battery", 0, 1);
-			s.Build("FloorLamp", 2, 1, SimHashes.Gold);
-			s.Build("FloorLamp", 3, 1, SimHashes.Gold);
-			s.Build("Battery", 5, 1);
+			Battery left = s.Build("Battery", 0, 1).GetComponent<Battery>();
+			Operational[] lamps =
+			{
+				s.Build("FloorLamp", 2, 1, SimHashes.Gold).GetComponent<Operational>(),
+				s.Build("FloorLamp", 3, 1, SimHashes.Gold).GetComponent<Operational>(),
+			};
+			Battery right = s.Build("Battery", 5, 1).GetComponent<Battery>();
 			s.Build("WireRefinedBridge", 1, 1, SimHashes.Gold);
 			s.Build("WireRefinedBridge", 4, 1, SimHashes.Gold);
 			// The two inner ends joined by a wire drag: no wire is built, the two end pieces draw
 			// their segment toward each other.
 			yield return t.WaitRealSeconds(0.5);
 			yield return s.Drag("WireRefined", 2, 3, 1);
-			yield return t.WaitGameSeconds(1);
-			yield return s.Shoot(OverlayModes.Power.ID, "power");
+			// Charged, so the lamps are lit.
+			left.AddEnergy(10000f);
+			right.AddEnergy(10000f);
+			yield return t.WaitGameSeconds(3);
+			// The lamps are lit in the normal view, which is what the image shows of them; for the
+			// overlay they stop drawing, so the circuit reads unpowered and the bridges keep the
+			// overlay's lavender rather than its white for a loaded circuit. A flag of the test's own,
+			// so no "disabled" status icon appears over them.
+			yield return s.Shoot(OverlayModes.Power.ID, "power", () =>
+			{
+				foreach (Operational lamp in lamps)
+					lamp.SetFlag(PreviewOff, false);
+			});
 		}
+
+		private static readonly Operational.Flag PreviewOff = new Operational.Flag("preview_off", Operational.Flag.Type.Functional);
 
 		private sealed class Setup
 		{
@@ -106,7 +131,8 @@ namespace JumperBridges.Tests
 			public IEnumerator Drag(string id, int fromX, int toX, int y)
 			{
 				List<int> cells = new List<int>();
-				for (int x = fromX; x <= toX; x++)
+				int step = toX >= fromX ? 1 : -1;
+				for (int x = fromX; x != toX + step; x += step)
 					cells.Add(Grid.OffsetCell(origin, x, y));
 				UtilityDragSession drag = t.Tools.UtilityTool(id);
 				yield return drag.Path(cells.ToArray());
@@ -115,7 +141,7 @@ namespace JumperBridges.Tests
 			}
 
 			/// <summary>Frames the setup with room to spare, hides the UI, opens the overlay and takes the shot.</summary>
-			public IEnumerator Shoot(HashedString overlay, string name)
+			public IEnumerator Shoot(HashedString overlay, string name, System.Action beforeOverlay = null)
 			{
 				Vector3 low = Grid.CellToPos(origin);
 				Vector3 high = Grid.CellToPos(Grid.OffsetCell(origin, width, height));
@@ -132,6 +158,11 @@ namespace JumperBridges.Tests
 				// around what the overlay highlights.
 				yield return t.WaitRealSeconds(2);
 				yield return t.Screenshot(name + "-normal");
+				if (beforeOverlay != null)
+				{
+					beforeOverlay();
+					yield return t.WaitGameSeconds(2);
+				}
 				OverlayScreen.Instance.ToggleOverlay(overlay);
 				t.Cleanup(() => OverlayScreen.Instance.ToggleOverlay(OverlayModes.None.ID));
 				yield return t.WaitRealSeconds(2);
