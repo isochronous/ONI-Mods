@@ -13,7 +13,6 @@ Bitshifter is an Oxygen Not Included mod that lets the Automation Ribbon Reader 
 
 ## Where things are
 **Id:** blk-977e72b83a82  
-**Tags:** mod-entry-point, kanim-art, in-game-testing
 
 Top-level folders and key files:
 

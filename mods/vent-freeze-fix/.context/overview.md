@@ -12,7 +12,6 @@ Vent Freeze Fix is an Oxygen Not Included mod for a save/load bug with liquid ve
 
 ## Where things are
 **Id:** blk-9a8933671047  
-**Tags:** mod-entry-point, mod-options, mod-strings, in-game-testing
 
 - `README.md`, `CHANGELOG.md`: player-facing description and release notes.
 - `src/VentFreezeFix/`: the mod. `Mod.cs` (entry point and the vent storage patch), `VentFreezeWatcher.cs` (post-load watcher), `DigRequests.cs` (the dig answer), `Options.cs` (settings), `DebugSave.cs` (the save-on-next-vent-emit reproduction button), `ModStrings.cs` (UI strings), `mod.yaml` and `mod_info.yaml` (manifests).

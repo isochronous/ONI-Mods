@@ -1,0 +1,153 @@
+{
+ "task": "OM-002",
+ "why": "unit 12 review fixes: one tag set per shared standards section across the mods, no subject tags on folder maps and index sections, misplaced terms removed, mod_info.yaml named in the overviews, the developer-tooling gloss without its boundary clause",
+ "node": "mods/upgrade-planner",
+ "ops": [
+  {
+   "mode": "tag",
+   "target": "standards/error-handling.md",
+   "section": "principles",
+   "remove": [
+    "harmony-patching",
+    "reflection"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/error-handling.md",
+   "section": "try-catch",
+   "remove": [
+    "mod-compatibility"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/error-handling.md",
+   "section": "guarding-patches/warn-once",
+   "remove": [
+    "performance"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/error-handling.md",
+   "section": "logging/what-to-include",
+   "remove": [
+    "performance"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/error-handling.md",
+   "section": "anti-patterns-to-avoid/throwing-from-a-patch",
+   "remove": [
+    "performance"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/error-handling.md",
+   "section": "anti-patterns-to-avoid/spamming-the-log",
+   "remove": [
+    "performance"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/code-style.md",
+   "section": "language-and-toolchain",
+   "remove": [
+    "mod-compatibility"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/code-style.md",
+   "section": "harmony-patches",
+   "remove": [
+    "mod-entry-point"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/code-style.md",
+   "section": "comments/when-to-comment",
+   "remove": [
+    "mod-compatibility"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/code-style.md",
+   "section": "control-structures/strings",
+   "remove": [
+    "logging"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/naming-conventions.md",
+   "section": "files-and-directories/examples-by-type",
+   "remove": [
+    "mod-entry-point",
+    "mod-strings"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/naming-conventions.md",
+   "section": "code-naming/functions-methods",
+   "add": [
+    "harmony-patching"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/naming-conventions.md",
+   "section": "code-naming/classes-types-interfaces",
+   "add": [
+    "harmony-patching"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/naming-conventions.md",
+   "section": "code-naming/ids-and-tags",
+   "remove": [
+    "hotkey",
+    "in-game-testing"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/README.md",
+   "add": [
+    "code-style"
+   ],
+   "remove": [
+    "harmony-patching",
+    "exception-handling",
+    "logging"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "overview.md",
+   "section": "where-things-are",
+   "remove": [
+    "mod-entry-point",
+    "harmony-patching",
+    "mod-strings",
+    "in-game-testing"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "domains/entities.md",
+   "section": "business-rules",
+   "remove": [
+    "vanilla-fallback"
+   ]
+  }
+ ]
+}

@@ -9,7 +9,7 @@ applies_to:
 
 ## Principles
 **Id:** blk-3e72d1f8445a  
-**Tags:** vanilla-fallback, logging, harmony-patching
+**Tags:** vanilla-fallback, logging
 
 1. **Never break the game for a mod's sake.** A patch that cannot do its job leaves the vanilla behaviour in place and says so in the log. It does not throw into the game's update loop.
 2. **Check what you patch.** Game updates rename fields and move code. Every reflection lookup, transpiler match and prefab or tech lookup is checked for a miss.
@@ -37,7 +37,7 @@ if (ActiveField == null || StorageField == null)
 
 ### Transpiler: count the match
 **Id:** blk-21e2796e605b  
-**Tags:** vanilla-fallback, logging
+**Tags:** vanilla-fallback
 
 A transpiler counts the instructions it replaced. Zero (or more than expected) logs a warning and returns the original code, so a game update disables the change instead of breaking the method.
 
@@ -77,7 +77,7 @@ Work that repeats every frame or tick warns once behind a flag (`warnedMissingIn
 
 ## try/catch
 **Id:** blk-f2a71236c859  
-**Tags:** logging, vanilla-fallback, reflection
+**Tags:** logging
 
 `try`/`catch (Exception e)` is used in four situations and nowhere else:
 
@@ -96,7 +96,6 @@ The message form is `"[<Name>] <what was skipped>: " + e.Message`. Use `e.GetBas
 
 ## Yielding to Other Mods
 **Id:** blk-175c1c6cba09  
-**Tags:** vanilla-fallback, logging
 
 When another mod already does the job or shares an id, the mod steps aside and logs why:
 - Bitshifter disables itself when Digital CPU is enabled or the contested methods already have Harmony owners (`WhyYield` in `mods/bitshifter/src/Bitshifter/Mod.cs`).
@@ -127,7 +126,6 @@ PLib's `PUtil.Log*` helpers are not used; all mods log through `Debug`.
 
 ## Anti-Patterns to Avoid
 **Id:** blk-3183c3b01cb2  
-**Tags:** logging, vanilla-fallback
 
 ### Swallowing exceptions
 **Id:** blk-40e99f92e0e7
@@ -147,12 +145,14 @@ An exception in a prefix or postfix on a per-frame or sim method repeats every f
 Reading a private field by name without a null check on the `FieldInfo`, or replacing an instruction without confirming it was found, breaks on the next game update.
 
 ### Silent degradation
-**Id:** blk-14a5563d3314
+**Id:** blk-14a5563d3314  
+**Tags:** logging
 
 Doing nothing without a log line leaves a player and the author guessing. Every skipped path logs.
 
 ### Spamming the log
-**Id:** blk-ad0a0a8968d8
+**Id:** blk-ad0a0a8968d8  
+**Tags:** logging
 
 A warning inside an update method fires thousands of times. Use a once-flag.
 

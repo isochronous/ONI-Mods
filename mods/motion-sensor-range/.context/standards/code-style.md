@@ -84,7 +84,6 @@ using UnityEngine;
 
 ### When to Comment
 **Id:** blk-40ac288e819d  
-**Tags:** harmony-patching
 
 - On every non-trivial class, an XML `<summary>` that says what the game does and what the patch changes, so a reader can check the patch against the game code. The long summary on `OvercrowdingMonitor_UpdateRegion_Patch` in `mods/dont-count-eggs-on-rails/src/DontCountEggsOnRails/Mod.cs` is the model.
 - Where a game quirk forces an odd line: `// The game's .NET Framework has no AddOrUpdate on this table.`
@@ -135,14 +134,14 @@ if (idx == ushort.MaxValue || idx >= elements.Count)
 
 ### Strings
 **Id:** blk-3bed2e8b7fac  
-**Tags:** mod-strings, logging
+**Tags:** mod-strings
 
 - Log and UI text is built with `+` concatenation, or `string.Format` on a `LocString`. String interpolation is not used in mod code.
 - Player-visible text is a `LocString` field in `ModStrings`, never a literal at the call site (see [naming conventions](naming-conventions.md)).
 
 ## Harmony Patches
 **Id:** blk-183bc6e8000f  
-**Tags:** harmony-patching, mod-entry-point, reflection
+**Tags:** harmony-patching
 
 - A patch is a static class with `[HarmonyPatch(typeof(Type), nameof(Type.Method))]`, or `[HarmonyPatch(typeof(Type), "PrivateMethod")]` for a non-public method, and methods named `Prefix`, `Postfix`, `Transpiler` or `Finalizer` (`mods/bitshifter/src/Bitshifter/Patches.cs`).
 - Game state arrives through Harmony parameters: `__instance`, `__result`, `___field`. Fields read repeatedly use `AccessTools.FieldRefAccess` kept in a `static readonly` field (`mods/detect-any-element/src/DetectAnyElement/Patches.cs`).
@@ -161,7 +160,7 @@ if (idx == ushort.MaxValue || idx >= elements.Count)
 
 ## Project-Specific Rules
 **Id:** blk-f4dd752ab3b9  
-**Tags:** logging, in-game-testing, mod-strings
+**Tags:** logging, in-game-testing
 
 - Mod options are a PLib `POptions` class marked `[JsonObject(MemberSerialization.OptIn)]` and `[ConfigFile(SharedConfigLocation: true)]`, read through a static `Load()` (`mods/vent-freeze-fix/src/VentFreezeFix/Options.cs`) or through `SingletonOptions<Options>` (`mods/storage-pod-redux`). Option titles are string-table keys, so the translation follows the language.
 - Every mod logs one line at load: `[<Name>] Loaded version <assembly version>`.

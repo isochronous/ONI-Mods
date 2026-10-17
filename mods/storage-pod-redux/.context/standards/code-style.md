@@ -84,7 +84,6 @@ using UnityEngine;
 
 ### When to Comment
 **Id:** blk-3d37bcce99a4  
-**Tags:** harmony-patching, mod-compatibility
 
 - On every non-trivial class, an XML `<summary>` that says what the game does and what the patch changes, so a reader can check the patch against the game code. The long summary on `OvercrowdingMonitor_UpdateRegion_Patch` in `mods/dont-count-eggs-on-rails/src/DontCountEggsOnRails/Mod.cs` is the model.
 - Where a game quirk forces an odd line: `// The game's .NET Framework has no AddOrUpdate on this table.`
@@ -135,7 +134,7 @@ if (idx == ushort.MaxValue || idx >= elements.Count)
 
 ### Strings
 **Id:** blk-2302785791ec  
-**Tags:** mod-strings, logging
+**Tags:** mod-strings
 
 - Log and UI text is built with `+` concatenation, or `string.Format` on a `LocString`. String interpolation is not used in mod code.
 - Player-visible text is a `LocString` field in `ModStrings`, never a literal at the call site (see [naming conventions](naming-conventions.md)).
@@ -153,7 +152,7 @@ if (idx == ushort.MaxValue || idx >= elements.Count)
 
 ## Game Components
 **Id:** blk-f8667089c191  
-**Tags:** saved-state, building-config
+**Tags:** saved-state
 
 - A component extends `KMonoBehaviour`, overrides `OnPrefabInit`, `OnSpawn` and `OnCleanUp` and calls `base` from each. Sibling components come in through `[MyCmpGet]` or `[MyCmpReq]` (`mods/no-magic-fridges/src/NoMagicFridges/FridgeThermostat.cs`).
 - Saved state uses `[Serialize]` fields with `[SerializationConfig(MemberSerialization.OptIn)]` on the class (`mods/sweep-zones/src/SweepZones/ZoneStore.cs`).

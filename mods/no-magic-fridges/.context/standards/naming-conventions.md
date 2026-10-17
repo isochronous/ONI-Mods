@@ -1,7 +1,7 @@
 ---
 tags: code-style
 doc_id: doc-9f3021f06f42
-description: "Naming conventions for No Magic Fridges: files, variables, methods, types, ModStrings keys, ids and tags, plus its nested patch class names, FridgeThermostat fields, test class and log prefix"
+description: "Naming conventions for No Magic Fridges: files, variables, methods, types, ids and tags, plus its nested patch class names, FridgeThermostat fields, test class and log prefix"
 applies_to:
   - "src/**"
 ---
@@ -21,7 +21,6 @@ applies_to:
 
 ### Examples by Type
 **Id:** blk-c63d3276e032  
-**Tags:** mod-entry-point, harmony-patching
 
 | Type | Convention | Example |
 |------|------------|---------|

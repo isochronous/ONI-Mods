@@ -64,7 +64,6 @@ foreach (Mod mod in mods)
 
 ### Example
 **Id:** blk-94c9c06009e9  
-**Tags:** logging
 
 ```csharp
 using System.Collections.Generic;
@@ -135,7 +134,6 @@ if (idx == ushort.MaxValue || idx >= elements.Count)
 
 ### Strings
 **Id:** blk-70589d7fbf84  
-**Tags:** logging
 
 - Log and UI text is built with `+` concatenation, or `string.Format` on a `LocString`. String interpolation is not used in mod code.
 - Player-visible text is a `LocString` field in `ModStrings`, never a literal at the call site (see [naming conventions](naming-conventions.md)).

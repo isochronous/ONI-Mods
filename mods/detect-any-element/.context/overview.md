@@ -13,7 +13,6 @@ Detect Any Element is an Oxygen Not Included mod that adds an Any choice, right 
 
 ## Where things are
 **Id:** blk-a4375e886775  
-**Tags:** mod-entry-point, mod-strings, kanim-art, in-game-testing
 
 Top-level folders and key files:
 

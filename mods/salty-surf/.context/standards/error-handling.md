@@ -9,7 +9,7 @@ applies_to:
 
 ## Principles
 **Id:** blk-7ebe206c7a31  
-**Tags:** vanilla-fallback, logging, reflection
+**Tags:** vanilla-fallback, logging
 
 1. **Never break the game for a mod's sake.** A patch that cannot do its job leaves the vanilla behaviour in place and says so in the log. It does not throw into the game's update loop.
 2. **Check what you patch.** Game updates rename fields and move code. Every reflection lookup, transpiler match and prefab or tech lookup is checked for a miss.
@@ -21,11 +21,11 @@ There is no custom exception hierarchy. Mods are small patches over game code, s
 
 ## Guarding Patches
 **Id:** blk-a9a53bc28d81  
-**Tags:** harmony-patching, vanilla-fallback
+**Tags:** harmony-patching
 
 ### Missing member: warn, leave vanilla
 **Id:** blk-22a4f096f436  
-**Tags:** reflection, logging
+**Tags:** reflection, vanilla-fallback
 
 A reflection lookup that returns null is checked before use. The patch then does nothing, or returns `true` from a prefix so the game's method runs.
 
@@ -37,7 +37,7 @@ if (ActiveField == null || StorageField == null)
 
 ### Transpiler: count the match
 **Id:** blk-646a8812ae92  
-**Tags:** logging
+**Tags:** vanilla-fallback
 
 A transpiler counts the instructions it replaced. Zero (or more than expected) logs a warning and returns the original code, so a game update disables the change instead of breaking the method.
 
@@ -49,7 +49,7 @@ if (swapped == 0)
 
 ### Missing data: warn, continue
 **Id:** blk-1ce6ea29b82a  
-**Tags:** logging
+**Tags:** logging, vanilla-fallback
 
 A build-menu, tech or asset lookup that finds nothing warns and keeps the mod working:
 
@@ -64,19 +64,20 @@ if (tech == null)
 (`mods/smart-weight-plate/src/SmartWeightPlate/Patches.cs`; also `mods/multichannel-critter-sensor`, `mods/storage-pod-redux`.) Missing art or a missing vanilla prefab degrades the same way (`Display.UseAnim` in `mods/bitshifter/src/Bitshifter/Patches.cs`, `mods/multichannel-critter-sensor/src/MultichannelCritterSensor/MultichannelCritterSensorSideScreen.cs`).
 
 ### Null checks on game objects
-**Id:** blk-de388d2e3d6e
+**Id:** blk-de388d2e3d6e  
+**Tags:** vanilla-fallback
 
 Components and arguments that can be absent are tested before use: `if (stt == null || !Sim.IsValidHandle(stt.SimHandle)) return true;`, `if (sensor == null || GameScenePartitioner.Instance == null) return;` (`mods/motion-sensor-range/src/MotionSensorRange/RangeSlider.cs`).
 
 ### Warn once
 **Id:** blk-5d42d92e2055  
-**Tags:** logging, reflection
+**Tags:** logging
 
 Work that repeats every frame or tick warns once behind a flag (`warnedMissingInternals` in `RangeSlider.cs`).
 
 ## try/catch
 **Id:** blk-b0bee0097cdc  
-**Tags:** logging, vanilla-fallback
+**Tags:** logging
 
 `try`/`catch (Exception e)` is used in four situations and nowhere else:
 
@@ -95,7 +96,6 @@ The message form is `"[<Name>] <what was skipped>: " + e.Message`. Use `e.GetBas
 
 ## Yielding to Other Mods
 **Id:** blk-19b851b334fa  
-**Tags:** mod-entry-point, logging, harmony-patching
 
 When another mod already does the job or shares an id, the mod steps aside and logs why:
 - Bitshifter disables itself when Digital CPU is enabled or the contested methods already have Harmony owners (`WhyYield` in `mods/bitshifter/src/Bitshifter/Mod.cs`).
@@ -126,11 +126,9 @@ PLib's `PUtil.Log*` helpers are not used; all mods log through `Debug`.
 
 ## Anti-Patterns to Avoid
 **Id:** blk-1e76363c40a1  
-**Tags:** vanilla-fallback, logging
 
 ### Swallowing exceptions
 **Id:** blk-1049d8eefbae  
-**Tags:** mod-strings
 
 An empty `catch` hides a broken patch. The one `catch` that returns a fallback without a log is `GuessLanguageCode` in `common/src/Translations.cs`, because a missing language preference is the normal case before the game has started.
 
@@ -147,22 +145,23 @@ An exception in a prefix or postfix on a per-frame or sim method repeats every f
 Reading a private field by name without a null check on the `FieldInfo`, or replacing an instruction without confirming it was found, breaks on the next game update.
 
 ### Silent degradation
-**Id:** blk-5be6369de6e1
+**Id:** blk-5be6369de6e1  
+**Tags:** logging
 
 Doing nothing without a log line leaves a player and the author guessing. Every skipped path logs.
 
 ### Spamming the log
-**Id:** blk-6eec857baf3f
+**Id:** blk-6eec857baf3f  
+**Tags:** logging
 
 A warning inside an update method fires thousands of times. Use a once-flag.
 
 ## Project-Specific Patterns
 **Id:** blk-85e16abde0df  
-**Tags:** vanilla-fallback
 
 ### Salty Surf specifics
 **Id:** blk-811633b1a486  
-**Tags:** harmony-patching, game-tag, info-panel-text
+**Tags:** harmony-patching, game-tag, info-panel-text, vanilla-fallback
 
 - `ElementLoader_Load_Patch` adds the tag only when the element exists and does not already have it, so a missing element is skipped without a log.
 - `MechanicalSurfboardConfig_Patch` and the descriptor patch null-check the components and the text they replace before editing; the descriptor patch compares against the vanilla text and leaves any line that differs.

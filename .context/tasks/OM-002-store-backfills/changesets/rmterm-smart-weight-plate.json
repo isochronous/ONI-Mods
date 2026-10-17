@@ -1,0 +1,1 @@
+{"task":"OM-002","why":"mod-entry-point lost its only carriers when the folder-map sections were untagged","node":"mods/smart-weight-plate","ops":[{"mode":"remove","target":"tags.md","sections":["mod-entry-point"],"reason":"no record in this node carries the term any more; it was minted in OM-002 for folder-map sections that should not carry subject tags"}]}

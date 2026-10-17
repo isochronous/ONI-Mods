@@ -9,7 +9,7 @@ applies_to:
 
 ## Principles
 **Id:** blk-85618c9841c5  
-**Tags:** vanilla-fallback, logging, reflection, harmony-patching
+**Tags:** vanilla-fallback, logging
 
 1. **Never break the game for a mod's sake.** A patch that cannot do its job leaves the vanilla behaviour in place and says so in the log. It does not throw into the game's update loop.
 2. **Check what you patch.** Game updates rename fields and move code. Every reflection lookup, transpiler match and prefab or tech lookup is checked for a miss.
@@ -20,11 +20,12 @@ applies_to:
 There is no custom exception hierarchy. Mods are small patches over game code, so errors are handled where they occur.
 
 ## Guarding Patches
-**Id:** blk-a05f11350382
+**Id:** blk-a05f11350382  
+**Tags:** harmony-patching
 
 ### Missing member: warn, leave vanilla
 **Id:** blk-0490b4fe2728  
-**Tags:** reflection, vanilla-fallback, harmony-patching
+**Tags:** reflection, vanilla-fallback
 
 A reflection lookup that returns null is checked before use. The patch then does nothing, or returns `true` from a prefix so the game's method runs.
 
@@ -36,7 +37,7 @@ if (ActiveField == null || StorageField == null)
 
 ### Transpiler: count the match
 **Id:** blk-e8712dfdb1c4  
-**Tags:** harmony-patching, vanilla-fallback, logging
+**Tags:** vanilla-fallback
 
 A transpiler counts the instructions it replaced. Zero (or more than expected) logs a warning and returns the original code, so a game update disables the change instead of breaking the method.
 
@@ -76,7 +77,7 @@ Work that repeats every frame or tick warns once behind a flag (`warnedMissingIn
 
 ## try/catch
 **Id:** blk-96ea55e00f65  
-**Tags:** logging, reflection
+**Tags:** logging
 
 `try`/`catch (Exception e)` is used in four situations and nowhere else:
 
@@ -101,11 +102,11 @@ When another mod already does the job or shares an id, the mod steps aside and l
 - Storage Pod Redux does not register its buildings while the original Storage Pod is enabled, and logs a warning telling the player to disable one (`mods/storage-pod-redux/src/StoragePodRedux/Mod.cs`).
 
 ## Logging
-**Id:** blk-6c3e4debe981
+**Id:** blk-6c3e4debe981  
+**Tags:** logging
 
 ### Log Levels
 **Id:** blk-60dc75d735e6  
-**Tags:** logging
 
 | Level | Use For | Example |
 |-------|---------|---------|
@@ -115,7 +116,6 @@ When another mod already does the job or shares an id, the mod steps aside and l
 
 ### What to Include
 **Id:** blk-2c4525433225  
-**Tags:** logging
 
 - The `[<ModName>] ` prefix on every line; `JumperBridgesMod.LogPrefix` holds it for that mod.
 - What was expected, what was found, and what the mod does instead.
@@ -129,7 +129,6 @@ PLib's `PUtil.Log*` helpers are not used; all mods log through `Debug`.
 
 ### Swallowing exceptions
 **Id:** blk-a59c48ae7d35  
-**Tags:** logging
 
 An empty `catch` hides a broken patch. The one `catch` that returns a fallback without a log is `GuessLanguageCode` in `common/src/Translations.cs`, because a missing language preference is the normal case before the game has started.
 
@@ -141,7 +140,7 @@ An exception in a prefix or postfix on a per-frame or sim method repeats every f
 
 ### Assuming the game's internals
 **Id:** blk-2c929231f375  
-**Tags:** reflection, harmony-patching, vanilla-fallback
+**Tags:** reflection, harmony-patching
 
 Reading a private field by name without a null check on the `FieldInfo`, or replacing an instruction without confirming it was found, breaks on the next game update.
 

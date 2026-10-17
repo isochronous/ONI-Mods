@@ -1,5 +1,5 @@
 ---
-tags: harmony-patching, code-style
+tags: code-style
 doc_id: doc-af668e9256d1
 description: "C# code style for the Upgrade Planner mod: formatting, imports, comments, Harmony patch and game component conventions, plus a section on its vendored PLib build, subfolder layout, internals access and use of var"
 applies_to:
@@ -44,7 +44,6 @@ foreach (Mod mod in mods)
 
 ## Language and Toolchain
 **Id:** blk-1bb22689d03c  
-**Tags:** mod-compatibility
 
 - C# 9 on .NET Framework 4.8 (`LangVersion` 9.0 and `TargetFramework` net48 in `common/oni-mod.props`). Namespace blocks, not file-scoped namespaces; no nullable reference types.
 - Mods compile against the game's own assemblies (`common/oni-mod.targets`): `Assembly-CSharp`, `Assembly-CSharp-firstpass`, `0Harmony` and Unity modules. The game's .NET Framework lacks some newer APIs (`ConditionalWeakTable.AddOrUpdate` is missing, see `mods/detect-any-element/src/DetectAnyElement/Patches.cs`).
@@ -85,7 +84,6 @@ using UnityEngine;
 
 ### When to Comment
 **Id:** blk-29493d7a7b8a  
-**Tags:** mod-compatibility
 
 - On every non-trivial class, an XML `<summary>` that says what the game does and what the patch changes, so a reader can check the patch against the game code. The long summary on `OvercrowdingMonitor_UpdateRegion_Patch` in `mods/dont-count-eggs-on-rails/src/DontCountEggsOnRails/Mod.cs` is the model.
 - Where a game quirk forces an odd line: `// The game's .NET Framework has no AddOrUpdate on this table.`
@@ -137,14 +135,14 @@ if (idx == ushort.MaxValue || idx >= elements.Count)
 
 ### Strings
 **Id:** blk-01963724bcfa  
-**Tags:** mod-strings, logging
+**Tags:** mod-strings
 
 - Log and UI text is built with `+` concatenation, or `string.Format` on a `LocString`. String interpolation is not used in mod code.
 - Player-visible text is a `LocString` field in `ModStrings`, never a literal at the call site (see [naming conventions](naming-conventions.md)).
 
 ## Harmony Patches
 **Id:** blk-fc6578139fc1  
-**Tags:** mod-entry-point
+**Tags:** harmony-patching
 
 - A patch is a static class with `[HarmonyPatch(typeof(Type), nameof(Type.Method))]`, or `[HarmonyPatch(typeof(Type), "PrivateMethod")]` for a non-public method, and methods named `Prefix`, `Postfix`, `Transpiler` or `Finalizer` (`mods/bitshifter/src/Bitshifter/Patches.cs`).
 - Game state arrives through Harmony parameters: `__instance`, `__result`, `___field`. Fields read repeatedly use `AccessTools.FieldRefAccess` kept in a `static readonly` field (`mods/detect-any-element/src/DetectAnyElement/Patches.cs`).

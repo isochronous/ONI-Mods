@@ -13,7 +13,6 @@ Don't Count Eggs on Rails is an Oxygen Not Included mod: critter sensors no long
 
 ## Where things are
 **Id:** blk-d02ae3ef8404  
-**Tags:** mod-entry-point, in-game-testing
 
 Top-level folders and key files:
 

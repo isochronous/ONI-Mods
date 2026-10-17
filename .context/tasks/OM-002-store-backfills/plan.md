@@ -5,8 +5,8 @@
 
 ## Phase State
 - Phase plan: [implementation, completion]
-- implementation: in progress
-- completion: pending
+- implementation: done
+- completion: done
 
 ## Decisions
 - Order is forced: overviews/READMEs first (the backfills would otherwise describe placeholders), then descriptions (the coverage survey's "subject elsewhere" gate and the tag survey both read descriptions), then coverage, then tags.
@@ -26,12 +26,18 @@
 - [x] Phase D root: 29-term dictionary minted; 3 chunks tagged (107 operations, 16 rounds); corrections: phase-handoff moved from phase-architecture's document to its entry/exit sections to match its siblings, commit-messages off unit-testing coverage, task-id off base.md's whole template; 10 gaps triaged to no new term (single-document or shape suggestions), converged. Committed 2b44d9f
 - [x] Phase D mods: 17 dictionaries (56 terms), round one 36 chunks (~700 ops); gap round: unit 11 normalised 449 gaps into code-style (all 17) plus room-tracking, pulse-output, reflection/vanilla-fallback admissions (dropped bit-display, building-family, planner-window as one-bullet calls); round two 23 chunks; converged (remaining gaps single-document). Corrections: code-style moved to document level in smart-weight-plate and upgrade-planner; duplicated document and parent-heading tags removed in favour of the narrower section tags (tagfix3, tagfix4)
 - [x] Phase D result: ks check --all --strict 0 block, 9 advise (unlinked docs); coverage 99% of sections effective on both denominators (1539/1553 all, 1311/1318 with prose), 145/150 documents tagged (work/tags/coverage.txt)
-- [ ] Review unit over OM-002 store changes ← IN PROGRESS
+- [x] Review unit 12: 0 block, 11 fix, 14 nit (units/12-review-report.md)
+- [x] Fixes: unit 13 drafted fix12-* (canonical tags per shared standards section, folder maps untagged, mod_info.yaml in six overviews, developer-tooling gloss, misplaced terms, four descriptions); manager added fix12b (mod-strings back on two specifics sections) and fix14 (one document tag set per shared standards document, sections re-derived; regenerating afterwards yields 0 ops). Strict check 0 block, 9 advise
+- [x] Unit 14 confirmation review: every fix finding resolved; its one new finding (mod-entry-point unused in three nodes) fixed by removing the term there (rmterm-*)
+- [x] Retrospective landed with two tooling-friction entries (tag-backfill has no command; coverage-backfill has no door for no-candidate documents)
 - mods/ aggregator: skipped (one document cannot meet the 2-document floor)
-- [ ] Retrospective, commit, PR
+- [x] Commit, push, PR (stacked on PR #6)
 
 ## Open Questions / Blockers
-- None yet.
+- 45 documents stay undeclared for coverage (no candidate); hand-declaring witness: none was declined because only git undoes it.
+- mods/ aggregator stays untagged: its one document cannot meet the two-document floor.
+- common/ (submodule, separate store) was not touched.
+- Residual gaps by design: single-document concepts (toolchain, try/catch, yielding to other mods, ModStrings key naming) have no term in any mod.
 
 ## Constraints
 - Every store change goes through the write path; never hand-edit .context/ outside tasks/.

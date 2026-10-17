@@ -1,5 +1,4 @@
 ---
-tags: vanilla-fallback
 doc_id: doc-bbf17921a8ae
 description: "Error handling rules for Smart Weight Plate: guarding Harmony patches and transpilers, try/catch, logging levels and anti-patterns, plus its guarded Better Automation Overlay compat, research tech warning and null target check"
 applies_to:
@@ -10,7 +9,7 @@ applies_to:
 
 ## Principles
 **Id:** blk-7d026bca9e0b  
-**Tags:** logging, harmony-patching
+**Tags:** logging, vanilla-fallback
 
 1. **Never break the game for a mod's sake.** A patch that cannot do its job leaves the vanilla behaviour in place and says so in the log. It does not throw into the game's update loop.
 2. **Check what you patch.** Game updates rename fields and move code. Every reflection lookup, transpiler match and prefab or tech lookup is checked for a miss.
@@ -22,10 +21,11 @@ There is no custom exception hierarchy. Mods are small patches over game code, s
 
 ## Guarding Patches
 **Id:** blk-9af82a2505d8  
+**Tags:** harmony-patching
 
 ### Missing member: warn, leave vanilla
 **Id:** blk-7e940ba69d8c  
-**Tags:** harmony-patching
+**Tags:** vanilla-fallback
 
 A reflection lookup that returns null is checked before use. The patch then does nothing, or returns `true` from a prefix so the game's method runs.
 
@@ -37,7 +37,7 @@ if (ActiveField == null || StorageField == null)
 
 ### Transpiler: count the match
 **Id:** blk-090e1e892c99  
-**Tags:** harmony-patching, logging
+**Tags:** vanilla-fallback
 
 A transpiler counts the instructions it replaced. Zero (or more than expected) logs a warning and returns the original code, so a game update disables the change instead of breaking the method.
 
@@ -49,7 +49,7 @@ if (swapped == 0)
 
 ### Missing data: warn, continue
 **Id:** blk-a4c34b089222  
-**Tags:** building-unlock, logging
+**Tags:** logging, vanilla-fallback
 
 A build-menu, tech or asset lookup that finds nothing warns and keeps the mod working:
 
@@ -65,7 +65,7 @@ if (tech == null)
 
 ### Null checks on game objects
 **Id:** blk-10650aa02cc8  
-**Tags:** harmony-patching
+**Tags:** vanilla-fallback
 
 Components and arguments that can be absent are tested before use: `if (stt == null || !Sim.IsValidHandle(stt.SimHandle)) return true;`, `if (sensor == null || GameScenePartitioner.Instance == null) return;` (`mods/motion-sensor-range/src/MotionSensorRange/RangeSlider.cs`).
 
@@ -77,7 +77,7 @@ Work that repeats every frame or tick warns once behind a flag (`warnedMissingIn
 
 ## try/catch
 **Id:** blk-4a4a879b8ab3  
-**Tags:** mod-compatibility, logging
+**Tags:** logging
 
 `try`/`catch (Exception e)` is used in four situations and nowhere else:
 
@@ -96,7 +96,7 @@ The message form is `"[<Name>] <what was skipped>: " + e.Message`. Use `e.GetBas
 
 ## Yielding to Other Mods
 **Id:** blk-b9ccaadff4d0  
-**Tags:** mod-compatibility, logging
+**Tags:** mod-compatibility
 
 When another mod already does the job or shares an id, the mod steps aside and logs why:
 - Bitshifter disables itself when Digital CPU is enabled or the contested methods already have Harmony owners (`WhyYield` in `mods/bitshifter/src/Bitshifter/Mod.cs`).
@@ -104,10 +104,10 @@ When another mod already does the job or shares an id, the mod steps aside and l
 
 ## Logging
 **Id:** blk-49994eb07b13  
+**Tags:** logging
 
 ### Log Levels
 **Id:** blk-ce92f5e0bec2  
-**Tags:** logging
 
 | Level | Use For | Example |
 |-------|---------|---------|
@@ -117,7 +117,6 @@ When another mod already does the job or shares an id, the mod steps aside and l
 
 ### What to Include
 **Id:** blk-f1ea9e46924d  
-**Tags:** logging
 
 - The `[<ModName>] ` prefix on every line; `JumperBridgesMod.LogPrefix` holds it for that mod.
 - What was expected, what was found, and what the mod does instead.
@@ -131,7 +130,6 @@ PLib's `PUtil.Log*` helpers are not used; all mods log through `Debug`.
 
 ### Swallowing exceptions
 **Id:** blk-c410bd8c96d3  
-**Tags:** logging
 
 An empty `catch` hides a broken patch. The one `catch` that returns a fallback without a log is `GuessLanguageCode` in `common/src/Translations.cs`, because a missing language preference is the normal case before the game has started.
 

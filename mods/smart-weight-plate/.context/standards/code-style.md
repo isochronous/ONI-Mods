@@ -1,5 +1,5 @@
 ---
-tags: harmony-patching, code-style
+tags: code-style
 doc_id: doc-1c6db88f21e2
 description: "C# code style for Smart Weight Plate: indentation, braces, imports, comments, control structures, Harmony patch and game component conventions, plus its nested Patches class, PLib side screen and Better Automation Overlay compat"
 applies_to:
@@ -141,7 +141,7 @@ if (idx == ushort.MaxValue || idx >= elements.Count)
 
 ## Harmony Patches
 **Id:** blk-516da110cf84  
-**Tags:** mod-entry-point, vanilla-fallback
+**Tags:** harmony-patching
 
 - A patch is a static class with `[HarmonyPatch(typeof(Type), nameof(Type.Method))]`, or `[HarmonyPatch(typeof(Type), "PrivateMethod")]` for a non-public method, and methods named `Prefix`, `Postfix`, `Transpiler` or `Finalizer` (`mods/bitshifter/src/Bitshifter/Patches.cs`).
 - Game state arrives through Harmony parameters: `__instance`, `__result`, `___field`. Fields read repeatedly use `AccessTools.FieldRefAccess` kept in a `static readonly` field (`mods/detect-any-element/src/DetectAnyElement/Patches.cs`).
@@ -160,7 +160,7 @@ if (idx == ushort.MaxValue || idx >= elements.Count)
 
 ## Project-Specific Rules
 **Id:** blk-550895a93c83  
-**Tags:** in-game-testing, logging, mod-strings
+**Tags:** in-game-testing, logging
 
 - Mod options are a PLib `POptions` class marked `[JsonObject(MemberSerialization.OptIn)]` and `[ConfigFile(SharedConfigLocation: true)]`, read through a static `Load()` (`mods/vent-freeze-fix/src/VentFreezeFix/Options.cs`) or through `SingletonOptions<Options>` (`mods/storage-pod-redux`). Option titles are string-table keys, so the translation follows the language.
 - Every mod logs one line at load: `[<Name>] Loaded version <assembly version>`.

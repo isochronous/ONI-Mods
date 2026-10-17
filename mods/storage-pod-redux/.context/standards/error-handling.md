@@ -1,5 +1,4 @@
 ---
-tags: vanilla-fallback, logging
 doc_id: doc-a551ee35a37c
 description: "Error handling and logging rules for the Storage Pod Redux mod: guarding patches, try/catch use, yielding to other mods, log levels, anti-patterns, plus how its mod detection and tech unlock handle failures"
 applies_to:
@@ -10,7 +9,7 @@ applies_to:
 
 ## Principles
 **Id:** blk-d724decb81a1  
-**Tags:** harmony-patching
+**Tags:** vanilla-fallback, logging
 
 1. **Never break the game for a mod's sake.** A patch that cannot do its job leaves the vanilla behaviour in place and says so in the log. It does not throw into the game's update loop.
 2. **Check what you patch.** Game updates rename fields and move code. Every reflection lookup, transpiler match and prefab or tech lookup is checked for a miss.
@@ -25,7 +24,8 @@ There is no custom exception hierarchy. Mods are small patches over game code, s
 **Tags:** harmony-patching
 
 ### Missing member: warn, leave vanilla
-**Id:** blk-45da075bd1a7
+**Id:** blk-45da075bd1a7  
+**Tags:** vanilla-fallback
 
 A reflection lookup that returns null is checked before use. The patch then does nothing, or returns `true` from a prefix so the game's method runs.
 
@@ -36,7 +36,8 @@ if (ActiveField == null || StorageField == null)
 (`mods/no-magic-fridges/src/NoMagicFridges/Patches.cs`; the warning is logged once at load by `SimTransferMethod` in `FridgeThermostat.cs`.)
 
 ### Transpiler: count the match
-**Id:** blk-a63e92166809
+**Id:** blk-a63e92166809  
+**Tags:** vanilla-fallback
 
 A transpiler counts the instructions it replaced. Zero (or more than expected) logs a warning and returns the original code, so a game update disables the change instead of breaking the method.
 
@@ -48,7 +49,7 @@ if (swapped == 0)
 
 ### Missing data: warn, continue
 **Id:** blk-d3e4764112bf  
-**Tags:** building-unlock
+**Tags:** vanilla-fallback, logging
 
 A build-menu, tech or asset lookup that finds nothing warns and keeps the mod working:
 
@@ -63,18 +64,20 @@ if (tech == null)
 (`mods/smart-weight-plate/src/SmartWeightPlate/Patches.cs`; also `mods/multichannel-critter-sensor`, `mods/storage-pod-redux`.) Missing art or a missing vanilla prefab degrades the same way (`Display.UseAnim` in `mods/bitshifter/src/Bitshifter/Patches.cs`, `mods/multichannel-critter-sensor/src/MultichannelCritterSensor/MultichannelCritterSensorSideScreen.cs`).
 
 ### Null checks on game objects
-**Id:** blk-da9dc4418506
+**Id:** blk-da9dc4418506  
+**Tags:** vanilla-fallback
 
 Components and arguments that can be absent are tested before use: `if (stt == null || !Sim.IsValidHandle(stt.SimHandle)) return true;`, `if (sensor == null || GameScenePartitioner.Instance == null) return;` (`mods/motion-sensor-range/src/MotionSensorRange/RangeSlider.cs`).
 
 ### Warn once
-**Id:** blk-938567c83e00
+**Id:** blk-938567c83e00  
+**Tags:** logging
 
 Work that repeats every frame or tick warns once behind a flag (`warnedMissingInternals` in `RangeSlider.cs`).
 
 ## try/catch
 **Id:** blk-0b448c6c8b2a  
-**Tags:** mod-compatibility
+**Tags:** logging
 
 `try`/`catch (Exception e)` is used in four situations and nowhere else:
 
@@ -93,14 +96,15 @@ The message form is `"[<Name>] <what was skipped>: " + e.Message`. Use `e.GetBas
 
 ## Yielding to Other Mods
 **Id:** blk-ace726987133  
-**Tags:** mod-compatibility, building-registration
+**Tags:** mod-compatibility
 
 When another mod already does the job or shares an id, the mod steps aside and logs why:
 - Bitshifter disables itself when Digital CPU is enabled or the contested methods already have Harmony owners (`WhyYield` in `mods/bitshifter/src/Bitshifter/Mod.cs`).
 - Storage Pod Redux does not register its buildings while the original Storage Pod is enabled, and logs a warning telling the player to disable one (`mods/storage-pod-redux/src/StoragePodRedux/Mod.cs`).
 
 ## Logging
-**Id:** blk-b4aef9d13d6a
+**Id:** blk-b4aef9d13d6a  
+**Tags:** logging
 
 ### Log Levels
 **Id:** blk-621ed646101e
@@ -142,12 +146,14 @@ An exception in a prefix or postfix on a per-frame or sim method repeats every f
 Reading a private field by name without a null check on the `FieldInfo`, or replacing an instruction without confirming it was found, breaks on the next game update.
 
 ### Silent degradation
-**Id:** blk-c03962c87365
+**Id:** blk-c03962c87365  
+**Tags:** logging
 
 Doing nothing without a log line leaves a player and the author guessing. Every skipped path logs.
 
 ### Spamming the log
-**Id:** blk-f86e6835567f
+**Id:** blk-f86e6835567f  
+**Tags:** logging
 
 A warning inside an update method fires thousands of times. Use a once-flag.
 

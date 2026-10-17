@@ -1,7 +1,7 @@
 ---
 tags: code-style
 doc_id: doc-0fb73d165b3f
-description: "Naming conventions for Refined Building: files, variables, methods, types, ModStrings keys, ids and tags, plus its test class, log prefix and staticID"
+description: "Naming conventions for Refined Building: files, variables, methods, types, ids and tags, plus its test class, log prefix and staticID"
 applies_to:
   - "src/**"
 ---
@@ -21,7 +21,6 @@ applies_to:
 
 ### Examples by Type
 **Id:** blk-0fc5ffaf284d  
-**Tags:** harmony-patching, mod-entry-point
 
 | Type | Convention | Example |
 |------|------------|---------|
@@ -87,7 +86,6 @@ private static readonly Dictionary<int, float> armed = new Dictionary<int, float
 
 ### Ids and Tags
 **Id:** blk-21749c3920f4  
-**Tags:** game-tag, in-game-testing
 
 - Building ids are PascalCase and match the config class (`SmartWeightPlate`); a mod that replaces another mod's buildings reuses that mod's ids (`StoragePodConfig`, `CoolPodConfig` in `mods/storage-pod-redux`).
 - Tags and PAction ids carry a mod prefix: `DetectAnyElement_Any`, `Isochronous.SweepZones.Tool`.

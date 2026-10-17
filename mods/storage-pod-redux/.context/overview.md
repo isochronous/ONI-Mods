@@ -13,7 +13,6 @@ Storage Pod Redux is an Oxygen Not Included mod that adds two compact 1x1 storag
 
 ## Where things are
 **Id:** blk-8a97644fd6fe  
-**Tags:** mod-entry-point, kanim-art, mod-strings, in-game-testing
 
 - `README.md`, `CHANGELOG.md`: player-facing description and release notes.
 - `src/StoragePodRedux/`: the mod. `Mod.cs` (entry point), `StoragePodConfig.cs` and `CoolPodConfig.cs` (building definitions), `Buildings.cs` (registration gate), `Options.cs` (settings), `ModDetection.cs` (detects other enabled mods and reads their config files), `Patches.cs` (Harmony patches), `ModStrings.cs` (UI strings), `mod.yaml` and `mod_info.yaml` (manifests).

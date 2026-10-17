@@ -102,7 +102,6 @@ Presets in `presets.json`. The plan itself lives for the session only. Settings 
 
 ## Business Rules
 **Id:** blk-5ec4d3dd1f4e  
-**Tags:** vanilla-fallback
 
 - The mod never changes what can replace what: a pair the game refuses in the build tool is refused here. A target qualifies when it names a replacement layer, the source carries one of its replacement tags, and the source's tile or object layer is one the target searches (`ReplacementRules.CanReplace`); utility buildings (wires, pipes, rails) of one tile layer replace each other.
 - The Change material tab lists a type when the game lets it be built over by itself. With All buildings on and Blueprints Expanded loaded, any reconstructable type is also offered; those are deconstructed and rebuilt, out of service until done.

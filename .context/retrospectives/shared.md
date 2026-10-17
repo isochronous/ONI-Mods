@@ -4,6 +4,14 @@ Newest first. Each entry is a `### ` block naming the task it came from, appende
 path — `learned:` on the change-set that produced the lesson, never a closing ceremony.
 
 
+### OM-002: overviews, then description, coverage and tag backfills over every node
+**Id:** blk-bbb71786a11b
+
+- **Avoid**: Tagging 17 nodes in independent passes over one standards body copied into each of them. Identical sections came back with different tags from mod to mod (34 of 56 shared sections), round two then put terms on documents and parent headings whose sections already carried them (about 90 nested-duplicate advisories), and the per-node two-document floor admitted a term like exception-handling in 2 nodes and not 15 for the same text. When a body is shared across nodes, choose its tags once per section and stamp them into every copy, and give the tagging passes the round-one tags of a document before asking for its document tag.
+- **Repeat**: Freezing each node's survey and refusing a write when the node changed since; opening each tagging pass's partial file before dispatch and closing it only on the harness's completion notice; persisting every round before applying it. 18 dictionaries, two tagging rounds and every correction landed with no refusal and nothing to replay. Splitting description authoring across four units and merging into one bound answers file also ran clean: 150 distinct descriptions, 0 declined.
+- **Updated**: domains/tooling-friction.md gains two entries: tag-backfill shipping a library and no runnable command, and coverage-backfill having no door for practice documents. Nothing else was promoted: the tagging lessons concern ICON's bulk tools rather than this repository's code.
+
+
 ### OM-001: seed ICON's content documents across the root and all 17 mods
 **Id:** blk-c3ff9a6f1225
 

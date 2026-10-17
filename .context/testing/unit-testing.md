@@ -8,7 +8,7 @@ description: "How ONI-Mods writes [OniTest] coroutines run in the real game by T
 
 ## Framework and Tools
 **Id:** blk-5e77d0d9ce90  
-**Tags:** mod-build, game-update-compatibility, translations
+**Tags:** game-update-compatibility
 
 There is no desktop unit-test project in this repository: no xUnit, NUnit or MSTest. The mods run inside Unity's Mono in the game and call game code that exists only there, so every test runs in the real game.
 
@@ -40,7 +40,6 @@ All 17 mods have a `<Mod>.Tests` project, grouped by what is tested (for Detect 
 
 ### File Organization
 **Id:** blk-1a5825c096e0  
-**Tags:** test-assertions
 
 A test class is `public static`; a test is a `public static IEnumerator` taking a `TestContext`, marked `[OniTest("<name>")]` with a `[Layer(n)]`. Tests run in declaration order. From `mods/detect-any-element/src/DetectAnyElement.Tests/Persistence.cs`:
 

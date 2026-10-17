@@ -1,0 +1,137 @@
+{
+ "task": "OM-002",
+ "why": "unit 12 review fixes: one tag set per shared standards section across the mods, no subject tags on folder maps and index sections, misplaced terms removed, mod_info.yaml named in the overviews, the developer-tooling gloss without its boundary clause",
+ "node": "mods/refined-building",
+ "ops": [
+  {
+   "mode": "tag",
+   "target": "standards/error-handling.md",
+   "section": "guarding-patches",
+   "remove": [
+    "vanilla-fallback"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/error-handling.md",
+   "section": "guarding-patches/missing-member-warn-leave-vanilla",
+   "add": [
+    "vanilla-fallback"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/error-handling.md",
+   "section": "guarding-patches/transpiler-count-the-match",
+   "add": [
+    "vanilla-fallback"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/error-handling.md",
+   "section": "guarding-patches/missing-data-warn-continue",
+   "add": [
+    "vanilla-fallback"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/error-handling.md",
+   "section": "guarding-patches/null-checks-on-game-objects",
+   "add": [
+    "vanilla-fallback"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/error-handling.md",
+   "section": "anti-patterns-to-avoid/throwing-from-a-patch",
+   "remove": [
+    "vanilla-fallback"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/error-handling.md",
+   "section": "anti-patterns-to-avoid/assuming-the-game-s-internals",
+   "remove": [
+    "vanilla-fallback"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/error-handling.md",
+   "section": "anti-patterns-to-avoid/silent-degradation",
+   "remove": [
+    "vanilla-fallback"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/code-style.md",
+   "section": "imports-includes/example",
+   "remove": [
+    "logging"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/code-style.md",
+   "section": "control-structures/strings",
+   "remove": [
+    "logging"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/naming-conventions.md",
+   "section": "files-and-directories/examples-by-type",
+   "remove": [
+    "harmony-patching",
+    "mod-entry-point"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/naming-conventions.md",
+   "section": "code-naming/ids-and-tags",
+   "remove": [
+    "game-tag",
+    "in-game-testing"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/README.md",
+   "add": [
+    "code-style"
+   ],
+   "remove": [
+    "harmony-patching",
+    "logging"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "overview.md",
+   "section": "where-things-are",
+   "remove": [
+    "mod-entry-point",
+    "in-game-testing",
+    "harmony-patching"
+   ]
+  },
+  {
+   "mode": "section",
+   "target": "overview.md",
+   "section": "What this is",
+   "body": "Refined Building is an Oxygen Not Included mod that lets every refined metal be used wherever a building asks for raw Metal Ore: wire, pneumatic doors and airlocks, mesh tiles, batteries, pumps, valves, vents, coal generators, the electrolyzer, sinks and showers. After the game loads its element table, every solid element tagged `RefinedMetal` that lacks the `Metal` tag gets it, so the refined metals appear in those buildings' material lists. It finds the metals at runtime, so it covers the base game, the enabled DLCs and refined metals added by other mods. Buildings that ask for Refined Metal are untouched. It does the same job as Cairath's Refined Metals Usable As Raw Metals, without a fixed list. Version 1.0.1 is built; `publish/retired.txt` records that the mod is unlisted on the Workshop (id 3806989781) because an existing mod already does this job. `mod_info.yaml` sets `supportedContent: ALL` and `minimumSupportedBuild: 744825`."
+  },
+  {
+   "mode": "describe",
+   "target": "standards/naming-conventions.md",
+   "description": "Naming conventions for Refined Building: files, variables, methods, types, ids and tags, plus its test class, log prefix and staticID"
+  }
+ ]
+}

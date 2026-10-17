@@ -13,7 +13,6 @@ Just Fall Already! is an Oxygen Not Included mod: a critter whose footing a door
 
 ## Where things are
 **Id:** blk-d2b43691167d  
-**Tags:** mod-entry-point, in-game-testing
 
 Top-level folders and key files:
 

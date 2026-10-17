@@ -21,7 +21,6 @@ applies_to:
 
 ### Examples by Type
 **Id:** blk-19a06aa47b06  
-**Tags:** mod-entry-point, mod-strings
 
 | Type | Convention | Example |
 |------|------------|---------|
@@ -57,6 +56,7 @@ private static readonly Dictionary<int, float> armed = new Dictionary<int, float
 
 ### Functions/Methods
 **Id:** blk-d7e5b01b5242  
+**Tags:** harmony-patching
 
 - PascalCase, starting with a verb: `Apply`, `Decide`, `SwapTable`, `CopyRangeFrom`, `ApplyRange`.
 - Game callbacks keep the game's names (`OnSpawn`, `OnPrefabInit`, `OnCleanUp`, `Sim1000ms`).
@@ -64,6 +64,7 @@ private static readonly Dictionary<int, float> armed = new Dictionary<int, float
 
 ### Classes/Types/Interfaces
 **Id:** blk-957640ac7700  
+**Tags:** harmony-patching
 
 - PascalCase nouns. Interfaces take an `I` prefix (`IPlanTab` and `ITabView` in `mods/upgrade-planner`, and the game's own).
 - Harmony patch classes: `<PatchedType>_<PatchedMethod>_Patch` (`LogicRibbonReader_GetBitDepth_Patch`, `Db_Initialize_Patch`, `GeneratedBuildings_LoadGeneratedBuildings_Patch`). A patch for a type with one concern may use `<Type>_Patch` (`LiquidVentConfig_Patch`). Patches nested in a holder class may drop the suffix (`Constructable_OnSpawn` in `ReachTablePatches`).
@@ -86,7 +87,6 @@ private static readonly Dictionary<int, float> armed = new Dictionary<int, float
 
 ### Ids and Tags
 **Id:** blk-af8437bc3cd7  
-**Tags:** hotkey, in-game-testing
 
 - Building ids are PascalCase and match the config class (`SmartWeightPlate`); a mod that replaces another mod's buildings reuses that mod's ids (`StoragePodConfig`, `CoolPodConfig` in `mods/storage-pod-redux`).
 - Tags and PAction ids carry a mod prefix: `DetectAnyElement_Any`, `Isochronous.SweepZones.Tool`.

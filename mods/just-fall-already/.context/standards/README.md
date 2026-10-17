@@ -1,5 +1,5 @@
 ---
-tags: harmony-patching, logging, vanilla-fallback
+tags: code-style
 doc_id: doc-9abc9f833d91
 description: "Index of the three standards documents of Just Fall Already! (code style, error handling, naming conventions), each with a one-line summary of what it covers"
 ---

@@ -16,7 +16,6 @@ An earlier `ks init --apply` run at 13:23 stopped partway: 11 of 17 mod nodes we
 
 ## 2026-10-17 icon-init: --exclude does not drop a top-level folder from the node set
 **Id:** blk-37372ca436a2  
-**Tags:** common-submodule
 
 `ks init --at . --task-prefix OM --exclude common` reported `common` under "not walked — excluded at this node or an ancestor" yet still listed it in the proposed tree and in "20 node(s) to write", with `common/.context/` among the files to write. `--nodes "mods/*"` with the same exclude made no difference, and neither did a trailing slash. `common` is a git submodule (oni-mods-common), so the node written there lands inside a different repository and cannot be committed from this one. Expected: an excluded directory is neither walked nor written, or the help text says exclusion only limits the walk. Done instead: applied the plan without `--exclude` so the `common` node at least carries its real project roster, and left `common/.context/` and `common/.gitattributes` for the owner to commit in the submodule's own repository or remove.
 
@@ -35,3 +34,13 @@ After OM-001 landed the same shared standards body (code style, error handling, 
 **Id:** blk-9ebf6bc063df
 
 Adding `applies_to` to an existing document with a `cover` operation that lacked `witness`, `ks write plan` refused with text saying "`cover` is the mode that declares it", although the operation already was `cover`, and it never named `witness` as the missing field. Separately, Jumper Bridges' `domains/entities.md` needed a section edit and a coverage claim; the writer refuses two operations on one destination in one change-set, so the coverage went into a second change-set applied after the first. Expected: the refusal names the missing field, and a section edit and a coverage change on one document compose in one transaction. Done instead: set `witness: loose` on every cover op and split the Jumper Bridges change into two change-sets.
+
+## 2026-10-17 tag-backfill: a library and a brief, but no command to run
+**Id:** blk-4e42b38452ab
+
+The tag-backfill skill describes a seven-step run and ships `lib/backfill/*.mjs` (surveyStore, chunkDocuments, taggingInput, beginPass/completePass, validateResponse, generateOperations, runBackfill) plus the tagging brief, but no CLI that drives them. Running it over 18 nodes took a 150-line driver (`.context/tasks/OM-002-store-backfills/work/tags/tagwork.mjs`): split the store-wide survey per node because each node needs its own dictionary, write one input per chunk, open and close passes, validate each chunk against its own chunk survey (a part chunk's expectation differs from its whole document's), merge, check every term against the node's `tags.md`, refuse when the node changed since its survey, then generate and run rounds. Expected: a `ks tag-backfill` verb with survey, chunk, intake and write steps, node-aware. Done instead: wrote the driver in the task folder.
+
+## 2026-10-17 coverage-backfill: nothing to propose, and no door for documents that cover nothing
+**Id:** blk-a378f3fb67b5
+
+`coverage.mjs survey` exited 0 at all 19 nodes: 45 undeclared documents, every one no candidate (root workflow and testing documents: spread or one target only; README indexes: no resolved token). The door declares `witness: none` only when a proposal is rejected on question 2 or 3, so a practice document that never gets a proposal stays undeclared, and every sweep keeps listing it as uncovered. Hand-declaring `witness: none` would work, but no write-path mode removes a witness, so it can only be undone through git. Expected: a way to record "considered, covers no place" for a no-candidate document through the door. Done instead: left the 45 documents undeclared.

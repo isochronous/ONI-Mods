@@ -134,14 +134,13 @@ if (idx == ushort.MaxValue || idx >= elements.Count)
 
 ### Strings
 **Id:** blk-968f3a86b207  
-**Tags:** logging
 
 - Log and UI text is built with `+` concatenation, or `string.Format` on a `LocString`. String interpolation is not used in mod code.
 - Player-visible text is a `LocString` field in `ModStrings`, never a literal at the call site (see [naming conventions](naming-conventions.md)).
 
 ## Harmony Patches
 **Id:** blk-1ebc400095cd  
-**Tags:** harmony-patching, transpiler, mod-entry-point
+**Tags:** harmony-patching
 
 - A patch is a static class with `[HarmonyPatch(typeof(Type), nameof(Type.Method))]`, or `[HarmonyPatch(typeof(Type), "PrivateMethod")]` for a non-public method, and methods named `Prefix`, `Postfix`, `Transpiler` or `Finalizer` (`mods/bitshifter/src/Bitshifter/Patches.cs`).
 - Game state arrives through Harmony parameters: `__instance`, `__result`, `___field`. Fields read repeatedly use `AccessTools.FieldRefAccess` kept in a `static readonly` field (`mods/detect-any-element/src/DetectAnyElement/Patches.cs`).

@@ -1,7 +1,7 @@
 ---
 tags: code-style
 doc_id: doc-4e7e5a23b6de
-description: "Naming conventions for Don't Count Eggs on Rails: files, namespaces, variables, methods, patch classes, `ModStrings` keys and ids, plus its patch name, `Eggs` test class, log prefix and `staticID`"
+description: "Naming conventions for Don't Count Eggs on Rails: files, namespaces, variables, methods, patch classes and ids, plus its patch name, `Eggs` test class, log prefix and `staticID`"
 applies_to:
   - "src/**"
 ---
@@ -21,7 +21,6 @@ applies_to:
 
 ### Examples by Type
 **Id:** blk-00fe6a155298  
-**Tags:** mod-entry-point, harmony-patching
 
 | Type | Convention | Example |
 |------|------------|---------|
@@ -87,7 +86,6 @@ private static readonly Dictionary<int, float> armed = new Dictionary<int, float
 
 ### Ids and Tags
 **Id:** blk-e26da3e96b16  
-**Tags:** game-tag, in-game-testing
 
 - Building ids are PascalCase and match the config class (`SmartWeightPlate`); a mod that replaces another mod's buildings reuses that mod's ids (`StoragePodConfig`, `CoolPodConfig` in `mods/storage-pod-redux`).
 - Tags and PAction ids carry a mod prefix: `DetectAnyElement_Any`, `Isochronous.SweepZones.Tool`.

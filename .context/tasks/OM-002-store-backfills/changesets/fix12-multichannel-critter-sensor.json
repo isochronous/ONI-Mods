@@ -1,0 +1,92 @@
+{
+ "task": "OM-002",
+ "why": "unit 12 review fixes: one tag set per shared standards section across the mods, no subject tags on folder maps and index sections, misplaced terms removed, mod_info.yaml named in the overviews, the developer-tooling gloss without its boundary clause",
+ "node": "mods/multichannel-critter-sensor",
+ "ops": [
+  {
+   "mode": "tag",
+   "target": "standards/error-handling.md",
+   "section": "yielding-to-other-mods",
+   "remove": [
+    "harmony-patching"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/error-handling.md",
+   "section": "guarding-patches/missing-data-warn-continue",
+   "remove": [
+    "building-unlock"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/code-style.md",
+   "section": "harmony-patches",
+   "remove": [
+    "mod-entry-point"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/code-style.md",
+   "section": "project-specific-rules",
+   "remove": [
+    "mod-strings"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/code-style.md",
+   "section": "control-structures/strings",
+   "remove": [
+    "logging"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/naming-conventions.md",
+   "section": "files-and-directories/examples-by-type",
+   "remove": [
+    "building-config",
+    "side-screen",
+    "mod-entry-point",
+    "kanim-art"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/naming-conventions.md",
+   "section": "code-naming/ids-and-tags",
+   "remove": [
+    "building-config",
+    "in-game-testing"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/README.md",
+   "remove": [
+    "vanilla-fallback",
+    "logging"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "overview.md",
+   "section": "where-things-are",
+   "remove": [
+    "building-config",
+    "side-screen",
+    "kanim-art",
+    "in-game-testing"
+   ]
+  },
+  {
+   "mode": "section",
+   "target": "overview.md",
+   "section": "What this is",
+   "body": "Multichannel Critter Sensor is an Oxygen Not Included mod that adds a room-based critter and egg counter for the Automation Ribbon. It counts critters and eggs in its room like the vanilla Critter Sensor, lets the player choose which species and egg types to count, and writes a 4-bit value to its ribbon output port, with combined or separate critter/egg thresholds and rising/falling count pulses. The building has its own kanim art by 3GuB, used with permission, and a side screen built from PLib UI plus clones of the vanilla threshold editors. Version 0.3.0 is released on the Steam Workshop (id 3804039425); `mod_info.yaml` sets `supportedContent: ALL` and `minimumSupportedBuild: 744825`. The mod is available in English, Chinese (Simplified), Korean and Russian."
+  }
+ ]
+}

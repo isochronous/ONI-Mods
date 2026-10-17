@@ -12,7 +12,6 @@ Upgrade Planner is an Oxygen Not Included mod that adds a toolbar tool for rebui
 
 ## Where things are
 **Id:** blk-e9942a956580  
-**Tags:** mod-entry-point, harmony-patching, mod-strings, in-game-testing
 
 - `README.md`, `CHANGELOG.md`: player-facing description and release notes.
 - `src/UpgradePlanner/`: the mod. `Mod.cs` (entry point), `Patches.cs` (Harmony patches), `ModStrings.cs` (UI strings), `mod.yaml` and `mod_info.yaml` (manifests).

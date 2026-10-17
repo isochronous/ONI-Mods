@@ -12,7 +12,6 @@ Corner Build Anything is an Oxygen Not Included mod that lets duplicants build a
 
 ## Where things are
 **Id:** blk-775902750f85  
-**Tags:** mod-entry-point, in-game-testing
 
 Top-level folders and key files:
 
