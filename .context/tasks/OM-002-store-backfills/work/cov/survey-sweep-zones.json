@@ -1,0 +1,34 @@
+{
+  "survey_id": "sha256:1bc1a3a4493401e8dc635a671e1303aaff71c1ce852bee391a6ff3e0fd1216ba",
+  "node": "C:/dev/ONI-Mods/mods/sweep-zones",
+  "store_root": "C:/dev/ONI-Mods",
+  "window": {
+    "declared": 1000,
+    "read": 414,
+    "rho": 0.02,
+    "shortened": true
+  },
+  "owed": {
+    "door": 0,
+    "person": 0
+  },
+  "candidates": [],
+  "splits": [],
+  "splits_unfinished": [],
+  "splits_stranded": [],
+  "split_journals_unreadable": [],
+  "split_findings": [],
+  "not_proposed": {
+    "no_candidate": [
+      {
+        "document": "domains/README.md",
+        "reason": "no resolved token"
+      },
+      {
+        "document": "standards/README.md",
+        "reason": "no resolved token"
+      }
+    ],
+    "rule_scoped": []
+  }
+}

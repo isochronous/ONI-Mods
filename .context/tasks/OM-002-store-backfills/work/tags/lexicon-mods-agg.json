@@ -1,0 +1,19 @@
+{
+ "documents": [
+  {
+   "id": "overview.md",
+   "title": "mods",
+   "description": "Overview of the mods/ folder of ONI-Mods: the shared per-mod folder layout (src, tests, publish, README, CHANGELOG) and a one-line list of what each of the 17 mods does",
+   "sections": [
+    {
+     "id": "overview.md#what-this-is",
+     "title": "What this is"
+    },
+    {
+     "id": "overview.md#where-things-are",
+     "title": "Where things are"
+    }
+   ]
+  }
+ ]
+}

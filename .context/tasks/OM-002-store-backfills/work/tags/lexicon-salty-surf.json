@@ -1,0 +1,384 @@
+{
+ "documents": [
+  {
+   "id": "domains/README.md",
+   "title": "Domains",
+   "description": "Index of the Salty Surf domains folder, linking the entities document on the Mechanical Surfboard patches for accepted liquids, readiness and spill and the glossary of ONI and mod terms",
+   "sections": [
+    {
+     "id": "domains/README.md#domains",
+     "title": "Domains"
+    }
+   ]
+  },
+  {
+   "id": "domains/entities.md",
+   "title": "Salty Surf domain",
+   "description": "The SurfWater tag helper, Harmony patches, mod strings and translations of Salty Surf in src/SaltySurf, with the accepted-liquid, readiness, spill and info panel rules, file locations, code paths, tests and saved state",
+   "sections": [
+    {
+     "id": "domains/entities.md#overview",
+     "title": "Overview"
+    },
+    {
+     "id": "domains/entities.md#key-entities",
+     "title": "Key Entities"
+    },
+    {
+     "id": "domains/entities.md#key-entities/surfwater",
+     "title": "SurfWater"
+    },
+    {
+     "id": "domains/entities.md#key-entities/harmony-patches",
+     "title": "Harmony patches"
+    },
+    {
+     "id": "domains/entities.md#key-entities/mod-entry-and-strings",
+     "title": "Mod entry and strings"
+    },
+    {
+     "id": "domains/entities.md#key-entities/saved-state",
+     "title": "Saved state"
+    },
+    {
+     "id": "domains/entities.md#business-rules",
+     "title": "Business Rules"
+    },
+    {
+     "id": "domains/entities.md#key-code-paths",
+     "title": "Key Code Paths"
+    },
+    {
+     "id": "domains/entities.md#related",
+     "title": "Related"
+    }
+   ]
+  },
+  {
+   "id": "domains/glossary.md",
+   "title": "Salty Surf glossary",
+   "description": "Glossary for Salty Surf: abbreviations, terms to avoid, and definitions of the Mechanical Surfboard, intake capacity tag, shared SaltySurfWater tag, readiness, spill, wrong liquid and descriptor, with the code using each",
+   "sections": [
+    {
+     "id": "domains/glossary.md#abbreviations-and-acronyms",
+     "title": "Abbreviations and Acronyms"
+    },
+    {
+     "id": "domains/glossary.md#terms-to-avoid",
+     "title": "Terms to Avoid"
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms",
+     "title": "Cross-Domain Terms"
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/mechanical-surfboard",
+     "title": "Mechanical Surfboard"
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/intake-capacity-tag",
+     "title": "Intake / capacity tag"
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/shared-tag-saltysurfwater",
+     "title": "Shared tag (SaltySurfWater)"
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/oretags",
+     "title": "oreTags"
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/readiness-isready",
+     "title": "Readiness (IsReady)"
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/spill",
+     "title": "Spill"
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/wrong-liquid",
+     "title": "Wrong liquid"
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/descriptor",
+     "title": "Descriptor"
+    },
+    {
+     "id": "domains/glossary.md#related",
+     "title": "Related"
+    }
+   ]
+  },
+  {
+   "id": "overview.md",
+   "title": "salty-surf",
+   "description": "Overview of the Salty Surf mod: how the Mechanical Surfboard accepts Salt Water as well as Water, its Workshop version, supported content and languages, and a map of its source, tests and publish folders",
+   "sections": [
+    {
+     "id": "overview.md#what-this-is",
+     "title": "What this is"
+    },
+    {
+     "id": "overview.md#where-things-are",
+     "title": "Where things are"
+    }
+   ]
+  },
+  {
+   "id": "standards/README.md",
+   "title": "Standards",
+   "description": "Index of the Salty Surf standards folder, linking its code style, error handling and naming conventions documents with a line on what each covers",
+   "sections": [
+    {
+     "id": "standards/README.md#standards",
+     "title": "Standards"
+    }
+   ]
+  },
+  {
+   "id": "standards/code-style.md",
+   "title": "Code Style Guide",
+   "description": "C# code style for Salty Surf: indentation, braces, imports, comments, control structures, Harmony patch and game component conventions, plus its patches living in Mod.cs, the shared SurfWater class and descriptor reflection",
+   "sections": [
+    {
+     "id": "standards/code-style.md#formatting",
+     "title": "Formatting"
+    },
+    {
+     "id": "standards/code-style.md#formatting/indentation",
+     "title": "Indentation"
+    },
+    {
+     "id": "standards/code-style.md#formatting/line-length",
+     "title": "Line Length"
+    },
+    {
+     "id": "standards/code-style.md#formatting/braces",
+     "title": "Braces"
+    },
+    {
+     "id": "standards/code-style.md#language-and-toolchain",
+     "title": "Language and Toolchain"
+    },
+    {
+     "id": "standards/code-style.md#imports-includes",
+     "title": "Imports/Includes"
+    },
+    {
+     "id": "standards/code-style.md#imports-includes/organization",
+     "title": "Organization"
+    },
+    {
+     "id": "standards/code-style.md#imports-includes/example",
+     "title": "Example"
+    },
+    {
+     "id": "standards/code-style.md#comments",
+     "title": "Comments"
+    },
+    {
+     "id": "standards/code-style.md#comments/when-to-comment",
+     "title": "When to Comment"
+    },
+    {
+     "id": "standards/code-style.md#comments/when-not-to-comment",
+     "title": "When NOT to Comment"
+    },
+    {
+     "id": "standards/code-style.md#comments/format",
+     "title": "Format"
+    },
+    {
+     "id": "standards/code-style.md#control-structures",
+     "title": "Control Structures"
+    },
+    {
+     "id": "standards/code-style.md#control-structures/conditionals",
+     "title": "Conditionals"
+    },
+    {
+     "id": "standards/code-style.md#control-structures/loops",
+     "title": "Loops"
+    },
+    {
+     "id": "standards/code-style.md#control-structures/strings",
+     "title": "Strings"
+    },
+    {
+     "id": "standards/code-style.md#harmony-patches",
+     "title": "Harmony Patches"
+    },
+    {
+     "id": "standards/code-style.md#game-components",
+     "title": "Game Components"
+    },
+    {
+     "id": "standards/code-style.md#project-specific-rules",
+     "title": "Project-Specific Rules"
+    },
+    {
+     "id": "standards/code-style.md#project-specific-rules/salty-surf-specifics",
+     "title": "Salty Surf specifics"
+    },
+    {
+     "id": "standards/code-style.md#related",
+     "title": "Related"
+    }
+   ]
+  },
+  {
+   "id": "standards/error-handling.md",
+   "title": "Error Handling Conventions",
+   "description": "Error handling rules for Salty Surf: guarding Harmony patches and transpilers, try/catch, logging levels and anti-patterns, plus how its element tagging, intake and descriptor patches null-check and leave vanilla text alone",
+   "sections": [
+    {
+     "id": "standards/error-handling.md#principles",
+     "title": "Principles"
+    },
+    {
+     "id": "standards/error-handling.md#guarding-patches",
+     "title": "Guarding Patches"
+    },
+    {
+     "id": "standards/error-handling.md#guarding-patches/missing-member-warn-leave-vanilla",
+     "title": "Missing member: warn, leave vanilla"
+    },
+    {
+     "id": "standards/error-handling.md#guarding-patches/transpiler-count-the-match",
+     "title": "Transpiler: count the match"
+    },
+    {
+     "id": "standards/error-handling.md#guarding-patches/missing-data-warn-continue",
+     "title": "Missing data: warn, continue"
+    },
+    {
+     "id": "standards/error-handling.md#guarding-patches/null-checks-on-game-objects",
+     "title": "Null checks on game objects"
+    },
+    {
+     "id": "standards/error-handling.md#guarding-patches/warn-once",
+     "title": "Warn once"
+    },
+    {
+     "id": "standards/error-handling.md#try-catch",
+     "title": "try/catch"
+    },
+    {
+     "id": "standards/error-handling.md#try-catch/finalizer-for-a-thread-with-no-handler",
+     "title": "Finalizer for a thread with no handler"
+    },
+    {
+     "id": "standards/error-handling.md#yielding-to-other-mods",
+     "title": "Yielding to Other Mods"
+    },
+    {
+     "id": "standards/error-handling.md#logging",
+     "title": "Logging"
+    },
+    {
+     "id": "standards/error-handling.md#logging/log-levels",
+     "title": "Log Levels"
+    },
+    {
+     "id": "standards/error-handling.md#logging/what-to-include",
+     "title": "What to Include"
+    },
+    {
+     "id": "standards/error-handling.md#anti-patterns-to-avoid",
+     "title": "Anti-Patterns to Avoid"
+    },
+    {
+     "id": "standards/error-handling.md#anti-patterns-to-avoid/swallowing-exceptions",
+     "title": "Swallowing exceptions"
+    },
+    {
+     "id": "standards/error-handling.md#anti-patterns-to-avoid/throwing-from-a-patch",
+     "title": "Throwing from a patch"
+    },
+    {
+     "id": "standards/error-handling.md#anti-patterns-to-avoid/assuming-the-game-s-internals",
+     "title": "Assuming the game's internals"
+    },
+    {
+     "id": "standards/error-handling.md#anti-patterns-to-avoid/silent-degradation",
+     "title": "Silent degradation"
+    },
+    {
+     "id": "standards/error-handling.md#anti-patterns-to-avoid/spamming-the-log",
+     "title": "Spamming the log"
+    },
+    {
+     "id": "standards/error-handling.md#project-specific-patterns",
+     "title": "Project-Specific Patterns"
+    },
+    {
+     "id": "standards/error-handling.md#project-specific-patterns/salty-surf-specifics",
+     "title": "Salty Surf specifics"
+    },
+    {
+     "id": "standards/error-handling.md#related",
+     "title": "Related"
+    }
+   ]
+  },
+  {
+   "id": "standards/naming-conventions.md",
+   "title": "Naming Conventions",
+   "description": "Naming conventions for Salty Surf: files, variables, methods, types, ModStrings keys, ids and tags, plus its SALTYSURF string branch, patch class names, SaltySurfWater tag, test classes and log prefix",
+   "sections": [
+    {
+     "id": "standards/naming-conventions.md#files-and-directories",
+     "title": "Files and Directories"
+    },
+    {
+     "id": "standards/naming-conventions.md#files-and-directories/general-rules",
+     "title": "General Rules"
+    },
+    {
+     "id": "standards/naming-conventions.md#files-and-directories/examples-by-type",
+     "title": "Examples by Type"
+    },
+    {
+     "id": "standards/naming-conventions.md#code-naming",
+     "title": "Code Naming"
+    },
+    {
+     "id": "standards/naming-conventions.md#code-naming/variables",
+     "title": "Variables"
+    },
+    {
+     "id": "standards/naming-conventions.md#code-naming/functions-methods",
+     "title": "Functions/Methods"
+    },
+    {
+     "id": "standards/naming-conventions.md#code-naming/classes-types-interfaces",
+     "title": "Classes/Types/Interfaces"
+    },
+    {
+     "id": "standards/naming-conventions.md#code-naming/booleans",
+     "title": "Booleans"
+    },
+    {
+     "id": "standards/naming-conventions.md#code-naming/strings-modstrings",
+     "title": "Strings (`ModStrings`)"
+    },
+    {
+     "id": "standards/naming-conventions.md#code-naming/ids-and-tags",
+     "title": "Ids and Tags"
+    },
+    {
+     "id": "standards/naming-conventions.md#project-specific-conventions",
+     "title": "Project-Specific Conventions"
+    },
+    {
+     "id": "standards/naming-conventions.md#project-specific-conventions/salty-surf-specifics",
+     "title": "Salty Surf specifics"
+    },
+    {
+     "id": "standards/naming-conventions.md#related",
+     "title": "Related"
+    }
+   ]
+  }
+ ]
+}

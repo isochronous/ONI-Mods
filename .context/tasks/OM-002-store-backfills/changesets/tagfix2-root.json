@@ -1,0 +1,15 @@
+{
+ "task": "OM-002",
+ "why": "task-id on the whole plan template reached every template section; the term belongs only on the records about the task id",
+ "node": ".",
+ "ops": [
+  {
+   "mode": "tag",
+   "target": "workflows/task-plan/base.md",
+   "section": "template",
+   "remove": [
+    "task-id"
+   ]
+  }
+ ]
+}

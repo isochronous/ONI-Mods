@@ -1,0 +1,61 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node . — round 7",
+  "node": "C:/dev/ONI-Mods",
+  "base": {
+    "testing/integration-testing.md": "sha256:9f7a9c6b18a4ed80c579996e312d5848c039872b6d21e0adba19ff1ddb60b9cb",
+    "testing/unit-testing.md": "sha256:363edf6926d93e608af7b2805d93141563ead7882fc066d27e0fe5b4082f201c",
+    "workflows/branching.md": "sha256:cd68569ff6d5c83164028e04021ae8ac2dd683f582ffd6466a3180dff8116b03",
+    "workflows/ci-cd.md": "sha256:180487c1b8b22da93a86543e858ad824dbbf98b894cab33ec673a326afb40ef9",
+    "workflows/commit-conventions.md": "sha256:9e80ac0763704d71b929e8366e6a92d73920714da996458ccb6ab4e29cfc135c"
+  },
+  "ops": [
+    {
+      "target": "testing/integration-testing.md",
+      "mode": "tag",
+      "add": [
+        "generated-worlds",
+        "test-pacing"
+      ],
+      "section": "generated-worlds"
+    },
+    {
+      "target": "testing/unit-testing.md",
+      "mode": "tag",
+      "add": [
+        "test-pacing",
+        "player-log"
+      ],
+      "section": "assertion-patterns/waiting"
+    },
+    {
+      "target": "workflows/branching.md",
+      "mode": "tag",
+      "add": [
+        "release-process",
+        "changelog",
+        "steam-workshop"
+      ],
+      "section": "workflow/release-process"
+    },
+    {
+      "target": "workflows/ci-cd.md",
+      "mode": "tag",
+      "add": [
+        "steam-workshop",
+        "release-process"
+      ],
+      "section": "pipeline-configuration/secrets-management"
+    },
+    {
+      "target": "workflows/commit-conventions.md",
+      "mode": "tag",
+      "add": [
+        "changelog",
+        "release-process",
+        "steam-workshop"
+      ],
+      "section": "changelog-entries"
+    }
+  ]
+}

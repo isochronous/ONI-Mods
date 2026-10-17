@@ -1,0 +1,50 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node . — round 8",
+  "node": "C:/dev/ONI-Mods",
+  "base": {
+    "testing/integration-testing.md": "sha256:cebd25bc1ceb9b9310ea854abf4190505fd146797e42a01003899a9743b97f66",
+    "testing/unit-testing.md": "sha256:65c682cb99117e81a5ceae608edab8f41c4df629d6558bbc05168390944f643a",
+    "workflows/branching.md": "sha256:0a3a5c3148992d95dd22ea25490a1ebfcd429d8577d90a85e3c093fc2fa80ac9",
+    "workflows/ci-cd.md": "sha256:b55646cc98b4fb24b8d8b3d41c2feb63dc00e2550783c1f4017281e08429b73c"
+  },
+  "ops": [
+    {
+      "target": "testing/integration-testing.md",
+      "mode": "tag",
+      "add": [
+        "save-files",
+        "mod-loadout",
+        "github-issues"
+      ],
+      "section": "reproducing-a-report-in-a-save"
+    },
+    {
+      "target": "testing/unit-testing.md",
+      "mode": "tag",
+      "add": [
+        "save-files",
+        "test-cleanup"
+      ],
+      "section": "test-data/fixtures"
+    },
+    {
+      "target": "workflows/branching.md",
+      "mode": "tag",
+      "add": [
+        "common-submodule"
+      ],
+      "section": "workflow/changing-common"
+    },
+    {
+      "target": "workflows/ci-cd.md",
+      "mode": "tag",
+      "add": [
+        "git-branches",
+        "release-process",
+        "steam-workshop"
+      ],
+      "section": "branch-policies"
+    }
+  ]
+}

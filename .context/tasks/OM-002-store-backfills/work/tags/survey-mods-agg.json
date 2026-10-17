@@ -1,0 +1,50 @@
+{
+ "store_root": "C:/dev/ONI-Mods",
+ "documents": [
+  {
+   "node": "mods",
+   "path": "overview.md",
+   "source_path": "mods/.context/overview.md",
+   "id": "overview.md",
+   "format": "narrative",
+   "title": "mods",
+   "description": "Overview of the mods/ folder of ONI-Mods: the shared per-mod folder layout (src, tests, publish, README, CHANGELOG) and a one-line list of what each of the 17 mods does",
+   "adr": null,
+   "tags": [],
+   "document_tags_declined": false,
+   "sections": [
+    {
+     "node": "mods",
+     "path": "overview.md",
+     "id": "overview.md#what-this-is",
+     "address": "what-this-is",
+     "heading": "What this is",
+     "level": 2,
+     "ordinal": 1,
+     "title": "What this is",
+     "description": null,
+     "tags": []
+    },
+    {
+     "node": "mods",
+     "path": "overview.md",
+     "id": "overview.md#where-things-are",
+     "address": "where-things-are",
+     "heading": "Where things are",
+     "level": 2,
+     "ordinal": 2,
+     "title": "Where things are",
+     "description": null,
+     "tags": []
+    }
+   ]
+  }
+ ],
+ "excluded": {
+  "not_carried": [
+   "OM-001"
+  ],
+  "destination": []
+ },
+ "problems": []
+}

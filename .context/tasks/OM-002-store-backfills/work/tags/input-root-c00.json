@@ -1,0 +1,376 @@
+{
+ "documents": [
+  {
+   "id": "domains/tooling-friction.md",
+   "title": "Tooling friction",
+   "description": "Dated entries recording friction met with ICON's ks engine, skills and hooks in the ONI-Mods repository, each giving the invocation, what happened, what was expected and the workaround",
+   "document_tags": [],
+   "text": "---\ndoc_id: doc-62bc27b793da\ndescription: Dated entries recording friction met with ICON's ks engine, skills and hooks in the ONI-Mods repository, each giving the invocation, what happened, what was expected and the workaround\nwitness: none\n---\n\n# Tooling friction\n\nEach entry is one dated section naming the task, the invocation, what it did, what was expected, and what was done instead. An entry is not a ticket.\n\n## 2026-10-17 icon-init: an interrupted apply left a tree neither init nor integrate could plan over\n**Id:** blk-f80f26653b94\n\nAn earlier `ks init --apply` run at 13:23 stopped partway: 11 of 17 mod nodes were fully written, and the root, `mods/`, `common/` and the other 6 mods held an empty `.context/` directory (the root one holding only `.ks/`). A fresh `ks init --at . --task-prefix OM` then refused (\"11 .context/ stores already exist here\") and routed to `ks integrate --at C:/dev/ONI-Mods --task-prefix OM`. That integrate plan classified every empty `.context/` directory as \"leaf, already a node\", proposed leaf files for the root and `mods/`, and could place no roster row for any node (\"no connective node above it\"), so applying it would have produced an unwired tree. Expected: either verb recognises an empty `.context/` as no node and plans a coherent tree, or `init` offers to resume an interrupted apply. Done instead: moved the 110 pristine leftover files and the empty directories out of the repository by hand, then ran `init` on the clean tree, which planned and applied correctly.\n\n## 2026-10-17 icon-init: --exclude does not drop a top-level folder from the node set\n**Id:** blk-37372ca436a2\n\n`ks init --at . --task-prefix OM --exclude common` reported `common` under \"not walked — excluded at this node or an ancestor\" yet still listed it in the proposed tree and in \"20 node(s) to write\", with `common/.context/` among the files to write. `--nodes \"mods/*\"` with the same exclude made no difference, and neither did a trailing slash. `common` is a git submodule (oni-mods-common), so the node written there lands inside a different repository and cannot be committed from this one. Expected: an excluded directory is neither walked nor written, or the help text says exclusion only limits the walk. Done instead: applied the plan without `--exclude` so the `common` node at least carries its real project roster, and left `common/.context/` and `common/.gitattributes` for the owner to commit in the submodule's own repository or remove.\n\n## 2026-10-17 populate-context: every mod node is aggregator scope, so the leaf-only standards rule matches no node\n**Id:** blk-bffbb3a20912\n\npopulate-context seeds `standards/` only where the node is not `root` or `aggregator` scope. `ks resolve mods/sweep-zones/src --json` reports `scope: aggregator`, declared in the node's META.md, with the signal \"projects.md below the governing node\": each mod's projects.md lists its csproj folders (`src/SweepZones`, `src/SweepZones.Tests`), and `ks write plan` labels every mod node `[aggregator]`. Those csproj folders are not nodes, so read literally the rule leaves no node in the store eligible for standards, while `icon-init` gave every mod node a `standards/README.md`. Expected: a node with no child nodes is a leaf for populate-context, or the skill's rule names the deepest node rather than the declared scope. Done instead: landed the three standards documents at all 17 mod nodes, the deepest nodes holding code.\n\n## 2026-10-17 populate-context: briefs fill with near-identical sections of a body repeated across nodes\n**Id:** blk-88e2ff500324\n\nAfter OM-001 landed the same shared standards body (code style, error handling, naming) at all 17 mod nodes, `ks handoff --scope .context/workflows .context/testing mods ...` composed briefs whose budget went to near-duplicate sections of those standards: the review unit reported 30 of 496 candidates listed, all of them copies of one section, and the fix unit reported the same. The documents the units actually needed, such as the ICON templates the task-plan review was measured against, never appeared. Expected: the brief ranks one copy of a repeated block and spends the rest of the budget elsewhere, or says it collapsed duplicates. Done instead: the units found what they needed by path.\n\n## 2026-10-17 populate-context: a cover op's refusal does not name the missing witness, and a section and a cover cannot share a change-set\n**Id:** blk-9ebf6bc063df\n\nAdding `applies_to` to an existing document with a `cover` operation that lacked `witness`, `ks write plan` refused with text saying \"`cover` is the mode that declares it\", although the operation already was `cover`, and it never named `witness` as the missing field. Separately, Jumper Bridges' `domains/entities.md` needed a section edit and a coverage claim; the writer refuses two operations on one destination in one change-set, so the coverage went into a second change-set applied after the first. Expected: the refusal names the missing field, and a section edit and a coverage change on one document compose in one transaction. Done instead: set `witness: loose` on every cover op and split the Jumper Bridges change into two change-sets.\n",
+   "sections": [
+    {
+     "id": "domains/tooling-friction.md#2026-10-17-icon-init-an-interrupted-apply-left-a-tree-neither-init-nor-integrate-could-plan-over",
+     "title": "2026-10-17 icon-init: an interrupted apply left a tree neither init nor integrate could plan over",
+     "text": "## 2026-10-17 icon-init: an interrupted apply left a tree neither init nor integrate could plan over\n**Id:** blk-f80f26653b94\n\nAn earlier `ks init --apply` run at 13:23 stopped partway: 11 of 17 mod nodes were fully written, and the root, `mods/`, `common/` and the other 6 mods held an empty `.context/` directory (the root one holding only `.ks/`). A fresh `ks init --at . --task-prefix OM` then refused (\"11 .context/ stores already exist here\") and routed to `ks integrate --at C:/dev/ONI-Mods --task-prefix OM`. That integrate plan classified every empty `.context/` directory as \"leaf, already a node\", proposed leaf files for the root and `mods/`, and could place no roster row for any node (\"no connective node above it\"), so applying it would have produced an unwired tree. Expected: either verb recognises an empty `.context/` as no node and plans a coherent tree, or `init` offers to resume an interrupted apply. Done instead: moved the 110 pristine leftover files and the empty directories out of the repository by hand, then ran `init` on the clean tree, which planned and applied correctly.\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/tooling-friction.md#2026-10-17-icon-init-exclude-does-not-drop-a-top-level-folder-from-the-node-set",
+     "title": "2026-10-17 icon-init: --exclude does not drop a top-level folder from the node set",
+     "text": "## 2026-10-17 icon-init: --exclude does not drop a top-level folder from the node set\n**Id:** blk-37372ca436a2\n\n`ks init --at . --task-prefix OM --exclude common` reported `common` under \"not walked — excluded at this node or an ancestor\" yet still listed it in the proposed tree and in \"20 node(s) to write\", with `common/.context/` among the files to write. `--nodes \"mods/*\"` with the same exclude made no difference, and neither did a trailing slash. `common` is a git submodule (oni-mods-common), so the node written there lands inside a different repository and cannot be committed from this one. Expected: an excluded directory is neither walked nor written, or the help text says exclusion only limits the walk. Done instead: applied the plan without `--exclude` so the `common` node at least carries its real project roster, and left `common/.context/` and `common/.gitattributes` for the owner to commit in the submodule's own repository or remove.\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/tooling-friction.md#2026-10-17-populate-context-every-mod-node-is-aggregator-scope-so-the-leaf-only-standards-rule-matches-no-node",
+     "title": "2026-10-17 populate-context: every mod node is aggregator scope, so the leaf-only standards rule matches no node",
+     "text": "## 2026-10-17 populate-context: every mod node is aggregator scope, so the leaf-only standards rule matches no node\n**Id:** blk-bffbb3a20912\n\npopulate-context seeds `standards/` only where the node is not `root` or `aggregator` scope. `ks resolve mods/sweep-zones/src --json` reports `scope: aggregator`, declared in the node's META.md, with the signal \"projects.md below the governing node\": each mod's projects.md lists its csproj folders (`src/SweepZones`, `src/SweepZones.Tests`), and `ks write plan` labels every mod node `[aggregator]`. Those csproj folders are not nodes, so read literally the rule leaves no node in the store eligible for standards, while `icon-init` gave every mod node a `standards/README.md`. Expected: a node with no child nodes is a leaf for populate-context, or the skill's rule names the deepest node rather than the declared scope. Done instead: landed the three standards documents at all 17 mod nodes, the deepest nodes holding code.\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/tooling-friction.md#2026-10-17-populate-context-briefs-fill-with-near-identical-sections-of-a-body-repeated-across-nodes",
+     "title": "2026-10-17 populate-context: briefs fill with near-identical sections of a body repeated across nodes",
+     "text": "## 2026-10-17 populate-context: briefs fill with near-identical sections of a body repeated across nodes\n**Id:** blk-88e2ff500324\n\nAfter OM-001 landed the same shared standards body (code style, error handling, naming) at all 17 mod nodes, `ks handoff --scope .context/workflows .context/testing mods ...` composed briefs whose budget went to near-duplicate sections of those standards: the review unit reported 30 of 496 candidates listed, all of them copies of one section, and the fix unit reported the same. The documents the units actually needed, such as the ICON templates the task-plan review was measured against, never appeared. Expected: the brief ranks one copy of a repeated block and spends the rest of the budget elsewhere, or says it collapsed duplicates. Done instead: the units found what they needed by path.\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/tooling-friction.md#2026-10-17-populate-context-a-cover-op-s-refusal-does-not-name-the-missing-witness-and-a-section-and-a-cover-cannot-share-a-change-set",
+     "title": "2026-10-17 populate-context: a cover op's refusal does not name the missing witness, and a section and a cover cannot share a change-set",
+     "text": "## 2026-10-17 populate-context: a cover op's refusal does not name the missing witness, and a section and a cover cannot share a change-set\n**Id:** blk-9ebf6bc063df\n\nAdding `applies_to` to an existing document with a `cover` operation that lacked `witness`, `ks write plan` refused with text saying \"`cover` is the mode that declares it\", although the operation already was `cover`, and it never named `witness` as the missing field. Separately, Jumper Bridges' `domains/entities.md` needed a section edit and a coverage claim; the writer refuses two operations on one destination in one change-set, so the coverage went into a second change-set applied after the first. Expected: the refusal names the missing field, and a section edit and a coverage change on one document compose in one transaction. Done instead: set `witness: loose` on every cover op and split the Jumper Bridges change into two change-sets.\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "overview.md",
+   "title": "ONI-Mods",
+   "description": "Overview of the ONI-Mods monorepo: its 17 mods under mods/, the shared common/ build kit submodule, the solution and props files, GitHub folder, and where each part of the repository lives",
+   "document_tags": [],
+   "text": "---\ndescription: \"Overview of the ONI-Mods monorepo: its 17 mods under mods/, the shared common/ build kit submodule, the solution and props files, GitHub folder, and where each part of the repository lives\"\n---\n\n# ONI-Mods\n\n## What this is\n**Id:** blk-8d8441ddc4a4\n\nONI-Mods is the monorepo for isochronous's Oxygen Not Included mods: 17 mods, one folder each under `mods/`, built from one solution (`ONI-Mods.sln`) against a shared build kit. Players get the mods from the Steam Workshop and from this repo's GitHub Releases; the repo is also where issues are filed. Each mod is released on its own, tagged `<mod>-v<version>`. The mods were separate repositories until October 2026; each one's history was brought here with it.\n\nThe shared build, in-game test harness and release tools live in `common/`, a git submodule of [oni-mods-common](https://github.com/isochronous/oni-mods-common). `Directory.Build.props` points every project at it as `$(OniCommon)`. A mod build deploys the mod into the game's local mods folder.\n\n## Where things are\n**Id:** blk-7aa672e09782\n\n- `mods/` — the 17 mods, one folder each (`src/`, `publish/`, README, CHANGELOG); the `mods` node covers them. Each mod is its own node under it.\n- `common/` — submodule oni-mods-common: `oni-mod.props` and `oni-mod.targets` (shared build and deploy), `ilrepack-plib.targets`, `src/Translations.cs`, and `tools/` (Release, WorkshopUpload, ModTest, TestRunner, SaveRunner, WorldgenDriver, Kanim, MakePreview, ModCheck, Translations). It is a node of its own.\n- `ONI-Mods.sln` — the solution holding every mod project and its tests.\n- `Directory.Build.props` — defines `$(OniCommon)`, the path to `common/`.\n- `README.md` — mod list, build instructions and how releases are tagged.\n- `.github/` — `workflows/label-mod.yml` (labels an issue with the mod named in the form's Mod answer) and `ISSUE_TEMPLATE/` (bug report and feature request forms).\n- `.claude/commands/release-mods.md` — the `/release-mods` command that runs `common/tools/Release/release_mods.py`.\n- `.gitmodules`, `.gitattributes`, `.gitignore` — repo plumbing.\n- `.context/` — this node's knowledge: [workflows](workflows/) (branching, commit conventions, CI/CD, task-plan phases), [testing](testing/) (unit and integration conventions), [decisions](decisions/), [retrospectives](retrospectives/), `domains/tooling-friction.md`, and `tasks/`. `projects.md` lists the child nodes (`common`, `mods`).\n\nThere is no top-level `tools/` or `scripts/` folder; shared tooling is under `common/tools/`.\n",
+   "sections": [
+    {
+     "id": "overview.md#what-this-is",
+     "title": "What this is",
+     "text": "## What this is\n**Id:** blk-8d8441ddc4a4\n\nONI-Mods is the monorepo for isochronous's Oxygen Not Included mods: 17 mods, one folder each under `mods/`, built from one solution (`ONI-Mods.sln`) against a shared build kit. Players get the mods from the Steam Workshop and from this repo's GitHub Releases; the repo is also where issues are filed. Each mod is released on its own, tagged `<mod>-v<version>`. The mods were separate repositories until October 2026; each one's history was brought here with it.\n\nThe shared build, in-game test harness and release tools live in `common/`, a git submodule of [oni-mods-common](https://github.com/isochronous/oni-mods-common). `Directory.Build.props` points every project at it as `$(OniCommon)`. A mod build deploys the mod into the game's local mods folder.\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "overview.md#where-things-are",
+     "title": "Where things are",
+     "text": "## Where things are\n**Id:** blk-7aa672e09782\n\n- `mods/` — the 17 mods, one folder each (`src/`, `publish/`, README, CHANGELOG); the `mods` node covers them. Each mod is its own node under it.\n- `common/` — submodule oni-mods-common: `oni-mod.props` and `oni-mod.targets` (shared build and deploy), `ilrepack-plib.targets`, `src/Translations.cs`, and `tools/` (Release, WorkshopUpload, ModTest, TestRunner, SaveRunner, WorldgenDriver, Kanim, MakePreview, ModCheck, Translations). It is a node of its own.\n- `ONI-Mods.sln` — the solution holding every mod project and its tests.\n- `Directory.Build.props` — defines `$(OniCommon)`, the path to `common/`.\n- `README.md` — mod list, build instructions and how releases are tagged.\n- `.github/` — `workflows/label-mod.yml` (labels an issue with the mod named in the form's Mod answer) and `ISSUE_TEMPLATE/` (bug report and feature request forms).\n- `.claude/commands/release-mods.md` — the `/release-mods` command that runs `common/tools/Release/release_mods.py`.\n- `.gitmodules`, `.gitattributes`, `.gitignore` — repo plumbing.\n- `.context/` — this node's knowledge: [workflows](workflows/) (branching, commit conventions, CI/CD, task-plan phases), [testing](testing/) (unit and integration conventions), [decisions](decisions/), [retrospectives](retrospectives/), `domains/tooling-friction.md`, and `tasks/`. `projects.md` lists the child nodes (`common`, `mods`).\n\nThere is no top-level `tools/` or `scripts/` folder; shared tooling is under `common/tools/`.\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "testing/integration-testing.md",
+   "title": "Integration Testing Conventions",
+   "description": "How ONI-Mods tests a mod inside the whole running game: the TestRunner launcher options, input-layer and tool tests, generated worlds, saves, other authors' mods, screenshots and machine requirements",
+   "document_tags": [],
+   "text": "---\ndoc_id: doc-b7d4de4db710\ndescription: \"How ONI-Mods tests a mod inside the whole running game: the TestRunner launcher options, input-layer and tool tests, generated worlds, saves, other authors' mods, screenshots and machine requirements\"\n---\n\n# Integration Testing Conventions\n\n## Scope\n**Id:** blk-e1cba092696e\n\nIntegration tests here verify that a mod works inside the whole running game: its building placed through the real build tool, its Harmony patches against the game's own code paths, a generated world, a loaded save, other authors' mods installed beside it. They are the same `[OniTest]` coroutines as in `unit-testing.md`, run by the same TestRunner; what differs is how much of the game each one drives.\n\n| Layer | What the test drives |\n|-------|----------------------|\n| `[Layer(0)]` | The game's own API for setup and oracles (`BuildingDef.Build`, `Grid`, the logic network) |\n| `[Layer(1)]` | The real `InterfaceTool` fed the same `OnMouseMove` / `OnLeftClickDown` / `OnLeftClickUp` calls the player controller makes |\n\n## Test Environment\n**Id:** blk-648237728a61\n\n### Game and fixture\n**Id:** blk-a66da6f9aaa2\n\n- Use: the real game, launched through Steam by `common/tools/TestRunner/Invoke-OniTests.ps1`, with only TestRunner, the mods under test and `-With` mods enabled.\n- Setup: the launcher rewrites `mods.json`, loads the fixture save from the main menu, picks a 40x10 test area, and runs the tests. A detached warden (`Watch-OniGame.ps1`) puts the player's `mods.json` back after the game exits.\n- Cleanup: the harness clears the test area (objects, loose items, solid cells; Duplicants are the test's to remove) before the first test and after every test, blocks every save to disk outside the run folder, and starts each mod's tests on a fresh load of the fixture.\n\n### Other mods\n**Id:** blk-4ed03be05da6\n\n- Approach: real installs. `-With Mod1,Mod2` enables more local mods; `-Steam id1,id2` enables installed Workshop mods by item id, to test next to another author's mod (for example a mod whose patches touch the same game methods). Some suites test the interaction directly: `mods/bitshifter/src/Bitshifter.Tests/Compatibility.cs` for Better Automation Overlay and Blueprints Expanded, and the `PLib:` tests in `mods/upgrade-planner/src/UpgradePlanner.Tests/DialogDrag.cs`.\n- Tools: none beyond the harness.\n\n## Test Structure\n**Id:** blk-4a52ff2f7294\n\n### Setup and Teardown\n**Id:** blk-3753681f851b\n\nThere is no `beforeAll`/`afterAll`. Per-test setup is the test body; teardown is `t.Cleanup(action)` (runs whatever happened) and the harness's area clearing. Tests that need the whole area walled and air-filled mark `[OniTest(Boxed = true)]` and call `t.Dupes.Box()`.\n\n```csharp\n[OniTest(\"DAB: wire dragged from a bridge end to its neighbour connects both\", Timeout = 30), Layer(1)]\npublic static IEnumerator DragFromEnd(TestContext t)\n{\n    CellRect r = t.Rect(6, 1);\n    t.World.Build(\"LogicWireBridge\", r.Cell(3, 0));\n    yield return t.WaitUntil(() => BridgeEndNode.TryGet(r.Cell(2, 0), out _), 3, \"the bridge's end node\");\n    UtilityDragSession wire = t.Tools.UtilityTool(\"LogicWire\");   // the real utility build tool\n    yield return wire.Path(r.Cell(2, 0), r.Cell(1, 0));           // down, move, up, one frame per step\n    t.Assert.Eq(Color.white, wire.PreviewTint(r.Cell(1, 0)), \"the neighbour previews white\");\n}\n```\n\n(From `common/tools/TestRunner/README.md`; Jumper Bridges was formerly Direct Automation Bridges, hence `DAB`.)\n\n## Input and Tool Testing\n**Id:** blk-7ce1bb4fbb33\n\n`t.Tools.UtilityTool(id, element)` returns a drag session on the real utility build tool: `Path(cells...)` visits each cell with a frame between (a careful drag), `Sweep(from, to)` is one move (a fast swipe), `PreviewTint(cell)` is the preview's colour just before the button went up (white means buildable). Disposed, or at cleanup, the select tool is back and any drag is cancelled. `UtilityDragSession.PrimeBuildMenu(t)` wakes the build menu's product screen once before a test drives the BuildTool directly. `yield return t.Press(Action.Escape)` presses a key as the game hands one to its screens; the physical keyboard is ignored for the session. `t.PointAt(cell)` puts the locked mouse over a cell for hover cards.\n\n## Database Integration\n**Id:** blk-28a5ab6b019c\n\nNot applicable: the mods keep no database. State under test lives in building components, `KPrefabID` and settings saved with the building, mod options (PLib), and the save file itself (`SaveFile` in the kit; `Persistence.cs` in Detect Any Element copies settings and saves and reloads).\n\n## Generated Worlds\n**Id:** blk-87272da04dee\n\n`[OniTest(Worldgen = \"SNDST-C-100-0-0-0\")]` runs the test in a world freshly generated from that coordinate with every mod of the run active, instead of the fixture. The harness goes to the main menu, applies the coordinate, runs the game's own worldgen screen (about 20 s for a Spaced Out cluster), embarks, and presses Begin on the opening message. Consecutive tests with one coordinate share the world; nothing in a generated world is cleared, and `t.Area` is not for such a test. `t.Generated` reports the applied coordinate, the cluster, worldgen errors and seconds. A coordinate of the other mode skips the test; a worldgen thread silent for 300 s ends the session. Raise `-TimeoutSec` for runs with several worlds. Example: `mods/natural-backwalls-everywhere/src/NaturalBackwalls.Tests/Generated.cs`.\n\nFor worldgen checks with nobody at the keyboard and no test DLL, `common/tools/WorldgenDriver/Invoke-Worldgen.ps1` generates worlds in the real game (`common/tools/WorldgenDriver/README.md`).\n\n## Reproducing a Report in a Save\n**Id:** blk-eaae04fb77a1\n\n`common/tools/SaveRunner` loads a player's save with nobody at the keyboard, blocks every save to disk, records a probe once per game second and quits:\n\n```\npwsh -File common/tools/SaveRunner/Invoke-SaveRun.ps1 -Save <file.sav> -Seconds 90 -Probe fridges [-With ...] [-Without ...] -Label <name>\n```\n\nRun it with the mod under test and again with `-Without <Mod>` and compare the two `probe.csv` files. Mod Profile Manager restarts the game on a changed loadout and has to be left out (`-Without 2854869130,3281716506`). A test can also load a player's save as its fixture: `Invoke-OniTests.ps1 -Fixture <file.sav>` (copied into the run folder, never written back), with `[OniTest(FreshSave = true)]` for tests that change the colony outside the test area.\n\n## Isolated Manual Testing\n**Id:** blk-90a1fe9c8d49\n\n`common/tools/ModTest/Test-OniMods.ps1` launches the game with only the mods under development enabled and restores the normal loadout afterwards (`-Only`, `-Omit`, `-NoLocal`, `-Steam`, `-DryRun`). It is for a person to play in, not an automated run.\n\n## Test Data Management\n**Id:** blk-05c6c405aa0d\n\n### Seeding\n**Id:** blk-d4ad4f83c5a5\n\n`t.Dupes.Spawn(n, cell)` (Duplicants with a base trait, attributes at 20, work scheduled every hour, needs topped up), `t.Dupes.Grant(skillIds...)` / `GrantAll()`, `t.Dupes.Drop(material, kg, cell)`, `t.ResearchAll()`.\n\n### Cleanup Strategies\n**Id:** blk-976d76b5a752\n\n| Strategy | When to Use |\n|----------|-------------|\n| Harness clears the area after each test | Default |\n| `Boxed = true` (only the inside is cleared between boxed tests) | Tests that work in a walled, air-filled box |\n| `FreshSave = true` | Tests that change the colony outside the test area |\n| `t.Cleanup(action)` | Restore anything a test changed (a setting, a game speed) |\n\n## Running Integration Tests\n**Id:** blk-288e6ebcd312\n\n```bash\n# Every test of one mod, any layer\npwsh common/tools/TestRunner/Invoke-OniTests.ps1 -Mods NaturalBackwalls\n\n# Explicit tests (long, or photographs) only run when a filter selects them\npwsh common/tools/TestRunner/Invoke-OniTests.ps1 -Mods NaturalBackwalls -Filter \"*Overview*\" -TimeoutSec 900\n\n# Keep the colony open afterwards; the launcher waits until the game is closed\npwsh common/tools/TestRunner/Invoke-OniTests.ps1 -Mods JumperBridges -KeepGame\n\n# Log the grid marks the game makes during tests\npwsh common/tools/TestRunner/Invoke-OniTests.ps1 -Mods JumperBridges -Trace\n```\n\n## Configuration\n**Id:** blk-dbe0d7b6cc98\n\n### Launcher Options\n**Id:** blk-1b45a760667b\n\n| Option | Default | Meaning |\n|--------|---------|---------|\n| `-TimeoutSec` | 600 | Real seconds the whole session may take |\n| `-TestTimeoutSec` | 60 | Real seconds per test unless the attribute says otherwise |\n| `-Fixture` | `fixtures/testbed-so.sav` in Spaced Out mode, `fixtures/testbed-base.sav` otherwise | Save loaded for fixture tests |\n| `-Label` | `run` | Prefix of the run folder `runs/<label>-<stamp>` |\n| `-NoBuild`, `-NoCheck`, `-BuildArgs` | - | Skip the build or ModCheck pass, or pass arguments to `dotnet build` |\n\n### Machine requirements\n**Id:** blk-b55434e0dd4a\n\nSteam running; the game not running; the game folder found in a Steam location or named by `ONI_GAME_FOLDER`; `testbed-so.sav` is tracked in `common/tools/TestRunner/fixtures/`; a base-game run needs a `testbed-base.sav` copied in beside it.\n\n### Screenshots\n**Id:** blk-bac04f55a861\n\n`yield return t.Screenshot(name)` writes `artifacts/<Class>.<Method>-<name>.png` into the run folder and lists it in the result. `t.LookAt(cell, size)` points the camera first (orthographic size 14 shows the fixture area, 8 a close-up). In a generated world, lift the fog first with `Grid.Reveal`. A screenshot is something to look at, never an oracle; previews for Workshop pages are made from such runs (`tools/make_preview.py` in Jumper Bridges).\n\n## Best Practices\n**Id:** blk-46b28a0040e8\n\n1. **Isolate tests** - each test builds what it needs in its own area; nothing carries over.\n2. **Drive the real thing where the bugs live** - a drag bug needs `[Layer(1)]` and the real tool, not a direct call.\n3. **Pace to game time** - wait on conditions and game seconds between steps (see `unit-testing.md`).\n4. **Test error paths** - a game update that renames a private member, a mod loaded beside another author's, a save made without the mod.\n5. **Keep tests fast** - Explicit and long Worldgen tests stay out of a normal run.\n6. **Check the log** - a repeating exception in `Player.log` during a long run is a failure even when every test passed.\n\n## Related\n**Id:** blk-ed0ecc983d7f\n\n- See also: [unit testing](unit-testing.md)\n- Governed by: [CI/CD workflow](../workflows/ci-cd.md)\n",
+   "sections": [
+    {
+     "id": "testing/integration-testing.md#scope",
+     "title": "Scope",
+     "text": "## Scope\n**Id:** blk-e1cba092696e\n\nIntegration tests here verify that a mod works inside the whole running game: its building placed through the real build tool, its Harmony patches against the game's own code paths, a generated world, a loaded save, other authors' mods installed beside it. They are the same `[OniTest]` coroutines as in `unit-testing.md`, run by the same TestRunner; what differs is how much of the game each one drives.\n\n| Layer | What the test drives |\n|-------|----------------------|\n| `[Layer(0)]` | The game's own API for setup and oracles (`BuildingDef.Build`, `Grid`, the logic network) |\n| `[Layer(1)]` | The real `InterfaceTool` fed the same `OnMouseMove` / `OnLeftClickDown` / `OnLeftClickUp` calls the player controller makes |\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "testing/integration-testing.md#test-environment",
+     "title": "Test Environment",
+     "text": "## Test Environment\n**Id:** blk-648237728a61\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "testing/integration-testing.md#test-environment/game-and-fixture",
+     "title": "Game and fixture",
+     "text": "### Game and fixture\n**Id:** blk-a66da6f9aaa2\n\n- Use: the real game, launched through Steam by `common/tools/TestRunner/Invoke-OniTests.ps1`, with only TestRunner, the mods under test and `-With` mods enabled.\n- Setup: the launcher rewrites `mods.json`, loads the fixture save from the main menu, picks a 40x10 test area, and runs the tests. A detached warden (`Watch-OniGame.ps1`) puts the player's `mods.json` back after the game exits.\n- Cleanup: the harness clears the test area (objects, loose items, solid cells; Duplicants are the test's to remove) before the first test and after every test, blocks every save to disk outside the run folder, and starts each mod's tests on a fresh load of the fixture.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "testing/integration-testing.md#test-environment/other-mods",
+     "title": "Other mods",
+     "text": "### Other mods\n**Id:** blk-4ed03be05da6\n\n- Approach: real installs. `-With Mod1,Mod2` enables more local mods; `-Steam id1,id2` enables installed Workshop mods by item id, to test next to another author's mod (for example a mod whose patches touch the same game methods). Some suites test the interaction directly: `mods/bitshifter/src/Bitshifter.Tests/Compatibility.cs` for Better Automation Overlay and Blueprints Expanded, and the `PLib:` tests in `mods/upgrade-planner/src/UpgradePlanner.Tests/DialogDrag.cs`.\n- Tools: none beyond the harness.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "testing/integration-testing.md#test-structure",
+     "title": "Test Structure",
+     "text": "## Test Structure\n**Id:** blk-4a52ff2f7294\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "testing/integration-testing.md#test-structure/setup-and-teardown",
+     "title": "Setup and Teardown",
+     "text": "### Setup and Teardown\n**Id:** blk-3753681f851b\n\nThere is no `beforeAll`/`afterAll`. Per-test setup is the test body; teardown is `t.Cleanup(action)` (runs whatever happened) and the harness's area clearing. Tests that need the whole area walled and air-filled mark `[OniTest(Boxed = true)]` and call `t.Dupes.Box()`.\n\n```csharp\n[OniTest(\"DAB: wire dragged from a bridge end to its neighbour connects both\", Timeout = 30), Layer(1)]\npublic static IEnumerator DragFromEnd(TestContext t)\n{\n    CellRect r = t.Rect(6, 1);\n    t.World.Build(\"LogicWireBridge\", r.Cell(3, 0));\n    yield return t.WaitUntil(() => BridgeEndNode.TryGet(r.Cell(2, 0), out _), 3, \"the bridge's end node\");\n    UtilityDragSession wire = t.Tools.UtilityTool(\"LogicWire\");   // the real utility build tool\n    yield return wire.Path(r.Cell(2, 0), r.Cell(1, 0));           // down, move, up, one frame per step\n    t.Assert.Eq(Color.white, wire.PreviewTint(r.Cell(1, 0)), \"the neighbour previews white\");\n}\n```\n\n(From `common/tools/TestRunner/README.md`; Jumper Bridges was formerly Direct Automation Bridges, hence `DAB`.)\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "testing/integration-testing.md#input-and-tool-testing",
+     "title": "Input and Tool Testing",
+     "text": "## Input and Tool Testing\n**Id:** blk-7ce1bb4fbb33\n\n`t.Tools.UtilityTool(id, element)` returns a drag session on the real utility build tool: `Path(cells...)` visits each cell with a frame between (a careful drag), `Sweep(from, to)` is one move (a fast swipe), `PreviewTint(cell)` is the preview's colour just before the button went up (white means buildable). Disposed, or at cleanup, the select tool is back and any drag is cancelled. `UtilityDragSession.PrimeBuildMenu(t)` wakes the build menu's product screen once before a test drives the BuildTool directly. `yield return t.Press(Action.Escape)` presses a key as the game hands one to its screens; the physical keyboard is ignored for the session. `t.PointAt(cell)` puts the locked mouse over a cell for hover cards.\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "testing/integration-testing.md#database-integration",
+     "title": "Database Integration",
+     "text": "## Database Integration\n**Id:** blk-28a5ab6b019c\n\nNot applicable: the mods keep no database. State under test lives in building components, `KPrefabID` and settings saved with the building, mod options (PLib), and the save file itself (`SaveFile` in the kit; `Persistence.cs` in Detect Any Element copies settings and saves and reloads).\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "testing/integration-testing.md#generated-worlds",
+     "title": "Generated Worlds",
+     "text": "## Generated Worlds\n**Id:** blk-87272da04dee\n\n`[OniTest(Worldgen = \"SNDST-C-100-0-0-0\")]` runs the test in a world freshly generated from that coordinate with every mod of the run active, instead of the fixture. The harness goes to the main menu, applies the coordinate, runs the game's own worldgen screen (about 20 s for a Spaced Out cluster), embarks, and presses Begin on the opening message. Consecutive tests with one coordinate share the world; nothing in a generated world is cleared, and `t.Area` is not for such a test. `t.Generated` reports the applied coordinate, the cluster, worldgen errors and seconds. A coordinate of the other mode skips the test; a worldgen thread silent for 300 s ends the session. Raise `-TimeoutSec` for runs with several worlds. Example: `mods/natural-backwalls-everywhere/src/NaturalBackwalls.Tests/Generated.cs`.\n\nFor worldgen checks with nobody at the keyboard and no test DLL, `common/tools/WorldgenDriver/Invoke-Worldgen.ps1` generates worlds in the real game (`common/tools/WorldgenDriver/README.md`).\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "testing/integration-testing.md#reproducing-a-report-in-a-save",
+     "title": "Reproducing a Report in a Save",
+     "text": "## Reproducing a Report in a Save\n**Id:** blk-eaae04fb77a1\n\n`common/tools/SaveRunner` loads a player's save with nobody at the keyboard, blocks every save to disk, records a probe once per game second and quits:\n\n```\npwsh -File common/tools/SaveRunner/Invoke-SaveRun.ps1 -Save <file.sav> -Seconds 90 -Probe fridges [-With ...] [-Without ...] -Label <name>\n```\n\nRun it with the mod under test and again with `-Without <Mod>` and compare the two `probe.csv` files. Mod Profile Manager restarts the game on a changed loadout and has to be left out (`-Without 2854869130,3281716506`). A test can also load a player's save as its fixture: `Invoke-OniTests.ps1 -Fixture <file.sav>` (copied into the run folder, never written back), with `[OniTest(FreshSave = true)]` for tests that change the colony outside the test area.\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "testing/integration-testing.md#isolated-manual-testing",
+     "title": "Isolated Manual Testing",
+     "text": "## Isolated Manual Testing\n**Id:** blk-90a1fe9c8d49\n\n`common/tools/ModTest/Test-OniMods.ps1` launches the game with only the mods under development enabled and restores the normal loadout afterwards (`-Only`, `-Omit`, `-NoLocal`, `-Steam`, `-DryRun`). It is for a person to play in, not an automated run.\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "testing/integration-testing.md#test-data-management",
+     "title": "Test Data Management",
+     "text": "## Test Data Management\n**Id:** blk-05c6c405aa0d\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "testing/integration-testing.md#test-data-management/seeding",
+     "title": "Seeding",
+     "text": "### Seeding\n**Id:** blk-d4ad4f83c5a5\n\n`t.Dupes.Spawn(n, cell)` (Duplicants with a base trait, attributes at 20, work scheduled every hour, needs topped up), `t.Dupes.Grant(skillIds...)` / `GrantAll()`, `t.Dupes.Drop(material, kg, cell)`, `t.ResearchAll()`.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "testing/integration-testing.md#test-data-management/cleanup-strategies",
+     "title": "Cleanup Strategies",
+     "text": "### Cleanup Strategies\n**Id:** blk-976d76b5a752\n\n| Strategy | When to Use |\n|----------|-------------|\n| Harness clears the area after each test | Default |\n| `Boxed = true` (only the inside is cleared between boxed tests) | Tests that work in a walled, air-filled box |\n| `FreshSave = true` | Tests that change the colony outside the test area |\n| `t.Cleanup(action)` | Restore anything a test changed (a setting, a game speed) |\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "testing/integration-testing.md#running-integration-tests",
+     "title": "Running Integration Tests",
+     "text": "## Running Integration Tests\n**Id:** blk-288e6ebcd312\n\n```bash\n# Every test of one mod, any layer\npwsh common/tools/TestRunner/Invoke-OniTests.ps1 -Mods NaturalBackwalls\n\n# Explicit tests (long, or photographs) only run when a filter selects them\npwsh common/tools/TestRunner/Invoke-OniTests.ps1 -Mods NaturalBackwalls -Filter \"*Overview*\" -TimeoutSec 900\n\n# Keep the colony open afterwards; the launcher waits until the game is closed\npwsh common/tools/TestRunner/Invoke-OniTests.ps1 -Mods JumperBridges -KeepGame\n\n# Log the grid marks the game makes during tests\npwsh common/tools/TestRunner/Invoke-OniTests.ps1 -Mods JumperBridges -Trace\n```\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "testing/integration-testing.md#configuration",
+     "title": "Configuration",
+     "text": "## Configuration\n**Id:** blk-dbe0d7b6cc98\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "testing/integration-testing.md#configuration/launcher-options",
+     "title": "Launcher Options",
+     "text": "### Launcher Options\n**Id:** blk-1b45a760667b\n\n| Option | Default | Meaning |\n|--------|---------|---------|\n| `-TimeoutSec` | 600 | Real seconds the whole session may take |\n| `-TestTimeoutSec` | 60 | Real seconds per test unless the attribute says otherwise |\n| `-Fixture` | `fixtures/testbed-so.sav` in Spaced Out mode, `fixtures/testbed-base.sav` otherwise | Save loaded for fixture tests |\n| `-Label` | `run` | Prefix of the run folder `runs/<label>-<stamp>` |\n| `-NoBuild`, `-NoCheck`, `-BuildArgs` | - | Skip the build or ModCheck pass, or pass arguments to `dotnet build` |\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "testing/integration-testing.md#configuration/machine-requirements",
+     "title": "Machine requirements",
+     "text": "### Machine requirements\n**Id:** blk-b55434e0dd4a\n\nSteam running; the game not running; the game folder found in a Steam location or named by `ONI_GAME_FOLDER`; `testbed-so.sav` is tracked in `common/tools/TestRunner/fixtures/`; a base-game run needs a `testbed-base.sav` copied in beside it.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "testing/integration-testing.md#configuration/screenshots",
+     "title": "Screenshots",
+     "text": "### Screenshots\n**Id:** blk-bac04f55a861\n\n`yield return t.Screenshot(name)` writes `artifacts/<Class>.<Method>-<name>.png` into the run folder and lists it in the result. `t.LookAt(cell, size)` points the camera first (orthographic size 14 shows the fixture area, 8 a close-up). In a generated world, lift the fog first with `Grid.Reveal`. A screenshot is something to look at, never an oracle; previews for Workshop pages are made from such runs (`tools/make_preview.py` in Jumper Bridges).\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "testing/integration-testing.md#best-practices",
+     "title": "Best Practices",
+     "text": "## Best Practices\n**Id:** blk-46b28a0040e8\n\n1. **Isolate tests** - each test builds what it needs in its own area; nothing carries over.\n2. **Drive the real thing where the bugs live** - a drag bug needs `[Layer(1)]` and the real tool, not a direct call.\n3. **Pace to game time** - wait on conditions and game seconds between steps (see `unit-testing.md`).\n4. **Test error paths** - a game update that renames a private member, a mod loaded beside another author's, a save made without the mod.\n5. **Keep tests fast** - Explicit and long Worldgen tests stay out of a normal run.\n6. **Check the log** - a repeating exception in `Player.log` during a long run is a failure even when every test passed.\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "testing/integration-testing.md#related",
+     "title": "Related",
+     "text": "## Related\n**Id:** blk-ed0ecc983d7f\n\n- See also: [unit testing](unit-testing.md)\n- Governed by: [CI/CD workflow](../workflows/ci-cd.md)\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "testing/unit-testing.md",
+   "title": "Unit Testing Conventions",
+   "description": "How ONI-Mods writes [OniTest] coroutines run in the real game by TestRunner: tool list, test project layout, TestKit assertions and waits, per-test options, run commands, coverage rules and anti-patterns",
+   "document_tags": [],
+   "text": "---\ndoc_id: doc-797b7d024719\ndescription: \"How ONI-Mods writes [OniTest] coroutines run in the real game by TestRunner: tool list, test project layout, TestKit assertions and waits, per-test options, run commands, coverage rules and anti-patterns\"\n---\n\n# Unit Testing Conventions\n\n## Framework and Tools\n**Id:** blk-5e77d0d9ce90\n\nThere is no desktop unit-test project in this repository: no xUnit, NUnit or MSTest. The mods run inside Unity's Mono in the game and call game code that exists only there, so every test runs in the real game.\n\n| Tool | Purpose |\n|------|---------|\n| `common/tools/TestRunner` | Dev-only mod and launcher (`Invoke-OniTests.ps1`) that load a fixture save, run every `[OniTest]` coroutine in `tests/*.dll`, and write results |\n| `Isochronous.TestKit` (`common/tools/TestRunner/Kit`) | `TestContext` (`t`), `t.Assert`, `t.World`, `t.Dupes`, `t.Tools`, `t.Frames`, `t.WaitGameSeconds`, `t.WaitUntil` |\n| `common/tools/ModCheck` | Loads a built DLL against the game assemblies on .NET 8 and JIT-compiles every method, catching type-load failures and missing members after a game update |\n| `common/tools/Translations/translations.py` | Checks `.po` files against the strings the built DLL contains |\n\nThe full reference for the kit is `common/tools/TestRunner/README.md`.\n\n## Test File Location\n**Id:** blk-41ffba520973\n\nEach mod has a test project beside it, referencing the mod and the TestRunner project:\n\n| Source | Test |\n|--------|------|\n| `mods/detect-any-element/src/DetectAnyElement/` | `mods/detect-any-element/src/DetectAnyElement.Tests/` |\n| `mods/jumper-bridges/src/JumperBridges/` | `mods/jumper-bridges/src/JumperBridges.Tests/` |\n| `mods/natural-backwalls-everywhere/src/NaturalBackwalls/` | `mods/natural-backwalls-everywhere/src/NaturalBackwalls.Tests/` |\n\nAll 17 mods have a `<Mod>.Tests` project, grouped by what is tested (for Detect Any Element: `Glyph.cs`, `Persistence.cs`, `PipeSensors.cs`, `SideScreen.cs`, `WorldSensors.cs`). A test project's csproj imports `$(OniCommon)oni-mod.props`, sets `ModDeployFolder` to `none` (never deployed as a mod), and references `$(OniCommon)tools/TestRunner/TestRunner.csproj` with `Private=\"false\"`; copy `mods/detect-any-element/src/DetectAnyElement.Tests/DetectAnyElement.Tests.csproj`.\n\n## Test Structure\n**Id:** blk-9a1088df279a\n\n### File Organization\n**Id:** blk-1a5825c096e0\n\nA test class is `public static`; a test is a `public static IEnumerator` taking a `TestContext`, marked `[OniTest(\"<name>\")]` with a `[Layer(n)]`. Tests run in declaration order. From `mods/detect-any-element/src/DetectAnyElement.Tests/Persistence.cs`:\n\n```csharp\npublic static class Persistence\n{\n    [OniTest(\"DAE: copying settings from a sensor on Any makes the target Any, and from an element makes it that element\", Timeout = 40), Layer(0)]\n    public static IEnumerator CopySettings(TestContext t)\n    {\n        CellRect r = t.Rect(6, 1);                                      // clear cells; r.Cell(x, y) from the bottom-left\n        GameObject source = t.World.Build(\"LogicElementSensorGas\", r.Cell(1, 0));\n        GameObject target = t.World.Build(\"LogicElementSensorGas\", r.Cell(3, 0));\n        yield return t.WaitGameSeconds(1);\n        // ... act ...\n        t.Assert.True(AnyElement.Is(target.GetComponent<Filterable>().SelectedTag), \"the target took Any\");\n    }\n}\n```\n\nArrange, act, assert, with a `yield return` of game time between steps.\n\n### Naming Conventions\n**Id:** blk-7316ec9fd58f\n\n- The display name starts with the mod's short prefix and a colon (`DAE:`, `NB:`, `VFF:`, `JFA:`, `MSR:`, `MCS:`, `NMF:`, `SWP:`, `DCEOR:`, `Bitshifter:`, `SaltySurf:`, `PLib:`), then a sentence saying the behaviour: \"wire dragged from a bridge end to its neighbour connects both\". Photograph-only tests use `looks:`, and a control case that runs beside the behaviour it checks uses `control:` (`mods/jumper-bridges/src/JumperBridges.Tests/WireDrags.cs`).\n- Class names group by subject (`Persistence`, `SideScreen`, `Glyph`), method names say the case (`CopySettings`, `DragFromEnd`).\n- The assertion message names what was expected (\"the target took Any\"), not the call.\n\n```csharp\n// Good\n[OniTest(\"VFF: a tile out of a small packet in the landing cell under the vent is dug up and left as debris at full mass\", Timeout = 40), Layer(0)]\n// Avoid\n[OniTest(\"test 1\")]\n```\n\n## Mocking Patterns\n**Id:** blk-0b401ff80cf2\n\nThere is no mocking library. Tests use the real game objects: `t.World.Build(id, cell)` builds an actual building (`BuildingDef.Build`, instant), `t.Dupes.Spawn(n, cell)` makes real Duplicants, `t.Dupes.Drop(material, kg, cell)` leaves a loose pile. Setup helpers shared by one mod's tests live in a `Kit.cs` beside them (`mods/detect-any-element/src/DetectAnyElement.Tests/Kit.cs`).\n\n### Settings and environment\n**Id:** blk-0272c27e23d2\n\n- `t.InstantBuild(on)` turns instant build off or on for the test, restored at cleanup.\n- `t.ResearchAll()` researches every tech so menus offer everything.\n- `t.Speed(n)` sets game speed 1 to 3 for the test.\n- `t.Cleanup(action)` runs after the test whatever happened; `t.Skip(reason)` skips.\n- `t.AllowLogError(regex)` accepts an error the game is expected to log; any other `Error`, `Exception` or `Assert` logged during a test fails it.\n\n## Assertion Patterns\n**Id:** blk-0194e02d0fd6\n\n`t.Assert` offers `True`, `False`, `Eq`, `NotEq`, `Null`, `NotNull`, `Has(flag, bits)`, `Lacks` and `Fail`, each taking a message.\n\n### Waiting\n**Id:** blk-33fb80177cba\n\nYield `t.Frames(n)`, `t.WaitGameSeconds(s)` (scaled sim time), `t.WaitRealSeconds(s)`, or `t.WaitUntil(cond, timeout, what)`; a timeout fails the test with `what`. Wait for a condition instead of counting frames.\n\n**Pace tests to the game.** The game is built for a player's speed. Build, change, rebuild and clear frames apart, and its sim callbacks arrive after the objects they belong to are gone (once an endless exception every tick, the game at 2 FPS). Wait game time (a second or two) after building or clearing, give a drag a moment between its steps, and watch `Player.log` for a repeating exception during long runs.\n\n## Test Data\n**Id:** blk-b9b075d91c5b\n\n### Fixtures\n**Id:** blk-66e912fbb652\n\nThe fixture is a save: `common/tools/TestRunner/fixtures/testbed-so.sav` in Spaced Out mode, `testbed-base.sav` otherwise, chosen by the game's current mode; `-Fixture <path.sav>` overrides it. `testbed-so.sav` is tracked in `common`; `testbed-base.sav` is not there, so a base-game run needs a save copied in under that name. The harness picks a 40x10 area of the world, clears it before the first test and after every test, and `t.Rect(w, h)` hands a test its cells. See `common/tools/TestRunner/fixtures/README.md`.\n\n### Per-test options on `[OniTest]`\n**Id:** blk-c8a18ea4088d\n\n| Option | Meaning |\n|--------|---------|\n| `Timeout = n` | Real seconds allowed (default `-TestTimeoutSec`, 60) |\n| `Explicit = true` | Skipped unless a `-Filter` selects it |\n| `NoColony = true` | Needs no colony (strings, options dialog, registrations); runs at the main menu |\n| `FreshSave = true` | Reload the fixture before the test |\n| `Boxed = true` | Works in a walled, air-filled box (`t.Dupes.Box()`) |\n| `Worldgen = \"<coordinate>\"` | Runs in a freshly generated world; see `integration-testing.md` |\n\nA `NoColony` test is the closest thing here to a plain unit test: it exercises strings, registrations or option dialogs with no save loaded (`mods/natural-backwalls-everywhere/src/NaturalBackwalls.Tests/Looks.cs`).\n\n## Running Tests\n**Id:** blk-960faf85db39\n\n```bash\n# One mod (the project folder name under src/, not the mod folder)\npwsh common/tools/TestRunner/Invoke-OniTests.ps1 -Mods JumperBridges\n\n# Several mods in one session\npwsh common/tools/TestRunner/Invoke-OniTests.ps1 -Mods DetectAnyElement,JumperBridges\n\n# Tests whose id or name matches a glob (also the only way to run an Explicit test)\npwsh common/tools/TestRunner/Invoke-OniTests.ps1 -Mods JumperBridges -Filter \"*DragFromEnd*\"\n\n# Build and ModCheck only, no game session\npwsh common/tools/TestRunner/Invoke-OniTests.ps1 -Mods JumperBridges -BuildOnly\n\n# Alongside another author's Workshop mod, by item id\npwsh common/tools/TestRunner/Invoke-OniTests.ps1 -Mods JumperBridges -Steam <id>\n```\n\nSteam must be running and the game must not be (other than the harness's own live session). Exit code 0: all passed; 1: a test failed, errored or timed out; 2: no status (launch, load or crash: read `Player.log` in the run folder); 3: build or ModCheck failure. The game stays up 15 seconds after a run so the next run reuses it (about 10 s instead of 40); one run at a time is allowed, others queue. Output is under `common/tools/TestRunner/runs/<label>-<stamp>/`.\n\nPass `-Steam <id>` when a bug appears only with a player's other mods installed: the harness enables those Workshop items next to the mod under test.\n\n## Coverage Requirements\n**Id:** blk-d3c50bc15df0\n\nNo coverage tool is run and no percentage is required. TODO(owner): state a target if one is wanted. In practice a test is added with the behaviour or fix it covers (commits such as \"Bitshifter: test for the NOT gate constant mask\", \"Salty Surf: in-game tests\").\n\n## Anti-Patterns to Avoid\n**Id:** blk-6e0e91ddc944\n\n### Frames-apart build, change and destroy\n**Id:** blk-db81d810e051\n\n```csharp\n// Bad: objects destroyed a frame after they were built; sim callbacks arrive late\nt.World.Build(\"LogicWire\", cell);\nyield return null;\nt.World.Destroy(go);\n\n// Good: let the game settle, and wait on a condition\n// (mods/dont-count-eggs-on-rails/src/DontCountEggsOnRails.Tests/Eggs.cs)\nyield return t.WaitUntil(() => sensor.currentCount == 1, 15, \"the sensor to count the egg on the floor\");\n```\n\n### Asserting on a private field instead of the behaviour\n**Id:** blk-4224fccba710\n\nAssert what a player or the game's own API can see (the preview tint, the logic network, the symbol override), not an internal field. Private game members the harness reads are listed in `common/tools/TestRunner/Reflect.cs` with a self-check that names the member when a game update renames it; add to that list rather than reflecting ad hoc in a test.\n\n### Meaningless assertions\n**Id:** blk-f054250ed484\n\n```csharp\n// Bad\nt.Assert.True(go != null, \"it worked\");\n// Good\nt.Assert.Eq(Color.white, wire.PreviewTint(r.Cell(1, 0)), \"the neighbour previews white\");\n```\n\n### Letting an expected game error fail unrelated tests\n**Id:** blk-fb116707eda5\n\nDeclare it with `t.AllowLogError(regex)` in the one test that provokes it.\n\n## Related\n**Id:** blk-161afa8b2781\n\n- See also: [integration testing](integration-testing.md)\n- Harness reference: `common/tools/TestRunner/README.md`\n",
+   "sections": [
+    {
+     "id": "testing/unit-testing.md#framework-and-tools",
+     "title": "Framework and Tools",
+     "text": "## Framework and Tools\n**Id:** blk-5e77d0d9ce90\n\nThere is no desktop unit-test project in this repository: no xUnit, NUnit or MSTest. The mods run inside Unity's Mono in the game and call game code that exists only there, so every test runs in the real game.\n\n| Tool | Purpose |\n|------|---------|\n| `common/tools/TestRunner` | Dev-only mod and launcher (`Invoke-OniTests.ps1`) that load a fixture save, run every `[OniTest]` coroutine in `tests/*.dll`, and write results |\n| `Isochronous.TestKit` (`common/tools/TestRunner/Kit`) | `TestContext` (`t`), `t.Assert`, `t.World`, `t.Dupes`, `t.Tools`, `t.Frames`, `t.WaitGameSeconds`, `t.WaitUntil` |\n| `common/tools/ModCheck` | Loads a built DLL against the game assemblies on .NET 8 and JIT-compiles every method, catching type-load failures and missing members after a game update |\n| `common/tools/Translations/translations.py` | Checks `.po` files against the strings the built DLL contains |\n\nThe full reference for the kit is `common/tools/TestRunner/README.md`.\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "testing/unit-testing.md#test-file-location",
+     "title": "Test File Location",
+     "text": "## Test File Location\n**Id:** blk-41ffba520973\n\nEach mod has a test project beside it, referencing the mod and the TestRunner project:\n\n| Source | Test |\n|--------|------|\n| `mods/detect-any-element/src/DetectAnyElement/` | `mods/detect-any-element/src/DetectAnyElement.Tests/` |\n| `mods/jumper-bridges/src/JumperBridges/` | `mods/jumper-bridges/src/JumperBridges.Tests/` |\n| `mods/natural-backwalls-everywhere/src/NaturalBackwalls/` | `mods/natural-backwalls-everywhere/src/NaturalBackwalls.Tests/` |\n\nAll 17 mods have a `<Mod>.Tests` project, grouped by what is tested (for Detect Any Element: `Glyph.cs`, `Persistence.cs`, `PipeSensors.cs`, `SideScreen.cs`, `WorldSensors.cs`). A test project's csproj imports `$(OniCommon)oni-mod.props`, sets `ModDeployFolder` to `none` (never deployed as a mod), and references `$(OniCommon)tools/TestRunner/TestRunner.csproj` with `Private=\"false\"`; copy `mods/detect-any-element/src/DetectAnyElement.Tests/DetectAnyElement.Tests.csproj`.\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "testing/unit-testing.md#test-structure",
+     "title": "Test Structure",
+     "text": "## Test Structure\n**Id:** blk-9a1088df279a\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "testing/unit-testing.md#test-structure/file-organization",
+     "title": "File Organization",
+     "text": "### File Organization\n**Id:** blk-1a5825c096e0\n\nA test class is `public static`; a test is a `public static IEnumerator` taking a `TestContext`, marked `[OniTest(\"<name>\")]` with a `[Layer(n)]`. Tests run in declaration order. From `mods/detect-any-element/src/DetectAnyElement.Tests/Persistence.cs`:\n\n```csharp\npublic static class Persistence\n{\n    [OniTest(\"DAE: copying settings from a sensor on Any makes the target Any, and from an element makes it that element\", Timeout = 40), Layer(0)]\n    public static IEnumerator CopySettings(TestContext t)\n    {\n        CellRect r = t.Rect(6, 1);                                      // clear cells; r.Cell(x, y) from the bottom-left\n        GameObject source = t.World.Build(\"LogicElementSensorGas\", r.Cell(1, 0));\n        GameObject target = t.World.Build(\"LogicElementSensorGas\", r.Cell(3, 0));\n        yield return t.WaitGameSeconds(1);\n        // ... act ...\n        t.Assert.True(AnyElement.Is(target.GetComponent<Filterable>().SelectedTag), \"the target took Any\");\n    }\n}\n```\n\nArrange, act, assert, with a `yield return` of game time between steps.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "testing/unit-testing.md#test-structure/naming-conventions",
+     "title": "Naming Conventions",
+     "text": "### Naming Conventions\n**Id:** blk-7316ec9fd58f\n\n- The display name starts with the mod's short prefix and a colon (`DAE:`, `NB:`, `VFF:`, `JFA:`, `MSR:`, `MCS:`, `NMF:`, `SWP:`, `DCEOR:`, `Bitshifter:`, `SaltySurf:`, `PLib:`), then a sentence saying the behaviour: \"wire dragged from a bridge end to its neighbour connects both\". Photograph-only tests use `looks:`, and a control case that runs beside the behaviour it checks uses `control:` (`mods/jumper-bridges/src/JumperBridges.Tests/WireDrags.cs`).\n- Class names group by subject (`Persistence`, `SideScreen`, `Glyph`), method names say the case (`CopySettings`, `DragFromEnd`).\n- The assertion message names what was expected (\"the target took Any\"), not the call.\n\n```csharp\n// Good\n[OniTest(\"VFF: a tile out of a small packet in the landing cell under the vent is dug up and left as debris at full mass\", Timeout = 40), Layer(0)]\n// Avoid\n[OniTest(\"test 1\")]\n```\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "testing/unit-testing.md#mocking-patterns",
+     "title": "Mocking Patterns",
+     "text": "## Mocking Patterns\n**Id:** blk-0b401ff80cf2\n\nThere is no mocking library. Tests use the real game objects: `t.World.Build(id, cell)` builds an actual building (`BuildingDef.Build`, instant), `t.Dupes.Spawn(n, cell)` makes real Duplicants, `t.Dupes.Drop(material, kg, cell)` leaves a loose pile. Setup helpers shared by one mod's tests live in a `Kit.cs` beside them (`mods/detect-any-element/src/DetectAnyElement.Tests/Kit.cs`).\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "testing/unit-testing.md#mocking-patterns/settings-and-environment",
+     "title": "Settings and environment",
+     "text": "### Settings and environment\n**Id:** blk-0272c27e23d2\n\n- `t.InstantBuild(on)` turns instant build off or on for the test, restored at cleanup.\n- `t.ResearchAll()` researches every tech so menus offer everything.\n- `t.Speed(n)` sets game speed 1 to 3 for the test.\n- `t.Cleanup(action)` runs after the test whatever happened; `t.Skip(reason)` skips.\n- `t.AllowLogError(regex)` accepts an error the game is expected to log; any other `Error`, `Exception` or `Assert` logged during a test fails it.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "testing/unit-testing.md#assertion-patterns",
+     "title": "Assertion Patterns",
+     "text": "## Assertion Patterns\n**Id:** blk-0194e02d0fd6\n\n`t.Assert` offers `True`, `False`, `Eq`, `NotEq`, `Null`, `NotNull`, `Has(flag, bits)`, `Lacks` and `Fail`, each taking a message.\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "testing/unit-testing.md#assertion-patterns/waiting",
+     "title": "Waiting",
+     "text": "### Waiting\n**Id:** blk-33fb80177cba\n\nYield `t.Frames(n)`, `t.WaitGameSeconds(s)` (scaled sim time), `t.WaitRealSeconds(s)`, or `t.WaitUntil(cond, timeout, what)`; a timeout fails the test with `what`. Wait for a condition instead of counting frames.\n\n**Pace tests to the game.** The game is built for a player's speed. Build, change, rebuild and clear frames apart, and its sim callbacks arrive after the objects they belong to are gone (once an endless exception every tick, the game at 2 FPS). Wait game time (a second or two) after building or clearing, give a drag a moment between its steps, and watch `Player.log` for a repeating exception during long runs.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "testing/unit-testing.md#test-data",
+     "title": "Test Data",
+     "text": "## Test Data\n**Id:** blk-b9b075d91c5b\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "testing/unit-testing.md#test-data/fixtures",
+     "title": "Fixtures",
+     "text": "### Fixtures\n**Id:** blk-66e912fbb652\n\nThe fixture is a save: `common/tools/TestRunner/fixtures/testbed-so.sav` in Spaced Out mode, `testbed-base.sav` otherwise, chosen by the game's current mode; `-Fixture <path.sav>` overrides it. `testbed-so.sav` is tracked in `common`; `testbed-base.sav` is not there, so a base-game run needs a save copied in under that name. The harness picks a 40x10 area of the world, clears it before the first test and after every test, and `t.Rect(w, h)` hands a test its cells. See `common/tools/TestRunner/fixtures/README.md`.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "testing/unit-testing.md#test-data/per-test-options-on-onitest",
+     "title": "Per-test options on `[OniTest]`",
+     "text": "### Per-test options on `[OniTest]`\n**Id:** blk-c8a18ea4088d\n\n| Option | Meaning |\n|--------|---------|\n| `Timeout = n` | Real seconds allowed (default `-TestTimeoutSec`, 60) |\n| `Explicit = true` | Skipped unless a `-Filter` selects it |\n| `NoColony = true` | Needs no colony (strings, options dialog, registrations); runs at the main menu |\n| `FreshSave = true` | Reload the fixture before the test |\n| `Boxed = true` | Works in a walled, air-filled box (`t.Dupes.Box()`) |\n| `Worldgen = \"<coordinate>\"` | Runs in a freshly generated world; see `integration-testing.md` |\n\nA `NoColony` test is the closest thing here to a plain unit test: it exercises strings, registrations or option dialogs with no save loaded (`mods/natural-backwalls-everywhere/src/NaturalBackwalls.Tests/Looks.cs`).\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "testing/unit-testing.md#running-tests",
+     "title": "Running Tests",
+     "text": "## Running Tests\n**Id:** blk-960faf85db39\n\n```bash\n# One mod (the project folder name under src/, not the mod folder)\npwsh common/tools/TestRunner/Invoke-OniTests.ps1 -Mods JumperBridges\n\n# Several mods in one session\npwsh common/tools/TestRunner/Invoke-OniTests.ps1 -Mods DetectAnyElement,JumperBridges\n\n# Tests whose id or name matches a glob (also the only way to run an Explicit test)\npwsh common/tools/TestRunner/Invoke-OniTests.ps1 -Mods JumperBridges -Filter \"*DragFromEnd*\"\n\n# Build and ModCheck only, no game session\npwsh common/tools/TestRunner/Invoke-OniTests.ps1 -Mods JumperBridges -BuildOnly\n\n# Alongside another author's Workshop mod, by item id\npwsh common/tools/TestRunner/Invoke-OniTests.ps1 -Mods JumperBridges -Steam <id>\n```\n\nSteam must be running and the game must not be (other than the harness's own live session). Exit code 0: all passed; 1: a test failed, errored or timed out; 2: no status (launch, load or crash: read `Player.log` in the run folder); 3: build or ModCheck failure. The game stays up 15 seconds after a run so the next run reuses it (about 10 s instead of 40); one run at a time is allowed, others queue. Output is under `common/tools/TestRunner/runs/<label>-<stamp>/`.\n\nPass `-Steam <id>` when a bug appears only with a player's other mods installed: the harness enables those Workshop items next to the mod under test.\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "testing/unit-testing.md#coverage-requirements",
+     "title": "Coverage Requirements",
+     "text": "## Coverage Requirements\n**Id:** blk-d3c50bc15df0\n\nNo coverage tool is run and no percentage is required. TODO(owner): state a target if one is wanted. In practice a test is added with the behaviour or fix it covers (commits such as \"Bitshifter: test for the NOT gate constant mask\", \"Salty Surf: in-game tests\").\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "testing/unit-testing.md#anti-patterns-to-avoid",
+     "title": "Anti-Patterns to Avoid",
+     "text": "## Anti-Patterns to Avoid\n**Id:** blk-6e0e91ddc944\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "testing/unit-testing.md#anti-patterns-to-avoid/frames-apart-build-change-and-destroy",
+     "title": "Frames-apart build, change and destroy",
+     "text": "### Frames-apart build, change and destroy\n**Id:** blk-db81d810e051\n\n```csharp\n// Bad: objects destroyed a frame after they were built; sim callbacks arrive late\nt.World.Build(\"LogicWire\", cell);\nyield return null;\nt.World.Destroy(go);\n\n// Good: let the game settle, and wait on a condition\n// (mods/dont-count-eggs-on-rails/src/DontCountEggsOnRails.Tests/Eggs.cs)\nyield return t.WaitUntil(() => sensor.currentCount == 1, 15, \"the sensor to count the egg on the floor\");\n```\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "testing/unit-testing.md#anti-patterns-to-avoid/asserting-on-a-private-field-instead-of-the-behaviour",
+     "title": "Asserting on a private field instead of the behaviour",
+     "text": "### Asserting on a private field instead of the behaviour\n**Id:** blk-4224fccba710\n\nAssert what a player or the game's own API can see (the preview tint, the logic network, the symbol override), not an internal field. Private game members the harness reads are listed in `common/tools/TestRunner/Reflect.cs` with a self-check that names the member when a game update renames it; add to that list rather than reflecting ad hoc in a test.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "testing/unit-testing.md#anti-patterns-to-avoid/meaningless-assertions",
+     "title": "Meaningless assertions",
+     "text": "### Meaningless assertions\n**Id:** blk-f054250ed484\n\n```csharp\n// Bad\nt.Assert.True(go != null, \"it worked\");\n// Good\nt.Assert.Eq(Color.white, wire.PreviewTint(r.Cell(1, 0)), \"the neighbour previews white\");\n```\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "testing/unit-testing.md#anti-patterns-to-avoid/letting-an-expected-game-error-fail-unrelated-tests",
+     "title": "Letting an expected game error fail unrelated tests",
+     "text": "### Letting an expected game error fail unrelated tests\n**Id:** blk-fb116707eda5\n\nDeclare it with `t.AllowLogError(regex)` in the one test that provokes it.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "testing/unit-testing.md#related",
+     "title": "Related",
+     "text": "## Related\n**Id:** blk-161afa8b2781\n\n- See also: [integration testing](integration-testing.md)\n- Harness reference: `common/tools/TestRunner/README.md`\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  }
+ ]
+}

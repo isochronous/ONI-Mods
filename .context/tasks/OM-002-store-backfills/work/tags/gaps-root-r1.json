@@ -1,0 +1,62 @@
+[
+ {
+  "id": "domains/tooling-friction.md#2026-10-17-icon-init-an-interrupted-apply-left-a-tree-neither-init-nor-integrate-could-plan-over",
+  "reason": "no-good-match",
+  "suggestion": "scaffolding a knowledge store with icon-init and integrate",
+  "kept": []
+ },
+ {
+  "id": "domains/tooling-friction.md#2026-10-17-populate-context-every-mod-node-is-aggregator-scope-so-the-leaf-only-standards-rule-matches-no-node",
+  "reason": "no-good-match",
+  "suggestion": "seeding standards documents with populate-context",
+  "kept": []
+ },
+ {
+  "id": "domains/tooling-friction.md#2026-10-17-populate-context-a-cover-op-s-refusal-does-not-name-the-missing-witness-and-a-section-and-a-cover-cannot-share-a-change-set",
+  "reason": "no-good-match",
+  "suggestion": "writing change-sets and coverage claims through the write path",
+  "kept": []
+ },
+ {
+  "id": "testing/integration-testing.md#test-data-management/seeding",
+  "reason": "no-good-match",
+  "suggestion": "seeding test data such as Duplicants, skills, materials and research",
+  "kept": []
+ },
+ {
+  "id": "testing/unit-testing.md#mocking-patterns",
+  "reason": "no-good-match",
+  "suggestion": "using real game objects in place of mocks",
+  "kept": []
+ },
+ {
+  "id": "workflows/branching.md#protected-branches",
+  "reason": "no-good-match",
+  "suggestion": "commit signing and branch protection rules",
+  "kept": []
+ },
+ {
+  "id": "workflows/commit-conventions.md#format/imported-history",
+  "reason": "no-good-match",
+  "suggestion": "importing a mod's history into the monorepo",
+  "kept": []
+ },
+ {
+  "id": "workflows/task-plan/phase-completion.md#completion-summary-template",
+  "reason": "no-good-match",
+  "suggestion": "task completion summary report",
+  "kept": []
+ },
+ {
+  "id": "workflows/task-plan/phase-implementation.md#implementation-progress-tracker",
+  "reason": "no-good-match",
+  "suggestion": "step-by-step progress status table",
+  "kept": []
+ },
+ {
+  "id": "workflows/task-plan/phase-implementation.md#deviation-log-entry",
+  "reason": "no-good-match",
+  "suggestion": "recording a deviation from the plan",
+  "kept": []
+ }
+]

@@ -1,0 +1,70 @@
+{
+  "survey_id": "sha256:5ca8b8e6c5ac9de14b6e114803f6b118aa025e41e23b34ee6cbe979f79e77b99",
+  "node": "C:/dev/ONI-Mods",
+  "store_root": "C:/dev/ONI-Mods",
+  "window": {
+    "declared": 1000,
+    "read": 414,
+    "rho": 0.02,
+    "shortened": true
+  },
+  "owed": {
+    "door": 0,
+    "person": 0
+  },
+  "candidates": [],
+  "splits": [],
+  "splits_unfinished": [],
+  "splits_stranded": [],
+  "split_journals_unreadable": [],
+  "split_findings": [],
+  "not_proposed": {
+    "no_candidate": [
+      {
+        "document": "testing/integration-testing.md",
+        "reason": "spread: no directory holds the share"
+      },
+      {
+        "document": "testing/unit-testing.md",
+        "reason": "spread: no directory holds the share"
+      },
+      {
+        "document": "workflows/branching.md",
+        "reason": "too broad: mods holds a nested node"
+      },
+      {
+        "document": "workflows/ci-cd.md",
+        "reason": "spread: no directory holds the share"
+      },
+      {
+        "document": "workflows/commit-conventions.md",
+        "reason": "spread: no directory holds the share"
+      },
+      {
+        "document": "workflows/task-plan/base.md",
+        "reason": "one target only"
+      },
+      {
+        "document": "workflows/task-plan/phase-architecture.md",
+        "reason": "one target only"
+      },
+      {
+        "document": "workflows/task-plan/phase-completion.md",
+        "reason": "one target only"
+      },
+      {
+        "document": "workflows/task-plan/phase-implementation.md",
+        "reason": "no resolved token"
+      },
+      {
+        "document": "workflows/task-plan/phase-investigation.md",
+        "reason": "one target only"
+      },
+      {
+        "document": "workflows/task-plan/phase-testing.md",
+        "reason": "no resolved token"
+      }
+    ],
+    "rule_scoped": []
+  }
+}

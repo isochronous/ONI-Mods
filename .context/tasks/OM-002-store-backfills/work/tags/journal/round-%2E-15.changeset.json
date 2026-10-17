@@ -1,0 +1,41 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node . — round 15",
+  "node": "C:/dev/ONI-Mods",
+  "base": {
+    "testing/integration-testing.md": "sha256:cd2d2cb14ab5a994218d033da9e07ab54dc30cb43f6a61cc4e049261278252bb",
+    "testing/unit-testing.md": "sha256:5a9991606b13534a323dd9384d99f8804de2fe3c9bd4dc34def8910a391c1d66",
+    "workflows/ci-cd.md": "sha256:42499c5aba774f9ff6f06665b0c31a1018714e0a5d75e01ca613cb0eab1a58eb"
+  },
+  "ops": [
+    {
+      "target": "testing/integration-testing.md",
+      "mode": "tag",
+      "add": [
+        "test-pacing",
+        "player-log",
+        "game-update-compatibility",
+        "test-cleanup"
+      ],
+      "section": "best-practices"
+    },
+    {
+      "target": "testing/unit-testing.md",
+      "mode": "tag",
+      "add": [
+        "test-assertions",
+        "player-log"
+      ],
+      "section": "anti-patterns-to-avoid/letting-an-expected-game-error-fail-unrelated-tests"
+    },
+    {
+      "target": "workflows/ci-cd.md",
+      "mode": "tag",
+      "add": [
+        "player-log",
+        "in-game-testing"
+      ],
+      "section": "troubleshooting/viewing-logs"
+    }
+  ]
+}

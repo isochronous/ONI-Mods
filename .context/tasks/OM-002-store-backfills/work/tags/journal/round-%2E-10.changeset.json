@@ -1,0 +1,47 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node . — round 10",
+  "node": "C:/dev/ONI-Mods",
+  "base": {
+    "testing/integration-testing.md": "sha256:17715a44619c58641c44adaa08a15ffafc718a9f72dece5ec9d6f9f87f9400a8",
+    "testing/unit-testing.md": "sha256:6dcef252625d60f2f4b62ef1c33fb0a6bbca166240744c13d63ff233e3e17fc7",
+    "workflows/branching.md": "sha256:516d97cb10ce65d3abe2799dcd057759faa8efde969307376817c8191a618816",
+    "workflows/ci-cd.md": "sha256:db998a0b879346e0481d0a12ef0a5f2cdc68a5cae3bd12f73b161439abaf2724"
+  },
+  "ops": [
+    {
+      "target": "testing/integration-testing.md",
+      "mode": "tag",
+      "add": [
+        "test-cleanup",
+        "save-files"
+      ],
+      "section": "test-data-management/cleanup-strategies"
+    },
+    {
+      "target": "testing/unit-testing.md",
+      "mode": "tag",
+      "add": [
+        "mod-build",
+        "mod-compatibility"
+      ],
+      "section": "running-tests"
+    },
+    {
+      "target": "workflows/branching.md",
+      "mode": "tag",
+      "add": [
+        "assistant-attribution"
+      ],
+      "section": "pull-request-guidelines"
+    },
+    {
+      "target": "workflows/ci-cd.md",
+      "mode": "tag",
+      "add": [
+        "release-process"
+      ],
+      "section": "notifications/failure"
+    }
+  ]
+}

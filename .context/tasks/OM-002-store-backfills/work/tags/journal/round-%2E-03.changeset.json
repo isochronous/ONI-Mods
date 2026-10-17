@@ -1,0 +1,115 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node . — round 3",
+  "node": "C:/dev/ONI-Mods",
+  "base": {
+    "testing/integration-testing.md": "sha256:03966b234e812f4a144ce21497487b242755a234e78685488874897c3bd72c2d",
+    "testing/unit-testing.md": "sha256:f1dff0a2387e5c8b05552fd407fa430e9e350dc1d481ed274c693d8f559247e3",
+    "workflows/branching.md": "sha256:0307450a3cb7c62c6e3fa54241defb9734a865602c6f4c7fb4642078a53c5d5f",
+    "workflows/ci-cd.md": "sha256:b3ca85f7558e0dff457660292c9971eb61d3a4a2faa48f79b536e08c76fbfedc",
+    "workflows/commit-conventions.md": "sha256:faa8f70f1e4fa277003ab1c0c52a723e90b0b4b2aefedefe600ab65bcfc2b845",
+    "workflows/task-plan/base.md": "sha256:ca251d73b1a738a3d446efd6e015246b5b4e474898ae809f5b0b4c86d626f684",
+    "workflows/task-plan/phase-architecture.md": "sha256:4fd57bd61c4e93d99b4880806cc4f886204c04a126d04493fb7d747c288926fb",
+    "workflows/task-plan/phase-completion.md": "sha256:307245ea9fa77a33b2c55e9aff90becc5995e33455eaea7f9075a5d85b5b4150",
+    "workflows/task-plan/phase-implementation.md": "sha256:35fc772bf222b5c8e188a13e9b1b28d85bed5ba4e82116ccf409ec54cbd90046",
+    "workflows/task-plan/phase-investigation.md": "sha256:8ab1cb8af2d925d8723ef0814172b30bdc082dc5bbd11a2f156113ac08fd2886",
+    "workflows/task-plan/phase-testing.md": "sha256:b159754c557563c782aed9c09e7e5474f984e97290df8d2cfec5245158207ae4"
+  },
+  "ops": [
+    {
+      "target": "testing/integration-testing.md",
+      "mode": "tag",
+      "add": [
+        "mod-compatibility",
+        "mod-loadout"
+      ],
+      "section": "test-environment/other-mods"
+    },
+    {
+      "target": "testing/unit-testing.md",
+      "mode": "tag",
+      "add": [
+        "test-assertions"
+      ],
+      "section": "test-structure/file-organization"
+    },
+    {
+      "target": "workflows/branching.md",
+      "mode": "tag",
+      "add": [
+        "task-id"
+      ],
+      "section": "naming-conventions/task-branches"
+    },
+    {
+      "target": "workflows/ci-cd.md",
+      "mode": "tag",
+      "add": [
+        "game-update-compatibility"
+      ],
+      "section": "stage-details/3-check"
+    },
+    {
+      "target": "workflows/commit-conventions.md",
+      "mode": "tag",
+      "add": [
+        "task-id",
+        "phase-handoff"
+      ],
+      "section": "format/active-task-work"
+    },
+    {
+      "target": "workflows/task-plan/base.md",
+      "mode": "tag",
+      "add": [
+        "task-id",
+        "phase-handoff",
+        "mod-build",
+        "in-game-testing"
+      ],
+      "section": "repository-specifics"
+    },
+    {
+      "target": "workflows/task-plan/phase-architecture.md",
+      "mode": "tag",
+      "add": [
+        "unit-spec"
+      ],
+      "section": "design-unit-spec-template"
+    },
+    {
+      "target": "workflows/task-plan/phase-completion.md",
+      "mode": "tag",
+      "add": [
+        "unit-spec",
+        "code-review"
+      ],
+      "section": "review-unit-spec-template"
+    },
+    {
+      "target": "workflows/task-plan/phase-implementation.md",
+      "mode": "tag",
+      "add": [
+        "unit-spec"
+      ],
+      "section": "implement-unit-spec-template"
+    },
+    {
+      "target": "workflows/task-plan/phase-investigation.md",
+      "mode": "tag",
+      "add": [
+        "knowledge-store"
+      ],
+      "section": "additional-context-files"
+    },
+    {
+      "target": "workflows/task-plan/phase-testing.md",
+      "mode": "tag",
+      "add": [
+        "unit-spec",
+        "in-game-testing"
+      ],
+      "section": "test-unit-spec-template"
+    }
+  ]
+}

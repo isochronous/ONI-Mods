@@ -1,0 +1,38 @@
+{
+ "task": "OM-002",
+ "why": "align phase-architecture with its sibling phase documents (phase-handoff on its entry and exit sections, not the document) and take commit-messages off a section that only quotes commit messages",
+ "node": ".",
+ "ops": [
+  {
+   "mode": "tag",
+   "target": "workflows/task-plan/phase-architecture.md",
+   "remove": [
+    "phase-handoff"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "workflows/task-plan/phase-architecture.md",
+   "section": "phase-entry-run-first-before-any-phase-work",
+   "add": [
+    "phase-handoff"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "workflows/task-plan/phase-architecture.md",
+   "section": "phase-exit-handoff-run-last-at-the-phase-boundary",
+   "add": [
+    "phase-handoff"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "testing/unit-testing.md",
+   "section": "coverage-requirements",
+   "remove": [
+    "commit-messages"
+   ]
+  }
+ ]
+}

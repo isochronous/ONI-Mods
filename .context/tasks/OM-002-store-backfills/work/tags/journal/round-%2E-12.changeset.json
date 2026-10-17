@@ -1,0 +1,46 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node . — round 12",
+  "node": "C:/dev/ONI-Mods",
+  "base": {
+    "testing/integration-testing.md": "sha256:46df31db55a6d8efcc0506c892ee4eed9b5aae6e977499c5876bdf7c1db73b9d",
+    "testing/unit-testing.md": "sha256:f9ea2c60960531740c410395fdab660e2100a6bb81aaa98054893674d0dbceb8",
+    "workflows/branching.md": "sha256:03247e88c5a82389a5fddd811cc86fe33f4bb471ae5538f7123c90788925ab70",
+    "workflows/ci-cd.md": "sha256:987a231151d0a3aa632c52054c9cd392b857774f10d29827ae6f06110f86eef4"
+  },
+  "ops": [
+    {
+      "target": "testing/integration-testing.md",
+      "mode": "tag",
+      "add": [
+        "save-files",
+        "mod-build"
+      ],
+      "section": "configuration/launcher-options"
+    },
+    {
+      "target": "testing/unit-testing.md",
+      "mode": "tag",
+      "add": [
+        "test-pacing"
+      ],
+      "section": "anti-patterns-to-avoid/frames-apart-build-change-and-destroy"
+    },
+    {
+      "target": "workflows/branching.md",
+      "mode": "tag",
+      "add": [
+        "common-submodule"
+      ],
+      "section": "git-configuration"
+    },
+    {
+      "target": "workflows/ci-cd.md",
+      "mode": "tag",
+      "add": [
+        "steam-workshop"
+      ],
+      "section": "manual-actions/first-workshop-upload-of-a-new-mod"
+    }
+  ]
+}
