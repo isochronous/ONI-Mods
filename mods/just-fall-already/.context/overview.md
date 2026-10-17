@@ -1,6 +1,7 @@
 ---
-description: "TODO(owner): one line saying what just-fall-already is."
+description: "Overview of the Just Fall Already! mod: how a door change makes critters fall at once, its version and release state, and a map of its source, tests, README, changelog and publish folders"
 ---
+
 # just-fall-already
 
 ## What this is

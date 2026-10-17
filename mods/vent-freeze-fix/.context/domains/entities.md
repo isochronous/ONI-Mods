@@ -1,9 +1,10 @@
 ---
 doc_id: doc-46d7dbd5e039
-description: "Entities of Vent Freeze Fix: the vent storage insulation, the repair watcher and the dig answer, with file locations, Harmony patch targets, business rules and key code paths."
+description: The insulated liquid vent storage patch, post-load repair watcher, dig requests, options, debug save and Harmony patches of Vent Freeze Fix, with business rules, saved state and the source file each lives in
 applies_to:
   - "src/VentFreezeFix/**"
 ---
+
 # Vent Freeze Fix domain
 
 ## Overview

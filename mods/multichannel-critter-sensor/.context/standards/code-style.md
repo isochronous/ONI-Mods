@@ -1,9 +1,10 @@
 ---
 doc_id: doc-ca6a5de7abe9
-description: "C# formatting, imports, comments, Harmony patch and component conventions for Multichannel Critter Sensor (adds a critter sensor with several channels), with this mod's own layout."
+description: "Code style guide for Multichannel Critter Sensor: C# formatting, imports, comments, control structures, Harmony patch and game component conventions, plus its PLib side screen, `Patches` class and `ThresholdAdapter`"
 applies_to:
   - "src/**"
 ---
+
 # Code Style Guide
 
 ## Formatting

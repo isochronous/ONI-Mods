@@ -1,0 +1,57 @@
+{
+  "task": "OM-002",
+  "why": "a generated description for every document, saying what that document contains",
+  "node": "C:\\dev\\ONI-Mods\\mods\\multichannel-critter-sensor",
+  "ops": [
+    {
+      "target": "domains/README.md",
+      "mode": "describe",
+      "description": "Index of the two domain documents of Multichannel Critter Sensor, the entities and the glossary, each with a one-line summary of the sensor building subject it covers"
+    },
+    {
+      "target": "domains/entities.md",
+      "mode": "describe",
+      "description": "The building config, counting component, side screen, `ThresholdAdapter` and patches of Multichannel Critter Sensor, with its saved fields, output bits, counting and pulse rules, key code paths and tests"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "describe",
+      "description": "Glossary for Multichannel Critter Sensor: abbreviations, terms to avoid, and definitions of critter sensor, room and cavity, ribbon port, logic tick, Sim200ms, threshold, modes, tracked total and Multiplexing"
+    },
+    {
+      "target": "overview.md",
+      "mode": "describe",
+      "description": "Overview of the Multichannel Critter Sensor mod: the ribbon-output critter and egg counter it adds with species filters and thresholds, and a map of its source, art, tests, publish and `.context` folders"
+    },
+    {
+      "target": "standards/README.md",
+      "mode": "describe",
+      "description": "Index of the three standards documents of Multichannel Critter Sensor (code style, error handling, naming conventions), each with a one-line summary of what it covers"
+    },
+    {
+      "target": "standards/code-style.md",
+      "mode": "describe",
+      "description": "Code style guide for Multichannel Critter Sensor: C# formatting, imports, comments, control structures, Harmony patch and game component conventions, plus its PLib side screen, `Patches` class and `ThresholdAdapter`"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "describe",
+      "description": "Error handling conventions for Multichannel Critter Sensor: guarding patches, try/catch cases, logging levels and anti-patterns, plus its missing Multiplexing tech warning and side screen prefab fallbacks"
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "describe",
+      "description": "Naming conventions for Multichannel Critter Sensor: files, namespaces, variables, methods, patch classes, `ModStrings` keys and ids, plus its string branches, `ThresholdAdapter.NoUnits`, log prefix and `staticID`"
+    }
+  ],
+  "base": {
+    "domains/README.md": "sha256:1b67cfb09dfda6c95f73919075b78f67c5ed3e7ee9e8398f535fef118c9ae90f",
+    "domains/entities.md": "sha256:438e842e9f713f1a930da230e70cc86fe9b73457ea996335d4be70695f7c74ff",
+    "domains/glossary.md": "sha256:e69802577b245495bbd45214d0ed7e0723949773d9fa700ffb9c5a0e0a6eda66",
+    "overview.md": "sha256:4b76f57c467f1bef7ce4979bd9fa5b63e809cf37f7ec89eb1d3deedcdf330d87",
+    "standards/README.md": "sha256:c7297631eee22a84be582a660c2f5e4cc3191446318617d4fcb92fec0e3f8972",
+    "standards/code-style.md": "sha256:2bf431dd75ee4c6470d88143cc836f832ad66b12112ebd8ab95bd7c825e02005",
+    "standards/error-handling.md": "sha256:172b93e32ae64c5b8d82dd688584476154921e7a6ab6b9a1356fbe0cd5fb4019",
+    "standards/naming-conventions.md": "sha256:135c56762beaf4b305e354312f5c2ad86ee8cc0bdbf4cca6fddcdedad571f674"
+  }
+}

@@ -1,7 +1,8 @@
 ---
 doc_id: doc-bd9a3bd51203
-description: "TODO(owner): the standards storage-pod-redux holds itself to."
+description: Index of the Storage Pod Redux standards documents, linking the code-style, error-handling and naming-conventions guides with a line on each
 ---
+
 # Standards
 
 ## Standards

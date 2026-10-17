@@ -1,6 +1,7 @@
 ---
-description: "TODO(owner): one line saying what corner-build-anything is."
+description: What the Corner Build Anything mod does (building and deconstructing through diagonal gaps, bridges from either end), its version and release state, and where its source, tests, README and publish folder sit
 ---
+
 # corner-build-anything
 
 ## What this is

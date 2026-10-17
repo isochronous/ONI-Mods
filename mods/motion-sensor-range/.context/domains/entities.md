@@ -1,9 +1,10 @@
 ---
 doc_id: doc-160512696e47
-description: "The things Motion Sensor Range adds or patches, with file locations, gameplay rules and key code paths."
+description: "The `RangeSlider` component, Harmony patches, strings and saved range of Motion Sensor Range, with the 2 to 16 tile range rules, key code paths and tests for range, detection and persistence"
 applies_to:
   - "src/MotionSensorRange/**"
 ---
+
 # Motion Sensor Range domain
 
 ## Overview

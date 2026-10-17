@@ -1,8 +1,9 @@
 ---
 doc_id: doc-62bc27b793da
-description: "Dated log of friction met with ICON's ks engine, skills, hooks and agents while working in this repository."
+description: Dated entries recording friction met with ICON's ks engine, skills and hooks in the ONI-Mods repository, each giving the invocation, what happened, what was expected and the workaround
 witness: none
 ---
+
 # Tooling friction
 
 Each entry is one dated section naming the task, the invocation, what it did, what was expected, and what was done instead. An entry is not a ticket.

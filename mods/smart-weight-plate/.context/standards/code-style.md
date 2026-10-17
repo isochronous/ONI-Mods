@@ -1,9 +1,10 @@
 ---
 doc_id: doc-1c6db88f21e2
-description: "C# formatting, imports, comments, Harmony patch and component conventions for Smart Weight Plate (adds a weight plate with high and low thresholds), with this mod's own layout."
+description: "C# code style for Smart Weight Plate: indentation, braces, imports, comments, control structures, Harmony patch and game component conventions, plus its nested Patches class, PLib side screen and Better Automation Overlay compat"
 applies_to:
   - "src/**"
 ---
+
 # Code Style Guide
 
 ## Formatting

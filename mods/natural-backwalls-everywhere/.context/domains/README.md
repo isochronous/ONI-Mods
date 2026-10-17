@@ -1,7 +1,8 @@
 ---
 doc_id: doc-39f6ffbdfe73
-description: "TODO(owner): the subject knowledge natural-backwalls-everywhere keeps here."
+description: Index of the Natural Backwalls Everywhere domains folder, linking the entities document on the worldgen patches, biome groups and noise patterns and the glossary of ONI and mod terms
 ---
+
 # Domains
 
 ## Domains

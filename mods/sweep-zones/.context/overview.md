@@ -1,6 +1,7 @@
 ---
-description: "TODO(owner): one line saying what sweep-zones is."
+description: "Overview of the Sweep Zones Redux mod: the toolbar paint tool with four drag modes, per-cell priority and labels, version, and a map of its source, icon generator, tests, translations and publish folders"
 ---
+
 # sweep-zones
 
 ## What this is

@@ -1,9 +1,10 @@
 ---
 doc_id: doc-3f8274c8e738
-description: "C# formatting, imports, comments, Harmony patch and component conventions for Storage Pod Redux (brings back the Storage Pod and Cool Pod), with this mod's own layout."
+description: "C# code style for the Storage Pod Redux mod: formatting, imports, comments, Harmony patch and game component conventions, plus a section on its options class, original-mod detection and patch layout"
 applies_to:
   - "src/**"
 ---
+
 # Code Style Guide
 
 ## Formatting

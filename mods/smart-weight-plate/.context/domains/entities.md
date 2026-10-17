@@ -1,9 +1,10 @@
 ---
 doc_id: doc-79fd71f85e3b
-description: "Entities of Smart Weight Plate: the Smart Weight Plate building, its two-threshold latch, and the patches that wire it into the game, with file locations, Harmony patch targets, business rules and key code paths."
+description: The Smart Weight Plate building, its two-threshold latch component, side screen and Harmony patches in src/SmartWeightPlate, with weighing, signal and threshold rules, file locations, code paths, tests and saved state
 applies_to:
   - "src/SmartWeightPlate/**"
 ---
+
 # Smart Weight Plate domain
 
 ## Overview

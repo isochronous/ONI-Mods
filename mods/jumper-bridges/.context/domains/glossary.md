@@ -4,7 +4,7 @@ witness: loose
 applies_to:
   - "src/JumperBridges/**"
 doc_id: doc-59647738de3c
-description: "Glossary for jumper-bridges: bridge end nodes, link rings, patches and options"
+description: "Glossary for Jumper Bridges: abbreviations, terms to avoid, and definitions of bridge end and end node, port, ribbon, utility network, link ring, object layer, joint plate, wire drag, overload and overlay"
 ---
 
 # Domain Glossary

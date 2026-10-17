@@ -1,7 +1,8 @@
 ---
 doc_id: doc-9a01bd0fa316
-description: "TODO(owner): the standards detect-any-element holds itself to."
+description: "Index of the standards documents in the Detect Any Element node: code style, error handling and naming conventions"
 ---
+
 # Standards
 
 ## Standards

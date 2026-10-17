@@ -1,7 +1,8 @@
 ---
 doc_id: doc-e6b3d80d1534
-description: "Testing phase protocol for ONI-Mods tasks: entry and exit contracts, the test unit spec and a status tracker keyed to the in-game test harness."
+description: "The testing phase of an ONI-Mods task plan: entry and exit steps, the test unit spec template and a status tracker for in-game harness tests"
 ---
+
 # Testing Phase Templates
 
 > Loaded by the `task-plan-phase-testing` skill when present.

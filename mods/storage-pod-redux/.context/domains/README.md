@@ -1,7 +1,8 @@
 ---
 doc_id: doc-b691ccbfeb36
-description: "TODO(owner): the subject knowledge storage-pod-redux keeps here."
+description: Index of the domain documents for the Storage Pod Redux mod, linking its entities file (pod buildings, options, registration gate) and its glossary of terms
 ---
+
 # Domains
 
 ## Domains

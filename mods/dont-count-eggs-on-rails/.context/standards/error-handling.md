@@ -1,9 +1,10 @@
 ---
 doc_id: doc-8a10d48f5a47
-description: "How Don't Count Eggs on Rails guards its Harmony patches, reflection lookups and file reads, and what it logs when something is missing."
+description: "Error handling conventions for Don't Count Eggs on Rails: guarding patches, try/catch cases, logging levels and anti-patterns, plus how its one prefix falls back to vanilla and checks `OnRail`"
 applies_to:
   - "src/**"
 ---
+
 # Error Handling Conventions
 
 ## Principles

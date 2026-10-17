@@ -4,7 +4,7 @@ witness: loose
 applies_to:
   - "src/DontCountEggsOnRails/**"
 doc_id: doc-55731fdf28b0
-description: "Glossary for dont-count-eggs-on-rails: how rail eggs are kept out of room counts"
+description: "Glossary for Don't Count Eggs on Rails: abbreviations, a term to avoid, and definitions of critter sensor, room and cavity, room prober, overcrowding monitor, conveyor rail and the stored tag"
 ---
 
 # Domain Glossary

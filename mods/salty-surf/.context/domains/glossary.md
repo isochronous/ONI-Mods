@@ -4,7 +4,7 @@ witness: loose
 applies_to:
   - "src/SaltySurf/**"
 doc_id: doc-8bc9e6c6b6ef
-description: "ONI and mod-specific terms used by Salty Surf."
+description: "Glossary for Salty Surf: abbreviations, terms to avoid, and definitions of the Mechanical Surfboard, intake capacity tag, shared SaltySurfWater tag, readiness, spill, wrong liquid and descriptor, with the code using each"
 ---
 
 # Salty Surf glossary

@@ -1,9 +1,10 @@
 ---
 doc_id: doc-bbf17921a8ae
-description: "How Smart Weight Plate guards its Harmony patches, reflection lookups and file reads, and what it logs when something is missing."
+description: "Error handling rules for Smart Weight Plate: guarding Harmony patches and transpilers, try/catch, logging levels and anti-patterns, plus its guarded Better Automation Overlay compat, research tech warning and null target check"
 applies_to:
   - "src/**"
 ---
+
 # Error Handling Conventions
 
 ## Principles

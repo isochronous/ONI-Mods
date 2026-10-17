@@ -1,9 +1,10 @@
 ---
 doc_id: doc-4b5791f2e9a8
-description: "Entities of Storage Pod Redux: the Storage Pod and Cool Pod buildings, their options, and the registration gate, with file locations, Harmony patch targets, business rules and key code paths."
+description: The Storage Pod and Cool Pod buildings of Storage Pod Redux, with their property tables, options, mod detection, registration gate, Harmony patches, business rules and the source file each lives in
 applies_to:
   - "src/StoragePodRedux/**"
 ---
+
 # Storage Pod Redux domain
 
 ## Overview

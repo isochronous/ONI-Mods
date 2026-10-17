@@ -1,6 +1,7 @@
 ---
-description: "TODO(owner): one line saying what no-magic-fridges is."
+description: "Overview of the No Magic Fridges mod: how powered fridges behave as a thermostat-controlled insulated box, its Workshop version and supported content, and a map of its source, tests and publish folders"
 ---
+
 # no-magic-fridges
 
 ## What this is

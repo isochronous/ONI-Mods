@@ -1,9 +1,10 @@
 ---
 doc_id: doc-e8559324cf55
-description: "File, namespace, patch class, string key and id naming for Salty Surf (project SaltySurf)."
+description: "Naming conventions for Salty Surf: files, variables, methods, types, ModStrings keys, ids and tags, plus its SALTYSURF string branch, patch class names, SaltySurfWater tag, test classes and log prefix"
 applies_to:
   - "src/**"
 ---
+
 # Naming Conventions
 
 ## Files and Directories

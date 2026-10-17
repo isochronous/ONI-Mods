@@ -1,9 +1,10 @@
 ---
 doc_id: doc-0fb73d165b3f
-description: "File, namespace, patch class, string key and id naming for Refined Building (project RefinedBuilding)."
+description: "Naming conventions for Refined Building: files, variables, methods, types, ModStrings keys, ids and tags, plus its test class, log prefix and staticID"
 applies_to:
   - "src/**"
 ---
+
 # Naming Conventions
 
 ## Files and Directories

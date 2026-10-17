@@ -1,9 +1,10 @@
 ---
 doc_id: doc-4e6a503ac17c
-description: "The things Salty Surf adds or patches, with file locations, gameplay rules and key code paths."
+description: The SurfWater tag helper, Harmony patches, mod strings and translations of Salty Surf in src/SaltySurf, with the accepted-liquid, readiness, spill and info panel rules, file locations, code paths, tests and saved state
 applies_to:
   - "src/SaltySurf/**"
 ---
+
 # Salty Surf domain
 
 ## Overview

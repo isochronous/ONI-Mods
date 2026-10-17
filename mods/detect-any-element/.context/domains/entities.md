@@ -4,7 +4,7 @@ witness: loose
 applies_to:
   - "src/DetectAnyElement/**"
 doc_id: doc-25efc9f67a81
-description: "Entities, business rules and key code paths of detect-any-element: Any choice for the five element sensors"
+description: "The tag, strings and Harmony patches of the Detect Any Element mod (src/DetectAnyElement): the Any tag, ModStrings, side screen row, pipe, rail and world sensor patches and the asterisk glyph, with locations"
 ---
 
 # Detect Any Element domain

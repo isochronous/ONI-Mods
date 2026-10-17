@@ -1,7 +1,8 @@
 ---
 doc_id: doc-790efff9d109
-description: "TODO(owner): the standards no-magic-fridges holds itself to."
+description: Index of the No Magic Fridges standards folder, linking its code style, error handling and naming conventions documents with a line on what each covers
 ---
+
 # Standards
 
 ## Standards

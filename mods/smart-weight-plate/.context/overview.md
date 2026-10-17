@@ -1,6 +1,7 @@
 ---
-description: "TODO(owner): one line saying what smart-weight-plate is."
+description: "Overview of the Smart Weight Plate mod: the two-threshold weight plate building and its signal behaviour, version, status and credits, and a map of its source, art, translations, tests, tools and publish folders"
 ---
+
 # smart-weight-plate
 
 ## What this is

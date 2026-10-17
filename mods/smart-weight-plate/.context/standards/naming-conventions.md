@@ -1,9 +1,10 @@
 ---
 doc_id: doc-b2eb0f826a7b
-description: "File, namespace, patch class, string key and id naming for Smart Weight Plate (project SmartWeightPlate)."
+description: "Naming conventions for Smart Weight Plate: files, variables, methods, types, ModStrings keys, ids and tags, plus its string branches, test classes, Kit helper file, log prefix and staticID"
 applies_to:
   - "src/**"
 ---
+
 # Naming Conventions
 
 ## Files and Directories

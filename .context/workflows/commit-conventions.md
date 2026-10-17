@@ -1,7 +1,8 @@
 ---
 doc_id: doc-44a9d22a52a0
-description: "The commit subject style used in ONI-Mods: mod-name prefix, one terse line, release and task commits, trailers."
+description: "Commit message style in ONI-Mods: the mod-name prefix with one terse line, shared-tooling and release commit forms, task-prefixed commits and the Phase-Handoff trailer, with examples from the log"
 ---
+
 # Commit Conventions
 
 Derived from the `git log` of this repository (one author, with each mod's history brought in) and from `.claude/commands/release-mods.md`.

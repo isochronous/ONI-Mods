@@ -1,9 +1,10 @@
 ---
 doc_id: doc-5d8e44113c75
-description: "The things Natural Backwalls Everywhere adds or patches, with file locations, gameplay rules and key code paths."
+description: The worldgen patches, options, biome groups, noise patterns, export overlay and BiomePreview tool of Natural Backwalls Everywhere in src/NaturalBackwalls, with placement rules, file locations, code paths and saved state
 applies_to:
   - "src/NaturalBackwalls/**"
 ---
+
 # Natural Backwalls Everywhere domain
 
 ## Overview

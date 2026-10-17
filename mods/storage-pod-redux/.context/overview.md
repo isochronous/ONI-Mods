@@ -1,6 +1,7 @@
 ---
-description: "TODO(owner): one line saying what storage-pod-redux is."
+description: "Overview of the Storage Pod Redux mod: what the Storage Pod and Cool Pod do, their capacity, cost and power figures, version, and a map of its source, art, translations, tests and publish folders"
 ---
+
 # storage-pod-redux
 
 ## What this is

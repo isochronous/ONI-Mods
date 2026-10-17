@@ -1,9 +1,10 @@
 ---
 doc_id: doc-9f3021f06f42
-description: "File, namespace, patch class, string key and id naming for No Magic Fridges (project NoMagicFridges)."
+description: "Naming conventions for No Magic Fridges: files, variables, methods, types, ModStrings keys, ids and tags, plus its nested patch class names, FridgeThermostat fields, test class and log prefix"
 applies_to:
   - "src/**"
 ---
+
 # Naming Conventions
 
 ## Files and Directories

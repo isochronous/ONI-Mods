@@ -1,6 +1,7 @@
 ---
-description: "TODO(owner): one line saying what natural-backwalls-everywhere is."
+description: "Overview of the Natural Backwalls Everywhere mod: what it does to worldgen, its Workshop version and supported content, and a map of its source, tests, preview tool, publish and context folders"
 ---
+
 # natural-backwalls-everywhere
 
 ## What this is

@@ -1,0 +1,15 @@
+{
+  "task": "OM-002",
+  "why": "a generated description for every document, saying what that document contains",
+  "node": "C:\\dev\\ONI-Mods\\mods",
+  "ops": [
+    {
+      "target": "overview.md",
+      "mode": "describe",
+      "description": "Overview of the mods/ folder of ONI-Mods: the shared per-mod folder layout (src, tests, publish, README, CHANGELOG) and a one-line list of what each of the 17 mods does"
+    }
+  ],
+  "base": {
+    "overview.md": "sha256:38f090d81db40123e7b10e91c97998a27c0e5f55ffe6ef549592b4765d4671e1"
+  }
+}

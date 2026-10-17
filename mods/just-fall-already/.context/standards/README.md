@@ -1,7 +1,8 @@
 ---
 doc_id: doc-9abc9f833d91
-description: "TODO(owner): the standards just-fall-already holds itself to."
+description: "Index of the three standards documents of Just Fall Already! (code style, error handling, naming conventions), each with a one-line summary of what it covers"
 ---
+
 # Standards
 
 ## Standards

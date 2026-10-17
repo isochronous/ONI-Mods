@@ -4,7 +4,7 @@ witness: loose
 applies_to:
   - "src/JustFallAlready/**"
 doc_id: doc-2b60540b470b
-description: "Entities, business rules and key code paths of just-fall-already: door-armed cells and immediate critter fall checks"
+description: "The `FallPoke` class, the `Door.SetWorldState` patch and the entry point of Just Fall Already!, with its members, the armed cell and poke rules, key code paths and the door tests in `Doors.cs`"
 ---
 
 # Just Fall Already domain

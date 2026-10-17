@@ -1,9 +1,10 @@
 ---
 doc_id: doc-fa8916defd23
-description: "How Motion Sensor Range guards its Harmony patches, reflection lookups and file reads, and what it logs when something is missing."
+description: "Error handling conventions for Motion Sensor Range: guarding patches, try/catch cases, logging levels and anti-patterns, plus its null checks in `ApplyRange`, one-time warning and `CopyRangeFrom` guards"
 applies_to:
   - "src/**"
 ---
+
 # Error Handling Conventions
 
 ## Principles

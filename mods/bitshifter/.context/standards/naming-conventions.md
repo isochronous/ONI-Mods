@@ -1,9 +1,10 @@
 ---
 doc_id: doc-8c98aaf846df
-description: "File, namespace, patch class, string key and id naming for Bitshifter (project Bitshifter)."
+description: "Naming conventions for the Bitshifter mod: files, namespaces, variables, methods, strings and ids, plus its <Type>_<Method>_Patch classes, the Bits constant, kanim names and log prefix"
 applies_to:
   - "src/**"
 ---
+
 # Naming Conventions
 
 ## Files and Directories

@@ -1,6 +1,7 @@
 ---
-description: "TODO(owner): one line saying what vent-freeze-fix is."
+description: "Overview of the Vent Freeze Fix mod: the save/load liquid vent bug it addresses, its two options for insulating vent storage and repairing tiles after a load, version, and a map of its source, tests and publish folders"
 ---
+
 # vent-freeze-fix
 
 ## What this is

@@ -4,7 +4,7 @@ witness: loose
 applies_to:
   - "src/MultichannelCritterSensor/**"
 doc_id: doc-cb45b2283a1a
-description: "ONI and mod-specific terms used by Multichannel Critter Sensor."
+description: "Glossary for Multichannel Critter Sensor: abbreviations, terms to avoid, and definitions of critter sensor, room and cavity, ribbon port, logic tick, Sim200ms, threshold, modes, tracked total and Multiplexing"
 ---
 
 # Multichannel Critter Sensor glossary

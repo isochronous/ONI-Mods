@@ -1,7 +1,8 @@
 ---
 doc_id: doc-8417724fdc1d
-description: "Investigation phase protocol for ONI-Mods tasks: entry and exit contracts and the research and plan unit spec templates."
+description: "The investigation phase of an ONI-Mods task plan: entry and exit steps, extra context files to read, and the research and plan unit spec templates"
 ---
+
 # Investigation Phase Templates
 
 > Loaded by the `task-plan-phase-investigation` skill when present.

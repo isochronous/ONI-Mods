@@ -1,9 +1,10 @@
 ---
 doc_id: doc-46f4375d60c5
-description: "C# formatting, imports, comments, Harmony patch and component conventions for No Magic Fridges (gives fridges a real thermal model), with this mod's own layout."
+description: "C# code style for No Magic Fridges: indentation, braces, imports, comments, control structures, Harmony patch and game component conventions, plus its nested Patches class, FridgeThermostat fields and reflection use"
 applies_to:
   - "src/**"
 ---
+
 # Code Style Guide
 
 ## Formatting

@@ -1,6 +1,7 @@
 ---
-description: "TODO(owner): one line saying what bitshifter is."
+description: What the Bitshifter mod does (31-bit selection on the Ribbon Reader and Writer, amber display, NOT gate), its version, and where its source, tests, art tool, README and publish folder sit
 ---
+
 # bitshifter
 
 ## What this is

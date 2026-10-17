@@ -1,9 +1,10 @@
 ---
 doc_id: doc-6d1db2ae5a52
-description: "File, namespace, patch class, string key and id naming for Motion Sensor Range (project MotionSensorRange)."
+description: "Naming conventions for Motion Sensor Range: files, namespaces, variables, methods, patch classes, `ModStrings` keys and ids, plus its side screen string branch, test classes, log prefix and `staticID`"
 applies_to:
   - "src/**"
 ---
+
 # Naming Conventions
 
 ## Files and Directories

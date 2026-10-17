@@ -1,7 +1,8 @@
 ---
 doc_id: doc-e199103eadac
-description: "Completion phase protocol for ONI-Mods tasks: entry and exit contracts, plan.md reconciliation, review, store update checklist, two-stage retrospective and completion summary."
+description: "The completion phase of an ONI-Mods task plan: entry and exit steps, plan.md reconciliation, the review unit spec, store update checklist, two-stage retrospective template and completion summary format"
 ---
+
 # Completion Phase Templates
 
 > Loaded by the `task-plan-phase-completion` skill when present.

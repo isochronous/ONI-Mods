@@ -4,7 +4,7 @@ witness: loose
 applies_to:
   - "src/DetectAnyElement/**"
 doc_id: doc-9501e487a27b
-description: "Glossary for detect-any-element: the Any choice, the sensors it patches and the asterisk art"
+description: "Glossary for the Detect Any Element mod: abbreviations such as kanim and .po, terms to avoid like Wildcard, and definitions of Any, element sensor, Filterable, Tag and FilterSideScreen"
 ---
 
 # Domain Glossary

@@ -1,9 +1,10 @@
 ---
 doc_id: doc-5d79dd719a71
-description: "C# formatting, imports, comments, Harmony patch and component conventions for Corner Build Anything (makes duplicants reach buildings from diagonal corners), with this mod's own layout."
+description: "C# code style for the Corner Build Anything mod: formatting, toolchain, imports, comments, Harmony conventions, plus its two nested transpilers over SwapTable in ReachTablePatches.cs"
 applies_to:
   - "src/**"
 ---
+
 # Code Style Guide
 
 ## Formatting

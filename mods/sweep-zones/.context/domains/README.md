@@ -1,7 +1,8 @@
 ---
 doc_id: doc-3aeb5f2729be
-description: "TODO(owner): the subject knowledge sweep-zones keeps here."
+description: Index of the domain documents for the Sweep Zones Redux mod, linking its entities file (zone store, paint tool, marking rules) and its glossary of terms
 ---
+
 # Domains
 
 ## Domains

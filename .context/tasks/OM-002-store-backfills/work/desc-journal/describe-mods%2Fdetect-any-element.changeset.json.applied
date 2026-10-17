@@ -1,0 +1,57 @@
+{
+  "task": "OM-002",
+  "why": "a generated description for every document, saying what that document contains",
+  "node": "C:\\dev\\ONI-Mods\\mods\\detect-any-element",
+  "ops": [
+    {
+      "target": "domains/README.md",
+      "mode": "describe",
+      "description": "Index of the domain documents in the Detect Any Element node: the entities and glossary files covering the Any choice for the five element sensors"
+    },
+    {
+      "target": "domains/entities.md",
+      "mode": "describe",
+      "description": "The tag, strings and Harmony patches of the Detect Any Element mod (src/DetectAnyElement): the Any tag, ModStrings, side screen row, pipe, rail and world sensor patches and the asterisk glyph, with locations"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "describe",
+      "description": "Glossary for the Detect Any Element mod: abbreviations such as kanim and .po, terms to avoid like Wildcard, and definitions of Any, element sensor, Filterable, Tag and FilterSideScreen"
+    },
+    {
+      "target": "overview.md",
+      "mode": "describe",
+      "description": "What the Detect Any Element mod does (an Any choice on five element sensors, drawn with an asterisk), its version and translations, and where its source, tests, art tool, README and publish folder sit"
+    },
+    {
+      "target": "standards/README.md",
+      "mode": "describe",
+      "description": "Index of the standards documents in the Detect Any Element node: code style, error handling and naming conventions"
+    },
+    {
+      "target": "standards/code-style.md",
+      "mode": "describe",
+      "description": "C# code style for the Detect Any Element mod: formatting, toolchain, imports, comments, Harmony conventions, plus its translations setup, AnyElement class and sensor patches in src/DetectAnyElement"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "describe",
+      "description": "Error handling conventions for the Detect Any Element mod: guarding patches, logging levels, plus its missing-glyph-symbol fallback, early returns in patches and the Any tag's saved Filterable field"
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "describe",
+      "description": "Naming conventions for the Detect Any Element mod: files, namespaces, variables, methods, strings and ids, plus its ModStrings branch, DetectAnyElement_Any tag name, glyph symbol constants and log prefix"
+    }
+  ],
+  "base": {
+    "domains/README.md": "sha256:2674f66739ac954a4feef1d3a060e930f3226ad0c0ec1d5acdc34acf3eac9e79",
+    "domains/entities.md": "sha256:b8c707bd31e5aaeb828a3a680b90028b0806ec98e1fa3e101588740f966f3c9d",
+    "domains/glossary.md": "sha256:63dbfa2247057aae2a4440d1ab93da8d1de56da14d1c31e835b41b877d279ad4",
+    "overview.md": "sha256:0cca6824fadd5e9ef741ad424b4637717886b5f3b7b9961a87883557f3f29ca7",
+    "standards/README.md": "sha256:a2903fcd14955c7efabc64ef6ab762c4d8da9592366e0480bb84ee9377cf48f9",
+    "standards/code-style.md": "sha256:7284308add19dff2cc3d1c4e44f52be1eea89091a9b7b1ffb01c83f136aecb54",
+    "standards/error-handling.md": "sha256:aa209b4aa391995d917a19155bf2dc36531193d5dde0025443b5a145b1d2455c",
+    "standards/naming-conventions.md": "sha256:2412ccb622e5baf87d6cc802caa4fc0489d82232db53d67e741875509aa1fc66"
+  }
+}

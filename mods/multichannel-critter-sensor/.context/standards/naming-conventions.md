@@ -1,9 +1,10 @@
 ---
 doc_id: doc-5ae0a923f609
-description: "File, namespace, patch class, string key and id naming for Multichannel Critter Sensor (project MultichannelCritterSensor)."
+description: "Naming conventions for Multichannel Critter Sensor: files, namespaces, variables, methods, patch classes, `ModStrings` keys and ids, plus its string branches, `ThresholdAdapter.NoUnits`, log prefix and `staticID`"
 applies_to:
   - "src/**"
 ---
+
 # Naming Conventions
 
 ## Files and Directories

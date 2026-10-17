@@ -1,7 +1,8 @@
 ---
 doc_id: doc-815a606305e5
-description: "TODO(owner): the standards bitshifter holds itself to."
+description: "Index of the standards documents in the Bitshifter node: code style, error handling and naming conventions"
 ---
+
 # Standards
 
 ## Standards

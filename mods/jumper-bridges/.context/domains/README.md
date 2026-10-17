@@ -1,7 +1,8 @@
 ---
 doc_id: doc-0dbbd6348d44
-description: "TODO(owner): the subject knowledge jumper-bridges keeps here."
+description: Index of the two domain documents of Jumper Bridges, the entities and the glossary, each with a one-line summary of the bridge end subject it covers
 ---
+
 # Domains
 
 ## Domains

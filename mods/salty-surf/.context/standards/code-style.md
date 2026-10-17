@@ -1,9 +1,10 @@
 ---
 doc_id: doc-208fd39f8eae
-description: "C# formatting, imports, comments, Harmony patch and component conventions for Salty Surf (lets the Mechanical Surfboard run on salt water), with this mod's own layout."
+description: "C# code style for Salty Surf: indentation, braces, imports, comments, control structures, Harmony patch and game component conventions, plus its patches living in Mod.cs, the shared SurfWater class and descriptor reflection"
 applies_to:
   - "src/**"
 ---
+
 # Code Style Guide
 
 ## Formatting

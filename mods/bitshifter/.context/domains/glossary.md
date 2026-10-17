@@ -4,7 +4,7 @@ witness: loose
 applies_to:
   - "src/Bitshifter/**"
 doc_id: doc-2605b1cfcd73
-description: "Glossary for bitshifter: what the Bitshifter mod patches, its rules and its terms"
+description: "Glossary for the Bitshifter mod: abbreviations such as BAO and ONICPU, terms to avoid like Bit 32 and Bit 0, and definitions of ribbon, Reader, Writer, bit depth and the bit selector side screen"
 ---
 
 # Domain Glossary

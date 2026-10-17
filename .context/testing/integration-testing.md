@@ -1,7 +1,8 @@
 ---
 doc_id: doc-b7d4de4db710
-description: "Integration-level testing in ONI-Mods: real tool input, generated worlds, saves, other authors' mods, and the launcher options that run them."
+description: "How ONI-Mods tests a mod inside the whole running game: the TestRunner launcher options, input-layer and tool tests, generated worlds, saves, other authors' mods, screenshots and machine requirements"
 ---
+
 # Integration Testing Conventions
 
 ## Scope

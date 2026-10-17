@@ -1,6 +1,7 @@
 ---
-description: "TODO(owner): one line saying what detect-any-element is."
+description: What the Detect Any Element mod does (an Any choice on five element sensors, drawn with an asterisk), its version and translations, and where its source, tests, art tool, README and publish folder sit
 ---
+
 # detect-any-element
 
 ## What this is

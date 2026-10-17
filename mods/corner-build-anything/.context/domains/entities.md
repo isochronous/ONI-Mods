@@ -4,7 +4,7 @@ witness: loose
 applies_to:
   - "src/CornerBuildAnything/**"
 doc_id: doc-5047cbea51fc
-description: "Entities, business rules and key code paths of corner-build-anything: reach-table swap for construction and deconstruction"
+description: "The game tables and Harmony transpilers of the Corner Build Anything mod (src/CornerBuildAnything): the two OffsetGroups reach tables, the Constructable and Deconstructable OnSpawn patches and SwapTable, with locations"
 ---
 
 # Corner Build Anything domain

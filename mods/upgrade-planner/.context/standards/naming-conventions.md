@@ -1,9 +1,10 @@
 ---
 doc_id: doc-5393f7a6ddfb
-description: "File, namespace, patch class, string key and id naming for Upgrade Planner (project UpgradePlanner)."
+description: "Naming rules for the Upgrade Planner mod: files, namespaces, patch classes, variables, ModStrings keys, ids and tests, plus its string branch, hotkey id, folder-per-layer names, interfaces, test classes and log prefix"
 applies_to:
   - "src/**"
 ---
+
 # Naming Conventions
 
 ## Files and Directories

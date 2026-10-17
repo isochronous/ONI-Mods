@@ -1,9 +1,10 @@
 ---
 doc_id: doc-af668e9256d1
-description: "C# formatting, imports, comments, Harmony patch and component conventions for Upgrade Planner (adds a tool to swap buildings for upgraded types and materials), with this mod's own layout."
+description: "C# code style for the Upgrade Planner mod: formatting, imports, comments, Harmony patch and game component conventions, plus a section on its vendored PLib build, subfolder layout, internals access and use of var"
 applies_to:
   - "src/**"
 ---
+
 # Code Style Guide
 
 ## Formatting

@@ -1,7 +1,8 @@
 ---
 doc_id: doc-2dcfc935aaf7
-description: "The required plan.md format for ONI-Mods tasks: sections, Phase State, Phase Handoff Log, and the repository's verification commands."
+description: "The plan.md template for ONI-Mods tasks: required sections, Phase State and Phase Handoff Log formats, guidance for each section and the repository's build and test verification commands"
 ---
+
 # Plan Document Format
 
 > The `task-plan` skill

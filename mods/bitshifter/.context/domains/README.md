@@ -1,7 +1,8 @@
 ---
 doc_id: doc-508116624070
-description: "TODO(owner): the subject knowledge bitshifter keeps here."
+description: "Index of the domain documents in the Bitshifter node: the entities and glossary files covering the Ribbon Reader and Writer bit selection, display and NOT gate patches"
 ---
+
 # Domains
 
 ## Domains

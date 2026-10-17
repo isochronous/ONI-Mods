@@ -4,7 +4,7 @@ witness: loose
 applies_to:
   - "src/SweepZones/**"
 doc_id: doc-1e206f66663b
-description: "Game and mod terms a newcomer needs for Sweep Zones, with abbreviations, terms to avoid and where each is used."
+description: "Glossary for Sweep Zones Redux: abbreviations (U59, PLib, DLC), terms to avoid such as overlay and erase, and definitions of sweep, mop, debris, priority and drag tool terms with where each is used"
 ---
 
 # Sweep Zones glossary

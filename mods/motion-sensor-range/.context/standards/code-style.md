@@ -1,9 +1,10 @@
 ---
 doc_id: doc-00fd213f60e3
-description: "C# formatting, imports, comments, Harmony patch and component conventions for Motion Sensor Range (adds a range slider to the Duplicant Motion Sensor), with this mod's own layout."
+description: "Code style guide for Motion Sensor Range: C# formatting, imports, comments, control structures, Harmony patch and game component conventions, plus its `RangeSlider` component, patch list and `assets-src` folder"
 applies_to:
   - "src/**"
 ---
+
 # Code Style Guide
 
 ## Formatting
