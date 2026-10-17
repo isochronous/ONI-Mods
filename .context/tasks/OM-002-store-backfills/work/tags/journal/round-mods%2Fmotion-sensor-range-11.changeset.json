@@ -1,0 +1,18 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/motion-sensor-range — round 11",
+  "node": "C:\\dev\\ONI-Mods\\mods\\motion-sensor-range",
+  "base": {
+    "standards/error-handling.md": "sha256:98cd49a18c7081a1f8d7dddc6b68202f887399a2352b4166db67452b87f89fe7"
+  },
+  "ops": [
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching"
+      ],
+      "section": "anti-patterns-to-avoid/throwing-from-a-patch"
+    }
+  ]
+}

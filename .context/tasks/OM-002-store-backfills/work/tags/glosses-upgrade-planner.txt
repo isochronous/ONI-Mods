@@ -1,0 +1,17 @@
+term                  count  gloss
+building-materials       38  A record earns this term when it is about which materials a building recipe accepts and how a building's material is chosen.
+building-replacement     38  A record earns this term when it is about building one building over another and the game's rules for which pairs are allowed.
+code-style                0  A record earns this term when it is about the house style in which a mod's C# source code is written.
+exception-handling       25  A record earns this term when it is about where a mod catches exceptions and what it does once it has caught one.
+harmony-patching         51  A record earns this term when it is about writing or applying the Harmony patches through which a mod changes game methods.
+hotkey                    4  A record earns this term when it is about the rebindable key a mod registers to open its tool.
+in-game-testing           6  A record earns this term when it is about testing a mod inside the running game with TestRunner and its [OniTest] coroutines.
+logging                  29  A record earns this term when it is about what a mod writes to the game log and at which level.
+mod-compatibility        34  A record earns this term when it is about a mod working correctly alongside other authors' mods installed in the same game.
+mod-entry-point          34  A record earns this term when it is about a mod's UserMod2 class and what it does when the game loads the mod.
+mod-strings              34  A record earns this term when it is about the player-visible text a mod defines in ModStrings and the translations of that text.
+performance               6  A record earns this term when it is about keeping a mod's per-tick or per-frame work cheap enough that it does not slow the game.
+plan-presets             24  A record earns this term when it is about named plans a player saves and loads back in any colony.
+reflection                7  A record earns this term when it is about reaching non-public members of the game or of another mod through reflection.
+toolbar-tool             24  A record earns this term when it is about a drag tool a mod adds to the toolbar and how the player uses it.
+vanilla-fallback         24  A record earns this term when it is about how a mod keeps the game's own behaviour when something it depends on is missing or has changed.

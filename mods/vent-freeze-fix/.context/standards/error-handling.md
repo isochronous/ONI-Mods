@@ -1,13 +1,15 @@
 ---
 doc_id: doc-e72f8f8b010b
-description: "How Vent Freeze Fix guards its Harmony patches, reflection lookups and file reads, and what it logs when something is missing."
+description: "Error handling and logging rules for the Vent Freeze Fix mod: guarding patches, try/catch use, yielding to other mods, log levels, anti-patterns, plus its verbose telemetry, null checks and dig retry handling"
 applies_to:
   - "src/**"
 ---
+
 # Error Handling Conventions
 
 ## Principles
-**Id:** blk-b6f16b6cf1a9
+**Id:** blk-b6f16b6cf1a9  
+**Tags:** logging
 
 1. **Never break the game for a mod's sake.** A patch that cannot do its job leaves the vanilla behaviour in place and says so in the log. It does not throw into the game's update loop.
 2. **Check what you patch.** Game updates rename fields and move code. Every reflection lookup, transpiler match and prefab or tech lookup is checked for a miss.
@@ -18,10 +20,11 @@ applies_to:
 There is no custom exception hierarchy. Mods are small patches over game code, so errors are handled where they occur.
 
 ## Guarding Patches
-**Id:** blk-dde97116a87f
+**Id:** blk-dde97116a87f  
+**Tags:** harmony-patching
 
 ### Missing member: warn, leave vanilla
-**Id:** blk-ca37f1585a91
+**Id:** blk-ca37f1585a91  
 
 A reflection lookup that returns null is checked before use. The patch then does nothing, or returns `true` from a prefix so the game's method runs.
 
@@ -32,7 +35,7 @@ if (ActiveField == null || StorageField == null)
 (`mods/no-magic-fridges/src/NoMagicFridges/Patches.cs`; the warning is logged once at load by `SimTransferMethod` in `FridgeThermostat.cs`.)
 
 ### Transpiler: count the match
-**Id:** blk-4a6995b5e81f
+**Id:** blk-4a6995b5e81f  
 
 A transpiler counts the instructions it replaced. Zero (or more than expected) logs a warning and returns the original code, so a game update disables the change instead of breaking the method.
 
@@ -43,7 +46,8 @@ if (swapped == 0)
 (`mods/corner-build-anything/src/CornerBuildAnything/ReachTablePatches.cs`; same pattern in `mods/bitshifter/src/Bitshifter/Patches.cs` and `mods/natural-backwalls-everywhere/src/NaturalBackwalls/SettleSimPatch.cs`.)
 
 ### Missing data: warn, continue
-**Id:** blk-3930951b591e
+**Id:** blk-3930951b591e  
+**Tags:** logging
 
 A build-menu, tech or asset lookup that finds nothing warns and keeps the mod working:
 
@@ -63,12 +67,14 @@ if (tech == null)
 Components and arguments that can be absent are tested before use: `if (stt == null || !Sim.IsValidHandle(stt.SimHandle)) return true;`, `if (sensor == null || GameScenePartitioner.Instance == null) return;` (`mods/motion-sensor-range/src/MotionSensorRange/RangeSlider.cs`).
 
 ### Warn once
-**Id:** blk-090fbb0d6c6e
+**Id:** blk-090fbb0d6c6e  
+**Tags:** logging
 
 Work that repeats every frame or tick warns once behind a flag (`warnedMissingInternals` in `RangeSlider.cs`).
 
 ## try/catch
-**Id:** blk-e2901713e50b
+**Id:** blk-e2901713e50b  
+**Tags:** logging
 
 `try`/`catch (Exception e)` is used in four situations and nowhere else:
 
@@ -80,19 +86,21 @@ Work that repeats every frame or tick warns once behind a flag (`warnedMissingIn
 The message form is `"[<Name>] <what was skipped>: " + e.Message`. Use `e.GetBaseException().Message` when the exception may be a reflection wrapper, and the full `e` when the stack trace is needed.
 
 ### Finalizer for a thread with no handler
-**Id:** blk-14b983761b6b
+**Id:** blk-14b983761b6b  
+**Tags:** harmony-patching
 
 `Cluster.BeginGeneration` is the worldgen thread body and has none; an exception ends the thread and the loading screen waits forever. A finalizer reports the failure through the game's own error path and logs the exception (`Cluster_BeginGeneration_Patch` in `mods/natural-backwalls-everywhere/src/NaturalBackwalls/WorldgenThreadPatch.cs`).
 
 ## Yielding to Other Mods
-**Id:** blk-38682c142e7f
+**Id:** blk-38682c142e7f  
 
 When another mod already does the job or shares an id, the mod steps aside and logs why:
 - Bitshifter disables itself when Digital CPU is enabled or the contested methods already have Harmony owners (`WhyYield` in `mods/bitshifter/src/Bitshifter/Mod.cs`).
 - Storage Pod Redux does not register its buildings while the original Storage Pod is enabled, and logs a warning telling the player to disable one (`mods/storage-pod-redux/src/StoragePodRedux/Mod.cs`).
 
 ## Logging
-**Id:** blk-87cdf2709c6b
+**Id:** blk-87cdf2709c6b  
+**Tags:** logging
 
 ### Log Levels
 **Id:** blk-fa10d7c1a375
@@ -104,7 +112,7 @@ When another mod already does the job or shares an id, the mod steps aside and l
 | `Debug.Log` | Load line, a one-line summary of what a pass changed | `Tagged N refined metal(s)` in `mods/refined-building` |
 
 ### What to Include
-**Id:** blk-e9a1da8dc9c7
+**Id:** blk-e9a1da8dc9c7  
 
 - The `[<ModName>] ` prefix on every line; `JumperBridgesMod.LogPrefix` holds it for that mod.
 - What was expected, what was found, and what the mod does instead.
@@ -117,27 +125,31 @@ PLib's `PUtil.Log*` helpers are not used; all mods log through `Debug`.
 **Id:** blk-122be6bcc958
 
 ### Swallowing exceptions
-**Id:** blk-2b62de665b7e
+**Id:** blk-2b62de665b7e  
 
 An empty `catch` hides a broken patch. The one `catch` that returns a fallback without a log is `GuessLanguageCode` in `common/src/Translations.cs`, because a missing language preference is the normal case before the game has started.
 
 ### Throwing from a patch
-**Id:** blk-c9f319ee94b9
+**Id:** blk-c9f319ee94b9  
+**Tags:** harmony-patching
 
 An exception in a prefix or postfix on a per-frame or sim method repeats every frame. Guard, log once, return.
 
 ### Assuming the game's internals
-**Id:** blk-3ef00b2ee908
+**Id:** blk-3ef00b2ee908  
+**Tags:** harmony-patching
 
 Reading a private field by name without a null check on the `FieldInfo`, or replacing an instruction without confirming it was found, breaks on the next game update.
 
 ### Silent degradation
-**Id:** blk-957e09103eb1
+**Id:** blk-957e09103eb1  
+**Tags:** logging
 
 Doing nothing without a log line leaves a player and the author guessing. Every skipped path logs.
 
 ### Spamming the log
-**Id:** blk-5e3c85d3ff49
+**Id:** blk-5e3c85d3ff49  
+**Tags:** logging
 
 A warning inside an update method fires thousands of times. Use a once-flag.
 
@@ -145,7 +157,8 @@ A warning inside an update method fires thousands of times. Use a once-flag.
 **Id:** blk-3fb02498735f
 
 ### Vent Freeze Fix specifics
-**Id:** blk-2b5c26188f86
+**Id:** blk-2b5c26188f86  
+**Tags:** logging, developer-tooling, tile-repair
 
 - Per-tick telemetry in `VentFreezeWatcher` is behind `Verbose` (`DebugSave.Enabled`, from the Debug mode option). The lines that report a repair (`asked the sim to dig it`, `turned back into debris`) always log.
 - Component lookups are null-checked (`storage != null && Options.Load().InsulateVents`).

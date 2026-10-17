@@ -1,0 +1,58 @@
+{
+ "task": "OM-002",
+ "why": "unit 12 review fixes: one tag set per shared standards section across the mods, no subject tags on folder maps and index sections, misplaced terms removed, mod_info.yaml named in the overviews, the developer-tooling gloss without its boundary clause",
+ "node": ".",
+ "ops": [
+  {
+   "mode": "tag",
+   "target": "overview.md",
+   "section": "what-this-is",
+   "remove": [
+    "github-issues"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "overview.md",
+   "section": "where-things-are",
+   "remove": [
+    "github-issues",
+    "knowledge-store",
+    "translations"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "workflows/task-plan/phase-architecture.md",
+   "section": "phase-exit-handoff-run-last-at-the-phase-boundary",
+   "remove": [
+    "commit-messages"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "domains/tooling-friction.md",
+   "section": "2026-10-17-icon-init-exclude-does-not-drop-a-top-level-folder-from-the-node-set",
+   "remove": [
+    "common-submodule"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "testing/unit-testing.md",
+   "section": "framework-and-tools",
+   "remove": [
+    "mod-build",
+    "translations"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "testing/unit-testing.md",
+   "section": "test-structure/file-organization",
+   "remove": [
+    "test-assertions"
+   ]
+  }
+ ]
+}

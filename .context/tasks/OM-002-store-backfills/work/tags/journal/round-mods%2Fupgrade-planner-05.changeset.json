@@ -1,0 +1,18 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r2 for node mods/upgrade-planner — round 5",
+  "node": "C:\\dev\\ONI-Mods\\mods\\upgrade-planner",
+  "base": {
+    "standards/code-style.md": "sha256:44c6ab60ba3e42d747104c6dd8987434cd5876ebf1d450bd0ea8746df41964af"
+  },
+  "ops": [
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "code-style"
+      ],
+      "section": "imports-includes/example"
+    }
+  ]
+}

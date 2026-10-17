@@ -1,0 +1,65 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/just-fall-already — round 1",
+  "node": "C:\\dev\\ONI-Mods\\mods\\just-fall-already",
+  "base": {
+    "domains/entities.md": "sha256:6663ef8bf82e2580fb95c7bac1431014dd2610c8c3d61f0610a00e83b68dad30",
+    "domains/glossary.md": "sha256:1d64f7454041ada230e9ae80bbfe690f589d083d2697f7e264f5d9a43d6903c1",
+    "overview.md": "sha256:5a93de03892852a0d8e1da983f1d33d03f68b43324cef88d5349aad414551383",
+    "standards/error-handling.md": "sha256:204f0b1bc8a35d8ec380eca2847550a474e910fc86c73fabc673d794c287a4d5",
+    "standards/code-style.md": "sha256:cf66705badcc41c3fe5a49d3b99fc4a2f490dd48fa2926a85cbc8d1d78ca96f6",
+    "standards/naming-conventions.md": "sha256:c6c1d161f7d82341f9efc9488784f693af1fba8c3857e5375316bc0ffc63b095"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching",
+        "navigation-grid"
+      ],
+      "section": "key-entities/fallpoke"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "navigation-grid"
+      ],
+      "section": "cross-domain-terms/poke"
+    },
+    {
+      "target": "overview.md",
+      "mode": "tag",
+      "add": [
+        "mod-compatibility"
+      ],
+      "section": "what-this-is"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "logging"
+      ],
+      "section": "principles"
+    },
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching",
+        "mod-compatibility"
+      ],
+      "section": "comments/when-to-comment"
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching"
+      ],
+      "section": "code-naming/functions-methods"
+    }
+  ]
+}

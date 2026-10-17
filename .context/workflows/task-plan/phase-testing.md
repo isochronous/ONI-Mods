@@ -1,13 +1,16 @@
 ---
+tags: task-plan
 doc_id: doc-e6b3d80d1534
-description: "Testing phase protocol for ONI-Mods tasks: entry and exit contracts, the test unit spec and a status tracker keyed to the in-game test harness."
+description: "The testing phase of an ONI-Mods task plan: entry and exit steps, the test unit spec template and a status tracker for in-game harness tests"
 ---
+
 # Testing Phase Templates
 
 > Loaded by the `task-plan-phase-testing` skill when present.
 
 ## Phase Entry (run FIRST, before any phase work)
-**Id:** blk-3d08e1c16b72
+**Id:** blk-3d08e1c16b72  
+**Tags:** phase-handoff
 
 > Reconstruct-first: resume from the committed `plan.md`, not session memory.
 > **Fail closed** — never silently re-derive a missing input. Section names
@@ -23,7 +26,8 @@ description: "Testing phase protocol for ONI-Mods tasks: entry and exit contract
 **Entry contract — testing requires:** the changed-file set from implementation, the implementation outcomes and deviations to validate, and the `## Review Checkpoint` status (present or explicitly noted absent).
 
 ## Phase Exit / Handoff (run LAST, at the phase boundary)
-**Id:** blk-8ebc75b54542
+**Id:** blk-8ebc75b54542  
+**Tags:** phase-handoff
 
 > Every boundary ends with a commit. Uncommitted work at a boundary is an
 > incomplete handoff and the next phase fails closed.
@@ -34,7 +38,8 @@ description: "Testing phase protocol for ONI-Mods tasks: entry and exit contract
 4. Commit `plan.md` + artifact deltas with the trailer `Phase-Handoff: testing`.
 
 ## `test` Unit Spec Template
-**Id:** blk-5b12ccb6d86e
+**Id:** blk-5b12ccb6d86e  
+**Tags:** unit-spec, in-game-testing
 
 > The body of `tasks/<id>/units/NN-test.md`. Compose the packet with
 > `icon-handoff` (`--scope` the files under test and the test files; the brief
@@ -63,7 +68,8 @@ Model tier: basic | default | complex
 ```
 
 ## Test Status Tracker
-**Id:** blk-0116cda50375
+**Id:** blk-0116cda50375  
+**Tags:** in-game-testing, generated-worlds
 
 > Paste this table into plan.md when dispatching a `test` unit.
 

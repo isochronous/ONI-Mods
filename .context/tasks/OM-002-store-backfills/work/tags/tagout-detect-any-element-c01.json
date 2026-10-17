@@ -1,0 +1,230 @@
+{
+ "documents": [
+  {
+   "id": "standards/error-handling.md",
+   "tags": [
+    "vanilla-fallback"
+   ]
+  },
+  {
+   "id": "standards/naming-conventions.md",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "naming conventions for files and code"
+  }
+ ],
+ "sections": [
+  {
+   "id": "standards/error-handling.md#principles",
+   "tags": [
+    "logging",
+    "harmony-patching"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#guarding-patches",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#guarding-patches/missing-member-warn-leave-vanilla",
+   "tags": [
+    "harmony-patching"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#guarding-patches/transpiler-count-the-match",
+   "tags": [
+    "harmony-patching",
+    "logging"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#guarding-patches/missing-data-warn-continue",
+   "tags": [
+    "logging"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#guarding-patches/null-checks-on-game-objects",
+   "tags": [
+    "harmony-patching"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#guarding-patches/warn-once",
+   "tags": [
+    "logging"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#try-catch",
+   "tags": [
+    "logging"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#try-catch/finalizer-for-a-thread-with-no-handler",
+   "tags": [
+    "harmony-patching",
+    "logging"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#yielding-to-other-mods",
+   "tags": [
+    "logging"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#logging",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#logging/log-levels",
+   "tags": [
+    "logging"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#logging/what-to-include",
+   "tags": [
+    "logging"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#anti-patterns-to-avoid",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#anti-patterns-to-avoid/swallowing-exceptions",
+   "tags": [
+    "logging"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#anti-patterns-to-avoid/throwing-from-a-patch",
+   "tags": [
+    "harmony-patching"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#anti-patterns-to-avoid/assuming-the-game-s-internals",
+   "tags": [
+    "harmony-patching"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#anti-patterns-to-avoid/silent-degradation",
+   "tags": [
+    "logging"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#anti-patterns-to-avoid/spamming-the-log",
+   "tags": [
+    "logging"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#project-specific-patterns",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#project-specific-patterns/detect-any-element-specifics",
+   "tags": [
+    "kanim-art",
+    "side-screen",
+    "saved-state",
+    "logging"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#related",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/naming-conventions.md#files-and-directories",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/naming-conventions.md#files-and-directories/general-rules",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "file and project naming"
+  },
+  {
+   "id": "standards/naming-conventions.md#files-and-directories/examples-by-type",
+   "tags": [
+    "mod-entry-point",
+    "side-screen",
+    "game-component"
+   ]
+  },
+  {
+   "id": "standards/naming-conventions.md#code-naming",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/naming-conventions.md#code-naming/variables",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "identifier naming"
+  },
+  {
+   "id": "standards/naming-conventions.md#code-naming/functions-methods",
+   "tags": [
+    "harmony-patching"
+   ]
+  },
+  {
+   "id": "standards/naming-conventions.md#code-naming/classes-types-interfaces",
+   "tags": [
+    "harmony-patching"
+   ]
+  },
+  {
+   "id": "standards/naming-conventions.md#code-naming/booleans",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "identifier naming"
+  },
+  {
+   "id": "standards/naming-conventions.md#code-naming/strings-modstrings",
+   "tags": [
+    "mod-strings"
+   ]
+  },
+  {
+   "id": "standards/naming-conventions.md#code-naming/ids-and-tags",
+   "tags": [
+    "game-tag",
+    "in-game-testing"
+   ]
+  },
+  {
+   "id": "standards/naming-conventions.md#project-specific-conventions",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/naming-conventions.md#project-specific-conventions/detect-any-element-specifics",
+   "tags": [
+    "mod-strings",
+    "game-tag",
+    "logging"
+   ]
+  },
+  {
+   "id": "standards/naming-conventions.md#related",
+   "tags": [],
+   "reason": "inherits"
+  }
+ ]
+}

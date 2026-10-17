@@ -1,0 +1,48 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/bitshifter — round 4",
+  "node": "C:\\dev\\ONI-Mods\\mods\\bitshifter",
+  "base": {
+    "domains/entities.md": "sha256:6f65811a007e48bd6fc1362cd4a6df37dfdcc72df5841687245e99056dd0c1b9",
+    "domains/glossary.md": "sha256:68505d7a75bd22a477e4e6069aed7375dc659e1b7d10e20280449f0b9a61cd8c",
+    "standards/error-handling.md": "sha256:981266c4c3f8b37a035519a11c660d94ed3d80d62d46845fddff19db376ea518",
+    "standards/naming-conventions.md": "sha256:d4a6c9cab9365adce0da1994f6afe039513c16fba83cf8a70deea65e3c49abf6"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "side-screen"
+      ],
+      "section": "key-entities/logicbitselectorsidescreen-scroll-view"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "bit-depth"
+      ],
+      "section": "cross-domain-terms/automation-ribbon-reader"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "mod-compatibility"
+      ],
+      "section": "try-catch"
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching",
+        "bit-depth",
+        "kanim-art",
+        "logging"
+      ],
+      "section": "project-specific-conventions/bitshifter-specifics"
+    }
+  ]
+}

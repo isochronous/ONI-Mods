@@ -1,13 +1,16 @@
 ---
+tags: critter-sensor, automation-ribbon
 doc_id: doc-73dc9bf76df3
-description: "The things Multichannel Critter Sensor adds or patches, with file locations, gameplay rules and key code paths."
+description: "The building config, counting component, side screen, `ThresholdAdapter` and patches of Multichannel Critter Sensor, with its saved fields, output bits, counting and pulse rules, key code paths and tests"
 applies_to:
   - "src/MultichannelCritterSensor/**"
 ---
+
 # Multichannel Critter Sensor domain
 
 ## Overview
-**Id:** blk-66bf60e22675
+**Id:** blk-66bf60e22675  
+**Tags:** building-unlock, kanim-art, signal-threshold
 
 Multichannel Critter Sensor adds one building, the Multichannel Critter Sensor: a 1x1 room-based counter of critters and eggs that writes a 4-bit value to an Automation Ribbon output. Unlike the vanilla Critter Sensor it filters by species and egg type, can keep separate thresholds for critters and eggs, and pulses on every rise or fall of the count. It is unlocked by the Multiplexing tech and sits in Automation > Sensors. The art is a custom kanim by 3GuB under `src/MultichannelCritterSensor/anim/assets/critter_sensor_advanced/`.
 
@@ -16,6 +19,7 @@ Multichannel Critter Sensor adds one building, the Multichannel Critter Sensor: 
 
 ### MultichannelCritterSensorConfig
 **Id:** blk-47e6134bd352  
+**Tags:** building-config  
 **Description**: The building definition (`IBuildingConfig`): ID `MultichannelCritterSensor`, 1x1, 50 kg Refined Metal and 50 kg Plastic, one ribbon output port at offset (0,0), logic overlay view, always operational, not overheatable, floodable or entombable.  
 **Location**: `src/MultichannelCritterSensor/MultichannelCritterSensorConfig.cs`
 
@@ -23,6 +27,7 @@ Multichannel Critter Sensor adds one building, the Multichannel Critter Sensor: 
 
 ### MultichannelCritterSensor (component)
 **Id:** blk-862f2299e270  
+**Tags:** game-component, saved-state, signal-threshold  
 **Description**: The building's behaviour. Every 200 ms (`ISim200ms`) it finds the room the building is in, counts creatures and eggs in the room cavity that pass the species filters, compares the totals against the thresholds, and sends the packed value through the ribbon port.  
 **Location**: `src/MultichannelCritterSensor/MultichannelCritterSensor.cs`
 
@@ -49,6 +54,7 @@ Output bits (`PrimaryBit`, `EggBit`, `RisingBit`, `FallingBit`):
 
 ### ThresholdAdapter
 **Id:** blk-eeb8babf110d  
+**Tags:** signal-threshold, side-screen  
 **Description**: A small `MonoBehaviour` implementing the game's `IThresholdSwitch`, one per threshold (`Kind.Combined`, `Kind.Critters`, `Kind.Eggs`). It lets a cloned vanilla `ThresholdSwitchSideScreen` read and write one of the sensor's three thresholds. Setting a value clamps it to 0..64 and calls `NotifyConfigChanged`.  
 **Location**: `src/MultichannelCritterSensor/ThresholdAdapter.cs`
 
@@ -56,6 +62,7 @@ Output bits (`PrimaryBit`, `EggBit`, `RisingBit`, `FallingBit`):
 
 ### MultichannelCritterSensorSideScreen
 **Id:** blk-e0e419cc8a18  
+**Tags:** side-screen  
 **Description**: The side screen (`SideScreenContent`, `IRender200ms`). The frame is PLib UI; the three threshold editors are runtime clones of the vanilla `ThresholdSwitchSideScreen` prefab; the species and egg lists are clones of the storage-filter row and element prefabs (`TreeFilterableSideScreen`) driven directly. Layout: count line, mode buttons (Combined / Separate), combined editor, then a Critters section and an Eggs section, each with a count checkbox, an "All" row, a species list and (in separate mode) its own threshold editor.  
 **Location**: `src/MultichannelCritterSensor/MultichannelCritterSensorSideScreen.cs`
 
@@ -63,6 +70,7 @@ Output bits (`PrimaryBit`, `EggBit`, `RisingBit`, `FallingBit`):
 
 ### Harmony patches
 **Id:** blk-135266b0a795  
+**Tags:** harmony-patching, building-unlock, side-screen  
 **Location**: `src/MultichannelCritterSensor/Patches.cs`
 
 | Patch target | Kind | Purpose |
@@ -73,11 +81,13 @@ Output bits (`PrimaryBit`, `EggBit`, `RisingBit`, `FallingBit`):
 
 ### Mod entry and strings
 **Id:** blk-7d0135468c05  
+**Tags:** mod-entry-point, mod-strings  
 **Location**: `src/MultichannelCritterSensor/Mod.cs`, `ModStrings.cs`, `translations/`
 `MultichannelCritterSensorMod` initialises PLib (`PUtil.InitLibrary`), registers `ModStrings` through `Isochronous.Translations`, and calls `ThresholdAdapter.RegisterNoUnits()`. Chinese, Korean and Russian come from `translations/<locale>.po`. Mod id `Isochronous.MultichannelCritterSensor` (`mod.yaml`). All settings are saved with the building; the mod has no options screen.
 
 ## Business Rules
-**Id:** blk-9aeb31887cd9
+**Id:** blk-9aeb31887cd9  
+**Tags:** signal-threshold, copy-settings
 
 - Counting happens only inside a room. A sensor outside any room reads 0, shows the vanilla "Not in any room" status item, and resets its previous total.
 - Critters and eggs are counted from the room cavity lists and filtered by `KPrefabID.PrefabTag`. With "All" on, every entry counts and newly discovered species are included.
@@ -91,7 +101,8 @@ Output bits (`PrimaryBit`, `EggBit`, `RisingBit`, `FallingBit`):
 - Visuals: the body plays `on` once when the sensor starts seeing a tracked critter or egg and `off` when it sees none. Each meter plays `_off`, or a looping `_on` (with an `_on_pre` flicker when it turns on after spawn); the critter meter follows bit 1, the egg meter follows bit 2 in separate mode and bit 1 in combined mode.
 
 ## Key Code Paths
-**Id:** blk-e47995daa09e
+**Id:** blk-e47995daa09e  
+**Tags:** game-component, side-screen, in-game-testing
 
 - **Scan and output**: `Sim200ms` calls `Evaluate`, which counts, sets pulse flags, builds the value, and calls `SetOutput` and `UpdateVisualState` — see `src/MultichannelCritterSensor/MultichannelCritterSensor.cs`
 - **Pulse clearing**: `OnLogicTick`, hooked to `logicCircuitManager.onLogicTick` in `OnSpawn` and unhooked in `OnCleanUp` — see `src/MultichannelCritterSensor/MultichannelCritterSensor.cs`

@@ -1,0 +1,57 @@
+{
+ "task": "OM-002",
+ "why": "round two tagged parent headings with terms their child sections already declare; the narrower answer keeps them on the children",
+ "node": "mods/smart-weight-plate",
+ "ops": [
+  {
+   "mode": "tag",
+   "target": "domains/entities.md",
+   "section": "key-entities",
+   "remove": [
+    "building-config",
+    "game-component",
+    "side-screen"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/error-handling.md",
+   "section": "guarding-patches",
+   "remove": [
+    "harmony-patching"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/error-handling.md",
+   "section": "logging",
+   "remove": [
+    "logging"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/error-handling.md",
+   "section": "anti-patterns-to-avoid",
+   "remove": [
+    "logging"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/error-handling.md",
+   "section": "project-specific-patterns",
+   "remove": [
+    "mod-compatibility"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/naming-conventions.md",
+   "section": "project-specific-conventions",
+   "remove": [
+    "mod-strings"
+   ]
+  }
+ ]
+}

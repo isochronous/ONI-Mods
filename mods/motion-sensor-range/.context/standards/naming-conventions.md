@@ -1,9 +1,11 @@
 ---
+tags: code-style
 doc_id: doc-6d1db2ae5a52
-description: "File, namespace, patch class, string key and id naming for Motion Sensor Range (project MotionSensorRange)."
+description: "Naming conventions for Motion Sensor Range: files, namespaces, variables, methods, patch classes, `ModStrings` keys and ids, plus its side screen string branch, test classes, log prefix and `staticID`"
 applies_to:
   - "src/**"
 ---
+
 # Naming Conventions
 
 ## Files and Directories
@@ -18,7 +20,7 @@ applies_to:
 - Release tags are `<mod-folder>-v<version>` (repository README).
 
 ### Examples by Type
-**Id:** blk-01b48de8fa57
+**Id:** blk-01b48de8fa57  
 
 | Type | Convention | Example |
 |------|------------|---------|
@@ -53,14 +55,16 @@ private static readonly Dictionary<int, float> armed = new Dictionary<int, float
 (`mods/just-fall-already/src/JustFallAlready/FallPoke.cs`)
 
 ### Functions/Methods
-**Id:** blk-74fdfbb5fd77
+**Id:** blk-74fdfbb5fd77  
+**Tags:** harmony-patching
 
 - PascalCase, starting with a verb: `Apply`, `Decide`, `SwapTable`, `CopyRangeFrom`, `ApplyRange`.
 - Game callbacks keep the game's names (`OnSpawn`, `OnPrefabInit`, `OnCleanUp`, `Sim1000ms`).
 - Harmony methods are named for their kind: `Prefix`, `Postfix`, `Transpiler`, `Finalizer`, plus `Prepare`, `TargetMethod`, `TargetMethods`.
 
 ### Classes/Types/Interfaces
-**Id:** blk-8e2d093bd3cc
+**Id:** blk-8e2d093bd3cc  
+**Tags:** harmony-patching
 
 - PascalCase nouns. Interfaces take an `I` prefix (`IPlanTab` and `ITabView` in `mods/upgrade-planner`, and the game's own).
 - Harmony patch classes: `<PatchedType>_<PatchedMethod>_Patch` (`LogicRibbonReader_GetBitDepth_Patch`, `Db_Initialize_Patch`, `GeneratedBuildings_LoadGeneratedBuildings_Patch`). A patch for a type with one concern may use `<Type>_Patch` (`LiquidVentConfig_Patch`). Patches nested in a holder class may drop the suffix (`Constructable_OnSpawn` in `ReachTablePatches`).
@@ -73,7 +77,8 @@ private static readonly Dictionary<int, float> armed = new Dictionary<int, float
 - Prefix with `Is`, `Has`, `Can`, `Should` or name the state: `IsEnabled`, `OriginalActive`, `isSpawned`, `warnedMissingInternals`.
 
 ### Strings (`ModStrings`)
-**Id:** blk-081c15a29a2f
+**Id:** blk-081c15a29a2f  
+**Tags:** mod-strings
 
 - `ModStrings` mirrors the game's `STRINGS` tree: nested static classes and `LocString` fields in UPPER_SNAKE_CASE. `ModStrings.BUILDINGS.PREFABS.<BUILDINGID>.NAME` is registered as `STRINGS.BUILDINGS.PREFABS.<BUILDINGID>.NAME`, the key the game looks a building name up by (`mods/smart-weight-plate/src/SmartWeightPlate/ModStrings.cs`).
 - Mod-private text goes under a branch named for the mod in capitals (`ModStrings.SALTYSURF.ELEMENT_LIST`, `ModStrings.JUMPERBRIDGES.OPTIONS`).
@@ -81,7 +86,7 @@ private static readonly Dictionary<int, float> armed = new Dictionary<int, float
 - Long branches are shortened with an alias at the top of the file (`using OPTIONS = NaturalBackwalls.ModStrings.NATURALBACKWALLS.OPTIONS;`).
 
 ### Ids and Tags
-**Id:** blk-e8a34f4dbe20
+**Id:** blk-e8a34f4dbe20  
 
 - Building ids are PascalCase and match the config class (`SmartWeightPlate`); a mod that replaces another mod's buildings reuses that mod's ids (`StoragePodConfig`, `CoolPodConfig` in `mods/storage-pod-redux`).
 - Tags and PAction ids carry a mod prefix: `DetectAnyElement_Any`, `Isochronous.SweepZones.Tool`.
@@ -92,7 +97,8 @@ private static readonly Dictionary<int, float> armed = new Dictionary<int, float
 **Id:** blk-73a9561bde05
 
 ### Motion Sensor Range specifics
-**Id:** blk-76023d37cf80
+**Id:** blk-76023d37cf80  
+**Tags:** side-screen, mod-strings, in-game-testing, logging
 
 - `ModStrings.UI.UISIDESCREENS.MOTION_SENSOR_RANGE_SIDE_SCREEN` holds the side-screen text.
 - Test classes: `Range`, `Detection`, `Persistence` in `src/MotionSensorRange.Tests`.

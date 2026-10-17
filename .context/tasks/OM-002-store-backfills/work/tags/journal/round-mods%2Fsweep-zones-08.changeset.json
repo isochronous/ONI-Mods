@@ -1,0 +1,19 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/sweep-zones — round 8",
+  "node": "C:\\dev\\ONI-Mods\\mods\\sweep-zones",
+  "base": {
+    "standards/error-handling.md": "sha256:d487449289a7b0409d12aa118d24d4205baca6e380adf651e1fa1d104a637290"
+  },
+  "ops": [
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "reflection",
+        "toolbar-tool"
+      ],
+      "section": "project-specific-patterns/sweep-zones-redux-specifics"
+    }
+  ]
+}

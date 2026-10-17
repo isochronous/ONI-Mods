@@ -1,0 +1,69 @@
+{
+ "task": "OM-002",
+ "node": "mods/smart-weight-plate",
+ "ops": [
+  {
+   "mode": "tag",
+   "target": "standards/code-style.md",
+   "remove": [
+    "harmony-patching"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/code-style.md",
+   "section": "harmony-patches",
+   "add": [
+    "harmony-patching"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/error-handling.md",
+   "remove": [
+    "vanilla-fallback"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/error-handling.md",
+   "section": "principles",
+   "add": [
+    "vanilla-fallback"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/error-handling.md",
+   "section": "guarding-patches/missing-member-warn-leave-vanilla",
+   "add": [
+    "vanilla-fallback"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/error-handling.md",
+   "section": "guarding-patches/transpiler-count-the-match",
+   "add": [
+    "vanilla-fallback"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/error-handling.md",
+   "section": "guarding-patches/missing-data-warn-continue",
+   "add": [
+    "vanilla-fallback"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/error-handling.md",
+   "section": "guarding-patches/null-checks-on-game-objects",
+   "add": [
+    "vanilla-fallback"
+   ]
+  }
+ ],
+ "why": "one document tag set per shared standards document in every mod, with each shared section re-derived against it"
+}

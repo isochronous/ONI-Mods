@@ -1,9 +1,11 @@
 ---
+tags: code-style
 doc_id: doc-00fd213f60e3
-description: "C# formatting, imports, comments, Harmony patch and component conventions for Motion Sensor Range (adds a range slider to the Duplicant Motion Sensor), with this mod's own layout."
+description: "Code style guide for Motion Sensor Range: C# formatting, imports, comments, control structures, Harmony patch and game component conventions, plus its `RangeSlider` component, patch list and `assets-src` folder"
 applies_to:
   - "src/**"
 ---
+
 # Code Style Guide
 
 ## Formatting
@@ -81,7 +83,7 @@ using UnityEngine;
 **Id:** blk-ee0c232b2f60
 
 ### When to Comment
-**Id:** blk-40ac288e819d
+**Id:** blk-40ac288e819d  
 
 - On every non-trivial class, an XML `<summary>` that says what the game does and what the patch changes, so a reader can check the patch against the game code. The long summary on `OvercrowdingMonitor_UpdateRegion_Patch` in `mods/dont-count-eggs-on-rails/src/DontCountEggsOnRails/Mod.cs` is the model.
 - Where a game quirk forces an odd line: `// The game's .NET Framework has no AddOrUpdate on this table.`
@@ -131,13 +133,15 @@ if (idx == ushort.MaxValue || idx >= elements.Count)
 - Local types are written out (`Tech tech = ...`). `var` appears mainly in `mods/upgrade-planner`, `mods/natural-backwalls-everywhere` and the test projects; follow the surrounding file.
 
 ### Strings
-**Id:** blk-3bed2e8b7fac
+**Id:** blk-3bed2e8b7fac  
+**Tags:** mod-strings
 
 - Log and UI text is built with `+` concatenation, or `string.Format` on a `LocString`. String interpolation is not used in mod code.
 - Player-visible text is a `LocString` field in `ModStrings`, never a literal at the call site (see [naming conventions](naming-conventions.md)).
 
 ## Harmony Patches
-**Id:** blk-183bc6e8000f
+**Id:** blk-183bc6e8000f  
+**Tags:** harmony-patching
 
 - A patch is a static class with `[HarmonyPatch(typeof(Type), nameof(Type.Method))]`, or `[HarmonyPatch(typeof(Type), "PrivateMethod")]` for a non-public method, and methods named `Prefix`, `Postfix`, `Transpiler` or `Finalizer` (`mods/bitshifter/src/Bitshifter/Patches.cs`).
 - Game state arrives through Harmony parameters: `__instance`, `__result`, `___field`. Fields read repeatedly use `AccessTools.FieldRefAccess` kept in a `static readonly` field (`mods/detect-any-element/src/DetectAnyElement/Patches.cs`).
@@ -147,21 +151,24 @@ if (idx == ushort.MaxValue || idx >= elements.Count)
 - Transpilers search for the instruction they change and report when it is not found; see [error handling](error-handling.md).
 
 ## Game Components
-**Id:** blk-9213f30d4abe
+**Id:** blk-9213f30d4abe  
+**Tags:** game-component, saved-state
 
 - A component extends `KMonoBehaviour`, overrides `OnPrefabInit`, `OnSpawn` and `OnCleanUp` and calls `base` from each. Sibling components come in through `[MyCmpGet]` or `[MyCmpReq]` (`mods/no-magic-fridges/src/NoMagicFridges/FridgeThermostat.cs`).
 - Saved state uses `[Serialize]` fields with `[SerializationConfig(MemberSerialization.OptIn)]` on the class (`mods/sweep-zones/src/SweepZones/ZoneStore.cs`).
 - Components are added to prefabs from a `DoPostConfigureComplete` postfix with `go.AddOrGet<T>()`.
 
 ## Project-Specific Rules
-**Id:** blk-f4dd752ab3b9
+**Id:** blk-f4dd752ab3b9  
+**Tags:** logging, in-game-testing
 
 - Mod options are a PLib `POptions` class marked `[JsonObject(MemberSerialization.OptIn)]` and `[ConfigFile(SharedConfigLocation: true)]`, read through a static `Load()` (`mods/vent-freeze-fix/src/VentFreezeFix/Options.cs`) or through `SingletonOptions<Options>` (`mods/storage-pod-redux`). Option titles are string-table keys, so the translation follows the language.
 - Every mod logs one line at load: `[<Name>] Loaded version <assembly version>`.
 - Tests live in a separate `<Name>.Tests` project and are written as `[OniTest]` coroutines against the real game.
 
 ### Motion Sensor Range specifics
-**Id:** blk-2a165385de59
+**Id:** blk-2a165385de59  
+**Tags:** game-component, side-screen, copy-settings, harmony-patching
 
 - `UseTranslations` only; no PLib. `Mod.cs` has no `using UnityEngine`, so `Debug` is the game's global class.
 - `RangeSlider` is the component and the `IIntSliderControl` for the side screen; `range` is `[Serialize]` so it saves with the building. `CopyRangeFrom` serves the copy-settings tool and construction completion (`src/MotionSensorRange/RangeSlider.cs`).

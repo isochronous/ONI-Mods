@@ -1,0 +1,122 @@
+[
+ {
+  "id": "standards/README.md",
+  "reason": "no-good-match",
+  "suggestion": "coding standards for a mod",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md",
+  "reason": "no-good-match",
+  "suggestion": "C# code style conventions",
+  "kept": []
+ },
+ {
+  "id": "standards/naming-conventions.md",
+  "reason": "no-good-match",
+  "suggestion": "naming conventions for files, classes and ids",
+  "kept": []
+ },
+ {
+  "id": "domains/glossary.md#cross-domain-terms/port-lights",
+  "reason": "no-good-match",
+  "suggestion": "building port lights and their tint",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#formatting/indentation",
+  "reason": "no-good-match",
+  "suggestion": "C# formatting and layout conventions",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#formatting/line-length",
+  "reason": "no-good-match",
+  "suggestion": "C# formatting and layout conventions",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#formatting/braces",
+  "reason": "no-good-match",
+  "suggestion": "C# formatting and layout conventions",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#language-and-toolchain",
+  "reason": "no-good-match",
+  "suggestion": "C# language version, toolchain and project references",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#imports-includes/organization",
+  "reason": "no-good-match",
+  "suggestion": "using directive ordering",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#imports-includes/example",
+  "reason": "no-good-match",
+  "suggestion": "using directive ordering",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#comments/when-to-comment",
+  "reason": "no-good-match",
+  "suggestion": "code comment conventions",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#comments/when-not-to-comment",
+  "reason": "no-good-match",
+  "suggestion": "code comment conventions",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#comments/format",
+  "reason": "no-good-match",
+  "suggestion": "code comment conventions",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#control-structures/conditionals",
+  "reason": "no-good-match",
+  "suggestion": "control-flow conventions",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#control-structures/loops",
+  "reason": "no-good-match",
+  "suggestion": "control-flow conventions",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#control-structures/strings",
+  "reason": "no-good-match",
+  "suggestion": "string building and LocString use",
+  "kept": []
+ },
+ {
+  "id": "standards/naming-conventions.md#files-and-directories/general-rules",
+  "reason": "no-good-match",
+  "suggestion": "file, folder and project naming",
+  "kept": []
+ },
+ {
+  "id": "standards/naming-conventions.md#code-naming/variables",
+  "reason": "no-good-match",
+  "suggestion": "identifier casing rules",
+  "kept": []
+ },
+ {
+  "id": "standards/naming-conventions.md#code-naming/booleans",
+  "reason": "no-good-match",
+  "suggestion": "identifier casing rules",
+  "kept": []
+ },
+ {
+  "id": "standards/naming-conventions.md#code-naming/strings-modstrings",
+  "reason": "no-good-match",
+  "suggestion": "string key naming",
+  "kept": []
+ }
+]

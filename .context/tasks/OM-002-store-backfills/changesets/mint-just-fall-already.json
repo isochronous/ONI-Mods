@@ -1,0 +1,14 @@
+{
+ "task": "OM-002",
+ "why": "mint the just-fall-already node tag vocabulary for the tag backfill",
+ "node": "mods/just-fall-already",
+ "ops": [
+  {
+   "mode": "create",
+   "target": "tags.md",
+   "title": "Tags",
+   "description": "The just-fall-already node tag dictionary: each term that records here may carry, with the one sentence saying what a record must be about to earn it",
+   "body": "## harmony-patching\n\nA record earns this term when it is about writing or applying the Harmony patches through which a mod changes game methods.\n\n## vanilla-fallback\n\nA record earns this term when it is about how a mod keeps the game's own behaviour when something it depends on is missing or has changed.\n\n## logging\n\nA record earns this term when it is about what a mod writes to the game log and at which level.\n\n## mod-compatibility\n\nA record earns this term when it is about a mod working correctly alongside other authors' mods installed in the same game.\n\n## in-game-testing\n\nA record earns this term when it is about testing a mod inside the running game with TestRunner and its [OniTest] coroutines.\n\n## mod-entry-point\n\nA record earns this term when it is about a mod's UserMod2 class and what it does when the game loads the mod.\n\n## performance\n\nA record earns this term when it is about keeping a mod's per-tick or per-frame work cheap enough that it does not slow the game.\n\n## critter-falling\n\nA record earns this term when it is about how a critter loses its footing at a door and falls.\n\n## navigation-grid\n\nA record earns this term when it is about the navigation grids and brains that decide where a critter can move and when it reacts.\n"
+  }
+ ]
+}

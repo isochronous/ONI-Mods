@@ -1,9 +1,11 @@
 ---
+tags: building-materials, game-tag, harmony-patching
 doc_id: doc-88e47a3aca23
-description: "The things Refined Building adds or patches, with file locations, gameplay rules and key code paths."
+description: The ElementLoader.Load patch and mod entry of Refined Building in src/RefinedBuilding that tag refined metals as Metal, with the tagging rules, affected buildings, file locations, code path and tests
 applies_to:
   - "src/RefinedBuilding/**"
 ---
+
 # Refined Building domain
 
 ## Overview
@@ -16,6 +18,7 @@ Refined Building lets every refined metal stand in wherever a building recipe as
 
 ### ElementLoader_Load_Patch
 **Id:** blk-e1d4c3dc435f  
+**Tags:** logging  
 **Description**: The mod's only code of substance: a Harmony postfix on `ElementLoader.Load`. It walks `ElementLoader.elements`, skips non-solids, skips elements that lack `GameTags.RefinedMetal` or already have `GameTags.Metal`, and appends `GameTags.Metal` to the element's `oreTags`. It logs `Tagged N refined metal(s) as raw metal: ...`.  
 **Location**: `src/RefinedBuilding/Patches.cs`
 
@@ -27,6 +30,7 @@ Refined Building lets every refined metal stand in wherever a building recipe as
 
 ### Mod entry
 **Id:** blk-e6f82a0713e3  
+**Tags:** mod-entry-point, logging  
 **Location**: `src/RefinedBuilding/Mod.cs`
 `RefinedBuildingMod` (a `UserMod2`) only logs the version. No PLib, no strings, no translations. Mod id `Isochronous.RefinedBuilding` (`mod.yaml`).
 
@@ -42,7 +46,8 @@ Refined Building lets every refined metal stand in wherever a building recipe as
 - The Metal Refinery and Rock Crusher build recipes from the same tag but skip anything without an ore-to-metal transition, so no new recipes appear.
 
 ## Key Code Paths
-**Id:** blk-f6b9d46b071d
+**Id:** blk-f6b9d46b071d  
+**Tags:** in-game-testing
 
 - **Retagging at load**: the `ElementLoader.Load` postfix — see `src/RefinedBuilding/Patches.cs`
 - **Tests**: in-game `[OniTest]` cases in `src/RefinedBuilding.Tests/RefinedMetals.cs` (every solid refined metal has `Metal` once; minerals, fuels, liquids and gases do not gain it; a loose refined pile counts as Metal for deliveries; wire and gas pipe offer refined metals; mineral-only and Refined Metal buildings untouched; the refinery and crusher gain no self-recipe)

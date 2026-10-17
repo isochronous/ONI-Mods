@@ -1,0 +1,27 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/vent-freeze-fix — round 7",
+  "node": "C:\\dev\\ONI-Mods\\mods\\vent-freeze-fix",
+  "base": {
+    "domains/entities.md": "sha256:4e99eabb7139122c634588defe8011d48b07b07e15a2a92a26f1f7f594b25ca9",
+    "standards/error-handling.md": "sha256:d9864ede707e643682e3eb860d2b9380a7a5b3c8939be2729d4b64a2d9ed9778"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "saved-state"
+      ],
+      "section": "key-entities/saved-state"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching"
+      ],
+      "section": "try-catch/finalizer-for-a-thread-with-no-handler"
+    }
+  ]
+}

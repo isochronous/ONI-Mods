@@ -1,0 +1,38 @@
+{
+ "task": "OM-002",
+ "node": "mods/natural-backwalls-everywhere",
+ "ops": [
+  {
+   "mode": "tag",
+   "target": "standards/error-handling.md",
+   "remove": [
+    "exception-handling"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/error-handling.md",
+   "section": "principles",
+   "add": [
+    "exception-handling"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/error-handling.md",
+   "section": "try-catch",
+   "add": [
+    "exception-handling"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/error-handling.md",
+   "section": "anti-patterns-to-avoid/swallowing-exceptions",
+   "add": [
+    "exception-handling"
+   ]
+  }
+ ],
+ "why": "one document tag set per shared standards document in every mod, with each shared section re-derived against it"
+}

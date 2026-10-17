@@ -1,0 +1,18 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r2 for node mods/multichannel-critter-sensor — round 2",
+  "node": "C:\\dev\\ONI-Mods\\mods\\multichannel-critter-sensor",
+  "base": {
+    "domains/glossary.md": "sha256:38d2bf2a0b870d3aa9e83a033f071f5da9fe3baad26c8b14df92a66eead42fdd"
+  },
+  "ops": [
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "pulse-output"
+      ],
+      "section": "cross-domain-terms/tracked-total"
+    }
+  ]
+}

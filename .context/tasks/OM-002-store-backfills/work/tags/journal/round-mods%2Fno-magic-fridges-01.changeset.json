@@ -1,0 +1,37 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r2 for node mods/no-magic-fridges — round 1",
+  "node": "C:\\dev\\ONI-Mods\\mods\\no-magic-fridges",
+  "base": {
+    "standards/code-style.md": "sha256:6bdee2a3f9c1a0272e3ec0277f50a7a7530e9ae2ba30fc4ac35133f6b0e6447c",
+    "domains/glossary.md": "sha256:477d29049f71817d538a7fb7a14eb3186ef4bcca28e2c4b5935dfb928ac17220",
+    "standards/error-handling.md": "sha256:1f5c22680ab6c3747a2aa4b91ee46ac099d6e6308f9aafe21494aebef50f698b"
+  },
+  "ops": [
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching"
+      ],
+      "section": "comments/when-to-comment"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching"
+      ],
+      "section": "cross-domain-terms/refrigeratorcontroller"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching",
+        "mod-entry-point"
+      ],
+      "section": "yielding-to-other-mods"
+    }
+  ]
+}

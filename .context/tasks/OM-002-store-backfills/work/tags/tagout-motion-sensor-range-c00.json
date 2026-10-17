@@ -1,0 +1,325 @@
+{
+ "documents": [
+  {
+   "id": "domains/README.md",
+   "tags": [
+    "detection-range"
+   ]
+  },
+  {
+   "id": "domains/entities.md",
+   "tags": [
+    "detection-range"
+   ]
+  },
+  {
+   "id": "domains/glossary.md",
+   "tags": [
+    "detection-range"
+   ]
+  },
+  {
+   "id": "overview.md",
+   "tags": [
+    "detection-range"
+   ]
+  },
+  {
+   "id": "standards/README.md",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "project coding standards"
+  },
+  {
+   "id": "standards/code-style.md",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "C# code style conventions"
+  }
+ ],
+ "sections": [
+  {
+   "id": "domains/README.md#domains",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/entities.md#overview",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/entities.md#key-entities",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/entities.md#key-entities/rangeslider",
+   "tags": [
+    "game-component",
+    "side-screen",
+    "saved-state",
+    "reflection"
+   ]
+  },
+  {
+   "id": "domains/entities.md#key-entities/harmony-patches",
+   "tags": [
+    "harmony-patching",
+    "under-construction-building"
+   ]
+  },
+  {
+   "id": "domains/entities.md#key-entities/mod-entry-and-strings",
+   "tags": [
+    "mod-entry-point",
+    "mod-strings"
+   ]
+  },
+  {
+   "id": "domains/entities.md#key-entities/saved-state-and-settings",
+   "tags": [
+    "saved-state"
+   ]
+  },
+  {
+   "id": "domains/entities.md#business-rules",
+   "tags": [
+    "saved-state",
+    "copy-settings",
+    "under-construction-building",
+    "vanilla-fallback"
+   ]
+  },
+  {
+   "id": "domains/entities.md#key-code-paths",
+   "tags": [
+    "copy-settings",
+    "under-construction-building",
+    "in-game-testing"
+   ]
+  },
+  {
+   "id": "domains/entities.md#related",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/glossary.md#abbreviations-and-acronyms",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "glossary of abbreviations"
+  },
+  {
+   "id": "domains/glossary.md#terms-to-avoid",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/duplicant-motion-sensor",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/pickuprange",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/scene-partitioner",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "game spatial index (scene partitioner)"
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/extents",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/rangevisualizer",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/iintslidercontrol",
+   "tags": [
+    "side-screen"
+   ]
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/copy-settings",
+   "tags": [
+    "copy-settings"
+   ]
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/under-construction-building",
+   "tags": [
+    "under-construction-building"
+   ]
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/kserialization",
+   "tags": [
+    "saved-state"
+   ]
+  },
+  {
+   "id": "domains/glossary.md#related",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "overview.md#what-this-is",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "overview.md#where-things-are",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "repository file layout"
+  },
+  {
+   "id": "standards/README.md#standards",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/code-style.md#formatting",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/code-style.md#formatting/indentation",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "C# formatting conventions"
+  },
+  {
+   "id": "standards/code-style.md#formatting/line-length",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "C# formatting conventions"
+  },
+  {
+   "id": "standards/code-style.md#formatting/braces",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "C# formatting conventions"
+  },
+  {
+   "id": "standards/code-style.md#language-and-toolchain",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "language version and build toolchain"
+  },
+  {
+   "id": "standards/code-style.md#imports-includes",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/code-style.md#imports-includes/organization",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "using directive ordering"
+  },
+  {
+   "id": "standards/code-style.md#imports-includes/example",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "using directive ordering"
+  },
+  {
+   "id": "standards/code-style.md#comments",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/code-style.md#comments/when-to-comment",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "code comment conventions"
+  },
+  {
+   "id": "standards/code-style.md#comments/when-not-to-comment",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "code comment conventions"
+  },
+  {
+   "id": "standards/code-style.md#comments/format",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "code comment conventions"
+  },
+  {
+   "id": "standards/code-style.md#control-structures",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/code-style.md#control-structures/conditionals",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "control-flow style"
+  },
+  {
+   "id": "standards/code-style.md#control-structures/loops",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "control-flow style"
+  },
+  {
+   "id": "standards/code-style.md#control-structures/strings",
+   "tags": [
+    "mod-strings",
+    "logging"
+   ]
+  },
+  {
+   "id": "standards/code-style.md#harmony-patches",
+   "tags": [
+    "harmony-patching",
+    "mod-entry-point",
+    "reflection"
+   ]
+  },
+  {
+   "id": "standards/code-style.md#game-components",
+   "tags": [
+    "game-component",
+    "saved-state"
+   ]
+  },
+  {
+   "id": "standards/code-style.md#project-specific-rules",
+   "tags": [
+    "logging",
+    "in-game-testing",
+    "mod-strings"
+   ]
+  },
+  {
+   "id": "standards/code-style.md#project-specific-rules/motion-sensor-range-specifics",
+   "tags": [
+    "game-component",
+    "side-screen",
+    "copy-settings",
+    "harmony-patching"
+   ]
+  },
+  {
+   "id": "standards/code-style.md#related",
+   "tags": [],
+   "reason": "inherits"
+  }
+ ]
+}

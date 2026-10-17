@@ -1,0 +1,2985 @@
+{
+ "mods/bitshifter": [
+  {
+   "term": "harmony-patching",
+   "gloss": "A record earns this term when it is about writing or applying the Harmony patches through which a mod changes game methods.",
+   "est_records": 11,
+   "est_documents": 4,
+   "evidence": [
+    "standards/code-style.md#harmony-patches",
+    "standards/naming-conventions.md#code-naming/classes-types-interfaces",
+    "standards/naming-conventions.md#code-naming/functions-methods",
+    "standards/error-handling.md#guarding-patches",
+    "standards/error-handling.md#anti-patterns-to-avoid/throwing-from-a-patch",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "standards/naming-conventions.md#project-specific-conventions/bitshifter-specifics",
+    "domains/entities.md#key-entities/reader-and-writer-bit-depth",
+    "domains/entities.md#key-entities/display",
+    "domains/entities.md#key-entities/not-gate-mask",
+    "standards/code-style.md#project-specific-rules/bitshifter-specifics"
+   ]
+  },
+  {
+   "term": "transpiler",
+   "gloss": "A record earns this term when it is about a Harmony transpiler that rewrites the instructions of a game method.",
+   "est_records": 4,
+   "est_documents": 3,
+   "evidence": [
+    "standards/code-style.md#harmony-patches",
+    "standards/error-handling.md#guarding-patches/transpiler-count-the-match",
+    "domains/entities.md#key-entities/not-gate-mask",
+    "standards/error-handling.md#project-specific-patterns/bitshifter-specifics"
+   ]
+  },
+  {
+   "term": "vanilla-fallback",
+   "gloss": "A record earns this term when it is about how a mod keeps the game's own behaviour when something it depends on is missing or has changed.",
+   "est_records": 11,
+   "est_documents": 3,
+   "evidence": [
+    "standards/code-style.md#harmony-patches",
+    "standards/error-handling.md#principles",
+    "standards/error-handling.md#guarding-patches/missing-member-warn-leave-vanilla",
+    "standards/error-handling.md#guarding-patches/transpiler-count-the-match",
+    "standards/error-handling.md#guarding-patches/missing-data-warn-continue",
+    "standards/error-handling.md#guarding-patches/null-checks-on-game-objects",
+    "standards/error-handling.md#anti-patterns-to-avoid/assuming-the-game-s-internals",
+    "standards/error-handling.md#anti-patterns-to-avoid/silent-degradation",
+    "standards/error-handling.md#project-specific-patterns/bitshifter-specifics",
+    "domains/entities.md#key-entities/display",
+    "domains/entities.md#key-entities/not-gate-mask"
+   ]
+  },
+  {
+   "term": "logging",
+   "gloss": "A record earns this term when it is about what a mod writes to the game log and at which level.",
+   "est_records": 10,
+   "est_documents": 4,
+   "evidence": [
+    "standards/error-handling.md#logging",
+    "standards/error-handling.md#logging/log-levels",
+    "standards/error-handling.md#logging/what-to-include",
+    "standards/error-handling.md#guarding-patches/warn-once",
+    "standards/error-handling.md#anti-patterns-to-avoid/spamming-the-log",
+    "standards/error-handling.md#anti-patterns-to-avoid/silent-degradation",
+    "standards/code-style.md#project-specific-rules",
+    "standards/code-style.md#imports-includes/example",
+    "standards/naming-conventions.md#project-specific-conventions/bitshifter-specifics",
+    "domains/entities.md#key-entities/bitshiftermod"
+   ]
+  },
+  {
+   "term": "mod-compatibility",
+   "gloss": "A record earns this term when it is about a mod working correctly alongside other authors' mods installed in the same game.",
+   "est_records": 11,
+   "est_documents": 5,
+   "evidence": [
+    "standards/error-handling.md#yielding-to-other-mods",
+    "standards/error-handling.md#try-catch",
+    "standards/code-style.md#comments/when-to-comment",
+    "domains/entities.md#key-entities/bitshiftermod",
+    "domains/entities.md#key-entities/overlaylabelguard",
+    "domains/entities.md#business-rules",
+    "domains/entities.md#key-code-paths",
+    "domains/glossary.md#abbreviations-and-acronyms",
+    "domains/glossary.md#cross-domain-terms/stand-down",
+    "standards/error-handling.md#project-specific-patterns/bitshifter-specifics",
+    "overview.md#what-this-is"
+   ]
+  },
+  {
+   "term": "saved-state",
+   "gloss": "A record earns this term when it is about what a mod stores in a save file and how that data is restored when the save loads.",
+   "est_records": 4,
+   "est_documents": 3,
+   "evidence": [
+    "standards/code-style.md#game-components",
+    "domains/entities.md#key-entities/reader-and-writer-bit-depth",
+    "domains/glossary.md#cross-domain-terms/selected-bit",
+    "domains/entities.md#business-rules"
+   ]
+  },
+  {
+   "term": "in-game-testing",
+   "gloss": "A record earns this term when it is about testing a mod inside the running game with TestRunner and its [OniTest] coroutines.",
+   "est_records": 6,
+   "est_documents": 4,
+   "evidence": [
+    "standards/code-style.md#project-specific-rules",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "standards/naming-conventions.md#code-naming/ids-and-tags",
+    "domains/entities.md#key-code-paths",
+    "overview.md#where-things-are",
+    "standards/naming-conventions.md#project-specific-conventions/bitshifter-specifics"
+   ]
+  },
+  {
+   "term": "mod-entry-point",
+   "gloss": "A record earns this term when it is about a mod's UserMod2 class and what it does when the game loads the mod.",
+   "est_records": 6,
+   "est_documents": 3,
+   "evidence": [
+    "standards/code-style.md#harmony-patches",
+    "standards/code-style.md#project-specific-rules",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "domains/entities.md#key-entities/bitshiftermod",
+    "domains/entities.md#key-code-paths",
+    "standards/code-style.md#project-specific-rules/bitshifter-specifics"
+   ]
+  },
+  {
+   "term": "side-screen",
+   "gloss": "A record earns this term when it is about a building's details-panel side screen that a mod adds or changes.",
+   "est_records": 5,
+   "est_documents": 4,
+   "evidence": [
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "domains/entities.md#key-entities/logicbitselectorsidescreen-scroll-view",
+    "domains/glossary.md#cross-domain-terms/bit-selector-side-screen",
+    "standards/code-style.md#project-specific-rules/bitshifter-specifics",
+    "domains/entities.md#key-code-paths"
+   ]
+  },
+  {
+   "term": "kanim-art",
+   "gloss": "A record earns this term when it is about the kanim animation art a mod ships or swaps onto a building and how that art is made.",
+   "est_records": 6,
+   "est_documents": 4,
+   "evidence": [
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "domains/entities.md#key-entities/display",
+    "standards/code-style.md#project-specific-rules/bitshifter-specifics",
+    "standards/naming-conventions.md#project-specific-conventions/bitshifter-specifics",
+    "domains/glossary.md#abbreviations-and-acronyms",
+    "domains/glossary.md#cross-domain-terms/port-lights"
+   ]
+  },
+  {
+   "term": "automation-ribbon",
+   "gloss": "A record earns this term when it is about the Automation Ribbon and the multi-bit signals it carries.",
+   "est_records": 6,
+   "est_documents": 3,
+   "evidence": [
+    "domains/glossary.md#cross-domain-terms/ribbon",
+    "domains/glossary.md#cross-domain-terms/automation-ribbon-reader",
+    "domains/glossary.md#cross-domain-terms/ribbon-writer",
+    "domains/entities.md#overview",
+    "domains/entities.md#business-rules",
+    "overview.md#what-this-is"
+   ]
+  },
+  {
+   "term": "bit-depth",
+   "gloss": "A record earns this term when it is about how many ribbon bits the Ribbon Reader and Writer can select and which bit is selected.",
+   "est_records": 6,
+   "est_documents": 3,
+   "evidence": [
+    "domains/entities.md#key-entities/reader-and-writer-bit-depth",
+    "domains/glossary.md#cross-domain-terms/bit-depth",
+    "domains/glossary.md#cross-domain-terms/selected-bit",
+    "domains/glossary.md#terms-to-avoid",
+    "domains/entities.md#business-rules",
+    "standards/naming-conventions.md#project-specific-conventions/bitshifter-specifics"
+   ]
+  },
+  {
+   "term": "not-gate",
+   "gloss": "A record earns this term when it is about how the NOT gate inverts the bits of a ribbon signal.",
+   "est_records": 4,
+   "est_documents": 3,
+   "evidence": [
+    "domains/entities.md#key-entities/not-gate-mask",
+    "domains/entities.md#business-rules",
+    "standards/error-handling.md#project-specific-patterns/bitshifter-specifics",
+    "overview.md#what-this-is"
+   ]
+  }
+ ],
+ "mods/corner-build-anything": [
+  {
+   "term": "harmony-patching",
+   "gloss": "A record earns this term when it is about writing or applying the Harmony patches through which a mod changes game methods.",
+   "est_records": 10,
+   "est_documents": 4,
+   "evidence": [
+    "standards/code-style.md#harmony-patches",
+    "standards/naming-conventions.md#code-naming/classes-types-interfaces",
+    "standards/naming-conventions.md#code-naming/functions-methods",
+    "standards/error-handling.md#guarding-patches",
+    "standards/error-handling.md#anti-patterns-to-avoid/throwing-from-a-patch",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "standards/naming-conventions.md#project-specific-conventions/corner-build-anything-specifics",
+    "domains/entities.md#key-entities/constructable-onspawn-patch",
+    "domains/entities.md#key-entities/deconstructable-onspawn-patch",
+    "standards/code-style.md#project-specific-rules/corner-build-anything-specifics"
+   ]
+  },
+  {
+   "term": "transpiler",
+   "gloss": "A record earns this term when it is about a Harmony transpiler that rewrites the instructions of a game method.",
+   "est_records": 7,
+   "est_documents": 3,
+   "evidence": [
+    "standards/code-style.md#harmony-patches",
+    "standards/error-handling.md#guarding-patches/transpiler-count-the-match",
+    "domains/entities.md#key-entities/constructable-onspawn-patch",
+    "domains/entities.md#key-entities/deconstructable-onspawn-patch",
+    "domains/entities.md#key-entities/swaptable",
+    "standards/code-style.md#project-specific-rules/corner-build-anything-specifics",
+    "standards/error-handling.md#project-specific-patterns/corner-build-anything-specifics"
+   ]
+  },
+  {
+   "term": "vanilla-fallback",
+   "gloss": "A record earns this term when it is about how a mod keeps the game's own behaviour when something it depends on is missing or has changed.",
+   "est_records": 11,
+   "est_documents": 3,
+   "evidence": [
+    "standards/code-style.md#harmony-patches",
+    "standards/error-handling.md#principles",
+    "standards/error-handling.md#guarding-patches/missing-member-warn-leave-vanilla",
+    "standards/error-handling.md#guarding-patches/transpiler-count-the-match",
+    "standards/error-handling.md#guarding-patches/missing-data-warn-continue",
+    "standards/error-handling.md#guarding-patches/null-checks-on-game-objects",
+    "standards/error-handling.md#anti-patterns-to-avoid/assuming-the-game-s-internals",
+    "standards/error-handling.md#anti-patterns-to-avoid/silent-degradation",
+    "standards/error-handling.md#project-specific-patterns/corner-build-anything-specifics",
+    "domains/entities.md#key-entities/swaptable",
+    "domains/entities.md#business-rules"
+   ]
+  },
+  {
+   "term": "logging",
+   "gloss": "A record earns this term when it is about what a mod writes to the game log and at which level.",
+   "est_records": 10,
+   "est_documents": 4,
+   "evidence": [
+    "standards/error-handling.md#logging",
+    "standards/error-handling.md#logging/log-levels",
+    "standards/error-handling.md#logging/what-to-include",
+    "standards/error-handling.md#guarding-patches/warn-once",
+    "standards/error-handling.md#anti-patterns-to-avoid/spamming-the-log",
+    "standards/error-handling.md#anti-patterns-to-avoid/silent-degradation",
+    "standards/code-style.md#project-specific-rules",
+    "standards/code-style.md#imports-includes/example",
+    "standards/naming-conventions.md#project-specific-conventions/corner-build-anything-specifics",
+    "domains/entities.md#key-entities/swaptable"
+   ]
+  },
+  {
+   "term": "in-game-testing",
+   "gloss": "A record earns this term when it is about testing a mod inside the running game with TestRunner and its [OniTest] coroutines.",
+   "est_records": 6,
+   "est_documents": 4,
+   "evidence": [
+    "standards/code-style.md#project-specific-rules",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "standards/naming-conventions.md#code-naming/ids-and-tags",
+    "domains/entities.md#key-code-paths",
+    "overview.md#where-things-are",
+    "standards/naming-conventions.md#project-specific-conventions/corner-build-anything-specifics"
+   ]
+  },
+  {
+   "term": "mod-entry-point",
+   "gloss": "A record earns this term when it is about a mod's UserMod2 class and what it does when the game loads the mod.",
+   "est_records": 4,
+   "est_documents": 3,
+   "evidence": [
+    "standards/code-style.md#harmony-patches",
+    "standards/code-style.md#project-specific-rules",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "domains/entities.md#key-entities/cornerbuildanythingmod"
+   ]
+  },
+  {
+   "term": "reach-table",
+   "gloss": "A record earns this term when it is about the tables of offsets that decide where a duplicant may stand to build or deconstruct a building.",
+   "est_records": 11,
+   "est_documents": 3,
+   "evidence": [
+    "domains/entities.md#key-entities/offsetgroups-reach-tables",
+    "domains/entities.md#key-entities/swaptable",
+    "domains/entities.md#business-rules",
+    "domains/glossary.md#cross-domain-terms/reach-table",
+    "domains/glossary.md#cross-domain-terms/standard-table",
+    "domains/glossary.md#cross-domain-terms/corner-table",
+    "domains/glossary.md#cross-domain-terms/corner-pocket",
+    "domains/glossary.md#cross-domain-terms/footprint",
+    "domains/glossary.md#cross-domain-terms/offset-filter",
+    "domains/glossary.md#cross-domain-terms/standing-cell",
+    "overview.md#what-this-is"
+   ]
+  }
+ ],
+ "mods/detect-any-element": [
+  {
+   "term": "harmony-patching",
+   "gloss": "A record earns this term when it is about writing or applying the Harmony patches through which a mod changes game methods.",
+   "est_records": 13,
+   "est_documents": 4,
+   "evidence": [
+    "standards/code-style.md#harmony-patches",
+    "standards/naming-conventions.md#code-naming/classes-types-interfaces",
+    "standards/naming-conventions.md#code-naming/functions-methods",
+    "standards/error-handling.md#guarding-patches",
+    "standards/error-handling.md#anti-patterns-to-avoid/throwing-from-a-patch",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "standards/naming-conventions.md#project-specific-conventions/detect-any-element-specifics",
+    "domains/entities.md#key-entities/filtersidescreen-settarget-patch",
+    "domains/entities.md#key-entities/conduitelementsensor-conduitupdate-patch",
+    "domains/entities.md#key-entities/logicelementsensor-sim200ms-patch",
+    "domains/entities.md#key-entities/logicelementsensor-onelementselected-patch",
+    "domains/entities.md#key-entities/sensorconfigs-dopostconfigurecomplete-patch",
+    "standards/code-style.md#project-specific-rules/detect-any-element-specifics"
+   ]
+  },
+  {
+   "term": "vanilla-fallback",
+   "gloss": "A record earns this term when it is about how a mod keeps the game's own behaviour when something it depends on is missing or has changed.",
+   "est_records": 10,
+   "est_documents": 3,
+   "evidence": [
+    "standards/code-style.md#harmony-patches",
+    "standards/error-handling.md#principles",
+    "standards/error-handling.md#guarding-patches/missing-member-warn-leave-vanilla",
+    "standards/error-handling.md#guarding-patches/transpiler-count-the-match",
+    "standards/error-handling.md#guarding-patches/missing-data-warn-continue",
+    "standards/error-handling.md#guarding-patches/null-checks-on-game-objects",
+    "standards/error-handling.md#anti-patterns-to-avoid/assuming-the-game-s-internals",
+    "standards/error-handling.md#anti-patterns-to-avoid/silent-degradation",
+    "standards/error-handling.md#project-specific-patterns/detect-any-element-specifics",
+    "domains/entities.md#key-entities/anyglyph"
+   ]
+  },
+  {
+   "term": "logging",
+   "gloss": "A record earns this term when it is about what a mod writes to the game log and at which level.",
+   "est_records": 9,
+   "est_documents": 3,
+   "evidence": [
+    "standards/error-handling.md#logging",
+    "standards/error-handling.md#logging/log-levels",
+    "standards/error-handling.md#logging/what-to-include",
+    "standards/error-handling.md#guarding-patches/warn-once",
+    "standards/error-handling.md#anti-patterns-to-avoid/spamming-the-log",
+    "standards/error-handling.md#anti-patterns-to-avoid/silent-degradation",
+    "standards/code-style.md#project-specific-rules",
+    "standards/code-style.md#imports-includes/example",
+    "standards/naming-conventions.md#project-specific-conventions/detect-any-element-specifics"
+   ]
+  },
+  {
+   "term": "saved-state",
+   "gloss": "A record earns this term when it is about what a mod stores in a save file and how that data is restored when the save loads.",
+   "est_records": 4,
+   "est_documents": 3,
+   "evidence": [
+    "standards/code-style.md#game-components",
+    "domains/entities.md#key-entities/anyelement",
+    "domains/entities.md#business-rules",
+    "domains/glossary.md#cross-domain-terms/filterable"
+   ]
+  },
+  {
+   "term": "in-game-testing",
+   "gloss": "A record earns this term when it is about testing a mod inside the running game with TestRunner and its [OniTest] coroutines.",
+   "est_records": 6,
+   "est_documents": 4,
+   "evidence": [
+    "standards/code-style.md#project-specific-rules",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "standards/naming-conventions.md#code-naming/ids-and-tags",
+    "domains/entities.md#key-code-paths",
+    "overview.md#where-things-are",
+    "standards/naming-conventions.md#project-specific-conventions/detect-any-element-specifics"
+   ]
+  },
+  {
+   "term": "mod-entry-point",
+   "gloss": "A record earns this term when it is about a mod's UserMod2 class and what it does when the game loads the mod.",
+   "est_records": 5,
+   "est_documents": 3,
+   "evidence": [
+    "standards/code-style.md#harmony-patches",
+    "standards/code-style.md#project-specific-rules",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "domains/entities.md#key-entities/anyelement",
+    "standards/code-style.md#project-specific-rules/detect-any-element-specifics"
+   ]
+  },
+  {
+   "term": "mod-strings",
+   "gloss": "A record earns this term when it is about the player-visible text a mod defines in ModStrings and the translations of that text.",
+   "est_records": 7,
+   "est_documents": 3,
+   "evidence": [
+    "standards/code-style.md#control-structures/strings",
+    "standards/code-style.md#language-and-toolchain",
+    "standards/naming-conventions.md#code-naming/strings-modstrings",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "domains/entities.md#key-entities/modstrings",
+    "standards/code-style.md#project-specific-rules/detect-any-element-specifics",
+    "standards/naming-conventions.md#project-specific-conventions/detect-any-element-specifics"
+   ]
+  },
+  {
+   "term": "game-component",
+   "gloss": "A record earns this term when it is about a KMonoBehaviour component that a mod adds to game objects and the work it does there.",
+   "est_records": 4,
+   "est_documents": 3,
+   "evidence": [
+    "standards/code-style.md#game-components",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "domains/entities.md#key-entities/anyglyph",
+    "domains/entities.md#key-entities/sensorconfigs-dopostconfigurecomplete-patch"
+   ]
+  },
+  {
+   "term": "side-screen",
+   "gloss": "A record earns this term when it is about a building's details-panel side screen that a mod adds or changes.",
+   "est_records": 4,
+   "est_documents": 3,
+   "evidence": [
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "domains/entities.md#key-entities/filtersidescreen-settarget-patch",
+    "domains/glossary.md#cross-domain-terms/filtersidescreen",
+    "domains/glossary.md#cross-domain-terms/any"
+   ]
+  },
+  {
+   "term": "kanim-art",
+   "gloss": "A record earns this term when it is about the kanim animation art a mod ships or swaps onto a building and how that art is made.",
+   "est_records": 5,
+   "est_documents": 3,
+   "evidence": [
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "domains/entities.md#key-entities/anyglyph",
+    "domains/entities.md#key-code-paths",
+    "domains/glossary.md#cross-domain-terms/symbol-override",
+    "standards/naming-conventions.md#project-specific-conventions/detect-any-element-specifics"
+   ]
+  },
+  {
+   "term": "game-tag",
+   "gloss": "A record earns this term when it is about a game Tag that a mod creates, adds to things or reads to recognise them.",
+   "est_records": 6,
+   "est_documents": 4,
+   "evidence": [
+    "standards/naming-conventions.md#code-naming/ids-and-tags",
+    "domains/entities.md#key-entities/anyelement",
+    "domains/glossary.md#cross-domain-terms/tag",
+    "domains/glossary.md#cross-domain-terms/filterable",
+    "standards/naming-conventions.md#project-specific-conventions/detect-any-element-specifics",
+    "standards/error-handling.md#project-specific-patterns/detect-any-element-specifics"
+   ]
+  },
+  {
+   "term": "element-sensor",
+   "gloss": "A record earns this term when it is about the element sensors and how they decide that an element is present.",
+   "est_records": 8,
+   "est_documents": 3,
+   "evidence": [
+    "domains/entities.md#overview",
+    "domains/entities.md#key-entities/conduitelementsensor-conduitupdate-patch",
+    "domains/entities.md#key-entities/logicelementsensor-sim200ms-patch",
+    "domains/entities.md#business-rules",
+    "domains/glossary.md#cross-domain-terms/element-sensor",
+    "domains/glossary.md#cross-domain-terms/conduit",
+    "domains/glossary.md#cross-domain-terms/steadiness-window",
+    "overview.md#what-this-is"
+   ]
+  }
+ ],
+ "mods/dont-count-eggs-on-rails": [
+  {
+   "term": "harmony-patching",
+   "gloss": "A record earns this term when it is about writing or applying the Harmony patches through which a mod changes game methods.",
+   "est_records": 9,
+   "est_documents": 4,
+   "evidence": [
+    "standards/code-style.md#harmony-patches",
+    "standards/naming-conventions.md#code-naming/classes-types-interfaces",
+    "standards/naming-conventions.md#code-naming/functions-methods",
+    "standards/error-handling.md#guarding-patches",
+    "standards/error-handling.md#anti-patterns-to-avoid/throwing-from-a-patch",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "standards/naming-conventions.md#project-specific-conventions/don-t-count-eggs-on-rails-specifics",
+    "domains/entities.md#key-entities/overcrowdingmonitor-updateregion-patch",
+    "standards/code-style.md#project-specific-rules/don-t-count-eggs-on-rails-specifics"
+   ]
+  },
+  {
+   "term": "vanilla-fallback",
+   "gloss": "A record earns this term when it is about how a mod keeps the game's own behaviour when something it depends on is missing or has changed.",
+   "est_records": 10,
+   "est_documents": 3,
+   "evidence": [
+    "standards/code-style.md#harmony-patches",
+    "standards/error-handling.md#principles",
+    "standards/error-handling.md#guarding-patches/missing-member-warn-leave-vanilla",
+    "standards/error-handling.md#guarding-patches/transpiler-count-the-match",
+    "standards/error-handling.md#guarding-patches/missing-data-warn-continue",
+    "standards/error-handling.md#guarding-patches/null-checks-on-game-objects",
+    "standards/error-handling.md#anti-patterns-to-avoid/assuming-the-game-s-internals",
+    "standards/error-handling.md#anti-patterns-to-avoid/silent-degradation",
+    "standards/error-handling.md#project-specific-patterns/don-t-count-eggs-on-rails-specifics",
+    "domains/entities.md#key-entities/overcrowdingmonitor-updateregion-patch"
+   ]
+  },
+  {
+   "term": "logging",
+   "gloss": "A record earns this term when it is about what a mod writes to the game log and at which level.",
+   "est_records": 9,
+   "est_documents": 3,
+   "evidence": [
+    "standards/error-handling.md#logging",
+    "standards/error-handling.md#logging/log-levels",
+    "standards/error-handling.md#logging/what-to-include",
+    "standards/error-handling.md#guarding-patches/warn-once",
+    "standards/error-handling.md#anti-patterns-to-avoid/spamming-the-log",
+    "standards/error-handling.md#anti-patterns-to-avoid/silent-degradation",
+    "standards/code-style.md#project-specific-rules",
+    "standards/code-style.md#imports-includes/example",
+    "standards/naming-conventions.md#project-specific-conventions/don-t-count-eggs-on-rails-specifics"
+   ]
+  },
+  {
+   "term": "in-game-testing",
+   "gloss": "A record earns this term when it is about testing a mod inside the running game with TestRunner and its [OniTest] coroutines.",
+   "est_records": 6,
+   "est_documents": 4,
+   "evidence": [
+    "standards/code-style.md#project-specific-rules",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "standards/naming-conventions.md#code-naming/ids-and-tags",
+    "domains/entities.md#key-code-paths",
+    "overview.md#where-things-are",
+    "standards/naming-conventions.md#project-specific-conventions/don-t-count-eggs-on-rails-specifics"
+   ]
+  },
+  {
+   "term": "mod-entry-point",
+   "gloss": "A record earns this term when it is about a mod's UserMod2 class and what it does when the game loads the mod.",
+   "est_records": 5,
+   "est_documents": 3,
+   "evidence": [
+    "standards/code-style.md#harmony-patches",
+    "standards/code-style.md#project-specific-rules",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "domains/entities.md#key-entities/dontcounteggsonrailsmod",
+    "standards/code-style.md#project-specific-rules/don-t-count-eggs-on-rails-specifics"
+   ]
+  },
+  {
+   "term": "critter-sensor",
+   "gloss": "A record earns this term when it is about the game's critter sensor and how it counts the critters and eggs in a room.",
+   "est_records": 8,
+   "est_documents": 3,
+   "evidence": [
+    "domains/entities.md#overview",
+    "domains/entities.md#key-entities/overcrowdingmonitor-updateregion-patch",
+    "domains/entities.md#business-rules",
+    "domains/glossary.md#cross-domain-terms/critter-sensor",
+    "domains/glossary.md#cross-domain-terms/room-and-cavity",
+    "domains/glossary.md#cross-domain-terms/room-prober",
+    "domains/glossary.md#cross-domain-terms/overcrowding-monitor",
+    "overview.md#what-this-is"
+   ]
+  },
+  {
+   "term": "game-tag",
+   "gloss": "A record earns this term when it is about a game Tag that a mod creates, adds to things or reads to recognise them.",
+   "est_records": 4,
+   "est_documents": 3,
+   "evidence": [
+    "standards/naming-conventions.md#code-naming/ids-and-tags",
+    "domains/glossary.md#cross-domain-terms/stored-tag",
+    "domains/entities.md#key-entities/overcrowdingmonitor-updateregion-patch",
+    "domains/entities.md#business-rules"
+   ]
+  },
+  {
+   "term": "conveyor-rail",
+   "gloss": "A record earns this term when it is about the conveyor rail and the items it carries through the world.",
+   "est_records": 5,
+   "est_documents": 3,
+   "evidence": [
+    "domains/glossary.md#cross-domain-terms/conveyor-rail",
+    "domains/glossary.md#cross-domain-terms/stored-tag",
+    "domains/entities.md#key-entities/overcrowdingmonitor-updateregion-patch",
+    "domains/entities.md#business-rules",
+    "overview.md#what-this-is"
+   ]
+  }
+ ],
+ "mods/jumper-bridges": [
+  {
+   "term": "harmony-patching",
+   "gloss": "A record earns this term when it is about writing or applying the Harmony patches through which a mod changes game methods.",
+   "est_records": 9,
+   "est_documents": 4,
+   "evidence": [
+    "standards/code-style.md#harmony-patches",
+    "standards/naming-conventions.md#code-naming/classes-types-interfaces",
+    "standards/naming-conventions.md#code-naming/functions-methods",
+    "standards/error-handling.md#guarding-patches",
+    "standards/error-handling.md#anti-patterns-to-avoid/throwing-from-a-patch",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "standards/naming-conventions.md#project-specific-conventions/jumper-bridges-specifics",
+    "domains/entities.md#key-entities/harmony-patches",
+    "standards/code-style.md#project-specific-rules/jumper-bridges-specifics"
+   ]
+  },
+  {
+   "term": "vanilla-fallback",
+   "gloss": "A record earns this term when it is about how a mod keeps the game's own behaviour when something it depends on is missing or has changed.",
+   "est_records": 10,
+   "est_documents": 3,
+   "evidence": [
+    "standards/code-style.md#harmony-patches",
+    "standards/error-handling.md#principles",
+    "standards/error-handling.md#guarding-patches/missing-member-warn-leave-vanilla",
+    "standards/error-handling.md#guarding-patches/transpiler-count-the-match",
+    "standards/error-handling.md#guarding-patches/missing-data-warn-continue",
+    "standards/error-handling.md#guarding-patches/null-checks-on-game-objects",
+    "standards/error-handling.md#anti-patterns-to-avoid/assuming-the-game-s-internals",
+    "standards/error-handling.md#anti-patterns-to-avoid/silent-degradation",
+    "standards/error-handling.md#project-specific-patterns/jumper-bridges-specifics",
+    "domains/entities.md#business-rules"
+   ]
+  },
+  {
+   "term": "logging",
+   "gloss": "A record earns this term when it is about what a mod writes to the game log and at which level.",
+   "est_records": 10,
+   "est_documents": 3,
+   "evidence": [
+    "standards/error-handling.md#logging",
+    "standards/error-handling.md#logging/log-levels",
+    "standards/error-handling.md#logging/what-to-include",
+    "standards/error-handling.md#guarding-patches/warn-once",
+    "standards/error-handling.md#anti-patterns-to-avoid/spamming-the-log",
+    "standards/error-handling.md#anti-patterns-to-avoid/silent-degradation",
+    "standards/code-style.md#project-specific-rules",
+    "standards/code-style.md#imports-includes/example",
+    "standards/naming-conventions.md#project-specific-conventions/jumper-bridges-specifics",
+    "standards/code-style.md#project-specific-rules/jumper-bridges-specifics"
+   ]
+  },
+  {
+   "term": "mod-options",
+   "gloss": "A record earns this term when it is about the player-facing settings a mod exposes on its options screen and how the mod reads them.",
+   "est_records": 9,
+   "est_documents": 4,
+   "evidence": [
+    "standards/code-style.md#project-specific-rules",
+    "standards/naming-conventions.md#code-naming/strings-modstrings",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "domains/entities.md#key-entities/options",
+    "domains/entities.md#key-entities/jumperbridgesmod",
+    "domains/entities.md#business-rules",
+    "standards/code-style.md#project-specific-rules/jumper-bridges-specifics",
+    "standards/naming-conventions.md#project-specific-conventions/jumper-bridges-specifics",
+    "standards/error-handling.md#project-specific-patterns/jumper-bridges-specifics"
+   ]
+  },
+  {
+   "term": "in-game-testing",
+   "gloss": "A record earns this term when it is about testing a mod inside the running game with TestRunner and its [OniTest] coroutines.",
+   "est_records": 6,
+   "est_documents": 4,
+   "evidence": [
+    "standards/code-style.md#project-specific-rules",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "standards/naming-conventions.md#code-naming/ids-and-tags",
+    "domains/entities.md#key-code-paths",
+    "overview.md#where-things-are",
+    "standards/naming-conventions.md#project-specific-conventions/jumper-bridges-specifics"
+   ]
+  },
+  {
+   "term": "mod-entry-point",
+   "gloss": "A record earns this term when it is about a mod's UserMod2 class and what it does when the game loads the mod.",
+   "est_records": 6,
+   "est_documents": 3,
+   "evidence": [
+    "standards/code-style.md#harmony-patches",
+    "standards/code-style.md#project-specific-rules",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "domains/entities.md#key-entities/jumperbridgesmod",
+    "domains/entities.md#key-code-paths",
+    "standards/code-style.md#project-specific-rules/jumper-bridges-specifics"
+   ]
+  },
+  {
+   "term": "mod-strings",
+   "gloss": "A record earns this term when it is about the player-visible text a mod defines in ModStrings and the translations of that text.",
+   "est_records": 7,
+   "est_documents": 3,
+   "evidence": [
+    "standards/code-style.md#control-structures/strings",
+    "standards/code-style.md#language-and-toolchain",
+    "standards/naming-conventions.md#code-naming/strings-modstrings",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "domains/entities.md#key-entities/options",
+    "domains/entities.md#key-entities/jumperbridgesmod",
+    "standards/naming-conventions.md#project-specific-conventions/jumper-bridges-specifics"
+   ]
+  },
+  {
+   "term": "reflection",
+   "gloss": "A record earns this term when it is about reaching non-public members of the game or of another mod through reflection.",
+   "est_records": 4,
+   "est_documents": 3,
+   "evidence": [
+    "standards/code-style.md#harmony-patches",
+    "standards/error-handling.md#guarding-patches/missing-member-warn-leave-vanilla",
+    "standards/error-handling.md#anti-patterns-to-avoid/assuming-the-game-s-internals",
+    "domains/entities.md#key-entities/bridgekind"
+   ]
+  },
+  {
+   "term": "game-component",
+   "gloss": "A record earns this term when it is about a KMonoBehaviour component that a mod adds to game objects and the work it does there.",
+   "est_records": 6,
+   "est_documents": 3,
+   "evidence": [
+    "standards/code-style.md#game-components",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "domains/entities.md#key-entities/jumperbridge",
+    "domains/entities.md#key-entities/bridgeendnode",
+    "domains/entities.md#key-entities/bridgefootprint",
+    "standards/code-style.md#project-specific-rules/jumper-bridges-specifics"
+   ]
+  },
+  {
+   "term": "automation-ribbon",
+   "gloss": "A record earns this term when it is about the Automation Ribbon and the multi-bit signals it carries.",
+   "est_records": 4,
+   "est_documents": 2,
+   "evidence": [
+    "domains/glossary.md#cross-domain-terms/automation-ribbon-bit-depth",
+    "domains/glossary.md#cross-domain-terms/overload",
+    "domains/entities.md#key-entities/bridgekind",
+    "domains/entities.md#business-rules"
+   ]
+  },
+  {
+   "term": "bridge-end",
+   "gloss": "A record earns this term when it is about a wire or automation bridge end placed on a port cell and the stand-in node that connects it.",
+   "est_records": 9,
+   "est_documents": 3,
+   "evidence": [
+    "domains/entities.md#overview",
+    "domains/entities.md#key-entities/jumperbridge",
+    "domains/entities.md#key-entities/bridgeendnode",
+    "domains/entities.md#key-entities/bridgefootprint",
+    "domains/entities.md#business-rules",
+    "domains/glossary.md#cross-domain-terms/bridge-end",
+    "domains/glossary.md#cross-domain-terms/bridge-end-node",
+    "domains/glossary.md#cross-domain-terms/port",
+    "overview.md#what-this-is"
+   ]
+  },
+  {
+   "term": "utility-network",
+   "gloss": "A record earns this term when it is about the game's automation and power networks and how cells are linked into them.",
+   "est_records": 6,
+   "est_documents": 2,
+   "evidence": [
+    "domains/entities.md#key-entities/bridgekind",
+    "domains/entities.md#key-entities/bridgelinks",
+    "domains/glossary.md#cross-domain-terms/utility-network",
+    "domains/glossary.md#cross-domain-terms/link-and-link-ring",
+    "domains/glossary.md#cross-domain-terms/object-layer",
+    "domains/glossary.md#cross-domain-terms/joint-plate-heavy-watt"
+   ]
+  },
+  {
+   "term": "wire-tools",
+   "gloss": "A record earns this term when it is about how the game's wire drag and building tools act on bridge ends.",
+   "est_records": 5,
+   "est_documents": 2,
+   "evidence": [
+    "domains/entities.md#key-entities/harmony-patches",
+    "domains/entities.md#key-code-paths",
+    "domains/glossary.md#cross-domain-terms/wire-drag",
+    "domains/glossary.md#cross-domain-terms/disconnect-tool",
+    "domains/entities.md#business-rules"
+   ]
+  }
+ ],
+ "mods/just-fall-already": [
+  {
+   "term": "harmony-patching",
+   "gloss": "A record earns this term when it is about writing or applying the Harmony patches through which a mod changes game methods.",
+   "est_records": 10,
+   "est_documents": 4,
+   "evidence": [
+    "standards/code-style.md#harmony-patches",
+    "standards/naming-conventions.md#code-naming/classes-types-interfaces",
+    "standards/naming-conventions.md#code-naming/functions-methods",
+    "standards/error-handling.md#guarding-patches",
+    "standards/error-handling.md#anti-patterns-to-avoid/throwing-from-a-patch",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "standards/naming-conventions.md#project-specific-conventions/just-fall-already-specifics",
+    "domains/entities.md#key-entities/fallpoke",
+    "domains/entities.md#key-entities/door-setworldstate-patch",
+    "standards/code-style.md#project-specific-rules/just-fall-already-specifics"
+   ]
+  },
+  {
+   "term": "vanilla-fallback",
+   "gloss": "A record earns this term when it is about how a mod keeps the game's own behaviour when something it depends on is missing or has changed.",
+   "est_records": 10,
+   "est_documents": 3,
+   "evidence": [
+    "standards/code-style.md#harmony-patches",
+    "standards/error-handling.md#principles",
+    "standards/error-handling.md#guarding-patches/missing-member-warn-leave-vanilla",
+    "standards/error-handling.md#guarding-patches/transpiler-count-the-match",
+    "standards/error-handling.md#guarding-patches/missing-data-warn-continue",
+    "standards/error-handling.md#guarding-patches/null-checks-on-game-objects",
+    "standards/error-handling.md#anti-patterns-to-avoid/assuming-the-game-s-internals",
+    "standards/error-handling.md#anti-patterns-to-avoid/silent-degradation",
+    "standards/error-handling.md#project-specific-patterns/just-fall-already-specifics",
+    "domains/entities.md#business-rules"
+   ]
+  },
+  {
+   "term": "logging",
+   "gloss": "A record earns this term when it is about what a mod writes to the game log and at which level.",
+   "est_records": 12,
+   "est_documents": 4,
+   "evidence": [
+    "standards/error-handling.md#logging",
+    "standards/error-handling.md#logging/log-levels",
+    "standards/error-handling.md#logging/what-to-include",
+    "standards/error-handling.md#guarding-patches/warn-once",
+    "standards/error-handling.md#anti-patterns-to-avoid/spamming-the-log",
+    "standards/error-handling.md#anti-patterns-to-avoid/silent-degradation",
+    "standards/code-style.md#project-specific-rules",
+    "standards/code-style.md#imports-includes/example",
+    "standards/naming-conventions.md#project-specific-conventions/just-fall-already-specifics",
+    "domains/entities.md#key-code-paths",
+    "standards/error-handling.md#project-specific-patterns/just-fall-already-specifics",
+    "standards/code-style.md#project-specific-rules/just-fall-already-specifics"
+   ]
+  },
+  {
+   "term": "mod-compatibility",
+   "gloss": "A record earns this term when it is about a mod working correctly alongside other authors' mods installed in the same game.",
+   "est_records": 9,
+   "est_documents": 5,
+   "evidence": [
+    "standards/error-handling.md#yielding-to-other-mods",
+    "standards/error-handling.md#try-catch",
+    "standards/code-style.md#comments/when-to-comment",
+    "domains/entities.md#key-entities/door-setworldstate-patch",
+    "domains/entities.md#business-rules",
+    "domains/glossary.md#cross-domain-terms/critters-fall-through-open-doors",
+    "domains/glossary.md#cross-domain-terms/fast-track",
+    "standards/error-handling.md#project-specific-patterns/just-fall-already-specifics",
+    "overview.md#what-this-is"
+   ]
+  },
+  {
+   "term": "in-game-testing",
+   "gloss": "A record earns this term when it is about testing a mod inside the running game with TestRunner and its [OniTest] coroutines.",
+   "est_records": 6,
+   "est_documents": 4,
+   "evidence": [
+    "standards/code-style.md#project-specific-rules",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "standards/naming-conventions.md#code-naming/ids-and-tags",
+    "domains/entities.md#key-code-paths",
+    "overview.md#where-things-are",
+    "standards/naming-conventions.md#project-specific-conventions/just-fall-already-specifics"
+   ]
+  },
+  {
+   "term": "mod-entry-point",
+   "gloss": "A record earns this term when it is about a mod's UserMod2 class and what it does when the game loads the mod.",
+   "est_records": 4,
+   "est_documents": 3,
+   "evidence": [
+    "standards/code-style.md#harmony-patches",
+    "standards/code-style.md#project-specific-rules",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "domains/entities.md#key-entities/justfallalreadymod"
+   ]
+  },
+  {
+   "term": "performance",
+   "gloss": "A record earns this term when it is about keeping a mod's per-tick or per-frame work cheap enough that it does not slow the game.",
+   "est_records": 5,
+   "est_documents": 4,
+   "evidence": [
+    "standards/code-style.md#control-structures/loops",
+    "domains/entities.md#business-rules",
+    "domains/glossary.md#cross-domain-terms/fast-track",
+    "domains/entities.md#key-entities/fallpoke",
+    "standards/error-handling.md#project-specific-patterns/just-fall-already-specifics"
+   ]
+  },
+  {
+   "term": "critter-falling",
+   "gloss": "A record earns this term when it is about how a critter loses its footing at a door and falls.",
+   "est_records": 9,
+   "est_documents": 3,
+   "evidence": [
+    "domains/entities.md#overview",
+    "domains/entities.md#key-entities/fallpoke",
+    "domains/entities.md#key-entities/door-setworldstate-patch",
+    "domains/entities.md#business-rules",
+    "domains/glossary.md#cross-domain-terms/pez-dropper",
+    "domains/glossary.md#cross-domain-terms/poke",
+    "domains/glossary.md#cross-domain-terms/armed-cell",
+    "domains/glossary.md#cross-domain-terms/creaturefallmonitor",
+    "overview.md#what-this-is"
+   ]
+  },
+  {
+   "term": "navigation-grid",
+   "gloss": "A record earns this term when it is about the navigation grids and brains that decide where a critter can move and when it reacts.",
+   "est_records": 4,
+   "est_documents": 2,
+   "evidence": [
+    "domains/entities.md#key-entities/fallpoke",
+    "domains/glossary.md#cross-domain-terms/brain-and-brain-scheduler",
+    "domains/glossary.md#cross-domain-terms/nav-grid-and-nav-type",
+    "domains/entities.md#key-code-paths"
+   ]
+  }
+ ],
+ "mods/motion-sensor-range": [
+  {
+   "term": "harmony-patching",
+   "gloss": "A record earns this term when it is about writing or applying the Harmony patches through which a mod changes game methods.",
+   "est_records": 9,
+   "est_documents": 4,
+   "evidence": [
+    "standards/code-style.md#harmony-patches",
+    "standards/naming-conventions.md#code-naming/classes-types-interfaces",
+    "standards/naming-conventions.md#code-naming/functions-methods",
+    "standards/error-handling.md#guarding-patches",
+    "standards/error-handling.md#anti-patterns-to-avoid/throwing-from-a-patch",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "standards/naming-conventions.md#project-specific-conventions/motion-sensor-range-specifics",
+    "domains/entities.md#key-entities/harmony-patches",
+    "standards/code-style.md#project-specific-rules/motion-sensor-range-specifics"
+   ]
+  },
+  {
+   "term": "vanilla-fallback",
+   "gloss": "A record earns this term when it is about how a mod keeps the game's own behaviour when something it depends on is missing or has changed.",
+   "est_records": 10,
+   "est_documents": 3,
+   "evidence": [
+    "standards/code-style.md#harmony-patches",
+    "standards/error-handling.md#principles",
+    "standards/error-handling.md#guarding-patches/missing-member-warn-leave-vanilla",
+    "standards/error-handling.md#guarding-patches/transpiler-count-the-match",
+    "standards/error-handling.md#guarding-patches/missing-data-warn-continue",
+    "standards/error-handling.md#guarding-patches/null-checks-on-game-objects",
+    "standards/error-handling.md#anti-patterns-to-avoid/assuming-the-game-s-internals",
+    "standards/error-handling.md#anti-patterns-to-avoid/silent-degradation",
+    "standards/error-handling.md#project-specific-patterns/motion-sensor-range-specifics",
+    "domains/entities.md#business-rules"
+   ]
+  },
+  {
+   "term": "logging",
+   "gloss": "A record earns this term when it is about what a mod writes to the game log and at which level.",
+   "est_records": 9,
+   "est_documents": 3,
+   "evidence": [
+    "standards/error-handling.md#logging",
+    "standards/error-handling.md#logging/log-levels",
+    "standards/error-handling.md#logging/what-to-include",
+    "standards/error-handling.md#guarding-patches/warn-once",
+    "standards/error-handling.md#anti-patterns-to-avoid/spamming-the-log",
+    "standards/error-handling.md#anti-patterns-to-avoid/silent-degradation",
+    "standards/code-style.md#project-specific-rules",
+    "standards/code-style.md#imports-includes/example",
+    "standards/naming-conventions.md#project-specific-conventions/motion-sensor-range-specifics"
+   ]
+  },
+  {
+   "term": "saved-state",
+   "gloss": "A record earns this term when it is about what a mod stores in a save file and how that data is restored when the save loads.",
+   "est_records": 6,
+   "est_documents": 3,
+   "evidence": [
+    "standards/code-style.md#game-components",
+    "domains/entities.md#key-entities/saved-state-and-settings",
+    "domains/entities.md#key-entities/rangeslider",
+    "domains/entities.md#business-rules",
+    "domains/glossary.md#cross-domain-terms/kserialization",
+    "standards/code-style.md#project-specific-rules/motion-sensor-range-specifics"
+   ]
+  },
+  {
+   "term": "copy-settings",
+   "gloss": "A record earns this term when it is about how a building's settings travel to other buildings through the game's copy-settings tool.",
+   "est_records": 5,
+   "est_documents": 3,
+   "evidence": [
+    "domains/entities.md#key-entities/rangeslider",
+    "domains/entities.md#business-rules",
+    "domains/entities.md#key-code-paths",
+    "domains/glossary.md#cross-domain-terms/copy-settings",
+    "standards/code-style.md#project-specific-rules/motion-sensor-range-specifics"
+   ]
+  },
+  {
+   "term": "in-game-testing",
+   "gloss": "A record earns this term when it is about testing a mod inside the running game with TestRunner and its [OniTest] coroutines.",
+   "est_records": 6,
+   "est_documents": 4,
+   "evidence": [
+    "standards/code-style.md#project-specific-rules",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "standards/naming-conventions.md#code-naming/ids-and-tags",
+    "domains/entities.md#key-code-paths",
+    "overview.md#where-things-are",
+    "standards/naming-conventions.md#project-specific-conventions/motion-sensor-range-specifics"
+   ]
+  },
+  {
+   "term": "mod-entry-point",
+   "gloss": "A record earns this term when it is about a mod's UserMod2 class and what it does when the game loads the mod.",
+   "est_records": 4,
+   "est_documents": 3,
+   "evidence": [
+    "standards/code-style.md#harmony-patches",
+    "standards/code-style.md#project-specific-rules",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "domains/entities.md#key-entities/mod-entry-and-strings"
+   ]
+  },
+  {
+   "term": "mod-strings",
+   "gloss": "A record earns this term when it is about the player-visible text a mod defines in ModStrings and the translations of that text.",
+   "est_records": 6,
+   "est_documents": 3,
+   "evidence": [
+    "standards/code-style.md#control-structures/strings",
+    "standards/code-style.md#language-and-toolchain",
+    "standards/naming-conventions.md#code-naming/strings-modstrings",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "domains/entities.md#key-entities/mod-entry-and-strings",
+    "standards/naming-conventions.md#project-specific-conventions/motion-sensor-range-specifics"
+   ]
+  },
+  {
+   "term": "reflection",
+   "gloss": "A record earns this term when it is about reaching non-public members of the game or of another mod through reflection.",
+   "est_records": 5,
+   "est_documents": 3,
+   "evidence": [
+    "standards/code-style.md#harmony-patches",
+    "standards/error-handling.md#guarding-patches/missing-member-warn-leave-vanilla",
+    "standards/error-handling.md#anti-patterns-to-avoid/assuming-the-game-s-internals",
+    "domains/entities.md#key-entities/rangeslider",
+    "standards/error-handling.md#project-specific-patterns/motion-sensor-range-specifics"
+   ]
+  },
+  {
+   "term": "game-component",
+   "gloss": "A record earns this term when it is about a KMonoBehaviour component that a mod adds to game objects and the work it does there.",
+   "est_records": 4,
+   "est_documents": 3,
+   "evidence": [
+    "standards/code-style.md#game-components",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "domains/entities.md#key-entities/rangeslider",
+    "standards/code-style.md#project-specific-rules/motion-sensor-range-specifics"
+   ]
+  },
+  {
+   "term": "side-screen",
+   "gloss": "A record earns this term when it is about a building's details-panel side screen that a mod adds or changes.",
+   "est_records": 5,
+   "est_documents": 3,
+   "evidence": [
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "domains/entities.md#key-entities/rangeslider",
+    "domains/glossary.md#cross-domain-terms/iintslidercontrol",
+    "domains/entities.md#key-code-paths",
+    "standards/naming-conventions.md#project-specific-conventions/motion-sensor-range-specifics"
+   ]
+  },
+  {
+   "term": "detection-range",
+   "gloss": "A record earns this term when it is about the area the Duplicant Motion Sensor watches and how its size is set.",
+   "est_records": 10,
+   "est_documents": 3,
+   "evidence": [
+    "domains/entities.md#overview",
+    "domains/entities.md#key-entities/rangeslider",
+    "domains/entities.md#business-rules",
+    "domains/entities.md#key-code-paths",
+    "domains/glossary.md#cross-domain-terms/duplicant-motion-sensor",
+    "domains/glossary.md#cross-domain-terms/pickuprange",
+    "domains/glossary.md#cross-domain-terms/scene-partitioner",
+    "domains/glossary.md#cross-domain-terms/extents",
+    "domains/glossary.md#cross-domain-terms/rangevisualizer",
+    "overview.md#what-this-is"
+   ]
+  },
+  {
+   "term": "under-construction-building",
+   "gloss": "A record earns this term when it is about a building while it is still under construction and what carries over when it completes.",
+   "est_records": 5,
+   "est_documents": 3,
+   "evidence": [
+    "domains/entities.md#key-entities/harmony-patches",
+    "domains/entities.md#business-rules",
+    "domains/entities.md#key-code-paths",
+    "domains/glossary.md#cross-domain-terms/under-construction-building",
+    "standards/code-style.md#project-specific-rules/motion-sensor-range-specifics"
+   ]
+  }
+ ],
+ "mods/multichannel-critter-sensor": [
+  {
+   "term": "harmony-patching",
+   "gloss": "A record earns this term when it is about writing or applying the Harmony patches through which a mod changes game methods.",
+   "est_records": 9,
+   "est_documents": 4,
+   "evidence": [
+    "standards/code-style.md#harmony-patches",
+    "standards/naming-conventions.md#code-naming/classes-types-interfaces",
+    "standards/naming-conventions.md#code-naming/functions-methods",
+    "standards/error-handling.md#guarding-patches",
+    "standards/error-handling.md#anti-patterns-to-avoid/throwing-from-a-patch",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "standards/naming-conventions.md#project-specific-conventions/multichannel-critter-sensor-specifics",
+    "domains/entities.md#key-entities/harmony-patches",
+    "standards/code-style.md#project-specific-rules/multichannel-critter-sensor-specifics"
+   ]
+  },
+  {
+   "term": "vanilla-fallback",
+   "gloss": "A record earns this term when it is about how a mod keeps the game's own behaviour when something it depends on is missing or has changed.",
+   "est_records": 10,
+   "est_documents": 3,
+   "evidence": [
+    "standards/code-style.md#harmony-patches",
+    "standards/error-handling.md#principles",
+    "standards/error-handling.md#guarding-patches/missing-member-warn-leave-vanilla",
+    "standards/error-handling.md#guarding-patches/transpiler-count-the-match",
+    "standards/error-handling.md#guarding-patches/missing-data-warn-continue",
+    "standards/error-handling.md#guarding-patches/null-checks-on-game-objects",
+    "standards/error-handling.md#anti-patterns-to-avoid/assuming-the-game-s-internals",
+    "standards/error-handling.md#anti-patterns-to-avoid/silent-degradation",
+    "standards/error-handling.md#project-specific-patterns/multichannel-critter-sensor-specifics",
+    "domains/entities.md#key-entities/harmony-patches"
+   ]
+  },
+  {
+   "term": "logging",
+   "gloss": "A record earns this term when it is about what a mod writes to the game log and at which level.",
+   "est_records": 9,
+   "est_documents": 3,
+   "evidence": [
+    "standards/error-handling.md#logging",
+    "standards/error-handling.md#logging/log-levels",
+    "standards/error-handling.md#logging/what-to-include",
+    "standards/error-handling.md#guarding-patches/warn-once",
+    "standards/error-handling.md#anti-patterns-to-avoid/spamming-the-log",
+    "standards/error-handling.md#anti-patterns-to-avoid/silent-degradation",
+    "standards/code-style.md#project-specific-rules",
+    "standards/code-style.md#imports-includes/example",
+    "standards/naming-conventions.md#project-specific-conventions/multichannel-critter-sensor-specifics"
+   ]
+  },
+  {
+   "term": "saved-state",
+   "gloss": "A record earns this term when it is about what a mod stores in a save file and how that data is restored when the save loads.",
+   "est_records": 3,
+   "est_documents": 2,
+   "evidence": [
+    "standards/code-style.md#game-components",
+    "domains/entities.md#key-entities/multichannelcrittersensor-component",
+    "domains/entities.md#key-entities/mod-entry-and-strings"
+   ]
+  },
+  {
+   "term": "copy-settings",
+   "gloss": "A record earns this term when it is about how a building's settings travel to other buildings through the game's copy-settings tool.",
+   "est_records": 3,
+   "est_documents": 2,
+   "evidence": [
+    "domains/entities.md#key-entities/multichannelcrittersensor-component",
+    "domains/entities.md#business-rules",
+    "domains/glossary.md#cross-domain-terms/copy-settings"
+   ]
+  },
+  {
+   "term": "in-game-testing",
+   "gloss": "A record earns this term when it is about testing a mod inside the running game with TestRunner and its [OniTest] coroutines.",
+   "est_records": 6,
+   "est_documents": 4,
+   "evidence": [
+    "standards/code-style.md#project-specific-rules",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "standards/naming-conventions.md#code-naming/ids-and-tags",
+    "domains/entities.md#key-code-paths",
+    "overview.md#where-things-are",
+    "standards/naming-conventions.md#project-specific-conventions/multichannel-critter-sensor-specifics"
+   ]
+  },
+  {
+   "term": "mod-entry-point",
+   "gloss": "A record earns this term when it is about a mod's UserMod2 class and what it does when the game loads the mod.",
+   "est_records": 5,
+   "est_documents": 3,
+   "evidence": [
+    "standards/code-style.md#harmony-patches",
+    "standards/code-style.md#project-specific-rules",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "domains/entities.md#key-entities/mod-entry-and-strings",
+    "standards/code-style.md#project-specific-rules/multichannel-critter-sensor-specifics"
+   ]
+  },
+  {
+   "term": "mod-strings",
+   "gloss": "A record earns this term when it is about the player-visible text a mod defines in ModStrings and the translations of that text.",
+   "est_records": 7,
+   "est_documents": 3,
+   "evidence": [
+    "standards/code-style.md#control-structures/strings",
+    "standards/code-style.md#language-and-toolchain",
+    "standards/naming-conventions.md#code-naming/strings-modstrings",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "domains/entities.md#key-entities/mod-entry-and-strings",
+    "domains/entities.md#key-entities/thresholdadapter",
+    "standards/naming-conventions.md#project-specific-conventions/multichannel-critter-sensor-specifics"
+   ]
+  },
+  {
+   "term": "game-component",
+   "gloss": "A record earns this term when it is about a KMonoBehaviour component that a mod adds to game objects and the work it does there.",
+   "est_records": 4,
+   "est_documents": 3,
+   "evidence": [
+    "standards/code-style.md#game-components",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "domains/entities.md#key-entities/multichannelcrittersensor-component",
+    "domains/entities.md#key-entities/thresholdadapter"
+   ]
+  },
+  {
+   "term": "side-screen",
+   "gloss": "A record earns this term when it is about a building's details-panel side screen that a mod adds or changes.",
+   "est_records": 7,
+   "est_documents": 4,
+   "evidence": [
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "domains/entities.md#key-entities/multichannelcrittersensorsidescreen",
+    "domains/entities.md#key-entities/thresholdadapter",
+    "domains/entities.md#key-entities/harmony-patches",
+    "standards/code-style.md#project-specific-rules/multichannel-critter-sensor-specifics",
+    "standards/error-handling.md#project-specific-patterns/multichannel-critter-sensor-specifics",
+    "standards/naming-conventions.md#project-specific-conventions/multichannel-critter-sensor-specifics"
+   ]
+  },
+  {
+   "term": "building-config",
+   "gloss": "A record earns this term when it is about the definition of a building a mod adds through an IBuildingConfig class.",
+   "est_records": 4,
+   "est_documents": 3,
+   "evidence": [
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "standards/naming-conventions.md#code-naming/ids-and-tags",
+    "domains/entities.md#key-entities/multichannelcrittersensorconfig",
+    "standards/code-style.md#project-specific-rules/multichannel-critter-sensor-specifics"
+   ]
+  },
+  {
+   "term": "building-unlock",
+   "gloss": "A record earns this term when it is about how a mod's building is placed in the build menu and unlocked by research.",
+   "est_records": 5,
+   "est_documents": 4,
+   "evidence": [
+    "standards/error-handling.md#guarding-patches/missing-data-warn-continue",
+    "domains/entities.md#key-entities/harmony-patches",
+    "domains/glossary.md#cross-domain-terms/multiplexing",
+    "standards/code-style.md#project-specific-rules/multichannel-critter-sensor-specifics",
+    "standards/error-handling.md#project-specific-patterns/multichannel-critter-sensor-specifics"
+   ]
+  },
+  {
+   "term": "kanim-art",
+   "gloss": "A record earns this term when it is about the kanim animation art a mod ships or swaps onto a building and how that art is made.",
+   "est_records": 5,
+   "est_documents": 3,
+   "evidence": [
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "domains/entities.md#overview",
+    "domains/entities.md#business-rules",
+    "domains/entities.md#key-entities/multichannelcrittersensor-component",
+    "overview.md#what-this-is"
+   ]
+  },
+  {
+   "term": "automation-ribbon",
+   "gloss": "A record earns this term when it is about the Automation Ribbon and the multi-bit signals it carries.",
+   "est_records": 4,
+   "est_documents": 2,
+   "evidence": [
+    "domains/glossary.md#cross-domain-terms/automation-ribbon-ribbon-port",
+    "domains/entities.md#key-entities/multichannelcrittersensor-component",
+    "domains/entities.md#business-rules",
+    "domains/glossary.md#cross-domain-terms/logic-tick"
+   ]
+  },
+  {
+   "term": "critter-sensor",
+   "gloss": "A record earns this term when it is about the game's critter sensor and how it counts the critters and eggs in a room.",
+   "est_records": 8,
+   "est_documents": 3,
+   "evidence": [
+    "domains/entities.md#overview",
+    "domains/entities.md#key-entities/multichannelcrittersensor-component",
+    "domains/entities.md#business-rules",
+    "domains/glossary.md#cross-domain-terms/critter-sensor",
+    "domains/glossary.md#cross-domain-terms/room-and-cavity",
+    "domains/glossary.md#cross-domain-terms/tracked-total",
+    "domains/glossary.md#cross-domain-terms/prefab-tag",
+    "overview.md#what-this-is"
+   ]
+  },
+  {
+   "term": "signal-threshold",
+   "gloss": "A record earns this term when it is about the threshold values an automation sensor compares against to decide its output signal.",
+   "est_records": 5,
+   "est_documents": 2,
+   "evidence": [
+    "domains/entities.md#key-entities/thresholdadapter",
+    "domains/entities.md#business-rules",
+    "domains/glossary.md#cross-domain-terms/threshold-above-below",
+    "domains/glossary.md#cross-domain-terms/combined-and-separate-mode",
+    "domains/glossary.md#cross-domain-terms/ithresholdswitch"
+   ]
+  }
+ ],
+ "mods/natural-backwalls-everywhere": [
+  {
+   "term": "harmony-patching",
+   "gloss": "A record earns this term when it is about writing or applying the Harmony patches through which a mod changes game methods.",
+   "est_records": 10,
+   "est_documents": 4,
+   "evidence": [
+    "standards/code-style.md#harmony-patches",
+    "standards/naming-conventions.md#code-naming/classes-types-interfaces",
+    "standards/naming-conventions.md#code-naming/functions-methods",
+    "standards/error-handling.md#guarding-patches",
+    "standards/error-handling.md#anti-patterns-to-avoid/throwing-from-a-patch",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "standards/naming-conventions.md#project-specific-conventions/natural-backwalls-everywhere-specifics",
+    "domains/entities.md#key-entities/cloneintonewworld-patch",
+    "domains/entities.md#key-entities/other-harmony-patches",
+    "standards/code-style.md#project-specific-rules/natural-backwalls-everywhere-specifics"
+   ]
+  },
+  {
+   "term": "transpiler",
+   "gloss": "A record earns this term when it is about a Harmony transpiler that rewrites the instructions of a game method.",
+   "est_records": 5,
+   "est_documents": 3,
+   "evidence": [
+    "standards/code-style.md#harmony-patches",
+    "standards/error-handling.md#guarding-patches/transpiler-count-the-match",
+    "domains/entities.md#key-entities/other-harmony-patches",
+    "domains/entities.md#key-code-paths",
+    "standards/error-handling.md#project-specific-patterns/natural-backwalls-everywhere-specifics"
+   ]
+  },
+  {
+   "term": "vanilla-fallback",
+   "gloss": "A record earns this term when it is about how a mod keeps the game's own behaviour when something it depends on is missing or has changed.",
+   "est_records": 11,
+   "est_documents": 3,
+   "evidence": [
+    "standards/code-style.md#harmony-patches",
+    "standards/error-handling.md#principles",
+    "standards/error-handling.md#guarding-patches/missing-member-warn-leave-vanilla",
+    "standards/error-handling.md#guarding-patches/transpiler-count-the-match",
+    "standards/error-handling.md#guarding-patches/missing-data-warn-continue",
+    "standards/error-handling.md#guarding-patches/null-checks-on-game-objects",
+    "standards/error-handling.md#anti-patterns-to-avoid/assuming-the-game-s-internals",
+    "standards/error-handling.md#anti-patterns-to-avoid/silent-degradation",
+    "standards/error-handling.md#project-specific-patterns/natural-backwalls-everywhere-specifics",
+    "domains/entities.md#key-entities/cloneintonewworld-patch",
+    "domains/entities.md#business-rules"
+   ]
+  },
+  {
+   "term": "logging",
+   "gloss": "A record earns this term when it is about what a mod writes to the game log and at which level.",
+   "est_records": 11,
+   "est_documents": 4,
+   "evidence": [
+    "standards/error-handling.md#logging",
+    "standards/error-handling.md#logging/log-levels",
+    "standards/error-handling.md#logging/what-to-include",
+    "standards/error-handling.md#guarding-patches/warn-once",
+    "standards/error-handling.md#anti-patterns-to-avoid/spamming-the-log",
+    "standards/error-handling.md#anti-patterns-to-avoid/silent-degradation",
+    "standards/code-style.md#project-specific-rules",
+    "standards/code-style.md#imports-includes/example",
+    "standards/naming-conventions.md#project-specific-conventions/natural-backwalls-everywhere-specifics",
+    "domains/glossary.md#cross-domain-terms/census",
+    "standards/error-handling.md#project-specific-patterns/natural-backwalls-everywhere-specifics"
+   ]
+  },
+  {
+   "term": "exception-handling",
+   "gloss": "A record earns this term when it is about where a mod catches exceptions and what it does once it has caught one.",
+   "est_records": 8,
+   "est_documents": 3,
+   "evidence": [
+    "standards/error-handling.md#try-catch",
+    "standards/error-handling.md#try-catch/finalizer-for-a-thread-with-no-handler",
+    "standards/error-handling.md#anti-patterns-to-avoid/swallowing-exceptions",
+    "standards/error-handling.md#anti-patterns-to-avoid/throwing-from-a-patch",
+    "standards/error-handling.md#project-specific-patterns/natural-backwalls-everywhere-specifics",
+    "domains/entities.md#key-entities/cloneintonewworld-patch",
+    "domains/entities.md#key-entities/other-harmony-patches",
+    "domains/glossary.md#cross-domain-terms/worldgen-thread"
+   ]
+  },
+  {
+   "term": "mod-compatibility",
+   "gloss": "A record earns this term when it is about a mod working correctly alongside other authors' mods installed in the same game.",
+   "est_records": 6,
+   "est_documents": 3,
+   "evidence": [
+    "standards/error-handling.md#yielding-to-other-mods",
+    "standards/error-handling.md#try-catch",
+    "standards/code-style.md#comments/when-to-comment",
+    "domains/entities.md#key-entities/cloneintonewworld-patch",
+    "domains/entities.md#key-entities/options",
+    "domains/entities.md#business-rules"
+   ]
+  },
+  {
+   "term": "mod-options",
+   "gloss": "A record earns this term when it is about the player-facing settings a mod exposes on its options screen and how the mod reads them.",
+   "est_records": 9,
+   "est_documents": 3,
+   "evidence": [
+    "standards/code-style.md#project-specific-rules",
+    "standards/naming-conventions.md#code-naming/strings-modstrings",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "domains/entities.md#key-entities/options",
+    "domains/entities.md#key-entities/options-entries",
+    "domains/entities.md#key-entities/mod-entry-and-strings",
+    "domains/entities.md#key-code-paths",
+    "standards/code-style.md#project-specific-rules/natural-backwalls-everywhere-specifics",
+    "standards/naming-conventions.md#project-specific-conventions/natural-backwalls-everywhere-specifics"
+   ]
+  },
+  {
+   "term": "in-game-testing",
+   "gloss": "A record earns this term when it is about testing a mod inside the running game with TestRunner and its [OniTest] coroutines.",
+   "est_records": 6,
+   "est_documents": 4,
+   "evidence": [
+    "standards/code-style.md#project-specific-rules",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "standards/naming-conventions.md#code-naming/ids-and-tags",
+    "domains/entities.md#key-code-paths",
+    "overview.md#where-things-are",
+    "standards/naming-conventions.md#project-specific-conventions/natural-backwalls-everywhere-specifics"
+   ]
+  },
+  {
+   "term": "mod-entry-point",
+   "gloss": "A record earns this term when it is about a mod's UserMod2 class and what it does when the game loads the mod.",
+   "est_records": 4,
+   "est_documents": 3,
+   "evidence": [
+    "standards/code-style.md#harmony-patches",
+    "standards/code-style.md#project-specific-rules",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "domains/entities.md#key-entities/mod-entry-and-strings"
+   ]
+  },
+  {
+   "term": "mod-strings",
+   "gloss": "A record earns this term when it is about the player-visible text a mod defines in ModStrings and the translations of that text.",
+   "est_records": 6,
+   "est_documents": 3,
+   "evidence": [
+    "standards/code-style.md#control-structures/strings",
+    "standards/code-style.md#language-and-toolchain",
+    "standards/naming-conventions.md#code-naming/strings-modstrings",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "domains/entities.md#key-entities/mod-entry-and-strings",
+    "standards/naming-conventions.md#project-specific-conventions/natural-backwalls-everywhere-specifics"
+   ]
+  },
+  {
+   "term": "developer-tooling",
+   "gloss": "A record earns this term when it is about debug and developer features a mod includes for its author rather than for players.",
+   "est_records": 7,
+   "est_documents": 4,
+   "evidence": [
+    "standards/error-handling.md#logging/what-to-include",
+    "domains/entities.md#key-entities/exportoverlay",
+    "domains/entities.md#key-entities/biomepreview-tool",
+    "domains/glossary.md#cross-domain-terms/census",
+    "domains/glossary.md#cross-domain-terms/overlay-export",
+    "standards/error-handling.md#project-specific-patterns/natural-backwalls-everywhere-specifics",
+    "standards/code-style.md#project-specific-rules/natural-backwalls-everywhere-specifics"
+   ]
+  },
+  {
+   "term": "worldgen",
+   "gloss": "A record earns this term when it is about world generation and the data a mod changes while a new world is generated.",
+   "est_records": 11,
+   "est_documents": 3,
+   "evidence": [
+    "domains/entities.md#overview",
+    "domains/entities.md#key-entities/cloneintonewworld-patch",
+    "domains/entities.md#key-entities/worldgen-noise-trees",
+    "domains/entities.md#key-entities/other-harmony-patches",
+    "domains/entities.md#business-rules",
+    "domains/glossary.md#cross-domain-terms/subworld",
+    "domains/glossary.md#cross-domain-terms/mutatedworlddata",
+    "domains/glossary.md#cross-domain-terms/worldgen-thread",
+    "domains/glossary.md#cross-domain-terms/feature-room",
+    "domains/glossary.md#cross-domain-terms/backwall",
+    "overview.md#what-this-is"
+   ]
+  },
+  {
+   "term": "biome-group",
+   "gloss": "A record earns this term when it is about the families of biomes that share one backwall material and coverage setting.",
+   "est_records": 9,
+   "est_documents": 3,
+   "evidence": [
+    "domains/entities.md#key-entities/biomegroup-and-biomegroups",
+    "domains/entities.md#key-entities/options",
+    "domains/entities.md#key-entities/options-entries",
+    "domains/glossary.md#cross-domain-terms/biome",
+    "domains/glossary.md#cross-domain-terms/biome-group",
+    "domains/glossary.md#cross-domain-terms/coverage",
+    "domains/glossary.md#cross-domain-terms/starting-biome",
+    "domains/glossary.md#cross-domain-terms/band-table",
+    "standards/naming-conventions.md#project-specific-conventions/natural-backwalls-everywhere-specifics"
+   ]
+  },
+  {
+   "term": "noise-pattern",
+   "gloss": "A record earns this term when it is about the worldgen noise trees that shape where backwall patches appear.",
+   "est_records": 5,
+   "est_documents": 3,
+   "evidence": [
+    "domains/entities.md#key-entities/pattern-patterngroup-and-patterns",
+    "domains/entities.md#key-entities/worldgen-noise-trees",
+    "domains/glossary.md#cross-domain-terms/noise-tree-pattern",
+    "domains/glossary.md#cross-domain-terms/zone-type",
+    "standards/error-handling.md#project-specific-patterns/natural-backwalls-everywhere-specifics"
+   ]
+  },
+  {
+   "term": "settle-sim",
+   "gloss": "A record earns this term when it is about the simulation worldgen runs to settle a new world before play begins.",
+   "est_records": 7,
+   "est_documents": 4,
+   "evidence": [
+    "domains/entities.md#key-entities/other-harmony-patches",
+    "domains/entities.md#business-rules",
+    "domains/entities.md#key-code-paths",
+    "domains/glossary.md#cross-domain-terms/settle-sim",
+    "standards/error-handling.md#project-specific-patterns/natural-backwalls-everywhere-specifics",
+    "standards/code-style.md#project-specific-rules/natural-backwalls-everywhere-specifics",
+    "standards/code-style.md#control-structures/conditionals"
+   ]
+  }
+ ],
+ "mods/no-magic-fridges": [
+  {
+   "term": "harmony-patching",
+   "gloss": "A record earns this term when it is about writing or applying the Harmony patches through which a mod changes game methods.",
+   "est_records": 9,
+   "est_documents": 4,
+   "evidence": [
+    "standards/code-style.md#harmony-patches",
+    "standards/naming-conventions.md#code-naming/classes-types-interfaces",
+    "standards/naming-conventions.md#code-naming/functions-methods",
+    "standards/error-handling.md#guarding-patches",
+    "standards/error-handling.md#anti-patterns-to-avoid/throwing-from-a-patch",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "standards/naming-conventions.md#project-specific-conventions/no-magic-fridges-specifics",
+    "domains/entities.md#key-entities/harmony-patches",
+    "standards/code-style.md#project-specific-rules/no-magic-fridges-specifics"
+   ]
+  },
+  {
+   "term": "vanilla-fallback",
+   "gloss": "A record earns this term when it is about how a mod keeps the game's own behaviour when something it depends on is missing or has changed.",
+   "est_records": 11,
+   "est_documents": 3,
+   "evidence": [
+    "standards/code-style.md#harmony-patches",
+    "standards/error-handling.md#principles",
+    "standards/error-handling.md#guarding-patches/missing-member-warn-leave-vanilla",
+    "standards/error-handling.md#guarding-patches/transpiler-count-the-match",
+    "standards/error-handling.md#guarding-patches/missing-data-warn-continue",
+    "standards/error-handling.md#guarding-patches/null-checks-on-game-objects",
+    "standards/error-handling.md#anti-patterns-to-avoid/assuming-the-game-s-internals",
+    "standards/error-handling.md#anti-patterns-to-avoid/silent-degradation",
+    "standards/error-handling.md#project-specific-patterns/no-magic-fridges-specifics",
+    "domains/entities.md#key-entities/harmony-patches",
+    "domains/entities.md#overview"
+   ]
+  },
+  {
+   "term": "logging",
+   "gloss": "A record earns this term when it is about what a mod writes to the game log and at which level.",
+   "est_records": 9,
+   "est_documents": 3,
+   "evidence": [
+    "standards/error-handling.md#logging",
+    "standards/error-handling.md#logging/log-levels",
+    "standards/error-handling.md#logging/what-to-include",
+    "standards/error-handling.md#guarding-patches/warn-once",
+    "standards/error-handling.md#anti-patterns-to-avoid/spamming-the-log",
+    "standards/error-handling.md#anti-patterns-to-avoid/silent-degradation",
+    "standards/code-style.md#project-specific-rules",
+    "standards/code-style.md#imports-includes/example",
+    "standards/naming-conventions.md#project-specific-conventions/no-magic-fridges-specifics"
+   ]
+  },
+  {
+   "term": "in-game-testing",
+   "gloss": "A record earns this term when it is about testing a mod inside the running game with TestRunner and its [OniTest] coroutines.",
+   "est_records": 6,
+   "est_documents": 4,
+   "evidence": [
+    "standards/code-style.md#project-specific-rules",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "standards/naming-conventions.md#code-naming/ids-and-tags",
+    "domains/entities.md#key-code-paths",
+    "overview.md#where-things-are",
+    "standards/naming-conventions.md#project-specific-conventions/no-magic-fridges-specifics"
+   ]
+  },
+  {
+   "term": "mod-entry-point",
+   "gloss": "A record earns this term when it is about a mod's UserMod2 class and what it does when the game loads the mod.",
+   "est_records": 4,
+   "est_documents": 3,
+   "evidence": [
+    "standards/code-style.md#harmony-patches",
+    "standards/code-style.md#project-specific-rules",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "domains/entities.md#key-entities/mod-entry"
+   ]
+  },
+  {
+   "term": "reflection",
+   "gloss": "A record earns this term when it is about reaching non-public members of the game or of another mod through reflection.",
+   "est_records": 7,
+   "est_documents": 3,
+   "evidence": [
+    "standards/code-style.md#harmony-patches",
+    "standards/error-handling.md#guarding-patches/missing-member-warn-leave-vanilla",
+    "standards/error-handling.md#anti-patterns-to-avoid/assuming-the-game-s-internals",
+    "domains/entities.md#key-entities/harmony-patches",
+    "domains/entities.md#key-entities/fridgethermostat",
+    "standards/code-style.md#project-specific-rules/no-magic-fridges-specifics",
+    "standards/error-handling.md#project-specific-patterns/no-magic-fridges-specifics"
+   ]
+  },
+  {
+   "term": "game-component",
+   "gloss": "A record earns this term when it is about a KMonoBehaviour component that a mod adds to game objects and the work it does there.",
+   "est_records": 4,
+   "est_documents": 3,
+   "evidence": [
+    "standards/code-style.md#game-components",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "domains/entities.md#key-entities/fridgethermostat",
+    "standards/code-style.md#project-specific-rules/no-magic-fridges-specifics"
+   ]
+  },
+  {
+   "term": "refrigerator",
+   "gloss": "A record earns this term when it is about the game's refrigerators and how they keep stored food cold.",
+   "est_records": 6,
+   "est_documents": 3,
+   "evidence": [
+    "domains/entities.md#overview",
+    "domains/entities.md#key-entities/harmony-patches",
+    "domains/entities.md#business-rules",
+    "domains/glossary.md#cross-domain-terms/refrigeratorcontroller",
+    "domains/glossary.md#cross-domain-terms/operational-powered",
+    "overview.md#what-this-is"
+   ]
+  },
+  {
+   "term": "heat-exchange",
+   "gloss": "A record earns this term when it is about how heat moves between stored items, a fridge's interior and the room around it.",
+   "est_records": 10,
+   "est_documents": 2,
+   "evidence": [
+    "domains/entities.md#key-entities/fridgethermostat",
+    "domains/entities.md#business-rules",
+    "domains/entities.md#key-code-paths",
+    "domains/glossary.md#cross-domain-terms/reservoir-simulated-temperature-adjuster",
+    "domains/glossary.md#cross-domain-terms/thermostat",
+    "domains/glossary.md#cross-domain-terms/compressor-on-off",
+    "domains/glossary.md#cross-domain-terms/setpoint",
+    "domains/glossary.md#cross-domain-terms/interior-temperature",
+    "domains/glossary.md#cross-domain-terms/simtemperaturetransfer",
+    "domains/glossary.md#cross-domain-terms/insulated-tile-factor"
+   ]
+  }
+ ],
+ "mods/refined-building": [
+  {
+   "term": "harmony-patching",
+   "gloss": "A record earns this term when it is about writing or applying the Harmony patches through which a mod changes game methods.",
+   "est_records": 9,
+   "est_documents": 4,
+   "evidence": [
+    "standards/code-style.md#harmony-patches",
+    "standards/naming-conventions.md#code-naming/classes-types-interfaces",
+    "standards/naming-conventions.md#code-naming/functions-methods",
+    "standards/error-handling.md#guarding-patches",
+    "standards/error-handling.md#anti-patterns-to-avoid/throwing-from-a-patch",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "standards/naming-conventions.md#project-specific-conventions/refined-building-specifics",
+    "domains/entities.md#key-entities/elementloader-load-patch",
+    "standards/code-style.md#project-specific-rules/refined-building-specifics"
+   ]
+  },
+  {
+   "term": "logging",
+   "gloss": "A record earns this term when it is about what a mod writes to the game log and at which level.",
+   "est_records": 10,
+   "est_documents": 4,
+   "evidence": [
+    "standards/error-handling.md#logging",
+    "standards/error-handling.md#logging/log-levels",
+    "standards/error-handling.md#logging/what-to-include",
+    "standards/error-handling.md#guarding-patches/warn-once",
+    "standards/error-handling.md#anti-patterns-to-avoid/spamming-the-log",
+    "standards/error-handling.md#anti-patterns-to-avoid/silent-degradation",
+    "standards/code-style.md#project-specific-rules",
+    "standards/code-style.md#imports-includes/example",
+    "standards/naming-conventions.md#project-specific-conventions/refined-building-specifics",
+    "domains/entities.md#key-entities/elementloader-load-patch"
+   ]
+  },
+  {
+   "term": "in-game-testing",
+   "gloss": "A record earns this term when it is about testing a mod inside the running game with TestRunner and its [OniTest] coroutines.",
+   "est_records": 6,
+   "est_documents": 4,
+   "evidence": [
+    "standards/code-style.md#project-specific-rules",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "standards/naming-conventions.md#code-naming/ids-and-tags",
+    "domains/entities.md#key-code-paths",
+    "overview.md#where-things-are",
+    "standards/naming-conventions.md#project-specific-conventions/refined-building-specifics"
+   ]
+  },
+  {
+   "term": "mod-entry-point",
+   "gloss": "A record earns this term when it is about a mod's UserMod2 class and what it does when the game loads the mod.",
+   "est_records": 4,
+   "est_documents": 3,
+   "evidence": [
+    "standards/code-style.md#harmony-patches",
+    "standards/code-style.md#project-specific-rules",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "domains/entities.md#key-entities/mod-entry"
+   ]
+  },
+  {
+   "term": "game-tag",
+   "gloss": "A record earns this term when it is about a game Tag that a mod creates, adds to things or reads to recognise them.",
+   "est_records": 7,
+   "est_documents": 4,
+   "evidence": [
+    "standards/naming-conventions.md#code-naming/ids-and-tags",
+    "domains/entities.md#key-entities/elementloader-load-patch",
+    "domains/entities.md#business-rules",
+    "domains/glossary.md#cross-domain-terms/metal-tag",
+    "domains/glossary.md#cross-domain-terms/refinedmetal-tag",
+    "domains/glossary.md#cross-domain-terms/oretags",
+    "overview.md#what-this-is"
+   ]
+  },
+  {
+   "term": "building-materials",
+   "gloss": "A record earns this term when it is about which materials a building recipe accepts and how a building's material is chosen.",
+   "est_records": 7,
+   "est_documents": 3,
+   "evidence": [
+    "domains/entities.md#overview",
+    "domains/entities.md#key-entities/elementloader-load-patch",
+    "domains/entities.md#business-rules",
+    "domains/glossary.md#cross-domain-terms/materials-raw-metals-all-metals",
+    "domains/glossary.md#cross-domain-terms/refined-metal-material",
+    "domains/glossary.md#cross-domain-terms/metal-refinery-and-rock-crusher",
+    "overview.md#what-this-is"
+   ]
+  }
+ ],
+ "mods/salty-surf": [
+  {
+   "term": "harmony-patching",
+   "gloss": "A record earns this term when it is about writing or applying the Harmony patches through which a mod changes game methods.",
+   "est_records": 9,
+   "est_documents": 4,
+   "evidence": [
+    "standards/code-style.md#harmony-patches",
+    "standards/naming-conventions.md#code-naming/classes-types-interfaces",
+    "standards/naming-conventions.md#code-naming/functions-methods",
+    "standards/error-handling.md#guarding-patches",
+    "standards/error-handling.md#anti-patterns-to-avoid/throwing-from-a-patch",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "standards/naming-conventions.md#project-specific-conventions/salty-surf-specifics",
+    "domains/entities.md#key-entities/harmony-patches",
+    "standards/code-style.md#project-specific-rules/salty-surf-specifics"
+   ]
+  },
+  {
+   "term": "vanilla-fallback",
+   "gloss": "A record earns this term when it is about how a mod keeps the game's own behaviour when something it depends on is missing or has changed.",
+   "est_records": 10,
+   "est_documents": 3,
+   "evidence": [
+    "standards/code-style.md#harmony-patches",
+    "standards/error-handling.md#principles",
+    "standards/error-handling.md#guarding-patches/missing-member-warn-leave-vanilla",
+    "standards/error-handling.md#guarding-patches/transpiler-count-the-match",
+    "standards/error-handling.md#guarding-patches/missing-data-warn-continue",
+    "standards/error-handling.md#guarding-patches/null-checks-on-game-objects",
+    "standards/error-handling.md#anti-patterns-to-avoid/assuming-the-game-s-internals",
+    "standards/error-handling.md#anti-patterns-to-avoid/silent-degradation",
+    "standards/error-handling.md#project-specific-patterns/salty-surf-specifics",
+    "domains/entities.md#business-rules"
+   ]
+  },
+  {
+   "term": "logging",
+   "gloss": "A record earns this term when it is about what a mod writes to the game log and at which level.",
+   "est_records": 9,
+   "est_documents": 3,
+   "evidence": [
+    "standards/error-handling.md#logging",
+    "standards/error-handling.md#logging/log-levels",
+    "standards/error-handling.md#logging/what-to-include",
+    "standards/error-handling.md#guarding-patches/warn-once",
+    "standards/error-handling.md#anti-patterns-to-avoid/spamming-the-log",
+    "standards/error-handling.md#anti-patterns-to-avoid/silent-degradation",
+    "standards/code-style.md#project-specific-rules",
+    "standards/code-style.md#imports-includes/example",
+    "standards/naming-conventions.md#project-specific-conventions/salty-surf-specifics"
+   ]
+  },
+  {
+   "term": "in-game-testing",
+   "gloss": "A record earns this term when it is about testing a mod inside the running game with TestRunner and its [OniTest] coroutines.",
+   "est_records": 6,
+   "est_documents": 4,
+   "evidence": [
+    "standards/code-style.md#project-specific-rules",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "standards/naming-conventions.md#code-naming/ids-and-tags",
+    "domains/entities.md#key-code-paths",
+    "overview.md#where-things-are",
+    "standards/naming-conventions.md#project-specific-conventions/salty-surf-specifics"
+   ]
+  },
+  {
+   "term": "mod-entry-point",
+   "gloss": "A record earns this term when it is about a mod's UserMod2 class and what it does when the game loads the mod.",
+   "est_records": 5,
+   "est_documents": 3,
+   "evidence": [
+    "standards/code-style.md#harmony-patches",
+    "standards/code-style.md#project-specific-rules",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "domains/entities.md#key-entities/mod-entry-and-strings",
+    "standards/code-style.md#project-specific-rules/salty-surf-specifics"
+   ]
+  },
+  {
+   "term": "mod-strings",
+   "gloss": "A record earns this term when it is about the player-visible text a mod defines in ModStrings and the translations of that text.",
+   "est_records": 8,
+   "est_documents": 3,
+   "evidence": [
+    "standards/code-style.md#control-structures/strings",
+    "standards/code-style.md#language-and-toolchain",
+    "standards/naming-conventions.md#code-naming/strings-modstrings",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "domains/entities.md#key-entities/mod-entry-and-strings",
+    "domains/entities.md#key-entities/surfwater",
+    "standards/code-style.md#project-specific-rules/salty-surf-specifics",
+    "standards/naming-conventions.md#project-specific-conventions/salty-surf-specifics"
+   ]
+  },
+  {
+   "term": "reflection",
+   "gloss": "A record earns this term when it is about reaching non-public members of the game or of another mod through reflection.",
+   "est_records": 5,
+   "est_documents": 3,
+   "evidence": [
+    "standards/code-style.md#harmony-patches",
+    "standards/error-handling.md#guarding-patches/missing-member-warn-leave-vanilla",
+    "standards/error-handling.md#anti-patterns-to-avoid/assuming-the-game-s-internals",
+    "domains/entities.md#key-entities/harmony-patches",
+    "standards/code-style.md#project-specific-rules/salty-surf-specifics"
+   ]
+  },
+  {
+   "term": "game-tag",
+   "gloss": "A record earns this term when it is about a game Tag that a mod creates, adds to things or reads to recognise them.",
+   "est_records": 7,
+   "est_documents": 3,
+   "evidence": [
+    "standards/naming-conventions.md#code-naming/ids-and-tags",
+    "domains/entities.md#key-entities/surfwater",
+    "domains/entities.md#key-entities/harmony-patches",
+    "domains/glossary.md#cross-domain-terms/intake-capacity-tag",
+    "domains/glossary.md#cross-domain-terms/shared-tag-saltysurfwater",
+    "domains/glossary.md#cross-domain-terms/oretags",
+    "standards/naming-conventions.md#project-specific-conventions/salty-surf-specifics"
+   ]
+  },
+  {
+   "term": "mechanical-surfboard",
+   "gloss": "A record earns this term when it is about the Mechanical Surfboard and the liquid it takes in, holds and spills.",
+   "est_records": 9,
+   "est_documents": 3,
+   "evidence": [
+    "domains/entities.md#overview",
+    "domains/entities.md#key-entities/harmony-patches",
+    "domains/entities.md#business-rules",
+    "domains/glossary.md#cross-domain-terms/mechanical-surfboard",
+    "domains/glossary.md#cross-domain-terms/readiness-isready",
+    "domains/glossary.md#cross-domain-terms/spill",
+    "domains/glossary.md#cross-domain-terms/wrong-liquid",
+    "domains/glossary.md#cross-domain-terms/intake-capacity-tag",
+    "overview.md#what-this-is"
+   ]
+  },
+  {
+   "term": "info-panel-text",
+   "gloss": "A record earns this term when it is about the lines a building shows in its info panel.",
+   "est_records": 5,
+   "est_documents": 4,
+   "evidence": [
+    "domains/entities.md#key-entities/harmony-patches",
+    "domains/entities.md#business-rules",
+    "domains/glossary.md#cross-domain-terms/descriptor",
+    "standards/error-handling.md#project-specific-patterns/salty-surf-specifics",
+    "standards/code-style.md#project-specific-rules/salty-surf-specifics"
+   ]
+  }
+ ],
+ "mods/smart-weight-plate": [
+  {
+   "term": "harmony-patching",
+   "gloss": "A record earns this term when it is about writing or applying the Harmony patches through which a mod changes game methods.",
+   "est_records": 9,
+   "est_documents": 4,
+   "evidence": [
+    "standards/code-style.md#harmony-patches",
+    "standards/naming-conventions.md#code-naming/classes-types-interfaces",
+    "standards/naming-conventions.md#code-naming/functions-methods",
+    "standards/error-handling.md#guarding-patches",
+    "standards/error-handling.md#anti-patterns-to-avoid/throwing-from-a-patch",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "standards/naming-conventions.md#project-specific-conventions/smart-weight-plate-specifics",
+    "domains/entities.md#key-entities/harmony-patches",
+    "standards/code-style.md#project-specific-rules/smart-weight-plate-specifics"
+   ]
+  },
+  {
+   "term": "vanilla-fallback",
+   "gloss": "A record earns this term when it is about how a mod keeps the game's own behaviour when something it depends on is missing or has changed.",
+   "est_records": 10,
+   "est_documents": 3,
+   "evidence": [
+    "standards/code-style.md#harmony-patches",
+    "standards/error-handling.md#principles",
+    "standards/error-handling.md#guarding-patches/missing-member-warn-leave-vanilla",
+    "standards/error-handling.md#guarding-patches/transpiler-count-the-match",
+    "standards/error-handling.md#guarding-patches/missing-data-warn-continue",
+    "standards/error-handling.md#guarding-patches/null-checks-on-game-objects",
+    "standards/error-handling.md#anti-patterns-to-avoid/assuming-the-game-s-internals",
+    "standards/error-handling.md#anti-patterns-to-avoid/silent-degradation",
+    "standards/error-handling.md#project-specific-patterns/smart-weight-plate-specifics",
+    "domains/entities.md#key-entities/harmony-patches"
+   ]
+  },
+  {
+   "term": "logging",
+   "gloss": "A record earns this term when it is about what a mod writes to the game log and at which level.",
+   "est_records": 9,
+   "est_documents": 3,
+   "evidence": [
+    "standards/error-handling.md#logging",
+    "standards/error-handling.md#logging/log-levels",
+    "standards/error-handling.md#logging/what-to-include",
+    "standards/error-handling.md#guarding-patches/warn-once",
+    "standards/error-handling.md#anti-patterns-to-avoid/spamming-the-log",
+    "standards/error-handling.md#anti-patterns-to-avoid/silent-degradation",
+    "standards/code-style.md#project-specific-rules",
+    "standards/code-style.md#imports-includes/example",
+    "standards/naming-conventions.md#project-specific-conventions/smart-weight-plate-specifics"
+   ]
+  },
+  {
+   "term": "mod-compatibility",
+   "gloss": "A record earns this term when it is about a mod working correctly alongside other authors' mods installed in the same game.",
+   "est_records": 7,
+   "est_documents": 4,
+   "evidence": [
+    "standards/error-handling.md#yielding-to-other-mods",
+    "standards/error-handling.md#try-catch",
+    "standards/code-style.md#comments/when-to-comment",
+    "domains/entities.md#key-entities/harmony-patches",
+    "standards/code-style.md#project-specific-rules/smart-weight-plate-specifics",
+    "standards/error-handling.md#project-specific-patterns/smart-weight-plate-specifics",
+    "domains/glossary.md#abbreviations-and-acronyms"
+   ]
+  },
+  {
+   "term": "saved-state",
+   "gloss": "A record earns this term when it is about what a mod stores in a save file and how that data is restored when the save loads.",
+   "est_records": 5,
+   "est_documents": 3,
+   "evidence": [
+    "standards/code-style.md#game-components",
+    "domains/entities.md#key-entities/saved-state",
+    "domains/entities.md#key-entities/smartweightplate-component",
+    "domains/entities.md#business-rules",
+    "domains/glossary.md#cross-domain-terms/settings-version"
+   ]
+  },
+  {
+   "term": "in-game-testing",
+   "gloss": "A record earns this term when it is about testing a mod inside the running game with TestRunner and its [OniTest] coroutines.",
+   "est_records": 6,
+   "est_documents": 4,
+   "evidence": [
+    "standards/code-style.md#project-specific-rules",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "standards/naming-conventions.md#code-naming/ids-and-tags",
+    "domains/entities.md#key-code-paths",
+    "overview.md#where-things-are",
+    "standards/naming-conventions.md#project-specific-conventions/smart-weight-plate-specifics"
+   ]
+  },
+  {
+   "term": "mod-entry-point",
+   "gloss": "A record earns this term when it is about a mod's UserMod2 class and what it does when the game loads the mod.",
+   "est_records": 4,
+   "est_documents": 3,
+   "evidence": [
+    "standards/code-style.md#harmony-patches",
+    "standards/code-style.md#project-specific-rules",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "domains/entities.md#key-entities/harmony-patches"
+   ]
+  },
+  {
+   "term": "mod-strings",
+   "gloss": "A record earns this term when it is about the player-visible text a mod defines in ModStrings and the translations of that text.",
+   "est_records": 6,
+   "est_documents": 3,
+   "evidence": [
+    "standards/code-style.md#control-structures/strings",
+    "standards/code-style.md#language-and-toolchain",
+    "standards/naming-conventions.md#code-naming/strings-modstrings",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "domains/entities.md#key-code-paths",
+    "standards/naming-conventions.md#project-specific-conventions/smart-weight-plate-specifics"
+   ]
+  },
+  {
+   "term": "game-component",
+   "gloss": "A record earns this term when it is about a KMonoBehaviour component that a mod adds to game objects and the work it does there.",
+   "est_records": 3,
+   "est_documents": 3,
+   "evidence": [
+    "standards/code-style.md#game-components",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "domains/entities.md#key-entities/smartweightplate-component"
+   ]
+  },
+  {
+   "term": "side-screen",
+   "gloss": "A record earns this term when it is about a building's details-panel side screen that a mod adds or changes.",
+   "est_records": 7,
+   "est_documents": 4,
+   "evidence": [
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "domains/entities.md#key-entities/smartweightplatesidescreen-ui",
+    "domains/entities.md#key-entities/harmony-patches",
+    "domains/entities.md#key-code-paths",
+    "standards/code-style.md#project-specific-rules/smart-weight-plate-specifics",
+    "standards/error-handling.md#project-specific-patterns/smart-weight-plate-specifics",
+    "standards/naming-conventions.md#project-specific-conventions/smart-weight-plate-specifics"
+   ]
+  },
+  {
+   "term": "building-config",
+   "gloss": "A record earns this term when it is about the definition of a building a mod adds through an IBuildingConfig class.",
+   "est_records": 4,
+   "est_documents": 3,
+   "evidence": [
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "standards/naming-conventions.md#code-naming/ids-and-tags",
+    "domains/entities.md#key-entities/smart-weight-plate-building",
+    "standards/code-style.md#project-specific-rules/smart-weight-plate-specifics"
+   ]
+  },
+  {
+   "term": "building-unlock",
+   "gloss": "A record earns this term when it is about how a mod's building is placed in the build menu and unlocked by research.",
+   "est_records": 5,
+   "est_documents": 3,
+   "evidence": [
+    "standards/error-handling.md#guarding-patches/missing-data-warn-continue",
+    "domains/entities.md#key-entities/smart-weight-plate-building",
+    "domains/entities.md#key-entities/harmony-patches",
+    "standards/code-style.md#project-specific-rules/smart-weight-plate-specifics",
+    "standards/error-handling.md#project-specific-patterns/smart-weight-plate-specifics"
+   ]
+  },
+  {
+   "term": "kanim-art",
+   "gloss": "A record earns this term when it is about the kanim animation art a mod ships or swaps onto a building and how that art is made.",
+   "est_records": 4,
+   "est_documents": 3,
+   "evidence": [
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "domains/entities.md#key-entities/smart-weight-plate-building",
+    "domains/entities.md#key-code-paths",
+    "overview.md#what-this-is"
+   ]
+  },
+  {
+   "term": "signal-threshold",
+   "gloss": "A record earns this term when it is about the threshold values an automation sensor compares against to decide its output signal.",
+   "est_records": 6,
+   "est_documents": 3,
+   "evidence": [
+    "domains/entities.md#overview",
+    "domains/entities.md#key-entities/smartweightplate-component",
+    "domains/entities.md#business-rules",
+    "domains/entities.md#domain-terminology",
+    "domains/glossary.md#cross-domain-terms/reservoir-semantics",
+    "overview.md#what-this-is"
+   ]
+  },
+  {
+   "term": "weight-sensing",
+   "gloss": "A record earns this term when it is about how a weight plate measures the mass resting on the cell above it.",
+   "est_records": 6,
+   "est_documents": 2,
+   "evidence": [
+    "domains/entities.md#business-rules",
+    "domains/entities.md#key-code-paths",
+    "domains/entities.md#key-entities/smartweightplate-component",
+    "domains/glossary.md#cross-domain-terms/weight-plate",
+    "domains/glossary.md#cross-domain-terms/floorswitchactivator",
+    "domains/glossary.md#cross-domain-terms/pickupable"
+   ]
+  }
+ ],
+ "mods/storage-pod-redux": [
+  {
+   "term": "harmony-patching",
+   "gloss": "A record earns this term when it is about writing or applying the Harmony patches through which a mod changes game methods.",
+   "est_records": 9,
+   "est_documents": 4,
+   "evidence": [
+    "standards/code-style.md#harmony-patches",
+    "standards/naming-conventions.md#code-naming/classes-types-interfaces",
+    "standards/naming-conventions.md#code-naming/functions-methods",
+    "standards/error-handling.md#guarding-patches",
+    "standards/error-handling.md#anti-patterns-to-avoid/throwing-from-a-patch",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "standards/naming-conventions.md#project-specific-conventions/storage-pod-redux-specifics",
+    "domains/entities.md#key-entities/harmony-patches",
+    "standards/code-style.md#project-specific-rules/storage-pod-redux-specifics"
+   ]
+  },
+  {
+   "term": "vanilla-fallback",
+   "gloss": "A record earns this term when it is about how a mod keeps the game's own behaviour when something it depends on is missing or has changed.",
+   "est_records": 10,
+   "est_documents": 3,
+   "evidence": [
+    "standards/code-style.md#harmony-patches",
+    "standards/error-handling.md#principles",
+    "standards/error-handling.md#guarding-patches/missing-member-warn-leave-vanilla",
+    "standards/error-handling.md#guarding-patches/transpiler-count-the-match",
+    "standards/error-handling.md#guarding-patches/missing-data-warn-continue",
+    "standards/error-handling.md#guarding-patches/null-checks-on-game-objects",
+    "standards/error-handling.md#anti-patterns-to-avoid/assuming-the-game-s-internals",
+    "standards/error-handling.md#anti-patterns-to-avoid/silent-degradation",
+    "standards/error-handling.md#project-specific-patterns/storage-pod-redux-specifics",
+    "domains/entities.md#key-entities/mod-detection"
+   ]
+  },
+  {
+   "term": "logging",
+   "gloss": "A record earns this term when it is about what a mod writes to the game log and at which level.",
+   "est_records": 9,
+   "est_documents": 3,
+   "evidence": [
+    "standards/error-handling.md#logging",
+    "standards/error-handling.md#logging/log-levels",
+    "standards/error-handling.md#logging/what-to-include",
+    "standards/error-handling.md#guarding-patches/warn-once",
+    "standards/error-handling.md#anti-patterns-to-avoid/spamming-the-log",
+    "standards/error-handling.md#anti-patterns-to-avoid/silent-degradation",
+    "standards/code-style.md#project-specific-rules",
+    "standards/code-style.md#imports-includes/example",
+    "standards/naming-conventions.md#project-specific-conventions/storage-pod-redux-specifics"
+   ]
+  },
+  {
+   "term": "mod-compatibility",
+   "gloss": "A record earns this term when it is about a mod working correctly alongside other authors' mods installed in the same game.",
+   "est_records": 10,
+   "est_documents": 4,
+   "evidence": [
+    "standards/error-handling.md#yielding-to-other-mods",
+    "standards/error-handling.md#try-catch",
+    "standards/code-style.md#comments/when-to-comment",
+    "domains/entities.md#key-entities/mod-detection",
+    "domains/entities.md#key-entities/buildings-decision-state",
+    "domains/entities.md#business-rules",
+    "domains/entities.md#domain-terminology",
+    "domains/glossary.md#cross-domain-terms/static-id",
+    "standards/code-style.md#project-specific-rules/storage-pod-redux-specifics",
+    "standards/error-handling.md#project-specific-patterns/storage-pod-redux-specifics"
+   ]
+  },
+  {
+   "term": "mod-options",
+   "gloss": "A record earns this term when it is about the player-facing settings a mod exposes on its options screen and how the mod reads them.",
+   "est_records": 7,
+   "est_documents": 3,
+   "evidence": [
+    "standards/code-style.md#project-specific-rules",
+    "standards/naming-conventions.md#code-naming/strings-modstrings",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "domains/entities.md#key-entities/options",
+    "domains/entities.md#business-rules",
+    "standards/code-style.md#project-specific-rules/storage-pod-redux-specifics",
+    "standards/naming-conventions.md#project-specific-conventions/storage-pod-redux-specifics"
+   ]
+  },
+  {
+   "term": "saved-state",
+   "gloss": "A record earns this term when it is about what a mod stores in a save file and how that data is restored when the save loads.",
+   "est_records": 4,
+   "est_documents": 3,
+   "evidence": [
+    "standards/code-style.md#game-components",
+    "domains/entities.md#business-rules",
+    "domains/entities.md#key-entities/storage-pod-building",
+    "domains/glossary.md#cross-domain-terms/prefab-id"
+   ]
+  },
+  {
+   "term": "in-game-testing",
+   "gloss": "A record earns this term when it is about testing a mod inside the running game with TestRunner and its [OniTest] coroutines.",
+   "est_records": 6,
+   "est_documents": 4,
+   "evidence": [
+    "standards/code-style.md#project-specific-rules",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "standards/naming-conventions.md#code-naming/ids-and-tags",
+    "domains/entities.md#key-code-paths",
+    "overview.md#where-things-are",
+    "standards/naming-conventions.md#project-specific-conventions/storage-pod-redux-specifics"
+   ]
+  },
+  {
+   "term": "mod-entry-point",
+   "gloss": "A record earns this term when it is about a mod's UserMod2 class and what it does when the game loads the mod.",
+   "est_records": 5,
+   "est_documents": 3,
+   "evidence": [
+    "standards/code-style.md#harmony-patches",
+    "standards/code-style.md#project-specific-rules",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "domains/entities.md#key-code-paths",
+    "standards/code-style.md#project-specific-rules/storage-pod-redux-specifics"
+   ]
+  },
+  {
+   "term": "mod-strings",
+   "gloss": "A record earns this term when it is about the player-visible text a mod defines in ModStrings and the translations of that text.",
+   "est_records": 6,
+   "est_documents": 3,
+   "evidence": [
+    "standards/code-style.md#control-structures/strings",
+    "standards/code-style.md#language-and-toolchain",
+    "standards/naming-conventions.md#code-naming/strings-modstrings",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "domains/entities.md#key-entities/options",
+    "standards/naming-conventions.md#project-specific-conventions/storage-pod-redux-specifics"
+   ]
+  },
+  {
+   "term": "building-config",
+   "gloss": "A record earns this term when it is about the definition of a building a mod adds through an IBuildingConfig class.",
+   "est_records": 6,
+   "est_documents": 3,
+   "evidence": [
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "standards/naming-conventions.md#code-naming/ids-and-tags",
+    "domains/entities.md#key-entities/storage-pod-building",
+    "domains/entities.md#key-entities/cool-pod-building",
+    "domains/entities.md#key-code-paths",
+    "standards/code-style.md#project-specific-rules/storage-pod-redux-specifics"
+   ]
+  },
+  {
+   "term": "building-unlock",
+   "gloss": "A record earns this term when it is about how a mod's building is placed in the build menu and unlocked by research.",
+   "est_records": 4,
+   "est_documents": 2,
+   "evidence": [
+    "standards/error-handling.md#guarding-patches/missing-data-warn-continue",
+    "domains/entities.md#key-entities/harmony-patches",
+    "domains/entities.md#key-entities/storage-pod-building",
+    "standards/error-handling.md#project-specific-patterns/storage-pod-redux-specifics"
+   ]
+  },
+  {
+   "term": "kanim-art",
+   "gloss": "A record earns this term when it is about the kanim animation art a mod ships or swaps onto a building and how that art is made.",
+   "est_records": 5,
+   "est_documents": 4,
+   "evidence": [
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "domains/entities.md#key-entities/storage-pod-building",
+    "domains/entities.md#domain-terminology",
+    "domains/glossary.md#abbreviations-and-acronyms",
+    "overview.md#what-this-is"
+   ]
+  },
+  {
+   "term": "refrigerator",
+   "gloss": "A record earns this term when it is about the game's refrigerators and how they keep stored food cold.",
+   "est_records": 6,
+   "est_documents": 2,
+   "evidence": [
+    "domains/entities.md#key-entities/cool-pod-building",
+    "domains/glossary.md#cross-domain-terms/cool-pod",
+    "domains/glossary.md#cross-domain-terms/mini-fridge",
+    "domains/glossary.md#cross-domain-terms/kitchen-refrigerator-tag",
+    "domains/glossary.md#cross-domain-terms/full-output",
+    "domains/entities.md#business-rules"
+   ]
+  },
+  {
+   "term": "building-registration",
+   "gloss": "A record earns this term when it is about deciding whether a mod's building is registered with the game at all.",
+   "est_records": 5,
+   "est_documents": 2,
+   "evidence": [
+    "domains/entities.md#key-entities/buildings-decision-state",
+    "domains/entities.md#key-entities/harmony-patches",
+    "domains/entities.md#business-rules",
+    "domains/entities.md#key-code-paths",
+    "standards/code-style.md#project-specific-rules/storage-pod-redux-specifics"
+   ]
+  },
+  {
+   "term": "storage-building",
+   "gloss": "A record earns this term when it is about a building that stores items and what it accepts.",
+   "est_records": 5,
+   "est_documents": 3,
+   "evidence": [
+    "domains/entities.md#key-entities/storage-pod-building",
+    "domains/glossary.md#cross-domain-terms/storage-pod",
+    "domains/glossary.md#cross-domain-terms/buildlocationrule-anywhere",
+    "domains/entities.md#business-rules",
+    "overview.md#what-this-is"
+   ]
+  }
+ ],
+ "mods/sweep-zones": [
+  {
+   "term": "harmony-patching",
+   "gloss": "A record earns this term when it is about writing or applying the Harmony patches through which a mod changes game methods.",
+   "est_records": 8,
+   "est_documents": 4,
+   "evidence": [
+    "standards/code-style.md#harmony-patches",
+    "standards/naming-conventions.md#code-naming/classes-types-interfaces",
+    "standards/naming-conventions.md#code-naming/functions-methods",
+    "standards/error-handling.md#guarding-patches",
+    "standards/error-handling.md#anti-patterns-to-avoid/throwing-from-a-patch",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "standards/naming-conventions.md#project-specific-conventions/sweep-zones-redux-specifics",
+    "domains/entities.md#key-entities/harmony-patches"
+   ]
+  },
+  {
+   "term": "vanilla-fallback",
+   "gloss": "A record earns this term when it is about how a mod keeps the game's own behaviour when something it depends on is missing or has changed.",
+   "est_records": 10,
+   "est_documents": 3,
+   "evidence": [
+    "standards/code-style.md#harmony-patches",
+    "standards/error-handling.md#principles",
+    "standards/error-handling.md#guarding-patches/missing-member-warn-leave-vanilla",
+    "standards/error-handling.md#guarding-patches/transpiler-count-the-match",
+    "standards/error-handling.md#guarding-patches/missing-data-warn-continue",
+    "standards/error-handling.md#guarding-patches/null-checks-on-game-objects",
+    "standards/error-handling.md#anti-patterns-to-avoid/assuming-the-game-s-internals",
+    "standards/error-handling.md#anti-patterns-to-avoid/silent-degradation",
+    "standards/error-handling.md#project-specific-patterns/sweep-zones-redux-specifics",
+    "domains/entities.md#key-entities/toolicon"
+   ]
+  },
+  {
+   "term": "logging",
+   "gloss": "A record earns this term when it is about what a mod writes to the game log and at which level.",
+   "est_records": 9,
+   "est_documents": 3,
+   "evidence": [
+    "standards/error-handling.md#logging",
+    "standards/error-handling.md#logging/log-levels",
+    "standards/error-handling.md#logging/what-to-include",
+    "standards/error-handling.md#guarding-patches/warn-once",
+    "standards/error-handling.md#anti-patterns-to-avoid/spamming-the-log",
+    "standards/error-handling.md#anti-patterns-to-avoid/silent-degradation",
+    "standards/code-style.md#project-specific-rules",
+    "standards/code-style.md#imports-includes/example",
+    "standards/naming-conventions.md#project-specific-conventions/sweep-zones-redux-specifics"
+   ]
+  },
+  {
+   "term": "saved-state",
+   "gloss": "A record earns this term when it is about what a mod stores in a save file and how that data is restored when the save loads.",
+   "est_records": 3,
+   "est_documents": 2,
+   "evidence": [
+    "standards/code-style.md#game-components",
+    "domains/entities.md#key-entities/zonestore-saved-component",
+    "standards/code-style.md#project-specific-rules/sweep-zones-redux-specifics"
+   ]
+  },
+  {
+   "term": "in-game-testing",
+   "gloss": "A record earns this term when it is about testing a mod inside the running game with TestRunner and its [OniTest] coroutines.",
+   "est_records": 6,
+   "est_documents": 4,
+   "evidence": [
+    "standards/code-style.md#project-specific-rules",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "standards/naming-conventions.md#code-naming/ids-and-tags",
+    "domains/entities.md#key-code-paths",
+    "overview.md#where-things-are",
+    "standards/naming-conventions.md#project-specific-conventions/sweep-zones-redux-specifics"
+   ]
+  },
+  {
+   "term": "mod-entry-point",
+   "gloss": "A record earns this term when it is about a mod's UserMod2 class and what it does when the game loads the mod.",
+   "est_records": 5,
+   "est_documents": 3,
+   "evidence": [
+    "standards/code-style.md#harmony-patches",
+    "standards/code-style.md#project-specific-rules",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "domains/entities.md#key-entities/hotkey",
+    "standards/code-style.md#project-specific-rules/sweep-zones-redux-specifics"
+   ]
+  },
+  {
+   "term": "mod-strings",
+   "gloss": "A record earns this term when it is about the player-visible text a mod defines in ModStrings and the translations of that text.",
+   "est_records": 7,
+   "est_documents": 3,
+   "evidence": [
+    "standards/code-style.md#control-structures/strings",
+    "standards/code-style.md#language-and-toolchain",
+    "standards/naming-conventions.md#code-naming/strings-modstrings",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "domains/entities.md#key-entities/sweepzonetool",
+    "standards/code-style.md#project-specific-rules/sweep-zones-redux-specifics",
+    "standards/naming-conventions.md#project-specific-conventions/sweep-zones-redux-specifics"
+   ]
+  },
+  {
+   "term": "reflection",
+   "gloss": "A record earns this term when it is about reaching non-public members of the game or of another mod through reflection.",
+   "est_records": 6,
+   "est_documents": 3,
+   "evidence": [
+    "standards/code-style.md#harmony-patches",
+    "standards/error-handling.md#guarding-patches/missing-member-warn-leave-vanilla",
+    "standards/error-handling.md#anti-patterns-to-avoid/assuming-the-game-s-internals",
+    "domains/entities.md#key-entities/sweepzonetool",
+    "standards/code-style.md#project-specific-rules/sweep-zones-redux-specifics",
+    "standards/error-handling.md#project-specific-patterns/sweep-zones-redux-specifics"
+   ]
+  },
+  {
+   "term": "toolbar-tool",
+   "gloss": "A record earns this term when it is about a drag tool a mod adds to the toolbar and how the player uses it.",
+   "est_records": 8,
+   "est_documents": 3,
+   "evidence": [
+    "domains/entities.md#overview",
+    "domains/entities.md#key-entities/sweepzonetool",
+    "domains/entities.md#key-entities/toolicon",
+    "domains/entities.md#key-entities/harmony-patches",
+    "domains/entities.md#key-code-paths",
+    "domains/glossary.md#cross-domain-terms/dragtool",
+    "domains/glossary.md#cross-domain-terms/toolparametermenu",
+    "overview.md#what-this-is"
+   ]
+  },
+  {
+   "term": "hotkey",
+   "gloss": "A record earns this term when it is about the rebindable key a mod registers to open its tool.",
+   "est_records": 3,
+   "est_documents": 3,
+   "evidence": [
+    "domains/entities.md#key-entities/hotkey",
+    "standards/code-style.md#project-specific-rules/sweep-zones-redux-specifics",
+    "standards/naming-conventions.md#project-specific-conventions/sweep-zones-redux-specifics"
+   ]
+  },
+  {
+   "term": "cleaning-errands",
+   "gloss": "A record earns this term when it is about the sweep and mop errands a mod creates and the priority they get.",
+   "est_records": 7,
+   "est_documents": 2,
+   "evidence": [
+    "domains/entities.md#key-entities/zonestore-saved-component",
+    "domains/entities.md#business-rules",
+    "domains/entities.md#key-code-paths",
+    "domains/glossary.md#cross-domain-terms/sweep",
+    "domains/glossary.md#cross-domain-terms/mop",
+    "domains/glossary.md#cross-domain-terms/debris",
+    "domains/glossary.md#cross-domain-terms/prioritysetting"
+   ]
+  }
+ ],
+ "mods/upgrade-planner": [
+  {
+   "term": "harmony-patching",
+   "gloss": "A record earns this term when it is about writing or applying the Harmony patches through which a mod changes game methods.",
+   "est_records": 8,
+   "est_documents": 4,
+   "evidence": [
+    "standards/code-style.md#harmony-patches",
+    "standards/naming-conventions.md#code-naming/classes-types-interfaces",
+    "standards/naming-conventions.md#code-naming/functions-methods",
+    "standards/error-handling.md#guarding-patches",
+    "standards/error-handling.md#anti-patterns-to-avoid/throwing-from-a-patch",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "standards/naming-conventions.md#project-specific-conventions/upgrade-planner-specifics",
+    "domains/entities.md#key-entities/harmony-patches"
+   ]
+  },
+  {
+   "term": "vanilla-fallback",
+   "gloss": "A record earns this term when it is about how a mod keeps the game's own behaviour when something it depends on is missing or has changed.",
+   "est_records": 10,
+   "est_documents": 3,
+   "evidence": [
+    "standards/code-style.md#harmony-patches",
+    "standards/error-handling.md#principles",
+    "standards/error-handling.md#guarding-patches/missing-member-warn-leave-vanilla",
+    "standards/error-handling.md#guarding-patches/transpiler-count-the-match",
+    "standards/error-handling.md#guarding-patches/missing-data-warn-continue",
+    "standards/error-handling.md#guarding-patches/null-checks-on-game-objects",
+    "standards/error-handling.md#anti-patterns-to-avoid/assuming-the-game-s-internals",
+    "standards/error-handling.md#anti-patterns-to-avoid/silent-degradation",
+    "standards/error-handling.md#project-specific-patterns/upgrade-planner-specifics",
+    "domains/entities.md#business-rules"
+   ]
+  },
+  {
+   "term": "logging",
+   "gloss": "A record earns this term when it is about what a mod writes to the game log and at which level.",
+   "est_records": 9,
+   "est_documents": 3,
+   "evidence": [
+    "standards/error-handling.md#logging",
+    "standards/error-handling.md#logging/log-levels",
+    "standards/error-handling.md#logging/what-to-include",
+    "standards/error-handling.md#guarding-patches/warn-once",
+    "standards/error-handling.md#anti-patterns-to-avoid/spamming-the-log",
+    "standards/error-handling.md#anti-patterns-to-avoid/silent-degradation",
+    "standards/code-style.md#project-specific-rules",
+    "standards/code-style.md#imports-includes/example",
+    "standards/naming-conventions.md#project-specific-conventions/upgrade-planner-specifics"
+   ]
+  },
+  {
+   "term": "exception-handling",
+   "gloss": "A record earns this term when it is about where a mod catches exceptions and what it does once it has caught one.",
+   "est_records": 6,
+   "est_documents": 2,
+   "evidence": [
+    "standards/error-handling.md#try-catch",
+    "standards/error-handling.md#try-catch/finalizer-for-a-thread-with-no-handler",
+    "standards/error-handling.md#anti-patterns-to-avoid/swallowing-exceptions",
+    "standards/error-handling.md#anti-patterns-to-avoid/throwing-from-a-patch",
+    "standards/error-handling.md#project-specific-patterns/upgrade-planner-specifics",
+    "domains/entities.md#key-entities/orders-and-placementqueue"
+   ]
+  },
+  {
+   "term": "mod-compatibility",
+   "gloss": "A record earns this term when it is about a mod working correctly alongside other authors' mods installed in the same game.",
+   "est_records": 10,
+   "est_documents": 5,
+   "evidence": [
+    "standards/error-handling.md#yielding-to-other-mods",
+    "standards/error-handling.md#try-catch",
+    "standards/code-style.md#comments/when-to-comment",
+    "domains/entities.md#key-entities/compat",
+    "domains/entities.md#business-rules",
+    "domains/entities.md#key-code-paths",
+    "domains/glossary.md#abbreviations-and-acronyms",
+    "standards/code-style.md#project-specific-rules/upgrade-planner-specifics",
+    "standards/error-handling.md#project-specific-patterns/upgrade-planner-specifics",
+    "overview.md#what-this-is"
+   ]
+  },
+  {
+   "term": "in-game-testing",
+   "gloss": "A record earns this term when it is about testing a mod inside the running game with TestRunner and its [OniTest] coroutines.",
+   "est_records": 6,
+   "est_documents": 4,
+   "evidence": [
+    "standards/code-style.md#project-specific-rules",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "standards/naming-conventions.md#code-naming/ids-and-tags",
+    "domains/entities.md#key-code-paths",
+    "overview.md#where-things-are",
+    "standards/naming-conventions.md#project-specific-conventions/upgrade-planner-specifics"
+   ]
+  },
+  {
+   "term": "mod-entry-point",
+   "gloss": "A record earns this term when it is about a mod's UserMod2 class and what it does when the game loads the mod.",
+   "est_records": 5,
+   "est_documents": 3,
+   "evidence": [
+    "standards/code-style.md#harmony-patches",
+    "standards/code-style.md#project-specific-rules",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "domains/entities.md#key-code-paths",
+    "standards/code-style.md#project-specific-rules/upgrade-planner-specifics"
+   ]
+  },
+  {
+   "term": "mod-strings",
+   "gloss": "A record earns this term when it is about the player-visible text a mod defines in ModStrings and the translations of that text.",
+   "est_records": 5,
+   "est_documents": 2,
+   "evidence": [
+    "standards/code-style.md#control-structures/strings",
+    "standards/code-style.md#language-and-toolchain",
+    "standards/naming-conventions.md#code-naming/strings-modstrings",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "standards/naming-conventions.md#project-specific-conventions/upgrade-planner-specifics"
+   ]
+  },
+  {
+   "term": "reflection",
+   "gloss": "A record earns this term when it is about reaching non-public members of the game or of another mod through reflection.",
+   "est_records": 7,
+   "est_documents": 3,
+   "evidence": [
+    "standards/code-style.md#harmony-patches",
+    "standards/error-handling.md#guarding-patches/missing-member-warn-leave-vanilla",
+    "standards/error-handling.md#anti-patterns-to-avoid/assuming-the-game-s-internals",
+    "domains/entities.md#key-entities/upgradetool",
+    "domains/entities.md#key-entities/compat",
+    "standards/code-style.md#project-specific-rules/upgrade-planner-specifics",
+    "standards/error-handling.md#project-specific-patterns/upgrade-planner-specifics"
+   ]
+  },
+  {
+   "term": "toolbar-tool",
+   "gloss": "A record earns this term when it is about a drag tool a mod adds to the toolbar and how the player uses it.",
+   "est_records": 6,
+   "est_documents": 2,
+   "evidence": [
+    "domains/entities.md#overview",
+    "domains/entities.md#key-entities/upgradetool",
+    "domains/entities.md#key-entities/window",
+    "domains/entities.md#key-entities/harmony-patches",
+    "domains/entities.md#key-code-paths",
+    "overview.md#what-this-is"
+   ]
+  },
+  {
+   "term": "hotkey",
+   "gloss": "A record earns this term when it is about the rebindable key a mod registers to open its tool.",
+   "est_records": 3,
+   "est_documents": 3,
+   "evidence": [
+    "domains/entities.md#key-entities/hotkey",
+    "standards/code-style.md#project-specific-rules/upgrade-planner-specifics",
+    "standards/naming-conventions.md#project-specific-conventions/upgrade-planner-specifics"
+   ]
+  },
+  {
+   "term": "performance",
+   "gloss": "A record earns this term when it is about keeping a mod's per-tick or per-frame work cheap enough that it does not slow the game.",
+   "est_records": 3,
+   "est_documents": 2,
+   "evidence": [
+    "standards/code-style.md#control-structures/loops",
+    "domains/entities.md#key-entities/orders-and-placementqueue",
+    "domains/entities.md#key-code-paths"
+   ]
+  },
+  {
+   "term": "building-materials",
+   "gloss": "A record earns this term when it is about which materials a building recipe accepts and how a building's material is chosen.",
+   "est_records": 6,
+   "est_documents": 2,
+   "evidence": [
+    "domains/entities.md#key-entities/upgradeplan-changematerialplan-replacetypeplan",
+    "domains/entities.md#key-entities/rules",
+    "domains/entities.md#business-rules",
+    "domains/glossary.md#cross-domain-terms/materialselectionpanel",
+    "domains/glossary.md#cross-domain-terms/material-element-tag",
+    "domains/glossary.md#cross-domain-terms/variant-family-member"
+   ]
+  },
+  {
+   "term": "building-replacement",
+   "gloss": "A record earns this term when it is about building one building over another and the game's rules for which pairs are allowed.",
+   "est_records": 9,
+   "est_documents": 2,
+   "evidence": [
+    "domains/entities.md#key-entities/rules",
+    "domains/entities.md#key-entities/orders-and-placementqueue",
+    "domains/entities.md#business-rules",
+    "domains/entities.md#domain-terminology",
+    "domains/glossary.md#cross-domain-terms/replacement-layer",
+    "domains/glossary.md#cross-domain-terms/replacement-tags",
+    "domains/glossary.md#cross-domain-terms/replacement-candidate",
+    "domains/glossary.md#cross-domain-terms/utility-building",
+    "domains/glossary.md#cross-domain-terms/reconstructable"
+   ]
+  },
+  {
+   "term": "plan-presets",
+   "gloss": "A record earns this term when it is about named plans a player saves and loads back in any colony.",
+   "est_records": 5,
+   "est_documents": 3,
+   "evidence": [
+    "domains/entities.md#key-entities/presets",
+    "domains/entities.md#key-entities/saved-state",
+    "domains/entities.md#key-code-paths",
+    "standards/error-handling.md#project-specific-patterns/upgrade-planner-specifics",
+    "standards/code-style.md#project-specific-rules/upgrade-planner-specifics"
+   ]
+  }
+ ],
+ "mods/vent-freeze-fix": [
+  {
+   "term": "harmony-patching",
+   "gloss": "A record earns this term when it is about writing or applying the Harmony patches through which a mod changes game methods.",
+   "est_records": 10,
+   "est_documents": 4,
+   "evidence": [
+    "standards/code-style.md#harmony-patches",
+    "standards/naming-conventions.md#code-naming/classes-types-interfaces",
+    "standards/naming-conventions.md#code-naming/functions-methods",
+    "standards/error-handling.md#guarding-patches",
+    "standards/error-handling.md#anti-patterns-to-avoid/throwing-from-a-patch",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "standards/naming-conventions.md#project-specific-conventions/vent-freeze-fix-specifics",
+    "domains/entities.md#key-entities/harmony-patches",
+    "domains/entities.md#key-entities/insulated-vent-storage-patch-on-liquidventconfig",
+    "standards/code-style.md#project-specific-rules/vent-freeze-fix-specifics"
+   ]
+  },
+  {
+   "term": "logging",
+   "gloss": "A record earns this term when it is about what a mod writes to the game log and at which level.",
+   "est_records": 10,
+   "est_documents": 3,
+   "evidence": [
+    "standards/error-handling.md#logging",
+    "standards/error-handling.md#logging/log-levels",
+    "standards/error-handling.md#logging/what-to-include",
+    "standards/error-handling.md#guarding-patches/warn-once",
+    "standards/error-handling.md#anti-patterns-to-avoid/spamming-the-log",
+    "standards/error-handling.md#anti-patterns-to-avoid/silent-degradation",
+    "standards/code-style.md#project-specific-rules",
+    "standards/code-style.md#imports-includes/example",
+    "standards/naming-conventions.md#project-specific-conventions/vent-freeze-fix-specifics",
+    "standards/error-handling.md#project-specific-patterns/vent-freeze-fix-specifics"
+   ]
+  },
+  {
+   "term": "mod-options",
+   "gloss": "A record earns this term when it is about the player-facing settings a mod exposes on its options screen and how the mod reads them.",
+   "est_records": 7,
+   "est_documents": 3,
+   "evidence": [
+    "standards/code-style.md#project-specific-rules",
+    "standards/naming-conventions.md#code-naming/strings-modstrings",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "domains/entities.md#key-entities/options",
+    "domains/entities.md#key-entities/ventfreezewatcher-component",
+    "standards/code-style.md#project-specific-rules/vent-freeze-fix-specifics",
+    "standards/naming-conventions.md#project-specific-conventions/vent-freeze-fix-specifics"
+   ]
+  },
+  {
+   "term": "saved-state",
+   "gloss": "A record earns this term when it is about what a mod stores in a save file and how that data is restored when the save loads.",
+   "est_records": 5,
+   "est_documents": 2,
+   "evidence": [
+    "standards/code-style.md#game-components",
+    "domains/entities.md#key-entities/saved-state",
+    "domains/entities.md#key-entities/ventfreezewatcher-component",
+    "domains/entities.md#key-code-paths",
+    "standards/code-style.md#project-specific-rules/vent-freeze-fix-specifics"
+   ]
+  },
+  {
+   "term": "in-game-testing",
+   "gloss": "A record earns this term when it is about testing a mod inside the running game with TestRunner and its [OniTest] coroutines.",
+   "est_records": 6,
+   "est_documents": 4,
+   "evidence": [
+    "standards/code-style.md#project-specific-rules",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "standards/naming-conventions.md#code-naming/ids-and-tags",
+    "domains/entities.md#key-code-paths",
+    "overview.md#where-things-are",
+    "standards/naming-conventions.md#project-specific-conventions/vent-freeze-fix-specifics"
+   ]
+  },
+  {
+   "term": "mod-entry-point",
+   "gloss": "A record earns this term when it is about a mod's UserMod2 class and what it does when the game loads the mod.",
+   "est_records": 4,
+   "est_documents": 2,
+   "evidence": [
+    "standards/code-style.md#harmony-patches",
+    "standards/code-style.md#project-specific-rules",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "standards/code-style.md#project-specific-rules/vent-freeze-fix-specifics"
+   ]
+  },
+  {
+   "term": "mod-strings",
+   "gloss": "A record earns this term when it is about the player-visible text a mod defines in ModStrings and the translations of that text.",
+   "est_records": 5,
+   "est_documents": 2,
+   "evidence": [
+    "standards/code-style.md#control-structures/strings",
+    "standards/code-style.md#language-and-toolchain",
+    "standards/naming-conventions.md#code-naming/strings-modstrings",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "standards/naming-conventions.md#project-specific-conventions/vent-freeze-fix-specifics"
+   ]
+  },
+  {
+   "term": "game-component",
+   "gloss": "A record earns this term when it is about a KMonoBehaviour component that a mod adds to game objects and the work it does there.",
+   "est_records": 4,
+   "est_documents": 3,
+   "evidence": [
+    "standards/code-style.md#game-components",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "domains/entities.md#key-entities/ventfreezewatcher-component",
+    "standards/code-style.md#project-specific-rules/vent-freeze-fix-specifics"
+   ]
+  },
+  {
+   "term": "developer-tooling",
+   "gloss": "A record earns this term when it is about debug and developer features a mod includes for its author rather than for players.",
+   "est_records": 7,
+   "est_documents": 4,
+   "evidence": [
+    "standards/error-handling.md#logging/what-to-include",
+    "domains/entities.md#key-entities/debugsave",
+    "domains/entities.md#key-entities/options",
+    "domains/entities.md#key-code-paths",
+    "domains/glossary.md#abbreviations-and-acronyms",
+    "standards/error-handling.md#project-specific-patterns/vent-freeze-fix-specifics",
+    "standards/code-style.md#project-specific-rules/vent-freeze-fix-specifics"
+   ]
+  },
+  {
+   "term": "liquid-vent",
+   "gloss": "A record earns this term when it is about the liquid vent and the packets of liquid it stores and emits.",
+   "est_records": 6,
+   "est_documents": 3,
+   "evidence": [
+    "domains/entities.md#overview",
+    "domains/entities.md#key-entities/insulated-vent-storage-patch-on-liquidventconfig",
+    "domains/entities.md#key-entities/ventfreezewatcher-component",
+    "domains/glossary.md#cross-domain-terms/liquid-vent",
+    "domains/glossary.md#cross-domain-terms/debris-pile",
+    "overview.md#what-this-is"
+   ]
+  },
+  {
+   "term": "liquid-freezing",
+   "gloss": "A record earns this term when it is about how super-cooled liquid freezes into a tile and the game's mass rule for that.",
+   "est_records": 7,
+   "est_documents": 3,
+   "evidence": [
+    "domains/glossary.md#cross-domain-terms/super-cooled-liquid",
+    "domains/glossary.md#cross-domain-terms/phase-transition-handler",
+    "domains/glossary.md#cross-domain-terms/insulated-storage-modifiers",
+    "domains/glossary.md#cross-domain-terms/80-rule",
+    "domains/entities.md#business-rules",
+    "domains/entities.md#key-entities/insulated-vent-storage-patch-on-liquidventconfig",
+    "overview.md#what-this-is"
+   ]
+  },
+  {
+   "term": "tile-repair",
+   "gloss": "A record earns this term when it is about digging out a tile that should not have formed and returning its mass as debris.",
+   "est_records": 7,
+   "est_documents": 2,
+   "evidence": [
+    "domains/entities.md#key-entities/ventfreezewatcher-component",
+    "domains/entities.md#key-entities/digrequests",
+    "domains/entities.md#business-rules",
+    "domains/entities.md#key-code-paths",
+    "domains/glossary.md#cross-domain-terms/dig",
+    "domains/glossary.md#cross-domain-terms/foundation-tile",
+    "domains/glossary.md#cross-domain-terms/debris-pile"
+   ]
+  }
+ ]
+}

@@ -1,0 +1,58 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/storage-pod-redux — round 3",
+  "node": "C:\\dev\\ONI-Mods\\mods\\storage-pod-redux",
+  "base": {
+    "domains/entities.md": "sha256:217e3f2b1ea3d21357431fe2892e6686500a97583111003015eb90ccae39ee0d",
+    "domains/glossary.md": "sha256:3e81867706853d7fd4594a7a82bd2fc69f099d13c17aa333a23a5663815014a2",
+    "standards/error-handling.md": "sha256:6c760afc4c9a824ae1534118f20c6b4c3e8b12301fc1867df02d5cc86fd556d6",
+    "standards/code-style.md": "sha256:bf0f401f822ae74a9e7da40edb227d5868d300b72cf8d2e949fedfa6aca88505",
+    "standards/naming-conventions.md": "sha256:c4513cfaf51dfdaeeff1f6581dcb51f68379f29894fc9b0980a7bba07d5843c2"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "mod-options",
+        "mod-strings"
+      ],
+      "section": "key-entities/options"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "refrigerator"
+      ],
+      "section": "cross-domain-terms/cool-pod"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "building-unlock"
+      ],
+      "section": "guarding-patches/missing-data-warn-continue"
+    },
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "mod-options",
+        "logging",
+        "in-game-testing"
+      ],
+      "section": "project-specific-rules"
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "tag",
+      "add": [
+        "mod-strings",
+        "mod-options"
+      ],
+      "section": "code-naming/strings-modstrings"
+    }
+  ]
+}

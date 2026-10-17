@@ -1,0 +1,280 @@
+{
+ "documents": [
+  {
+   "id": "domains/README.md",
+   "tags": [
+    "toolbar-tool",
+    "saved-state",
+    "cleaning-errands"
+   ]
+  },
+  {
+   "id": "standards/README.md",
+   "tags": [
+    "code-style",
+    "logging",
+    "vanilla-fallback"
+   ]
+  },
+  {
+   "id": "standards/code-style.md",
+   "tags": [
+    "code-style",
+    "harmony-patching"
+   ]
+  }
+ ],
+ "sections": [
+  {
+   "id": "domains/README.md#domains",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/entities.md#overview",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/entities.md#key-entities",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/entities.md#key-entities/zonestore-saved-component",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/entities.md#key-entities/toolicon",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/entities.md#business-rules",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/entities.md#domain-terminology",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/entities.md#related",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/glossary.md#abbreviations-and-acronyms",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/glossary.md#terms-to-avoid",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/sweep",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/mop",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/debris",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/prioritysetting",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/dragtool",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/toolparametermenu",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/glossary.md#related",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "overview.md#what-this-is",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/README.md#standards",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/code-style.md#formatting",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/code-style.md#formatting/indentation",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/code-style.md#formatting/line-length",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/code-style.md#formatting/braces",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/code-style.md#language-and-toolchain",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/code-style.md#imports-includes",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/code-style.md#imports-includes/organization",
+   "tags": [
+    "mod-strings"
+   ]
+  },
+  {
+   "id": "standards/code-style.md#imports-includes/example",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/code-style.md#comments",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/code-style.md#comments/when-to-comment",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/code-style.md#comments/when-not-to-comment",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/code-style.md#comments/format",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/code-style.md#control-structures",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/code-style.md#control-structures/conditionals",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/code-style.md#control-structures/loops",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/code-style.md#related",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#guarding-patches/transpiler-count-the-match",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#guarding-patches/missing-data-warn-continue",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#guarding-patches/null-checks-on-game-objects",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#guarding-patches/warn-once",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#try-catch/finalizer-for-a-thread-with-no-handler",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#logging",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#logging/log-levels",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#logging/what-to-include",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#anti-patterns-to-avoid",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#anti-patterns-to-avoid/swallowing-exceptions",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#anti-patterns-to-avoid/silent-degradation",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#anti-patterns-to-avoid/spamming-the-log",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#project-specific-patterns",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#related",
+   "tags": [],
+   "reason": "inherits"
+  }
+ ]
+}

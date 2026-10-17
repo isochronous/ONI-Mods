@@ -1,0 +1,18 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r2 for node mods/sweep-zones — round 1",
+  "node": "C:\\dev\\ONI-Mods\\mods\\sweep-zones",
+  "base": {
+    "standards/code-style.md": "sha256:751e68309b8d1103e163988649b8652403152bffad6f53e948b138ec89fd068c"
+  },
+  "ops": [
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "mod-strings"
+      ],
+      "section": "imports-includes/organization"
+    }
+  ]
+}

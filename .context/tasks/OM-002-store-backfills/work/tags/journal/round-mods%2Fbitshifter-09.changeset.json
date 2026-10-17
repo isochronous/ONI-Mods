@@ -1,0 +1,32 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/bitshifter — round 9",
+  "node": "C:\\dev\\ONI-Mods\\mods\\bitshifter",
+  "base": {
+    "domains/glossary.md": "sha256:ef1c10987816abd57af32b954dcc8ae3acdd8a3b44d7ab1d533c9bf7dfee4f67",
+    "standards/error-handling.md": "sha256:dd527b41ebe5cc35e4f8c02fb46de33a97209d05ef7118ae9ae9aa217afca8c4"
+  },
+  "ops": [
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "mod-compatibility",
+        "vanilla-fallback",
+        "logging"
+      ],
+      "section": "cross-domain-terms/stand-down"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "mod-compatibility",
+        "not-gate",
+        "transpiler",
+        "kanim-art"
+      ],
+      "section": "project-specific-patterns/bitshifter-specifics"
+    }
+  ]
+}

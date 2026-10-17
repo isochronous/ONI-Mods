@@ -1,0 +1,14 @@
+[
+ {
+  "id": "standards/code-style.md#language-and-toolchain",
+  "reason": "no-good-match",
+  "suggestion": "mod build toolchain and language version",
+  "kept": []
+ },
+ {
+  "id": "standards/naming-conventions.md#files-and-directories/general-rules",
+  "reason": "no-good-match",
+  "suggestion": "mod folder layout and release tag naming",
+  "kept": []
+ }
+]

@@ -1,10 +1,14 @@
 ---
+tags: code-style
 doc_id: doc-549cf82752da
-description: "TODO(owner): the standards motion-sensor-range holds itself to."
+description: Index of the three standards documents of Motion Sensor Range (code style, error handling, naming conventions), each with a one-line summary of what it covers
 ---
+
 # Standards
 
 ## Standards
 **Id:** blk-3626ad0a7583
 
-TODO(owner): the standards this project holds itself to, one record per standard in this folder.
+- [code-style](code-style.md): C# formatting, imports, comments, Harmony patch and component conventions, with this mod's own layout.
+- [error-handling](error-handling.md): how Motion Sensor Range guards its Harmony patches, reflection lookups and file reads, and what it logs when something is missing.
+- [naming-conventions](naming-conventions.md): file, namespace, patch class, string key and id naming for project MotionSensorRange.

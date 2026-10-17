@@ -1,0 +1,38 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/storage-pod-redux — round 7",
+  "node": "C:\\dev\\ONI-Mods\\mods\\storage-pod-redux",
+  "base": {
+    "domains/entities.md": "sha256:11e12d75368ebca92aa9eb5112e5db57464d4ac5e2ab1e6fbb99cedfd52d4c97",
+    "domains/glossary.md": "sha256:cf81151f84e39c6f73fa3aded1bfbb27c0d0caf6a73a2b9daee6d3a54da7ce16",
+    "standards/error-handling.md": "sha256:d35928f47a38a40221ca91cfda0f6498091d51f3223ab06efe98aa2278c55676"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "saved-state",
+        "mod-compatibility"
+      ],
+      "section": "business-rules"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "refrigerator",
+        "building-config"
+      ],
+      "section": "cross-domain-terms/full-output"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching"
+      ],
+      "section": "anti-patterns-to-avoid/throwing-from-a-patch"
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r2 for node mods/natural-backwalls-everywhere — round 0",
+  "node": "C:\\dev\\ONI-Mods\\mods\\natural-backwalls-everywhere",
+  "base": {
+    "standards/README.md": "sha256:cdf14831b42e4026a83de7be1740e9d2d6dc336c9be29b7afc81c4fe2c036170",
+    "standards/code-style.md": "sha256:c6d3d6def6763d1ff8f75aaf45beb195c23d54010ac1a10e8ef6409e4b3ce8f7",
+    "standards/naming-conventions.md": "sha256:fe3280be62515831056cac3a8d7cc76d106011390f474588fb08a98158ceb8de",
+    "domains/glossary.md": "sha256:7f4aa41a290a6383e1eb68f38b92d2fdb8cfba8776d6516095bb605321a640b3"
+  },
+  "ops": [
+    {
+      "target": "standards/README.md",
+      "mode": "tag",
+      "add": [
+        "code-style",
+        "exception-handling"
+      ]
+    },
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "code-style"
+      ]
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "tag",
+      "add": [
+        "code-style",
+        "mod-strings"
+      ]
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "biome-group",
+        "noise-pattern"
+      ],
+      "section": "abbreviations-and-acronyms"
+    }
+  ]
+}

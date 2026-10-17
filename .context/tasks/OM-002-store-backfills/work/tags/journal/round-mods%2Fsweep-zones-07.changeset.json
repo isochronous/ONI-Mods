@@ -1,0 +1,19 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/sweep-zones — round 7",
+  "node": "C:\\dev\\ONI-Mods\\mods\\sweep-zones",
+  "base": {
+    "standards/error-handling.md": "sha256:9b62183a39b23124afe4cfb82977141294f1a59c3a2ffeb97c25afeceb0c0385"
+  },
+  "ops": [
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "reflection",
+        "harmony-patching"
+      ],
+      "section": "anti-patterns-to-avoid/assuming-the-game-s-internals"
+    }
+  ]
+}

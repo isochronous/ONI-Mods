@@ -1,10 +1,11 @@
 ---
+tags: game-tag, building-materials
 witness_digest: "sha256:d10283b86caf5c7d8c6a6af6939de06a4a749d28c59b86155c47c2117d87d519"
 witness: loose
 applies_to:
   - "src/RefinedBuilding/**"
 doc_id: doc-a642a3738d44
-description: "ONI and mod-specific terms used by Refined Building."
+description: "Glossary for Refined Building: abbreviations, terms to avoid, and definitions of the Metal and RefinedMetal tags, oreTags, material category lists, ElementLoader and the Metal Refinery, with the code using each"
 ---
 
 # Refined Building glossary
@@ -52,6 +53,7 @@ Terms for the Refined Building mod. For the code behind them, see [entities](ent
 
 ### ElementLoader
 **Id:** blk-17f70d2804d2  
+**Tags:** harmony-patching  
 **Definition**: The game class that loads the element table; `ElementLoader.Load` is patched and `ElementLoader.elements` is the loaded list.  
 **Used in**: `Patches.cs`
 

@@ -1,0 +1,134 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node . — round 1",
+  "node": "C:/dev/ONI-Mods",
+  "base": {
+    "domains/tooling-friction.md": "sha256:60093612106e6cb24e67877e907ea332c56fa87aba9447a8f214f7d8246b83f1",
+    "overview.md": "sha256:d5f24a584594cc06191c1fbdaab0a22bad53f2fdbb36512b999dbef3ab2910b1",
+    "testing/integration-testing.md": "sha256:ce32a989ed20519edba745a1736665527b51a0b61ff1cf5fbd08c74a196a6cca",
+    "testing/unit-testing.md": "sha256:c410deee7ce2a03f5d3775457e1566c4715f274d4e28a0b8655fb3d907a3d2e6",
+    "workflows/branching.md": "sha256:2ab4af38d49a50d9beaab1da3c455436bfc5997dff95b149caa9f2d530db54fd",
+    "workflows/ci-cd.md": "sha256:92e5d821ca491ab6e36b4007b61ffa560299bf8a8bab5cd46b1414d91e561798",
+    "workflows/commit-conventions.md": "sha256:77bb4b171aadabc81f124744014af2c467584bc3edb2b9e6de50e7cdba75d3de",
+    "workflows/task-plan/base.md": "sha256:b2519275db3faf95dbbfc096740159a5cd3b5cf6467978278e724a69f6bcfcf0",
+    "workflows/task-plan/phase-architecture.md": "sha256:25f7ea2d52425c826429b68f086218cc6708f00654e128c265bf53f3b7156946",
+    "workflows/task-plan/phase-completion.md": "sha256:39e0e5b228a6b1372be6ad3724658781fba55ca3a42a19744138ac297609c4fe",
+    "workflows/task-plan/phase-implementation.md": "sha256:42df5fd78404a2c0a364cf6ee5dc6805a58f54babeed8e96d75a92418492c89d",
+    "workflows/task-plan/phase-investigation.md": "sha256:3dfd4b86f661c4b5e922adc6a00f25ae32854f25ac98d91e25284222ab6dc73f",
+    "workflows/task-plan/phase-testing.md": "sha256:b562f29c182c3a51371c8ae3c13d3974d9c53518fbfe207aa750619271eb9678"
+  },
+  "ops": [
+    {
+      "target": "domains/tooling-friction.md",
+      "mode": "tag",
+      "add": [
+        "common-submodule"
+      ],
+      "section": "2026-10-17-icon-init-exclude-does-not-drop-a-top-level-folder-from-the-node-set"
+    },
+    {
+      "target": "overview.md",
+      "mode": "tag",
+      "add": [
+        "github-issues"
+      ],
+      "section": "what-this-is"
+    },
+    {
+      "target": "testing/integration-testing.md",
+      "mode": "tag",
+      "add": [
+        "simulated-input",
+        "generated-worlds",
+        "save-files",
+        "mod-compatibility"
+      ],
+      "section": "scope"
+    },
+    {
+      "target": "testing/unit-testing.md",
+      "mode": "tag",
+      "add": [
+        "mod-build",
+        "game-update-compatibility",
+        "translations"
+      ],
+      "section": "framework-and-tools"
+    },
+    {
+      "target": "workflows/branching.md",
+      "mode": "tag",
+      "add": [
+        "common-submodule",
+        "release-process"
+      ],
+      "section": "branch-structure"
+    },
+    {
+      "target": "workflows/ci-cd.md",
+      "mode": "tag",
+      "add": [
+        "in-game-testing",
+        "release-process"
+      ],
+      "section": "overview"
+    },
+    {
+      "target": "workflows/commit-conventions.md",
+      "mode": "tag",
+      "add": [
+        "common-submodule"
+      ],
+      "section": "format/shared-tooling-and-housekeeping"
+    },
+    {
+      "target": "workflows/task-plan/base.md",
+      "mode": "tag",
+      "add": [
+        "phase-handoff",
+        "task-id"
+      ],
+      "section": "template"
+    },
+    {
+      "target": "workflows/task-plan/phase-architecture.md",
+      "mode": "tag",
+      "add": [
+        "commit-messages"
+      ],
+      "section": "phase-exit-handoff-run-last-at-the-phase-boundary"
+    },
+    {
+      "target": "workflows/task-plan/phase-completion.md",
+      "mode": "tag",
+      "add": [
+        "phase-handoff"
+      ],
+      "section": "phase-entry-run-first-before-any-phase-work"
+    },
+    {
+      "target": "workflows/task-plan/phase-implementation.md",
+      "mode": "tag",
+      "add": [
+        "phase-handoff"
+      ],
+      "section": "phase-entry-run-first-before-any-phase-work"
+    },
+    {
+      "target": "workflows/task-plan/phase-investigation.md",
+      "mode": "tag",
+      "add": [
+        "phase-handoff"
+      ],
+      "section": "phase-entry-run-first-before-any-phase-work"
+    },
+    {
+      "target": "workflows/task-plan/phase-testing.md",
+      "mode": "tag",
+      "add": [
+        "phase-handoff"
+      ],
+      "section": "phase-entry-run-first-before-any-phase-work"
+    }
+  ]
+}

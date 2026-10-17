@@ -1,0 +1,48 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/vent-freeze-fix — round 4",
+  "node": "C:\\dev\\ONI-Mods\\mods\\vent-freeze-fix",
+  "base": {
+    "domains/entities.md": "sha256:af929b646560a2ebf8386d53ea557328b4eb86f021065464a5c513925a3c63ab",
+    "standards/code-style.md": "sha256:96fc9d2408c067761b09c60fc95b559529a1d4368eb20ce3ef80a3a3939cc925",
+    "standards/error-handling.md": "sha256:88dfe5842eb1b57254eeaf11841fba8517d64d7fbce7acd3b8c2244d233a4d91",
+    "standards/naming-conventions.md": "sha256:4d4effe2d19157e9dfefbe162c460610e683ceecd640ee495d34b12e7c1107a1"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "mod-options",
+        "developer-tooling"
+      ],
+      "section": "key-entities/options"
+    },
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "game-component",
+        "saved-state",
+        "developer-tooling"
+      ],
+      "section": "project-specific-rules/vent-freeze-fix-specifics"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "logging"
+      ],
+      "section": "guarding-patches/missing-data-warn-continue"
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "tag",
+      "add": [
+        "in-game-testing"
+      ],
+      "section": "code-naming/ids-and-tags"
+    }
+  ]
+}

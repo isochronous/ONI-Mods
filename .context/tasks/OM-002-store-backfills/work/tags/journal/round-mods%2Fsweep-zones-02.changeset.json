@@ -1,0 +1,45 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/sweep-zones — round 2",
+  "node": "C:\\dev\\ONI-Mods\\mods\\sweep-zones",
+  "base": {
+    "domains/entities.md": "sha256:dc168bc4a3bee8e1c8dd6ca4a0ee06b15ee559a6d6cc2db20e49fb6eb9a76041",
+    "standards/error-handling.md": "sha256:d0c49ae47f64e19f47112011bff0f13849b3fa8c5f86d6f655f801ee368d8475",
+    "standards/code-style.md": "sha256:d4283aec42cea21945e6c4547aaea1f2a239bce9ad04daa2087f11ccbf84a123",
+    "standards/naming-conventions.md": "sha256:da1113fb0be722e59dde2ab7bb84362e8a654af71f1c05472fbecbc2935e983b"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "hotkey"
+      ],
+      "section": "key-entities/hotkey"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching"
+      ],
+      "section": "guarding-patches"
+    },
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "saved-state"
+      ],
+      "section": "game-components"
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching"
+      ],
+      "section": "code-naming/classes-types-interfaces"
+    }
+  ]
+}

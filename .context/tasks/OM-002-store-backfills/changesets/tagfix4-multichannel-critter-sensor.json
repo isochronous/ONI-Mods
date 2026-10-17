@@ -1,0 +1,15 @@
+{
+ "task": "OM-002",
+ "why": "round two tagged parent headings with terms their child sections already declare; the narrower answer keeps them on the children",
+ "node": "mods/multichannel-critter-sensor",
+ "ops": [
+  {
+   "mode": "tag",
+   "target": "standards/error-handling.md",
+   "section": "try-catch",
+   "remove": [
+    "harmony-patching"
+   ]
+  }
+ ]
+}

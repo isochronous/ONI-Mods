@@ -1,0 +1,28 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r2 for node mods/upgrade-planner — round 3",
+  "node": "C:\\dev\\ONI-Mods\\mods\\upgrade-planner",
+  "base": {
+    "standards/code-style.md": "sha256:79fba6aba79baa7be2fb4f8831b3e0e339254ef30c8b20fb9d06cd5d8b409e48",
+    "standards/naming-conventions.md": "sha256:93c060d7d7bde1e51e3c4578a786acd269bedff383649e97e0e82401aee553da"
+  },
+  "ops": [
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "code-style",
+        "mod-compatibility"
+      ],
+      "section": "language-and-toolchain"
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "tag",
+      "add": [
+        "code-style"
+      ],
+      "section": "code-naming/classes-types-interfaces"
+    }
+  ]
+}

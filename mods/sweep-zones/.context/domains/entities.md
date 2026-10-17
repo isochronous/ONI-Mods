@@ -1,9 +1,11 @@
 ---
+tags: toolbar-tool, saved-state, cleaning-errands
 doc_id: doc-f39997b0359c
-description: "Entities of Sweep Zones: the zone store, the paint tool and the rules that mark debris and place mop errands, with file locations, Harmony patch targets, business rules and key code paths."
+description: The zone store, paint tool, toolbar icons, hotkey and Harmony patches of Sweep Zones Redux, with the rules that mark debris for sweeping and place mop errands, and the source file each lives in
 applies_to:
   - "src/SweepZones/**"
 ---
+
 # Sweep Zones domain
 
 ## Overview
@@ -30,6 +32,7 @@ Sweep Zones Redux adds a toolbar tool for painting persistent zones. Debris that
 
 ### SweepZoneTool
 **Id:** blk-8d4b11374898  
+**Tags:** reflection  
 **Description**: The box-drag tool, a subclass of the game's `DragTool`. Owns the mode, the zone display (cell colours, perimeter stroke, priority labels) and the toolbar-menu filters. Cursor and area-visualizer assets are cloned from the vanilla Sweep tool by reflection (field names verified against U59-744825).  
 **Location**: `src/SweepZones/SweepZoneTool.cs`
 
@@ -48,11 +51,13 @@ Sweep Zones Redux adds a toolbar tool for painting persistent zones. Debris that
 
 ### Hotkey
 **Id:** blk-7d58cc65b189  
+**Tags:** hotkey  
 **Description**: A PLib `PAction`, `Isochronous.SweepZones.Tool`, default Shift+Z, rebindable under options > game > controls > Mods. Held in `SweepZonesMod.ToolAction`.  
 **Location**: `src/SweepZones/Mod.cs`
 
 ### Harmony patches
 **Id:** blk-8ed739708efc  
+**Tags:** harmony-patching  
 **Location**: `src/SweepZones/Patches.cs`
 
 | Target | Kind | Purpose |
@@ -85,7 +90,8 @@ Sweep Zones Redux adds a toolbar tool for painting persistent zones. Debris that
 | Zone cell | A grid cell in `sweepCells` or `mopCells` |
 
 ## Key Code Paths
-**Id:** blk-a257f96c9ea1
+**Id:** blk-a257f96c9ea1  
+**Tags:** harmony-patching, in-game-testing
 
 - **Painting**: `DragTool.OnDragTool(cell, ...)` -> `ZoneStore.SetSweep/SetMop/RemoveSweep/RemoveMop` according to `mode`, priority from `PriorityScreen.GetLastSelectedPriority()`. See `src/SweepZones/SweepZoneTool.cs`.
 - **Applying zones**: `ZoneStore.Sim1000ms` -> `MarkSweepZones` (walks `Grid.Objects[cell, Pickupables]` and its `objectLayerListItem` chain, `Clearable.MarkForClear`, `Prioritizable.SetMasterPriority`) and `PlaceMopErrands` (instantiates the `MopPlacer` prefab). See `src/SweepZones/ZoneStore.cs`.

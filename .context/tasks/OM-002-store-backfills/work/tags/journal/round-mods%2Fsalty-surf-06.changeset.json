@@ -1,0 +1,39 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/salty-surf — round 6",
+  "node": "C:\\dev\\ONI-Mods\\mods\\salty-surf",
+  "base": {
+    "domains/entities.md": "sha256:388d05bdaa8687c39503240c202d32c55ae296475114f19f53e261f4d2fd0d87",
+    "domains/glossary.md": "sha256:1b0577801acfe32a9ffc82cd51e5a466773f51fa80df4b1890d8529453829058",
+    "standards/error-handling.md": "sha256:14d093203a242871605e30669fffe5d7be28db8cf1b240ce2a2e65a9ddac7754"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "info-panel-text",
+        "vanilla-fallback"
+      ],
+      "section": "business-rules"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "vanilla-fallback",
+        "in-game-testing"
+      ],
+      "section": "cross-domain-terms/wrong-liquid"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "logging",
+        "vanilla-fallback"
+      ],
+      "section": "try-catch"
+    }
+  ]
+}

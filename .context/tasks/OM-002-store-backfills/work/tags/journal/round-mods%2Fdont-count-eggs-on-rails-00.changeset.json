@@ -1,0 +1,71 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r2 for node mods/dont-count-eggs-on-rails — round 0",
+  "node": "C:\\dev\\ONI-Mods\\mods\\dont-count-eggs-on-rails",
+  "base": {
+    "standards/README.md": "sha256:31270693455100358b717ff25f5a457a77a9812ecb4a44dec00893d1dd954d0c",
+    "standards/code-style.md": "sha256:12a85164bb129271ea19890c618e6f3f9ff06e292e8b4f4486d2077ee40698b3",
+    "standards/naming-conventions.md": "sha256:a3f2e51399c93dcf30d3be4a7a778f3be95dae60acfbe312b2efe70d5a3dbcd5",
+    "domains/entities.md": "sha256:cdc14486d6b19473268586f4b372121d36fe46ffc43ea4982a5af833ae35e50d",
+    "domains/glossary.md": "sha256:481edee6bf2a6dac5070ea0e1312fd5405151b56992336256a6bcaf52c17e53c",
+    "overview.md": "sha256:f15aad10ca1e2b58342c380bb0d88fb7d618be0fb6b5b3f75373cc9d46f1acbf",
+    "standards/error-handling.md": "sha256:051bb2c9394b980705f9c2b2f55d818f40806aa1c8274ea7ce6fe3c5bb5cc1e3"
+  },
+  "ops": [
+    {
+      "target": "standards/README.md",
+      "mode": "tag",
+      "add": [
+        "code-style",
+        "vanilla-fallback",
+        "logging"
+      ]
+    },
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "code-style"
+      ]
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "tag",
+      "add": [
+        "code-style"
+      ]
+    },
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "room-tracking"
+      ],
+      "section": "overview"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "in-game-testing"
+      ],
+      "section": "abbreviations-and-acronyms"
+    },
+    {
+      "target": "overview.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching"
+      ],
+      "section": "what-this-is"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "room-tracking"
+      ],
+      "section": "project-specific-patterns/don-t-count-eggs-on-rails-specifics"
+    }
+  ]
+}

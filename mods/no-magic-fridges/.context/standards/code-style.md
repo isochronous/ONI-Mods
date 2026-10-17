@@ -1,9 +1,11 @@
 ---
+tags: code-style
 doc_id: doc-46f4375d60c5
-description: "C# formatting, imports, comments, Harmony patch and component conventions for No Magic Fridges (gives fridges a real thermal model), with this mod's own layout."
+description: "C# code style for No Magic Fridges: indentation, braces, imports, comments, control structures, Harmony patch and game component conventions, plus its nested Patches class, FridgeThermostat fields and reflection use"
 applies_to:
   - "src/**"
 ---
+
 # Code Style Guide
 
 ## Formatting
@@ -81,7 +83,7 @@ using UnityEngine;
 **Id:** blk-daafd1797aa8
 
 ### When to Comment
-**Id:** blk-f989724353cb
+**Id:** blk-f989724353cb  
 
 - On every non-trivial class, an XML `<summary>` that says what the game does and what the patch changes, so a reader can check the patch against the game code. The long summary on `OvercrowdingMonitor_UpdateRegion_Patch` in `mods/dont-count-eggs-on-rails/src/DontCountEggsOnRails/Mod.cs` is the model.
 - Where a game quirk forces an odd line: `// The game's .NET Framework has no AddOrUpdate on this table.`
@@ -137,7 +139,8 @@ if (idx == ushort.MaxValue || idx >= elements.Count)
 - Player-visible text is a `LocString` field in `ModStrings`, never a literal at the call site (see [naming conventions](naming-conventions.md)).
 
 ## Harmony Patches
-**Id:** blk-d44c4a153c1c
+**Id:** blk-d44c4a153c1c  
+**Tags:** harmony-patching
 
 - A patch is a static class with `[HarmonyPatch(typeof(Type), nameof(Type.Method))]`, or `[HarmonyPatch(typeof(Type), "PrivateMethod")]` for a non-public method, and methods named `Prefix`, `Postfix`, `Transpiler` or `Finalizer` (`mods/bitshifter/src/Bitshifter/Patches.cs`).
 - Game state arrives through Harmony parameters: `__instance`, `__result`, `___field`. Fields read repeatedly use `AccessTools.FieldRefAccess` kept in a `static readonly` field (`mods/detect-any-element/src/DetectAnyElement/Patches.cs`).
@@ -147,21 +150,24 @@ if (idx == ushort.MaxValue || idx >= elements.Count)
 - Transpilers search for the instruction they change and report when it is not found; see [error handling](error-handling.md).
 
 ## Game Components
-**Id:** blk-d12bc1aff49d
+**Id:** blk-d12bc1aff49d  
+**Tags:** game-component
 
 - A component extends `KMonoBehaviour`, overrides `OnPrefabInit`, `OnSpawn` and `OnCleanUp` and calls `base` from each. Sibling components come in through `[MyCmpGet]` or `[MyCmpReq]` (`mods/no-magic-fridges/src/NoMagicFridges/FridgeThermostat.cs`).
 - Saved state uses `[Serialize]` fields with `[SerializationConfig(MemberSerialization.OptIn)]` on the class (`mods/sweep-zones/src/SweepZones/ZoneStore.cs`).
 - Components are added to prefabs from a `DoPostConfigureComplete` postfix with `go.AddOrGet<T>()`.
 
 ## Project-Specific Rules
-**Id:** blk-447262e58ac0
+**Id:** blk-447262e58ac0  
+**Tags:** logging, in-game-testing
 
 - Mod options are a PLib `POptions` class marked `[JsonObject(MemberSerialization.OptIn)]` and `[ConfigFile(SharedConfigLocation: true)]`, read through a static `Load()` (`mods/vent-freeze-fix/src/VentFreezeFix/Options.cs`) or through `SingletonOptions<Options>` (`mods/storage-pod-redux`). Option titles are string-table keys, so the translation follows the language.
 - Every mod logs one line at load: `[<Name>] Loaded version <assembly version>`.
 - Tests live in a separate `<Name>.Tests` project and are written as `[OniTest]` coroutines against the real game.
 
 ### No Magic Fridges specifics
-**Id:** blk-6a0e4de0eca7
+**Id:** blk-6a0e4de0eca7  
+**Tags:** refrigerator, harmony-patching, game-component, reflection
 
 - `Patches.cs` is a `public static class Patches` with nested patch classes. `FridgeThermostat` is a `KMonoBehaviour` with `[MyCmpGet]` fields and a static `EventSystem.IntraObjectHandler` named `OnStorageChangeDelegate` (`src/NoMagicFridges/FridgeThermostat.cs`).
 - Private game members are reached through `static readonly FieldInfo` fields (`ActiveField`, `StorageField`) and delegates built with `AccessTools.MethodDelegate`.

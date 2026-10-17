@@ -1,0 +1,38 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/natural-backwalls-everywhere — round 6",
+  "node": "C:\\dev\\ONI-Mods\\mods\\natural-backwalls-everywhere",
+  "base": {
+    "domains/entities.md": "sha256:beb8b70dd4bf9e30270c9f1cbcbc8daeced587257c120547ec3158df61101158",
+    "domains/glossary.md": "sha256:42e40dba91c0bd9f81a6f7d63b7a9b12ebce8df5e1462d73a7ba3e1047c45ca6",
+    "standards/error-handling.md": "sha256:3f44b3ae74da96ebe0cb228e6483be4f281e7491bc4168f7350cac218684639c"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "mod-options",
+        "biome-group",
+        "noise-pattern"
+      ],
+      "section": "key-entities/options-entries"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "noise-pattern"
+      ],
+      "section": "cross-domain-terms/noise-tree-pattern"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "logging"
+      ],
+      "section": "guarding-patches/warn-once"
+    }
+  ]
+}

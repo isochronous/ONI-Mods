@@ -1,0 +1,19 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r2 for node mods/storage-pod-redux — round 1",
+  "node": "C:\\dev\\ONI-Mods\\mods\\storage-pod-redux",
+  "base": {
+    "standards/code-style.md": "sha256:e7a0063fc66b8d7122d3d7ca65c0743ae1f0d57d9d5d592d8edac5df72f983c0"
+  },
+  "ops": [
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching",
+        "mod-compatibility"
+      ],
+      "section": "comments/when-to-comment"
+    }
+  ]
+}

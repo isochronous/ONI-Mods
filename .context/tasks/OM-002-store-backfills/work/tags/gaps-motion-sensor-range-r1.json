@@ -1,0 +1,140 @@
+[
+ {
+  "id": "standards/README.md",
+  "reason": "no-good-match",
+  "suggestion": "project coding standards",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md",
+  "reason": "no-good-match",
+  "suggestion": "C# code style conventions",
+  "kept": []
+ },
+ {
+  "id": "standards/error-handling.md",
+  "reason": "no-good-match",
+  "suggestion": "error-handling conventions",
+  "kept": []
+ },
+ {
+  "id": "standards/naming-conventions.md",
+  "reason": "no-good-match",
+  "suggestion": "naming conventions",
+  "kept": []
+ },
+ {
+  "id": "domains/glossary.md#abbreviations-and-acronyms",
+  "reason": "no-good-match",
+  "suggestion": "glossary of abbreviations",
+  "kept": []
+ },
+ {
+  "id": "domains/glossary.md#cross-domain-terms/scene-partitioner",
+  "reason": "no-good-match",
+  "suggestion": "game spatial index (scene partitioner)",
+  "kept": []
+ },
+ {
+  "id": "overview.md#where-things-are",
+  "reason": "no-good-match",
+  "suggestion": "repository file layout",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#formatting/indentation",
+  "reason": "no-good-match",
+  "suggestion": "C# formatting conventions",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#formatting/line-length",
+  "reason": "no-good-match",
+  "suggestion": "C# formatting conventions",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#formatting/braces",
+  "reason": "no-good-match",
+  "suggestion": "C# formatting conventions",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#language-and-toolchain",
+  "reason": "no-good-match",
+  "suggestion": "language version and build toolchain",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#imports-includes/organization",
+  "reason": "no-good-match",
+  "suggestion": "using directive ordering",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#imports-includes/example",
+  "reason": "no-good-match",
+  "suggestion": "using directive ordering",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#comments/when-to-comment",
+  "reason": "no-good-match",
+  "suggestion": "code comment conventions",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#comments/when-not-to-comment",
+  "reason": "no-good-match",
+  "suggestion": "code comment conventions",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#comments/format",
+  "reason": "no-good-match",
+  "suggestion": "code comment conventions",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#control-structures/conditionals",
+  "reason": "no-good-match",
+  "suggestion": "control-flow style",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#control-structures/loops",
+  "reason": "no-good-match",
+  "suggestion": "control-flow style",
+  "kept": []
+ },
+ {
+  "id": "standards/error-handling.md#yielding-to-other-mods",
+  "reason": "no-good-match",
+  "suggestion": "yielding to other mods",
+  "kept": []
+ },
+ {
+  "id": "standards/naming-conventions.md#files-and-directories/general-rules",
+  "reason": "no-good-match",
+  "suggestion": "file and project naming",
+  "kept": []
+ },
+ {
+  "id": "standards/naming-conventions.md#code-naming/variables",
+  "reason": "no-good-match",
+  "suggestion": "identifier naming",
+  "kept": []
+ },
+ {
+  "id": "standards/naming-conventions.md#code-naming/booleans",
+  "reason": "no-good-match",
+  "suggestion": "identifier naming",
+  "kept": []
+ },
+ {
+  "id": "standards/naming-conventions.md#code-naming/ids-and-tags",
+  "reason": "no-good-match",
+  "suggestion": "building, tag and test id naming",
+  "kept": []
+ }
+]

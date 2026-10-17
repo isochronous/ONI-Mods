@@ -1,0 +1,599 @@
+{
+ "documents": [
+  {
+   "id": "domains/tooling-friction.md",
+   "title": "Tooling friction",
+   "description": "Dated entries recording friction met with ICON's ks engine, skills and hooks in the ONI-Mods repository, each giving the invocation, what happened, what was expected and the workaround",
+   "sections": [
+    {
+     "id": "domains/tooling-friction.md#2026-10-17-icon-init-an-interrupted-apply-left-a-tree-neither-init-nor-integrate-could-plan-over",
+     "title": "2026-10-17 icon-init: an interrupted apply left a tree neither init nor integrate could plan over"
+    },
+    {
+     "id": "domains/tooling-friction.md#2026-10-17-icon-init-exclude-does-not-drop-a-top-level-folder-from-the-node-set",
+     "title": "2026-10-17 icon-init: --exclude does not drop a top-level folder from the node set"
+    },
+    {
+     "id": "domains/tooling-friction.md#2026-10-17-populate-context-every-mod-node-is-aggregator-scope-so-the-leaf-only-standards-rule-matches-no-node",
+     "title": "2026-10-17 populate-context: every mod node is aggregator scope, so the leaf-only standards rule matches no node"
+    },
+    {
+     "id": "domains/tooling-friction.md#2026-10-17-populate-context-briefs-fill-with-near-identical-sections-of-a-body-repeated-across-nodes",
+     "title": "2026-10-17 populate-context: briefs fill with near-identical sections of a body repeated across nodes"
+    },
+    {
+     "id": "domains/tooling-friction.md#2026-10-17-populate-context-a-cover-op-s-refusal-does-not-name-the-missing-witness-and-a-section-and-a-cover-cannot-share-a-change-set",
+     "title": "2026-10-17 populate-context: a cover op's refusal does not name the missing witness, and a section and a cover cannot share a change-set"
+    }
+   ]
+  },
+  {
+   "id": "overview.md",
+   "title": "ONI-Mods",
+   "description": "Overview of the ONI-Mods monorepo: its 17 mods under mods/, the shared common/ build kit submodule, the solution and props files, GitHub folder, and where each part of the repository lives",
+   "sections": [
+    {
+     "id": "overview.md#what-this-is",
+     "title": "What this is"
+    },
+    {
+     "id": "overview.md#where-things-are",
+     "title": "Where things are"
+    }
+   ]
+  },
+  {
+   "id": "testing/integration-testing.md",
+   "title": "Integration Testing Conventions",
+   "description": "How ONI-Mods tests a mod inside the whole running game: the TestRunner launcher options, input-layer and tool tests, generated worlds, saves, other authors' mods, screenshots and machine requirements",
+   "sections": [
+    {
+     "id": "testing/integration-testing.md#scope",
+     "title": "Scope"
+    },
+    {
+     "id": "testing/integration-testing.md#test-environment",
+     "title": "Test Environment"
+    },
+    {
+     "id": "testing/integration-testing.md#test-environment/game-and-fixture",
+     "title": "Game and fixture"
+    },
+    {
+     "id": "testing/integration-testing.md#test-environment/other-mods",
+     "title": "Other mods"
+    },
+    {
+     "id": "testing/integration-testing.md#test-structure",
+     "title": "Test Structure"
+    },
+    {
+     "id": "testing/integration-testing.md#test-structure/setup-and-teardown",
+     "title": "Setup and Teardown"
+    },
+    {
+     "id": "testing/integration-testing.md#input-and-tool-testing",
+     "title": "Input and Tool Testing"
+    },
+    {
+     "id": "testing/integration-testing.md#database-integration",
+     "title": "Database Integration"
+    },
+    {
+     "id": "testing/integration-testing.md#generated-worlds",
+     "title": "Generated Worlds"
+    },
+    {
+     "id": "testing/integration-testing.md#reproducing-a-report-in-a-save",
+     "title": "Reproducing a Report in a Save"
+    },
+    {
+     "id": "testing/integration-testing.md#isolated-manual-testing",
+     "title": "Isolated Manual Testing"
+    },
+    {
+     "id": "testing/integration-testing.md#test-data-management",
+     "title": "Test Data Management"
+    },
+    {
+     "id": "testing/integration-testing.md#test-data-management/seeding",
+     "title": "Seeding"
+    },
+    {
+     "id": "testing/integration-testing.md#test-data-management/cleanup-strategies",
+     "title": "Cleanup Strategies"
+    },
+    {
+     "id": "testing/integration-testing.md#running-integration-tests",
+     "title": "Running Integration Tests"
+    },
+    {
+     "id": "testing/integration-testing.md#configuration",
+     "title": "Configuration"
+    },
+    {
+     "id": "testing/integration-testing.md#configuration/launcher-options",
+     "title": "Launcher Options"
+    },
+    {
+     "id": "testing/integration-testing.md#configuration/machine-requirements",
+     "title": "Machine requirements"
+    },
+    {
+     "id": "testing/integration-testing.md#configuration/screenshots",
+     "title": "Screenshots"
+    },
+    {
+     "id": "testing/integration-testing.md#best-practices",
+     "title": "Best Practices"
+    },
+    {
+     "id": "testing/integration-testing.md#related",
+     "title": "Related"
+    }
+   ]
+  },
+  {
+   "id": "testing/unit-testing.md",
+   "title": "Unit Testing Conventions",
+   "description": "How ONI-Mods writes [OniTest] coroutines run in the real game by TestRunner: tool list, test project layout, TestKit assertions and waits, per-test options, run commands, coverage rules and anti-patterns",
+   "sections": [
+    {
+     "id": "testing/unit-testing.md#framework-and-tools",
+     "title": "Framework and Tools"
+    },
+    {
+     "id": "testing/unit-testing.md#test-file-location",
+     "title": "Test File Location"
+    },
+    {
+     "id": "testing/unit-testing.md#test-structure",
+     "title": "Test Structure"
+    },
+    {
+     "id": "testing/unit-testing.md#test-structure/file-organization",
+     "title": "File Organization"
+    },
+    {
+     "id": "testing/unit-testing.md#test-structure/naming-conventions",
+     "title": "Naming Conventions"
+    },
+    {
+     "id": "testing/unit-testing.md#mocking-patterns",
+     "title": "Mocking Patterns"
+    },
+    {
+     "id": "testing/unit-testing.md#mocking-patterns/settings-and-environment",
+     "title": "Settings and environment"
+    },
+    {
+     "id": "testing/unit-testing.md#assertion-patterns",
+     "title": "Assertion Patterns"
+    },
+    {
+     "id": "testing/unit-testing.md#assertion-patterns/waiting",
+     "title": "Waiting"
+    },
+    {
+     "id": "testing/unit-testing.md#test-data",
+     "title": "Test Data"
+    },
+    {
+     "id": "testing/unit-testing.md#test-data/fixtures",
+     "title": "Fixtures"
+    },
+    {
+     "id": "testing/unit-testing.md#test-data/per-test-options-on-onitest",
+     "title": "Per-test options on `[OniTest]`"
+    },
+    {
+     "id": "testing/unit-testing.md#running-tests",
+     "title": "Running Tests"
+    },
+    {
+     "id": "testing/unit-testing.md#coverage-requirements",
+     "title": "Coverage Requirements"
+    },
+    {
+     "id": "testing/unit-testing.md#anti-patterns-to-avoid",
+     "title": "Anti-Patterns to Avoid"
+    },
+    {
+     "id": "testing/unit-testing.md#anti-patterns-to-avoid/frames-apart-build-change-and-destroy",
+     "title": "Frames-apart build, change and destroy"
+    },
+    {
+     "id": "testing/unit-testing.md#anti-patterns-to-avoid/asserting-on-a-private-field-instead-of-the-behaviour",
+     "title": "Asserting on a private field instead of the behaviour"
+    },
+    {
+     "id": "testing/unit-testing.md#anti-patterns-to-avoid/meaningless-assertions",
+     "title": "Meaningless assertions"
+    },
+    {
+     "id": "testing/unit-testing.md#anti-patterns-to-avoid/letting-an-expected-game-error-fail-unrelated-tests",
+     "title": "Letting an expected game error fail unrelated tests"
+    },
+    {
+     "id": "testing/unit-testing.md#related",
+     "title": "Related"
+    }
+   ]
+  },
+  {
+   "id": "workflows/branching.md",
+   "title": "Git Branching Strategy",
+   "description": "Branching in ONI-Mods: the single main branch, ICON task branches named OM-NNN, per-mod release tags, the common submodule, and the steps for task work, mod work, releases and merging",
+   "sections": [
+    {
+     "id": "workflows/branching.md#branch-structure",
+     "title": "Branch Structure"
+    },
+    {
+     "id": "workflows/branching.md#branch-types",
+     "title": "Branch Types"
+    },
+    {
+     "id": "workflows/branching.md#naming-conventions",
+     "title": "Naming Conventions"
+    },
+    {
+     "id": "workflows/branching.md#naming-conventions/task-branches",
+     "title": "Task Branches"
+    },
+    {
+     "id": "workflows/branching.md#naming-conventions/release-tags",
+     "title": "Release Tags"
+    },
+    {
+     "id": "workflows/branching.md#workflow",
+     "title": "Workflow"
+    },
+    {
+     "id": "workflows/branching.md#workflow/task-work",
+     "title": "Task Work"
+    },
+    {
+     "id": "workflows/branching.md#workflow/everyday-mod-work",
+     "title": "Everyday Mod Work"
+    },
+    {
+     "id": "workflows/branching.md#workflow/release-process",
+     "title": "Release Process"
+    },
+    {
+     "id": "workflows/branching.md#workflow/changing-common",
+     "title": "Changing common"
+    },
+    {
+     "id": "workflows/branching.md#commit-messages",
+     "title": "Commit Messages"
+    },
+    {
+     "id": "workflows/branching.md#pull-request-guidelines",
+     "title": "Pull Request Guidelines"
+    },
+    {
+     "id": "workflows/branching.md#pull-request-guidelines/before-merging-a-task-branch",
+     "title": "Before Merging a Task Branch"
+    },
+    {
+     "id": "workflows/branching.md#protected-branches",
+     "title": "Protected Branches"
+    },
+    {
+     "id": "workflows/branching.md#git-configuration",
+     "title": "Git Configuration"
+    }
+   ]
+  },
+  {
+   "id": "workflows/ci-cd.md",
+   "title": "CI/CD Pipeline",
+   "description": "The ONI-Mods build, test and release pipeline, all run locally: dotnet build, in-game tests, ModCheck, translations check, release script with GitHub release, Workshop upload and Discord notice, the issue-labelling action, and retry and rollback steps",
+   "sections": [
+    {
+     "id": "workflows/ci-cd.md#overview",
+     "title": "Overview"
+    },
+    {
+     "id": "workflows/ci-cd.md#stage-details",
+     "title": "Stage Details"
+    },
+    {
+     "id": "workflows/ci-cd.md#stage-details/1-build",
+     "title": "1. Build"
+    },
+    {
+     "id": "workflows/ci-cd.md#stage-details/2-test",
+     "title": "2. Test"
+    },
+    {
+     "id": "workflows/ci-cd.md#stage-details/3-check",
+     "title": "3. Check"
+    },
+    {
+     "id": "workflows/ci-cd.md#stage-details/4-translations-check",
+     "title": "4. Translations check"
+    },
+    {
+     "id": "workflows/ci-cd.md#stage-details/5-release",
+     "title": "5. Release"
+    },
+    {
+     "id": "workflows/ci-cd.md#stage-details/6-issue-labelling-the-only-github-action",
+     "title": "6. Issue labelling (the only GitHub Action)"
+    },
+    {
+     "id": "workflows/ci-cd.md#environment-configuration",
+     "title": "Environment Configuration"
+    },
+    {
+     "id": "workflows/ci-cd.md#pipeline-configuration",
+     "title": "Pipeline Configuration"
+    },
+    {
+     "id": "workflows/ci-cd.md#pipeline-configuration/secrets-management",
+     "title": "Secrets Management"
+    },
+    {
+     "id": "workflows/ci-cd.md#branch-policies",
+     "title": "Branch Policies"
+    },
+    {
+     "id": "workflows/ci-cd.md#notifications",
+     "title": "Notifications"
+    },
+    {
+     "id": "workflows/ci-cd.md#notifications/success",
+     "title": "Success"
+    },
+    {
+     "id": "workflows/ci-cd.md#notifications/failure",
+     "title": "Failure"
+    },
+    {
+     "id": "workflows/ci-cd.md#manual-actions",
+     "title": "Manual Actions"
+    },
+    {
+     "id": "workflows/ci-cd.md#manual-actions/retry-a-workshop-update-after-a-successful-github-release",
+     "title": "Retry a Workshop update after a successful GitHub release"
+    },
+    {
+     "id": "workflows/ci-cd.md#manual-actions/first-workshop-upload-of-a-new-mod",
+     "title": "First Workshop upload of a new mod"
+    },
+    {
+     "id": "workflows/ci-cd.md#manual-actions/rollback",
+     "title": "Rollback"
+    },
+    {
+     "id": "workflows/ci-cd.md#troubleshooting",
+     "title": "Troubleshooting"
+    },
+    {
+     "id": "workflows/ci-cd.md#troubleshooting/common-failures",
+     "title": "Common Failures"
+    },
+    {
+     "id": "workflows/ci-cd.md#troubleshooting/viewing-logs",
+     "title": "Viewing Logs"
+    }
+   ]
+  },
+  {
+   "id": "workflows/commit-conventions.md",
+   "title": "Commit Conventions",
+   "description": "Commit message style in ONI-Mods: the mod-name prefix with one terse line, shared-tooling and release commit forms, task-prefixed commits and the Phase-Handoff trailer, with examples from the log",
+   "sections": [
+    {
+     "id": "workflows/commit-conventions.md#format",
+     "title": "Format"
+    },
+    {
+     "id": "workflows/commit-conventions.md#format/shared-tooling-and-housekeeping",
+     "title": "Shared tooling and housekeeping"
+    },
+    {
+     "id": "workflows/commit-conventions.md#format/release-commits-written-by-the-release-scripts",
+     "title": "Release commits (written by the release scripts)"
+    },
+    {
+     "id": "workflows/commit-conventions.md#format/imported-history",
+     "title": "Imported history"
+    },
+    {
+     "id": "workflows/commit-conventions.md#format/active-task-work",
+     "title": "Active task work"
+    },
+    {
+     "id": "workflows/commit-conventions.md#task-id-generation",
+     "title": "Task ID Generation"
+    },
+    {
+     "id": "workflows/commit-conventions.md#release-commits",
+     "title": "Release Commits"
+    },
+    {
+     "id": "workflows/commit-conventions.md#co-authorship",
+     "title": "Co-authorship"
+    },
+    {
+     "id": "workflows/commit-conventions.md#well-formed-examples",
+     "title": "Well-formed Examples"
+    },
+    {
+     "id": "workflows/commit-conventions.md#changelog-entries",
+     "title": "Changelog entries"
+    }
+   ]
+  },
+  {
+   "id": "workflows/task-plan/base.md",
+   "title": "Plan Document Format",
+   "description": "The plan.md template for ONI-Mods tasks: required sections, Phase State and Phase Handoff Log formats, guidance for each section and the repository's build and test verification commands",
+   "sections": [
+    {
+     "id": "workflows/task-plan/base.md#template",
+     "title": "Template"
+    },
+    {
+     "id": "workflows/task-plan/base.md#section-guidance",
+     "title": "Section Guidance"
+    },
+    {
+     "id": "workflows/task-plan/base.md#repository-specifics",
+     "title": "Repository Specifics"
+    }
+   ]
+  },
+  {
+   "id": "workflows/task-plan/phase-architecture.md",
+   "title": "Architecture Phase Templates",
+   "description": "The architecture phase of an ONI-Mods task plan: entry and exit steps, extra review triggers for build kit and test harness changes, the design unit spec template and the decision capture format",
+   "sections": [
+    {
+     "id": "workflows/task-plan/phase-architecture.md#phase-entry-run-first-before-any-phase-work",
+     "title": "Phase Entry (run FIRST, before any phase work)"
+    },
+    {
+     "id": "workflows/task-plan/phase-architecture.md#phase-exit-handoff-run-last-at-the-phase-boundary",
+     "title": "Phase Exit / Handoff (run LAST, at the phase boundary)"
+    },
+    {
+     "id": "workflows/task-plan/phase-architecture.md#additional-architecture-review-triggers",
+     "title": "Additional Architecture Review Triggers"
+    },
+    {
+     "id": "workflows/task-plan/phase-architecture.md#design-unit-spec-template",
+     "title": "`design` Unit Spec Template"
+    },
+    {
+     "id": "workflows/task-plan/phase-architecture.md#architecture-decision-capture",
+     "title": "Architecture Decision Capture"
+    }
+   ]
+  },
+  {
+   "id": "workflows/task-plan/phase-completion.md",
+   "title": "Completion Phase Templates",
+   "description": "The completion phase of an ONI-Mods task plan: entry and exit steps, plan.md reconciliation, the review unit spec, store update checklist, two-stage retrospective template and completion summary format",
+   "sections": [
+    {
+     "id": "workflows/task-plan/phase-completion.md#phase-entry-run-first-before-any-phase-work",
+     "title": "Phase Entry (run FIRST, before any phase work)"
+    },
+    {
+     "id": "workflows/task-plan/phase-completion.md#phase-exit-handoff-run-last-at-the-phase-boundary",
+     "title": "Phase Exit / Handoff (run LAST, at the phase boundary)"
+    },
+    {
+     "id": "workflows/task-plan/phase-completion.md#reconcile-plan-md",
+     "title": "Reconcile plan.md"
+    },
+    {
+     "id": "workflows/task-plan/phase-completion.md#review-unit-spec-template",
+     "title": "`review` Unit Spec Template"
+    },
+    {
+     "id": "workflows/task-plan/phase-completion.md#context-update-checklist",
+     "title": "Context Update Checklist"
+    },
+    {
+     "id": "workflows/task-plan/phase-completion.md#retrospective-template",
+     "title": "Retrospective Template"
+    },
+    {
+     "id": "workflows/task-plan/phase-completion.md#two-stage-retrospective",
+     "title": "Two-Stage Retrospective"
+    },
+    {
+     "id": "workflows/task-plan/phase-completion.md#completion-summary-template",
+     "title": "Completion Summary Template"
+    }
+   ]
+  },
+  {
+   "id": "workflows/task-plan/phase-implementation.md",
+   "title": "Implementation Phase Templates",
+   "description": "The implementation phase of an ONI-Mods task plan: entry and exit steps, the implement unit spec template, progress tracker, deviation log entry format and pre-completion review",
+   "sections": [
+    {
+     "id": "workflows/task-plan/phase-implementation.md#phase-entry-run-first-before-any-phase-work",
+     "title": "Phase Entry (run FIRST, before any phase work)"
+    },
+    {
+     "id": "workflows/task-plan/phase-implementation.md#phase-exit-handoff-run-last-at-the-phase-boundary",
+     "title": "Phase Exit / Handoff (run LAST, at the phase boundary)"
+    },
+    {
+     "id": "workflows/task-plan/phase-implementation.md#implement-unit-spec-template",
+     "title": "`implement` Unit Spec Template"
+    },
+    {
+     "id": "workflows/task-plan/phase-implementation.md#implementation-progress-tracker",
+     "title": "Implementation Progress Tracker"
+    },
+    {
+     "id": "workflows/task-plan/phase-implementation.md#deviation-log-entry",
+     "title": "Deviation Log Entry"
+    },
+    {
+     "id": "workflows/task-plan/phase-implementation.md#pre-completion-review",
+     "title": "Pre-Completion Review"
+    }
+   ]
+  },
+  {
+   "id": "workflows/task-plan/phase-investigation.md",
+   "title": "Investigation Phase Templates",
+   "description": "The investigation phase of an ONI-Mods task plan: entry and exit steps, extra context files to read, and the research and plan unit spec templates",
+   "sections": [
+    {
+     "id": "workflows/task-plan/phase-investigation.md#phase-entry-run-first-before-any-phase-work",
+     "title": "Phase Entry (run FIRST, before any phase work)"
+    },
+    {
+     "id": "workflows/task-plan/phase-investigation.md#phase-exit-handoff-run-last-at-the-phase-boundary",
+     "title": "Phase Exit / Handoff (run LAST, at the phase boundary)"
+    },
+    {
+     "id": "workflows/task-plan/phase-investigation.md#additional-context-files",
+     "title": "Additional Context Files"
+    },
+    {
+     "id": "workflows/task-plan/phase-investigation.md#research-unit-spec-template",
+     "title": "`research` Unit Spec Template"
+    },
+    {
+     "id": "workflows/task-plan/phase-investigation.md#plan-unit-spec-template",
+     "title": "`plan` Unit Spec Template"
+    }
+   ]
+  },
+  {
+   "id": "workflows/task-plan/phase-testing.md",
+   "title": "Testing Phase Templates",
+   "description": "The testing phase of an ONI-Mods task plan: entry and exit steps, the test unit spec template and a status tracker for in-game harness tests",
+   "sections": [
+    {
+     "id": "workflows/task-plan/phase-testing.md#phase-entry-run-first-before-any-phase-work",
+     "title": "Phase Entry (run FIRST, before any phase work)"
+    },
+    {
+     "id": "workflows/task-plan/phase-testing.md#phase-exit-handoff-run-last-at-the-phase-boundary",
+     "title": "Phase Exit / Handoff (run LAST, at the phase boundary)"
+    },
+    {
+     "id": "workflows/task-plan/phase-testing.md#test-unit-spec-template",
+     "title": "`test` Unit Spec Template"
+    },
+    {
+     "id": "workflows/task-plan/phase-testing.md#test-status-tracker",
+     "title": "Test Status Tracker"
+    }
+   ]
+  }
+ ]
+}

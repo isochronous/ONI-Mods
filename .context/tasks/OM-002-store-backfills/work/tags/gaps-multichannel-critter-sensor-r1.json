@@ -1,0 +1,158 @@
+[
+ {
+  "id": "standards/README.md",
+  "reason": "no-good-match",
+  "suggestion": "coding standards for the mod",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md",
+  "reason": "no-good-match",
+  "suggestion": "C# code style conventions",
+  "kept": []
+ },
+ {
+  "id": "standards/naming-conventions.md",
+  "reason": "no-good-match",
+  "suggestion": "naming conventions for files, code and ids",
+  "kept": []
+ },
+ {
+  "id": "domains/glossary.md#cross-domain-terms/logic-tick",
+  "reason": "no-good-match",
+  "suggestion": "logic tick timing of pulse signals",
+  "kept": []
+ },
+ {
+  "id": "domains/glossary.md#cross-domain-terms/sim200ms",
+  "reason": "no-good-match",
+  "suggestion": "sim tick scan timing",
+  "kept": []
+ },
+ {
+  "id": "domains/glossary.md#cross-domain-terms/tracked-total",
+  "reason": "no-good-match",
+  "suggestion": "rise and fall pulse outputs driven by count changes",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#formatting/indentation",
+  "reason": "no-good-match",
+  "suggestion": "indentation rules",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#formatting/line-length",
+  "reason": "no-good-match",
+  "suggestion": "line wrapping rules",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#formatting/braces",
+  "reason": "no-good-match",
+  "suggestion": "brace placement style",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#language-and-toolchain",
+  "reason": "no-good-match",
+  "suggestion": "C# language version and build toolchain",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#imports-includes/organization",
+  "reason": "no-good-match",
+  "suggestion": "using directive ordering",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#imports-includes/example",
+  "reason": "no-good-match",
+  "suggestion": "using directive ordering",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#comments/when-to-comment",
+  "reason": "no-good-match",
+  "suggestion": "code commenting rules",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#comments/when-not-to-comment",
+  "reason": "no-good-match",
+  "suggestion": "code commenting rules",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#comments/format",
+  "reason": "no-good-match",
+  "suggestion": "XML summary comment format",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#control-structures/conditionals",
+  "reason": "no-good-match",
+  "suggestion": "guard clause and control flow style",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#control-structures/loops",
+  "reason": "no-good-match",
+  "suggestion": "loop style and per-tick allocation avoidance",
+  "kept": []
+ },
+ {
+  "id": "standards/error-handling.md#guarding-patches/missing-member-warn-leave-vanilla",
+  "reason": "no-good-match",
+  "suggestion": "null-checked reflection lookups",
+  "kept": []
+ },
+ {
+  "id": "standards/error-handling.md#guarding-patches/transpiler-count-the-match",
+  "reason": "no-good-match",
+  "suggestion": "transpiler instruction match counting",
+  "kept": []
+ },
+ {
+  "id": "standards/error-handling.md#guarding-patches/null-checks-on-game-objects",
+  "reason": "no-good-match",
+  "suggestion": "null checks on game objects and components",
+  "kept": []
+ },
+ {
+  "id": "standards/error-handling.md#try-catch",
+  "reason": "no-good-match",
+  "suggestion": "where try/catch is allowed",
+  "kept": []
+ },
+ {
+  "id": "standards/error-handling.md#yielding-to-other-mods",
+  "reason": "no-good-match",
+  "suggestion": "stepping aside for a conflicting mod",
+  "kept": []
+ },
+ {
+  "id": "standards/naming-conventions.md#files-and-directories/general-rules",
+  "reason": "no-good-match",
+  "suggestion": "mod folder, project and file naming",
+  "kept": []
+ },
+ {
+  "id": "standards/naming-conventions.md#code-naming/variables",
+  "reason": "no-good-match",
+  "suggestion": "identifier casing",
+  "kept": []
+ },
+ {
+  "id": "standards/naming-conventions.md#code-naming/functions-methods",
+  "reason": "no-good-match",
+  "suggestion": "identifier casing",
+  "kept": []
+ },
+ {
+  "id": "standards/naming-conventions.md#code-naming/booleans",
+  "reason": "no-good-match",
+  "suggestion": "identifier casing",
+  "kept": []
+ }
+]

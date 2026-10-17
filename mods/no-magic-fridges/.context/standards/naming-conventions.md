@@ -1,9 +1,11 @@
 ---
+tags: code-style
 doc_id: doc-9f3021f06f42
-description: "File, namespace, patch class, string key and id naming for No Magic Fridges (project NoMagicFridges)."
+description: "Naming conventions for No Magic Fridges: files, variables, methods, types, ids and tags, plus its nested patch class names, FridgeThermostat fields, test class and log prefix"
 applies_to:
   - "src/**"
 ---
+
 # Naming Conventions
 
 ## Files and Directories
@@ -18,7 +20,7 @@ applies_to:
 - Release tags are `<mod-folder>-v<version>` (repository README).
 
 ### Examples by Type
-**Id:** blk-c63d3276e032
+**Id:** blk-c63d3276e032  
 
 | Type | Convention | Example |
 |------|------------|---------|
@@ -53,14 +55,16 @@ private static readonly Dictionary<int, float> armed = new Dictionary<int, float
 (`mods/just-fall-already/src/JustFallAlready/FallPoke.cs`)
 
 ### Functions/Methods
-**Id:** blk-808a26502d80
+**Id:** blk-808a26502d80  
+**Tags:** harmony-patching
 
 - PascalCase, starting with a verb: `Apply`, `Decide`, `SwapTable`, `CopyRangeFrom`, `ApplyRange`.
 - Game callbacks keep the game's names (`OnSpawn`, `OnPrefabInit`, `OnCleanUp`, `Sim1000ms`).
 - Harmony methods are named for their kind: `Prefix`, `Postfix`, `Transpiler`, `Finalizer`, plus `Prepare`, `TargetMethod`, `TargetMethods`.
 
 ### Classes/Types/Interfaces
-**Id:** blk-02d498e998ad
+**Id:** blk-02d498e998ad  
+**Tags:** harmony-patching
 
 - PascalCase nouns. Interfaces take an `I` prefix (`IPlanTab` and `ITabView` in `mods/upgrade-planner`, and the game's own).
 - Harmony patch classes: `<PatchedType>_<PatchedMethod>_Patch` (`LogicRibbonReader_GetBitDepth_Patch`, `Db_Initialize_Patch`, `GeneratedBuildings_LoadGeneratedBuildings_Patch`). A patch for a type with one concern may use `<Type>_Patch` (`LiquidVentConfig_Patch`). Patches nested in a holder class may drop the suffix (`Constructable_OnSpawn` in `ReachTablePatches`).
@@ -92,7 +96,8 @@ private static readonly Dictionary<int, float> armed = new Dictionary<int, float
 **Id:** blk-68b632fb9946
 
 ### No Magic Fridges specifics
-**Id:** blk-f148924a5693
+**Id:** blk-f148924a5693  
+**Tags:** refrigerator, harmony-patching, game-component, in-game-testing
 
 - Patch classes are nested in `Patches`: `SimulatedTemperatureAdjuster_OnItemSimRegistered_Patch`, `GeneratedBuildings_LoadGeneratedBuildings_Patch`.
 - Component fields are camelCase (`storage`, `operational`, `items`); the nested helper types `Tracked` (class) and `Sample` (struct) are private.

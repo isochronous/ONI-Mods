@@ -1,0 +1,28 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/detect-any-element — round 10",
+  "node": "C:\\dev\\ONI-Mods\\mods\\detect-any-element",
+  "base": {
+    "domains/entities.md": "sha256:b146e8dd6f991dba630d866b8307eaf59f1479a07a40cf59fb414dd527c8707f",
+    "standards/error-handling.md": "sha256:898777916eec723d6a91ea64c150b262b21c842d12d2524f3a95ced32b202067"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "side-screen",
+        "saved-state"
+      ],
+      "section": "business-rules"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "logging"
+      ],
+      "section": "logging/log-levels"
+    }
+  ]
+}

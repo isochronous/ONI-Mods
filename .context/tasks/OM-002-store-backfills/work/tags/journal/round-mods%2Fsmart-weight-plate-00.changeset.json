@@ -1,0 +1,63 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r2 for node mods/smart-weight-plate — round 0",
+  "node": "C:\\dev\\ONI-Mods\\mods\\smart-weight-plate",
+  "base": {
+    "standards/naming-conventions.md": "sha256:3d19951034f05697d91a4b8520ee081b9cee2a380bfd55339aba25eba62656b4",
+    "domains/entities.md": "sha256:0ed85cccc4ad68e9a23369cdf6fdf30c43a1113640edb57b0c6bb6f3475e1b05",
+    "overview.md": "sha256:8b8180f7282eb04fcab762541400f5e87375440b99597dc3e78bb208255218df",
+    "standards/README.md": "sha256:e25719c5b30525a1c378d382db0c97beb5442013b3b574b630b1208e481bcd8e",
+    "standards/code-style.md": "sha256:12efa2c34cf78d0bf72b2279c85e2e49b4007de5f9c4e5b1745f85ba846519da",
+    "standards/error-handling.md": "sha256:a08ba17a10c50803ff07a58f5fd1b5faf9ef6b88b2a6b77eab45df26ece78cd3"
+  },
+  "ops": [
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "tag",
+      "add": [
+        "code-style"
+      ]
+    },
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "building-config"
+      ],
+      "section": "overview"
+    },
+    {
+      "target": "overview.md",
+      "mode": "tag",
+      "add": [
+        "building-config"
+      ],
+      "section": "what-this-is"
+    },
+    {
+      "target": "standards/README.md",
+      "mode": "tag",
+      "add": [
+        "code-style",
+        "logging"
+      ],
+      "section": "standards"
+    },
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "code-style"
+      ],
+      "section": "formatting"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching"
+      ],
+      "section": "guarding-patches"
+    }
+  ]
+}

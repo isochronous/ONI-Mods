@@ -1,9 +1,11 @@
 ---
+tags: code-style
 doc_id: doc-5d79dd719a71
-description: "C# formatting, imports, comments, Harmony patch and component conventions for Corner Build Anything (makes duplicants reach buildings from diagonal corners), with this mod's own layout."
+description: "C# code style for the Corner Build Anything mod: formatting, toolchain, imports, comments, Harmony conventions, plus its two nested transpilers over SwapTable in ReachTablePatches.cs"
 applies_to:
   - "src/**"
 ---
+
 # Code Style Guide
 
 ## Formatting
@@ -131,13 +133,14 @@ if (idx == ushort.MaxValue || idx >= elements.Count)
 - Local types are written out (`Tech tech = ...`). `var` appears mainly in `mods/upgrade-planner`, `mods/natural-backwalls-everywhere` and the test projects; follow the surrounding file.
 
 ### Strings
-**Id:** blk-968f3a86b207
+**Id:** blk-968f3a86b207  
 
 - Log and UI text is built with `+` concatenation, or `string.Format` on a `LocString`. String interpolation is not used in mod code.
 - Player-visible text is a `LocString` field in `ModStrings`, never a literal at the call site (see [naming conventions](naming-conventions.md)).
 
 ## Harmony Patches
-**Id:** blk-1ebc400095cd
+**Id:** blk-1ebc400095cd  
+**Tags:** harmony-patching
 
 - A patch is a static class with `[HarmonyPatch(typeof(Type), nameof(Type.Method))]`, or `[HarmonyPatch(typeof(Type), "PrivateMethod")]` for a non-public method, and methods named `Prefix`, `Postfix`, `Transpiler` or `Finalizer` (`mods/bitshifter/src/Bitshifter/Patches.cs`).
 - Game state arrives through Harmony parameters: `__instance`, `__result`, `___field`. Fields read repeatedly use `AccessTools.FieldRefAccess` kept in a `static readonly` field (`mods/detect-any-element/src/DetectAnyElement/Patches.cs`).
@@ -154,14 +157,16 @@ if (idx == ushort.MaxValue || idx >= elements.Count)
 - Components are added to prefabs from a `DoPostConfigureComplete` postfix with `go.AddOrGet<T>()`.
 
 ## Project-Specific Rules
-**Id:** blk-ae5190625f1d
+**Id:** blk-ae5190625f1d  
+**Tags:** logging, in-game-testing
 
 - Mod options are a PLib `POptions` class marked `[JsonObject(MemberSerialization.OptIn)]` and `[ConfigFile(SharedConfigLocation: true)]`, read through a static `Load()` (`mods/vent-freeze-fix/src/VentFreezeFix/Options.cs`) or through `SingletonOptions<Options>` (`mods/storage-pod-redux`). Option titles are string-table keys, so the translation follows the language.
 - Every mod logs one line at load: `[<Name>] Loaded version <assembly version>`.
 - Tests live in a separate `<Name>.Tests` project and are written as `[OniTest]` coroutines against the real game.
 
 ### Corner Build Anything specifics
-**Id:** blk-7a0bd3890da4
+**Id:** blk-7a0bd3890da4  
+**Tags:** transpiler, harmony-patching, mod-entry-point, reach-table
 
 - The mod is two transpilers over one shared method. They are nested in `internal static class ReachTablePatches` (`src/CornerBuildAnything/ReachTablePatches.cs`) and call `SwapTable(instructions, original)`.
 - No PLib, no translations, no options; `Mod.cs` only logs the version.

@@ -1,10 +1,11 @@
 ---
+tags: critter-falling
 witness_digest: "sha256:49eff80a7e3de4b75083d815cb6a92a69df8f2c9f195c336a66e79ed2725449c"
 witness: loose
 applies_to:
   - "src/JustFallAlready/**"
 doc_id: doc-ebdf75035929
-description: "Glossary for just-fall-already: how door changes trigger critter fall checks"
+description: "Glossary for Just Fall Already!: abbreviations, a term to avoid, and definitions of pez dropper, poke, armed cell, brain scheduler, nav grid, CreatureFallMonitor and the two related mods"
 ---
 
 # Domain Glossary
@@ -37,21 +38,25 @@ Terms used in the Just Fall Already mod (`mods/just-fall-already`). For the clas
 
 ### Poke
 **Id:** blk-13c1494f8af0  
+**Tags:** navigation-grid  
 **Definition**: Calling `brain.UpdateBrain()` on a critter so the game runs its chore selection, including the fall check, now instead of on the brain scheduler's round-robin.  
 **Used in**: `OnGridUpdated`
 
 ### Armed cell
 **Id:** blk-897798f555d4  
+**Tags:** navigation-grid  
 **Definition**: A cell near a door that just finished changing state; it stays armed until the last navigation grid has recomputed a batch containing it, or 2 seconds pass.  
 **Used in**: `FallPoke.armed`
 
 ### Brain and brain scheduler
 **Id:** blk-aabe9d05aeaa  
+**Tags:** navigation-grid  
 **Definition**: A critter's `Brain` decides what it does next; the game runs brains on a round-robin schedule, which is why a critter can stand on nothing for a moment.  
 **Used in**: `FallPoke`
 
 ### Nav grid and nav type
 **Id:** blk-7c1eabd25f0f  
+**Tags:** navigation-grid  
 **Definition**: A `NavGrid` is a navigation graph for one kind of walker; `NavType` is how a walker is currently moving (floor, climbing and so on). A critter whose current nav type is no longer valid at its cell has lost its footing.  
 **Used in**: `OnGridUpdated`
 
@@ -62,11 +67,13 @@ Terms used in the Just Fall Already mod (`mods/just-fall-already`). For the clas
 
 ### Critters Fall Through Open Doors
 **Id:** blk-e47a9aee85a7  
+**Tags:** mod-compatibility  
 **Definition**: Sgt_Imalas's mod (Workshop 3816086407) that makes open doors non-floor and non-ceiling for critters. With it, Just Fall Already watches the cells around doors as well.  
 **Used in**: `OpenDoorsAreAir`
 
 ### Fast Track
 **Id:** blk-3e0b229450b9  
+**Tags:** mod-compatibility, performance  
 **Definition**: A performance mod that queues non-duplicant brains; the mod's hooks work with it (its path cache keeps the grid update call).  
 **Used in**: `FallPoke` notes
 

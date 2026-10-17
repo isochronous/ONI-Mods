@@ -1,0 +1,31 @@
+{
+  "task": "OM-002",
+  "why": "Phase A: replace the scaffold placeholders in smart-weight-plate overview, domains index and standards index with content from the repo.",
+  "node": "mods/smart-weight-plate",
+  "ops": [
+    {
+      "mode": "section",
+      "target": "overview.md",
+      "section": "What this is",
+      "body": "Smart Weight Plate is an Oxygen Not Included mod that adds one building, a weight plate with a low and a high threshold. It weighs what sits on the tile above it like the vanilla Weight Plate (solid tiles, loose items and debris, Duplicants and critters; gases and liquids do not count). It sends a green signal once the weight reaches the High Threshold and holds it until the weight drops to the Low Threshold, then sends red, the way a Liquid or Gas Reservoir's signal behaves. Thresholds run 0 to 2000 kg, an Invert Signal option swaps the colours, and settings copy with the copy-settings tool. Art by 3GuB. Version 0.3.0, status work in progress. Targets the current game with all DLC content (minimumSupportedBuild 744825)."
+    },
+    {
+      "mode": "section",
+      "target": "overview.md",
+      "section": "Where things are",
+      "body": "- `README.md`, `CHANGELOG.md`: player-facing description and release notes.\n- `src/SmartWeightPlate/`: the mod. `Mod.cs` (entry point), `SmartWeightPlateConfig.cs` (building definition), `SmartWeightPlate.cs` (the two-threshold latch component), `SmartWeightPlateSideScreen.cs` (the panel), `Patches.cs` (Harmony patches), `ModStrings.cs` (UI strings), `mod.yaml` and `mod_info.yaml` (mod manifests).\n- `src/SmartWeightPlate/anim/assets/smart_weight_plate/`: the kanim art.\n- `src/SmartWeightPlate/translations/`: `.pot` template and `ko`, `ru`, `zh` po files.\n- `src/SmartWeightPlate.Tests/`: in-game tests (weighing, signal, settings, side screen, compatibility).\n- `tools/knobs_follow_pressure.py`: reworks the animations in place so the knobs and button follow the plate's pressure.\n- `publish/`: Workshop description, preview image and workshop id.\n- `.context/`: `overview.md`, `domains/` ([entities](domains/entities.md), [glossary](domains/glossary.md)), `standards/` ([code-style](standards/code-style.md), [error-handling](standards/error-handling.md), [naming-conventions](standards/naming-conventions.md)), `decisions/`, `retrospectives/`, `META.md`, `projects.md`."
+    },
+    {
+      "mode": "section",
+      "target": "domains/README.md",
+      "section": "Domains",
+      "body": "- [entities](entities.md): the Smart Weight Plate building, its two-threshold latch and the patches that wire it into the game.\n- [glossary](glossary.md): game and mod terms, abbreviations and terms to avoid."
+    },
+    {
+      "mode": "section",
+      "target": "standards/README.md",
+      "section": "Standards",
+      "body": "- [code-style](code-style.md): C# formatting, imports, comments, Harmony patch and component conventions, with this mod's own layout.\n- [error-handling](error-handling.md): how the mod guards its Harmony patches, reflection lookups and file reads, and what it logs when something is missing.\n- [naming-conventions](naming-conventions.md): file, namespace, patch class, string key and id naming."
+    }
+  ]
+}

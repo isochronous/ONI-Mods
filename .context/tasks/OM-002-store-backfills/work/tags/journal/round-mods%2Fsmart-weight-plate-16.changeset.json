@@ -1,0 +1,18 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/smart-weight-plate — round 16",
+  "node": "C:\\dev\\ONI-Mods\\mods\\smart-weight-plate",
+  "base": {
+    "standards/error-handling.md": "sha256:d93ae40a20d4a5a34e65420b3e0cdd2e70504f0cfa6abcd8ac9ee46134a9fcd5"
+  },
+  "ops": [
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "logging"
+      ],
+      "section": "anti-patterns-to-avoid/spamming-the-log"
+    }
+  ]
+}

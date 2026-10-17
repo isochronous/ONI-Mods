@@ -1,0 +1,63 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r2 for node mods/no-magic-fridges — round 0",
+  "node": "C:\\dev\\ONI-Mods\\mods\\no-magic-fridges",
+  "base": {
+    "standards/README.md": "sha256:3d6f356ed10625fcafee89bd34a859f41cf8398702412fd4a580abe781ea3a6a",
+    "standards/code-style.md": "sha256:2ef3454c7152046360592b6e52b0e73d42451a8cc020f797763e0bed202360ae",
+    "standards/naming-conventions.md": "sha256:15b82326d26819d646fd5d2943ac8f751dc03810562049c728167db467d02cd2",
+    "domains/entities.md": "sha256:a96334423adecaf13d459bfd9e27a0858b7b165e617cc7ead6d4ee4ee39bddc2",
+    "domains/glossary.md": "sha256:007110ba83d3d1e5a6f843ffc768bb29d98e3ec29336b8e53df3b6627ac33528",
+    "standards/error-handling.md": "sha256:f8d0f08d31cddbfc1ff477c0b654ff64bcafb90a47a0bb8528899c47dfd1de9f"
+  },
+  "ops": [
+    {
+      "target": "standards/README.md",
+      "mode": "tag",
+      "add": [
+        "code-style"
+      ]
+    },
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "code-style"
+      ]
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "tag",
+      "add": [
+        "code-style"
+      ]
+    },
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "game-component",
+        "harmony-patching",
+        "in-game-testing"
+      ],
+      "section": "key-code-paths"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching"
+      ],
+      "section": "cross-domain-terms/reservoir-simulated-temperature-adjuster"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "reflection",
+        "harmony-patching"
+      ],
+      "section": "try-catch"
+    }
+  ]
+}

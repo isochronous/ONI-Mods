@@ -1,0 +1,375 @@
+{
+ "documents": [
+  {
+   "id": "domains/README.md",
+   "title": "Domains",
+   "description": "Index of the Smart Weight Plate domains folder, linking the entities document on the building, its two-threshold latch and the wiring patches and the glossary of game and mod terms",
+   "document_tags": [
+    "weight-sensing",
+    "signal-threshold"
+   ],
+   "text": "---\ntags: weight-sensing, signal-threshold\ndoc_id: doc-7bf71d74cafa\ndescription: Index of the Smart Weight Plate domains folder, linking the entities document on the building, its two-threshold latch and the wiring patches and the glossary of game and mod terms\n---\n\n# Domains\n\n## Domains\n**Id:** blk-109a98c13d87\n\n- [entities](entities.md): the Smart Weight Plate building, its two-threshold latch and the patches that wire it into the game.\n- [glossary](glossary.md): game and mod terms, abbreviations and terms to avoid.\n",
+   "sections": [
+    {
+     "id": "domains/README.md#domains",
+     "title": "Domains",
+     "text": "## Domains\n**Id:** blk-109a98c13d87\n\n- [entities](entities.md): the Smart Weight Plate building, its two-threshold latch and the patches that wire it into the game.\n- [glossary](glossary.md): game and mod terms, abbreviations and terms to avoid.\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "domains/entities.md",
+   "title": "Smart Weight Plate domain",
+   "description": "The Smart Weight Plate building, its two-threshold latch component, side screen and Harmony patches in src/SmartWeightPlate, with weighing, signal and threshold rules, file locations, code paths, tests and saved state",
+   "document_tags": [
+    "weight-sensing",
+    "signal-threshold"
+   ],
+   "text": "---\ntags: weight-sensing, signal-threshold\ndoc_id: doc-79fd71f85e3b\ndescription: The Smart Weight Plate building, its two-threshold latch component, side screen and Harmony patches in src/SmartWeightPlate, with weighing, signal and threshold rules, file locations, code paths, tests and saved state\napplies_to:\n  - \"src/SmartWeightPlate/**\"\n---\n\n# Smart Weight Plate domain\n\n## Overview\n**Id:** blk-15ebeec6c4c1\n\nSmart Weight Plate adds one building, a weight plate with a low and a high threshold. Its output behaves like a Liquid or Gas Reservoir's signal: it turns on at the high threshold and stays on until the weight falls to the low threshold, instead of flipping around a single cut-off. The mod is `mods/smart-weight-plate`, static ID `Isochronous.SmartWeightPlate`, source in `src/SmartWeightPlate/`.\n\n## Key Entities\n**Id:** blk-4bd1cc9344e4\n\n### Smart Weight Plate (building)\n**Id:** blk-ca89bb6d9d7b  \n**Tags:** building-config, building-unlock  \n**Description**: A 1x1 foundation tile cloned from the vanilla Weight Plate (`FloorSwitchConfig`). Costs 75 kg of Refined Metal, sits in Automation > Sensors after the vanilla plate, unlocked by the Advanced Automation tech (`LogicCircuits`). Has one logic output port, `SmartWeightPlateLogicPort`, at the building's own cell.  \n**Location**: `src/SmartWeightPlate/SmartWeightPlateConfig.cs` (prefab ID `SmartWeightPlate`); art in `src/SmartWeightPlate/anim/assets/smart_weight_plate/`.\n\n| Property | Type | Description |\n|----------|------|-------------|\n| ID | string | `SmartWeightPlateConfig.ID` = `SmartWeightPlate` |\n| Tile layer | ObjectLayer | `FoundationTile`, replaceable through `ReplacementTile`; `IsFoundation = true` |\n| Build rule | BuildLocationRule | `Tile`, with `ConstructionOffsetFilter_OneDown` |\n| Output port | LogicPorts.Port | `SmartWeightPlate.PortId`, shown in the logic overlay |\n\n**Relationships**: carries one `SmartWeightPlate` component; shows the `SmartWeightPlateSideScreen`; edited through the vanilla `ActiveRangeSideScreen`.\n\n### SmartWeightPlate (component)\n**Id:** blk-e3b0a80523d8  \n**Tags:** game-component, saved-state  \n**Description**: The building's behaviour. Measures the weight on the cell above, keeps the heavy/light latch, drives the output port, status item and animation. Implements `IActivationRangeTarget` (so the vanilla two-slider screen edits it) and `ISim200ms`.  \n**Location**: `src/SmartWeightPlate/SmartWeightPlate.cs`\n\n| Property | Type | Description |\n|----------|------|-------------|\n| lowThreshold | int, saved | Low threshold in kg, default 10; exposed as `DeactivateValue` |\n| highThreshold | int, saved | High threshold in kg, default 100; exposed as `ActivateValue` |\n| heavy | bool, saved | The latch: set at the high threshold, cleared at the low one |\n| invert | bool, saved | Swaps green and red; `IsSignalOn = heavy != invert` |\n| settingsVersion | int, saved | -1 for a plate saved before 0.2.0; migrated once on spawn |\n| MaxMass | const float | 2000 kg, the slider maximum; whole kilograms only |\n| CurrentValue | float | Sum of `massSolid`, `massPickupables` and `massActivators` |\n\n**Relationships**: needs `LogicPorts`, `KSelectable` and `KBatchedAnimController` on the same object; adds `CopyBuildingSettings` (copies low, high and invert). Subscribes to three `GameScenePartitioner` layers for the sensed cell.\n\n### SmartWeightPlateSideScreen (UI)\n**Id:** blk-f4b4c46d8fd9  \n**Tags:** side-screen  \n**Description**: A small PLib panel above the vanilla slider panel: current weight (refreshed every 200 ms) and the Invert Signal checkbox.  \n**Location**: `src/SmartWeightPlate/SmartWeightPlateSideScreen.cs`. Sort order 1, the vanilla range screen is 0.\n\n### Harmony patches\n**Id:** blk-b15deacafb4d  \n**Tags:** harmony-patching, building-unlock, side-screen, mod-compatibility  \n**Location**: `src/SmartWeightPlate/Patches.cs`, `src/SmartWeightPlate/Mod.cs`\n\n| Target | Kind | Purpose |\n|--------|------|---------|\n| `GeneratedBuildings.LoadGeneratedBuildings` | Prefix | Adds the plate to the plan screen (Automation, sensors, after `FloorSwitchConfig`) |\n| `Db.Initialize` | Postfix | Adds the building to the `LogicCircuits` tech's unlocked items; if the tech is missing, logs a warning and the building is available from the start |\n| `DetailsScreen.OnPrefabInit` | Postfix | Registers the PLib side screen with `PUIUtils.AddSideScreenContent` |\n| `ActiveRangeSideScreen.SetTarget` | Postfix | Resets the text boxes' min, max and character limit for every target; the vanilla screen sets them once, so typed values clamped to 100 |\n| `BetterLogicOverlay.LogicSettingDisplay.ActivationRangeTargetSetting.GetSetting` | Postfix, applied in `OnAllModsLoaded` | Only when Better Automation Overlay is installed: labels the plate as `low - high kg` instead of percentages |\n\n### Saved state\n**Id:** blk-960f86eec7c8  \n**Tags:** saved-state\n\nEverything marked \"saved\" above is serialized with the building (`[SerializationConfig(MemberSerialization.OptIn)]`). The mod has no options file and no world-level state.\n\n## Business Rules\n**Id:** blk-24c523bf6253  \n**Tags:** saved-state\n\n- The plate weighs the cell above it, three ways, as the vanilla `LogicMassSensor` does: a solid tile (`Grid.Solid` mass), pickupables (loose items, debris), and `FloorSwitchActivator` objects (Duplicants, critters). Gas and liquid never count.\n- A critter is counted as a pickupable only if it is not a Creature, or is a Creature that does not walk, hover or flop; walkers, hoverers and floppers count through their activator.\n- The latch turns heavy when the weight is at or above the high threshold and light when it is at or below the low threshold. Both comparisons are inclusive.\n- If high <= low there is no band, so the plate acts as a plain \"at or above\" threshold (`heavy = mass >= high`), which stops an equal pair from flipping every tick.\n- Default signal: green while heavy, red while light, like the vanilla plate. Invert Signal swaps them.\n- Thresholds are whole kilograms from 0 to 2000; the setters round and clamp. The vanilla screen keeps upper >= lower.\n- Saves from before 0.2.0 sent green while light. On first spawn, a plate loaded from such a save has its invert flag flipped once so it keeps sending the same signal.\n- The signal is only sent when it changes (or on the first refresh); the status item and animation follow it.\n\n## Domain Terminology\n**Id:** blk-d3fec039b462\n\n| Term | Definition |\n|------|-----------|\n| High Threshold | Weight at or above which the latch turns heavy; the upper slider |\n| Low Threshold | Weight at or below which the latch turns light; the lower slider |\n| Latch / heavy state | Remembered state between the thresholds; what makes the plate a band, not a cut-off |\n| Sensed cell | `Grid.CellAbove(this.NaturalBuildingCell())`, the cell weighed |\n| Green / Red signal | Logic signal 1 / 0 on the output port, rendered with `FormatAsAutomationState` |\n\n## Key Code Paths\n**Id:** blk-474d5d572fe9  \n**Tags:** kanim-art, in-game-testing, side-screen, mod-strings\n\n- **Weighing**: scene-partitioner callbacks `OnSolidChanged`, `OnPickupablesChanged`, `OnActivatorsChanged` update the three masses; each is also called once in `OnSpawn` because items already in the cell raise no event. See `src/SmartWeightPlate/SmartWeightPlate.cs`.\n- **Latch and signal**: `Sim200ms` -> `Refresh` re-evaluates the latch, sends the signal on `PortId` when it changed, sets the Power-category status item, then `UpdateVisualState`. See `src/SmartWeightPlate/SmartWeightPlate.cs`.\n- **Animation**: `UpdateVisualState` plays `on_`/`off_` + `down`/`up`; the `_pre` transition (knob motion) plays only when the pressed state changes. The kanim's animations are reworked by `tools/knobs_follow_pressure.py`.\n- **Threshold editing**: the building qualifies for the vanilla `ActiveRangeSideScreen` through `IActivationRangeTarget`; the `SetTarget` patch fixes its range. See `src/SmartWeightPlate/Patches.cs`.\n- **Port text**: `UpdatePortDescriptions` rewrites the instance's port descriptions for the invert setting; strings live in `src/SmartWeightPlate/ModStrings.cs`.\n- **Tests**: in-game `[OniTest]` suites in `src/SmartWeightPlate.Tests/` (`Weighing.cs`, `Signal.cs`, `Settings.cs`, `SideScreen.cs`, `Compatibility.cs`).\n\n## Related\n**Id:** blk-d52f1ffb33aa\n\n- See also: [glossary](glossary.md)\n",
+   "sections": [
+    {
+     "id": "domains/entities.md#overview",
+     "title": "Overview",
+     "text": "## Overview\n**Id:** blk-15ebeec6c4c1\n\nSmart Weight Plate adds one building, a weight plate with a low and a high threshold. Its output behaves like a Liquid or Gas Reservoir's signal: it turns on at the high threshold and stays on until the weight falls to the low threshold, instead of flipping around a single cut-off. The mod is `mods/smart-weight-plate`, static ID `Isochronous.SmartWeightPlate`, source in `src/SmartWeightPlate/`.\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/entities.md#key-entities",
+     "title": "Key Entities",
+     "text": "## Key Entities\n**Id:** blk-4bd1cc9344e4\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/entities.md#domain-terminology",
+     "title": "Domain Terminology",
+     "text": "## Domain Terminology\n**Id:** blk-d3fec039b462\n\n| Term | Definition |\n|------|-----------|\n| High Threshold | Weight at or above which the latch turns heavy; the upper slider |\n| Low Threshold | Weight at or below which the latch turns light; the lower slider |\n| Latch / heavy state | Remembered state between the thresholds; what makes the plate a band, not a cut-off |\n| Sensed cell | `Grid.CellAbove(this.NaturalBuildingCell())`, the cell weighed |\n| Green / Red signal | Logic signal 1 / 0 on the output port, rendered with `FormatAsAutomationState` |\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/entities.md#related",
+     "title": "Related",
+     "text": "## Related\n**Id:** blk-d52f1ffb33aa\n\n- See also: [glossary](glossary.md)\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "domains/glossary.md",
+   "title": "Smart Weight Plate glossary",
+   "description": "Glossary for Smart Weight Plate: abbreviations such as kanim and BAO, terms to avoid, and definitions of the vanilla Weight Plate, reservoir semantics, logic signal, FloorSwitchActivator, Pickupable and settings version",
+   "document_tags": [
+    "weight-sensing",
+    "signal-threshold"
+   ],
+   "text": "---\ntags: weight-sensing, signal-threshold\nwitness_digest: \"sha256:5b3ee5d757a17cd91783a48a109e5d7802c20f030dd499f27722647cdbea5893\"\nwitness: loose\napplies_to:\n  - \"src/SmartWeightPlate/**\"\ndoc_id: doc-3b2699889607\ndescription: \"Glossary for Smart Weight Plate: abbreviations such as kanim and BAO, terms to avoid, and definitions of the vanilla Weight Plate, reservoir semantics, logic signal, FloorSwitchActivator, Pickupable and settings version\"\n---\n\n# Smart Weight Plate glossary\n\nTerms for the Smart Weight Plate mod. For the mod's entities, rules and code paths see [entities](entities.md).\n\n## Abbreviations and Acronyms\n**Id:** blk-32c544c5e56e  \n**Tags:** kanim-art, mod-compatibility, side-screen\n\n| Abbreviation | Full Term | Context |\n|--------------|-----------|---------|\n| ONI | Oxygen Not Included | The game the mod is for |\n| kanim | Klei animation | The building's art: `src/SmartWeightPlate/anim/assets/smart_weight_plate/` |\n| PLib | Peter Han's mod library | Builds the side screen; merged into the DLL by the shared build |\n| BAO | Better Automation Overlay | Optional mod whose range label the plate patches (`Mod.cs`); the code calls it `BetterLogicOverlay` |\n\n## Terms to Avoid\n**Id:** blk-656af224f2ba\n\n| Avoid | Use Instead | Reason |\n|-------|-------------|--------|\n| Activate / deactivate threshold | High / Low Threshold | `IActivationRangeTarget` names the sliders for the reservoirs: `ActivateValue` is the upper slider (high) and `DeactivateValue` the lower (low). The UI and docs use High and Low |\n| Pressure plate | Weight plate | The game and the strings call the building a Weight Plate |\n\n## Cross-Domain Terms\n**Id:** blk-b3323161da54\n\n### Weight Plate\n**Id:** blk-7932dd8bb974  \n**Tags:** building-config  \n**Definition**: The vanilla building `FloorSwitchConfig`, a foundation tile that sends a logic signal when something heavy enough sits on the cell above. The mod's plate copies its tile setup and animation set.  \n**Used in**: `SmartWeightPlateConfig.cs`, `Patches.cs`, `SmartWeightPlate.cs`.\n\n### Reservoir semantics\n**Id:** blk-9930ee1af08a  \n**Definition**: The two-threshold latch the Liquid and Gas Reservoirs (and smart batteries) use for their signal: on at the high value, off at the low value, held in between. The mod's `SmartReservoir`-style latch is the same rule applied to mass.  \n**Used in**: `SmartWeightPlate.cs`.\n\n### Logic signal (green / red)\n**Id:** blk-1b45c5463b81  \n**Definition**: The automation port's two states. Green is the active signal (1), red the inactive (0) in the game's wire colours.  \n**Used in**: `ModStrings.cs`, `SmartWeightPlate.cs`.\n\n### FloorSwitchActivator\n**Id:** blk-1e43d779ad2e  \n**Tags:** game-component  \n**Definition**: The game component that makes an object (a Duplicant, a walking critter) press weight plates. The plate adds its `PrimaryElement.Mass` to the weight.  \n**Used in**: `SmartWeightPlate.OnActivatorsChanged`.\n\n### Pickupable\n**Id:** blk-391d9b7596d6  \n**Tags:** game-component  \n**Definition**: A loose item or debris on the floor. Its mass counts; one that `wasAbsorbed` does not.  \n**Used in**: `SmartWeightPlate.OnPickupablesChanged`.\n\n### Settings version\n**Id:** blk-b624aed199bb  \n**Tags:** saved-state  \n**Definition**: The saved `settingsVersion` integer. A plate with no version in its save is from before 0.2.0, when green meant light, and has its invert flag flipped once.  \n**Used in**: `SmartWeightPlate.OnSpawn`.\n\n## Related\n**Id:** blk-1580b13e6f1e\n\n- See also: [entities](entities.md)\n",
+   "sections": [
+    {
+     "id": "domains/glossary.md#terms-to-avoid",
+     "title": "Terms to Avoid",
+     "text": "## Terms to Avoid\n**Id:** blk-656af224f2ba\n\n| Avoid | Use Instead | Reason |\n|-------|-------------|--------|\n| Activate / deactivate threshold | High / Low Threshold | `IActivationRangeTarget` names the sliders for the reservoirs: `ActivateValue` is the upper slider (high) and `DeactivateValue` the lower (low). The UI and docs use High and Low |\n| Pressure plate | Weight plate | The game and the strings call the building a Weight Plate |\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms",
+     "title": "Cross-Domain Terms",
+     "text": "## Cross-Domain Terms\n**Id:** blk-b3323161da54\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/reservoir-semantics",
+     "title": "Reservoir semantics",
+     "text": "### Reservoir semantics\n**Id:** blk-9930ee1af08a  \n**Definition**: The two-threshold latch the Liquid and Gas Reservoirs (and smart batteries) use for their signal: on at the high value, off at the low value, held in between. The mod's `SmartReservoir`-style latch is the same rule applied to mass.  \n**Used in**: `SmartWeightPlate.cs`.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/logic-signal-green-red",
+     "title": "Logic signal (green / red)",
+     "text": "### Logic signal (green / red)\n**Id:** blk-1b45c5463b81  \n**Definition**: The automation port's two states. Green is the active signal (1), red the inactive (0) in the game's wire colours.  \n**Used in**: `ModStrings.cs`, `SmartWeightPlate.cs`.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#related",
+     "title": "Related",
+     "text": "## Related\n**Id:** blk-1580b13e6f1e\n\n- See also: [entities](entities.md)\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "overview.md",
+   "title": "smart-weight-plate",
+   "description": "Overview of the Smart Weight Plate mod: the two-threshold weight plate building and its signal behaviour, version, status and credits, and a map of its source, art, translations, tests, tools and publish folders",
+   "document_tags": [
+    "weight-sensing",
+    "signal-threshold"
+   ],
+   "text": "---\ntags: weight-sensing, signal-threshold\ndescription: \"Overview of the Smart Weight Plate mod: the two-threshold weight plate building and its signal behaviour, version, status and credits, and a map of its source, art, translations, tests, tools and publish folders\"\n---\n\n# smart-weight-plate\n\n## What this is\n**Id:** blk-a357f3b4017a\n\nSmart Weight Plate is an Oxygen Not Included mod that adds one building, a weight plate with a low and a high threshold. It weighs what sits on the tile above it like the vanilla Weight Plate (solid tiles, loose items and debris, Duplicants and critters; gases and liquids do not count). It sends a green signal once the weight reaches the High Threshold and holds it until the weight drops to the Low Threshold, then sends red, the way a Liquid or Gas Reservoir's signal behaves. Thresholds run 0 to 2000 kg, an Invert Signal option swaps the colours, and settings copy with the copy-settings tool. Art by 3GuB. Version 0.3.0, status work in progress. Targets the current game with all DLC content (minimumSupportedBuild 744825).\n\n## Where things are\n**Id:** blk-fb799be8fbf0  \n**Tags:** kanim-art, in-game-testing, mod-strings, mod-entry-point\n\n- `README.md`, `CHANGELOG.md`: player-facing description and release notes.\n- `src/SmartWeightPlate/`: the mod. `Mod.cs` (entry point), `SmartWeightPlateConfig.cs` (building definition), `SmartWeightPlate.cs` (the two-threshold latch component), `SmartWeightPlateSideScreen.cs` (the panel), `Patches.cs` (Harmony patches), `ModStrings.cs` (UI strings), `mod.yaml` and `mod_info.yaml` (mod manifests).\n- `src/SmartWeightPlate/anim/assets/smart_weight_plate/`: the kanim art.\n- `src/SmartWeightPlate/translations/`: `.pot` template and `ko`, `ru`, `zh` po files.\n- `src/SmartWeightPlate.Tests/`: in-game tests (weighing, signal, settings, side screen, compatibility).\n- `tools/knobs_follow_pressure.py`: reworks the animations in place so the knobs and button follow the plate's pressure.\n- `publish/`: Workshop description, preview image and workshop id.\n- `.context/`: `overview.md`, `domains/` ([entities](domains/entities.md), [glossary](domains/glossary.md)), `standards/` ([code-style](standards/code-style.md), [error-handling](standards/error-handling.md), [naming-conventions](standards/naming-conventions.md)), `decisions/`, `retrospectives/`, `META.md`, `projects.md`.\n",
+   "sections": [
+    {
+     "id": "overview.md#what-this-is",
+     "title": "What this is",
+     "text": "## What this is\n**Id:** blk-a357f3b4017a\n\nSmart Weight Plate is an Oxygen Not Included mod that adds one building, a weight plate with a low and a high threshold. It weighs what sits on the tile above it like the vanilla Weight Plate (solid tiles, loose items and debris, Duplicants and critters; gases and liquids do not count). It sends a green signal once the weight reaches the High Threshold and holds it until the weight drops to the Low Threshold, then sends red, the way a Liquid or Gas Reservoir's signal behaves. Thresholds run 0 to 2000 kg, an Invert Signal option swaps the colours, and settings copy with the copy-settings tool. Art by 3GuB. Version 0.3.0, status work in progress. Targets the current game with all DLC content (minimumSupportedBuild 744825).\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "standards/README.md",
+   "title": "Standards",
+   "description": "Index of the Smart Weight Plate standards folder, linking its code style, error handling and naming conventions documents with a line on what each covers",
+   "document_tags": [
+    "harmony-patching",
+    "vanilla-fallback"
+   ],
+   "text": "---\ntags: harmony-patching, vanilla-fallback\ndoc_id: doc-26f456c540ff\ndescription: Index of the Smart Weight Plate standards folder, linking its code style, error handling and naming conventions documents with a line on what each covers\n---\n\n# Standards\n\n## Standards\n**Id:** blk-d68ef6e5892c\n\n- [code-style](code-style.md): C# formatting, imports, comments, Harmony patch and component conventions, with this mod's own layout.\n- [error-handling](error-handling.md): how the mod guards its Harmony patches, reflection lookups and file reads, and what it logs when something is missing.\n- [naming-conventions](naming-conventions.md): file, namespace, patch class, string key and id naming.\n",
+   "sections": [
+    {
+     "id": "standards/README.md#standards",
+     "title": "Standards",
+     "text": "## Standards\n**Id:** blk-d68ef6e5892c\n\n- [code-style](code-style.md): C# formatting, imports, comments, Harmony patch and component conventions, with this mod's own layout.\n- [error-handling](error-handling.md): how the mod guards its Harmony patches, reflection lookups and file reads, and what it logs when something is missing.\n- [naming-conventions](naming-conventions.md): file, namespace, patch class, string key and id naming.\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "standards/code-style.md",
+   "title": "Code Style Guide",
+   "description": "C# code style for Smart Weight Plate: indentation, braces, imports, comments, control structures, Harmony patch and game component conventions, plus its nested Patches class, PLib side screen and Better Automation Overlay compat",
+   "document_tags": [
+    "harmony-patching"
+   ],
+   "text": "---\ntags: harmony-patching\ndoc_id: doc-1c6db88f21e2\ndescription: \"C# code style for Smart Weight Plate: indentation, braces, imports, comments, control structures, Harmony patch and game component conventions, plus its nested Patches class, PLib side screen and Better Automation Overlay compat\"\napplies_to:\n  - \"src/**\"\n---\n\n# Code Style Guide\n\n## Formatting\n**Id:** blk-81be39eb7cb8\n\n### Indentation\n**Id:** blk-7ea41625d506\n\n- Tabs, one per level, in every `.cs` file (`mods/bitshifter/src/Bitshifter/Mod.cs`).\n- Project files (`.csproj`, `common/oni-mod.props`, `common/oni-mod.targets`) use two spaces.\n- Files are committed with LF line endings; Windows checkouts convert them to CRLF (`core.autocrlf` is true), so do not hand-normalise line endings.\n\n### Line Length\n**Id:** blk-8f17aea2dd9c\n\n- No limit is configured and the repository has no `.editorconfig`.\n- Wrap long calls and string concatenations after an argument or before a `+`, and indent the continuation one tab. The start-up log call in `mods/jumper-bridges/src/JumperBridges/Mod.cs` is the pattern.\n- TODO(owner): decide whether to add an `.editorconfig` recording tabs and brace placement so editors enforce what the code already does.\n\n### Braces\n**Id:** blk-dfe588f349e8\n\n- Opening brace on its own line (Allman) for namespaces, types, members and multi-line control blocks.\n- A body of one short statement goes on the next line without braces:\n\n```csharp\nforeach (Mod mod in mods)\n{\n\tif (!mod.IsEnabledForActiveDlc())\n\t\tcontinue;\n\t...\n}\n```\n\n- Multi-line initialisers and enums end with a trailing comma (`YieldToWorkshopIds` in `mods/bitshifter/src/Bitshifter/Mod.cs`, `CoolPodMode` in `mods/storage-pod-redux/src/StoragePodRedux/Options.cs`).\n\n## Language and Toolchain\n**Id:** blk-fba4f06f617d\n\n- C# 9 on .NET Framework 4.8 (`LangVersion` 9.0 and `TargetFramework` net48 in `common/oni-mod.props`). Namespace blocks, not file-scoped namespaces; no nullable reference types.\n- Mods compile against the game's own assemblies (`common/oni-mod.targets`): `Assembly-CSharp`, `Assembly-CSharp-firstpass`, `0Harmony` and Unity modules. The game's .NET Framework lacks some newer APIs (`ConditionalWeakTable.AddOrUpdate` is missing, see `mods/detect-any-element/src/DetectAnyElement/Patches.cs`).\n- Optional references are switched on in the mod csproj before the targets import: `ReferenceUnityUI`, `ReferenceImageConversion`, `UsePLib` (PLib is ILRepack-merged into the mod DLL) and `UseTranslations` (compiles `common/src/Translations.cs` in).\n- One namespace per mod, equal to its `RootNamespace`. Subfolders organise files and do not add namespaces (`mods/upgrade-planner/src/UpgradePlanner/Plan`, `Rules`, `Tool`, `UI` all declare `namespace UpgradePlanner`).\n\n## Imports/Includes\n**Id:** blk-c0c84b197489\n\n### Organization\n**Id:** blk-722f1b85e4d2\n\n`using` directives sit above the namespace, in one block with no blank lines, sorted alphabetically with `System.*` first. Aliases for `ModStrings` branches come last.\n\n1. `System.*`\n2. Everything else alphabetically: `HarmonyLib`, `Isochronous`, `KMod`, `Newtonsoft.Json`, `PeterHan.PLib.*`, `ProcGenGame`, `UnityEngine`\n3. Aliases (`using TOOL = SweepZones.ModStrings.UI.TOOLS.SWEEPZONES;`)\n\n### Example\n**Id:** blk-ea3b63724204\n\n```csharp\nusing System.Collections.Generic;\nusing System.Reflection;\nusing HarmonyLib;\nusing Isochronous;\nusing Klei;\nusing KMod;\nusing STRINGS;\nusing UnityEngine;\n```\n(`mods/salty-surf/src/SaltySurf/Mod.cs`)\n\n`Debug.Log` resolves either to `UnityEngine.Debug` or to the game's own global `Debug` class, so several `Mod.cs` files omit `using UnityEngine`. When a file imports `System.Diagnostics`, qualify the call as `UnityEngine.Debug.Log` (`mods/just-fall-already/src/JustFallAlready/FallPoke.cs`).\n\n## Comments\n**Id:** blk-f374ddbf2967\n\n### When to Comment\n**Id:** blk-5b85e9aaa8d8\n\n- On every non-trivial class, an XML `<summary>` that says what the game does and what the patch changes, so a reader can check the patch against the game code. The long summary on `OvercrowdingMonitor_UpdateRegion_Patch` in `mods/dont-count-eggs-on-rails/src/DontCountEggsOnRails/Mod.cs` is the model.\n- Where a game quirk forces an odd line: `// The game's .NET Framework has no AddOrUpdate on this table.`\n- Where another mod is involved, name it and its Workshop id (`mods/bitshifter/src/Bitshifter/Mod.cs`, `mods/smart-weight-plate/src/SmartWeightPlate/Mod.cs`).\n- Escape angle brackets in XML comments as `&lt;` and `&gt;`.\n\n### When NOT to Comment\n**Id:** blk-3c15ed2a5d54\n\n- Code that reads clearly from its names.\n- Commented-out code; delete it.\n- Restating what a line does.\n\n### Format\n**Id:** blk-0fcee64ed341\n\n```csharp\n/// <summary>\n/// The \"Any\" choice. It is a tag like the elements a sensor's Filterable holds, so it rides\n/// in the same saved field and copies with the building's settings.\n/// </summary>\npublic static class AnyElement\n\n// Single-line note for a quirk or a reason.\n```\n\n## Control Structures\n**Id:** blk-b20e121aab18\n\n### Conditionals\n**Id:** blk-971f788f6770\n\nGuard clauses and early `return` or `continue` keep nesting shallow (`SettleSimBackwalls.UpdateFromSim` in `mods/natural-backwalls-everywhere/src/NaturalBackwalls/SettleSimPatch.cs`):\n\n```csharp\nif (!Grid.IsValidCell(cell))\n\tcontinue;\nushort idx = data->backwallElement[cell];\nif (idx == ushort.MaxValue || idx >= elements.Count)\n\tcontinue;\n```\n\n### Loops\n**Id:** blk-29fb02c618a8\n\n- Plain `for` and `foreach`. Code that runs every sim tick or frame avoids LINQ and allocations; reuse scratch lists (`scratch` in `mods/just-fall-already/src/JustFallAlready/FallPoke.cs`).\n- Local types are written out (`Tech tech = ...`). `var` appears mainly in `mods/upgrade-planner`, `mods/natural-backwalls-everywhere` and the test projects; follow the surrounding file.\n\n### Strings\n**Id:** blk-03640a2997f8  \n**Tags:** mod-strings\n\n- Log and UI text is built with `+` concatenation, or `string.Format` on a `LocString`. String interpolation is not used in mod code.\n- Player-visible text is a `LocString` field in `ModStrings`, never a literal at the call site (see [naming conventions](naming-conventions.md)).\n\n## Harmony Patches\n**Id:** blk-516da110cf84  \n**Tags:** mod-entry-point, vanilla-fallback\n\n- A patch is a static class with `[HarmonyPatch(typeof(Type), nameof(Type.Method))]`, or `[HarmonyPatch(typeof(Type), \"PrivateMethod\")]` for a non-public method, and methods named `Prefix`, `Postfix`, `Transpiler` or `Finalizer` (`mods/bitshifter/src/Bitshifter/Patches.cs`).\n- Game state arrives through Harmony parameters: `__instance`, `__result`, `___field`. Fields read repeatedly use `AccessTools.FieldRefAccess` kept in a `static readonly` field (`mods/detect-any-element/src/DetectAnyElement/Patches.cs`).\n- A prefix returns `true` to let the game's method run and `false` only when it replaces the method (`mods/dont-count-eggs-on-rails`, `mods/bitshifter` `UpdateVisuals`).\n- A patch that depends on an option implements `Prepare()` (`mods/jumper-bridges/src/JumperBridges/Patches.cs`); a patch with several targets implements `TargetMethods()`.\n- `UserMod2.OnLoad` calls `base.OnLoad(harmony)`, which applies every patch in the assembly, then registers libraries and logs the version. A mod that must patch after all others applies its patches from `OnAllModsLoaded` instead (`mods/bitshifter/src/Bitshifter/Mod.cs`).\n- Transpilers search for the instruction they change and report when it is not found; see [error handling](error-handling.md).\n\n## Game Components\n**Id:** blk-f75c36d39e17  \n**Tags:** game-component, saved-state\n\n- A component extends `KMonoBehaviour`, overrides `OnPrefabInit`, `OnSpawn` and `OnCleanUp` and calls `base` from each. Sibling components come in through `[MyCmpGet]` or `[MyCmpReq]` (`mods/no-magic-fridges/src/NoMagicFridges/FridgeThermostat.cs`).\n- Saved state uses `[Serialize]` fields with `[SerializationConfig(MemberSerialization.OptIn)]` on the class (`mods/sweep-zones/src/SweepZones/ZoneStore.cs`).\n- Components are added to prefabs from a `DoPostConfigureComplete` postfix with `go.AddOrGet<T>()`.\n\n## Project-Specific Rules\n**Id:** blk-550895a93c83  \n**Tags:** in-game-testing, logging, mod-strings\n\n- Mod options are a PLib `POptions` class marked `[JsonObject(MemberSerialization.OptIn)]` and `[ConfigFile(SharedConfigLocation: true)]`, read through a static `Load()` (`mods/vent-freeze-fix/src/VentFreezeFix/Options.cs`) or through `SingletonOptions<Options>` (`mods/storage-pod-redux`). Option titles are string-table keys, so the translation follows the language.\n- Every mod logs one line at load: `[<Name>] Loaded version <assembly version>`.\n- Tests live in a separate `<Name>.Tests` project and are written as `[OniTest]` coroutines against the real game.\n\n### Smart Weight Plate specifics\n**Id:** blk-c75d34988677  \n**Tags:** building-unlock, side-screen, mod-compatibility\n\n- `UsePLib`, `UseTranslations` and `ReferenceUnityUI`.\n- `Patches.cs` is a `public static class Patches` with nested patches: build-menu placement after the vanilla Weight Plate, research unlock (`private const string TechId = \"LogicCircuits\"`), side-screen registration and a fix to the vanilla `ActiveRangeSideScreen` text boxes.\n- Compatibility with Better Automation Overlay is `BetterAutomationOverlayCompat` in `Mod.cs`, applied from `OnAllModsLoaded` (`src/SmartWeightPlate/Mod.cs`).\n- `SmartWeightPlateConfig.ID` is the building id; the side screen is built with PLib UI.\n\n## Related\n**Id:** blk-758f0047e528\n\n- See also: [naming conventions](naming-conventions.md)\n- See also: [error handling](error-handling.md)\n",
+   "sections": [
+    {
+     "id": "standards/code-style.md#formatting",
+     "title": "Formatting",
+     "text": "## Formatting\n**Id:** blk-81be39eb7cb8\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#formatting/indentation",
+     "title": "Indentation",
+     "text": "### Indentation\n**Id:** blk-7ea41625d506\n\n- Tabs, one per level, in every `.cs` file (`mods/bitshifter/src/Bitshifter/Mod.cs`).\n- Project files (`.csproj`, `common/oni-mod.props`, `common/oni-mod.targets`) use two spaces.\n- Files are committed with LF line endings; Windows checkouts convert them to CRLF (`core.autocrlf` is true), so do not hand-normalise line endings.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#formatting/line-length",
+     "title": "Line Length",
+     "text": "### Line Length\n**Id:** blk-8f17aea2dd9c\n\n- No limit is configured and the repository has no `.editorconfig`.\n- Wrap long calls and string concatenations after an argument or before a `+`, and indent the continuation one tab. The start-up log call in `mods/jumper-bridges/src/JumperBridges/Mod.cs` is the pattern.\n- TODO(owner): decide whether to add an `.editorconfig` recording tabs and brace placement so editors enforce what the code already does.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#formatting/braces",
+     "title": "Braces",
+     "text": "### Braces\n**Id:** blk-dfe588f349e8\n\n- Opening brace on its own line (Allman) for namespaces, types, members and multi-line control blocks.\n- A body of one short statement goes on the next line without braces:\n\n```csharp\nforeach (Mod mod in mods)\n{\n\tif (!mod.IsEnabledForActiveDlc())\n\t\tcontinue;\n\t...\n}\n```\n\n- Multi-line initialisers and enums end with a trailing comma (`YieldToWorkshopIds` in `mods/bitshifter/src/Bitshifter/Mod.cs`, `CoolPodMode` in `mods/storage-pod-redux/src/StoragePodRedux/Options.cs`).\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#language-and-toolchain",
+     "title": "Language and Toolchain",
+     "text": "## Language and Toolchain\n**Id:** blk-fba4f06f617d\n\n- C# 9 on .NET Framework 4.8 (`LangVersion` 9.0 and `TargetFramework` net48 in `common/oni-mod.props`). Namespace blocks, not file-scoped namespaces; no nullable reference types.\n- Mods compile against the game's own assemblies (`common/oni-mod.targets`): `Assembly-CSharp`, `Assembly-CSharp-firstpass`, `0Harmony` and Unity modules. The game's .NET Framework lacks some newer APIs (`ConditionalWeakTable.AddOrUpdate` is missing, see `mods/detect-any-element/src/DetectAnyElement/Patches.cs`).\n- Optional references are switched on in the mod csproj before the targets import: `ReferenceUnityUI`, `ReferenceImageConversion`, `UsePLib` (PLib is ILRepack-merged into the mod DLL) and `UseTranslations` (compiles `common/src/Translations.cs` in).\n- One namespace per mod, equal to its `RootNamespace`. Subfolders organise files and do not add namespaces (`mods/upgrade-planner/src/UpgradePlanner/Plan`, `Rules`, `Tool`, `UI` all declare `namespace UpgradePlanner`).\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#imports-includes",
+     "title": "Imports/Includes",
+     "text": "## Imports/Includes\n**Id:** blk-c0c84b197489\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#imports-includes/organization",
+     "title": "Organization",
+     "text": "### Organization\n**Id:** blk-722f1b85e4d2\n\n`using` directives sit above the namespace, in one block with no blank lines, sorted alphabetically with `System.*` first. Aliases for `ModStrings` branches come last.\n\n1. `System.*`\n2. Everything else alphabetically: `HarmonyLib`, `Isochronous`, `KMod`, `Newtonsoft.Json`, `PeterHan.PLib.*`, `ProcGenGame`, `UnityEngine`\n3. Aliases (`using TOOL = SweepZones.ModStrings.UI.TOOLS.SWEEPZONES;`)\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#imports-includes/example",
+     "title": "Example",
+     "text": "### Example\n**Id:** blk-ea3b63724204\n\n```csharp\nusing System.Collections.Generic;\nusing System.Reflection;\nusing HarmonyLib;\nusing Isochronous;\nusing Klei;\nusing KMod;\nusing STRINGS;\nusing UnityEngine;\n```\n(`mods/salty-surf/src/SaltySurf/Mod.cs`)\n\n`Debug.Log` resolves either to `UnityEngine.Debug` or to the game's own global `Debug` class, so several `Mod.cs` files omit `using UnityEngine`. When a file imports `System.Diagnostics`, qualify the call as `UnityEngine.Debug.Log` (`mods/just-fall-already/src/JustFallAlready/FallPoke.cs`).\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#comments",
+     "title": "Comments",
+     "text": "## Comments\n**Id:** blk-f374ddbf2967\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#comments/when-to-comment",
+     "title": "When to Comment",
+     "text": "### When to Comment\n**Id:** blk-5b85e9aaa8d8\n\n- On every non-trivial class, an XML `<summary>` that says what the game does and what the patch changes, so a reader can check the patch against the game code. The long summary on `OvercrowdingMonitor_UpdateRegion_Patch` in `mods/dont-count-eggs-on-rails/src/DontCountEggsOnRails/Mod.cs` is the model.\n- Where a game quirk forces an odd line: `// The game's .NET Framework has no AddOrUpdate on this table.`\n- Where another mod is involved, name it and its Workshop id (`mods/bitshifter/src/Bitshifter/Mod.cs`, `mods/smart-weight-plate/src/SmartWeightPlate/Mod.cs`).\n- Escape angle brackets in XML comments as `&lt;` and `&gt;`.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#comments/when-not-to-comment",
+     "title": "When NOT to Comment",
+     "text": "### When NOT to Comment\n**Id:** blk-3c15ed2a5d54\n\n- Code that reads clearly from its names.\n- Commented-out code; delete it.\n- Restating what a line does.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#comments/format",
+     "title": "Format",
+     "text": "### Format\n**Id:** blk-0fcee64ed341\n\n```csharp\n/// <summary>\n/// The \"Any\" choice. It is a tag like the elements a sensor's Filterable holds, so it rides\n/// in the same saved field and copies with the building's settings.\n/// </summary>\npublic static class AnyElement\n\n// Single-line note for a quirk or a reason.\n```\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#control-structures",
+     "title": "Control Structures",
+     "text": "## Control Structures\n**Id:** blk-b20e121aab18\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#control-structures/conditionals",
+     "title": "Conditionals",
+     "text": "### Conditionals\n**Id:** blk-971f788f6770\n\nGuard clauses and early `return` or `continue` keep nesting shallow (`SettleSimBackwalls.UpdateFromSim` in `mods/natural-backwalls-everywhere/src/NaturalBackwalls/SettleSimPatch.cs`):\n\n```csharp\nif (!Grid.IsValidCell(cell))\n\tcontinue;\nushort idx = data->backwallElement[cell];\nif (idx == ushort.MaxValue || idx >= elements.Count)\n\tcontinue;\n```\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#control-structures/loops",
+     "title": "Loops",
+     "text": "### Loops\n**Id:** blk-29fb02c618a8\n\n- Plain `for` and `foreach`. Code that runs every sim tick or frame avoids LINQ and allocations; reuse scratch lists (`scratch` in `mods/just-fall-already/src/JustFallAlready/FallPoke.cs`).\n- Local types are written out (`Tech tech = ...`). `var` appears mainly in `mods/upgrade-planner`, `mods/natural-backwalls-everywhere` and the test projects; follow the surrounding file.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#related",
+     "title": "Related",
+     "text": "## Related\n**Id:** blk-758f0047e528\n\n- See also: [naming conventions](naming-conventions.md)\n- See also: [error handling](error-handling.md)\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "standards/error-handling.md",
+   "title": "Error Handling Conventions",
+   "description": "Error handling rules for Smart Weight Plate: guarding Harmony patches and transpilers, try/catch, logging levels and anti-patterns, plus its guarded Better Automation Overlay compat, research tech warning and null target check",
+   "document_tags": [
+    "vanilla-fallback"
+   ],
+   "text": "---\ntags: vanilla-fallback\ndoc_id: doc-bbf17921a8ae\ndescription: \"Error handling rules for Smart Weight Plate: guarding Harmony patches and transpilers, try/catch, logging levels and anti-patterns, plus its guarded Better Automation Overlay compat, research tech warning and null target check\"\napplies_to:\n  - \"src/**\"\n---\n\n# Error Handling Conventions\n\n## Principles\n**Id:** blk-7d026bca9e0b  \n**Tags:** logging, harmony-patching\n\n1. **Never break the game for a mod's sake.** A patch that cannot do its job leaves the vanilla behaviour in place and says so in the log. It does not throw into the game's update loop.\n2. **Check what you patch.** Game updates rename fields and move code. Every reflection lookup, transpiler match and prefab or tech lookup is checked for a miss.\n3. **Say what degraded.** A warning names the thing that was not found and the consequence, so a bug report with `Player.log` is enough to diagnose.\n4. **Don't swallow.** A `catch` logs and either returns a safe default or continues; it is never empty.\n5. **Log at the right level.** `Debug.Log` for start-up and summaries, `Debug.LogWarning` for degraded behaviour, `Debug.LogError` for a failed player action.\n\nThere is no custom exception hierarchy. Mods are small patches over game code, so errors are handled where they occur.\n\n## Guarding Patches\n**Id:** blk-9af82a2505d8\n\n### Missing member: warn, leave vanilla\n**Id:** blk-7e940ba69d8c  \n**Tags:** harmony-patching\n\nA reflection lookup that returns null is checked before use. The patch then does nothing, or returns `true` from a prefix so the game's method runs.\n\n```csharp\nif (ActiveField == null || StorageField == null)\n\treturn true; // the game renamed its fields: leave vanilla alone rather than throw\n```\n(`mods/no-magic-fridges/src/NoMagicFridges/Patches.cs`; the warning is logged once at load by `SimTransferMethod` in `FridgeThermostat.cs`.)\n\n### Transpiler: count the match\n**Id:** blk-090e1e892c99  \n**Tags:** harmony-patching, logging\n\nA transpiler counts the instructions it replaced. Zero (or more than expected) logs a warning and returns the original code, so a game update disables the change instead of breaking the method.\n\n```csharp\nif (swapped == 0)\n\tDebug.LogWarning(\"[CornerBuildAnything] \" + where + \" does not load OffsetGroups.InvertedStandardTable; corner reach not applied there\");\n```\n(`mods/corner-build-anything/src/CornerBuildAnything/ReachTablePatches.cs`; same pattern in `mods/bitshifter/src/Bitshifter/Patches.cs` and `mods/natural-backwalls-everywhere/src/NaturalBackwalls/SettleSimPatch.cs`.)\n\n### Missing data: warn, continue\n**Id:** blk-a4c34b089222  \n**Tags:** building-unlock, logging\n\nA build-menu, tech or asset lookup that finds nothing warns and keeps the mod working:\n\n```csharp\nTech tech = Db.Get().Techs.TryGet(TechId);\nif (tech == null)\n{\n\tDebug.LogWarning(\"[SmartWeightPlate] Tech '\" + TechId + \"' not found; building will be unlocked from the start\");\n\treturn;\n}\n```\n(`mods/smart-weight-plate/src/SmartWeightPlate/Patches.cs`; also `mods/multichannel-critter-sensor`, `mods/storage-pod-redux`.) Missing art or a missing vanilla prefab degrades the same way (`Display.UseAnim` in `mods/bitshifter/src/Bitshifter/Patches.cs`, `mods/multichannel-critter-sensor/src/MultichannelCritterSensor/MultichannelCritterSensorSideScreen.cs`).\n\n### Null checks on game objects\n**Id:** blk-10650aa02cc8  \n**Tags:** harmony-patching\n\nComponents and arguments that can be absent are tested before use: `if (stt == null || !Sim.IsValidHandle(stt.SimHandle)) return true;`, `if (sensor == null || GameScenePartitioner.Instance == null) return;` (`mods/motion-sensor-range/src/MotionSensorRange/RangeSlider.cs`).\n\n### Warn once\n**Id:** blk-bd5cc8b7713a  \n**Tags:** logging\n\nWork that repeats every frame or tick warns once behind a flag (`warnedMissingInternals` in `RangeSlider.cs`).\n\n## try/catch\n**Id:** blk-4a4a879b8ab3  \n**Tags:** mod-compatibility, logging\n\n`try`/`catch (Exception e)` is used in four situations and nowhere else:\n\n1. **Optional integration with another mod.** Patching or reading another mod's types may fail for any reason. Log the message and skip the integration (`BetterAutomationOverlayCompat.Apply` in `mods/smart-weight-plate/src/SmartWeightPlate/Mod.cs`; `mods/upgrade-planner/src/UpgradePlanner/Compat/BlueprintsCompat.cs`).\n2. **File and JSON reads and writes.** Return an empty or null result (`mods/upgrade-planner/src/UpgradePlanner/Plan/Presets.cs`, `mods/storage-pod-redux/src/StoragePodRedux/ModDetection.cs`, `mods/sweep-zones/src/SweepZones/ToolIcon.cs`).\n3. **Patches that run inside worldgen or per-cell work**, where an escaping exception kills a thread or a whole pass (`mods/natural-backwalls-everywhere/src/NaturalBackwalls/FeaturePatch.cs`, `PlanetoidPatch.cs`, `Patches.cs`, `Census.cs`).\n4. **Per-job work in a queue**, so one failure does not stop the rest (`mods/upgrade-planner/src/UpgradePlanner/Tool/PlacementQueue.cs`, logged with `Debug.LogError`).\n\nThe message form is `\"[<Name>] <what was skipped>: \" + e.Message`. Use `e.GetBaseException().Message` when the exception may be a reflection wrapper, and the full `e` when the stack trace is needed.\n\n### Finalizer for a thread with no handler\n**Id:** blk-fed28617465e  \n**Tags:** harmony-patching\n\n`Cluster.BeginGeneration` is the worldgen thread body and has none; an exception ends the thread and the loading screen waits forever. A finalizer reports the failure through the game's own error path and logs the exception (`Cluster_BeginGeneration_Patch` in `mods/natural-backwalls-everywhere/src/NaturalBackwalls/WorldgenThreadPatch.cs`).\n\n## Yielding to Other Mods\n**Id:** blk-b9ccaadff4d0  \n**Tags:** mod-compatibility, logging\n\nWhen another mod already does the job or shares an id, the mod steps aside and logs why:\n- Bitshifter disables itself when Digital CPU is enabled or the contested methods already have Harmony owners (`WhyYield` in `mods/bitshifter/src/Bitshifter/Mod.cs`).\n- Storage Pod Redux does not register its buildings while the original Storage Pod is enabled, and logs a warning telling the player to disable one (`mods/storage-pod-redux/src/StoragePodRedux/Mod.cs`).\n\n## Logging\n**Id:** blk-49994eb07b13\n\n### Log Levels\n**Id:** blk-ce92f5e0bec2  \n**Tags:** logging\n\n| Level | Use For | Example |\n|-------|---------|---------|\n| `Debug.LogError` | A player action failed and was abandoned | `PlacementQueue` in `mods/upgrade-planner` |\n| `Debug.LogWarning` | Degraded or skipped behaviour | the examples above |\n| `Debug.Log` | Load line, a one-line summary of what a pass changed | `Tagged N refined metal(s)` in `mods/refined-building` |\n\n### What to Include\n**Id:** blk-f1ea9e46924d  \n**Tags:** logging\n\n- The `[<ModName>] ` prefix on every line; `JumperBridgesMod.LogPrefix` holds it for that mod.\n- What was expected, what was found, and what the mod does instead.\n- Cell numbers, building names and element ids when they identify the case (`mods/vent-freeze-fix`).\n- Per-tick or per-frame telemetry only behind a debug option (`VentFreezeWatcher.Verbose`, `DebugSave.Enabled`) or capped (`DetailLines` in `SettleSimPatch.cs`).\n\nPLib's `PUtil.Log*` helpers are not used; all mods log through `Debug`.\n\n## Anti-Patterns to Avoid\n**Id:** blk-c438a9df2911\n\n### Swallowing exceptions\n**Id:** blk-c410bd8c96d3  \n**Tags:** logging\n\nAn empty `catch` hides a broken patch. The one `catch` that returns a fallback without a log is `GuessLanguageCode` in `common/src/Translations.cs`, because a missing language preference is the normal case before the game has started.\n\n### Throwing from a patch\n**Id:** blk-02650310c16c  \n**Tags:** harmony-patching\n\nAn exception in a prefix or postfix on a per-frame or sim method repeats every frame. Guard, log once, return.\n\n### Assuming the game's internals\n**Id:** blk-9a735931b83c  \n**Tags:** harmony-patching\n\nReading a private field by name without a null check on the `FieldInfo`, or replacing an instruction without confirming it was found, breaks on the next game update.\n\n### Silent degradation\n**Id:** blk-098ff4beadf1  \n**Tags:** logging\n\nDoing nothing without a log line leaves a player and the author guessing. Every skipped path logs.\n\n### Spamming the log\n**Id:** blk-c0eb7ae0c676  \n**Tags:** logging\n\nA warning inside an update method fires thousands of times. Use a once-flag.\n\n## Project-Specific Patterns\n**Id:** blk-84dfcde2f535\n\n### Smart Weight Plate specifics\n**Id:** blk-550294a8dfe3  \n**Tags:** mod-compatibility, building-unlock, side-screen, logging\n\n- `BetterAutomationOverlayCompat.Apply` is wrapped in `try`/`catch`; a missing type or method returns quietly (the other mod is optional) and a failure logs `Better Automation Overlay compatibility skipped: <message>`.\n- The research patch warns when the tech is not found and the building is unlocked from the start.\n- `ActiveRangeSideScreen_SetTarget_Patch.Postfix` returns when `___target` is null.\n\n## Related\n**Id:** blk-37edcfba69d3\n\n- See also: [code style](code-style.md)\n- See also: [naming conventions](naming-conventions.md)\n",
+   "sections": [
+    {
+     "id": "standards/error-handling.md#guarding-patches",
+     "title": "Guarding Patches",
+     "text": "## Guarding Patches\n**Id:** blk-9af82a2505d8\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/error-handling.md#logging",
+     "title": "Logging",
+     "text": "## Logging\n**Id:** blk-49994eb07b13\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/error-handling.md#anti-patterns-to-avoid",
+     "title": "Anti-Patterns to Avoid",
+     "text": "## Anti-Patterns to Avoid\n**Id:** blk-c438a9df2911\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/error-handling.md#project-specific-patterns",
+     "title": "Project-Specific Patterns",
+     "text": "## Project-Specific Patterns\n**Id:** blk-84dfcde2f535\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/error-handling.md#related",
+     "title": "Related",
+     "text": "## Related\n**Id:** blk-37edcfba69d3\n\n- See also: [code style](code-style.md)\n- See also: [naming conventions](naming-conventions.md)\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "standards/naming-conventions.md",
+   "title": "Naming Conventions",
+   "description": "Naming conventions for Smart Weight Plate: files, variables, methods, types, ModStrings keys, ids and tags, plus its string branches, test classes, Kit helper file, log prefix and staticID",
+   "document_tags": [],
+   "text": "---\ndoc_id: doc-b2eb0f826a7b\ndescription: \"Naming conventions for Smart Weight Plate: files, variables, methods, types, ModStrings keys, ids and tags, plus its string branches, test classes, Kit helper file, log prefix and staticID\"\napplies_to:\n  - \"src/**\"\n---\n\n# Naming Conventions\n\n## Files and Directories\n**Id:** blk-13325ee141e3\n\n### General Rules\n**Id:** blk-c289a2da04a1\n\n- A mod lives in `mods/<kebab-case-name>/` (`natural-backwalls-everywhere`, `just-fall-already`).\n- Its code is under `mods/<name>/src/<PascalName>/` with a matching `src/<PascalName>.Tests/` project. `AssemblyName`, `RootNamespace` and the project folder share one PascalCase name (`DontCountEggsOnRails`).\n- C# files are PascalCase and named for the main type they hold. One concept per file; small related types may share a file (`Display` in `mods/bitshifter/src/Bitshifter/Patches.cs`).\n- Release tags are `<mod-folder>-v<version>` (repository README).\n\n### Examples by Type\n**Id:** blk-0b089ce1d390  \n**Tags:** building-config, mod-entry-point, mod-strings, in-game-testing\n\n| Type | Convention | Example |\n|------|------------|---------|\n| Mod entry class | `Mod.cs`, class `<Name>Mod : UserMod2` | `BitshifterMod` in `Mod.cs` |\n| Harmony patches | `Patches.cs`, or a file named for what is patched | `PlanetoidPatch.cs`, `SettleSimPatch.cs` |\n| Building config | `<Building>Config.cs`, class `<Building>Config : IBuildingConfig` with `public const string ID` | `SmartWeightPlateConfig.cs` |\n| Side screen | `<Building>SideScreen.cs` | `SmartWeightPlateSideScreen.cs` |\n| Components | `<Thing>.cs` named for the component | `FridgeThermostat.cs`, `ZoneStore.cs` |\n| Strings | `ModStrings.cs` | `mods/salty-surf/src/SaltySurf/ModStrings.cs` |\n| Options | `Options.cs`, class `Options` | `mods/vent-freeze-fix/src/VentFreezeFix/Options.cs` |\n| Tests | `<Topic>.cs` in `<Name>.Tests`, one static class per topic | `Reach.cs`, `Gates.cs`, `Persistence.cs`; `Kit.cs` for shared helpers |\n| Mod metadata | `mod.yaml`, `mod_info.yaml` in the project folder | `staticID: \"Isochronous.<PascalName>\"` |\n| Translations | `translations/<locale>.po`, template `<Name>.pot` | `mods/detect-any-element/src/DetectAnyElement/translations` |\n| Art | `anim/` (kanim files), `assets/` | `bitshifter_ribbon_reader_kanim` |\n| Release material | `mods/<name>/publish/`, `CHANGELOG.md`, `README.md` | |\n\n## Code Naming\n**Id:** blk-a08f9c51f820\n\n### Variables\n**Id:** blk-d21c0d25275e\n\n- camelCase for locals, parameters and private instance fields; no underscore prefix.\n- PascalCase for constants (`ArmSeconds`, `Bits`, `TechId`) and for `static readonly` values that act as constants or lookups (`Standard`, `YieldToWorkshopIds`, `Contested`).\n- camelCase for private static mutable state and caches (`armed`, `scratch`, `lastGrid`, `symbols`, `anyRows`).\n- Descriptive names; single letters only for loop indexes and the `e` of a catch.\n\n```csharp\nprivate const float ArmSeconds = 2f;\nprivate static readonly Dictionary<int, float> armed = new Dictionary<int, float>();\n```\n(`mods/just-fall-already/src/JustFallAlready/FallPoke.cs`)\n\n### Functions/Methods\n**Id:** blk-a0199590b8f6  \n**Tags:** harmony-patching, game-component\n\n- PascalCase, starting with a verb: `Apply`, `Decide`, `SwapTable`, `CopyRangeFrom`, `ApplyRange`.\n- Game callbacks keep the game's names (`OnSpawn`, `OnPrefabInit`, `OnCleanUp`, `Sim1000ms`).\n- Harmony methods are named for their kind: `Prefix`, `Postfix`, `Transpiler`, `Finalizer`, plus `Prepare`, `TargetMethod`, `TargetMethods`.\n\n### Classes/Types/Interfaces\n**Id:** blk-812f6d990880  \n**Tags:** harmony-patching\n\n- PascalCase nouns. Interfaces take an `I` prefix (`IPlanTab` and `ITabView` in `mods/upgrade-planner`, and the game's own).\n- Harmony patch classes: `<PatchedType>_<PatchedMethod>_Patch` (`LogicRibbonReader_GetBitDepth_Patch`, `Db_Initialize_Patch`, `GeneratedBuildings_LoadGeneratedBuildings_Patch`). A patch for a type with one concern may use `<Type>_Patch` (`LiquidVentConfig_Patch`). Patches nested in a holder class may drop the suffix (`Constructable_OnSpawn` in `ReachTablePatches`).\n- Classes are `sealed` unless built for inheritance. The mod class is `public sealed`. Types the game does not reach are `internal`.\n- Option enums and nested helper types are PascalCase (`CoolPodMode`, `BridgeKind`).\n\n### Booleans\n**Id:** blk-21addfe0de78\n\n- Prefix with `Is`, `Has`, `Can`, `Should` or name the state: `IsEnabled`, `OriginalActive`, `isSpawned`, `warnedMissingInternals`.\n\n### Strings (`ModStrings`)\n**Id:** blk-47aa5291da08  \n**Tags:** mod-strings\n\n- `ModStrings` mirrors the game's `STRINGS` tree: nested static classes and `LocString` fields in UPPER_SNAKE_CASE. `ModStrings.BUILDINGS.PREFABS.<BUILDINGID>.NAME` is registered as `STRINGS.BUILDINGS.PREFABS.<BUILDINGID>.NAME`, the key the game looks a building name up by (`mods/smart-weight-plate/src/SmartWeightPlate/ModStrings.cs`).\n- Mod-private text goes under a branch named for the mod in capitals (`ModStrings.SALTYSURF.ELEMENT_LIST`, `ModStrings.JUMPERBRIDGES.OPTIONS`).\n- Option keys are written out as `STRINGS.<MOD>.OPTIONS.<OPTION>.NAME` and `.TOOLTIP`; categories as `STRINGS.<MOD>.OPTIONS.CATEGORY.<NAME>`.\n- Long branches are shortened with an alias at the top of the file (`using OPTIONS = NaturalBackwalls.ModStrings.NATURALBACKWALLS.OPTIONS;`).\n\n### Ids and Tags\n**Id:** blk-c656753b98c6  \n**Tags:** building-config, mod-entry-point, in-game-testing\n\n- Building ids are PascalCase and match the config class (`SmartWeightPlate`); a mod that replaces another mod's buildings reuses that mod's ids (`StoragePodConfig`, `CoolPodConfig` in `mods/storage-pod-redux`).\n- Tags and PAction ids carry a mod prefix: `DetectAnyElement_Any`, `Isochronous.SweepZones.Tool`.\n- The `staticID` in `mod.yaml` is `Isochronous.<PascalName>`.\n- Test names start with the mod's name or an abbreviation of it: `[OniTest(\"Bitshifter: a NOT gate on a ribbon inverts every bit\")]`, `VFF:` for Vent Freeze Fix.\n\n## Project-Specific Conventions\n**Id:** blk-25e3cdd8d8fe\n\n### Smart Weight Plate specifics\n**Id:** blk-4a874c4487b8  \n**Tags:** mod-strings, in-game-testing, logging\n\n- `ModStrings.BUILDINGS.PREFABS.SMARTWEIGHTPLATE` and `ModStrings.UI.UISIDESCREENS.SMARTWEIGHTPLATE_SIDE_SCREEN`; the file keeps the shared automation-state texts in private `Green` and `Red` fields.\n- Test classes: `Weighing`, `Signal`, `Settings`, `SideScreen`, `Compatibility`; `Kit.cs` for helpers.\n- Log prefix `[SmartWeightPlate]`; `staticID` `Isochronous.SmartWeightPlate`.\n\n## Related\n**Id:** blk-e0ad430d8903\n\n- See also: [code style](code-style.md)\n- See also: [error handling](error-handling.md)\n",
+   "sections": [
+    {
+     "id": "standards/naming-conventions.md#files-and-directories",
+     "title": "Files and Directories",
+     "text": "## Files and Directories\n**Id:** blk-13325ee141e3\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/naming-conventions.md#files-and-directories/general-rules",
+     "title": "General Rules",
+     "text": "### General Rules\n**Id:** blk-c289a2da04a1\n\n- A mod lives in `mods/<kebab-case-name>/` (`natural-backwalls-everywhere`, `just-fall-already`).\n- Its code is under `mods/<name>/src/<PascalName>/` with a matching `src/<PascalName>.Tests/` project. `AssemblyName`, `RootNamespace` and the project folder share one PascalCase name (`DontCountEggsOnRails`).\n- C# files are PascalCase and named for the main type they hold. One concept per file; small related types may share a file (`Display` in `mods/bitshifter/src/Bitshifter/Patches.cs`).\n- Release tags are `<mod-folder>-v<version>` (repository README).\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/naming-conventions.md#code-naming",
+     "title": "Code Naming",
+     "text": "## Code Naming\n**Id:** blk-a08f9c51f820\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/naming-conventions.md#code-naming/variables",
+     "title": "Variables",
+     "text": "### Variables\n**Id:** blk-d21c0d25275e\n\n- camelCase for locals, parameters and private instance fields; no underscore prefix.\n- PascalCase for constants (`ArmSeconds`, `Bits`, `TechId`) and for `static readonly` values that act as constants or lookups (`Standard`, `YieldToWorkshopIds`, `Contested`).\n- camelCase for private static mutable state and caches (`armed`, `scratch`, `lastGrid`, `symbols`, `anyRows`).\n- Descriptive names; single letters only for loop indexes and the `e` of a catch.\n\n```csharp\nprivate const float ArmSeconds = 2f;\nprivate static readonly Dictionary<int, float> armed = new Dictionary<int, float>();\n```\n(`mods/just-fall-already/src/JustFallAlready/FallPoke.cs`)\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/naming-conventions.md#code-naming/booleans",
+     "title": "Booleans",
+     "text": "### Booleans\n**Id:** blk-21addfe0de78\n\n- Prefix with `Is`, `Has`, `Can`, `Should` or name the state: `IsEnabled`, `OriginalActive`, `isSpawned`, `warnedMissingInternals`.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/naming-conventions.md#project-specific-conventions",
+     "title": "Project-Specific Conventions",
+     "text": "## Project-Specific Conventions\n**Id:** blk-25e3cdd8d8fe\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/naming-conventions.md#related",
+     "title": "Related",
+     "text": "## Related\n**Id:** blk-e0ad430d8903\n\n- See also: [code style](code-style.md)\n- See also: [error handling](error-handling.md)\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  }
+ ]
+}

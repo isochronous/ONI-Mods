@@ -1,7 +1,9 @@
 ---
+tags: task-plan
 doc_id: doc-2dcfc935aaf7
-description: "The required plan.md format for ONI-Mods tasks: sections, Phase State, Phase Handoff Log, and the repository's verification commands."
+description: "The plan.md template for ONI-Mods tasks: required sections, Phase State and Phase Handoff Log formats, guidance for each section and the repository's build and test verification commands"
 ---
+
 # Plan Document Format
 
 > The `task-plan` skill
@@ -12,7 +14,8 @@ description: "The required plan.md format for ONI-Mods tasks: sections, Phase St
 > headings. Add team-specific sections after Constraints.
 
 ## Template
-**Id:** blk-6a573dfa5362
+**Id:** blk-6a573dfa5362  
+**Tags:** phase-handoff
 
 ```markdown
 ## Task: [TASK-ID, e.g. OM-002]
@@ -60,7 +63,8 @@ description: "The required plan.md format for ONI-Mods tasks: sections, Phase St
 ```
 
 ## Section Guidance
-**Id:** blk-ba5051f99876
+**Id:** blk-ba5051f99876  
+**Tags:** phase-handoff
 
 - **Phase State** — The lean pointer a cold session (or a phase launcher) reads
   to resume without scanning the whole plan. Written when the task is created —
@@ -100,7 +104,8 @@ description: "The required plan.md format for ONI-Mods tasks: sections, Phase St
   constraints discovered mid-task.
 
 ## Repository Specifics
-**Id:** blk-b6ca8e2d3bd3
+**Id:** blk-b6ca8e2d3bd3  
+**Tags:** task-id, phase-handoff, mod-build, in-game-testing
 
 - **Task IDs** use the prefix `OM` (`local_task_id_prefix` in `.context/iconrc.json`): `OM-001`, `OM-002`, and so on. The task folder is `.context/tasks/OM-NNN-kebab-description/` and the branch has the same name (`workflows/branching.md`).
 - **Phase boundary commits** are one terse line like the rest of the log, `OM-NNN: <what the phase did>`, with the `Phase-Handoff: <phase>` trailer and the assistant's `Co-Authored-By` trailer (`workflows/commit-conventions.md`).

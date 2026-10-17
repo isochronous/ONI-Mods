@@ -1,0 +1,380 @@
+{
+ "documents": [
+  {
+   "id": "domains/README.md",
+   "title": "Domains",
+   "description": "Index of the Salty Surf domains folder, linking the entities document on the Mechanical Surfboard patches for accepted liquids, readiness and spill and the glossary of ONI and mod terms",
+   "document_tags": [],
+   "text": "---\ndoc_id: doc-a3e2d3b6cf8a\ndescription: Index of the Salty Surf domains folder, linking the entities document on the Mechanical Surfboard patches for accepted liquids, readiness and spill and the glossary of ONI and mod terms\n---\n\n# Domains\n\n## Domains\n**Id:** blk-3a3f9cf183d7\n\n- [entities](entities.md): what the mod patches on the Mechanical Surfboard (accepted liquids, readiness, spill), with file locations, the liquid rules and key code paths.\n- [glossary](glossary.md): ONI and mod-specific terms used by Salty Surf.\n",
+   "sections": [
+    {
+     "id": "domains/README.md#domains",
+     "title": "Domains",
+     "text": "## Domains\n**Id:** blk-3a3f9cf183d7\n\n- [entities](entities.md): what the mod patches on the Mechanical Surfboard (accepted liquids, readiness, spill), with file locations, the liquid rules and key code paths.\n- [glossary](glossary.md): ONI and mod-specific terms used by Salty Surf.\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "domains/entities.md",
+   "title": "Salty Surf domain",
+   "description": "The SurfWater tag helper, Harmony patches, mod strings and translations of Salty Surf in src/SaltySurf, with the accepted-liquid, readiness, spill and info panel rules, file locations, code paths, tests and saved state",
+   "document_tags": [],
+   "text": "---\ndoc_id: doc-4e6a503ac17c\ndescription: The SurfWater tag helper, Harmony patches, mod strings and translations of Salty Surf in src/SaltySurf, with the accepted-liquid, readiness, spill and info panel rules, file locations, code paths, tests and saved state\napplies_to:\n  - \"src/SaltySurf/**\"\n---\n\n# Salty Surf domain\n\n## Overview\n**Id:** blk-5c09c48ae91d\n\nSalty Surf makes the Mechanical Surfboard run on Salt Water as well as Water. The vanilla building keys its pipe intake, its readiness check and its spill to the Water element alone. The mod tags Water and Salt Water with one shared tag when the element table loads, then points those three places, and the info panel text, at the tag. The mod adds no building and no options, and saves nothing of its own: the tank contents are ordinary stored liquid.\n\n## Key Entities\n**Id:** blk-6c906d447ea5\n\n### SurfWater\n**Id:** blk-eab76ffa269c  \n**Description**: The static holder of the shared tag and the accepted elements.  \n**Location**: `src/SaltySurf/Mod.cs`\n\n| Property | Type | Description |\n|----------|------|-------------|\n| Tag | `Tag` (\"SaltySurfWater\") | Created with `TagManager.Create`; copied by the game onto every stored chunk of a tagged element |\n| Elements | SimHashes[] | `Water` and `SaltWater` |\n| Names() | string | \"Water or Salt Water\" using the game's element names joined by the translated `ModStrings.SALTYSURF.ELEMENT_LIST` (\"{0} or {1}\") |\n\n### Harmony patches\n**Id:** blk-0d5a13c73107  \n**Location**: `src/SaltySurf/Mod.cs`\n\n| Patch target | Kind | Purpose |\n|--------------|------|---------|\n| `ElementLoader.Load` | Postfix | Adds `SurfWater.Tag` to the `oreTags` of Water and Salt Water |\n| `MechanicalSurfboardConfig.ConfigureBuildingTemplate` | Postfix | Sets the `ConduitConsumer.capacityTag` to `SurfWater.Tag`, so the intake accepts either liquid |\n| `MechanicalSurfboard.States.IsReady` | Prefix (replaces) | Ready when `Storage.GetMassAvailable(SurfWater.Tag)` reaches `minOperationalWaterKG` (2 kg) |\n| `MechanicalSurfboardWorkable.OnWorkTick` | Prefix (replaces) | Draws `waterSpillRateKG x dt` from the tank by tag with `ConsumeAndGetDisease` and drops the element actually drawn through `FallingWater.AddParticle`, at a random cell across the board's width |\n| `MechanicalSurfboard` `IGameObjectEffectDescriptor.GetDescriptors` (explicit interface method, found by `TargetMethod`) | Postfix | Replaces the vanilla water requirement line and tooltip with the two-liquid wording |\n\n### Mod entry and strings\n**Id:** blk-858e2835d046  \n**Location**: `src/SaltySurf/Mod.cs`, `src/SaltySurf/ModStrings.cs`, `src/SaltySurf/translations/`\n`SaltySurfMod` (a `UserMod2`) registers `ModStrings` through `Isochronous.Translations`. The one string is `SALTYSURF.ELEMENT_LIST`; Chinese, Korean and Russian come from `translations/<locale>.po`. Mod id `Isochronous.SaltySurf` (`mod.yaml`).\n\n### Saved state\n**Id:** blk-99d39a8ff721\n\nNone of the mod's own. A board saved with Salt Water in its tank loads with the Salt Water still there, counts as ready and spills it, because the stored chunk carries the shared tag from the element definition.\n\n## Business Rules\n**Id:** blk-cabaabc55d71\n\n- The intake accepts Water or Salt Water; either fills the tank without damaging the building.\n- The board is ready at 2 kg of either liquid, or of both together; less than 2 kg, or other liquids, is not ready.\n- While a Duplicant surfs, the board spills whatever it was fed, at the usual rate (`waterSpillRateKG`): a Salt Water board spills Salt Water, a Water board spills Water. A tank holding no accepted liquid spills nothing.\n- Every other liquid is treated as in the base game: it damages the building and is dumped.\n- The info panel lists both accepted liquids in place of Water alone and keeps its other lines.\n- The vanilla descriptor line is matched by its exact text, so a changed line is left alone.\n\n## Key Code Paths\n**Id:** blk-ecc935e6ebf6\n\n- **Tagging the elements**: the `ElementLoader.Load` postfix — see `src/SaltySurf/Mod.cs`\n- **Intake**: `capacityTag` set in the `ConfigureBuildingTemplate` postfix — see `src/SaltySurf/Mod.cs`\n- **Readiness**: `MechanicalSurfboard_IsReady_Patch` — see `src/SaltySurf/Mod.cs`\n- **Spill**: `MechanicalSurfboardWorkable_OnWorkTick_Patch` — see `src/SaltySurf/Mod.cs`\n- **Tests**: in-game `[OniTest]` cases in `src/SaltySurf.Tests/` (`Intake.cs` tag and intake; `Board.cs` readiness and info panel; `Spill.cs` spill element and rate; `Persistence.cs` save and load round trip; `Surfing.cs` a Duplicant surfing on Salt Water)\n\n## Related\n**Id:** blk-161e1e339eb1\n\n- See also: [glossary](glossary.md)\n",
+   "sections": [
+    {
+     "id": "domains/entities.md#overview",
+     "title": "Overview",
+     "text": "## Overview\n**Id:** blk-5c09c48ae91d\n\nSalty Surf makes the Mechanical Surfboard run on Salt Water as well as Water. The vanilla building keys its pipe intake, its readiness check and its spill to the Water element alone. The mod tags Water and Salt Water with one shared tag when the element table loads, then points those three places, and the info panel text, at the tag. The mod adds no building and no options, and saves nothing of its own: the tank contents are ordinary stored liquid.\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/entities.md#key-entities",
+     "title": "Key Entities",
+     "text": "## Key Entities\n**Id:** blk-6c906d447ea5\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/entities.md#key-entities/surfwater",
+     "title": "SurfWater",
+     "text": "### SurfWater\n**Id:** blk-eab76ffa269c  \n**Description**: The static holder of the shared tag and the accepted elements.  \n**Location**: `src/SaltySurf/Mod.cs`\n\n| Property | Type | Description |\n|----------|------|-------------|\n| Tag | `Tag` (\"SaltySurfWater\") | Created with `TagManager.Create`; copied by the game onto every stored chunk of a tagged element |\n| Elements | SimHashes[] | `Water` and `SaltWater` |\n| Names() | string | \"Water or Salt Water\" using the game's element names joined by the translated `ModStrings.SALTYSURF.ELEMENT_LIST` (\"{0} or {1}\") |\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/entities.md#key-entities/harmony-patches",
+     "title": "Harmony patches",
+     "text": "### Harmony patches\n**Id:** blk-0d5a13c73107  \n**Location**: `src/SaltySurf/Mod.cs`\n\n| Patch target | Kind | Purpose |\n|--------------|------|---------|\n| `ElementLoader.Load` | Postfix | Adds `SurfWater.Tag` to the `oreTags` of Water and Salt Water |\n| `MechanicalSurfboardConfig.ConfigureBuildingTemplate` | Postfix | Sets the `ConduitConsumer.capacityTag` to `SurfWater.Tag`, so the intake accepts either liquid |\n| `MechanicalSurfboard.States.IsReady` | Prefix (replaces) | Ready when `Storage.GetMassAvailable(SurfWater.Tag)` reaches `minOperationalWaterKG` (2 kg) |\n| `MechanicalSurfboardWorkable.OnWorkTick` | Prefix (replaces) | Draws `waterSpillRateKG x dt` from the tank by tag with `ConsumeAndGetDisease` and drops the element actually drawn through `FallingWater.AddParticle`, at a random cell across the board's width |\n| `MechanicalSurfboard` `IGameObjectEffectDescriptor.GetDescriptors` (explicit interface method, found by `TargetMethod`) | Postfix | Replaces the vanilla water requirement line and tooltip with the two-liquid wording |\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/entities.md#key-entities/mod-entry-and-strings",
+     "title": "Mod entry and strings",
+     "text": "### Mod entry and strings\n**Id:** blk-858e2835d046  \n**Location**: `src/SaltySurf/Mod.cs`, `src/SaltySurf/ModStrings.cs`, `src/SaltySurf/translations/`\n`SaltySurfMod` (a `UserMod2`) registers `ModStrings` through `Isochronous.Translations`. The one string is `SALTYSURF.ELEMENT_LIST`; Chinese, Korean and Russian come from `translations/<locale>.po`. Mod id `Isochronous.SaltySurf` (`mod.yaml`).\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/entities.md#key-entities/saved-state",
+     "title": "Saved state",
+     "text": "### Saved state\n**Id:** blk-99d39a8ff721\n\nNone of the mod's own. A board saved with Salt Water in its tank loads with the Salt Water still there, counts as ready and spills it, because the stored chunk carries the shared tag from the element definition.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/entities.md#business-rules",
+     "title": "Business Rules",
+     "text": "## Business Rules\n**Id:** blk-cabaabc55d71\n\n- The intake accepts Water or Salt Water; either fills the tank without damaging the building.\n- The board is ready at 2 kg of either liquid, or of both together; less than 2 kg, or other liquids, is not ready.\n- While a Duplicant surfs, the board spills whatever it was fed, at the usual rate (`waterSpillRateKG`): a Salt Water board spills Salt Water, a Water board spills Water. A tank holding no accepted liquid spills nothing.\n- Every other liquid is treated as in the base game: it damages the building and is dumped.\n- The info panel lists both accepted liquids in place of Water alone and keeps its other lines.\n- The vanilla descriptor line is matched by its exact text, so a changed line is left alone.\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/entities.md#key-code-paths",
+     "title": "Key Code Paths",
+     "text": "## Key Code Paths\n**Id:** blk-ecc935e6ebf6\n\n- **Tagging the elements**: the `ElementLoader.Load` postfix — see `src/SaltySurf/Mod.cs`\n- **Intake**: `capacityTag` set in the `ConfigureBuildingTemplate` postfix — see `src/SaltySurf/Mod.cs`\n- **Readiness**: `MechanicalSurfboard_IsReady_Patch` — see `src/SaltySurf/Mod.cs`\n- **Spill**: `MechanicalSurfboardWorkable_OnWorkTick_Patch` — see `src/SaltySurf/Mod.cs`\n- **Tests**: in-game `[OniTest]` cases in `src/SaltySurf.Tests/` (`Intake.cs` tag and intake; `Board.cs` readiness and info panel; `Spill.cs` spill element and rate; `Persistence.cs` save and load round trip; `Surfing.cs` a Duplicant surfing on Salt Water)\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/entities.md#related",
+     "title": "Related",
+     "text": "## Related\n**Id:** blk-161e1e339eb1\n\n- See also: [glossary](glossary.md)\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "domains/glossary.md",
+   "title": "Salty Surf glossary",
+   "description": "Glossary for Salty Surf: abbreviations, terms to avoid, and definitions of the Mechanical Surfboard, intake capacity tag, shared SaltySurfWater tag, readiness, spill, wrong liquid and descriptor, with the code using each",
+   "document_tags": [],
+   "text": "---\nwitness_digest: \"sha256:a6f9104ca76161d0586dd54ea09e5be2e8ef2c86ad283569ec95283149f30aef\"\nwitness: loose\napplies_to:\n  - \"src/SaltySurf/**\"\ndoc_id: doc-8bc9e6c6b6ef\ndescription: \"Glossary for Salty Surf: abbreviations, terms to avoid, and definitions of the Mechanical Surfboard, intake capacity tag, shared SaltySurfWater tag, readiness, spill, wrong liquid and descriptor, with the code using each\"\n---\n\n# Salty Surf glossary\n\nTerms for the Salty Surf mod. For the code behind them, see [entities](entities.md).\n\n## Abbreviations and Acronyms\n**Id:** blk-0a94ff963f30\n\n| Abbreviation | Full Term | Context |\n|--------------|-----------|---------|\n| ONI | Oxygen Not Included | The game this mod targets |\n| kg | Kilogram | Tank and spill amounts in the game's mass unit |\n\n## Terms to Avoid\n**Id:** blk-d2a22b0683e9\n\n| Avoid | Use Instead | Reason |\n|-------|-------------|--------|\n| Saltwater | Salt Water | The element's in-game name is \"Salt Water\" (`SimHashes.SaltWater`); the code and README use it |\n| Surf board | Mechanical Surfboard | The vanilla building's name |\n\n## Cross-Domain Terms\n**Id:** blk-6982f99e63a4\n\n### Mechanical Surfboard\n**Id:** blk-765d6b119222  \n**Definition**: The vanilla recreation building (`MechanicalSurfboardConfig`) a Duplicant surfs on. It takes liquid from a pipe into a tank, spills it while in use, and gives the surfer a morale effect.  \n**Used in**: `Mod.cs`\n\n### Intake / capacity tag\n**Id:** blk-63dbbc9820b9  \n**Definition**: The pipe intake is a `ConduitConsumer`; its `capacityTag` names which element it accepts. Vanilla uses Water; the mod uses the shared tag.  \n**Used in**: `MechanicalSurfboardConfig_Patch`\n\n### Shared tag (SaltySurfWater)\n**Id:** blk-7c1deca7e340  \n**Definition**: The tag the mod adds to Water and Salt Water. The game copies an element's tags onto every stored chunk when the chunk is created, so one tag on the element covers the pipe check, the storage mass check and the spill.  \n**Used in**: `SurfWater`, `ElementLoader_Load_Patch`\n\n### oreTags\n**Id:** blk-ac3b96f5c9c1  \n**Definition**: The tag array on an `Element` that `ElementLoader` fills; the mod appends the shared tag.  \n**Used in**: `ElementLoader_Load_Patch`\n\n### Readiness (IsReady)\n**Id:** blk-8bc9bf639fb2  \n**Definition**: The board's state-machine check that its tank holds `minOperationalWaterKG` (2 kg); only then can a Duplicant surf.  \n**Used in**: `MechanicalSurfboard_IsReady_Patch`\n\n### Spill\n**Id:** blk-29c423cd1692  \n**Definition**: The liquid the board drops on the floor while in use, at `waterSpillRateKG` per second of work, through `FallingWater`.  \n**Used in**: `MechanicalSurfboardWorkable_OnWorkTick_Patch`\n\n### Wrong liquid\n**Id:** blk-79266a9a9f87  \n**Definition**: Any liquid other than Water or Salt Water: it damages the building and is dumped, as in the base game.  \n**Used in**: `Intake.cs` tests\n\n### Descriptor\n**Id:** blk-90e71a732047  \n**Definition**: A line in a building's info panel (`Descriptor` from `IGameObjectEffectDescriptor`); the mod rewrites the water requirement line.  \n**Used in**: `MechanicalSurfboard_GetDescriptors_Patch`\n\n## Related\n**Id:** blk-c5eab6144ce4\n\n- See also: [entities](entities.md)\n",
+   "sections": [
+    {
+     "id": "domains/glossary.md#abbreviations-and-acronyms",
+     "title": "Abbreviations and Acronyms",
+     "text": "## Abbreviations and Acronyms\n**Id:** blk-0a94ff963f30\n\n| Abbreviation | Full Term | Context |\n|--------------|-----------|---------|\n| ONI | Oxygen Not Included | The game this mod targets |\n| kg | Kilogram | Tank and spill amounts in the game's mass unit |\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#terms-to-avoid",
+     "title": "Terms to Avoid",
+     "text": "## Terms to Avoid\n**Id:** blk-d2a22b0683e9\n\n| Avoid | Use Instead | Reason |\n|-------|-------------|--------|\n| Saltwater | Salt Water | The element's in-game name is \"Salt Water\" (`SimHashes.SaltWater`); the code and README use it |\n| Surf board | Mechanical Surfboard | The vanilla building's name |\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms",
+     "title": "Cross-Domain Terms",
+     "text": "## Cross-Domain Terms\n**Id:** blk-6982f99e63a4\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/mechanical-surfboard",
+     "title": "Mechanical Surfboard",
+     "text": "### Mechanical Surfboard\n**Id:** blk-765d6b119222  \n**Definition**: The vanilla recreation building (`MechanicalSurfboardConfig`) a Duplicant surfs on. It takes liquid from a pipe into a tank, spills it while in use, and gives the surfer a morale effect.  \n**Used in**: `Mod.cs`\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/intake-capacity-tag",
+     "title": "Intake / capacity tag",
+     "text": "### Intake / capacity tag\n**Id:** blk-63dbbc9820b9  \n**Definition**: The pipe intake is a `ConduitConsumer`; its `capacityTag` names which element it accepts. Vanilla uses Water; the mod uses the shared tag.  \n**Used in**: `MechanicalSurfboardConfig_Patch`\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/shared-tag-saltysurfwater",
+     "title": "Shared tag (SaltySurfWater)",
+     "text": "### Shared tag (SaltySurfWater)\n**Id:** blk-7c1deca7e340  \n**Definition**: The tag the mod adds to Water and Salt Water. The game copies an element's tags onto every stored chunk when the chunk is created, so one tag on the element covers the pipe check, the storage mass check and the spill.  \n**Used in**: `SurfWater`, `ElementLoader_Load_Patch`\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/oretags",
+     "title": "oreTags",
+     "text": "### oreTags\n**Id:** blk-ac3b96f5c9c1  \n**Definition**: The tag array on an `Element` that `ElementLoader` fills; the mod appends the shared tag.  \n**Used in**: `ElementLoader_Load_Patch`\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/readiness-isready",
+     "title": "Readiness (IsReady)",
+     "text": "### Readiness (IsReady)\n**Id:** blk-8bc9bf639fb2  \n**Definition**: The board's state-machine check that its tank holds `minOperationalWaterKG` (2 kg); only then can a Duplicant surf.  \n**Used in**: `MechanicalSurfboard_IsReady_Patch`\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/spill",
+     "title": "Spill",
+     "text": "### Spill\n**Id:** blk-29c423cd1692  \n**Definition**: The liquid the board drops on the floor while in use, at `waterSpillRateKG` per second of work, through `FallingWater`.  \n**Used in**: `MechanicalSurfboardWorkable_OnWorkTick_Patch`\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/wrong-liquid",
+     "title": "Wrong liquid",
+     "text": "### Wrong liquid\n**Id:** blk-79266a9a9f87  \n**Definition**: Any liquid other than Water or Salt Water: it damages the building and is dumped, as in the base game.  \n**Used in**: `Intake.cs` tests\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/descriptor",
+     "title": "Descriptor",
+     "text": "### Descriptor\n**Id:** blk-90e71a732047  \n**Definition**: A line in a building's info panel (`Descriptor` from `IGameObjectEffectDescriptor`); the mod rewrites the water requirement line.  \n**Used in**: `MechanicalSurfboard_GetDescriptors_Patch`\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#related",
+     "title": "Related",
+     "text": "## Related\n**Id:** blk-c5eab6144ce4\n\n- See also: [entities](entities.md)\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "overview.md",
+   "title": "salty-surf",
+   "description": "Overview of the Salty Surf mod: how the Mechanical Surfboard accepts Salt Water as well as Water, its Workshop version, supported content and languages, and a map of its source, tests and publish folders",
+   "document_tags": [],
+   "text": "---\ndescription: \"Overview of the Salty Surf mod: how the Mechanical Surfboard accepts Salt Water as well as Water, its Workshop version, supported content and languages, and a map of its source, tests and publish folders\"\n---\n\n# salty-surf\n\n## What this is\n**Id:** blk-11a37a51f75f\n\nSalty Surf is an Oxygen Not Included mod that lets the Mechanical Surfboard run on Salt Water as well as Water. Either liquid fills the tank without damaging the building, the board is ready once the tank holds the usual 2 kg of either, and while a Duplicant surfs the board spills whatever it was fed. Every other liquid is treated as in the base game: it damages the building and is dumped. The building's info panel lists both accepted liquids. Version 0.2.0 is on the Steam Workshop (id 3816726470); `mod.yaml` sets `supportedContent: ALL` and `minimumSupportedBuild: 744825`. Available in English, Chinese (Simplified), Korean and Russian.\n\n## Where things are\n**Id:** blk-16065c0a902a\n\n- `src/SaltySurf/`: the mod. `Mod.cs` (entry point, the accepted-liquid helper and the Harmony patches on the element load and the surfboard config), `ModStrings.cs`, `mod.yaml`, `mod_info.yaml`, `translations/` (`.pot` template plus `ko.po`, `ru.po`, `zh.po`).\n- `src/SaltySurf.Tests/`: in-game tests (`Board.cs`, `Intake.cs`, `Persistence.cs`, `Spill.cs`, `Surfing.cs`).\n- `publish/`: Workshop material (`workshop-description.txt`, `workshop-id.txt`, `workshop-tags.txt`, `preview.jpg`); `preview/` holds the preview image.\n- `README.md`, `CHANGELOG.md`: user-facing description and release history.\n- `.context/` holds `overview.md` (this file), `domains/` (entities and glossary), `standards/` (code style, error handling, naming conventions), `decisions/`, `retrospectives/`, `projects.md` and `META.md`.\n",
+   "sections": [
+    {
+     "id": "overview.md#what-this-is",
+     "title": "What this is",
+     "text": "## What this is\n**Id:** blk-11a37a51f75f\n\nSalty Surf is an Oxygen Not Included mod that lets the Mechanical Surfboard run on Salt Water as well as Water. Either liquid fills the tank without damaging the building, the board is ready once the tank holds the usual 2 kg of either, and while a Duplicant surfs the board spills whatever it was fed. Every other liquid is treated as in the base game: it damages the building and is dumped. The building's info panel lists both accepted liquids. Version 0.2.0 is on the Steam Workshop (id 3816726470); `mod.yaml` sets `supportedContent: ALL` and `minimumSupportedBuild: 744825`. Available in English, Chinese (Simplified), Korean and Russian.\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "overview.md#where-things-are",
+     "title": "Where things are",
+     "text": "## Where things are\n**Id:** blk-16065c0a902a\n\n- `src/SaltySurf/`: the mod. `Mod.cs` (entry point, the accepted-liquid helper and the Harmony patches on the element load and the surfboard config), `ModStrings.cs`, `mod.yaml`, `mod_info.yaml`, `translations/` (`.pot` template plus `ko.po`, `ru.po`, `zh.po`).\n- `src/SaltySurf.Tests/`: in-game tests (`Board.cs`, `Intake.cs`, `Persistence.cs`, `Spill.cs`, `Surfing.cs`).\n- `publish/`: Workshop material (`workshop-description.txt`, `workshop-id.txt`, `workshop-tags.txt`, `preview.jpg`); `preview/` holds the preview image.\n- `README.md`, `CHANGELOG.md`: user-facing description and release history.\n- `.context/` holds `overview.md` (this file), `domains/` (entities and glossary), `standards/` (code style, error handling, naming conventions), `decisions/`, `retrospectives/`, `projects.md` and `META.md`.\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "standards/README.md",
+   "title": "Standards",
+   "description": "Index of the Salty Surf standards folder, linking its code style, error handling and naming conventions documents with a line on what each covers",
+   "document_tags": [],
+   "text": "---\ndoc_id: doc-0f4478336c58\ndescription: Index of the Salty Surf standards folder, linking its code style, error handling and naming conventions documents with a line on what each covers\n---\n\n# Standards\n\n## Standards\n**Id:** blk-73d923fe5008\n\n- [code-style](code-style.md): C# formatting, imports, comments, Harmony patch and component conventions, with this mod's own layout.\n- [error-handling](error-handling.md): how Salty Surf guards its Harmony patches, reflection lookups and file reads, and what it logs when something is missing.\n- [naming-conventions](naming-conventions.md): file, namespace, patch class, string key and id naming for project SaltySurf.\n",
+   "sections": [
+    {
+     "id": "standards/README.md#standards",
+     "title": "Standards",
+     "text": "## Standards\n**Id:** blk-73d923fe5008\n\n- [code-style](code-style.md): C# formatting, imports, comments, Harmony patch and component conventions, with this mod's own layout.\n- [error-handling](error-handling.md): how Salty Surf guards its Harmony patches, reflection lookups and file reads, and what it logs when something is missing.\n- [naming-conventions](naming-conventions.md): file, namespace, patch class, string key and id naming for project SaltySurf.\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "standards/code-style.md",
+   "title": "Code Style Guide",
+   "description": "C# code style for Salty Surf: indentation, braces, imports, comments, control structures, Harmony patch and game component conventions, plus its patches living in Mod.cs, the shared SurfWater class and descriptor reflection",
+   "document_tags": [],
+   "text": "---\ndoc_id: doc-208fd39f8eae\ndescription: \"C# code style for Salty Surf: indentation, braces, imports, comments, control structures, Harmony patch and game component conventions, plus its patches living in Mod.cs, the shared SurfWater class and descriptor reflection\"\napplies_to:\n  - \"src/**\"\n---\n\n# Code Style Guide\n\n## Formatting\n**Id:** blk-b99131469ebb\n\n### Indentation\n**Id:** blk-13c88b17e86e\n\n- Tabs, one per level, in every `.cs` file (`mods/bitshifter/src/Bitshifter/Mod.cs`).\n- Project files (`.csproj`, `common/oni-mod.props`, `common/oni-mod.targets`) use two spaces.\n- Files are committed with LF line endings; Windows checkouts convert them to CRLF (`core.autocrlf` is true), so do not hand-normalise line endings.\n\n### Line Length\n**Id:** blk-e3f6da6e58eb\n\n- No limit is configured and the repository has no `.editorconfig`.\n- Wrap long calls and string concatenations after an argument or before a `+`, and indent the continuation one tab. The start-up log call in `mods/jumper-bridges/src/JumperBridges/Mod.cs` is the pattern.\n- TODO(owner): decide whether to add an `.editorconfig` recording tabs and brace placement so editors enforce what the code already does.\n\n### Braces\n**Id:** blk-bd257e248e86\n\n- Opening brace on its own line (Allman) for namespaces, types, members and multi-line control blocks.\n- A body of one short statement goes on the next line without braces:\n\n```csharp\nforeach (Mod mod in mods)\n{\n\tif (!mod.IsEnabledForActiveDlc())\n\t\tcontinue;\n\t...\n}\n```\n\n- Multi-line initialisers and enums end with a trailing comma (`YieldToWorkshopIds` in `mods/bitshifter/src/Bitshifter/Mod.cs`, `CoolPodMode` in `mods/storage-pod-redux/src/StoragePodRedux/Options.cs`).\n\n## Language and Toolchain\n**Id:** blk-4ae56406a2a8\n\n- C# 9 on .NET Framework 4.8 (`LangVersion` 9.0 and `TargetFramework` net48 in `common/oni-mod.props`). Namespace blocks, not file-scoped namespaces; no nullable reference types.\n- Mods compile against the game's own assemblies (`common/oni-mod.targets`): `Assembly-CSharp`, `Assembly-CSharp-firstpass`, `0Harmony` and Unity modules. The game's .NET Framework lacks some newer APIs (`ConditionalWeakTable.AddOrUpdate` is missing, see `mods/detect-any-element/src/DetectAnyElement/Patches.cs`).\n- Optional references are switched on in the mod csproj before the targets import: `ReferenceUnityUI`, `ReferenceImageConversion`, `UsePLib` (PLib is ILRepack-merged into the mod DLL) and `UseTranslations` (compiles `common/src/Translations.cs` in).\n- One namespace per mod, equal to its `RootNamespace`. Subfolders organise files and do not add namespaces (`mods/upgrade-planner/src/UpgradePlanner/Plan`, `Rules`, `Tool`, `UI` all declare `namespace UpgradePlanner`).\n\n## Imports/Includes\n**Id:** blk-1d487f353650\n\n### Organization\n**Id:** blk-acbb3fac0613\n\n`using` directives sit above the namespace, in one block with no blank lines, sorted alphabetically with `System.*` first. Aliases for `ModStrings` branches come last.\n\n1. `System.*`\n2. Everything else alphabetically: `HarmonyLib`, `Isochronous`, `KMod`, `Newtonsoft.Json`, `PeterHan.PLib.*`, `ProcGenGame`, `UnityEngine`\n3. Aliases (`using TOOL = SweepZones.ModStrings.UI.TOOLS.SWEEPZONES;`)\n\n### Example\n**Id:** blk-e155218a57bf\n\n```csharp\nusing System.Collections.Generic;\nusing System.Reflection;\nusing HarmonyLib;\nusing Isochronous;\nusing Klei;\nusing KMod;\nusing STRINGS;\nusing UnityEngine;\n```\n(`mods/salty-surf/src/SaltySurf/Mod.cs`)\n\n`Debug.Log` resolves either to `UnityEngine.Debug` or to the game's own global `Debug` class, so several `Mod.cs` files omit `using UnityEngine`. When a file imports `System.Diagnostics`, qualify the call as `UnityEngine.Debug.Log` (`mods/just-fall-already/src/JustFallAlready/FallPoke.cs`).\n\n## Comments\n**Id:** blk-cc3ce3eaa91f\n\n### When to Comment\n**Id:** blk-812bb51869b0\n\n- On every non-trivial class, an XML `<summary>` that says what the game does and what the patch changes, so a reader can check the patch against the game code. The long summary on `OvercrowdingMonitor_UpdateRegion_Patch` in `mods/dont-count-eggs-on-rails/src/DontCountEggsOnRails/Mod.cs` is the model.\n- Where a game quirk forces an odd line: `// The game's .NET Framework has no AddOrUpdate on this table.`\n- Where another mod is involved, name it and its Workshop id (`mods/bitshifter/src/Bitshifter/Mod.cs`, `mods/smart-weight-plate/src/SmartWeightPlate/Mod.cs`).\n- Escape angle brackets in XML comments as `&lt;` and `&gt;`.\n\n### When NOT to Comment\n**Id:** blk-e5b2c265d7d4\n\n- Code that reads clearly from its names.\n- Commented-out code; delete it.\n- Restating what a line does.\n\n### Format\n**Id:** blk-67679708c49a\n\n```csharp\n/// <summary>\n/// The \"Any\" choice. It is a tag like the elements a sensor's Filterable holds, so it rides\n/// in the same saved field and copies with the building's settings.\n/// </summary>\npublic static class AnyElement\n\n// Single-line note for a quirk or a reason.\n```\n\n## Control Structures\n**Id:** blk-c61713153936\n\n### Conditionals\n**Id:** blk-14482d7feb95\n\nGuard clauses and early `return` or `continue` keep nesting shallow (`SettleSimBackwalls.UpdateFromSim` in `mods/natural-backwalls-everywhere/src/NaturalBackwalls/SettleSimPatch.cs`):\n\n```csharp\nif (!Grid.IsValidCell(cell))\n\tcontinue;\nushort idx = data->backwallElement[cell];\nif (idx == ushort.MaxValue || idx >= elements.Count)\n\tcontinue;\n```\n\n### Loops\n**Id:** blk-ab3898ffc38d\n\n- Plain `for` and `foreach`. Code that runs every sim tick or frame avoids LINQ and allocations; reuse scratch lists (`scratch` in `mods/just-fall-already/src/JustFallAlready/FallPoke.cs`).\n- Local types are written out (`Tech tech = ...`). `var` appears mainly in `mods/upgrade-planner`, `mods/natural-backwalls-everywhere` and the test projects; follow the surrounding file.\n\n### Strings\n**Id:** blk-8e28256f3f0e\n\n- Log and UI text is built with `+` concatenation, or `string.Format` on a `LocString`. String interpolation is not used in mod code.\n- Player-visible text is a `LocString` field in `ModStrings`, never a literal at the call site (see [naming conventions](naming-conventions.md)).\n\n## Harmony Patches\n**Id:** blk-6d43d7004a79\n\n- A patch is a static class with `[HarmonyPatch(typeof(Type), nameof(Type.Method))]`, or `[HarmonyPatch(typeof(Type), \"PrivateMethod\")]` for a non-public method, and methods named `Prefix`, `Postfix`, `Transpiler` or `Finalizer` (`mods/bitshifter/src/Bitshifter/Patches.cs`).\n- Game state arrives through Harmony parameters: `__instance`, `__result`, `___field`. Fields read repeatedly use `AccessTools.FieldRefAccess` kept in a `static readonly` field (`mods/detect-any-element/src/DetectAnyElement/Patches.cs`).\n- A prefix returns `true` to let the game's method run and `false` only when it replaces the method (`mods/dont-count-eggs-on-rails`, `mods/bitshifter` `UpdateVisuals`).\n- A patch that depends on an option implements `Prepare()` (`mods/jumper-bridges/src/JumperBridges/Patches.cs`); a patch with several targets implements `TargetMethods()`.\n- `UserMod2.OnLoad` calls `base.OnLoad(harmony)`, which applies every patch in the assembly, then registers libraries and logs the version. A mod that must patch after all others applies its patches from `OnAllModsLoaded` instead (`mods/bitshifter/src/Bitshifter/Mod.cs`).\n- Transpilers search for the instruction they change and report when it is not found; see [error handling](error-handling.md).\n\n## Game Components\n**Id:** blk-cad0cc439cdc\n\n- A component extends `KMonoBehaviour`, overrides `OnPrefabInit`, `OnSpawn` and `OnCleanUp` and calls `base` from each. Sibling components come in through `[MyCmpGet]` or `[MyCmpReq]` (`mods/no-magic-fridges/src/NoMagicFridges/FridgeThermostat.cs`).\n- Saved state uses `[Serialize]` fields with `[SerializationConfig(MemberSerialization.OptIn)]` on the class (`mods/sweep-zones/src/SweepZones/ZoneStore.cs`).\n- Components are added to prefabs from a `DoPostConfigureComplete` postfix with `go.AddOrGet<T>()`.\n\n## Project-Specific Rules\n**Id:** blk-df727bd6b290\n\n- Mod options are a PLib `POptions` class marked `[JsonObject(MemberSerialization.OptIn)]` and `[ConfigFile(SharedConfigLocation: true)]`, read through a static `Load()` (`mods/vent-freeze-fix/src/VentFreezeFix/Options.cs`) or through `SingletonOptions<Options>` (`mods/storage-pod-redux`). Option titles are string-table keys, so the translation follows the language.\n- Every mod logs one line at load: `[<Name>] Loaded version <assembly version>`.\n- Tests live in a separate `<Name>.Tests` project and are written as `[OniTest]` coroutines against the real game.\n\n### Salty Surf specifics\n**Id:** blk-1669d9f26a50\n\n- `UseTranslations` only. The patches follow the mod class in `Mod.cs`; there is no `Patches.cs`. `SurfWater` is the shared static class (`Tag`, `Elements`, `Names()`).\n- The file uses `using STRINGS;` so `BUILDINGS.PREFABS.MECHANICALSURFBOARD...` resolves to the game's strings.\n- `MechanicalSurfboard_GetDescriptors_Patch` finds an explicit interface method through `TargetMethod()` and reflection.\n- `Names()` formats the translated connective `ModStrings.SALTYSURF.ELEMENT_LIST` (`\"{0} or {1}\"`) with `string.Format`.\n\n## Related\n**Id:** blk-b103d8c9d1a1\n\n- See also: [naming conventions](naming-conventions.md)\n- See also: [error handling](error-handling.md)\n",
+   "sections": [
+    {
+     "id": "standards/code-style.md#formatting",
+     "title": "Formatting",
+     "text": "## Formatting\n**Id:** blk-b99131469ebb\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#formatting/indentation",
+     "title": "Indentation",
+     "text": "### Indentation\n**Id:** blk-13c88b17e86e\n\n- Tabs, one per level, in every `.cs` file (`mods/bitshifter/src/Bitshifter/Mod.cs`).\n- Project files (`.csproj`, `common/oni-mod.props`, `common/oni-mod.targets`) use two spaces.\n- Files are committed with LF line endings; Windows checkouts convert them to CRLF (`core.autocrlf` is true), so do not hand-normalise line endings.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#formatting/line-length",
+     "title": "Line Length",
+     "text": "### Line Length\n**Id:** blk-e3f6da6e58eb\n\n- No limit is configured and the repository has no `.editorconfig`.\n- Wrap long calls and string concatenations after an argument or before a `+`, and indent the continuation one tab. The start-up log call in `mods/jumper-bridges/src/JumperBridges/Mod.cs` is the pattern.\n- TODO(owner): decide whether to add an `.editorconfig` recording tabs and brace placement so editors enforce what the code already does.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#formatting/braces",
+     "title": "Braces",
+     "text": "### Braces\n**Id:** blk-bd257e248e86\n\n- Opening brace on its own line (Allman) for namespaces, types, members and multi-line control blocks.\n- A body of one short statement goes on the next line without braces:\n\n```csharp\nforeach (Mod mod in mods)\n{\n\tif (!mod.IsEnabledForActiveDlc())\n\t\tcontinue;\n\t...\n}\n```\n\n- Multi-line initialisers and enums end with a trailing comma (`YieldToWorkshopIds` in `mods/bitshifter/src/Bitshifter/Mod.cs`, `CoolPodMode` in `mods/storage-pod-redux/src/StoragePodRedux/Options.cs`).\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#language-and-toolchain",
+     "title": "Language and Toolchain",
+     "text": "## Language and Toolchain\n**Id:** blk-4ae56406a2a8\n\n- C# 9 on .NET Framework 4.8 (`LangVersion` 9.0 and `TargetFramework` net48 in `common/oni-mod.props`). Namespace blocks, not file-scoped namespaces; no nullable reference types.\n- Mods compile against the game's own assemblies (`common/oni-mod.targets`): `Assembly-CSharp`, `Assembly-CSharp-firstpass`, `0Harmony` and Unity modules. The game's .NET Framework lacks some newer APIs (`ConditionalWeakTable.AddOrUpdate` is missing, see `mods/detect-any-element/src/DetectAnyElement/Patches.cs`).\n- Optional references are switched on in the mod csproj before the targets import: `ReferenceUnityUI`, `ReferenceImageConversion`, `UsePLib` (PLib is ILRepack-merged into the mod DLL) and `UseTranslations` (compiles `common/src/Translations.cs` in).\n- One namespace per mod, equal to its `RootNamespace`. Subfolders organise files and do not add namespaces (`mods/upgrade-planner/src/UpgradePlanner/Plan`, `Rules`, `Tool`, `UI` all declare `namespace UpgradePlanner`).\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#imports-includes",
+     "title": "Imports/Includes",
+     "text": "## Imports/Includes\n**Id:** blk-1d487f353650\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#imports-includes/organization",
+     "title": "Organization",
+     "text": "### Organization\n**Id:** blk-acbb3fac0613\n\n`using` directives sit above the namespace, in one block with no blank lines, sorted alphabetically with `System.*` first. Aliases for `ModStrings` branches come last.\n\n1. `System.*`\n2. Everything else alphabetically: `HarmonyLib`, `Isochronous`, `KMod`, `Newtonsoft.Json`, `PeterHan.PLib.*`, `ProcGenGame`, `UnityEngine`\n3. Aliases (`using TOOL = SweepZones.ModStrings.UI.TOOLS.SWEEPZONES;`)\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#imports-includes/example",
+     "title": "Example",
+     "text": "### Example\n**Id:** blk-e155218a57bf\n\n```csharp\nusing System.Collections.Generic;\nusing System.Reflection;\nusing HarmonyLib;\nusing Isochronous;\nusing Klei;\nusing KMod;\nusing STRINGS;\nusing UnityEngine;\n```\n(`mods/salty-surf/src/SaltySurf/Mod.cs`)\n\n`Debug.Log` resolves either to `UnityEngine.Debug` or to the game's own global `Debug` class, so several `Mod.cs` files omit `using UnityEngine`. When a file imports `System.Diagnostics`, qualify the call as `UnityEngine.Debug.Log` (`mods/just-fall-already/src/JustFallAlready/FallPoke.cs`).\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#comments",
+     "title": "Comments",
+     "text": "## Comments\n**Id:** blk-cc3ce3eaa91f\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#comments/when-to-comment",
+     "title": "When to Comment",
+     "text": "### When to Comment\n**Id:** blk-812bb51869b0\n\n- On every non-trivial class, an XML `<summary>` that says what the game does and what the patch changes, so a reader can check the patch against the game code. The long summary on `OvercrowdingMonitor_UpdateRegion_Patch` in `mods/dont-count-eggs-on-rails/src/DontCountEggsOnRails/Mod.cs` is the model.\n- Where a game quirk forces an odd line: `// The game's .NET Framework has no AddOrUpdate on this table.`\n- Where another mod is involved, name it and its Workshop id (`mods/bitshifter/src/Bitshifter/Mod.cs`, `mods/smart-weight-plate/src/SmartWeightPlate/Mod.cs`).\n- Escape angle brackets in XML comments as `&lt;` and `&gt;`.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#comments/when-not-to-comment",
+     "title": "When NOT to Comment",
+     "text": "### When NOT to Comment\n**Id:** blk-e5b2c265d7d4\n\n- Code that reads clearly from its names.\n- Commented-out code; delete it.\n- Restating what a line does.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#comments/format",
+     "title": "Format",
+     "text": "### Format\n**Id:** blk-67679708c49a\n\n```csharp\n/// <summary>\n/// The \"Any\" choice. It is a tag like the elements a sensor's Filterable holds, so it rides\n/// in the same saved field and copies with the building's settings.\n/// </summary>\npublic static class AnyElement\n\n// Single-line note for a quirk or a reason.\n```\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#control-structures",
+     "title": "Control Structures",
+     "text": "## Control Structures\n**Id:** blk-c61713153936\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#control-structures/conditionals",
+     "title": "Conditionals",
+     "text": "### Conditionals\n**Id:** blk-14482d7feb95\n\nGuard clauses and early `return` or `continue` keep nesting shallow (`SettleSimBackwalls.UpdateFromSim` in `mods/natural-backwalls-everywhere/src/NaturalBackwalls/SettleSimPatch.cs`):\n\n```csharp\nif (!Grid.IsValidCell(cell))\n\tcontinue;\nushort idx = data->backwallElement[cell];\nif (idx == ushort.MaxValue || idx >= elements.Count)\n\tcontinue;\n```\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#control-structures/loops",
+     "title": "Loops",
+     "text": "### Loops\n**Id:** blk-ab3898ffc38d\n\n- Plain `for` and `foreach`. Code that runs every sim tick or frame avoids LINQ and allocations; reuse scratch lists (`scratch` in `mods/just-fall-already/src/JustFallAlready/FallPoke.cs`).\n- Local types are written out (`Tech tech = ...`). `var` appears mainly in `mods/upgrade-planner`, `mods/natural-backwalls-everywhere` and the test projects; follow the surrounding file.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#control-structures/strings",
+     "title": "Strings",
+     "text": "### Strings\n**Id:** blk-8e28256f3f0e\n\n- Log and UI text is built with `+` concatenation, or `string.Format` on a `LocString`. String interpolation is not used in mod code.\n- Player-visible text is a `LocString` field in `ModStrings`, never a literal at the call site (see [naming conventions](naming-conventions.md)).\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#harmony-patches",
+     "title": "Harmony Patches",
+     "text": "## Harmony Patches\n**Id:** blk-6d43d7004a79\n\n- A patch is a static class with `[HarmonyPatch(typeof(Type), nameof(Type.Method))]`, or `[HarmonyPatch(typeof(Type), \"PrivateMethod\")]` for a non-public method, and methods named `Prefix`, `Postfix`, `Transpiler` or `Finalizer` (`mods/bitshifter/src/Bitshifter/Patches.cs`).\n- Game state arrives through Harmony parameters: `__instance`, `__result`, `___field`. Fields read repeatedly use `AccessTools.FieldRefAccess` kept in a `static readonly` field (`mods/detect-any-element/src/DetectAnyElement/Patches.cs`).\n- A prefix returns `true` to let the game's method run and `false` only when it replaces the method (`mods/dont-count-eggs-on-rails`, `mods/bitshifter` `UpdateVisuals`).\n- A patch that depends on an option implements `Prepare()` (`mods/jumper-bridges/src/JumperBridges/Patches.cs`); a patch with several targets implements `TargetMethods()`.\n- `UserMod2.OnLoad` calls `base.OnLoad(harmony)`, which applies every patch in the assembly, then registers libraries and logs the version. A mod that must patch after all others applies its patches from `OnAllModsLoaded` instead (`mods/bitshifter/src/Bitshifter/Mod.cs`).\n- Transpilers search for the instruction they change and report when it is not found; see [error handling](error-handling.md).\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#game-components",
+     "title": "Game Components",
+     "text": "## Game Components\n**Id:** blk-cad0cc439cdc\n\n- A component extends `KMonoBehaviour`, overrides `OnPrefabInit`, `OnSpawn` and `OnCleanUp` and calls `base` from each. Sibling components come in through `[MyCmpGet]` or `[MyCmpReq]` (`mods/no-magic-fridges/src/NoMagicFridges/FridgeThermostat.cs`).\n- Saved state uses `[Serialize]` fields with `[SerializationConfig(MemberSerialization.OptIn)]` on the class (`mods/sweep-zones/src/SweepZones/ZoneStore.cs`).\n- Components are added to prefabs from a `DoPostConfigureComplete` postfix with `go.AddOrGet<T>()`.\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#project-specific-rules",
+     "title": "Project-Specific Rules",
+     "text": "## Project-Specific Rules\n**Id:** blk-df727bd6b290\n\n- Mod options are a PLib `POptions` class marked `[JsonObject(MemberSerialization.OptIn)]` and `[ConfigFile(SharedConfigLocation: true)]`, read through a static `Load()` (`mods/vent-freeze-fix/src/VentFreezeFix/Options.cs`) or through `SingletonOptions<Options>` (`mods/storage-pod-redux`). Option titles are string-table keys, so the translation follows the language.\n- Every mod logs one line at load: `[<Name>] Loaded version <assembly version>`.\n- Tests live in a separate `<Name>.Tests` project and are written as `[OniTest]` coroutines against the real game.\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#project-specific-rules/salty-surf-specifics",
+     "title": "Salty Surf specifics",
+     "text": "### Salty Surf specifics\n**Id:** blk-1669d9f26a50\n\n- `UseTranslations` only. The patches follow the mod class in `Mod.cs`; there is no `Patches.cs`. `SurfWater` is the shared static class (`Tag`, `Elements`, `Names()`).\n- The file uses `using STRINGS;` so `BUILDINGS.PREFABS.MECHANICALSURFBOARD...` resolves to the game's strings.\n- `MechanicalSurfboard_GetDescriptors_Patch` finds an explicit interface method through `TargetMethod()` and reflection.\n- `Names()` formats the translated connective `ModStrings.SALTYSURF.ELEMENT_LIST` (`\"{0} or {1}\"`) with `string.Format`.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#related",
+     "title": "Related",
+     "text": "## Related\n**Id:** blk-b103d8c9d1a1\n\n- See also: [naming conventions](naming-conventions.md)\n- See also: [error handling](error-handling.md)\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  }
+ ]
+}

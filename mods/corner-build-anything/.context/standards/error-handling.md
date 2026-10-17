@@ -1,13 +1,15 @@
 ---
 doc_id: doc-bec2d98ee48a
-description: "How Corner Build Anything guards its Harmony patches, reflection lookups and file reads, and what it logs when something is missing."
+description: "Error handling conventions for the Corner Build Anything mod: guarding patches and transpilers, logging levels, plus how SwapTable counts replaced loads and warns when none match"
 applies_to:
   - "src/**"
 ---
+
 # Error Handling Conventions
 
 ## Principles
-**Id:** blk-ff2bf3b4f17f
+**Id:** blk-ff2bf3b4f17f  
+**Tags:** vanilla-fallback, logging
 
 1. **Never break the game for a mod's sake.** A patch that cannot do its job leaves the vanilla behaviour in place and says so in the log. It does not throw into the game's update loop.
 2. **Check what you patch.** Game updates rename fields and move code. Every reflection lookup, transpiler match and prefab or tech lookup is checked for a miss.
@@ -18,10 +20,12 @@ applies_to:
 There is no custom exception hierarchy. Mods are small patches over game code, so errors are handled where they occur.
 
 ## Guarding Patches
-**Id:** blk-a806354c0ca6
+**Id:** blk-a806354c0ca6  
+**Tags:** harmony-patching
 
 ### Missing member: warn, leave vanilla
-**Id:** blk-3246f83ea12b
+**Id:** blk-3246f83ea12b  
+**Tags:** vanilla-fallback
 
 A reflection lookup that returns null is checked before use. The patch then does nothing, or returns `true` from a prefix so the game's method runs.
 
@@ -32,7 +36,8 @@ if (ActiveField == null || StorageField == null)
 (`mods/no-magic-fridges/src/NoMagicFridges/Patches.cs`; the warning is logged once at load by `SimTransferMethod` in `FridgeThermostat.cs`.)
 
 ### Transpiler: count the match
-**Id:** blk-101f4f9d4623
+**Id:** blk-101f4f9d4623  
+**Tags:** transpiler, vanilla-fallback
 
 A transpiler counts the instructions it replaced. Zero (or more than expected) logs a warning and returns the original code, so a game update disables the change instead of breaking the method.
 
@@ -43,7 +48,8 @@ if (swapped == 0)
 (`mods/corner-build-anything/src/CornerBuildAnything/ReachTablePatches.cs`; same pattern in `mods/bitshifter/src/Bitshifter/Patches.cs` and `mods/natural-backwalls-everywhere/src/NaturalBackwalls/SettleSimPatch.cs`.)
 
 ### Missing data: warn, continue
-**Id:** blk-da49810c7ea2
+**Id:** blk-da49810c7ea2  
+**Tags:** vanilla-fallback, logging
 
 A build-menu, tech or asset lookup that finds nothing warns and keeps the mod working:
 
@@ -58,17 +64,20 @@ if (tech == null)
 (`mods/smart-weight-plate/src/SmartWeightPlate/Patches.cs`; also `mods/multichannel-critter-sensor`, `mods/storage-pod-redux`.) Missing art or a missing vanilla prefab degrades the same way (`Display.UseAnim` in `mods/bitshifter/src/Bitshifter/Patches.cs`, `mods/multichannel-critter-sensor/src/MultichannelCritterSensor/MultichannelCritterSensorSideScreen.cs`).
 
 ### Null checks on game objects
-**Id:** blk-fcfa7d5a5167
+**Id:** blk-fcfa7d5a5167  
+**Tags:** vanilla-fallback
 
 Components and arguments that can be absent are tested before use: `if (stt == null || !Sim.IsValidHandle(stt.SimHandle)) return true;`, `if (sensor == null || GameScenePartitioner.Instance == null) return;` (`mods/motion-sensor-range/src/MotionSensorRange/RangeSlider.cs`).
 
 ### Warn once
-**Id:** blk-68f2815379e6
+**Id:** blk-68f2815379e6  
+**Tags:** logging
 
 Work that repeats every frame or tick warns once behind a flag (`warnedMissingInternals` in `RangeSlider.cs`).
 
 ## try/catch
-**Id:** blk-e5aba18fd731
+**Id:** blk-e5aba18fd731  
+**Tags:** logging
 
 `try`/`catch (Exception e)` is used in four situations and nowhere else:
 
@@ -80,7 +89,8 @@ Work that repeats every frame or tick warns once behind a flag (`warnedMissingIn
 The message form is `"[<Name>] <what was skipped>: " + e.Message`. Use `e.GetBaseException().Message` when the exception may be a reflection wrapper, and the full `e` when the stack trace is needed.
 
 ### Finalizer for a thread with no handler
-**Id:** blk-e5797c076f0c
+**Id:** blk-e5797c076f0c  
+**Tags:** harmony-patching
 
 `Cluster.BeginGeneration` is the worldgen thread body and has none; an exception ends the thread and the loading screen waits forever. A finalizer reports the failure through the game's own error path and logs the exception (`Cluster_BeginGeneration_Patch` in `mods/natural-backwalls-everywhere/src/NaturalBackwalls/WorldgenThreadPatch.cs`).
 
@@ -92,7 +102,8 @@ When another mod already does the job or shares an id, the mod steps aside and l
 - Storage Pod Redux does not register its buildings while the original Storage Pod is enabled, and logs a warning telling the player to disable one (`mods/storage-pod-redux/src/StoragePodRedux/Mod.cs`).
 
 ## Logging
-**Id:** blk-3c1abb664829
+**Id:** blk-3c1abb664829  
+**Tags:** logging
 
 ### Log Levels
 **Id:** blk-2519a49b0e5f
@@ -122,22 +133,26 @@ PLib's `PUtil.Log*` helpers are not used; all mods log through `Debug`.
 An empty `catch` hides a broken patch. The one `catch` that returns a fallback without a log is `GuessLanguageCode` in `common/src/Translations.cs`, because a missing language preference is the normal case before the game has started.
 
 ### Throwing from a patch
-**Id:** blk-0be6d9e365d6
+**Id:** blk-0be6d9e365d6  
+**Tags:** harmony-patching
 
 An exception in a prefix or postfix on a per-frame or sim method repeats every frame. Guard, log once, return.
 
 ### Assuming the game's internals
-**Id:** blk-b84f941bdb22
+**Id:** blk-b84f941bdb22  
+**Tags:** harmony-patching, transpiler
 
 Reading a private field by name without a null check on the `FieldInfo`, or replacing an instruction without confirming it was found, breaks on the next game update.
 
 ### Silent degradation
-**Id:** blk-9aeff1954315
+**Id:** blk-9aeff1954315  
+**Tags:** logging
 
 Doing nothing without a log line leaves a player and the author guessing. Every skipped path logs.
 
 ### Spamming the log
-**Id:** blk-95478e1309d9
+**Id:** blk-95478e1309d9  
+**Tags:** logging
 
 A warning inside an update method fires thousands of times. Use a once-flag.
 
@@ -145,7 +160,8 @@ A warning inside an update method fires thousands of times. Use a once-flag.
 **Id:** blk-d861a9eb5703
 
 ### Corner Build Anything specifics
-**Id:** blk-be6bc503e715
+**Id:** blk-be6bc503e715  
+**Tags:** reach-table, transpiler
 
 - `SwapTable` counts the loads of `OffsetGroups.InvertedStandardTable` it replaced. Zero logs a warning naming `<Type>.<Method>` and returns the code unchanged; otherwise it logs that the corner table is in place.
 - The transpilers run once at patch time, so there is no run-time guard.

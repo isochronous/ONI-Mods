@@ -1,0 +1,170 @@
+[
+ {
+  "id": "standards/README.md",
+  "reason": "no-good-match",
+  "suggestion": "coding conventions of the mod (style, error handling, naming)",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md",
+  "reason": "no-good-match",
+  "suggestion": "C# code style and coding conventions of the mod",
+  "kept": []
+ },
+ {
+  "id": "standards/error-handling.md",
+  "reason": "no-good-match",
+  "suggestion": "error handling conventions of the mod",
+  "kept": []
+ },
+ {
+  "id": "standards/naming-conventions.md",
+  "reason": "no-good-match",
+  "suggestion": "naming conventions of the mod",
+  "kept": []
+ },
+ {
+  "id": "domains/glossary.md#abbreviations-and-acronyms",
+  "reason": "no-good-match",
+  "suggestion": "abbreviations and acronyms used in the docs",
+  "kept": []
+ },
+ {
+  "id": "domains/glossary.md#terms-to-avoid",
+  "reason": "no-good-match",
+  "suggestion": "preferred wording for game names in docs",
+  "kept": []
+ },
+ {
+  "id": "standards/README.md#standards",
+  "reason": "no-good-match",
+  "suggestion": "index of the coding standards documents",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#formatting",
+  "reason": "no-good-match",
+  "suggestion": "source formatting rules",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#formatting/indentation",
+  "reason": "no-good-match",
+  "suggestion": "source formatting rules",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#formatting/line-length",
+  "reason": "no-good-match",
+  "suggestion": "source formatting rules",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#formatting/braces",
+  "reason": "no-good-match",
+  "suggestion": "source formatting rules",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#language-and-toolchain",
+  "reason": "no-good-match",
+  "suggestion": "language version and build toolchain",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#imports-includes",
+  "reason": "no-good-match",
+  "suggestion": "using directive organisation",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#imports-includes/example",
+  "reason": "no-good-match",
+  "suggestion": "using directive organisation",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#comments",
+  "reason": "no-good-match",
+  "suggestion": "code comment conventions",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#comments/when-not-to-comment",
+  "reason": "no-good-match",
+  "suggestion": "code comment conventions",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#comments/format",
+  "reason": "no-good-match",
+  "suggestion": "code comment conventions",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#control-structures",
+  "reason": "no-good-match",
+  "suggestion": "control flow style",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#control-structures/conditionals",
+  "reason": "no-good-match",
+  "suggestion": "control flow style",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#control-structures/loops",
+  "reason": "no-good-match",
+  "suggestion": "control flow style",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#game-components",
+  "reason": "no-good-match",
+  "suggestion": "game component (KMonoBehaviour) conventions",
+  "kept": []
+ },
+ {
+  "id": "standards/naming-conventions.md#files-and-directories",
+  "reason": "no-good-match",
+  "suggestion": "file and folder naming",
+  "kept": []
+ },
+ {
+  "id": "standards/naming-conventions.md#files-and-directories/general-rules",
+  "reason": "no-good-match",
+  "suggestion": "file and folder naming",
+  "kept": []
+ },
+ {
+  "id": "standards/naming-conventions.md#code-naming",
+  "reason": "no-good-match",
+  "suggestion": "identifier naming",
+  "kept": []
+ },
+ {
+  "id": "standards/naming-conventions.md#code-naming/variables",
+  "reason": "no-good-match",
+  "suggestion": "identifier naming",
+  "kept": []
+ },
+ {
+  "id": "standards/naming-conventions.md#code-naming/functions-methods",
+  "reason": "no-good-match",
+  "suggestion": "identifier naming",
+  "kept": []
+ },
+ {
+  "id": "standards/naming-conventions.md#code-naming/booleans",
+  "reason": "no-good-match",
+  "suggestion": "identifier naming",
+  "kept": []
+ },
+ {
+  "id": "standards/naming-conventions.md#project-specific-conventions",
+  "reason": "no-good-match",
+  "suggestion": "mod-specific naming",
+  "kept": []
+ }
+]

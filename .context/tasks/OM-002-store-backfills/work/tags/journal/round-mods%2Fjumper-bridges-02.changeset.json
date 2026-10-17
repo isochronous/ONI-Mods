@@ -1,0 +1,19 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r2 for node mods/jumper-bridges — round 2",
+  "node": "C:\\dev\\ONI-Mods\\mods\\jumper-bridges",
+  "base": {
+    "domains/glossary.md": "sha256:5f8fb9a65b0e6b31f38e61f492164edd2df1012175e88a49be74a6115cc83dd3"
+  },
+  "ops": [
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "utility-network",
+        "harmony-patching"
+      ],
+      "section": "cross-domain-terms/overlay"
+    }
+  ]
+}

@@ -1,9 +1,11 @@
 ---
+tags: code-style
 doc_id: doc-8674b988870a
-description: "C# formatting, imports, comments, Harmony patch and component conventions for Jumper Bridges (adds automation and power bridges), with this mod's own layout."
+description: "Code style guide for Jumper Bridges: C# formatting, imports, comments, control structures, Harmony patch and game component conventions, plus its `LogPrefix`, `OnLoad` order and `BridgeKind` layout"
 applies_to:
   - "src/**"
 ---
+
 # Code Style Guide
 
 ## Formatting
@@ -81,7 +83,7 @@ using UnityEngine;
 **Id:** blk-daffabe9affb
 
 ### When to Comment
-**Id:** blk-f3272b570c51
+**Id:** blk-f3272b570c51  
 
 - On every non-trivial class, an XML `<summary>` that says what the game does and what the patch changes, so a reader can check the patch against the game code. The long summary on `OvercrowdingMonitor_UpdateRegion_Patch` in `mods/dont-count-eggs-on-rails/src/DontCountEggsOnRails/Mod.cs` is the model.
 - Where a game quirk forces an odd line: `// The game's .NET Framework has no AddOrUpdate on this table.`
@@ -131,13 +133,15 @@ if (idx == ushort.MaxValue || idx >= elements.Count)
 - Local types are written out (`Tech tech = ...`). `var` appears mainly in `mods/upgrade-planner`, `mods/natural-backwalls-everywhere` and the test projects; follow the surrounding file.
 
 ### Strings
-**Id:** blk-e4168dc216f0
+**Id:** blk-e4168dc216f0  
+**Tags:** mod-strings
 
 - Log and UI text is built with `+` concatenation, or `string.Format` on a `LocString`. String interpolation is not used in mod code.
 - Player-visible text is a `LocString` field in `ModStrings`, never a literal at the call site (see [naming conventions](naming-conventions.md)).
 
 ## Harmony Patches
-**Id:** blk-27d655025249
+**Id:** blk-27d655025249  
+**Tags:** harmony-patching
 
 - A patch is a static class with `[HarmonyPatch(typeof(Type), nameof(Type.Method))]`, or `[HarmonyPatch(typeof(Type), "PrivateMethod")]` for a non-public method, and methods named `Prefix`, `Postfix`, `Transpiler` or `Finalizer` (`mods/bitshifter/src/Bitshifter/Patches.cs`).
 - Game state arrives through Harmony parameters: `__instance`, `__result`, `___field`. Fields read repeatedly use `AccessTools.FieldRefAccess` kept in a `static readonly` field (`mods/detect-any-element/src/DetectAnyElement/Patches.cs`).
@@ -147,21 +151,24 @@ if (idx == ushort.MaxValue || idx >= elements.Count)
 - Transpilers search for the instruction they change and report when it is not found; see [error handling](error-handling.md).
 
 ## Game Components
-**Id:** blk-86e1c7e9ad24
+**Id:** blk-86e1c7e9ad24  
+**Tags:** game-component
 
 - A component extends `KMonoBehaviour`, overrides `OnPrefabInit`, `OnSpawn` and `OnCleanUp` and calls `base` from each. Sibling components come in through `[MyCmpGet]` or `[MyCmpReq]` (`mods/no-magic-fridges/src/NoMagicFridges/FridgeThermostat.cs`).
 - Saved state uses `[Serialize]` fields with `[SerializationConfig(MemberSerialization.OptIn)]` on the class (`mods/sweep-zones/src/SweepZones/ZoneStore.cs`).
 - Components are added to prefabs from a `DoPostConfigureComplete` postfix with `go.AddOrGet<T>()`.
 
 ## Project-Specific Rules
-**Id:** blk-966ebe0cbf67
+**Id:** blk-966ebe0cbf67  
+**Tags:** mod-options, logging, in-game-testing
 
 - Mod options are a PLib `POptions` class marked `[JsonObject(MemberSerialization.OptIn)]` and `[ConfigFile(SharedConfigLocation: true)]`, read through a static `Load()` (`mods/vent-freeze-fix/src/VentFreezeFix/Options.cs`) or through `SingletonOptions<Options>` (`mods/storage-pod-redux`). Option titles are string-table keys, so the translation follows the language.
 - Every mod logs one line at load: `[<Name>] Loaded version <assembly version>`.
 - Tests live in a separate `<Name>.Tests` project and are written as `[OniTest]` coroutines against the real game.
 
 ### Jumper Bridges specifics
-**Id:** blk-d5fba21e032c
+**Id:** blk-d5fba21e032c  
+**Tags:** mod-entry-point, game-component, bridge-end
 
 - `UsePLib`, `UseTranslations` and `ReferenceUnityUI`. `JumperBridgesMod.LogPrefix` (`"[JumperBridges] "`) is the one log-prefix constant in the repository and every log call uses it.
 - `OnLoad` order matters: `Options.Load()` and the `BridgeKind.Logic.Enabled` and `BridgeKind.Power.Enabled` flags come before `base.OnLoad`, because patch classes read those flags in `Prepare()` to decide whether to apply (`src/JumperBridges/Mod.cs`, `Patches.cs`).

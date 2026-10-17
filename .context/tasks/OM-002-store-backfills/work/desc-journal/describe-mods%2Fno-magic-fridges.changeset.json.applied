@@ -1,0 +1,57 @@
+{
+  "task": "OM-002",
+  "why": "a generated description for every document, saying what that document contains",
+  "node": "C:\\dev\\ONI-Mods\\mods\\no-magic-fridges",
+  "ops": [
+    {
+      "target": "domains/README.md",
+      "mode": "describe",
+      "description": "Index of the No Magic Fridges domains folder, linking the entities document on the FridgeThermostat component and sim patches and the glossary of ONI and mod terms"
+    },
+    {
+      "target": "domains/entities.md",
+      "mode": "describe",
+      "description": "The FridgeThermostat component, Harmony patches and mod entry of No Magic Fridges in src/NoMagicFridges, with the heat-exchange, compressor and insulation rules, file locations, code paths and tests"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "describe",
+      "description": "Glossary for No Magic Fridges: abbreviations such as DTU, terms to avoid, and definitions of the vanilla reservoir, thermostat, setpoint, compressor, interior temperature and Insulated Tile factor, with the code using each"
+    },
+    {
+      "target": "overview.md",
+      "mode": "describe",
+      "description": "Overview of the No Magic Fridges mod: how powered fridges behave as a thermostat-controlled insulated box, its Workshop version and supported content, and a map of its source, tests and publish folders"
+    },
+    {
+      "target": "standards/README.md",
+      "mode": "describe",
+      "description": "Index of the No Magic Fridges standards folder, linking its code style, error handling and naming conventions documents with a line on what each covers"
+    },
+    {
+      "target": "standards/code-style.md",
+      "mode": "describe",
+      "description": "C# code style for No Magic Fridges: indentation, braces, imports, comments, control structures, Harmony patch and game component conventions, plus its nested Patches class, FridgeThermostat fields and reflection use"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "describe",
+      "description": "Error handling rules for No Magic Fridges: guarding Harmony patches and transpilers, try/catch, logging levels and anti-patterns, plus how its reservoir prefix and protected-method lookup fall back to vanilla"
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "describe",
+      "description": "Naming conventions for No Magic Fridges: files, variables, methods, types, ModStrings keys, ids and tags, plus its nested patch class names, FridgeThermostat fields, test class and log prefix"
+    }
+  ],
+  "base": {
+    "domains/README.md": "sha256:adbc6c77a9f97628c2cbcd87491c5436c6ab04e86733ec9560a3506868d03e7a",
+    "domains/entities.md": "sha256:a0f790f02c1b47da57506589b3c6057a2be511718815c5d57a97680d8d4ad64d",
+    "domains/glossary.md": "sha256:9782d3c583a0fd06743a56076d0b0e7b74a37565998e7e9e75e9e363eea480ad",
+    "overview.md": "sha256:33a625c556b997985d458e965161dfeca083a68df45708e512b37712bad2f11d",
+    "standards/README.md": "sha256:1980c8f5e4415a068cdec71f5ddafcfda5a77b9630a4c030f05150161b1c73b4",
+    "standards/code-style.md": "sha256:f5781f9342008711b93266e0baa22adc1e9973f804227d73590a32434f717570",
+    "standards/error-handling.md": "sha256:e35c9ae60d2cda6dbb88b160586e021b82c4eef03e5d7fa6fa6511103f9eb8e0",
+    "standards/naming-conventions.md": "sha256:ac3bfa2abdf6e4200a658c4b611abd5bf47689d73b22ead82ce019457a981d6b"
+  }
+}

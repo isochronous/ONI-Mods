@@ -1,13 +1,15 @@
 ---
 doc_id: doc-f012c219c2e0
-description: "How Sweep Zones Redux guards its Harmony patches, reflection lookups and file reads, and what it logs when something is missing."
+description: "Error handling and logging rules for the Sweep Zones Redux mod: guarding patches, try/catch use, yielding to other mods, log levels, anti-patterns, plus how its drag tool, icon loader and zone store degrade"
 applies_to:
   - "src/**"
 ---
+
 # Error Handling Conventions
 
 ## Principles
-**Id:** blk-158971e58660
+**Id:** blk-158971e58660  
+**Tags:** vanilla-fallback, logging
 
 1. **Never break the game for a mod's sake.** A patch that cannot do its job leaves the vanilla behaviour in place and says so in the log. It does not throw into the game's update loop.
 2. **Check what you patch.** Game updates rename fields and move code. Every reflection lookup, transpiler match and prefab or tech lookup is checked for a miss.
@@ -18,10 +20,12 @@ applies_to:
 There is no custom exception hierarchy. Mods are small patches over game code, so errors are handled where they occur.
 
 ## Guarding Patches
-**Id:** blk-b3c2ea7c4004
+**Id:** blk-b3c2ea7c4004  
+**Tags:** harmony-patching
 
 ### Missing member: warn, leave vanilla
-**Id:** blk-8f52e2f92d48
+**Id:** blk-8f52e2f92d48  
+**Tags:** reflection, vanilla-fallback
 
 A reflection lookup that returns null is checked before use. The patch then does nothing, or returns `true` from a prefix so the game's method runs.
 
@@ -32,7 +36,8 @@ if (ActiveField == null || StorageField == null)
 (`mods/no-magic-fridges/src/NoMagicFridges/Patches.cs`; the warning is logged once at load by `SimTransferMethod` in `FridgeThermostat.cs`.)
 
 ### Transpiler: count the match
-**Id:** blk-645f2ba277e7
+**Id:** blk-645f2ba277e7  
+**Tags:** vanilla-fallback
 
 A transpiler counts the instructions it replaced. Zero (or more than expected) logs a warning and returns the original code, so a game update disables the change instead of breaking the method.
 
@@ -43,7 +48,8 @@ if (swapped == 0)
 (`mods/corner-build-anything/src/CornerBuildAnything/ReachTablePatches.cs`; same pattern in `mods/bitshifter/src/Bitshifter/Patches.cs` and `mods/natural-backwalls-everywhere/src/NaturalBackwalls/SettleSimPatch.cs`.)
 
 ### Missing data: warn, continue
-**Id:** blk-52d2797f1664
+**Id:** blk-52d2797f1664  
+**Tags:** vanilla-fallback, logging
 
 A build-menu, tech or asset lookup that finds nothing warns and keeps the mod working:
 
@@ -58,17 +64,20 @@ if (tech == null)
 (`mods/smart-weight-plate/src/SmartWeightPlate/Patches.cs`; also `mods/multichannel-critter-sensor`, `mods/storage-pod-redux`.) Missing art or a missing vanilla prefab degrades the same way (`Display.UseAnim` in `mods/bitshifter/src/Bitshifter/Patches.cs`, `mods/multichannel-critter-sensor/src/MultichannelCritterSensor/MultichannelCritterSensorSideScreen.cs`).
 
 ### Null checks on game objects
-**Id:** blk-2af030a5b58e
+**Id:** blk-2af030a5b58e  
+**Tags:** vanilla-fallback
 
 Components and arguments that can be absent are tested before use: `if (stt == null || !Sim.IsValidHandle(stt.SimHandle)) return true;`, `if (sensor == null || GameScenePartitioner.Instance == null) return;` (`mods/motion-sensor-range/src/MotionSensorRange/RangeSlider.cs`).
 
 ### Warn once
-**Id:** blk-ca4ff363e185
+**Id:** blk-ca4ff363e185  
+**Tags:** logging
 
 Work that repeats every frame or tick warns once behind a flag (`warnedMissingInternals` in `RangeSlider.cs`).
 
 ## try/catch
-**Id:** blk-ee3d8ea21939
+**Id:** blk-ee3d8ea21939  
+**Tags:** logging
 
 `try`/`catch (Exception e)` is used in four situations and nowhere else:
 
@@ -80,19 +89,21 @@ Work that repeats every frame or tick warns once behind a flag (`warnedMissingIn
 The message form is `"[<Name>] <what was skipped>: " + e.Message`. Use `e.GetBaseException().Message` when the exception may be a reflection wrapper, and the full `e` when the stack trace is needed.
 
 ### Finalizer for a thread with no handler
-**Id:** blk-cc7965940363
+**Id:** blk-cc7965940363  
+**Tags:** harmony-patching
 
 `Cluster.BeginGeneration` is the worldgen thread body and has none; an exception ends the thread and the loading screen waits forever. A finalizer reports the failure through the game's own error path and logs the exception (`Cluster_BeginGeneration_Patch` in `mods/natural-backwalls-everywhere/src/NaturalBackwalls/WorldgenThreadPatch.cs`).
 
 ## Yielding to Other Mods
-**Id:** blk-b6b09cef65e5
+**Id:** blk-b6b09cef65e5  
 
 When another mod already does the job or shares an id, the mod steps aside and logs why:
 - Bitshifter disables itself when Digital CPU is enabled or the contested methods already have Harmony owners (`WhyYield` in `mods/bitshifter/src/Bitshifter/Mod.cs`).
 - Storage Pod Redux does not register its buildings while the original Storage Pod is enabled, and logs a warning telling the player to disable one (`mods/storage-pod-redux/src/StoragePodRedux/Mod.cs`).
 
 ## Logging
-**Id:** blk-805279b2b599
+**Id:** blk-805279b2b599  
+**Tags:** logging
 
 ### Log Levels
 **Id:** blk-57da2da5ab95
@@ -122,22 +133,26 @@ PLib's `PUtil.Log*` helpers are not used; all mods log through `Debug`.
 An empty `catch` hides a broken patch. The one `catch` that returns a fallback without a log is `GuessLanguageCode` in `common/src/Translations.cs`, because a missing language preference is the normal case before the game has started.
 
 ### Throwing from a patch
-**Id:** blk-f25e14309104
+**Id:** blk-f25e14309104  
+**Tags:** harmony-patching
 
 An exception in a prefix or postfix on a per-frame or sim method repeats every frame. Guard, log once, return.
 
 ### Assuming the game's internals
-**Id:** blk-51e319966868
+**Id:** blk-51e319966868  
+**Tags:** reflection, harmony-patching
 
 Reading a private field by name without a null check on the `FieldInfo`, or replacing an instruction without confirming it was found, breaks on the next game update.
 
 ### Silent degradation
-**Id:** blk-ed86c133f6e3
+**Id:** blk-ed86c133f6e3  
+**Tags:** logging
 
 Doing nothing without a log line leaves a player and the author guessing. Every skipped path logs.
 
 ### Spamming the log
-**Id:** blk-cce6014b25ed
+**Id:** blk-cce6014b25ed  
+**Tags:** logging
 
 A warning inside an update method fires thousands of times. Use a once-flag.
 
@@ -145,7 +160,8 @@ A warning inside an update method fires thousands of times. Use a once-flag.
 **Id:** blk-6ab37a379d80
 
 ### Sweep Zones Redux specifics
-**Id:** blk-5e96eee2377c
+**Id:** blk-5e96eee2377c  
+**Tags:** reflection, toolbar-tool
 
 - `SweepZoneTool.CopyField` tolerates a renamed donor field: it warns `A donor tool field is missing; cursor/visualizer may look wrong.` and the tool degrades cosmetically.
 - `ToolIcon` loads its embedded icon inside `try`/`catch`, warns and returns null, and the tool uses a fallback icon.

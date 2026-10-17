@@ -1,0 +1,58 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/motion-sensor-range — round 3",
+  "node": "C:\\dev\\ONI-Mods\\mods\\motion-sensor-range",
+  "base": {
+    "domains/entities.md": "sha256:056eb564439260343da1f3efa71d50cf7c7d9cac89c7fa01398689f20779d2bb",
+    "domains/glossary.md": "sha256:838b4244b103ba8fe9148e7e1c73ba41bed5f54c611f3d714bb0ddcfb9995ebb",
+    "standards/code-style.md": "sha256:cce58747798e9189bedc9492bedff7b2b4aac7f84abac9875b845654035d9f61",
+    "standards/error-handling.md": "sha256:219f34cffd48d293090eecd462abc24897f8907f6315fd62fafe1174f6a1bf30",
+    "standards/naming-conventions.md": "sha256:f95cdd29c72d9552eeaf025d3e3bbe9608c933f5489f2c7709ef736ea9dd918f"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "mod-entry-point",
+        "mod-strings"
+      ],
+      "section": "key-entities/mod-entry-and-strings"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "under-construction-building"
+      ],
+      "section": "cross-domain-terms/under-construction-building"
+    },
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "logging",
+        "in-game-testing",
+        "mod-strings"
+      ],
+      "section": "project-specific-rules"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "vanilla-fallback",
+        "logging"
+      ],
+      "section": "guarding-patches/missing-data-warn-continue"
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "tag",
+      "add": [
+        "mod-strings"
+      ],
+      "section": "code-naming/strings-modstrings"
+    }
+  ]
+}

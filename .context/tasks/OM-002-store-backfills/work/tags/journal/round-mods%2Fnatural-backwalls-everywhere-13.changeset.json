@@ -1,0 +1,41 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/natural-backwalls-everywhere — round 13",
+  "node": "C:\\dev\\ONI-Mods\\mods\\natural-backwalls-everywhere",
+  "base": {
+    "domains/entities.md": "sha256:9fcdf078f6c2fc3ff2323297fbff26e2d92ff9813e5ef04975c0723d39b9785a",
+    "domains/glossary.md": "sha256:8468a004552456158a6c37b51da60dba30eaba97e527ed2cd64231a7f9851ba2",
+    "standards/error-handling.md": "sha256:7b1a64c78cbacebad2c5a647bd08ea457dac2b0e913e4b550a5539b946b4efd8"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "biome-group",
+        "settle-sim",
+        "exception-handling",
+        "vanilla-fallback"
+      ],
+      "section": "business-rules"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "exception-handling",
+        "harmony-patching"
+      ],
+      "section": "cross-domain-terms/worldgen-thread"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching",
+        "logging"
+      ],
+      "section": "anti-patterns-to-avoid/throwing-from-a-patch"
+    }
+  ]
+}

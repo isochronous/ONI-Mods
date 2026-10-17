@@ -1,0 +1,55 @@
+{
+ "documents": [],
+ "sections": [
+  {
+   "id": "standards/naming-conventions.md#files-and-directories",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/naming-conventions.md#files-and-directories/general-rules",
+   "tags": [
+    "code-style"
+   ]
+  },
+  {
+   "id": "standards/naming-conventions.md#code-naming",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/naming-conventions.md#code-naming/variables",
+   "tags": [
+    "code-style"
+   ]
+  },
+  {
+   "id": "standards/naming-conventions.md#code-naming/functions-methods",
+   "tags": [
+    "code-style"
+   ]
+  },
+  {
+   "id": "standards/naming-conventions.md#code-naming/classes-types-interfaces",
+   "tags": [
+    "code-style"
+   ]
+  },
+  {
+   "id": "standards/naming-conventions.md#code-naming/booleans",
+   "tags": [
+    "code-style"
+   ]
+  },
+  {
+   "id": "standards/naming-conventions.md#project-specific-conventions",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/naming-conventions.md#related",
+   "tags": [],
+   "reason": "inherits"
+  }
+ ]
+}

@@ -1,0 +1,118 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node . — round 0",
+  "node": "C:/dev/ONI-Mods",
+  "base": {
+    "domains/tooling-friction.md": "sha256:3292924ff0e5b1f605d336a5beda48b479c77e89a1448bae546cc5d4e96c3342",
+    "overview.md": "sha256:913d9b0428618e13de00125006825870500c714dfd37e6979531d88622bf8641",
+    "testing/integration-testing.md": "sha256:55e6559e87f731423c765ecdde991fbbf86b9c7cb94fd87f8e62d982a5bfd460",
+    "testing/unit-testing.md": "sha256:660c838a834ecb1a4f3e18235e387ffa11b4aeaeef89f7b3de77c61d6600f9f9",
+    "workflows/branching.md": "sha256:7a46266d92a6d2552c0098a8b22e0863594275965a69526be418276ce7c1e0c3",
+    "workflows/ci-cd.md": "sha256:1fc2007aa5fa1ead3162bae319cded6b6e939047a8257c9a1a6b80d7779d2c0b",
+    "workflows/commit-conventions.md": "sha256:c2664c4508fb41354644fabe424b6b3f5483496103569756eccbdca61f6997f4",
+    "workflows/task-plan/base.md": "sha256:f5d9a8316b82853366d8702f38205b68a3c91d31e7beefb64b1ab02f793c8625",
+    "workflows/task-plan/phase-architecture.md": "sha256:dd91caf46fb25fc7da314018cfba9f8f1b7aca568938c80507e6fd6e8b8448e0",
+    "workflows/task-plan/phase-completion.md": "sha256:44a211988db95d1eaa55d029df9f5836a3e6efa8191259a71b67d5ac6e34889c",
+    "workflows/task-plan/phase-implementation.md": "sha256:4e6aed91be12a023cc0008ee874074b6418f356dcc101a6da3148423cf177a42",
+    "workflows/task-plan/phase-investigation.md": "sha256:3ffac73592ef50b5984a0f1ea940a59647f9401470c0d9d58ac9018348844ed1",
+    "workflows/task-plan/phase-testing.md": "sha256:274e83447ad8f6cf7004408933764e3a5f3b987b3fe56dc6c15c61b0a8d20170"
+  },
+  "ops": [
+    {
+      "target": "domains/tooling-friction.md",
+      "mode": "tag",
+      "add": [
+        "knowledge-store"
+      ]
+    },
+    {
+      "target": "overview.md",
+      "mode": "tag",
+      "add": [
+        "mod-build",
+        "release-process",
+        "steam-workshop",
+        "common-submodule"
+      ]
+    },
+    {
+      "target": "testing/integration-testing.md",
+      "mode": "tag",
+      "add": [
+        "in-game-testing"
+      ]
+    },
+    {
+      "target": "testing/unit-testing.md",
+      "mode": "tag",
+      "add": [
+        "in-game-testing"
+      ]
+    },
+    {
+      "target": "workflows/branching.md",
+      "mode": "tag",
+      "add": [
+        "git-branches"
+      ]
+    },
+    {
+      "target": "workflows/ci-cd.md",
+      "mode": "tag",
+      "add": [
+        "mod-build",
+        "machine-setup"
+      ]
+    },
+    {
+      "target": "workflows/commit-conventions.md",
+      "mode": "tag",
+      "add": [
+        "commit-messages"
+      ]
+    },
+    {
+      "target": "workflows/task-plan/base.md",
+      "mode": "tag",
+      "add": [
+        "task-plan"
+      ]
+    },
+    {
+      "target": "workflows/task-plan/phase-architecture.md",
+      "mode": "tag",
+      "add": [
+        "task-plan",
+        "phase-handoff"
+      ]
+    },
+    {
+      "target": "workflows/task-plan/phase-completion.md",
+      "mode": "tag",
+      "add": [
+        "task-plan"
+      ]
+    },
+    {
+      "target": "workflows/task-plan/phase-implementation.md",
+      "mode": "tag",
+      "add": [
+        "task-plan"
+      ]
+    },
+    {
+      "target": "workflows/task-plan/phase-investigation.md",
+      "mode": "tag",
+      "add": [
+        "task-plan"
+      ]
+    },
+    {
+      "target": "workflows/task-plan/phase-testing.md",
+      "mode": "tag",
+      "add": [
+        "task-plan"
+      ]
+    }
+  ]
+}

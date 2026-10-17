@@ -1,13 +1,15 @@
 ---
+tags: code-style
 doc_id: doc-1c6db88f21e2
-description: "C# formatting, imports, comments, Harmony patch and component conventions for Smart Weight Plate (adds a weight plate with high and low thresholds), with this mod's own layout."
+description: "C# code style for Smart Weight Plate: indentation, braces, imports, comments, control structures, Harmony patch and game component conventions, plus its nested Patches class, PLib side screen and Better Automation Overlay compat"
 applies_to:
   - "src/**"
 ---
+
 # Code Style Guide
 
 ## Formatting
-**Id:** blk-81be39eb7cb8
+**Id:** blk-81be39eb7cb8  
 
 ### Indentation
 **Id:** blk-7ea41625d506
@@ -41,7 +43,7 @@ foreach (Mod mod in mods)
 - Multi-line initialisers and enums end with a trailing comma (`YieldToWorkshopIds` in `mods/bitshifter/src/Bitshifter/Mod.cs`, `CoolPodMode` in `mods/storage-pod-redux/src/StoragePodRedux/Options.cs`).
 
 ## Language and Toolchain
-**Id:** blk-fba4f06f617d
+**Id:** blk-fba4f06f617d  
 
 - C# 9 on .NET Framework 4.8 (`LangVersion` 9.0 and `TargetFramework` net48 in `common/oni-mod.props`). Namespace blocks, not file-scoped namespaces; no nullable reference types.
 - Mods compile against the game's own assemblies (`common/oni-mod.targets`): `Assembly-CSharp`, `Assembly-CSharp-firstpass`, `0Harmony` and Unity modules. The game's .NET Framework lacks some newer APIs (`ConditionalWeakTable.AddOrUpdate` is missing, see `mods/detect-any-element/src/DetectAnyElement/Patches.cs`).
@@ -49,7 +51,7 @@ foreach (Mod mod in mods)
 - One namespace per mod, equal to its `RootNamespace`. Subfolders organise files and do not add namespaces (`mods/upgrade-planner/src/UpgradePlanner/Plan`, `Rules`, `Tool`, `UI` all declare `namespace UpgradePlanner`).
 
 ## Imports/Includes
-**Id:** blk-c0c84b197489
+**Id:** blk-c0c84b197489  
 
 ### Organization
 **Id:** blk-722f1b85e4d2
@@ -78,7 +80,7 @@ using UnityEngine;
 `Debug.Log` resolves either to `UnityEngine.Debug` or to the game's own global `Debug` class, so several `Mod.cs` files omit `using UnityEngine`. When a file imports `System.Diagnostics`, qualify the call as `UnityEngine.Debug.Log` (`mods/just-fall-already/src/JustFallAlready/FallPoke.cs`).
 
 ## Comments
-**Id:** blk-f374ddbf2967
+**Id:** blk-f374ddbf2967  
 
 ### When to Comment
 **Id:** blk-5b85e9aaa8d8
@@ -109,7 +111,7 @@ public static class AnyElement
 ```
 
 ## Control Structures
-**Id:** blk-b20e121aab18
+**Id:** blk-b20e121aab18  
 
 ### Conditionals
 **Id:** blk-971f788f6770
@@ -131,13 +133,15 @@ if (idx == ushort.MaxValue || idx >= elements.Count)
 - Local types are written out (`Tech tech = ...`). `var` appears mainly in `mods/upgrade-planner`, `mods/natural-backwalls-everywhere` and the test projects; follow the surrounding file.
 
 ### Strings
-**Id:** blk-03640a2997f8
+**Id:** blk-03640a2997f8  
+**Tags:** mod-strings
 
 - Log and UI text is built with `+` concatenation, or `string.Format` on a `LocString`. String interpolation is not used in mod code.
 - Player-visible text is a `LocString` field in `ModStrings`, never a literal at the call site (see [naming conventions](naming-conventions.md)).
 
 ## Harmony Patches
-**Id:** blk-516da110cf84
+**Id:** blk-516da110cf84  
+**Tags:** harmony-patching
 
 - A patch is a static class with `[HarmonyPatch(typeof(Type), nameof(Type.Method))]`, or `[HarmonyPatch(typeof(Type), "PrivateMethod")]` for a non-public method, and methods named `Prefix`, `Postfix`, `Transpiler` or `Finalizer` (`mods/bitshifter/src/Bitshifter/Patches.cs`).
 - Game state arrives through Harmony parameters: `__instance`, `__result`, `___field`. Fields read repeatedly use `AccessTools.FieldRefAccess` kept in a `static readonly` field (`mods/detect-any-element/src/DetectAnyElement/Patches.cs`).
@@ -147,21 +151,24 @@ if (idx == ushort.MaxValue || idx >= elements.Count)
 - Transpilers search for the instruction they change and report when it is not found; see [error handling](error-handling.md).
 
 ## Game Components
-**Id:** blk-f75c36d39e17
+**Id:** blk-f75c36d39e17  
+**Tags:** game-component, saved-state
 
 - A component extends `KMonoBehaviour`, overrides `OnPrefabInit`, `OnSpawn` and `OnCleanUp` and calls `base` from each. Sibling components come in through `[MyCmpGet]` or `[MyCmpReq]` (`mods/no-magic-fridges/src/NoMagicFridges/FridgeThermostat.cs`).
 - Saved state uses `[Serialize]` fields with `[SerializationConfig(MemberSerialization.OptIn)]` on the class (`mods/sweep-zones/src/SweepZones/ZoneStore.cs`).
 - Components are added to prefabs from a `DoPostConfigureComplete` postfix with `go.AddOrGet<T>()`.
 
 ## Project-Specific Rules
-**Id:** blk-550895a93c83
+**Id:** blk-550895a93c83  
+**Tags:** in-game-testing, logging
 
 - Mod options are a PLib `POptions` class marked `[JsonObject(MemberSerialization.OptIn)]` and `[ConfigFile(SharedConfigLocation: true)]`, read through a static `Load()` (`mods/vent-freeze-fix/src/VentFreezeFix/Options.cs`) or through `SingletonOptions<Options>` (`mods/storage-pod-redux`). Option titles are string-table keys, so the translation follows the language.
 - Every mod logs one line at load: `[<Name>] Loaded version <assembly version>`.
 - Tests live in a separate `<Name>.Tests` project and are written as `[OniTest]` coroutines against the real game.
 
 ### Smart Weight Plate specifics
-**Id:** blk-c75d34988677
+**Id:** blk-c75d34988677  
+**Tags:** building-unlock, side-screen, mod-compatibility
 
 - `UsePLib`, `UseTranslations` and `ReferenceUnityUI`.
 - `Patches.cs` is a `public static class Patches` with nested patches: build-menu placement after the vanilla Weight Plate, research unlock (`private const string TechId = "LogicCircuits"`), side-screen registration and a fix to the vanilla `ActiveRangeSideScreen` text boxes.

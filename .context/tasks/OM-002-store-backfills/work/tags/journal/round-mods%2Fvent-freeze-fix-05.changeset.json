@@ -1,0 +1,40 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/vent-freeze-fix — round 5",
+  "node": "C:\\dev\\ONI-Mods\\mods\\vent-freeze-fix",
+  "base": {
+    "domains/entities.md": "sha256:685d3c4487b5ecca6e63d76d1000675172bde91d9dfdaad61e58d3350230c3a8",
+    "standards/error-handling.md": "sha256:ad9f97afc56de61dbc4d495bb29dd1665071d5dae94e6b17470ab222a8438441",
+    "standards/naming-conventions.md": "sha256:98087a33c7964d3e2fe62da62e7fda2f1951f5898aaac43460c5f5286bdf1ee4"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "developer-tooling",
+        "logging"
+      ],
+      "section": "key-entities/debugsave"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "logging"
+      ],
+      "section": "guarding-patches/warn-once"
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "tag",
+      "add": [
+        "mod-strings",
+        "mod-options",
+        "in-game-testing",
+        "logging"
+      ],
+      "section": "project-specific-conventions/vent-freeze-fix-specifics"
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r2 for node mods/motion-sensor-range — round 1",
+  "node": "C:\\dev\\ONI-Mods\\mods\\motion-sensor-range",
+  "base": {
+    "standards/code-style.md": "sha256:b26b0df5ff222240bd9278ab78357e60f7081759e4d46d1a7435729a697d37ed",
+    "standards/naming-conventions.md": "sha256:255a3b9e0e9a119723999f1418da8b2a8363f29bd556548860e0455ae93b7aad",
+    "overview.md": "sha256:d761e4b7dcf9611f73d0d4aa7b739b021649d1ea127bb267ebe9f9b2b002bb29"
+  },
+  "ops": [
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching"
+      ],
+      "section": "comments/when-to-comment"
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "tag",
+      "add": [
+        "in-game-testing"
+      ],
+      "section": "code-naming/ids-and-tags"
+    },
+    {
+      "target": "overview.md",
+      "mode": "tag",
+      "add": [
+        "in-game-testing",
+        "mod-strings"
+      ],
+      "section": "where-things-are"
+    }
+  ]
+}

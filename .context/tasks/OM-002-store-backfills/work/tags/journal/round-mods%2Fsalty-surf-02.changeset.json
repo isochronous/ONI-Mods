@@ -1,0 +1,18 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r2 for node mods/salty-surf — round 2",
+  "node": "C:\\dev\\ONI-Mods\\mods\\salty-surf",
+  "base": {
+    "standards/code-style.md": "sha256:d6621bce312cd445862b04a4b95b673c11acebf3fb2238e310587b000babffbb"
+  },
+  "ops": [
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching"
+      ],
+      "section": "game-components"
+    }
+  ]
+}

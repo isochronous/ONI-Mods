@@ -1,0 +1,188 @@
+[
+ {
+  "id": "domains/README.md",
+  "reason": "no-good-match",
+  "suggestion": "index of the domain documents",
+  "kept": []
+ },
+ {
+  "id": "standards/README.md",
+  "reason": "no-good-match",
+  "suggestion": "index of the standards documents",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md",
+  "reason": "no-good-match",
+  "suggestion": "C# code style and formatting conventions",
+  "kept": []
+ },
+ {
+  "id": "standards/naming-conventions.md",
+  "reason": "no-good-match",
+  "suggestion": "naming conventions",
+  "kept": []
+ },
+ {
+  "id": "domains/README.md#domains",
+  "reason": "no-good-match",
+  "suggestion": "index of the domain documents",
+  "kept": []
+ },
+ {
+  "id": "domains/glossary.md#abbreviations-and-acronyms",
+  "reason": "no-good-match",
+  "suggestion": "abbreviations and acronyms",
+  "kept": []
+ },
+ {
+  "id": "domains/glossary.md#terms-to-avoid",
+  "reason": "no-good-match",
+  "suggestion": "wording to avoid in mod text",
+  "kept": []
+ },
+ {
+  "id": "standards/README.md#standards",
+  "reason": "no-good-match",
+  "suggestion": "index of the standards documents",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#formatting",
+  "reason": "no-good-match",
+  "suggestion": "source formatting",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#formatting/indentation",
+  "reason": "no-good-match",
+  "suggestion": "source formatting",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#formatting/line-length",
+  "reason": "no-good-match",
+  "suggestion": "source formatting",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#formatting/braces",
+  "reason": "no-good-match",
+  "suggestion": "source formatting",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#language-and-toolchain",
+  "reason": "no-good-match",
+  "suggestion": "language version and build toolchain",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#imports-includes",
+  "reason": "no-good-match",
+  "suggestion": "using directive ordering",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#imports-includes/organization",
+  "reason": "no-good-match",
+  "suggestion": "using directive ordering",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#imports-includes/example",
+  "reason": "no-good-match",
+  "suggestion": "using directive ordering",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#comments",
+  "reason": "no-good-match",
+  "suggestion": "code comments",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#comments/when-to-comment",
+  "reason": "no-good-match",
+  "suggestion": "code comments",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#comments/when-not-to-comment",
+  "reason": "no-good-match",
+  "suggestion": "code comments",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#comments/format",
+  "reason": "no-good-match",
+  "suggestion": "code comments",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#control-structures",
+  "reason": "no-good-match",
+  "suggestion": "control flow style",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#control-structures/conditionals",
+  "reason": "no-good-match",
+  "suggestion": "control flow style",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#control-structures/loops",
+  "reason": "no-good-match",
+  "suggestion": "control flow style",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#related",
+  "reason": "no-good-match",
+  "suggestion": "cross-references to sibling documents",
+  "kept": []
+ },
+ {
+  "id": "standards/naming-conventions.md#files-and-directories",
+  "reason": "no-good-match",
+  "suggestion": "file and directory naming",
+  "kept": []
+ },
+ {
+  "id": "standards/naming-conventions.md#files-and-directories/general-rules",
+  "reason": "no-good-match",
+  "suggestion": "file and directory naming",
+  "kept": []
+ },
+ {
+  "id": "standards/naming-conventions.md#code-naming",
+  "reason": "no-good-match",
+  "suggestion": "identifier naming",
+  "kept": []
+ },
+ {
+  "id": "standards/naming-conventions.md#code-naming/variables",
+  "reason": "no-good-match",
+  "suggestion": "identifier naming",
+  "kept": []
+ },
+ {
+  "id": "standards/naming-conventions.md#code-naming/booleans",
+  "reason": "no-good-match",
+  "suggestion": "identifier naming",
+  "kept": []
+ },
+ {
+  "id": "standards/naming-conventions.md#project-specific-conventions",
+  "reason": "no-good-match",
+  "suggestion": "mod-specific naming",
+  "kept": []
+ },
+ {
+  "id": "standards/naming-conventions.md#related",
+  "reason": "no-good-match",
+  "suggestion": "cross-references to sibling documents",
+  "kept": []
+ }
+]

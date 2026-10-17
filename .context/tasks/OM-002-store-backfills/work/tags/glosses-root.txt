@@ -1,0 +1,30 @@
+term                       count  gloss
+assistant-attribution          0  A record earns this term when it is about the trailer lines that credit an AI assistant on commits and pull requests.
+changelog                      0  A record earns this term when it is about a mod's CHANGELOG.md and the player-facing release notes written in it.
+code-review                    0  A record earns this term when it is about reviewing a change's diff before the work is reported done or merged.
+commit-messages                0  A record earns this term when it is about how a commit's message is worded in this repository.
+common-submodule               0  A record earns this term when it is about the common git submodule and keeping the root repository's pointer to it in step.
+game-update-compatibility      0  A record earns this term when it is about keeping mods and their tests working after a game update changes the game's own code.
+generated-worlds               0  A record earns this term when it is about running the game's world generation from a coordinate to produce a fresh world.
+git-branches                   0  A record earns this term when it is about the repository's git branches, how they are named and how work returns to main.
+github-issues                  0  A record earns this term when it is about the issues players file on the GitHub repository and how those issues are labelled.
+in-game-testing                0  A record earns this term when it is about testing a mod inside the running game with TestRunner and its [OniTest] coroutines.
+knowledge-store                0  A record earns this term when it is about the .context knowledge store and how records in it are written and read with ICON's ks engine.
+machine-setup                  0  A record earns this term when it is about what the owner's machine must have installed, running or configured for builds and test runs to work.
+mod-build                      0  A record earns this term when it is about compiling the mods with dotnet against the game's assemblies and deploying them into the game's mods folder.
+mod-compatibility              0  A record earns this term when it is about a mod working correctly alongside other authors' mods installed in the same game.
+mod-loadout                    0  A record earns this term when it is about which mods the game has enabled and putting the player's own mod list back afterwards.
+phase-handoff                  0  A record earns this term when it is about entering or leaving a task-plan phase and the handoff block and commit that mark the boundary.
+player-log                     0  A record earns this term when it is about reading the game's Player.log to find out what went wrong in a run.
+release-process                0  A record earns this term when it is about cutting a release of a mod, from version bump and tag to the published download.
+save-files                     0  A record earns this term when it is about Oxygen Not Included save files and what is loaded from or written to them.
+screenshots                    0  A record earns this term when it is about photographing the game from a test run to produce images to look at.
+simulated-input                0  A record earns this term when it is about driving the game's real tools and screens with mouse and key input fed by a test.
+steam-workshop                 0  A record earns this term when it is about publishing a mod to its Steam Workshop item or updating that item.
+task-id                        0  A record earns this term when it is about the OM-NNN identifier given to an ICON task and where that identifier is used.
+task-plan                      0  A record earns this term when it is about the plan.md that carries an ICON task through its phases.
+test-assertions                0  A record earns this term when it is about what a test checks and how it states the expected result.
+test-cleanup                   0  A record earns this term when it is about how a test's area and changes are cleared or restored so tests do not affect each other.
+test-pacing                    0  A record earns this term when it is about spacing a test's steps in game time so the game's simulation keeps up with them.
+translations                   0  A record earns this term when it is about translating a mod's player-visible strings and checking its translation files.
+unit-spec                      0  A record earns this term when it is about the spec a manager writes for a delegated unit of work and how that unit is dispatched to a sub-agent.

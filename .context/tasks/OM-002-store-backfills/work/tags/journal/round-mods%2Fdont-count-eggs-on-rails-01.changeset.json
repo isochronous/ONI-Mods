@@ -1,0 +1,27 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r2 for node mods/dont-count-eggs-on-rails — round 1",
+  "node": "C:\\dev\\ONI-Mods\\mods\\dont-count-eggs-on-rails",
+  "base": {
+    "standards/code-style.md": "sha256:db56dc8ff5342796405678a093706210c07a141cd2aed60c275616aa30578512",
+    "domains/glossary.md": "sha256:421076b10bb0ee89081c4c9c413d77ca81e69e34dd1fb6d29c4c4e66ae7b2758"
+  },
+  "ops": [
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching"
+      ],
+      "section": "comments/when-to-comment"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "room-tracking"
+      ],
+      "section": "cross-domain-terms/room-and-cavity"
+    }
+  ]
+}

@@ -1,0 +1,349 @@
+{
+ "documents": [
+  {
+   "id": "domains/README.md",
+   "title": "Domains",
+   "description": "Index of the two domain documents of Just Fall Already!, the entities and the glossary, each with a one-line summary of the door and critter fall subject it covers",
+   "document_tags": [
+    "critter-falling"
+   ],
+   "text": "---\ntags: critter-falling\ndoc_id: doc-31d38b083118\ndescription: \"Index of the two domain documents of Just Fall Already!, the entities and the glossary, each with a one-line summary of the door and critter fall subject it covers\"\n---\n\n# Domains\n\n## Domains\n**Id:** blk-396f8e22ec31\n\nDocuments in this folder:\n\n- [entities](entities.md): Door-armed cells and immediate critter fall checks, with the key code paths.\n- [glossary](glossary.md): How door changes trigger critter fall checks.\n",
+   "sections": [
+    {
+     "id": "domains/README.md#domains",
+     "title": "Domains",
+     "text": "## Domains\n**Id:** blk-396f8e22ec31\n\nDocuments in this folder:\n\n- [entities](entities.md): Door-armed cells and immediate critter fall checks, with the key code paths.\n- [glossary](glossary.md): How door changes trigger critter fall checks.\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "domains/entities.md",
+   "title": "Just Fall Already domain",
+   "description": "The `FallPoke` class, the `Door.SetWorldState` patch and the entry point of Just Fall Already!, with its members, the armed cell and poke rules, key code paths and the door tests in `Doors.cs`",
+   "document_tags": [
+    "critter-falling"
+   ],
+   "text": "---\ntags: critter-falling\nwitness_digest: \"sha256:49eff80a7e3de4b75083d815cb6a92a69df8f2c9f195c336a66e79ed2725449c\"\nwitness: loose\napplies_to:\n  - \"src/JustFallAlready/**\"\ndoc_id: doc-2b60540b470b\ndescription: \"The `FallPoke` class, the `Door.SetWorldState` patch and the entry point of Just Fall Already!, with its members, the armed cell and poke rules, key code paths and the door tests in `Doors.cs`\"\n---\n\n# Just Fall Already domain\n\n## Overview\n**Id:** blk-397690c92e02\n\nJust Fall Already makes a critter fall at once when a door takes its footing away, instead of standing on nothing until its brain next runs the fall check. It adds no buildings, options or saved state; all logic is one class. Source is in `mods/just-fall-already/src/JustFallAlready/`.\n\n## Key Entities\n**Id:** blk-846032ee71db\n\n### FallPoke\n**Id:** blk-7d0c65d332f3  \n**Tags:** harmony-patching, navigation-grid  \n**Description**: Static class with the whole mod. A postfix on `Pathfinding.AddNavGrid` subscribes to each navigation grid's `OnNavGridUpdateComplete`. A nested patch on `Door.SetWorldState` arms cells when a door finishes a state change. When a grid batch includes an armed cell, any critter standing in that cell whose navigation type is no longer valid there has `brain.UpdateBrain()` called, which runs normal chore selection and with it the game's fall check.  \n**Location**: `mods/just-fall-already/src/JustFallAlready/FallPoke.cs`\n\n| Member | Type | Description |\n|--------|------|-------------|\n| armed | Dictionary<int, float> | Armed cell to the real time it was armed |\n| ArmSeconds | const float (2) | Armed cells no batch touched in this time are purged |\n| SlowMilliseconds | const double (2.0) | A handler run over this is logged with its numbers |\n| lastGrid | NavGrid | The grid registered last; its batch for a set of dirty cells comes after every other grid's, so cells are disarmed after it |\n| OpenDoorsAreAir | bool | Whether an assembly named like `CrittersFallThroughOpenDoors` is loaded; decided once and logged |\n| crittersByCell | Dictionary<int, List<Brain>> | Running brains that have a `CreatureFallMonitor.Instance`, gathered once per frame |\n\n**Relationships**: `Door_SetWorldState_Patch` arms; `OnGridUpdated` pokes and disarms; `CrittersAt` supplies critters. Duplicants and robots have no creature fall monitor and are never poked.\n\n### Door_SetWorldState_Patch\n**Id:** blk-f5bd93c3845d  \n**Tags:** harmony-patching, mod-compatibility  \n**Description**: Postfix on `Door.SetWorldState`. Acts only when `updateSim` is true (the door's state machine entered open, closed or locked after the animation) and a scene is not loading. Arms the door's `PlacementCells`; with Critters Fall Through Open Doors present it also arms the cells below, above, left and right of each.  \n**Location**: `mods/just-fall-already/src/JustFallAlready/FallPoke.cs`\n\n### JustFallAlreadyMod\n**Id:** blk-09140514ea2f  \n**Tags:** mod-entry-point, logging  \n**Description**: The `UserMod2` entry point. Calls `base.OnLoad` (which applies the patches) and logs the version.  \n**Location**: `mods/just-fall-already/src/JustFallAlready/Mod.cs`\n\n## Business Rules\n**Id:** blk-4ecf7695829b  \n**Tags:** navigation-grid, mod-compatibility, performance\n\n- A critter is poked only when it stands in an armed cell, its navigator belongs to the grid reporting the batch, its brain is running, and its current nav type is not valid in that cell.\n- Only a door that has finished changing state arms cells; a door still moving, other doors, and the stream of batches from digging and building never trigger a poke.\n- Without Critters Fall Through Open Doors only the door cells are watched, which covers the standard pez dropper. With it, the surrounding cells are watched too, so a door opening under a critter drops it at once.\n- Duplicants are left alone.\n- The listener does nothing unless a cell is armed, so normal navigation updates cost nothing.\n- What counts as floor stays with the game and other mods; the mod only brings the brain's fall check forward.\n\n## Key Code Paths\n**Id:** blk-9d52ccfdb3df  \n**Tags:** navigation-grid, in-game-testing, logging\n\n- **Door finishes a state change**: `Door.SetWorldState` postfix arms cells — see `mods/just-fall-already/src/JustFallAlready/FallPoke.cs`\n- **Grid recomputed**: `OnGridUpdated` checks armed cells, finds critters, calls `brain.UpdateBrain()`, disarms after the last grid — same file\n- **Telemetry**: each poke is logged with the brain, cell and nav type; slow handlers log their timing — same file\n- **Tests**: `mods/just-fall-already/src/JustFallAlready.Tests/Doors.cs` covers a door closing on a critter, a stacked-door pez dropper, a door opening under a critter (nothing poked without the other mod), a duplicant in a closing door (not poked), and an explicit test with Critters Fall Through Open Doors\n\n## Related\n**Id:** blk-6c7e3df05d0b\n\n- See also: [glossary](glossary.md)\n",
+   "sections": [
+    {
+     "id": "domains/entities.md#overview",
+     "title": "Overview",
+     "text": "## Overview\n**Id:** blk-397690c92e02\n\nJust Fall Already makes a critter fall at once when a door takes its footing away, instead of standing on nothing until its brain next runs the fall check. It adds no buildings, options or saved state; all logic is one class. Source is in `mods/just-fall-already/src/JustFallAlready/`.\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/entities.md#key-entities",
+     "title": "Key Entities",
+     "text": "## Key Entities\n**Id:** blk-846032ee71db\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/entities.md#related",
+     "title": "Related",
+     "text": "## Related\n**Id:** blk-6c7e3df05d0b\n\n- See also: [glossary](glossary.md)\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "domains/glossary.md",
+   "title": "Domain Glossary",
+   "description": "Glossary for Just Fall Already!: abbreviations, a term to avoid, and definitions of pez dropper, poke, armed cell, brain scheduler, nav grid, CreatureFallMonitor and the two related mods",
+   "document_tags": [
+    "critter-falling"
+   ],
+   "text": "---\ntags: critter-falling\nwitness_digest: \"sha256:49eff80a7e3de4b75083d815cb6a92a69df8f2c9f195c336a66e79ed2725449c\"\nwitness: loose\napplies_to:\n  - \"src/JustFallAlready/**\"\ndoc_id: doc-ebdf75035929\ndescription: \"Glossary for Just Fall Already!: abbreviations, a term to avoid, and definitions of pez dropper, poke, armed cell, brain scheduler, nav grid, CreatureFallMonitor and the two related mods\"\n---\n\n# Domain Glossary\n\nTerms used in the Just Fall Already mod (`mods/just-fall-already`). For the classes and patches behind them, see the entities document.\n\n## Abbreviations and Acronyms\n**Id:** blk-996ae7f8d7ab\n\n| Abbreviation | Full Term | Context |\n|--------------|-----------|---------|\n| ONI | Oxygen Not Included | The game this mod is for |\n| JFA | Just Fall Already | Prefix of the in-game test names in `Doors.cs` |\n| Nav | Navigation | `NavGrid`, `NavTable`, `NavType` in the game's pathfinding |\n\n## Terms to Avoid\n**Id:** blk-07b3f3a01be2\n\n| Avoid | Use Instead | Reason |\n|-------|-------------|--------|\n| Poke (in player text) | Fall at once | \"Poke\" is the code's word for calling `brain.UpdateBrain()`; players see only the critter falling |\n\n## Cross-Domain Terms\n**Id:** blk-73b0826dedf4\n\n### Pez dropper\n**Id:** blk-62297f8e712a  \n**Definition**: Two stacked pneumatic doors: a critter stands on the lower door, and the upper door closing on it drops it to the one below. The mod's standard case.  \n**Used in**: `Doors.cs` (`PezDropper`), `FallPoke`\n\n### Poke\n**Id:** blk-13c1494f8af0  \n**Tags:** navigation-grid  \n**Definition**: Calling `brain.UpdateBrain()` on a critter so the game runs its chore selection, including the fall check, now instead of on the brain scheduler's round-robin.  \n**Used in**: `OnGridUpdated`\n\n### Armed cell\n**Id:** blk-897798f555d4  \n**Tags:** navigation-grid  \n**Definition**: A cell near a door that just finished changing state; it stays armed until the last navigation grid has recomputed a batch containing it, or 2 seconds pass.  \n**Used in**: `FallPoke.armed`\n\n### Brain and brain scheduler\n**Id:** blk-aabe9d05aeaa  \n**Tags:** navigation-grid  \n**Definition**: A critter's `Brain` decides what it does next; the game runs brains on a round-robin schedule, which is why a critter can stand on nothing for a moment.  \n**Used in**: `FallPoke`\n\n### Nav grid and nav type\n**Id:** blk-7c1eabd25f0f  \n**Tags:** navigation-grid  \n**Definition**: A `NavGrid` is a navigation graph for one kind of walker; `NavType` is how a walker is currently moving (floor, climbing and so on). A critter whose current nav type is no longer valid at its cell has lost its footing.  \n**Used in**: `OnGridUpdated`\n\n### CreatureFallMonitor\n**Id:** blk-e82daec3da18  \n**Definition**: The state machine (`CreatureFallMonitor.Instance`) that makes a critter fall; its presence marks a brain as a critter for this mod.  \n**Used in**: `CrittersAt`\n\n### Critters Fall Through Open Doors\n**Id:** blk-e47a9aee85a7  \n**Tags:** mod-compatibility  \n**Definition**: Sgt_Imalas's mod (Workshop 3816086407) that makes open doors non-floor and non-ceiling for critters. With it, Just Fall Already watches the cells around doors as well.  \n**Used in**: `OpenDoorsAreAir`\n\n### Fast Track\n**Id:** blk-3e0b229450b9  \n**Tags:** mod-compatibility, performance  \n**Definition**: A performance mod that queues non-duplicant brains; the mod's hooks work with it (its path cache keeps the grid update call).  \n**Used in**: `FallPoke` notes\n\n## Related\n**Id:** blk-a4d3d896128f\n\n- See also: [entities](entities.md)\n",
+   "sections": [
+    {
+     "id": "domains/glossary.md#abbreviations-and-acronyms",
+     "title": "Abbreviations and Acronyms",
+     "text": "## Abbreviations and Acronyms\n**Id:** blk-996ae7f8d7ab\n\n| Abbreviation | Full Term | Context |\n|--------------|-----------|---------|\n| ONI | Oxygen Not Included | The game this mod is for |\n| JFA | Just Fall Already | Prefix of the in-game test names in `Doors.cs` |\n| Nav | Navigation | `NavGrid`, `NavTable`, `NavType` in the game's pathfinding |\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#terms-to-avoid",
+     "title": "Terms to Avoid",
+     "text": "## Terms to Avoid\n**Id:** blk-07b3f3a01be2\n\n| Avoid | Use Instead | Reason |\n|-------|-------------|--------|\n| Poke (in player text) | Fall at once | \"Poke\" is the code's word for calling `brain.UpdateBrain()`; players see only the critter falling |\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms",
+     "title": "Cross-Domain Terms",
+     "text": "## Cross-Domain Terms\n**Id:** blk-73b0826dedf4\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/pez-dropper",
+     "title": "Pez dropper",
+     "text": "### Pez dropper\n**Id:** blk-62297f8e712a  \n**Definition**: Two stacked pneumatic doors: a critter stands on the lower door, and the upper door closing on it drops it to the one below. The mod's standard case.  \n**Used in**: `Doors.cs` (`PezDropper`), `FallPoke`\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/creaturefallmonitor",
+     "title": "CreatureFallMonitor",
+     "text": "### CreatureFallMonitor\n**Id:** blk-e82daec3da18  \n**Definition**: The state machine (`CreatureFallMonitor.Instance`) that makes a critter fall; its presence marks a brain as a critter for this mod.  \n**Used in**: `CrittersAt`\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#related",
+     "title": "Related",
+     "text": "## Related\n**Id:** blk-a4d3d896128f\n\n- See also: [entities](entities.md)\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "standards/README.md",
+   "title": "Standards",
+   "description": "Index of the three standards documents of Just Fall Already! (code style, error handling, naming conventions), each with a one-line summary of what it covers",
+   "document_tags": [
+    "harmony-patching",
+    "logging",
+    "vanilla-fallback"
+   ],
+   "text": "---\ntags: harmony-patching, logging, vanilla-fallback\ndoc_id: doc-9abc9f833d91\ndescription: \"Index of the three standards documents of Just Fall Already! (code style, error handling, naming conventions), each with a one-line summary of what it covers\"\n---\n\n# Standards\n\n## Standards\n**Id:** blk-a088c55eda82\n\nDocuments in this folder:\n\n- [code-style](code-style.md): C# formatting, imports, comments, Harmony patch and component conventions, with this mod's own layout.\n- [error-handling](error-handling.md): How the mod guards its Harmony patches, reflection lookups and file reads, and what it logs when something is missing.\n- [naming-conventions](naming-conventions.md): File, namespace, patch class, string key and id naming.\n",
+   "sections": [
+    {
+     "id": "standards/README.md#standards",
+     "title": "Standards",
+     "text": "## Standards\n**Id:** blk-a088c55eda82\n\nDocuments in this folder:\n\n- [code-style](code-style.md): C# formatting, imports, comments, Harmony patch and component conventions, with this mod's own layout.\n- [error-handling](error-handling.md): How the mod guards its Harmony patches, reflection lookups and file reads, and what it logs when something is missing.\n- [naming-conventions](naming-conventions.md): File, namespace, patch class, string key and id naming.\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "standards/code-style.md",
+   "title": "Code Style Guide",
+   "description": "Code style guide for Just Fall Already!: C# formatting, imports, comments, control structures, Harmony patch and game component conventions, plus its `FallPoke` static class and state field naming",
+   "document_tags": [],
+   "text": "---\ndoc_id: doc-04bb7f7fdd3b\ndescription: \"Code style guide for Just Fall Already!: C# formatting, imports, comments, control structures, Harmony patch and game component conventions, plus its `FallPoke` static class and state field naming\"\napplies_to:\n  - \"src/**\"\n---\n\n# Code Style Guide\n\n## Formatting\n**Id:** blk-6b50367224f0\n\n### Indentation\n**Id:** blk-e0ff5de8ea26\n\n- Tabs, one per level, in every `.cs` file (`mods/bitshifter/src/Bitshifter/Mod.cs`).\n- Project files (`.csproj`, `common/oni-mod.props`, `common/oni-mod.targets`) use two spaces.\n- Files are committed with LF line endings; Windows checkouts convert them to CRLF (`core.autocrlf` is true), so do not hand-normalise line endings.\n\n### Line Length\n**Id:** blk-9f56da6c281c\n\n- No limit is configured and the repository has no `.editorconfig`.\n- Wrap long calls and string concatenations after an argument or before a `+`, and indent the continuation one tab. The start-up log call in `mods/jumper-bridges/src/JumperBridges/Mod.cs` is the pattern.\n- TODO(owner): decide whether to add an `.editorconfig` recording tabs and brace placement so editors enforce what the code already does.\n\n### Braces\n**Id:** blk-60755d5ff761\n\n- Opening brace on its own line (Allman) for namespaces, types, members and multi-line control blocks.\n- A body of one short statement goes on the next line without braces:\n\n```csharp\nforeach (Mod mod in mods)\n{\n\tif (!mod.IsEnabledForActiveDlc())\n\t\tcontinue;\n\t...\n}\n```\n\n- Multi-line initialisers and enums end with a trailing comma (`YieldToWorkshopIds` in `mods/bitshifter/src/Bitshifter/Mod.cs`, `CoolPodMode` in `mods/storage-pod-redux/src/StoragePodRedux/Options.cs`).\n\n## Language and Toolchain\n**Id:** blk-ab0660690485\n\n- C# 9 on .NET Framework 4.8 (`LangVersion` 9.0 and `TargetFramework` net48 in `common/oni-mod.props`). Namespace blocks, not file-scoped namespaces; no nullable reference types.\n- Mods compile against the game's own assemblies (`common/oni-mod.targets`): `Assembly-CSharp`, `Assembly-CSharp-firstpass`, `0Harmony` and Unity modules. The game's .NET Framework lacks some newer APIs (`ConditionalWeakTable.AddOrUpdate` is missing, see `mods/detect-any-element/src/DetectAnyElement/Patches.cs`).\n- Optional references are switched on in the mod csproj before the targets import: `ReferenceUnityUI`, `ReferenceImageConversion`, `UsePLib` (PLib is ILRepack-merged into the mod DLL) and `UseTranslations` (compiles `common/src/Translations.cs` in).\n- One namespace per mod, equal to its `RootNamespace`. Subfolders organise files and do not add namespaces (`mods/upgrade-planner/src/UpgradePlanner/Plan`, `Rules`, `Tool`, `UI` all declare `namespace UpgradePlanner`).\n\n## Imports/Includes\n**Id:** blk-45ca80d394c7\n\n### Organization\n**Id:** blk-86741b8aee82\n\n`using` directives sit above the namespace, in one block with no blank lines, sorted alphabetically with `System.*` first. Aliases for `ModStrings` branches come last.\n\n1. `System.*`\n2. Everything else alphabetically: `HarmonyLib`, `Isochronous`, `KMod`, `Newtonsoft.Json`, `PeterHan.PLib.*`, `ProcGenGame`, `UnityEngine`\n3. Aliases (`using TOOL = SweepZones.ModStrings.UI.TOOLS.SWEEPZONES;`)\n\n### Example\n**Id:** blk-5b62e7507604  \n**Tags:** logging\n\n```csharp\nusing System.Collections.Generic;\nusing System.Reflection;\nusing HarmonyLib;\nusing Isochronous;\nusing Klei;\nusing KMod;\nusing STRINGS;\nusing UnityEngine;\n```\n(`mods/salty-surf/src/SaltySurf/Mod.cs`)\n\n`Debug.Log` resolves either to `UnityEngine.Debug` or to the game's own global `Debug` class, so several `Mod.cs` files omit `using UnityEngine`. When a file imports `System.Diagnostics`, qualify the call as `UnityEngine.Debug.Log` (`mods/just-fall-already/src/JustFallAlready/FallPoke.cs`).\n\n## Comments\n**Id:** blk-9edc9a83a58d\n\n### When to Comment\n**Id:** blk-00af2e4182a4  \n**Tags:** harmony-patching, mod-compatibility\n\n- On every non-trivial class, an XML `<summary>` that says what the game does and what the patch changes, so a reader can check the patch against the game code. The long summary on `OvercrowdingMonitor_UpdateRegion_Patch` in `mods/dont-count-eggs-on-rails/src/DontCountEggsOnRails/Mod.cs` is the model.\n- Where a game quirk forces an odd line: `// The game's .NET Framework has no AddOrUpdate on this table.`\n- Where another mod is involved, name it and its Workshop id (`mods/bitshifter/src/Bitshifter/Mod.cs`, `mods/smart-weight-plate/src/SmartWeightPlate/Mod.cs`).\n- Escape angle brackets in XML comments as `&lt;` and `&gt;`.\n\n### When NOT to Comment\n**Id:** blk-fe4a12277682\n\n- Code that reads clearly from its names.\n- Commented-out code; delete it.\n- Restating what a line does.\n\n### Format\n**Id:** blk-c293c5529a69\n\n```csharp\n/// <summary>\n/// The \"Any\" choice. It is a tag like the elements a sensor's Filterable holds, so it rides\n/// in the same saved field and copies with the building's settings.\n/// </summary>\npublic static class AnyElement\n\n// Single-line note for a quirk or a reason.\n```\n\n## Control Structures\n**Id:** blk-2b2f52d515f0\n\n### Conditionals\n**Id:** blk-7424ca2e50f2\n\nGuard clauses and early `return` or `continue` keep nesting shallow (`SettleSimBackwalls.UpdateFromSim` in `mods/natural-backwalls-everywhere/src/NaturalBackwalls/SettleSimPatch.cs`):\n\n```csharp\nif (!Grid.IsValidCell(cell))\n\tcontinue;\nushort idx = data->backwallElement[cell];\nif (idx == ushort.MaxValue || idx >= elements.Count)\n\tcontinue;\n```\n\n### Loops\n**Id:** blk-dffe3109ac36  \n**Tags:** performance\n\n- Plain `for` and `foreach`. Code that runs every sim tick or frame avoids LINQ and allocations; reuse scratch lists (`scratch` in `mods/just-fall-already/src/JustFallAlready/FallPoke.cs`).\n- Local types are written out (`Tech tech = ...`). `var` appears mainly in `mods/upgrade-planner`, `mods/natural-backwalls-everywhere` and the test projects; follow the surrounding file.\n\n### Strings\n**Id:** blk-786743155fe7  \n**Tags:** logging\n\n- Log and UI text is built with `+` concatenation, or `string.Format` on a `LocString`. String interpolation is not used in mod code.\n- Player-visible text is a `LocString` field in `ModStrings`, never a literal at the call site (see [naming conventions](naming-conventions.md)).\n\n## Harmony Patches\n**Id:** blk-bcc50465e110  \n**Tags:** harmony-patching\n\n- A patch is a static class with `[HarmonyPatch(typeof(Type), nameof(Type.Method))]`, or `[HarmonyPatch(typeof(Type), \"PrivateMethod\")]` for a non-public method, and methods named `Prefix`, `Postfix`, `Transpiler` or `Finalizer` (`mods/bitshifter/src/Bitshifter/Patches.cs`).\n- Game state arrives through Harmony parameters: `__instance`, `__result`, `___field`. Fields read repeatedly use `AccessTools.FieldRefAccess` kept in a `static readonly` field (`mods/detect-any-element/src/DetectAnyElement/Patches.cs`).\n- A prefix returns `true` to let the game's method run and `false` only when it replaces the method (`mods/dont-count-eggs-on-rails`, `mods/bitshifter` `UpdateVisuals`).\n- A patch that depends on an option implements `Prepare()` (`mods/jumper-bridges/src/JumperBridges/Patches.cs`); a patch with several targets implements `TargetMethods()`.\n- `UserMod2.OnLoad` calls `base.OnLoad(harmony)`, which applies every patch in the assembly, then registers libraries and logs the version. A mod that must patch after all others applies its patches from `OnAllModsLoaded` instead (`mods/bitshifter/src/Bitshifter/Mod.cs`).\n- Transpilers search for the instruction they change and report when it is not found; see [error handling](error-handling.md).\n\n## Game Components\n**Id:** blk-9fead247823f\n\n- A component extends `KMonoBehaviour`, overrides `OnPrefabInit`, `OnSpawn` and `OnCleanUp` and calls `base` from each. Sibling components come in through `[MyCmpGet]` or `[MyCmpReq]` (`mods/no-magic-fridges/src/NoMagicFridges/FridgeThermostat.cs`).\n- Saved state uses `[Serialize]` fields with `[SerializationConfig(MemberSerialization.OptIn)]` on the class (`mods/sweep-zones/src/SweepZones/ZoneStore.cs`).\n- Components are added to prefabs from a `DoPostConfigureComplete` postfix with `go.AddOrGet<T>()`.\n\n## Project-Specific Rules\n**Id:** blk-9d74aee10321  \n**Tags:** logging, in-game-testing\n\n- Mod options are a PLib `POptions` class marked `[JsonObject(MemberSerialization.OptIn)]` and `[ConfigFile(SharedConfigLocation: true)]`, read through a static `Load()` (`mods/vent-freeze-fix/src/VentFreezeFix/Options.cs`) or through `SingletonOptions<Options>` (`mods/storage-pod-redux`). Option titles are string-table keys, so the translation follows the language.\n- Every mod logs one line at load: `[<Name>] Loaded version <assembly version>`.\n- Tests live in a separate `<Name>.Tests` project and are written as `[OniTest]` coroutines against the real game.\n\n### Just Fall Already! specifics\n**Id:** blk-58f12d9bf0cf  \n**Tags:** harmony-patching, navigation-grid\n\n- `FallPoke` is a public static class that is both the patch on `Pathfinding.AddNavGrid` and the holder of all state, with the nested patch `Door_SetWorldState_Patch` (`src/JustFallAlready/FallPoke.cs`).\n- State is private static fields: constants in PascalCase (`ArmSeconds`, `SlowMilliseconds`), mutable caches in camelCase (`armed`, `scratch`, `lastGrid`, `crittersByCell`).\n- The file imports `System.Diagnostics` for `Stopwatch`, so log calls are written `UnityEngine.Debug.Log`.\n- No PLib, no translations, no options.\n\n## Related\n**Id:** blk-cedea0b9cf9a\n\n- See also: [naming conventions](naming-conventions.md)\n- See also: [error handling](error-handling.md)\n",
+   "sections": [
+    {
+     "id": "standards/code-style.md#formatting",
+     "title": "Formatting",
+     "text": "## Formatting\n**Id:** blk-6b50367224f0\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#formatting/indentation",
+     "title": "Indentation",
+     "text": "### Indentation\n**Id:** blk-e0ff5de8ea26\n\n- Tabs, one per level, in every `.cs` file (`mods/bitshifter/src/Bitshifter/Mod.cs`).\n- Project files (`.csproj`, `common/oni-mod.props`, `common/oni-mod.targets`) use two spaces.\n- Files are committed with LF line endings; Windows checkouts convert them to CRLF (`core.autocrlf` is true), so do not hand-normalise line endings.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#formatting/line-length",
+     "title": "Line Length",
+     "text": "### Line Length\n**Id:** blk-9f56da6c281c\n\n- No limit is configured and the repository has no `.editorconfig`.\n- Wrap long calls and string concatenations after an argument or before a `+`, and indent the continuation one tab. The start-up log call in `mods/jumper-bridges/src/JumperBridges/Mod.cs` is the pattern.\n- TODO(owner): decide whether to add an `.editorconfig` recording tabs and brace placement so editors enforce what the code already does.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#formatting/braces",
+     "title": "Braces",
+     "text": "### Braces\n**Id:** blk-60755d5ff761\n\n- Opening brace on its own line (Allman) for namespaces, types, members and multi-line control blocks.\n- A body of one short statement goes on the next line without braces:\n\n```csharp\nforeach (Mod mod in mods)\n{\n\tif (!mod.IsEnabledForActiveDlc())\n\t\tcontinue;\n\t...\n}\n```\n\n- Multi-line initialisers and enums end with a trailing comma (`YieldToWorkshopIds` in `mods/bitshifter/src/Bitshifter/Mod.cs`, `CoolPodMode` in `mods/storage-pod-redux/src/StoragePodRedux/Options.cs`).\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#language-and-toolchain",
+     "title": "Language and Toolchain",
+     "text": "## Language and Toolchain\n**Id:** blk-ab0660690485\n\n- C# 9 on .NET Framework 4.8 (`LangVersion` 9.0 and `TargetFramework` net48 in `common/oni-mod.props`). Namespace blocks, not file-scoped namespaces; no nullable reference types.\n- Mods compile against the game's own assemblies (`common/oni-mod.targets`): `Assembly-CSharp`, `Assembly-CSharp-firstpass`, `0Harmony` and Unity modules. The game's .NET Framework lacks some newer APIs (`ConditionalWeakTable.AddOrUpdate` is missing, see `mods/detect-any-element/src/DetectAnyElement/Patches.cs`).\n- Optional references are switched on in the mod csproj before the targets import: `ReferenceUnityUI`, `ReferenceImageConversion`, `UsePLib` (PLib is ILRepack-merged into the mod DLL) and `UseTranslations` (compiles `common/src/Translations.cs` in).\n- One namespace per mod, equal to its `RootNamespace`. Subfolders organise files and do not add namespaces (`mods/upgrade-planner/src/UpgradePlanner/Plan`, `Rules`, `Tool`, `UI` all declare `namespace UpgradePlanner`).\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#imports-includes",
+     "title": "Imports/Includes",
+     "text": "## Imports/Includes\n**Id:** blk-45ca80d394c7\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#imports-includes/organization",
+     "title": "Organization",
+     "text": "### Organization\n**Id:** blk-86741b8aee82\n\n`using` directives sit above the namespace, in one block with no blank lines, sorted alphabetically with `System.*` first. Aliases for `ModStrings` branches come last.\n\n1. `System.*`\n2. Everything else alphabetically: `HarmonyLib`, `Isochronous`, `KMod`, `Newtonsoft.Json`, `PeterHan.PLib.*`, `ProcGenGame`, `UnityEngine`\n3. Aliases (`using TOOL = SweepZones.ModStrings.UI.TOOLS.SWEEPZONES;`)\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#comments",
+     "title": "Comments",
+     "text": "## Comments\n**Id:** blk-9edc9a83a58d\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#comments/when-not-to-comment",
+     "title": "When NOT to Comment",
+     "text": "### When NOT to Comment\n**Id:** blk-fe4a12277682\n\n- Code that reads clearly from its names.\n- Commented-out code; delete it.\n- Restating what a line does.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#comments/format",
+     "title": "Format",
+     "text": "### Format\n**Id:** blk-c293c5529a69\n\n```csharp\n/// <summary>\n/// The \"Any\" choice. It is a tag like the elements a sensor's Filterable holds, so it rides\n/// in the same saved field and copies with the building's settings.\n/// </summary>\npublic static class AnyElement\n\n// Single-line note for a quirk or a reason.\n```\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#control-structures",
+     "title": "Control Structures",
+     "text": "## Control Structures\n**Id:** blk-2b2f52d515f0\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#control-structures/conditionals",
+     "title": "Conditionals",
+     "text": "### Conditionals\n**Id:** blk-7424ca2e50f2\n\nGuard clauses and early `return` or `continue` keep nesting shallow (`SettleSimBackwalls.UpdateFromSim` in `mods/natural-backwalls-everywhere/src/NaturalBackwalls/SettleSimPatch.cs`):\n\n```csharp\nif (!Grid.IsValidCell(cell))\n\tcontinue;\nushort idx = data->backwallElement[cell];\nif (idx == ushort.MaxValue || idx >= elements.Count)\n\tcontinue;\n```\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#game-components",
+     "title": "Game Components",
+     "text": "## Game Components\n**Id:** blk-9fead247823f\n\n- A component extends `KMonoBehaviour`, overrides `OnPrefabInit`, `OnSpawn` and `OnCleanUp` and calls `base` from each. Sibling components come in through `[MyCmpGet]` or `[MyCmpReq]` (`mods/no-magic-fridges/src/NoMagicFridges/FridgeThermostat.cs`).\n- Saved state uses `[Serialize]` fields with `[SerializationConfig(MemberSerialization.OptIn)]` on the class (`mods/sweep-zones/src/SweepZones/ZoneStore.cs`).\n- Components are added to prefabs from a `DoPostConfigureComplete` postfix with `go.AddOrGet<T>()`.\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#related",
+     "title": "Related",
+     "text": "## Related\n**Id:** blk-cedea0b9cf9a\n\n- See also: [naming conventions](naming-conventions.md)\n- See also: [error handling](error-handling.md)\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "standards/error-handling.md",
+   "title": "Error Handling Conventions",
+   "description": "Error handling conventions for Just Fall Already!: guarding patches, try/catch cases, logging levels and anti-patterns, plus its early returns, armed cell expiry, poke telemetry and optional mod detection",
+   "document_tags": [
+    "vanilla-fallback"
+   ],
+   "text": "---\ntags: vanilla-fallback\ndoc_id: doc-f2b5d177565f\ndescription: \"Error handling conventions for Just Fall Already!: guarding patches, try/catch cases, logging levels and anti-patterns, plus its early returns, armed cell expiry, poke telemetry and optional mod detection\"\napplies_to:\n  - \"src/**\"\n---\n\n# Error Handling Conventions\n\n## Principles\n**Id:** blk-f75b46be2845  \n**Tags:** logging\n\n1. **Never break the game for a mod's sake.** A patch that cannot do its job leaves the vanilla behaviour in place and says so in the log. It does not throw into the game's update loop.\n2. **Check what you patch.** Game updates rename fields and move code. Every reflection lookup, transpiler match and prefab or tech lookup is checked for a miss.\n3. **Say what degraded.** A warning names the thing that was not found and the consequence, so a bug report with `Player.log` is enough to diagnose.\n4. **Don't swallow.** A `catch` logs and either returns a safe default or continues; it is never empty.\n5. **Log at the right level.** `Debug.Log` for start-up and summaries, `Debug.LogWarning` for degraded behaviour, `Debug.LogError` for a failed player action.\n\nThere is no custom exception hierarchy. Mods are small patches over game code, so errors are handled where they occur.\n\n## Guarding Patches\n**Id:** blk-dc52b95d72e4  \n**Tags:** harmony-patching\n\n### Missing member: warn, leave vanilla\n**Id:** blk-249b3eb5bb20  \n**Tags:** logging\n\nA reflection lookup that returns null is checked before use. The patch then does nothing, or returns `true` from a prefix so the game's method runs.\n\n```csharp\nif (ActiveField == null || StorageField == null)\n\treturn true; // the game renamed its fields: leave vanilla alone rather than throw\n```\n(`mods/no-magic-fridges/src/NoMagicFridges/Patches.cs`; the warning is logged once at load by `SimTransferMethod` in `FridgeThermostat.cs`.)\n\n### Transpiler: count the match\n**Id:** blk-5dac2e3d8156  \n**Tags:** logging\n\nA transpiler counts the instructions it replaced. Zero (or more than expected) logs a warning and returns the original code, so a game update disables the change instead of breaking the method.\n\n```csharp\nif (swapped == 0)\n\tDebug.LogWarning(\"[CornerBuildAnything] \" + where + \" does not load OffsetGroups.InvertedStandardTable; corner reach not applied there\");\n```\n(`mods/corner-build-anything/src/CornerBuildAnything/ReachTablePatches.cs`; same pattern in `mods/bitshifter/src/Bitshifter/Patches.cs` and `mods/natural-backwalls-everywhere/src/NaturalBackwalls/SettleSimPatch.cs`.)\n\n### Missing data: warn, continue\n**Id:** blk-c5d951f306e9  \n**Tags:** logging\n\nA build-menu, tech or asset lookup that finds nothing warns and keeps the mod working:\n\n```csharp\nTech tech = Db.Get().Techs.TryGet(TechId);\nif (tech == null)\n{\n\tDebug.LogWarning(\"[SmartWeightPlate] Tech '\" + TechId + \"' not found; building will be unlocked from the start\");\n\treturn;\n}\n```\n(`mods/smart-weight-plate/src/SmartWeightPlate/Patches.cs`; also `mods/multichannel-critter-sensor`, `mods/storage-pod-redux`.) Missing art or a missing vanilla prefab degrades the same way (`Display.UseAnim` in `mods/bitshifter/src/Bitshifter/Patches.cs`, `mods/multichannel-critter-sensor/src/MultichannelCritterSensor/MultichannelCritterSensorSideScreen.cs`).\n\n### Null checks on game objects\n**Id:** blk-e3e6ea0506fe\n\nComponents and arguments that can be absent are tested before use: `if (stt == null || !Sim.IsValidHandle(stt.SimHandle)) return true;`, `if (sensor == null || GameScenePartitioner.Instance == null) return;` (`mods/motion-sensor-range/src/MotionSensorRange/RangeSlider.cs`).\n\n### Warn once\n**Id:** blk-80b18fb142e0  \n**Tags:** logging, performance\n\nWork that repeats every frame or tick warns once behind a flag (`warnedMissingInternals` in `RangeSlider.cs`).\n\n## try/catch\n**Id:** blk-5938243ee768  \n**Tags:** mod-compatibility, logging\n\n`try`/`catch (Exception e)` is used in four situations and nowhere else:\n\n1. **Optional integration with another mod.** Patching or reading another mod's types may fail for any reason. Log the message and skip the integration (`BetterAutomationOverlayCompat.Apply` in `mods/smart-weight-plate/src/SmartWeightPlate/Mod.cs`; `mods/upgrade-planner/src/UpgradePlanner/Compat/BlueprintsCompat.cs`).\n2. **File and JSON reads and writes.** Return an empty or null result (`mods/upgrade-planner/src/UpgradePlanner/Plan/Presets.cs`, `mods/storage-pod-redux/src/StoragePodRedux/ModDetection.cs`, `mods/sweep-zones/src/SweepZones/ToolIcon.cs`).\n3. **Patches that run inside worldgen or per-cell work**, where an escaping exception kills a thread or a whole pass (`mods/natural-backwalls-everywhere/src/NaturalBackwalls/FeaturePatch.cs`, `PlanetoidPatch.cs`, `Patches.cs`, `Census.cs`).\n4. **Per-job work in a queue**, so one failure does not stop the rest (`mods/upgrade-planner/src/UpgradePlanner/Tool/PlacementQueue.cs`, logged with `Debug.LogError`).\n\nThe message form is `\"[<Name>] <what was skipped>: \" + e.Message`. Use `e.GetBaseException().Message` when the exception may be a reflection wrapper, and the full `e` when the stack trace is needed.\n\n### Finalizer for a thread with no handler\n**Id:** blk-ca1984a52c39  \n**Tags:** harmony-patching\n\n`Cluster.BeginGeneration` is the worldgen thread body and has none; an exception ends the thread and the loading screen waits forever. A finalizer reports the failure through the game's own error path and logs the exception (`Cluster_BeginGeneration_Patch` in `mods/natural-backwalls-everywhere/src/NaturalBackwalls/WorldgenThreadPatch.cs`).\n\n## Yielding to Other Mods\n**Id:** blk-b684bb2fb3e0  \n**Tags:** mod-compatibility, harmony-patching, logging\n\nWhen another mod already does the job or shares an id, the mod steps aside and logs why:\n- Bitshifter disables itself when Digital CPU is enabled or the contested methods already have Harmony owners (`WhyYield` in `mods/bitshifter/src/Bitshifter/Mod.cs`).\n- Storage Pod Redux does not register its buildings while the original Storage Pod is enabled, and logs a warning telling the player to disable one (`mods/storage-pod-redux/src/StoragePodRedux/Mod.cs`).\n\n## Logging\n**Id:** blk-0f4cc25567d7  \n**Tags:** logging\n\n### Log Levels\n**Id:** blk-5554bc187a91\n\n| Level | Use For | Example |\n|-------|---------|---------|\n| `Debug.LogError` | A player action failed and was abandoned | `PlacementQueue` in `mods/upgrade-planner` |\n| `Debug.LogWarning` | Degraded or skipped behaviour | the examples above |\n| `Debug.Log` | Load line, a one-line summary of what a pass changed | `Tagged N refined metal(s)` in `mods/refined-building` |\n\n### What to Include\n**Id:** blk-6f0e4eb3b7b2  \n**Tags:** performance\n\n- The `[<ModName>] ` prefix on every line; `JumperBridgesMod.LogPrefix` holds it for that mod.\n- What was expected, what was found, and what the mod does instead.\n- Cell numbers, building names and element ids when they identify the case (`mods/vent-freeze-fix`).\n- Per-tick or per-frame telemetry only behind a debug option (`VentFreezeWatcher.Verbose`, `DebugSave.Enabled`) or capped (`DetailLines` in `SettleSimPatch.cs`).\n\nPLib's `PUtil.Log*` helpers are not used; all mods log through `Debug`.\n\n## Anti-Patterns to Avoid\n**Id:** blk-88d3fdd9130e\n\n### Swallowing exceptions\n**Id:** blk-e55e040a6492  \n**Tags:** logging\n\nAn empty `catch` hides a broken patch. The one `catch` that returns a fallback without a log is `GuessLanguageCode` in `common/src/Translations.cs`, because a missing language preference is the normal case before the game has started.\n\n### Throwing from a patch\n**Id:** blk-ca29ac4a9ee9  \n**Tags:** harmony-patching, performance\n\nAn exception in a prefix or postfix on a per-frame or sim method repeats every frame. Guard, log once, return.\n\n### Assuming the game's internals\n**Id:** blk-892be2974fcc  \n**Tags:** harmony-patching\n\nReading a private field by name without a null check on the `FieldInfo`, or replacing an instruction without confirming it was found, breaks on the next game update.\n\n### Silent degradation\n**Id:** blk-0cccd74b21a2  \n**Tags:** logging\n\nDoing nothing without a log line leaves a player and the author guessing. Every skipped path logs.\n\n### Spamming the log\n**Id:** blk-5da044268754  \n**Tags:** logging, performance\n\nA warning inside an update method fires thousands of times. Use a once-flag.\n\n## Project-Specific Patterns\n**Id:** blk-df7e73996fc6\n\n### Just Fall Already! specifics\n**Id:** blk-fc0b4aab1de9  \n**Tags:** harmony-patching, navigation-grid, logging, mod-compatibility\n\n- `Door_SetWorldState_Patch` returns early while the scene is loading (`KMonoBehaviour.isLoadingScene`), when the door is still moving (`!updateSim`) and when the `Building` component is missing.\n- Armed cells expire after `ArmSeconds` if no navigation batch touches them (`Purge`); nothing is left armed indefinitely.\n- Telemetry is deliberate: every poke is logged, and any handler run slower than `SlowMilliseconds` is logged with its numbers.\n- The optional mod Critters Fall Through Open Doors is detected once and the result logged (`found` or `not found`).\n\n## Related\n**Id:** blk-e7a9a36f87ee\n\n- See also: [code style](code-style.md)\n- See also: [naming conventions](naming-conventions.md)\n",
+   "sections": [
+    {
+     "id": "standards/error-handling.md#guarding-patches/null-checks-on-game-objects",
+     "title": "Null checks on game objects",
+     "text": "### Null checks on game objects\n**Id:** blk-e3e6ea0506fe\n\nComponents and arguments that can be absent are tested before use: `if (stt == null || !Sim.IsValidHandle(stt.SimHandle)) return true;`, `if (sensor == null || GameScenePartitioner.Instance == null) return;` (`mods/motion-sensor-range/src/MotionSensorRange/RangeSlider.cs`).\n",
+     "level": 3,
+     "enclosing_tags": [
+      "harmony-patching"
+     ]
+    },
+    {
+     "id": "standards/error-handling.md#logging/log-levels",
+     "title": "Log Levels",
+     "text": "### Log Levels\n**Id:** blk-5554bc187a91\n\n| Level | Use For | Example |\n|-------|---------|---------|\n| `Debug.LogError` | A player action failed and was abandoned | `PlacementQueue` in `mods/upgrade-planner` |\n| `Debug.LogWarning` | Degraded or skipped behaviour | the examples above |\n| `Debug.Log` | Load line, a one-line summary of what a pass changed | `Tagged N refined metal(s)` in `mods/refined-building` |\n",
+     "level": 3,
+     "enclosing_tags": [
+      "logging"
+     ]
+    },
+    {
+     "id": "standards/error-handling.md#anti-patterns-to-avoid",
+     "title": "Anti-Patterns to Avoid",
+     "text": "## Anti-Patterns to Avoid\n**Id:** blk-88d3fdd9130e\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/error-handling.md#project-specific-patterns",
+     "title": "Project-Specific Patterns",
+     "text": "## Project-Specific Patterns\n**Id:** blk-df7e73996fc6\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/error-handling.md#related",
+     "title": "Related",
+     "text": "## Related\n**Id:** blk-e7a9a36f87ee\n\n- See also: [code style](code-style.md)\n- See also: [naming conventions](naming-conventions.md)\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "standards/naming-conventions.md",
+   "title": "Naming Conventions",
+   "description": "Naming conventions for Just Fall Already!: files, namespaces, variables, methods, patch classes, `ModStrings` keys and ids, plus its `FallPoke` patch names, `Doors` test class, log prefix and `staticID`",
+   "document_tags": [],
+   "text": "---\ndoc_id: doc-2d228f2c8f5b\ndescription: \"Naming conventions for Just Fall Already!: files, namespaces, variables, methods, patch classes, `ModStrings` keys and ids, plus its `FallPoke` patch names, `Doors` test class, log prefix and `staticID`\"\napplies_to:\n  - \"src/**\"\n---\n\n# Naming Conventions\n\n## Files and Directories\n**Id:** blk-9ecf1a106b2a\n\n### General Rules\n**Id:** blk-fc52cb225e0f\n\n- A mod lives in `mods/<kebab-case-name>/` (`natural-backwalls-everywhere`, `just-fall-already`).\n- Its code is under `mods/<name>/src/<PascalName>/` with a matching `src/<PascalName>.Tests/` project. `AssemblyName`, `RootNamespace` and the project folder share one PascalCase name (`DontCountEggsOnRails`).\n- C# files are PascalCase and named for the main type they hold. One concept per file; small related types may share a file (`Display` in `mods/bitshifter/src/Bitshifter/Patches.cs`).\n- Release tags are `<mod-folder>-v<version>` (repository README).\n\n### Examples by Type\n**Id:** blk-9b2fe98dd4dd  \n**Tags:** mod-entry-point, harmony-patching, in-game-testing\n\n| Type | Convention | Example |\n|------|------------|---------|\n| Mod entry class | `Mod.cs`, class `<Name>Mod : UserMod2` | `BitshifterMod` in `Mod.cs` |\n| Harmony patches | `Patches.cs`, or a file named for what is patched | `PlanetoidPatch.cs`, `SettleSimPatch.cs` |\n| Building config | `<Building>Config.cs`, class `<Building>Config : IBuildingConfig` with `public const string ID` | `SmartWeightPlateConfig.cs` |\n| Side screen | `<Building>SideScreen.cs` | `SmartWeightPlateSideScreen.cs` |\n| Components | `<Thing>.cs` named for the component | `FridgeThermostat.cs`, `ZoneStore.cs` |\n| Strings | `ModStrings.cs` | `mods/salty-surf/src/SaltySurf/ModStrings.cs` |\n| Options | `Options.cs`, class `Options` | `mods/vent-freeze-fix/src/VentFreezeFix/Options.cs` |\n| Tests | `<Topic>.cs` in `<Name>.Tests`, one static class per topic | `Reach.cs`, `Gates.cs`, `Persistence.cs`; `Kit.cs` for shared helpers |\n| Mod metadata | `mod.yaml`, `mod_info.yaml` in the project folder | `staticID: \"Isochronous.<PascalName>\"` |\n| Translations | `translations/<locale>.po`, template `<Name>.pot` | `mods/detect-any-element/src/DetectAnyElement/translations` |\n| Art | `anim/` (kanim files), `assets/` | `bitshifter_ribbon_reader_kanim` |\n| Release material | `mods/<name>/publish/`, `CHANGELOG.md`, `README.md` | |\n\n## Code Naming\n**Id:** blk-f64de271acec\n\n### Variables\n**Id:** blk-76e79f89b3c4\n\n- camelCase for locals, parameters and private instance fields; no underscore prefix.\n- PascalCase for constants (`ArmSeconds`, `Bits`, `TechId`) and for `static readonly` values that act as constants or lookups (`Standard`, `YieldToWorkshopIds`, `Contested`).\n- camelCase for private static mutable state and caches (`armed`, `scratch`, `lastGrid`, `symbols`, `anyRows`).\n- Descriptive names; single letters only for loop indexes and the `e` of a catch.\n\n```csharp\nprivate const float ArmSeconds = 2f;\nprivate static readonly Dictionary<int, float> armed = new Dictionary<int, float>();\n```\n(`mods/just-fall-already/src/JustFallAlready/FallPoke.cs`)\n\n### Functions/Methods\n**Id:** blk-6de0f47c6523  \n**Tags:** harmony-patching\n\n- PascalCase, starting with a verb: `Apply`, `Decide`, `SwapTable`, `CopyRangeFrom`, `ApplyRange`.\n- Game callbacks keep the game's names (`OnSpawn`, `OnPrefabInit`, `OnCleanUp`, `Sim1000ms`).\n- Harmony methods are named for their kind: `Prefix`, `Postfix`, `Transpiler`, `Finalizer`, plus `Prepare`, `TargetMethod`, `TargetMethods`.\n\n### Classes/Types/Interfaces\n**Id:** blk-db8f29e6a349  \n**Tags:** harmony-patching, mod-entry-point\n\n- PascalCase nouns. Interfaces take an `I` prefix (`IPlanTab` and `ITabView` in `mods/upgrade-planner`, and the game's own).\n- Harmony patch classes: `<PatchedType>_<PatchedMethod>_Patch` (`LogicRibbonReader_GetBitDepth_Patch`, `Db_Initialize_Patch`, `GeneratedBuildings_LoadGeneratedBuildings_Patch`). A patch for a type with one concern may use `<Type>_Patch` (`LiquidVentConfig_Patch`). Patches nested in a holder class may drop the suffix (`Constructable_OnSpawn` in `ReachTablePatches`).\n- Classes are `sealed` unless built for inheritance. The mod class is `public sealed`. Types the game does not reach are `internal`.\n- Option enums and nested helper types are PascalCase (`CoolPodMode`, `BridgeKind`).\n\n### Booleans\n**Id:** blk-9d196f7a8afe\n\n- Prefix with `Is`, `Has`, `Can`, `Should` or name the state: `IsEnabled`, `OriginalActive`, `isSpawned`, `warnedMissingInternals`.\n\n### Strings (`ModStrings`)\n**Id:** blk-80083bcd4f5f\n\n- `ModStrings` mirrors the game's `STRINGS` tree: nested static classes and `LocString` fields in UPPER_SNAKE_CASE. `ModStrings.BUILDINGS.PREFABS.<BUILDINGID>.NAME` is registered as `STRINGS.BUILDINGS.PREFABS.<BUILDINGID>.NAME`, the key the game looks a building name up by (`mods/smart-weight-plate/src/SmartWeightPlate/ModStrings.cs`).\n- Mod-private text goes under a branch named for the mod in capitals (`ModStrings.SALTYSURF.ELEMENT_LIST`, `ModStrings.JUMPERBRIDGES.OPTIONS`).\n- Option keys are written out as `STRINGS.<MOD>.OPTIONS.<OPTION>.NAME` and `.TOOLTIP`; categories as `STRINGS.<MOD>.OPTIONS.CATEGORY.<NAME>`.\n- Long branches are shortened with an alias at the top of the file (`using OPTIONS = NaturalBackwalls.ModStrings.NATURALBACKWALLS.OPTIONS;`).\n\n### Ids and Tags\n**Id:** blk-4c4517ee03f9  \n**Tags:** mod-compatibility, in-game-testing\n\n- Building ids are PascalCase and match the config class (`SmartWeightPlate`); a mod that replaces another mod's buildings reuses that mod's ids (`StoragePodConfig`, `CoolPodConfig` in `mods/storage-pod-redux`).\n- Tags and PAction ids carry a mod prefix: `DetectAnyElement_Any`, `Isochronous.SweepZones.Tool`.\n- The `staticID` in `mod.yaml` is `Isochronous.<PascalName>`.\n- Test names start with the mod's name or an abbreviation of it: `[OniTest(\"Bitshifter: a NOT gate on a ribbon inverts every bit\")]`, `VFF:` for Vent Freeze Fix.\n\n## Project-Specific Conventions\n**Id:** blk-c001c1b3fc6a\n\n### Just Fall Already! specifics\n**Id:** blk-f21fb042f2ec  \n**Tags:** harmony-patching, in-game-testing, logging\n\n- Patch classes: `FallPoke` (top-level, patches `AddNavGrid`) and `Door_SetWorldState_Patch`.\n- Test class `Doors` in `src/JustFallAlready.Tests/Doors.cs`.\n- Log prefix `[JustFallAlready]`; `staticID` `Isochronous.JustFallAlready`.\n\n## Related\n**Id:** blk-d72e6dea5410\n\n- See also: [code style](code-style.md)\n- See also: [error handling](error-handling.md)\n",
+   "sections": [
+    {
+     "id": "standards/naming-conventions.md#files-and-directories",
+     "title": "Files and Directories",
+     "text": "## Files and Directories\n**Id:** blk-9ecf1a106b2a\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/naming-conventions.md#files-and-directories/general-rules",
+     "title": "General Rules",
+     "text": "### General Rules\n**Id:** blk-fc52cb225e0f\n\n- A mod lives in `mods/<kebab-case-name>/` (`natural-backwalls-everywhere`, `just-fall-already`).\n- Its code is under `mods/<name>/src/<PascalName>/` with a matching `src/<PascalName>.Tests/` project. `AssemblyName`, `RootNamespace` and the project folder share one PascalCase name (`DontCountEggsOnRails`).\n- C# files are PascalCase and named for the main type they hold. One concept per file; small related types may share a file (`Display` in `mods/bitshifter/src/Bitshifter/Patches.cs`).\n- Release tags are `<mod-folder>-v<version>` (repository README).\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/naming-conventions.md#code-naming",
+     "title": "Code Naming",
+     "text": "## Code Naming\n**Id:** blk-f64de271acec\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/naming-conventions.md#code-naming/variables",
+     "title": "Variables",
+     "text": "### Variables\n**Id:** blk-76e79f89b3c4\n\n- camelCase for locals, parameters and private instance fields; no underscore prefix.\n- PascalCase for constants (`ArmSeconds`, `Bits`, `TechId`) and for `static readonly` values that act as constants or lookups (`Standard`, `YieldToWorkshopIds`, `Contested`).\n- camelCase for private static mutable state and caches (`armed`, `scratch`, `lastGrid`, `symbols`, `anyRows`).\n- Descriptive names; single letters only for loop indexes and the `e` of a catch.\n\n```csharp\nprivate const float ArmSeconds = 2f;\nprivate static readonly Dictionary<int, float> armed = new Dictionary<int, float>();\n```\n(`mods/just-fall-already/src/JustFallAlready/FallPoke.cs`)\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/naming-conventions.md#code-naming/booleans",
+     "title": "Booleans",
+     "text": "### Booleans\n**Id:** blk-9d196f7a8afe\n\n- Prefix with `Is`, `Has`, `Can`, `Should` or name the state: `IsEnabled`, `OriginalActive`, `isSpawned`, `warnedMissingInternals`.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/naming-conventions.md#code-naming/strings-modstrings",
+     "title": "Strings (`ModStrings`)",
+     "text": "### Strings (`ModStrings`)\n**Id:** blk-80083bcd4f5f\n\n- `ModStrings` mirrors the game's `STRINGS` tree: nested static classes and `LocString` fields in UPPER_SNAKE_CASE. `ModStrings.BUILDINGS.PREFABS.<BUILDINGID>.NAME` is registered as `STRINGS.BUILDINGS.PREFABS.<BUILDINGID>.NAME`, the key the game looks a building name up by (`mods/smart-weight-plate/src/SmartWeightPlate/ModStrings.cs`).\n- Mod-private text goes under a branch named for the mod in capitals (`ModStrings.SALTYSURF.ELEMENT_LIST`, `ModStrings.JUMPERBRIDGES.OPTIONS`).\n- Option keys are written out as `STRINGS.<MOD>.OPTIONS.<OPTION>.NAME` and `.TOOLTIP`; categories as `STRINGS.<MOD>.OPTIONS.CATEGORY.<NAME>`.\n- Long branches are shortened with an alias at the top of the file (`using OPTIONS = NaturalBackwalls.ModStrings.NATURALBACKWALLS.OPTIONS;`).\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/naming-conventions.md#project-specific-conventions",
+     "title": "Project-Specific Conventions",
+     "text": "## Project-Specific Conventions\n**Id:** blk-c001c1b3fc6a\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/naming-conventions.md#related",
+     "title": "Related",
+     "text": "## Related\n**Id:** blk-d72e6dea5410\n\n- See also: [code style](code-style.md)\n- See also: [error handling](error-handling.md)\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  }
+ ]
+}

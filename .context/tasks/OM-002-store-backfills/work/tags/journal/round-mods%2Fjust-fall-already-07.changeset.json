@@ -1,0 +1,19 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/just-fall-already — round 7",
+  "node": "C:\\dev\\ONI-Mods\\mods\\just-fall-already",
+  "base": {
+    "standards/error-handling.md": "sha256:523c48772bc4ef1f201fb37dc431e5b24829db8bed5b31623c11399a36a23159"
+  },
+  "ops": [
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "mod-compatibility",
+        "logging"
+      ],
+      "section": "try-catch"
+    }
+  ]
+}

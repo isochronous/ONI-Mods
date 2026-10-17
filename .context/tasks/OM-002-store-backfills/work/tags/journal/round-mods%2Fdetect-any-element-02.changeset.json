@@ -1,0 +1,69 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/detect-any-element — round 2",
+  "node": "C:\\dev\\ONI-Mods\\mods\\detect-any-element",
+  "base": {
+    "domains/entities.md": "sha256:5dbdf6c3c78610fda106b9dbee0370e830adee1a8d97949cca5bcd807596bd2c",
+    "domains/glossary.md": "sha256:e736ca45f1253d75f8d5cabf040e2fc1057f21afb1979cd9fd5715b36accdf3a",
+    "overview.md": "sha256:9d2bd1541fc9267979df380794edab16bd23e4dafa6f4f633d00e4ca5afd0159",
+    "standards/error-handling.md": "sha256:52cec33641e1c05492c39677ced84e2d46f8658da2d9c5420b1ea028fec1d5d2",
+    "standards/code-style.md": "sha256:c5b589c77cf4285239e951a951ff2aad899823570ef2d6ffebf4143e0daa7916",
+    "standards/naming-conventions.md": "sha256:1879655dbf05e615b7973f62edd3632476df6c1379e0552dfa5c3f8b6cca655b"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "game-tag",
+        "saved-state"
+      ],
+      "section": "key-entities/anyelement"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "side-screen",
+        "game-tag"
+      ],
+      "section": "terms-to-avoid"
+    },
+    {
+      "target": "overview.md",
+      "mode": "tag",
+      "add": [
+        "mod-entry-point",
+        "mod-strings",
+        "kanim-art",
+        "in-game-testing"
+      ],
+      "section": "where-things-are"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching"
+      ],
+      "section": "guarding-patches/missing-member-warn-leave-vanilla"
+    },
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "game-component",
+        "saved-state"
+      ],
+      "section": "game-components"
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching"
+      ],
+      "section": "code-naming/classes-types-interfaces"
+    }
+  ]
+}

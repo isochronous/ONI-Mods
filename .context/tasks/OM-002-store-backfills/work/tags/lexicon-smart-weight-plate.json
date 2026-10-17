@@ -1,0 +1,384 @@
+{
+ "documents": [
+  {
+   "id": "domains/README.md",
+   "title": "Domains",
+   "description": "Index of the Smart Weight Plate domains folder, linking the entities document on the building, its two-threshold latch and the wiring patches and the glossary of game and mod terms",
+   "sections": [
+    {
+     "id": "domains/README.md#domains",
+     "title": "Domains"
+    }
+   ]
+  },
+  {
+   "id": "domains/entities.md",
+   "title": "Smart Weight Plate domain",
+   "description": "The Smart Weight Plate building, its two-threshold latch component, side screen and Harmony patches in src/SmartWeightPlate, with weighing, signal and threshold rules, file locations, code paths, tests and saved state",
+   "sections": [
+    {
+     "id": "domains/entities.md#overview",
+     "title": "Overview"
+    },
+    {
+     "id": "domains/entities.md#key-entities",
+     "title": "Key Entities"
+    },
+    {
+     "id": "domains/entities.md#key-entities/smart-weight-plate-building",
+     "title": "Smart Weight Plate (building)"
+    },
+    {
+     "id": "domains/entities.md#key-entities/smartweightplate-component",
+     "title": "SmartWeightPlate (component)"
+    },
+    {
+     "id": "domains/entities.md#key-entities/smartweightplatesidescreen-ui",
+     "title": "SmartWeightPlateSideScreen (UI)"
+    },
+    {
+     "id": "domains/entities.md#key-entities/harmony-patches",
+     "title": "Harmony patches"
+    },
+    {
+     "id": "domains/entities.md#key-entities/saved-state",
+     "title": "Saved state"
+    },
+    {
+     "id": "domains/entities.md#business-rules",
+     "title": "Business Rules"
+    },
+    {
+     "id": "domains/entities.md#domain-terminology",
+     "title": "Domain Terminology"
+    },
+    {
+     "id": "domains/entities.md#key-code-paths",
+     "title": "Key Code Paths"
+    },
+    {
+     "id": "domains/entities.md#related",
+     "title": "Related"
+    }
+   ]
+  },
+  {
+   "id": "domains/glossary.md",
+   "title": "Smart Weight Plate glossary",
+   "description": "Glossary for Smart Weight Plate: abbreviations such as kanim and BAO, terms to avoid, and definitions of the vanilla Weight Plate, reservoir semantics, logic signal, FloorSwitchActivator, Pickupable and settings version",
+   "sections": [
+    {
+     "id": "domains/glossary.md#abbreviations-and-acronyms",
+     "title": "Abbreviations and Acronyms"
+    },
+    {
+     "id": "domains/glossary.md#terms-to-avoid",
+     "title": "Terms to Avoid"
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms",
+     "title": "Cross-Domain Terms"
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/weight-plate",
+     "title": "Weight Plate"
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/reservoir-semantics",
+     "title": "Reservoir semantics"
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/logic-signal-green-red",
+     "title": "Logic signal (green / red)"
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/floorswitchactivator",
+     "title": "FloorSwitchActivator"
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/pickupable",
+     "title": "Pickupable"
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/settings-version",
+     "title": "Settings version"
+    },
+    {
+     "id": "domains/glossary.md#related",
+     "title": "Related"
+    }
+   ]
+  },
+  {
+   "id": "overview.md",
+   "title": "smart-weight-plate",
+   "description": "Overview of the Smart Weight Plate mod: the two-threshold weight plate building and its signal behaviour, version, status and credits, and a map of its source, art, translations, tests, tools and publish folders",
+   "sections": [
+    {
+     "id": "overview.md#what-this-is",
+     "title": "What this is"
+    },
+    {
+     "id": "overview.md#where-things-are",
+     "title": "Where things are"
+    }
+   ]
+  },
+  {
+   "id": "standards/README.md",
+   "title": "Standards",
+   "description": "Index of the Smart Weight Plate standards folder, linking its code style, error handling and naming conventions documents with a line on what each covers",
+   "sections": [
+    {
+     "id": "standards/README.md#standards",
+     "title": "Standards"
+    }
+   ]
+  },
+  {
+   "id": "standards/code-style.md",
+   "title": "Code Style Guide",
+   "description": "C# code style for Smart Weight Plate: indentation, braces, imports, comments, control structures, Harmony patch and game component conventions, plus its nested Patches class, PLib side screen and Better Automation Overlay compat",
+   "sections": [
+    {
+     "id": "standards/code-style.md#formatting",
+     "title": "Formatting"
+    },
+    {
+     "id": "standards/code-style.md#formatting/indentation",
+     "title": "Indentation"
+    },
+    {
+     "id": "standards/code-style.md#formatting/line-length",
+     "title": "Line Length"
+    },
+    {
+     "id": "standards/code-style.md#formatting/braces",
+     "title": "Braces"
+    },
+    {
+     "id": "standards/code-style.md#language-and-toolchain",
+     "title": "Language and Toolchain"
+    },
+    {
+     "id": "standards/code-style.md#imports-includes",
+     "title": "Imports/Includes"
+    },
+    {
+     "id": "standards/code-style.md#imports-includes/organization",
+     "title": "Organization"
+    },
+    {
+     "id": "standards/code-style.md#imports-includes/example",
+     "title": "Example"
+    },
+    {
+     "id": "standards/code-style.md#comments",
+     "title": "Comments"
+    },
+    {
+     "id": "standards/code-style.md#comments/when-to-comment",
+     "title": "When to Comment"
+    },
+    {
+     "id": "standards/code-style.md#comments/when-not-to-comment",
+     "title": "When NOT to Comment"
+    },
+    {
+     "id": "standards/code-style.md#comments/format",
+     "title": "Format"
+    },
+    {
+     "id": "standards/code-style.md#control-structures",
+     "title": "Control Structures"
+    },
+    {
+     "id": "standards/code-style.md#control-structures/conditionals",
+     "title": "Conditionals"
+    },
+    {
+     "id": "standards/code-style.md#control-structures/loops",
+     "title": "Loops"
+    },
+    {
+     "id": "standards/code-style.md#control-structures/strings",
+     "title": "Strings"
+    },
+    {
+     "id": "standards/code-style.md#harmony-patches",
+     "title": "Harmony Patches"
+    },
+    {
+     "id": "standards/code-style.md#game-components",
+     "title": "Game Components"
+    },
+    {
+     "id": "standards/code-style.md#project-specific-rules",
+     "title": "Project-Specific Rules"
+    },
+    {
+     "id": "standards/code-style.md#project-specific-rules/smart-weight-plate-specifics",
+     "title": "Smart Weight Plate specifics"
+    },
+    {
+     "id": "standards/code-style.md#related",
+     "title": "Related"
+    }
+   ]
+  },
+  {
+   "id": "standards/error-handling.md",
+   "title": "Error Handling Conventions",
+   "description": "Error handling rules for Smart Weight Plate: guarding Harmony patches and transpilers, try/catch, logging levels and anti-patterns, plus its guarded Better Automation Overlay compat, research tech warning and null target check",
+   "sections": [
+    {
+     "id": "standards/error-handling.md#principles",
+     "title": "Principles"
+    },
+    {
+     "id": "standards/error-handling.md#guarding-patches",
+     "title": "Guarding Patches"
+    },
+    {
+     "id": "standards/error-handling.md#guarding-patches/missing-member-warn-leave-vanilla",
+     "title": "Missing member: warn, leave vanilla"
+    },
+    {
+     "id": "standards/error-handling.md#guarding-patches/transpiler-count-the-match",
+     "title": "Transpiler: count the match"
+    },
+    {
+     "id": "standards/error-handling.md#guarding-patches/missing-data-warn-continue",
+     "title": "Missing data: warn, continue"
+    },
+    {
+     "id": "standards/error-handling.md#guarding-patches/null-checks-on-game-objects",
+     "title": "Null checks on game objects"
+    },
+    {
+     "id": "standards/error-handling.md#guarding-patches/warn-once",
+     "title": "Warn once"
+    },
+    {
+     "id": "standards/error-handling.md#try-catch",
+     "title": "try/catch"
+    },
+    {
+     "id": "standards/error-handling.md#try-catch/finalizer-for-a-thread-with-no-handler",
+     "title": "Finalizer for a thread with no handler"
+    },
+    {
+     "id": "standards/error-handling.md#yielding-to-other-mods",
+     "title": "Yielding to Other Mods"
+    },
+    {
+     "id": "standards/error-handling.md#logging",
+     "title": "Logging"
+    },
+    {
+     "id": "standards/error-handling.md#logging/log-levels",
+     "title": "Log Levels"
+    },
+    {
+     "id": "standards/error-handling.md#logging/what-to-include",
+     "title": "What to Include"
+    },
+    {
+     "id": "standards/error-handling.md#anti-patterns-to-avoid",
+     "title": "Anti-Patterns to Avoid"
+    },
+    {
+     "id": "standards/error-handling.md#anti-patterns-to-avoid/swallowing-exceptions",
+     "title": "Swallowing exceptions"
+    },
+    {
+     "id": "standards/error-handling.md#anti-patterns-to-avoid/throwing-from-a-patch",
+     "title": "Throwing from a patch"
+    },
+    {
+     "id": "standards/error-handling.md#anti-patterns-to-avoid/assuming-the-game-s-internals",
+     "title": "Assuming the game's internals"
+    },
+    {
+     "id": "standards/error-handling.md#anti-patterns-to-avoid/silent-degradation",
+     "title": "Silent degradation"
+    },
+    {
+     "id": "standards/error-handling.md#anti-patterns-to-avoid/spamming-the-log",
+     "title": "Spamming the log"
+    },
+    {
+     "id": "standards/error-handling.md#project-specific-patterns",
+     "title": "Project-Specific Patterns"
+    },
+    {
+     "id": "standards/error-handling.md#project-specific-patterns/smart-weight-plate-specifics",
+     "title": "Smart Weight Plate specifics"
+    },
+    {
+     "id": "standards/error-handling.md#related",
+     "title": "Related"
+    }
+   ]
+  },
+  {
+   "id": "standards/naming-conventions.md",
+   "title": "Naming Conventions",
+   "description": "Naming conventions for Smart Weight Plate: files, variables, methods, types, ModStrings keys, ids and tags, plus its string branches, test classes, Kit helper file, log prefix and staticID",
+   "sections": [
+    {
+     "id": "standards/naming-conventions.md#files-and-directories",
+     "title": "Files and Directories"
+    },
+    {
+     "id": "standards/naming-conventions.md#files-and-directories/general-rules",
+     "title": "General Rules"
+    },
+    {
+     "id": "standards/naming-conventions.md#files-and-directories/examples-by-type",
+     "title": "Examples by Type"
+    },
+    {
+     "id": "standards/naming-conventions.md#code-naming",
+     "title": "Code Naming"
+    },
+    {
+     "id": "standards/naming-conventions.md#code-naming/variables",
+     "title": "Variables"
+    },
+    {
+     "id": "standards/naming-conventions.md#code-naming/functions-methods",
+     "title": "Functions/Methods"
+    },
+    {
+     "id": "standards/naming-conventions.md#code-naming/classes-types-interfaces",
+     "title": "Classes/Types/Interfaces"
+    },
+    {
+     "id": "standards/naming-conventions.md#code-naming/booleans",
+     "title": "Booleans"
+    },
+    {
+     "id": "standards/naming-conventions.md#code-naming/strings-modstrings",
+     "title": "Strings (`ModStrings`)"
+    },
+    {
+     "id": "standards/naming-conventions.md#code-naming/ids-and-tags",
+     "title": "Ids and Tags"
+    },
+    {
+     "id": "standards/naming-conventions.md#project-specific-conventions",
+     "title": "Project-Specific Conventions"
+    },
+    {
+     "id": "standards/naming-conventions.md#project-specific-conventions/smart-weight-plate-specifics",
+     "title": "Smart Weight Plate specifics"
+    },
+    {
+     "id": "standards/naming-conventions.md#related",
+     "title": "Related"
+    }
+   ]
+  }
+ ]
+}

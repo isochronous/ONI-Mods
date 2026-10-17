@@ -1,0 +1,424 @@
+{
+ "documents": [
+  {
+   "id": "domains/README.md",
+   "title": "Domains",
+   "description": "Index of the domain documents for the Upgrade Planner mod, linking its entities file (planner tool, plans, order queue, Blueprints Expanded link) and its glossary of terms",
+   "sections": [
+    {
+     "id": "domains/README.md#domains",
+     "title": "Domains"
+    }
+   ]
+  },
+  {
+   "id": "domains/entities.md",
+   "title": "Upgrade Planner domain",
+   "description": "The planner tool, plan classes, replacement rules, order queue, presets, dialog, Blueprints Expanded compatibility, hotkey and patches of Upgrade Planner, with business rules, saved state and the source file each lives in",
+   "sections": [
+    {
+     "id": "domains/entities.md#overview",
+     "title": "Overview"
+    },
+    {
+     "id": "domains/entities.md#key-entities",
+     "title": "Key Entities"
+    },
+    {
+     "id": "domains/entities.md#key-entities/upgradetool",
+     "title": "UpgradeTool"
+    },
+    {
+     "id": "domains/entities.md#key-entities/upgradeplan-changematerialplan-replacetypeplan",
+     "title": "UpgradePlan, ChangeMaterialPlan, ReplaceTypePlan"
+    },
+    {
+     "id": "domains/entities.md#key-entities/matcher-and-upgrade",
+     "title": "Matcher and Upgrade"
+    },
+    {
+     "id": "domains/entities.md#key-entities/family-and-category",
+     "title": "Family and Category"
+    },
+    {
+     "id": "domains/entities.md#key-entities/rules",
+     "title": "Rules"
+    },
+    {
+     "id": "domains/entities.md#key-entities/orders-and-placementqueue",
+     "title": "Orders and PlacementQueue"
+    },
+    {
+     "id": "domains/entities.md#key-entities/presets",
+     "title": "Presets"
+    },
+    {
+     "id": "domains/entities.md#key-entities/window",
+     "title": "Window"
+    },
+    {
+     "id": "domains/entities.md#key-entities/compat",
+     "title": "Compat"
+    },
+    {
+     "id": "domains/entities.md#key-entities/hotkey",
+     "title": "Hotkey"
+    },
+    {
+     "id": "domains/entities.md#key-entities/harmony-patches",
+     "title": "Harmony patches"
+    },
+    {
+     "id": "domains/entities.md#key-entities/saved-state",
+     "title": "Saved state"
+    },
+    {
+     "id": "domains/entities.md#business-rules",
+     "title": "Business Rules"
+    },
+    {
+     "id": "domains/entities.md#domain-terminology",
+     "title": "Domain Terminology"
+    },
+    {
+     "id": "domains/entities.md#key-code-paths",
+     "title": "Key Code Paths"
+    },
+    {
+     "id": "domains/entities.md#related",
+     "title": "Related"
+    }
+   ]
+  },
+  {
+   "id": "domains/glossary.md",
+   "title": "Upgrade Planner glossary",
+   "description": "Glossary for Upgrade Planner: abbreviations (BE, ABM, PLib, def), terms to avoid such as upgrade and reconstruct, and definitions of replacement layers, tags, variants and material terms with where each is used",
+   "sections": [
+    {
+     "id": "domains/glossary.md#abbreviations-and-acronyms",
+     "title": "Abbreviations and Acronyms"
+    },
+    {
+     "id": "domains/glossary.md#terms-to-avoid",
+     "title": "Terms to Avoid"
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms",
+     "title": "Cross-Domain Terms"
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/replacement-layer",
+     "title": "Replacement layer"
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/replacement-tags",
+     "title": "Replacement tags"
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/replacement-candidate",
+     "title": "Replacement candidate"
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/utility-building",
+     "title": "Utility building"
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/reconstructable",
+     "title": "Reconstructable"
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/materialselectionpanel",
+     "title": "MaterialSelectionPanel"
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/instant-build",
+     "title": "Instant build"
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/material-element-tag",
+     "title": "Material / element tag"
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/variant-family-member",
+     "title": "Variant (family member)"
+    },
+    {
+     "id": "domains/glossary.md#related",
+     "title": "Related"
+    }
+   ]
+  },
+  {
+   "id": "overview.md",
+   "title": "upgrade-planner",
+   "description": "Overview of the Upgrade Planner mod: the box-drag tool that changes building materials or replaces building types, its tabs, presets and Blueprints Expanded requirement, version, and a map of its source folders, tests and publish files",
+   "sections": [
+    {
+     "id": "overview.md#what-this-is",
+     "title": "What this is"
+    },
+    {
+     "id": "overview.md#where-things-are",
+     "title": "Where things are"
+    }
+   ]
+  },
+  {
+   "id": "standards/README.md",
+   "title": "Standards",
+   "description": "Index of the Upgrade Planner standards documents, linking the code-style, error-handling and naming-conventions guides with a line on each",
+   "sections": [
+    {
+     "id": "standards/README.md#standards",
+     "title": "Standards"
+    }
+   ]
+  },
+  {
+   "id": "standards/code-style.md",
+   "title": "Code Style Guide",
+   "description": "C# code style for the Upgrade Planner mod: formatting, imports, comments, Harmony patch and game component conventions, plus a section on its vendored PLib build, subfolder layout, internals access and use of var",
+   "sections": [
+    {
+     "id": "standards/code-style.md#formatting",
+     "title": "Formatting"
+    },
+    {
+     "id": "standards/code-style.md#formatting/indentation",
+     "title": "Indentation"
+    },
+    {
+     "id": "standards/code-style.md#formatting/line-length",
+     "title": "Line Length"
+    },
+    {
+     "id": "standards/code-style.md#formatting/braces",
+     "title": "Braces"
+    },
+    {
+     "id": "standards/code-style.md#language-and-toolchain",
+     "title": "Language and Toolchain"
+    },
+    {
+     "id": "standards/code-style.md#imports-includes",
+     "title": "Imports/Includes"
+    },
+    {
+     "id": "standards/code-style.md#imports-includes/organization",
+     "title": "Organization"
+    },
+    {
+     "id": "standards/code-style.md#imports-includes/example",
+     "title": "Example"
+    },
+    {
+     "id": "standards/code-style.md#comments",
+     "title": "Comments"
+    },
+    {
+     "id": "standards/code-style.md#comments/when-to-comment",
+     "title": "When to Comment"
+    },
+    {
+     "id": "standards/code-style.md#comments/when-not-to-comment",
+     "title": "When NOT to Comment"
+    },
+    {
+     "id": "standards/code-style.md#comments/format",
+     "title": "Format"
+    },
+    {
+     "id": "standards/code-style.md#control-structures",
+     "title": "Control Structures"
+    },
+    {
+     "id": "standards/code-style.md#control-structures/conditionals",
+     "title": "Conditionals"
+    },
+    {
+     "id": "standards/code-style.md#control-structures/loops",
+     "title": "Loops"
+    },
+    {
+     "id": "standards/code-style.md#control-structures/strings",
+     "title": "Strings"
+    },
+    {
+     "id": "standards/code-style.md#harmony-patches",
+     "title": "Harmony Patches"
+    },
+    {
+     "id": "standards/code-style.md#game-components",
+     "title": "Game Components"
+    },
+    {
+     "id": "standards/code-style.md#project-specific-rules",
+     "title": "Project-Specific Rules"
+    },
+    {
+     "id": "standards/code-style.md#project-specific-rules/upgrade-planner-specifics",
+     "title": "Upgrade Planner specifics"
+    },
+    {
+     "id": "standards/code-style.md#related",
+     "title": "Related"
+    }
+   ]
+  },
+  {
+   "id": "standards/error-handling.md",
+   "title": "Error Handling Conventions",
+   "description": "Error handling and logging rules for the Upgrade Planner mod: guarding patches, try/catch use, yielding to other mods, log levels, anti-patterns, plus how its Blueprints link, presets, variants and placement queue fail",
+   "sections": [
+    {
+     "id": "standards/error-handling.md#principles",
+     "title": "Principles"
+    },
+    {
+     "id": "standards/error-handling.md#guarding-patches",
+     "title": "Guarding Patches"
+    },
+    {
+     "id": "standards/error-handling.md#guarding-patches/missing-member-warn-leave-vanilla",
+     "title": "Missing member: warn, leave vanilla"
+    },
+    {
+     "id": "standards/error-handling.md#guarding-patches/transpiler-count-the-match",
+     "title": "Transpiler: count the match"
+    },
+    {
+     "id": "standards/error-handling.md#guarding-patches/missing-data-warn-continue",
+     "title": "Missing data: warn, continue"
+    },
+    {
+     "id": "standards/error-handling.md#guarding-patches/null-checks-on-game-objects",
+     "title": "Null checks on game objects"
+    },
+    {
+     "id": "standards/error-handling.md#guarding-patches/warn-once",
+     "title": "Warn once"
+    },
+    {
+     "id": "standards/error-handling.md#try-catch",
+     "title": "try/catch"
+    },
+    {
+     "id": "standards/error-handling.md#try-catch/finalizer-for-a-thread-with-no-handler",
+     "title": "Finalizer for a thread with no handler"
+    },
+    {
+     "id": "standards/error-handling.md#yielding-to-other-mods",
+     "title": "Yielding to Other Mods"
+    },
+    {
+     "id": "standards/error-handling.md#logging",
+     "title": "Logging"
+    },
+    {
+     "id": "standards/error-handling.md#logging/log-levels",
+     "title": "Log Levels"
+    },
+    {
+     "id": "standards/error-handling.md#logging/what-to-include",
+     "title": "What to Include"
+    },
+    {
+     "id": "standards/error-handling.md#anti-patterns-to-avoid",
+     "title": "Anti-Patterns to Avoid"
+    },
+    {
+     "id": "standards/error-handling.md#anti-patterns-to-avoid/swallowing-exceptions",
+     "title": "Swallowing exceptions"
+    },
+    {
+     "id": "standards/error-handling.md#anti-patterns-to-avoid/throwing-from-a-patch",
+     "title": "Throwing from a patch"
+    },
+    {
+     "id": "standards/error-handling.md#anti-patterns-to-avoid/assuming-the-game-s-internals",
+     "title": "Assuming the game's internals"
+    },
+    {
+     "id": "standards/error-handling.md#anti-patterns-to-avoid/silent-degradation",
+     "title": "Silent degradation"
+    },
+    {
+     "id": "standards/error-handling.md#anti-patterns-to-avoid/spamming-the-log",
+     "title": "Spamming the log"
+    },
+    {
+     "id": "standards/error-handling.md#project-specific-patterns",
+     "title": "Project-Specific Patterns"
+    },
+    {
+     "id": "standards/error-handling.md#project-specific-patterns/upgrade-planner-specifics",
+     "title": "Upgrade Planner specifics"
+    },
+    {
+     "id": "standards/error-handling.md#related",
+     "title": "Related"
+    }
+   ]
+  },
+  {
+   "id": "standards/naming-conventions.md",
+   "title": "Naming Conventions",
+   "description": "Naming rules for the Upgrade Planner mod: files, namespaces, patch classes, variables, ModStrings keys, ids and tests, plus its string branch, hotkey id, folder-per-layer names, interfaces, test classes and log prefix",
+   "sections": [
+    {
+     "id": "standards/naming-conventions.md#files-and-directories",
+     "title": "Files and Directories"
+    },
+    {
+     "id": "standards/naming-conventions.md#files-and-directories/general-rules",
+     "title": "General Rules"
+    },
+    {
+     "id": "standards/naming-conventions.md#files-and-directories/examples-by-type",
+     "title": "Examples by Type"
+    },
+    {
+     "id": "standards/naming-conventions.md#code-naming",
+     "title": "Code Naming"
+    },
+    {
+     "id": "standards/naming-conventions.md#code-naming/variables",
+     "title": "Variables"
+    },
+    {
+     "id": "standards/naming-conventions.md#code-naming/functions-methods",
+     "title": "Functions/Methods"
+    },
+    {
+     "id": "standards/naming-conventions.md#code-naming/classes-types-interfaces",
+     "title": "Classes/Types/Interfaces"
+    },
+    {
+     "id": "standards/naming-conventions.md#code-naming/booleans",
+     "title": "Booleans"
+    },
+    {
+     "id": "standards/naming-conventions.md#code-naming/strings-modstrings",
+     "title": "Strings (`ModStrings`)"
+    },
+    {
+     "id": "standards/naming-conventions.md#code-naming/ids-and-tags",
+     "title": "Ids and Tags"
+    },
+    {
+     "id": "standards/naming-conventions.md#project-specific-conventions",
+     "title": "Project-Specific Conventions"
+    },
+    {
+     "id": "standards/naming-conventions.md#project-specific-conventions/upgrade-planner-specifics",
+     "title": "Upgrade Planner specifics"
+    },
+    {
+     "id": "standards/naming-conventions.md#related",
+     "title": "Related"
+    }
+   ]
+  }
+ ]
+}

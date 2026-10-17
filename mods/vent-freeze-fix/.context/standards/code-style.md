@@ -1,9 +1,11 @@
 ---
+tags: code-style
 doc_id: doc-4a99769328fa
-description: "C# formatting, imports, comments, Harmony patch and component conventions for Vent Freeze Fix (stops liquid vents from freezing into tiles after a load), with this mod's own layout."
+description: "C# code style for the Vent Freeze Fix mod: formatting, imports, comments, Harmony patch and game component conventions, plus a section on its vent patches, watcher component, developer options and option loading"
 applies_to:
   - "src/**"
 ---
+
 # Code Style Guide
 
 ## Formatting
@@ -131,13 +133,15 @@ if (idx == ushort.MaxValue || idx >= elements.Count)
 - Local types are written out (`Tech tech = ...`). `var` appears mainly in `mods/upgrade-planner`, `mods/natural-backwalls-everywhere` and the test projects; follow the surrounding file.
 
 ### Strings
-**Id:** blk-0d4afc60efdf
+**Id:** blk-0d4afc60efdf  
+**Tags:** mod-strings
 
 - Log and UI text is built with `+` concatenation, or `string.Format` on a `LocString`. String interpolation is not used in mod code.
 - Player-visible text is a `LocString` field in `ModStrings`, never a literal at the call site (see [naming conventions](naming-conventions.md)).
 
 ## Harmony Patches
-**Id:** blk-441857351745
+**Id:** blk-441857351745  
+**Tags:** harmony-patching
 
 - A patch is a static class with `[HarmonyPatch(typeof(Type), nameof(Type.Method))]`, or `[HarmonyPatch(typeof(Type), "PrivateMethod")]` for a non-public method, and methods named `Prefix`, `Postfix`, `Transpiler` or `Finalizer` (`mods/bitshifter/src/Bitshifter/Patches.cs`).
 - Game state arrives through Harmony parameters: `__instance`, `__result`, `___field`. Fields read repeatedly use `AccessTools.FieldRefAccess` kept in a `static readonly` field (`mods/detect-any-element/src/DetectAnyElement/Patches.cs`).
@@ -147,21 +151,24 @@ if (idx == ushort.MaxValue || idx >= elements.Count)
 - Transpilers search for the instruction they change and report when it is not found; see [error handling](error-handling.md).
 
 ## Game Components
-**Id:** blk-ed35ebb87372
+**Id:** blk-ed35ebb87372  
+**Tags:** game-component, saved-state
 
 - A component extends `KMonoBehaviour`, overrides `OnPrefabInit`, `OnSpawn` and `OnCleanUp` and calls `base` from each. Sibling components come in through `[MyCmpGet]` or `[MyCmpReq]` (`mods/no-magic-fridges/src/NoMagicFridges/FridgeThermostat.cs`).
 - Saved state uses `[Serialize]` fields with `[SerializationConfig(MemberSerialization.OptIn)]` on the class (`mods/sweep-zones/src/SweepZones/ZoneStore.cs`).
 - Components are added to prefabs from a `DoPostConfigureComplete` postfix with `go.AddOrGet<T>()`.
 
 ## Project-Specific Rules
-**Id:** blk-eebace797a67
+**Id:** blk-eebace797a67  
+**Tags:** mod-options, logging, in-game-testing
 
 - Mod options are a PLib `POptions` class marked `[JsonObject(MemberSerialization.OptIn)]` and `[ConfigFile(SharedConfigLocation: true)]`, read through a static `Load()` (`mods/vent-freeze-fix/src/VentFreezeFix/Options.cs`) or through `SingletonOptions<Options>` (`mods/storage-pod-redux`). Option titles are string-table keys, so the translation follows the language.
 - Every mod logs one line at load: `[<Name>] Loaded version <assembly version>`.
 - Tests live in a separate `<Name>.Tests` project and are written as `[OniTest]` coroutines against the real game.
 
 ### Vent Freeze Fix specifics
-**Id:** blk-f3f3abcc3239
+**Id:** blk-f3f3abcc3239  
+**Tags:** game-component, saved-state, developer-tooling
 
 - `UsePLib`, `UseTranslations` and `ReferenceUnityUI`. The two vent patches sit after the mod class in `Mod.cs`: `LiquidVentConfig_Storage_Patch` and `LiquidVentConfig_Patch`.
 - `VentFreezeWatcher` is a `KMonoBehaviour` whose snapshot fields are `[Serialize]` and filled in an `[OnSerializing]` method, so a load has a "previous tick" to compare with.

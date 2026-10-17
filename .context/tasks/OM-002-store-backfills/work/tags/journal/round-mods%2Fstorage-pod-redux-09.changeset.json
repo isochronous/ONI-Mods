@@ -1,0 +1,38 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/storage-pod-redux — round 9",
+  "node": "C:\\dev\\ONI-Mods\\mods\\storage-pod-redux",
+  "base": {
+    "domains/entities.md": "sha256:f554496ef14dd4c519350e8c6db9d70ac79e6c1bef58dde5542d0faee8b41593",
+    "domains/glossary.md": "sha256:505625107d3df9199aa11d44ad1099cd88328f8d11846476c78952e080f5b0d2",
+    "standards/error-handling.md": "sha256:f847ebc8ca36f9ef4f92a08d1b903e0dd011de795fae2070b2dc9d91e8dd59d8"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "mod-entry-point",
+        "harmony-patching"
+      ],
+      "section": "key-code-paths"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "mod-compatibility"
+      ],
+      "section": "cross-domain-terms/static-id"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "mod-compatibility",
+        "building-unlock"
+      ],
+      "section": "project-specific-patterns/storage-pod-redux-specifics"
+    }
+  ]
+}

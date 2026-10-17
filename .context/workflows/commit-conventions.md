@@ -1,7 +1,9 @@
 ---
+tags: commit-messages
 doc_id: doc-44a9d22a52a0
-description: "The commit subject style used in ONI-Mods: mod-name prefix, one terse line, release and task commits, trailers."
+description: "Commit message style in ONI-Mods: the mod-name prefix with one terse line, shared-tooling and release commit forms, task-prefixed commits and the Phase-Handoff trailer, with examples from the log"
 ---
+
 # Commit Conventions
 
 Derived from the `git log` of this repository (one author, with each mod's history brought in) and from `.claude/commands/release-mods.md`.
@@ -26,7 +28,8 @@ Natural Backwalls: tests in a generated cluster
 ```
 
 ### Shared tooling and housekeeping
-**Id:** blk-02d371ff9e5a
+**Id:** blk-02d371ff9e5a  
+**Tags:** common-submodule
 
 Changes that belong to no mod start with the area that changed:
 
@@ -38,7 +41,8 @@ Ignore Python caches
 ```
 
 ### Release commits (written by the release scripts)
-**Id:** blk-f2f9b20f215b
+**Id:** blk-f2f9b20f215b  
+**Tags:** release-process, changelog
 
 ```
 Release bitshifter v1.2.0
@@ -59,7 +63,8 @@ Bring in vent-freeze-fix with its history
 One commit per mod brought into the monorepo; not used for new work.
 
 ### Active task work
-**Id:** blk-ffa775f8c3d0
+**Id:** blk-ffa775f8c3d0  
+**Tags:** task-id, phase-handoff
 
 Commits made while executing an ICON task carry the task ID as the prefix:
 
@@ -70,7 +75,8 @@ OM-001: task plan and unit specs for the populate-context pass
 Phase-boundary commits made by the task-plan workflow add the `Phase-Handoff: <phase>` trailer (see `workflows/task-plan/`). The prefix is `OM`, from `local_task_id_prefix` in `.context/iconrc.json`.
 
 ## Task ID Generation
-**Id:** blk-f7d3d5006f4f
+**Id:** blk-f7d3d5006f4f  
+**Tags:** task-id, git-branches
 
 The manager hands out task IDs for `.context/tasks/` folders and task branches. The first task is `OM-001` (three digits as shipped by the scaffold); later IDs follow the same width.
 
@@ -89,12 +95,14 @@ OM-001-populate-context
 Task IDs are three digits (`OM-001`, `OM-002`), the width of the real branch `OM-001-populate-context`.
 
 ## Release Commits
-**Id:** blk-9583fab238e3
+**Id:** blk-9583fab238e3  
+**Tags:** release-process
 
 A release adds no version suffix to the subject: the version is in the message ("Release bitshifter v1.2.0") and in the tag `bitshifter-v1.2.0`. The release script finds the last release from the tag, not from the log.
 
 ## Co-authorship
-**Id:** blk-ffdd16c8e101
+**Id:** blk-ffdd16c8e101  
+**Tags:** assistant-attribution
 
 Commits made with an AI assistant end with the assistant's trailer after a blank line, then the session link, as in the repository's recent history:
 
@@ -119,6 +127,7 @@ OM-001: task plan and unit specs for the populate-context pass
 ```
 
 ## Changelog entries
-**Id:** blk-bd19a93b7c1f
+**Id:** blk-bd19a93b7c1f  
+**Tags:** changelog, release-process, steam-workshop
 
 `mods/<name>/CHANGELOG.md` is where release notes live, written for players: short plain bullets under `## Unreleased`, saying what changed in the game ("Placed but unbuilt plates now show the usual white outline instead of the finished building"). Group under `### Added` / `### Changed` / `### Fixed` only when more than one kind is present. The release script turns `## Unreleased` into `## X.Y.Z - <date>` and uses it as the GitHub release body and the Workshop change note.

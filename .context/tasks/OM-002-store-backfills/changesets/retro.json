@@ -1,0 +1,29 @@
+{
+ "task": "OM-002",
+ "why": "close OM-002 with its retrospective and the ICON friction met during the store backfills",
+ "node": ".",
+ "ops": [
+  {
+   "row": "retro",
+   "mode": "append",
+   "title": "overviews, then description, coverage and tag backfills over every node",
+   "avoid": "Tagging 17 nodes in independent passes over one standards body copied into each of them. Identical sections came back with different tags from mod to mod (34 of 56 shared sections), round two then put terms on documents and parent headings whose sections already carried them (about 90 nested-duplicate advisories), and the per-node two-document floor admitted a term like exception-handling in 2 nodes and not 15 for the same text. When a body is shared across nodes, choose its tags once per section and stamp them into every copy, and give the tagging passes the round-one tags of a document before asking for its document tag.",
+   "repeat": "Freezing each node's survey and refusing a write when the node changed since; opening each tagging pass's partial file before dispatch and closing it only on the harness's completion notice; persisting every round before applying it. 18 dictionaries, two tagging rounds and every correction landed with no refusal and nothing to replay. Splitting description authoring across four units and merging into one bound answers file also ran clean: 150 distinct descriptions, 0 declined.",
+   "updated": "domains/tooling-friction.md gains two entries: tag-backfill shipping a library and no runnable command, and coverage-backfill having no door for practice documents. Nothing else was promoted: the tagging lessons concern ICON's bulk tools rather than this repository's code."
+  },
+  {
+   "mode": "section",
+   "target": "domains/tooling-friction.md",
+   "section": "2026-10-17 tag-backfill: a library and a brief, but no command to run",
+   "create_section": true,
+   "body": "The tag-backfill skill describes a seven-step run and ships `lib/backfill/*.mjs` (surveyStore, chunkDocuments, taggingInput, beginPass/completePass, validateResponse, generateOperations, runBackfill) plus the tagging brief, but no CLI that drives them. Running it over 18 nodes took a 150-line driver (`.context/tasks/OM-002-store-backfills/work/tags/tagwork.mjs`): split the store-wide survey per node because each node needs its own dictionary, write one input per chunk, open and close passes, validate each chunk against its own chunk survey (a part chunk's expectation differs from its whole document's), merge, check every term against the node's `tags.md`, refuse when the node changed since its survey, then generate and run rounds. Expected: a `ks tag-backfill` verb with survey, chunk, intake and write steps, node-aware. Done instead: wrote the driver in the task folder."
+  },
+  {
+   "mode": "section",
+   "target": "domains/tooling-friction.md",
+   "section": "2026-10-17 coverage-backfill: nothing to propose, and no door for documents that cover nothing",
+   "create_section": true,
+   "body": "`coverage.mjs survey` exited 0 at all 19 nodes: 45 undeclared documents, every one no candidate (root workflow and testing documents: spread or one target only; README indexes: no resolved token). The door declares `witness: none` only when a proposal is rejected on question 2 or 3, so a practice document that never gets a proposal stays undeclared, and every sweep keeps listing it as uncovered. Hand-declaring `witness: none` would work, but no write-path mode removes a witness, so it can only be undone through git. Expected: a way to record \"considered, covers no place\" for a no-candidate document through the door. Done instead: left the 45 documents undeclared."
+  }
+ ]
+}

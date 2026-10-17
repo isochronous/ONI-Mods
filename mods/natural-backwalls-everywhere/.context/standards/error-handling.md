@@ -1,13 +1,15 @@
 ---
 doc_id: doc-0ad8dccd6659
-description: "How Natural Backwalls Everywhere guards its Harmony patches, reflection lookups and file reads, and what it logs when something is missing."
+description: "Error handling rules for Natural Backwalls Everywhere: guarding Harmony patches and transpilers, try/catch and the worldgen thread finalizer, logging levels and anti-patterns, plus how its worldgen, settle sim and noise-file patches fail"
 applies_to:
   - "src/**"
 ---
+
 # Error Handling Conventions
 
 ## Principles
-**Id:** blk-d7345384307a
+**Id:** blk-d7345384307a  
+**Tags:** vanilla-fallback, logging, exception-handling
 
 1. **Never break the game for a mod's sake.** A patch that cannot do its job leaves the vanilla behaviour in place and says so in the log. It does not throw into the game's update loop.
 2. **Check what you patch.** Game updates rename fields and move code. Every reflection lookup, transpiler match and prefab or tech lookup is checked for a miss.
@@ -18,10 +20,12 @@ applies_to:
 There is no custom exception hierarchy. Mods are small patches over game code, so errors are handled where they occur.
 
 ## Guarding Patches
-**Id:** blk-be03f1a912d6
+**Id:** blk-be03f1a912d6  
+**Tags:** harmony-patching
 
 ### Missing member: warn, leave vanilla
-**Id:** blk-4c1ca7ab8b1f
+**Id:** blk-4c1ca7ab8b1f  
+**Tags:** vanilla-fallback
 
 A reflection lookup that returns null is checked before use. The patch then does nothing, or returns `true` from a prefix so the game's method runs.
 
@@ -32,7 +36,8 @@ if (ActiveField == null || StorageField == null)
 (`mods/no-magic-fridges/src/NoMagicFridges/Patches.cs`; the warning is logged once at load by `SimTransferMethod` in `FridgeThermostat.cs`.)
 
 ### Transpiler: count the match
-**Id:** blk-6a76d7ebba04
+**Id:** blk-6a76d7ebba04  
+**Tags:** transpiler, vanilla-fallback
 
 A transpiler counts the instructions it replaced. Zero (or more than expected) logs a warning and returns the original code, so a game update disables the change instead of breaking the method.
 
@@ -43,7 +48,8 @@ if (swapped == 0)
 (`mods/corner-build-anything/src/CornerBuildAnything/ReachTablePatches.cs`; same pattern in `mods/bitshifter/src/Bitshifter/Patches.cs` and `mods/natural-backwalls-everywhere/src/NaturalBackwalls/SettleSimPatch.cs`.)
 
 ### Missing data: warn, continue
-**Id:** blk-ef0357ebcd1c
+**Id:** blk-ef0357ebcd1c  
+**Tags:** vanilla-fallback, logging
 
 A build-menu, tech or asset lookup that finds nothing warns and keeps the mod working:
 
@@ -58,17 +64,20 @@ if (tech == null)
 (`mods/smart-weight-plate/src/SmartWeightPlate/Patches.cs`; also `mods/multichannel-critter-sensor`, `mods/storage-pod-redux`.) Missing art or a missing vanilla prefab degrades the same way (`Display.UseAnim` in `mods/bitshifter/src/Bitshifter/Patches.cs`, `mods/multichannel-critter-sensor/src/MultichannelCritterSensor/MultichannelCritterSensorSideScreen.cs`).
 
 ### Null checks on game objects
-**Id:** blk-475f58d796c4
+**Id:** blk-475f58d796c4  
+**Tags:** vanilla-fallback
 
 Components and arguments that can be absent are tested before use: `if (stt == null || !Sim.IsValidHandle(stt.SimHandle)) return true;`, `if (sensor == null || GameScenePartitioner.Instance == null) return;` (`mods/motion-sensor-range/src/MotionSensorRange/RangeSlider.cs`).
 
 ### Warn once
-**Id:** blk-caab886a5536
+**Id:** blk-caab886a5536  
+**Tags:** logging
 
 Work that repeats every frame or tick warns once behind a flag (`warnedMissingInternals` in `RangeSlider.cs`).
 
 ## try/catch
-**Id:** blk-f04d3902a855
+**Id:** blk-f04d3902a855  
+**Tags:** logging, exception-handling
 
 `try`/`catch (Exception e)` is used in four situations and nowhere else:
 
@@ -80,22 +89,25 @@ Work that repeats every frame or tick warns once behind a flag (`warnedMissingIn
 The message form is `"[<Name>] <what was skipped>: " + e.Message`. Use `e.GetBaseException().Message` when the exception may be a reflection wrapper, and the full `e` when the stack trace is needed.
 
 ### Finalizer for a thread with no handler
-**Id:** blk-2cda0e3a8dd6
+**Id:** blk-2cda0e3a8dd6  
+**Tags:** harmony-patching
 
 `Cluster.BeginGeneration` is the worldgen thread body and has none; an exception ends the thread and the loading screen waits forever. A finalizer reports the failure through the game's own error path and logs the exception (`Cluster_BeginGeneration_Patch` in `mods/natural-backwalls-everywhere/src/NaturalBackwalls/WorldgenThreadPatch.cs`).
 
 ## Yielding to Other Mods
-**Id:** blk-016318d101d7
+**Id:** blk-016318d101d7  
+**Tags:** mod-compatibility
 
 When another mod already does the job or shares an id, the mod steps aside and logs why:
 - Bitshifter disables itself when Digital CPU is enabled or the contested methods already have Harmony owners (`WhyYield` in `mods/bitshifter/src/Bitshifter/Mod.cs`).
 - Storage Pod Redux does not register its buildings while the original Storage Pod is enabled, and logs a warning telling the player to disable one (`mods/storage-pod-redux/src/StoragePodRedux/Mod.cs`).
 
 ## Logging
-**Id:** blk-8bb4d3c90a73
+**Id:** blk-8bb4d3c90a73  
+**Tags:** logging
 
 ### Log Levels
-**Id:** blk-dc07f4a8abe8
+**Id:** blk-dc07f4a8abe8  
 
 | Level | Use For | Example |
 |-------|---------|---------|
@@ -104,7 +116,7 @@ When another mod already does the job or shares an id, the mod steps aside and l
 | `Debug.Log` | Load line, a one-line summary of what a pass changed | `Tagged N refined metal(s)` in `mods/refined-building` |
 
 ### What to Include
-**Id:** blk-63783d2b239e
+**Id:** blk-63783d2b239e  
 
 - The `[<ModName>] ` prefix on every line; `JumperBridgesMod.LogPrefix` holds it for that mod.
 - What was expected, what was found, and what the mod does instead.
@@ -117,27 +129,32 @@ PLib's `PUtil.Log*` helpers are not used; all mods log through `Debug`.
 **Id:** blk-2ab6d7b3e16c
 
 ### Swallowing exceptions
-**Id:** blk-f23be92b9d7d
+**Id:** blk-f23be92b9d7d  
+**Tags:** exception-handling
 
 An empty `catch` hides a broken patch. The one `catch` that returns a fallback without a log is `GuessLanguageCode` in `common/src/Translations.cs`, because a missing language preference is the normal case before the game has started.
 
 ### Throwing from a patch
-**Id:** blk-dd5003fe429c
+**Id:** blk-dd5003fe429c  
+**Tags:** harmony-patching
 
 An exception in a prefix or postfix on a per-frame or sim method repeats every frame. Guard, log once, return.
 
 ### Assuming the game's internals
-**Id:** blk-4d7cded4dc3b
+**Id:** blk-4d7cded4dc3b  
+**Tags:** harmony-patching, transpiler
 
 Reading a private field by name without a null check on the `FieldInfo`, or replacing an instruction without confirming it was found, breaks on the next game update.
 
 ### Silent degradation
-**Id:** blk-ee5834add906
+**Id:** blk-ee5834add906  
+**Tags:** logging
 
 Doing nothing without a log line leaves a player and the author guessing. Every skipped path logs.
 
 ### Spamming the log
-**Id:** blk-072cd61b19ea
+**Id:** blk-072cd61b19ea  
+**Tags:** logging
 
 A warning inside an update method fires thousands of times. Use a once-flag.
 
@@ -145,7 +162,8 @@ A warning inside an update method fires thousands of times. Use a once-flag.
 **Id:** blk-a4d21297c79b
 
 ### Natural Backwalls Everywhere specifics
-**Id:** blk-7423d5bfd4b5
+**Id:** blk-7423d5bfd4b5  
+**Tags:** worldgen, settle-sim, vanilla-fallback, developer-tooling
 
 - Worldgen runs on a thread the game does not guard, so the patches wrap their work in `try`/`catch` and log `[NaturalBackwalls] ... skipped` with the exception message, leaving worldgen untouched (`Patches.cs`, `FeaturePatch.cs`, `PlanetoidPatch.cs`, `Census.cs`).
 - `Cluster_BeginGeneration_Patch.Finalizer` turns an escaped worldgen exception into the game's failure path with a logged stack trace (`WorldgenThreadPatch.cs`).

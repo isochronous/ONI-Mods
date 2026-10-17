@@ -1,0 +1,63 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node . — round 6",
+  "node": "C:/dev/ONI-Mods",
+  "base": {
+    "testing/integration-testing.md": "sha256:a9d1a08e2316055dff4feb1b9dbf98070669089888d74b87c942ba2c988299e9",
+    "testing/unit-testing.md": "sha256:af64e5be44f68b9faa5887511008390be5f95a5156c0881574813b71a42cedfb",
+    "workflows/branching.md": "sha256:589b60be472a995953a50b1e1c3a3a3845f61f7ca40ef177d416fc2691211d8e",
+    "workflows/ci-cd.md": "sha256:9a71293a78a03bfc9ea10775ac1b286877aeb63b7b4358eefe55689e47acbaa2",
+    "workflows/commit-conventions.md": "sha256:b075108f9ec019c62a9d432cef06fabbc29c0c09f8d98bbc1955c03bbe32db0f",
+    "workflows/task-plan/phase-completion.md": "sha256:e2b906b1fbbece673b70eb5737e660bfad430413c31cde11ad2bab3221526f94"
+  },
+  "ops": [
+    {
+      "target": "testing/integration-testing.md",
+      "mode": "tag",
+      "add": [
+        "save-files"
+      ],
+      "section": "database-integration"
+    },
+    {
+      "target": "testing/unit-testing.md",
+      "mode": "tag",
+      "add": [
+        "test-assertions"
+      ],
+      "section": "assertion-patterns"
+    },
+    {
+      "target": "workflows/branching.md",
+      "mode": "tag",
+      "add": [
+        "commit-messages"
+      ],
+      "section": "workflow/everyday-mod-work"
+    },
+    {
+      "target": "workflows/ci-cd.md",
+      "mode": "tag",
+      "add": [
+        "github-issues"
+      ],
+      "section": "stage-details/6-issue-labelling-the-only-github-action"
+    },
+    {
+      "target": "workflows/commit-conventions.md",
+      "mode": "tag",
+      "add": [
+        "assistant-attribution"
+      ],
+      "section": "co-authorship"
+    },
+    {
+      "target": "workflows/task-plan/phase-completion.md",
+      "mode": "tag",
+      "add": [
+        "knowledge-store"
+      ],
+      "section": "two-stage-retrospective"
+    }
+  ]
+}

@@ -1,10 +1,11 @@
 ---
+tags: liquid-vent, liquid-freezing, tile-repair
 witness_digest: "sha256:6ebc8845a2b258051bf9210868d7f042fe8594560c2a88d50f03ea26282696c7"
 witness: loose
 applies_to:
   - "src/VentFreezeFix/**"
 doc_id: doc-c11388d0a842
-description: "Game and mod terms a newcomer needs for Vent Freeze Fix, with abbreviations, terms to avoid and where each is used."
+description: "Glossary for Vent Freeze Fix: abbreviations (sim, 200 ms tick, repro), the term to avoid (fix versus repair), and definitions of liquid vent, super-cooled liquid, the 80% rule, dig and debris terms with where each is used"
 ---
 
 # Vent Freeze Fix glossary

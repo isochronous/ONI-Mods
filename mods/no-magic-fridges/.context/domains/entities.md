@@ -1,9 +1,11 @@
 ---
+tags: refrigerator, heat-exchange
 doc_id: doc-dfa34259ff9b
-description: "The things No Magic Fridges adds or patches, with file locations, gameplay rules and key code paths."
+description: The FridgeThermostat component, Harmony patches and mod entry of No Magic Fridges in src/NoMagicFridges, with the heat-exchange, compressor and insulation rules, file locations, code paths and tests
 applies_to:
   - "src/NoMagicFridges/**"
 ---
+
 # No Magic Fridges domain
 
 ## Overview
@@ -16,6 +18,7 @@ No Magic Fridges changes what a powered fridge does to its contents. Vanilla att
 
 ### FridgeThermostat
 **Id:** blk-eb78596783d5  
+**Tags:** game-component  
 **Description**: The component that runs the thermal model on a fridge building. It samples every stored item each second, moves each toward one shared interior temperature, and insulates cold items from a warmer room.  
 **Location**: `src/NoMagicFridges/FridgeThermostat.cs`
 
@@ -33,6 +36,7 @@ No Magic Fridges changes what a powered fridge does to its contents. Vanilla att
 
 ### Harmony patches
 **Id:** blk-6075d509d0c8  
+**Tags:** harmony-patching  
 **Location**: `src/NoMagicFridges/Patches.cs`
 
 | Patch target | Kind | Purpose |
@@ -44,6 +48,7 @@ The prefix reads the adjuster's private `active` and `storage` fields by reflect
 
 ### Mod entry
 **Id:** blk-e480792c47bc  
+**Tags:** mod-entry-point  
 **Location**: `src/NoMagicFridges/Mod.cs`
 `NoMagicFridgesMod` (a `UserMod2`) only logs the version. Harmony only, no PLib, no strings. Mod id `Isochronous.NoMagicFridges` (`mod.yaml`). Nothing is saved with the game; the mod can be added to or removed from an existing save.
 
@@ -59,7 +64,8 @@ The prefix reads the adjuster's private `active` and `storage` fields by reflect
 - Power draw, the cooling and energy-saver states, storage, the full signal and spoilage rules are untouched.
 
 ## Key Code Paths
-**Id:** blk-0872d6109a15
+**Id:** blk-0872d6109a15  
+**Tags:** game-component, harmony-patching, in-game-testing
 
 - **Per-second step**: `Sim1000ms` samples items, decides insulation, then calls `Exchange` — see `src/NoMagicFridges/FridgeThermostat.cs`
 - **Heat exchange**: `Exchange(setpoint)` picks compressor-on or compressor-off interior temperature and writes `PrimaryElement.Temperature` — see `src/NoMagicFridges/FridgeThermostat.cs`

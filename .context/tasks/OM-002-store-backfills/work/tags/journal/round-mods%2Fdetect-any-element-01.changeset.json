@@ -1,0 +1,18 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r2 for node mods/detect-any-element — round 1",
+  "node": "C:\\dev\\ONI-Mods\\mods\\detect-any-element",
+  "base": {
+    "standards/code-style.md": "sha256:9058ab236f19519ee92005531755514dc59da8c7020f587f677b5e4e0b4809df"
+  },
+  "ops": [
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching"
+      ],
+      "section": "comments/when-to-comment"
+    }
+  ]
+}

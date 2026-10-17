@@ -1,0 +1,19 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r2 for node mods/refined-building — round 5",
+  "node": "C:\\dev\\ONI-Mods\\mods\\refined-building",
+  "base": {
+    "standards/error-handling.md": "sha256:3d42f6c93bcec39d8b086441c6dd688b92f8c264bdfae946e79bb99f03ef7b9a"
+  },
+  "ops": [
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "building-materials",
+        "game-tag"
+      ],
+      "section": "project-specific-patterns/refined-building-specifics"
+    }
+  ]
+}

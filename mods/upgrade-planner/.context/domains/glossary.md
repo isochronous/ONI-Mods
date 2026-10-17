@@ -1,10 +1,11 @@
 ---
+tags: building-replacement, building-materials
 witness_digest: "sha256:e76f9e8279fb4f9b360438528479b314547a025bcabce57dba07c31edbc4bbd2"
 witness: loose
 applies_to:
   - "src/UpgradePlanner/**"
 doc_id: doc-ff4db6770074
-description: "Game and mod terms a newcomer needs for Upgrade Planner, with abbreviations, terms to avoid and where each is used."
+description: "Glossary for Upgrade Planner: abbreviations (BE, ABM, PLib, def), terms to avoid such as upgrade and reconstruct, and definitions of replacement layers, tags, variants and material terms with where each is used"
 ---
 
 # Upgrade Planner glossary
@@ -12,7 +13,8 @@ description: "Game and mod terms a newcomer needs for Upgrade Planner, with abbr
 Terms for the Upgrade Planner mod. For the mod's entities, rules and code paths see [entities](entities.md).
 
 ## Abbreviations and Acronyms
-**Id:** blk-41dd8d370f1a
+**Id:** blk-41dd8d370f1a  
+**Tags:** mod-compatibility
 
 | Abbreviation | Full Term | Context |
 |--------------|-----------|---------|
@@ -70,11 +72,13 @@ Terms for the Upgrade Planner mod. For the mod's entities, rules and code paths 
 
 ### Material / element tag
 **Id:** blk-4e9f18b6b5ff  
+**Tags:** plan-presets  
 **Definition**: The tag of a building material (an element such as `Granite`), as used in a recipe ingredient or `constructionElements`. Presets save them by name.  
 **Used in**: `Materials.cs`, `Presets.cs`.
 
 ### Variant (family member)
 **Id:** blk-9a1c4ba535a3  
+**Tags:** mod-compatibility  
 **Definition**: One of several defs made by one config class that the build menu lists as a single type, one per material (Decor Pack stained glass tiles). `Variants.Resolve` picks the right one.  
 **Used in**: `Families.cs`, `Variants.cs`.
 
