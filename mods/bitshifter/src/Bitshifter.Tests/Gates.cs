@@ -54,6 +54,46 @@ namespace Bitshifter.Tests
 			t.Assert.Eq(all & ~Written, Value(r.Cell(6, 0)), "every bit but 1, 3, 5 and 7 out of the gate");
 		}
 
+		/// <summary>
+		/// A constant mask with no Writers: an empty ribbon into a NOT gives bits 1-31, and a Reader
+		/// with a ribbon on its output shifts that down by its bit less one, leaving the low bits.
+		/// The Reader on bit 32 - n keeps the low n bits: bit 24 keeps bits 1-8, bit 28 bits 1-4.
+		/// </summary>
+		[OniTest("Bitshifter: an empty ribbon through a NOT and a Reader makes a constant mask", Timeout = 60), Layer(1)]
+		public static IEnumerator ConstantMask(TestContext t)
+		{
+			CellRect r = t.Rect(6, 1);
+			t.World.Build("LogicGateNOT", r.Cell(1, 0));
+			LogicRibbonReader reader = t.World.Build("LogicRibbonReader", r.Cell(3, 0)).GetComponent<LogicRibbonReader>();
+			yield return t.WaitGameSeconds(1);
+			reader.SetBitSelection(23); // Bit 24
+			yield return t.WaitGameSeconds(0.5);
+
+			// The stub: one ribbon cell before the NOT's input, with nothing sending on it.
+			UtilityDragSession ribbon = t.Tools.UtilityTool("LogicRibbon", SimHashes.Copper);
+			yield return ribbon.Path(r.Cell(0, 0), r.Cell(1, 0));
+			ribbon.Dispose();
+			yield return t.WaitGameSeconds(1);
+			ribbon = t.Tools.UtilityTool("LogicRibbon", SimHashes.Copper);
+			yield return ribbon.Path(r.Cell(2, 0), r.Cell(3, 0));
+			ribbon.Dispose();
+			yield return t.WaitGameSeconds(1);
+			ribbon = t.Tools.UtilityTool("LogicRibbon", SimHashes.Copper);
+			yield return ribbon.Path(r.Cell(4, 0), r.Cell(5, 0));
+			ribbon.Dispose();
+			yield return t.WaitGameSeconds(1);
+
+			int all = (int)((1L << BitshifterMod.Bits) - 1);
+			t.Log("stub " + Binary(Value(r.Cell(1, 0))) + ", NOT out " + Binary(Value(r.Cell(3, 0))) + ", Reader on bit 24 out " + Binary(Value(r.Cell(5, 0))));
+			t.Assert.Eq(0, Value(r.Cell(1, 0)), "nothing on the stub");
+			t.Assert.Eq(all, Value(r.Cell(3, 0)), "bits 1-31 out of the NOT");
+			t.Assert.Eq(0xFF, Value(r.Cell(5, 0)), "bits 1-8 out of a Reader on bit 24");
+			reader.SetBitSelection(27); // Bit 28
+			yield return t.WaitGameSeconds(1);
+			t.Log("Reader on bit 28 out " + Binary(Value(r.Cell(5, 0))));
+			t.Assert.Eq(0xF, Value(r.Cell(5, 0)), "bits 1-4 out of a Reader on bit 28");
+		}
+
 		private static int Value(int cell)
 		{
 			return Game.Instance.logicCircuitSystem.GetNetworkForCell(cell) is LogicCircuitNetwork n ? n.OutputValue : -1;
