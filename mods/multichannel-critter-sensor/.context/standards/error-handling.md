@@ -1,9 +1,10 @@
 ---
 doc_id: doc-fd60fdc16864
-description: "How Multichannel Critter Sensor guards its Harmony patches, reflection lookups and file reads, and what it logs when something is missing."
+description: "Error handling conventions for Multichannel Critter Sensor: guarding patches, try/catch cases, logging levels and anti-patterns, plus its missing Multiplexing tech warning and side screen prefab fallbacks"
 applies_to:
   - "src/**"
 ---
+
 # Error Handling Conventions
 
 ## Principles

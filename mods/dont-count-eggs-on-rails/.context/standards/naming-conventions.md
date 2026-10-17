@@ -1,9 +1,10 @@
 ---
 doc_id: doc-4e7e5a23b6de
-description: "File, namespace, patch class, string key and id naming for Don't Count Eggs on Rails (project DontCountEggsOnRails)."
+description: "Naming conventions for Don't Count Eggs on Rails: files, namespaces, variables, methods, patch classes, `ModStrings` keys and ids, plus its patch name, `Eggs` test class, log prefix and `staticID`"
 applies_to:
   - "src/**"
 ---
+
 # Naming Conventions
 
 ## Files and Directories

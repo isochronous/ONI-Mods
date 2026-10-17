@@ -1,9 +1,10 @@
 ---
 doc_id: doc-fa5d6e35629d
-description: "How Salty Surf guards its Harmony patches, reflection lookups and file reads, and what it logs when something is missing."
+description: "Error handling rules for Salty Surf: guarding Harmony patches and transpilers, try/catch, logging levels and anti-patterns, plus how its element tagging, intake and descriptor patches null-check and leave vanilla text alone"
 applies_to:
   - "src/**"
 ---
+
 # Error Handling Conventions
 
 ## Principles

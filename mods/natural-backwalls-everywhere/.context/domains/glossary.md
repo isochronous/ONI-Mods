@@ -4,7 +4,7 @@ witness: loose
 applies_to:
   - "src/NaturalBackwalls/**"
 doc_id: doc-afc6c48467c3
-description: "ONI and mod-specific terms used by Natural Backwalls Everywhere."
+description: "Glossary for Natural Backwalls Everywhere: abbreviations, terms to avoid, and definitions of backwall, subworld, biome group, zone type, noise tree, band table, coverage and settle sim, each with the files using it"
 ---
 
 # Natural Backwalls Everywhere glossary

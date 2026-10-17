@@ -1,7 +1,8 @@
 ---
 doc_id: doc-9f1190992016
-description: "Implementation phase protocol for ONI-Mods tasks: entry and exit contracts, the implement unit spec, progress tracker, deviation log and pre-completion review."
+description: "The implementation phase of an ONI-Mods task plan: entry and exit steps, the implement unit spec template, progress tracker, deviation log entry format and pre-completion review"
 ---
+
 # Implementation Phase Templates
 
 > Loaded by the `task-plan-phase-implementation` skill when present.

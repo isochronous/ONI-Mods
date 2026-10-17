@@ -4,7 +4,7 @@ witness: loose
 applies_to:
   - "src/SmartWeightPlate/**"
 doc_id: doc-3b2699889607
-description: "Game and mod terms a newcomer needs for Smart Weight Plate, with abbreviations, terms to avoid and where each is used."
+description: "Glossary for Smart Weight Plate: abbreviations such as kanim and BAO, terms to avoid, and definitions of the vanilla Weight Plate, reservoir semantics, logic signal, FloorSwitchActivator, Pickupable and settings version"
 ---
 
 # Smart Weight Plate glossary

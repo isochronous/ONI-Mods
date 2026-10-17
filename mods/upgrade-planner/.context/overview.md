@@ -1,6 +1,7 @@
 ---
-description: "TODO(owner): one line saying what upgrade-planner is."
+description: "Overview of the Upgrade Planner mod: the box-drag tool that changes building materials or replaces building types, its tabs, presets and Blueprints Expanded requirement, version, and a map of its source folders, tests and publish files"
 ---
+
 # upgrade-planner
 
 ## What this is

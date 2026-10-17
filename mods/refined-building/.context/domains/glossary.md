@@ -4,7 +4,7 @@ witness: loose
 applies_to:
   - "src/RefinedBuilding/**"
 doc_id: doc-a642a3738d44
-description: "ONI and mod-specific terms used by Refined Building."
+description: "Glossary for Refined Building: abbreviations, terms to avoid, and definitions of the Metal and RefinedMetal tags, oreTags, material category lists, ElementLoader and the Metal Refinery, with the code using each"
 ---
 
 # Refined Building glossary

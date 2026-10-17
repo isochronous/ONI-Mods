@@ -1,7 +1,8 @@
 ---
 doc_id: doc-141d002b7975
-description: "What build, test and release automation exists for ONI-Mods: local scripts, in-game tests, GitHub releases, Workshop upload, Discord notice, and the one GitHub Action."
+description: "The ONI-Mods build, test and release pipeline, all run locally: dotnet build, in-game tests, ModCheck, translations check, release script with GitHub release, Workshop upload and Discord notice, the issue-labelling action, and retry and rollback steps"
 ---
+
 # CI/CD Pipeline
 
 ## Overview

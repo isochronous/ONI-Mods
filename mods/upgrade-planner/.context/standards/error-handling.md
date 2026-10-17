@@ -1,9 +1,10 @@
 ---
 doc_id: doc-ec7a8d0f341f
-description: "How Upgrade Planner guards its Harmony patches, reflection lookups and file reads, and what it logs when something is missing."
+description: "Error handling and logging rules for the Upgrade Planner mod: guarding patches, try/catch use, yielding to other mods, log levels, anti-patterns, plus how its Blueprints link, presets, variants and placement queue fail"
 applies_to:
   - "src/**"
 ---
+
 # Error Handling Conventions
 
 ## Principles

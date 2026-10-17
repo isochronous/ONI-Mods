@@ -1,0 +1,57 @@
+{
+  "task": "OM-002",
+  "why": "a generated description for every document, saying what that document contains",
+  "node": "C:\\dev\\ONI-Mods\\mods\\jumper-bridges",
+  "ops": [
+    {
+      "target": "domains/README.md",
+      "mode": "describe",
+      "description": "Index of the two domain documents of Jumper Bridges, the entities and the glossary, each with a one-line summary of the bridge end subject it covers"
+    },
+    {
+      "target": "domains/entities.md",
+      "mode": "describe",
+      "description": "The classes, options, Harmony patches and saved state of Jumper Bridges (`JumperBridge`, `BridgeEndNode`, `BridgeKind`, `BridgeLinks`, `BridgeFootprint`), with the bridge end rules, key code paths and tests"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "describe",
+      "description": "Glossary for Jumper Bridges: abbreviations, terms to avoid, and definitions of bridge end and end node, port, ribbon, utility network, link ring, object layer, joint plate, wire drag, overload and overlay"
+    },
+    {
+      "target": "overview.md",
+      "mode": "describe",
+      "description": "Overview of the Jumper Bridges mod: what direct bridge ends on ports do for automation and power, its version, translations and release state, and a map of its source, tests, tools and publish folders"
+    },
+    {
+      "target": "standards/README.md",
+      "mode": "describe",
+      "description": "Index of the three standards documents of Jumper Bridges (code style, error handling, naming conventions), each with a one-line summary of what it covers"
+    },
+    {
+      "target": "standards/code-style.md",
+      "mode": "describe",
+      "description": "Code style guide for Jumper Bridges: C# formatting, imports, comments, control structures, Harmony patch and game component conventions, plus its `LogPrefix`, `OnLoad` order and `BridgeKind` layout"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "describe",
+      "description": "Error handling conventions for Jumper Bridges: guarding patches, try/catch cases, logging levels and anti-patterns, plus its `Prepare()` skipping, end node log lines and option defaults"
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "describe",
+      "description": "Naming conventions for Jumper Bridges: files, namespaces, variables, methods, patch classes, `ModStrings` keys and ids, plus its `OPTIONS` keys, `BridgeKind` instances, log prefix and `staticID`"
+    }
+  ],
+  "base": {
+    "domains/README.md": "sha256:856bb1bcaf2a82038dcdfc6dfb85a2c7b099c499c41e955eeb7e85337b0319ee",
+    "domains/entities.md": "sha256:84483fe68d43282f2ad8bd7bc0c1645a3d4b0be874b03a9d3720cf4b51b7f357",
+    "domains/glossary.md": "sha256:115939499fc13b684314daec15d4043147500acfa84870e00806125c7ebdd4a2",
+    "overview.md": "sha256:6848a8f653ee934f4b1a91f31277006c8c316d64183e2f1cbf6c51a4982d099e",
+    "standards/README.md": "sha256:6c39cf397b18fac4a837c7b452e046521c6acce6ed1cc3c2adb8613c0afac1d3",
+    "standards/code-style.md": "sha256:9deb03d62275bb8784b419a2d17a822c68fe88ca1eab5a33d1188337927ca7b8",
+    "standards/error-handling.md": "sha256:95f3b1f147b58fb5e7d53b079e9bf1b75f9f32d4ef9b6df27ebb438dc322d5ef",
+    "standards/naming-conventions.md": "sha256:03af8bd34fc55d9df621b7f72666ce4272478fa22f26247af6e02e2a1f0b7146"
+  }
+}

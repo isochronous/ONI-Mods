@@ -1,6 +1,7 @@
 ---
-description: "TODO(owner): one line saying what multichannel-critter-sensor is."
+description: "Overview of the Multichannel Critter Sensor mod: the ribbon-output critter and egg counter it adds with species filters and thresholds, and a map of its source, art, tests, publish and `.context` folders"
 ---
+
 # multichannel-critter-sensor
 
 ## What this is

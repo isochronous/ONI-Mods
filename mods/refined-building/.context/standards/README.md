@@ -1,7 +1,8 @@
 ---
 doc_id: doc-8a8a166dd81b
-description: "TODO(owner): the standards refined-building holds itself to."
+description: Index of the Refined Building standards folder, linking its code style, error handling and naming conventions documents with a line on what each covers
 ---
+
 # Standards
 
 ## Standards

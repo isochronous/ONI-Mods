@@ -1,9 +1,10 @@
 ---
 doc_id: doc-999fea2863cc
-description: "C# formatting, imports, comments, Harmony patch and component conventions for Natural Backwalls Everywhere (adds backwalls to natural biomes during worldgen), with this mod's own layout."
+description: "C# code style for Natural Backwalls Everywhere: indentation, braces, imports, comments, control structures, Harmony patch and game component conventions, plus the NaturalBackwalls project layout, patch files and options screen"
 applies_to:
   - "src/**"
 ---
+
 # Code Style Guide
 
 ## Formatting

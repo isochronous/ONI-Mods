@@ -1,9 +1,10 @@
 ---
 doc_id: doc-bec2d98ee48a
-description: "How Corner Build Anything guards its Harmony patches, reflection lookups and file reads, and what it logs when something is missing."
+description: "Error handling conventions for the Corner Build Anything mod: guarding patches and transpilers, logging levels, plus how SwapTable counts replaced loads and warns when none match"
 applies_to:
   - "src/**"
 ---
+
 # Error Handling Conventions
 
 ## Principles

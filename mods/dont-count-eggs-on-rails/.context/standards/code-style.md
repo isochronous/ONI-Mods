@@ -1,9 +1,10 @@
 ---
 doc_id: doc-e0ba6af997a6
-description: "C# formatting, imports, comments, Harmony patch and component conventions for Don't Count Eggs on Rails (keeps eggs on conveyor rails out of critter sensor counts), with this mod's own layout."
+description: "Code style guide for Don't Count Eggs on Rails: C# formatting, imports, comments, control structures, Harmony patch and game component conventions, plus the single-file `Mod.cs` layout of this mod"
 applies_to:
   - "src/**"
 ---
+
 # Code Style Guide
 
 ## Formatting

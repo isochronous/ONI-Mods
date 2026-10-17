@@ -1,9 +1,10 @@
 ---
 doc_id: doc-a551ee35a37c
-description: "How Storage Pod Redux guards its Harmony patches, reflection lookups and file reads, and what it logs when something is missing."
+description: "Error handling and logging rules for the Storage Pod Redux mod: guarding patches, try/catch use, yielding to other mods, log levels, anti-patterns, plus how its mod detection and tech unlock handle failures"
 applies_to:
   - "src/**"
 ---
+
 # Error Handling Conventions
 
 ## Principles

@@ -1,0 +1,57 @@
+{
+  "task": "OM-002",
+  "why": "a generated description for every document, saying what that document contains",
+  "node": "C:\\dev\\ONI-Mods\\mods\\sweep-zones",
+  "ops": [
+    {
+      "target": "domains/README.md",
+      "mode": "describe",
+      "description": "Index of the domain documents for the Sweep Zones Redux mod, linking its entities file (zone store, paint tool, marking rules) and its glossary of terms"
+    },
+    {
+      "target": "domains/entities.md",
+      "mode": "describe",
+      "description": "The zone store, paint tool, toolbar icons, hotkey and Harmony patches of Sweep Zones Redux, with the rules that mark debris for sweeping and place mop errands, and the source file each lives in"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "describe",
+      "description": "Glossary for Sweep Zones Redux: abbreviations (U59, PLib, DLC), terms to avoid such as overlay and erase, and definitions of sweep, mop, debris, priority and drag tool terms with where each is used"
+    },
+    {
+      "target": "overview.md",
+      "mode": "describe",
+      "description": "Overview of the Sweep Zones Redux mod: the toolbar paint tool with four drag modes, per-cell priority and labels, version, and a map of its source, icon generator, tests, translations and publish folders"
+    },
+    {
+      "target": "standards/README.md",
+      "mode": "describe",
+      "description": "Index of the Sweep Zones Redux standards documents, linking the code-style, error-handling and naming-conventions guides with a line on each"
+    },
+    {
+      "target": "standards/code-style.md",
+      "mode": "describe",
+      "description": "C# code style for the Sweep Zones Redux mod: formatting, imports, comments, Harmony patch and game component conventions, plus a section on its hotkey action, zone store component and drag tool"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "describe",
+      "description": "Error handling and logging rules for the Sweep Zones Redux mod: guarding patches, try/catch use, yielding to other mods, log levels, anti-patterns, plus how its drag tool, icon loader and zone store degrade"
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "describe",
+      "description": "Naming rules for the Sweep Zones Redux mod: files, namespaces, patch classes, variables, ModStrings keys, ids and tests, plus its string branches, hotkey action id, test classes and log prefix"
+    }
+  ],
+  "base": {
+    "domains/README.md": "sha256:1c8818abbadc5ed93acadaec709e9768ce460283afcedb7ad3489173ce822ba2",
+    "domains/entities.md": "sha256:42516d4c231bdf30fb48e1ed5dad6cdc9075fec78f8e037cf070b88a72a041e6",
+    "domains/glossary.md": "sha256:b8c9d892d29d161cd4c9a2c62025117d2a40117b5bf511c4927ab04106569157",
+    "overview.md": "sha256:e0a1e10c7a93f1dcbcf133ee3605acbab2871fc45ac7cf2958adcef5fce60047",
+    "standards/README.md": "sha256:640634fd8f4505f915589fb8c5d4a3a15366941ae2672e326b3a183b0014cefc",
+    "standards/code-style.md": "sha256:821418db725ee0395544fe78ee9d0c67a226737a6e82c220b03eb26f0cd562ed",
+    "standards/error-handling.md": "sha256:22eca5c485cfcd6bca7cd33e9ea197c2b64b384e8eee5b81ceee1c7debc27f3c",
+    "standards/naming-conventions.md": "sha256:b9f24ff47bd9fada53cfedef6e3b49ccaa4146a642830a2ab764086e8267dcdd"
+  }
+}

@@ -1,9 +1,10 @@
 ---
 doc_id: doc-aea927ed3ec9
-description: "How No Magic Fridges guards its Harmony patches, reflection lookups and file reads, and what it logs when something is missing."
+description: "Error handling rules for No Magic Fridges: guarding Harmony patches and transpilers, try/catch, logging levels and anti-patterns, plus how its reservoir prefix and protected-method lookup fall back to vanilla"
 applies_to:
   - "src/**"
 ---
+
 # Error Handling Conventions
 
 ## Principles

@@ -1,9 +1,10 @@
 ---
 doc_id: doc-c7340fd78545
-description: "File, namespace, patch class, string key and id naming for Storage Pod Redux (project StoragePodRedux)."
+description: "Naming rules for the Storage Pod Redux mod: files, namespaces, patch classes, variables, ModStrings keys, ids and tests, plus its option keys, string branches, test classes and log prefix"
 applies_to:
   - "src/**"
 ---
+
 # Naming Conventions
 
 ## Files and Directories

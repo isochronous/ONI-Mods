@@ -1,9 +1,10 @@
 ---
 doc_id: doc-e72f8f8b010b
-description: "How Vent Freeze Fix guards its Harmony patches, reflection lookups and file reads, and what it logs when something is missing."
+description: "Error handling and logging rules for the Vent Freeze Fix mod: guarding patches, try/catch use, yielding to other mods, log levels, anti-patterns, plus its verbose telemetry, null checks and dig retry handling"
 applies_to:
   - "src/**"
 ---
+
 # Error Handling Conventions
 
 ## Principles

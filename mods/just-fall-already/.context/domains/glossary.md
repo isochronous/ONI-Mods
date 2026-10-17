@@ -4,7 +4,7 @@ witness: loose
 applies_to:
   - "src/JustFallAlready/**"
 doc_id: doc-ebdf75035929
-description: "Glossary for just-fall-already: how door changes trigger critter fall checks"
+description: "Glossary for Just Fall Already!: abbreviations, a term to avoid, and definitions of pez dropper, poke, armed cell, brain scheduler, nav grid, CreatureFallMonitor and the two related mods"
 ---
 
 # Domain Glossary

@@ -1,7 +1,8 @@
 ---
 doc_id: doc-04c65bf246dc
-description: "Architecture phase protocol for ONI-Mods tasks: entry and exit contracts, review triggers for shared build and harness changes, and the design unit spec."
+description: "The architecture phase of an ONI-Mods task plan: entry and exit steps, extra review triggers for build kit and test harness changes, the design unit spec template and the decision capture format"
 ---
+
 # Architecture Phase Templates
 
 > Loaded by the `task-plan-phase-architecture` skill when present.

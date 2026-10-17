@@ -1,9 +1,10 @@
 ---
 doc_id: doc-072f1d1bd309
-description: "How Bitshifter guards its Harmony patches, reflection lookups and file reads, and what it logs when something is missing."
+description: "Error handling conventions for the Bitshifter mod: guarding Harmony patches and transpilers, try/catch, logging levels, plus Bitshifter's yield rules for Digital CPU, the NOT gate mask check and missing-kanim fallback"
 applies_to:
   - "src/**"
 ---
+
 # Error Handling Conventions
 
 ## Principles

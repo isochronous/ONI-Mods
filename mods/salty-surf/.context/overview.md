@@ -1,6 +1,7 @@
 ---
-description: "TODO(owner): one line saying what salty-surf is."
+description: "Overview of the Salty Surf mod: how the Mechanical Surfboard accepts Salt Water as well as Water, its Workshop version, supported content and languages, and a map of its source, tests and publish folders"
 ---
+
 # salty-surf
 
 ## What this is

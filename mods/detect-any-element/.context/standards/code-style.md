@@ -1,9 +1,10 @@
 ---
 doc_id: doc-57f3985fd9e2
-description: "C# formatting, imports, comments, Harmony patch and component conventions for Detect Any Element (adds an Any choice to the element sensors), with this mod's own layout."
+description: "C# code style for the Detect Any Element mod: formatting, toolchain, imports, comments, Harmony conventions, plus its translations setup, AnyElement class and sensor patches in src/DetectAnyElement"
 applies_to:
   - "src/**"
 ---
+
 # Code Style Guide
 
 ## Formatting

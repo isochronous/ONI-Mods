@@ -1,7 +1,8 @@
 ---
 doc_id: doc-44beb9ff1d4a
-description: "TODO(owner): the standards natural-backwalls-everywhere holds itself to."
+description: Index of the Natural Backwalls Everywhere standards folder, linking its code style, error handling and naming conventions documents with a line on what each covers
 ---
+
 # Standards
 
 ## Standards

@@ -1,9 +1,10 @@
 ---
 doc_id: doc-2d228f2c8f5b
-description: "File, namespace, patch class, string key and id naming for Just Fall Already! (project JustFallAlready)."
+description: "Naming conventions for Just Fall Already!: files, namespaces, variables, methods, patch classes, `ModStrings` keys and ids, plus its `FallPoke` patch names, `Doors` test class, log prefix and `staticID`"
 applies_to:
   - "src/**"
 ---
+
 # Naming Conventions
 
 ## Files and Directories

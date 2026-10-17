@@ -1,7 +1,8 @@
 ---
 doc_id: doc-549cf82752da
-description: "TODO(owner): the standards motion-sensor-range holds itself to."
+description: Index of the three standards documents of Motion Sensor Range (code style, error handling, naming conventions), each with a one-line summary of what it covers
 ---
+
 # Standards
 
 ## Standards

@@ -1,7 +1,8 @@
 ---
 doc_id: doc-797b7d024719
-description: "How a mod's behaviour is tested in ONI-Mods: [OniTest] coroutines run in the real game by TestRunner, with the kit's assertions and per-test options."
+description: "How ONI-Mods writes [OniTest] coroutines run in the real game by TestRunner: tool list, test project layout, TestKit assertions and waits, per-test options, run commands, coverage rules and anti-patterns"
 ---
+
 # Unit Testing Conventions
 
 ## Framework and Tools

@@ -1,7 +1,8 @@
 ---
 doc_id: doc-fcd305f17ee1
-description: "TODO(owner): the standards jumper-bridges holds itself to."
+description: Index of the three standards documents of Jumper Bridges (code style, error handling, naming conventions), each with a one-line summary of what it covers
 ---
+
 # Standards
 
 ## Standards

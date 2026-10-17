@@ -1,7 +1,8 @@
 ---
 doc_id: doc-dac1c8fb1a00
-description: "How branches, task branches, release tags and the common submodule are used in the ONI-Mods monorepo."
+description: "Branching in ONI-Mods: the single main branch, ICON task branches named OM-NNN, per-mod release tags, the common submodule, and the steps for task work, mod work, releases and merging"
 ---
+
 # Git Branching Strategy
 
 ## Branch Structure

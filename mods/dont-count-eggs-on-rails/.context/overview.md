@@ -1,6 +1,7 @@
 ---
-description: "TODO(owner): one line saying what dont-count-eggs-on-rails is."
+description: "Overview of the Don't Count Eggs on Rails mod: what it does for critter sensors, its version and release state, and a map of its source, tests, preview, publish and `.context` folders"
 ---
+
 # dont-count-eggs-on-rails
 
 ## What this is

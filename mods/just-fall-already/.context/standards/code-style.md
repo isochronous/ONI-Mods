@@ -1,9 +1,10 @@
 ---
 doc_id: doc-04bb7f7fdd3b
-description: "C# formatting, imports, comments, Harmony patch and component conventions for Just Fall Already! (makes critters fall at once when a door removes their footing), with this mod's own layout."
+description: "Code style guide for Just Fall Already!: C# formatting, imports, comments, control structures, Harmony patch and game component conventions, plus its `FallPoke` static class and state field naming"
 applies_to:
   - "src/**"
 ---
+
 # Code Style Guide
 
 ## Formatting

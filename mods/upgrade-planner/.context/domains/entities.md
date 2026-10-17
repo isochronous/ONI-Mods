@@ -1,9 +1,10 @@
 ---
 doc_id: doc-5e37d1980952
-description: "Entities of Upgrade Planner: the planner tool, its plans and rules, the order queue and the Blueprints Expanded link, with file locations, Harmony patch targets, business rules and key code paths."
+description: The planner tool, plan classes, replacement rules, order queue, presets, dialog, Blueprints Expanded compatibility, hotkey and patches of Upgrade Planner, with business rules, saved state and the source file each lives in
 applies_to:
   - "src/UpgradePlanner/**"
 ---
+
 # Upgrade Planner domain
 
 ## Overview

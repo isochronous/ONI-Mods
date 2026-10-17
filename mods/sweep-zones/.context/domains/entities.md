@@ -1,9 +1,10 @@
 ---
 doc_id: doc-f39997b0359c
-description: "Entities of Sweep Zones: the zone store, the paint tool and the rules that mark debris and place mop errands, with file locations, Harmony patch targets, business rules and key code paths."
+description: The zone store, paint tool, toolbar icons, hotkey and Harmony patches of Sweep Zones Redux, with the rules that mark debris for sweeping and place mop errands, and the source file each lives in
 applies_to:
   - "src/SweepZones/**"
 ---
+
 # Sweep Zones domain
 
 ## Overview

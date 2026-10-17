@@ -1,7 +1,8 @@
 ---
 doc_id: doc-d61f06975cad
-description: "TODO(owner): the standards vent-freeze-fix holds itself to."
+description: Index of the Vent Freeze Fix standards documents, linking the code-style, error-handling and naming-conventions guides with a line on each
 ---
+
 # Standards
 
 ## Standards

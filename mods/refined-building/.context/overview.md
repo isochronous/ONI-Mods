@@ -1,6 +1,7 @@
 ---
-description: "TODO(owner): one line saying what refined-building is."
+description: "Overview of the Refined Building mod: how refined metals are made usable wherever a building asks for Metal Ore, its version, unlisted Workshop status and supported content, and a map of its source, tests and publish folders"
 ---
+
 # refined-building
 
 ## What this is

@@ -1,6 +1,7 @@
 ---
-description: "TODO(owner): one line saying what mods is."
+description: "Overview of the mods/ folder of ONI-Mods: the shared per-mod folder layout (src, tests, publish, README, CHANGELOG) and a one-line list of what each of the 17 mods does"
 ---
+
 # mods
 
 ## What this is

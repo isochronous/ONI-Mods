@@ -1,9 +1,10 @@
 ---
 doc_id: doc-84c05e729b11
-description: "File, namespace, patch class, string key and id naming for Natural Backwalls Everywhere (project NaturalBackwalls)."
+description: "Naming conventions for Natural Backwalls Everywhere: files, variables, methods, types, ModStrings keys, ids and tags, plus the NaturalBackwalls patch class pattern, biome and zone string groups and test class names"
 applies_to:
   - "src/**"
 ---
+
 # Naming Conventions
 
 ## Files and Directories

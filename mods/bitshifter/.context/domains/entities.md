@@ -4,7 +4,7 @@ witness: loose
 applies_to:
   - "src/Bitshifter/**"
 doc_id: doc-01b787080f8e
-description: "Entities, business rules and key code paths of bitshifter: Ribbon Reader and Writer bit selection, display and NOT gate patches"
+description: "The classes and Harmony patches of the Bitshifter mod (src/Bitshifter): entry point and compatibility checks, 31-bit depth, display, side screen, NOT gate and overlay label guard, with locations and rules"
 ---
 
 # Bitshifter domain

@@ -4,7 +4,7 @@ witness: loose
 applies_to:
   - "src/JumperBridges/**"
 doc_id: doc-dfca545db3a4
-description: "Entities, business rules and key code paths of jumper-bridges: bridge ends on ports, end nodes and link rings"
+description: "The classes, options, Harmony patches and saved state of Jumper Bridges (`JumperBridge`, `BridgeEndNode`, `BridgeKind`, `BridgeLinks`, `BridgeFootprint`), with the bridge end rules, key code paths and tests"
 ---
 
 # Jumper Bridges domain

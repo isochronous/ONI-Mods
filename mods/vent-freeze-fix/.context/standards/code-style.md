@@ -1,9 +1,10 @@
 ---
 doc_id: doc-4a99769328fa
-description: "C# formatting, imports, comments, Harmony patch and component conventions for Vent Freeze Fix (stops liquid vents from freezing into tiles after a load), with this mod's own layout."
+description: "C# code style for the Vent Freeze Fix mod: formatting, imports, comments, Harmony patch and game component conventions, plus a section on its vent patches, watcher component, developer options and option loading"
 applies_to:
   - "src/**"
 ---
+
 # Code Style Guide
 
 ## Formatting

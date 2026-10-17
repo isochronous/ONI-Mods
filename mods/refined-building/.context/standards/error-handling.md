@@ -1,9 +1,10 @@
 ---
 doc_id: doc-2600cab43ce9
-description: "How Refined Building guards its Harmony patches, reflection lookups and file reads, and what it logs when something is missing."
+description: "Error handling rules for Refined Building: guarding Harmony patches and transpilers, try/catch, logging levels and anti-patterns, plus how its element-load postfix skips ineligible elements and logs one summary"
 applies_to:
   - "src/**"
 ---
+
 # Error Handling Conventions
 
 ## Principles

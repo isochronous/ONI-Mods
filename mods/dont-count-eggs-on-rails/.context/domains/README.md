@@ -1,7 +1,8 @@
 ---
 doc_id: doc-23c8d67c6ade
-description: "TODO(owner): the subject knowledge dont-count-eggs-on-rails keeps here."
+description: Index of the two domain documents of Don't Count Eggs on Rails, the entities and the glossary, each with a one-line summary of the rail egg subject it covers
 ---
+
 # Domains
 
 ## Domains

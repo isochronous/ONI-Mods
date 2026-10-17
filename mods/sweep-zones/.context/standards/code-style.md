@@ -1,9 +1,10 @@
 ---
 doc_id: doc-b35b5c30a8f8
-description: "C# formatting, imports, comments, Harmony patch and component conventions for Sweep Zones Redux (adds painted sweep and mop zones), with this mod's own layout."
+description: "C# code style for the Sweep Zones Redux mod: formatting, imports, comments, Harmony patch and game component conventions, plus a section on its hotkey action, zone store component and drag tool"
 applies_to:
   - "src/**"
 ---
+
 # Code Style Guide
 
 ## Formatting

@@ -1,9 +1,10 @@
 ---
 doc_id: doc-0ad8dccd6659
-description: "How Natural Backwalls Everywhere guards its Harmony patches, reflection lookups and file reads, and what it logs when something is missing."
+description: "Error handling rules for Natural Backwalls Everywhere: guarding Harmony patches and transpilers, try/catch and the worldgen thread finalizer, logging levels and anti-patterns, plus how its worldgen, settle sim and noise-file patches fail"
 applies_to:
   - "src/**"
 ---
+
 # Error Handling Conventions
 
 ## Principles

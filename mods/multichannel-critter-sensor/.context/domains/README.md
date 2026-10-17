@@ -1,7 +1,8 @@
 ---
 doc_id: doc-8aa085125b3d
-description: "TODO(owner): the subject knowledge multichannel-critter-sensor keeps here."
+description: Index of the two domain documents of Multichannel Critter Sensor, the entities and the glossary, each with a one-line summary of the sensor building subject it covers
 ---
+
 # Domains
 
 ## Domains

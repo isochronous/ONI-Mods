@@ -4,7 +4,7 @@ witness: loose
 applies_to:
   - "src/UpgradePlanner/**"
 doc_id: doc-ff4db6770074
-description: "Game and mod terms a newcomer needs for Upgrade Planner, with abbreviations, terms to avoid and where each is used."
+description: "Glossary for Upgrade Planner: abbreviations (BE, ABM, PLib, def), terms to avoid such as upgrade and reconstruct, and definitions of replacement layers, tags, variants and material terms with where each is used"
 ---
 
 # Upgrade Planner glossary

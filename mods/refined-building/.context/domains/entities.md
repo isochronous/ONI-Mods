@@ -1,9 +1,10 @@
 ---
 doc_id: doc-88e47a3aca23
-description: "The things Refined Building adds or patches, with file locations, gameplay rules and key code paths."
+description: The ElementLoader.Load patch and mod entry of Refined Building in src/RefinedBuilding that tag refined metals as Metal, with the tagging rules, affected buildings, file locations, code path and tests
 applies_to:
   - "src/RefinedBuilding/**"
 ---
+
 # Refined Building domain
 
 ## Overview

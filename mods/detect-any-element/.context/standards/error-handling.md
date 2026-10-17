@@ -1,9 +1,10 @@
 ---
 doc_id: doc-536d0bdee6af
-description: "How Detect Any Element guards its Harmony patches, reflection lookups and file reads, and what it logs when something is missing."
+description: "Error handling conventions for the Detect Any Element mod: guarding patches, logging levels, plus its missing-glyph-symbol fallback, early returns in patches and the Any tag's saved Filterable field"
 applies_to:
   - "src/**"
 ---
+
 # Error Handling Conventions
 
 ## Principles

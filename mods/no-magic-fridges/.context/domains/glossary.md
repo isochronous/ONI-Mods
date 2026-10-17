@@ -4,7 +4,7 @@ witness: loose
 applies_to:
   - "src/NoMagicFridges/**"
 doc_id: doc-cf415c96c76b
-description: "ONI and mod-specific terms used by No Magic Fridges."
+description: "Glossary for No Magic Fridges: abbreviations such as DTU, terms to avoid, and definitions of the vanilla reservoir, thermostat, setpoint, compressor, interior temperature and Insulated Tile factor, with the code using each"
 ---
 
 # No Magic Fridges glossary

@@ -1,7 +1,8 @@
 ---
 doc_id: doc-ec3351cfc2fb
-description: "TODO(owner): the standards corner-build-anything holds itself to."
+description: "Index of the standards documents in the Corner Build Anything node: code style, error handling and naming conventions"
 ---
+
 # Standards
 
 ## Standards

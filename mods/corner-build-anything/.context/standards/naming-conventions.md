@@ -1,9 +1,10 @@
 ---
 doc_id: doc-45341a356366
-description: "File, namespace, patch class, string key and id naming for Corner Build Anything (project CornerBuildAnything)."
+description: "Naming conventions for the Corner Build Anything mod: files, namespaces, variables, methods, strings and ids, plus its Constructable_OnSpawn patch classes, Standard and WithCorners fields and log prefix"
 applies_to:
   - "src/**"
 ---
+
 # Naming Conventions
 
 ## Files and Directories

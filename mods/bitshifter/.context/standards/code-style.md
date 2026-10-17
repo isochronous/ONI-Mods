@@ -1,9 +1,10 @@
 ---
 doc_id: doc-c9711fdcdf52
-description: "C# formatting, imports, comments, Harmony patch and component conventions for Bitshifter (widens the Ribbon Reader and Writer to 31 bits), with this mod's own layout."
+description: "C# code style for the Bitshifter mod: formatting, toolchain, imports, comments, Harmony patch and component conventions, plus Bitshifter's own layout in src/Bitshifter such as Patches.cs and the Display helper"
 applies_to:
   - "src/**"
 ---
+
 # Code Style Guide
 
 ## Formatting

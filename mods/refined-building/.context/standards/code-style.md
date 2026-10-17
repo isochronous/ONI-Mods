@@ -1,9 +1,10 @@
 ---
 doc_id: doc-c26260a752d7
-description: "C# formatting, imports, comments, Harmony patch and component conventions for Refined Building (lets refined metals count as raw metal in building recipes), with this mod's own layout."
+description: "C# code style for Refined Building: indentation, braces, imports, comments, control structures, Harmony patch and game component conventions, plus its single ElementLoader_Load_Patch postfix and absence of PLib and options"
 applies_to:
   - "src/**"
 ---
+
 # Code Style Guide
 
 ## Formatting

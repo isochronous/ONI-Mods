@@ -1,6 +1,7 @@
 ---
-description: "TODO(owner): one line saying what ONI-Mods is."
+description: "Overview of the ONI-Mods monorepo: its 17 mods under mods/, the shared common/ build kit submodule, the solution and props files, GitHub folder, and where each part of the repository lives"
 ---
+
 # ONI-Mods
 
 ## What this is

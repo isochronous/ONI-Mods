@@ -1,7 +1,8 @@
 ---
 doc_id: doc-c4afa748d082
-description: "TODO(owner): the standards upgrade-planner holds itself to."
+description: Index of the Upgrade Planner standards documents, linking the code-style, error-handling and naming-conventions guides with a line on each
 ---
+
 # Standards
 
 ## Standards

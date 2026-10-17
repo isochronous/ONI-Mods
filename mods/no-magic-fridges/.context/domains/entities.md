@@ -1,9 +1,10 @@
 ---
 doc_id: doc-dfa34259ff9b
-description: "The things No Magic Fridges adds or patches, with file locations, gameplay rules and key code paths."
+description: The FridgeThermostat component, Harmony patches and mod entry of No Magic Fridges in src/NoMagicFridges, with the heat-exchange, compressor and insulation rules, file locations, code paths and tests
 applies_to:
   - "src/NoMagicFridges/**"
 ---
+
 # No Magic Fridges domain
 
 ## Overview

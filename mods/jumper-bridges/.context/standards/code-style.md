@@ -1,9 +1,10 @@
 ---
 doc_id: doc-8674b988870a
-description: "C# formatting, imports, comments, Harmony patch and component conventions for Jumper Bridges (adds automation and power bridges), with this mod's own layout."
+description: "Code style guide for Jumper Bridges: C# formatting, imports, comments, control structures, Harmony patch and game component conventions, plus its `LogPrefix`, `OnLoad` order and `BridgeKind` layout"
 applies_to:
   - "src/**"
 ---
+
 # Code Style Guide
 
 ## Formatting

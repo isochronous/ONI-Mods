@@ -1,9 +1,10 @@
 ---
 doc_id: doc-73dc9bf76df3
-description: "The things Multichannel Critter Sensor adds or patches, with file locations, gameplay rules and key code paths."
+description: "The building config, counting component, side screen, `ThresholdAdapter` and patches of Multichannel Critter Sensor, with its saved fields, output bits, counting and pulse rules, key code paths and tests"
 applies_to:
   - "src/MultichannelCritterSensor/**"
 ---
+
 # Multichannel Critter Sensor domain
 
 ## Overview

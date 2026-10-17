@@ -1,6 +1,7 @@
 ---
-description: "TODO(owner): one line saying what jumper-bridges is."
+description: "Overview of the Jumper Bridges mod: what direct bridge ends on ports do for automation and power, its version, translations and release state, and a map of its source, tests, tools and publish folders"
 ---
+
 # jumper-bridges
 
 ## What this is

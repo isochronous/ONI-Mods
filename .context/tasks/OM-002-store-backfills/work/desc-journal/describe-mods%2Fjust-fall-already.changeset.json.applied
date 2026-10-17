@@ -1,0 +1,57 @@
+{
+  "task": "OM-002",
+  "why": "a generated description for every document, saying what that document contains",
+  "node": "C:\\dev\\ONI-Mods\\mods\\just-fall-already",
+  "ops": [
+    {
+      "target": "domains/README.md",
+      "mode": "describe",
+      "description": "Index of the two domain documents of Just Fall Already!, the entities and the glossary, each with a one-line summary of the door and critter fall subject it covers"
+    },
+    {
+      "target": "domains/entities.md",
+      "mode": "describe",
+      "description": "The `FallPoke` class, the `Door.SetWorldState` patch and the entry point of Just Fall Already!, with its members, the armed cell and poke rules, key code paths and the door tests in `Doors.cs`"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "describe",
+      "description": "Glossary for Just Fall Already!: abbreviations, a term to avoid, and definitions of pez dropper, poke, armed cell, brain scheduler, nav grid, CreatureFallMonitor and the two related mods"
+    },
+    {
+      "target": "overview.md",
+      "mode": "describe",
+      "description": "Overview of the Just Fall Already! mod: how a door change makes critters fall at once, its version and release state, and a map of its source, tests, README, changelog and publish folders"
+    },
+    {
+      "target": "standards/README.md",
+      "mode": "describe",
+      "description": "Index of the three standards documents of Just Fall Already! (code style, error handling, naming conventions), each with a one-line summary of what it covers"
+    },
+    {
+      "target": "standards/code-style.md",
+      "mode": "describe",
+      "description": "Code style guide for Just Fall Already!: C# formatting, imports, comments, control structures, Harmony patch and game component conventions, plus its `FallPoke` static class and state field naming"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "describe",
+      "description": "Error handling conventions for Just Fall Already!: guarding patches, try/catch cases, logging levels and anti-patterns, plus its early returns, armed cell expiry, poke telemetry and optional mod detection"
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "describe",
+      "description": "Naming conventions for Just Fall Already!: files, namespaces, variables, methods, patch classes, `ModStrings` keys and ids, plus its `FallPoke` patch names, `Doors` test class, log prefix and `staticID`"
+    }
+  ],
+  "base": {
+    "domains/README.md": "sha256:f46db7437dea9eaf8c41ea11381782d4c130ff16f618a5124e8c8d2d55085a2c",
+    "domains/entities.md": "sha256:461c8a3f0d6d605b31c466c7de31aac179b151bd630bebece399f73a4b5d2263",
+    "domains/glossary.md": "sha256:56bd3956214d8bf16b5ac2204e712c61efa04217e52edf6ed316af8cbb840bc8",
+    "overview.md": "sha256:35685da77f477b208922e873a3fcc53b88f1880668936d917124b27f52214aad",
+    "standards/README.md": "sha256:6532c5200e8d1c0e729ca0af1e194c8b32193b4bdec50a40f24aeaec82e12ed2",
+    "standards/code-style.md": "sha256:bde59ede7f53207dacef6ca52a78d4a9b43d0d0505a12663ea49b8b5d8f8f322",
+    "standards/error-handling.md": "sha256:1ec0a2ac142e333ca1c68240cb932eedd0fa2721ce6d41dbeba59857189c0b54",
+    "standards/naming-conventions.md": "sha256:bed0e7335a281a5a5fdcd04bb554c0f51550829a38e927e01ee26c3043d19197"
+  }
+}

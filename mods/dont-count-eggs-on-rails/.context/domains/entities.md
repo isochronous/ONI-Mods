@@ -4,7 +4,7 @@ witness: loose
 applies_to:
   - "src/DontCountEggsOnRails/**"
 doc_id: doc-3255e485bb79
-description: "Entities, business rules and key code paths of dont-count-eggs-on-rails: rail eggs excluded from critter sensor counts"
+description: "The one Harmony prefix on `OvercrowdingMonitor.UpdateRegion` in Don't Count Eggs on Rails, with its members, the rail egg business rules, key code paths and the egg tests in `Eggs.cs`"
 ---
 
 # Don't Count Eggs on Rails domain

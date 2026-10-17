@@ -1,9 +1,10 @@
 ---
 doc_id: doc-f2b5d177565f
-description: "How Just Fall Already! guards its Harmony patches, reflection lookups and file reads, and what it logs when something is missing."
+description: "Error handling conventions for Just Fall Already!: guarding patches, try/catch cases, logging levels and anti-patterns, plus its early returns, armed cell expiry, poke telemetry and optional mod detection"
 applies_to:
   - "src/**"
 ---
+
 # Error Handling Conventions
 
 ## Principles

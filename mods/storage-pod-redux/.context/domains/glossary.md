@@ -4,7 +4,7 @@ witness: loose
 applies_to:
   - "src/StoragePodRedux/**"
 doc_id: doc-7eb761dcb233
-description: "Game and mod terms a newcomer needs for Storage Pod Redux, with abbreviations, terms to avoid and where each is used."
+description: "Glossary for Storage Pod Redux: abbreviations (kanim, PLib), terms to avoid such as Fridge Pod, and definitions of pod, prefab ID and vanilla fridge terms with the files that use them"
 ---
 
 # Storage Pod Redux glossary

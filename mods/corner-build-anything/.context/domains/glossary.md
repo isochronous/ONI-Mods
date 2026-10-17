@@ -4,7 +4,7 @@ witness: loose
 applies_to:
   - "src/CornerBuildAnything/**"
 doc_id: doc-d3898b8e3b24
-description: "Glossary for corner-build-anything: how construction reach tables are swapped"
+description: "Glossary for the Corner Build Anything mod: ONI and OnSpawn abbreviations, the term to avoid (corner placement), and definitions of reach table, standard and corner tables, corner pocket, footprint and offset filter"
 ---
 
 # Domain Glossary

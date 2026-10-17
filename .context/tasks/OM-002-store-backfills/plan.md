@@ -20,9 +20,9 @@
 - units/: specs and reports; changesets/: drafted change-sets; work/: survey, answers and journal files for the backfills
 
 ## Progress
-- [ ] Phase A: overview.md for root, mods/ and 17 mods; domains/README.md and standards/README.md indexes for 17 mods ← IN PROGRESS
-- [ ] Phase B: description backfill over the root store
-- [ ] Phase C: coverage backfill, node by node (19 nodes)
+- [x] Phase A: 19 change-sets applied (overviews for root, mods/, 17 mods; domains and standards README indexes); committed c7c9357
+- [x] Phase B: 150 descriptions authored by units 05-08, merged into work/desc-answers.json, applied (status complete, 0 declined); strict check 0 block, missing-description finding 0, 150 distinct descriptions
+- [ ] Phase C: coverage backfill, node by node (19 nodes) ← IN PROGRESS
 - [ ] Phase D: tag backfill, node by node
 - [ ] `ks check --all --strict`, `ks sweep`, review, retrospective, commit, PR
 

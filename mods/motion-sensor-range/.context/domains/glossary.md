@@ -4,7 +4,7 @@ witness: loose
 applies_to:
   - "src/MotionSensorRange/**"
 doc_id: doc-78ff1518516c
-description: "ONI and mod-specific terms used by Motion Sensor Range."
+description: "Glossary for Motion Sensor Range: abbreviations, terms to avoid, and definitions of the Duplicant Motion Sensor, pickupRange, scene partitioner, extents, RangeVisualizer, IIntSliderControl and copy settings"
 ---
 
 # Motion Sensor Range glossary

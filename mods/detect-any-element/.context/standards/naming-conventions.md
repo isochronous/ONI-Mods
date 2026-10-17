@@ -1,9 +1,10 @@
 ---
 doc_id: doc-97035e1a7776
-description: "File, namespace, patch class, string key and id naming for Detect Any Element (project DetectAnyElement)."
+description: "Naming conventions for the Detect Any Element mod: files, namespaces, variables, methods, strings and ids, plus its ModStrings branch, DetectAnyElement_Any tag name, glyph symbol constants and log prefix"
 applies_to:
   - "src/**"
 ---
+
 # Naming Conventions
 
 ## Files and Directories

@@ -1,6 +1,7 @@
 ---
-description: "TODO(owner): one line saying what motion-sensor-range is."
+description: "Overview of the Motion Sensor Range mod: the range slider it adds to the Duplicant Motion Sensor, and a map of its source, tests, preview art, publish, README and `.context` folders"
 ---
+
 # motion-sensor-range
 
 ## What this is

@@ -1,9 +1,10 @@
 ---
 doc_id: doc-ed8f141fa40f
-description: "How Jumper Bridges guards its Harmony patches, reflection lookups and file reads, and what it logs when something is missing."
+description: "Error handling conventions for Jumper Bridges: guarding patches, try/catch cases, logging levels and anti-patterns, plus its `Prepare()` skipping, end node log lines and option defaults"
 applies_to:
   - "src/**"
 ---
+
 # Error Handling Conventions
 
 ## Principles
