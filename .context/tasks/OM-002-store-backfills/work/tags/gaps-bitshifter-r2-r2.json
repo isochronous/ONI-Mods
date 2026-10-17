@@ -1,0 +1,26 @@
+[
+ {
+  "id": "domains/glossary.md#cross-domain-terms/port-lights",
+  "reason": "no-good-match",
+  "suggestion": "logic building port lights and their display tint",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#control-structures/strings",
+  "reason": "no-good-match",
+  "suggestion": "player-visible text and LocString use",
+  "kept": []
+ },
+ {
+  "id": "standards/naming-conventions.md#files-and-directories/general-rules",
+  "reason": "no-good-match",
+  "suggestion": "mod folder and project layout naming",
+  "kept": []
+ },
+ {
+  "id": "standards/naming-conventions.md#code-naming/strings-modstrings",
+  "reason": "no-good-match",
+  "suggestion": "ModStrings localisable text naming",
+  "kept": []
+ }
+]

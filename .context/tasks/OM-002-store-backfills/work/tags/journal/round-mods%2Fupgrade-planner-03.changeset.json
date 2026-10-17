@@ -1,56 +1,28 @@
 {
   "task": "OM-002",
-  "why": "tag backfill r1 for node mods/upgrade-planner — round 3",
+  "why": "tag backfill r2 for node mods/upgrade-planner — round 3",
   "node": "C:\\dev\\ONI-Mods\\mods\\upgrade-planner",
   "base": {
-    "domains/entities.md": "sha256:87154618ad11c6dc05195a9a0e7fa9667b28a7e966a1b1198aee46ef2531b23c",
-    "domains/glossary.md": "sha256:af38557c6c548fc36a14af56e728cad1b3a0864364f0be5f8ee5f654b4e83430",
-    "standards/code-style.md": "sha256:78d1d59043cdac054cabe63dbf9c1abd86a0fc53a1be76f6a7ba7c49137e9c48",
-    "standards/error-handling.md": "sha256:3639999beb0fa253ff93cd4903888847adeea0301d731d7b21d39a6641921b94",
-    "standards/naming-conventions.md": "sha256:03309b10c66e979f477eda9a8c47f5e27209f0bafde06ccc9ff5fb035b545eaa"
+    "standards/code-style.md": "sha256:79fba6aba79baa7be2fb4f8831b3e0e339254ef30c8b20fb9d06cd5d8b409e48",
+    "standards/naming-conventions.md": "sha256:93c060d7d7bde1e51e3c4578a786acd269bedff383649e97e0e82401aee553da"
   },
   "ops": [
-    {
-      "target": "domains/entities.md",
-      "mode": "tag",
-      "add": [
-        "harmony-patching",
-        "reflection"
-      ],
-      "section": "key-entities/compat"
-    },
-    {
-      "target": "domains/glossary.md",
-      "mode": "tag",
-      "add": [
-        "mod-compatibility"
-      ],
-      "section": "cross-domain-terms/variant-family-member"
-    },
     {
       "target": "standards/code-style.md",
       "mode": "tag",
       "add": [
-        "mod-entry-point"
+        "code-style",
+        "mod-compatibility"
       ],
-      "section": "harmony-patches"
-    },
-    {
-      "target": "standards/error-handling.md",
-      "mode": "tag",
-      "add": [
-        "reflection"
-      ],
-      "section": "guarding-patches/missing-member-warn-leave-vanilla"
+      "section": "language-and-toolchain"
     },
     {
       "target": "standards/naming-conventions.md",
       "mode": "tag",
       "add": [
-        "hotkey",
-        "in-game-testing"
+        "code-style"
       ],
-      "section": "code-naming/ids-and-tags"
+      "section": "code-naming/classes-types-interfaces"
     }
   ]
 }

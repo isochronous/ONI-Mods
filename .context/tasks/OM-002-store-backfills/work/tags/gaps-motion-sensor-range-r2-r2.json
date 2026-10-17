@@ -1,0 +1,8 @@
+[
+ {
+  "id": "standards/error-handling.md#yielding-to-other-mods",
+  "reason": "no-good-match",
+  "suggestion": "a mod yielding to another mod that does the same job",
+  "kept": []
+ }
+]

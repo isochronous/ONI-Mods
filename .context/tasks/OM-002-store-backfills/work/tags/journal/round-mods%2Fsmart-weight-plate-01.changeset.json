@@ -1,71 +1,47 @@
 {
   "task": "OM-002",
-  "why": "tag backfill r1 for node mods/smart-weight-plate — round 1",
+  "why": "tag backfill r2 for node mods/smart-weight-plate — round 1",
   "node": "C:\\dev\\ONI-Mods\\mods\\smart-weight-plate",
   "base": {
-    "domains/entities.md": "sha256:212ae2f1028910f5a8fd2c1f5c58a9832dd9e6fd7f12fcb45fbc46f49745c437",
-    "domains/glossary.md": "sha256:6614215be5ba64a9512adc15f1a0d9e46eed45df372bd1e64d2e498809acc97a",
-    "overview.md": "sha256:22c39ede9aa73e95d161a3326fec01825d96fff2c7b7f27e39de70c972339f9e",
-    "standards/code-style.md": "sha256:88de8e173aa70e6829f421d54936e2f4b956b19784d5554e4b3215b66f7b63f4",
-    "standards/error-handling.md": "sha256:0c84c92df14b32a7607fd650515b86788e8f974431de6e5d8fef9caa85c29136",
-    "standards/naming-conventions.md": "sha256:dea40bc59ef178478c5b08274f12ee0c18e97a839b6e7fbfde4327c2daeeea86"
+    "standards/naming-conventions.md": "sha256:ab86cef12267913fdca27b82bba9f0f413c24949b2e60faf42c553e7ae603f18",
+    "domains/entities.md": "sha256:53c0c6a39703721c6cdede710d41a3df5cbda9411b51dfeccc8452aac90f0a7a",
+    "standards/code-style.md": "sha256:df85aa581ca7c92681841bfaa657b6c0225294879c6cfdfafaea38318ee7520b",
+    "standards/error-handling.md": "sha256:45157be4f5ef17069548b2050ad0c888111925e13a7626775939b9dbcf7f04cf"
   },
   "ops": [
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "tag",
+      "add": [
+        "mod-strings"
+      ],
+      "section": "project-specific-conventions"
+    },
     {
       "target": "domains/entities.md",
       "mode": "tag",
       "add": [
         "building-config",
-        "building-unlock"
-      ],
-      "section": "key-entities/smart-weight-plate-building"
-    },
-    {
-      "target": "domains/glossary.md",
-      "mode": "tag",
-      "add": [
-        "kanim-art",
-        "mod-compatibility",
+        "game-component",
         "side-screen"
       ],
-      "section": "abbreviations-and-acronyms"
-    },
-    {
-      "target": "overview.md",
-      "mode": "tag",
-      "add": [
-        "kanim-art",
-        "in-game-testing",
-        "mod-strings",
-        "mod-entry-point"
-      ],
-      "section": "where-things-are"
+      "section": "key-entities"
     },
     {
       "target": "standards/code-style.md",
       "mode": "tag",
       "add": [
-        "mod-strings"
+        "code-style"
       ],
-      "section": "control-structures/strings"
+      "section": "language-and-toolchain"
     },
     {
       "target": "standards/error-handling.md",
       "mode": "tag",
       "add": [
-        "logging",
-        "harmony-patching"
+        "logging"
       ],
-      "section": "principles"
-    },
-    {
-      "target": "standards/naming-conventions.md",
-      "mode": "tag",
-      "add": [
-        "harmony-patching",
-        "game-component"
-      ],
-      "section": "code-naming/functions-methods"
+      "section": "logging"
     }
   ]
 }

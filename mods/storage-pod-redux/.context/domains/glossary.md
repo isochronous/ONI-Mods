@@ -37,6 +37,7 @@ Terms for the Storage Pod Redux mod. For the mod's entities, rules and code path
 
 ### Storage Pod
 **Id:** blk-46849ef15e2a  
+**Tags:** building-config  
 **Definition**: This mod's 1x1 solid storage building (prefab `StoragePodConfig`), 5,000 kg by default.  
 **Used in**: `StoragePodConfig.cs`, `Options.cs`, `Patches.cs`.
 

@@ -1,76 +1,71 @@
 {
   "task": "OM-002",
-  "why": "tag backfill r1 for node mods/dont-count-eggs-on-rails — round 0",
+  "why": "tag backfill r2 for node mods/dont-count-eggs-on-rails — round 0",
   "node": "C:\\dev\\ONI-Mods\\mods\\dont-count-eggs-on-rails",
   "base": {
-    "domains/README.md": "sha256:8b5a8135d5ce726a0e51525a5e5569d9ad8346fd570ec06e5983b1374df19798",
-    "domains/entities.md": "sha256:c40bdc530a2f2dc790457e5e06c056f04cb0ee6c21f3ca2995637c94c14884fc",
-    "domains/glossary.md": "sha256:3610beb771b0aa2f92406c3361acbe4b5a0314f9bccbcd7b473cfd0965875ea0",
-    "overview.md": "sha256:887f849846901cb0bc3a92ac171ae176b8b81dea5228734c1ade76b03f5625b9",
-    "standards/error-handling.md": "sha256:90a4a8bab1eca044080ca73562b29026b5dc8e68fd4c959fe4958b3813993765",
-    "standards/code-style.md": "sha256:66b52a01ed030152f815d5f2a5f7d5f300443a5afa45f5690937433aad927685",
-    "standards/naming-conventions.md": "sha256:caefa81d1f26c376655a3e008483b4fe62f9c4a970d82d823b9a32f4f0e5162c"
+    "standards/README.md": "sha256:31270693455100358b717ff25f5a457a77a9812ecb4a44dec00893d1dd954d0c",
+    "standards/code-style.md": "sha256:12a85164bb129271ea19890c618e6f3f9ff06e292e8b4f4486d2077ee40698b3",
+    "standards/naming-conventions.md": "sha256:a3f2e51399c93dcf30d3be4a7a778f3be95dae60acfbe312b2efe70d5a3dbcd5",
+    "domains/entities.md": "sha256:cdc14486d6b19473268586f4b372121d36fe46ffc43ea4982a5af833ae35e50d",
+    "domains/glossary.md": "sha256:481edee6bf2a6dac5070ea0e1312fd5405151b56992336256a6bcaf52c17e53c",
+    "overview.md": "sha256:f15aad10ca1e2b58342c380bb0d88fb7d618be0fb6b5b3f75373cc9d46f1acbf",
+    "standards/error-handling.md": "sha256:051bb2c9394b980705f9c2b2f55d818f40806aa1c8274ea7ce6fe3c5bb5cc1e3"
   },
   "ops": [
     {
-      "target": "domains/README.md",
+      "target": "standards/README.md",
       "mode": "tag",
       "add": [
-        "critter-sensor",
-        "conveyor-rail"
-      ]
-    },
-    {
-      "target": "domains/entities.md",
-      "mode": "tag",
-      "add": [
-        "harmony-patching",
-        "critter-sensor",
-        "conveyor-rail"
-      ]
-    },
-    {
-      "target": "domains/glossary.md",
-      "mode": "tag",
-      "add": [
-        "critter-sensor",
-        "conveyor-rail"
-      ]
-    },
-    {
-      "target": "overview.md",
-      "mode": "tag",
-      "add": [
-        "critter-sensor",
-        "conveyor-rail"
-      ]
-    },
-    {
-      "target": "standards/error-handling.md",
-      "mode": "tag",
-      "add": [
+        "code-style",
         "vanilla-fallback",
-        "logging",
-        "harmony-patching"
+        "logging"
       ]
     },
     {
       "target": "standards/code-style.md",
       "mode": "tag",
       "add": [
-        "harmony-patching",
-        "mod-entry-point"
-      ],
-      "section": "harmony-patches"
+        "code-style"
+      ]
     },
     {
       "target": "standards/naming-conventions.md",
       "mode": "tag",
       "add": [
-        "mod-entry-point",
+        "code-style"
+      ]
+    },
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "room-tracking"
+      ],
+      "section": "overview"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "in-game-testing"
+      ],
+      "section": "abbreviations-and-acronyms"
+    },
+    {
+      "target": "overview.md",
+      "mode": "tag",
+      "add": [
         "harmony-patching"
       ],
-      "section": "files-and-directories/examples-by-type"
+      "section": "what-this-is"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "room-tracking"
+      ],
+      "section": "project-specific-patterns/don-t-count-eggs-on-rails-specifics"
     }
   ]
 }

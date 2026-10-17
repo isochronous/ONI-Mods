@@ -1,0 +1,134 @@
+{
+ "task": "OM-002",
+ "why": "code-style belongs on the smart-weight-plate convention documents themselves, as in the other mods, not on each of their sections",
+ "node": "mods/smart-weight-plate",
+ "ops": [
+  {
+   "mode": "tag",
+   "target": "standards/code-style.md",
+   "add": [
+    "code-style"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/code-style.md",
+   "section": "formatting",
+   "remove": [
+    "code-style"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/code-style.md",
+   "section": "formatting/indentation",
+   "remove": [
+    "code-style"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/code-style.md",
+   "section": "formatting/line-length",
+   "remove": [
+    "code-style"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/code-style.md",
+   "section": "formatting/braces",
+   "remove": [
+    "code-style"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/code-style.md",
+   "section": "language-and-toolchain",
+   "remove": [
+    "code-style"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/code-style.md",
+   "section": "imports-includes",
+   "remove": [
+    "code-style"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/code-style.md",
+   "section": "imports-includes/organization",
+   "remove": [
+    "code-style"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/code-style.md",
+   "section": "imports-includes/example",
+   "remove": [
+    "code-style"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/code-style.md",
+   "section": "comments",
+   "remove": [
+    "code-style"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/code-style.md",
+   "section": "comments/when-to-comment",
+   "remove": [
+    "code-style"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/code-style.md",
+   "section": "comments/when-not-to-comment",
+   "remove": [
+    "code-style"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/code-style.md",
+   "section": "comments/format",
+   "remove": [
+    "code-style"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/code-style.md",
+   "section": "control-structures",
+   "remove": [
+    "code-style"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/code-style.md",
+   "section": "control-structures/conditionals",
+   "remove": [
+    "code-style"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/code-style.md",
+   "section": "control-structures/loops",
+   "remove": [
+    "code-style"
+   ]
+  }
+ ]
+}

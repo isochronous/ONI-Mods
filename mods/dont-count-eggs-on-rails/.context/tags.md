@@ -42,3 +42,13 @@ A record earns this term when it is about a game Tag that a mod creates, adds to
 **Id:** blk-dc3800add2ce
 
 A record earns this term when it is about the conveyor rail and the items it carries through the world.
+
+## code-style
+**Id:** blk-d5a9641823ff
+
+A record earns this term when it is about the house style in which a mod's C# source code is written.
+
+## room-tracking
+**Id:** blk-75729f6aa579
+
+A record earns this term when it is about how the game records which room a critter or egg is in.

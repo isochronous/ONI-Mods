@@ -1,4 +1,5 @@
 ---
+tags: code-style
 doc_id: doc-3f8274c8e738
 description: "C# code style for the Storage Pod Redux mod: formatting, imports, comments, Harmony patch and game component conventions, plus a section on its options class, original-mod detection and patch layout"
 applies_to:
@@ -82,7 +83,8 @@ using UnityEngine;
 **Id:** blk-23bc077eed9e
 
 ### When to Comment
-**Id:** blk-3d37bcce99a4
+**Id:** blk-3d37bcce99a4  
+**Tags:** harmony-patching, mod-compatibility
 
 - On every non-trivial class, an XML `<summary>` that says what the game does and what the patch changes, so a reader can check the patch against the game code. The long summary on `OvercrowdingMonitor_UpdateRegion_Patch` in `mods/dont-count-eggs-on-rails/src/DontCountEggsOnRails/Mod.cs` is the model.
 - Where a game quirk forces an odd line: `// The game's .NET Framework has no AddOrUpdate on this table.`

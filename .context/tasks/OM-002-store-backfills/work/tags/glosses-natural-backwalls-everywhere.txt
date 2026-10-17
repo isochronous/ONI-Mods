@@ -1,16 +1,17 @@
 term                count  gloss
-biome-group             0  A record earns this term when it is about the families of biomes that share one backwall material and coverage setting.
-developer-tooling       0  A record earns this term when it is about debug and developer features a mod includes for its author rather than for players.
-exception-handling      0  A record earns this term when it is about where a mod catches exceptions and what it does once it has caught one.
-harmony-patching        0  A record earns this term when it is about writing or applying the Harmony patches through which a mod changes game methods.
-in-game-testing         0  A record earns this term when it is about testing a mod inside the running game with TestRunner and its [OniTest] coroutines.
-logging                 0  A record earns this term when it is about what a mod writes to the game log and at which level.
-mod-compatibility       0  A record earns this term when it is about a mod working correctly alongside other authors' mods installed in the same game.
-mod-entry-point         0  A record earns this term when it is about a mod's UserMod2 class and what it does when the game loads the mod.
-mod-options             0  A record earns this term when it is about the player-facing settings a mod exposes on its options screen and how the mod reads them.
-mod-strings             0  A record earns this term when it is about the player-visible text a mod defines in ModStrings and the translations of that text.
-noise-pattern           0  A record earns this term when it is about the worldgen noise trees that shape where backwall patches appear.
-settle-sim              0  A record earns this term when it is about the simulation worldgen runs to settle a new world before play begins.
-transpiler              0  A record earns this term when it is about a Harmony transpiler that rewrites the instructions of a game method.
-vanilla-fallback        0  A record earns this term when it is about how a mod keeps the game's own behaviour when something it depends on is missing or has changed.
-worldgen                0  A record earns this term when it is about world generation and the data a mod changes while a new world is generated.
+biome-group            13  A record earns this term when it is about the families of biomes that share one backwall material and coverage setting.
+code-style              0  A record earns this term when it is about the house style in which a mod's C# source code is written.
+developer-tooling       7  A record earns this term when it is about debug and developer features a mod includes for its author rather than for players.
+exception-handling     28  A record earns this term when it is about where a mod catches exceptions and what it does once it has caught one.
+harmony-patching       19  A record earns this term when it is about writing or applying the Harmony patches through which a mod changes game methods.
+in-game-testing         7  A record earns this term when it is about testing a mod inside the running game with TestRunner and its [OniTest] coroutines.
+logging                18  A record earns this term when it is about what a mod writes to the game log and at which level.
+mod-compatibility      22  A record earns this term when it is about a mod working correctly alongside other authors' mods installed in the same game.
+mod-entry-point        22  A record earns this term when it is about a mod's UserMod2 class and what it does when the game loads the mod.
+mod-options            22  A record earns this term when it is about the player-facing settings a mod exposes on its options screen and how the mod reads them.
+mod-strings            22  A record earns this term when it is about the player-visible text a mod defines in ModStrings and the translations of that text.
+noise-pattern          11  A record earns this term when it is about the worldgen noise trees that shape where backwall patches appear.
+settle-sim              6  A record earns this term when it is about the simulation worldgen runs to settle a new world before play begins.
+transpiler              5  A record earns this term when it is about a Harmony transpiler that rewrites the instructions of a game method.
+vanilla-fallback        9  A record earns this term when it is about how a mod keeps the game's own behaviour when something it depends on is missing or has changed.
+worldgen               46  A record earns this term when it is about world generation and the data a mod changes while a new world is generated.

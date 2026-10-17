@@ -1,4 +1,5 @@
 ---
+tags: code-style
 doc_id: doc-aad7252813ba
 description: "Naming rules for the Sweep Zones Redux mod: files, namespaces, patch classes, variables, ModStrings keys, ids and tests, plus its string branches, hotkey action id, test classes and log prefix"
 applies_to:

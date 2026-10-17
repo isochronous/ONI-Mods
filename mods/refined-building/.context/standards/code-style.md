@@ -1,4 +1,5 @@
 ---
+tags: code-style
 doc_id: doc-c26260a752d7
 description: "C# code style for Refined Building: indentation, braces, imports, comments, control structures, Harmony patch and game component conventions, plus its single ElementLoader_Load_Patch postfix and absence of PLib and options"
 applies_to:
@@ -62,7 +63,8 @@ foreach (Mod mod in mods)
 3. Aliases (`using TOOL = SweepZones.ModStrings.UI.TOOLS.SWEEPZONES;`)
 
 ### Example
-**Id:** blk-94c9c06009e9
+**Id:** blk-94c9c06009e9  
+**Tags:** logging
 
 ```csharp
 using System.Collections.Generic;
@@ -132,7 +134,8 @@ if (idx == ushort.MaxValue || idx >= elements.Count)
 - Local types are written out (`Tech tech = ...`). `var` appears mainly in `mods/upgrade-planner`, `mods/natural-backwalls-everywhere` and the test projects; follow the surrounding file.
 
 ### Strings
-**Id:** blk-70589d7fbf84
+**Id:** blk-70589d7fbf84  
+**Tags:** logging
 
 - Log and UI text is built with `+` concatenation, or `string.Format` on a `LocString`. String interpolation is not used in mod code.
 - Player-visible text is a `LocString` field in `ModStrings`, never a literal at the call site (see [naming conventions](naming-conventions.md)).

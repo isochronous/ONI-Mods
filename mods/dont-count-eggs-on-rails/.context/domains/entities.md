@@ -11,7 +11,8 @@ description: "The one Harmony prefix on `OvercrowdingMonitor.UpdateRegion` in Do
 # Don't Count Eggs on Rails domain
 
 ## Overview
-**Id:** blk-233337a30535
+**Id:** blk-233337a30535  
+**Tags:** room-tracking
 
 Don't Count Eggs on Rails keeps critter sensors from counting eggs that are riding a conveyor rail. It adds no buildings, options or saved state: one Harmony prefix on the egg's room tracking. Source is in `mods/dont-count-eggs-on-rails/src/DontCountEggsOnRails/Mod.cs`.
 

@@ -77,3 +77,8 @@ A record earns this term when it is about the worldgen noise trees that shape wh
 **Id:** blk-65a9b112c4f6
 
 A record earns this term when it is about the simulation worldgen runs to settle a new world before play begins.
+
+## code-style
+**Id:** blk-57148120b48a
+
+A record earns this term when it is about the house style in which a mod's C# source code is written.

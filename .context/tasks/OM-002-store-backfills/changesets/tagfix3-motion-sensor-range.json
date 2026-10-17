@@ -1,0 +1,15 @@
+{
+ "task": "OM-002",
+ "why": "round two put terms on documents whose sections already declare them; the narrower answer keeps them on the sections, so they come off the document",
+ "node": "mods/motion-sensor-range",
+ "ops": [
+  {
+   "mode": "tag",
+   "target": "standards/error-handling.md",
+   "remove": [
+    "logging",
+    "harmony-patching"
+   ]
+  }
+ ]
+}

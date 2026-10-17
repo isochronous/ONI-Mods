@@ -72,7 +72,7 @@ Components and arguments that can be absent are tested before use: `if (stt == n
 Work that repeats every frame or tick warns once behind a flag (`warnedMissingInternals` in `RangeSlider.cs`).
 
 ## try/catch
-**Id:** blk-5933d2ff5362
+**Id:** blk-5933d2ff5362  
 
 `try`/`catch (Exception e)` is used in four situations and nowhere else:
 
@@ -90,7 +90,8 @@ The message form is `"[<Name>] <what was skipped>: " + e.Message`. Use `e.GetBas
 `Cluster.BeginGeneration` is the worldgen thread body and has none; an exception ends the thread and the loading screen waits forever. A finalizer reports the failure through the game's own error path and logs the exception (`Cluster_BeginGeneration_Patch` in `mods/natural-backwalls-everywhere/src/NaturalBackwalls/WorldgenThreadPatch.cs`).
 
 ## Yielding to Other Mods
-**Id:** blk-e538962c7211
+**Id:** blk-e538962c7211  
+**Tags:** harmony-patching
 
 When another mod already does the job or shares an id, the mod steps aside and logs why:
 - Bitshifter disables itself when Digital CPU is enabled or the contested methods already have Harmony owners (`WhyYield` in `mods/bitshifter/src/Bitshifter/Mod.cs`).

@@ -1,4 +1,5 @@
 ---
+tags: code-style, harmony-patching, logging
 doc_id: doc-d61f06975cad
 description: Index of the Vent Freeze Fix standards documents, linking the code-style, error-handling and naming-conventions guides with a line on each
 ---

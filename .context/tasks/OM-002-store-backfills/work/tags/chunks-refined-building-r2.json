@@ -1,0 +1,26 @@
+[
+ {
+  "id": "refined-building-r2-c00",
+  "kind": "ordinary",
+  "documents": [
+   "domains/README.md",
+   "domains/entities.md",
+   "domains/glossary.md",
+   "overview.md",
+   "standards/README.md",
+   "standards/code-style.md"
+  ],
+  "sections": 35,
+  "dependsOn": null
+ },
+ {
+  "id": "refined-building-r2-c01",
+  "kind": "ordinary",
+  "documents": [
+   "standards/error-handling.md",
+   "standards/naming-conventions.md"
+  ],
+  "sections": 30,
+  "dependsOn": null
+ }
+]

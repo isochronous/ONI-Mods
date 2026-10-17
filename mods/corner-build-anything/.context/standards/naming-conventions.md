@@ -1,4 +1,5 @@
 ---
+tags: code-style
 doc_id: doc-45341a356366
 description: "Naming conventions for the Corner Build Anything mod: files, namespaces, variables, methods, strings and ids, plus its Constructable_OnSpawn patch classes, Standard and WithCorners fields and log prefix"
 applies_to:

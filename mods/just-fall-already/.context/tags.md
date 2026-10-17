@@ -47,3 +47,8 @@ A record earns this term when it is about how a critter loses its footing at a d
 **Id:** blk-9b64f356a384
 
 A record earns this term when it is about the navigation grids and brains that decide where a critter can move and when it reacts.
+
+## code-style
+**Id:** blk-3b65a6c1f3f9
+
+A record earns this term when it is about the house style in which a mod's C# source code is written.

@@ -1,4 +1,5 @@
 ---
+tags: code-style
 doc_id: doc-8c98aaf846df
 description: "Naming conventions for the Bitshifter mod: files, namespaces, variables, methods, strings and ids, plus its <Type>_<Method>_Patch classes, the Bits constant, kanim names and log prefix"
 applies_to:

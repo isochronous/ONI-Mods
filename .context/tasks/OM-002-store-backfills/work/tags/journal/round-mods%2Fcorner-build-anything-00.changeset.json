@@ -1,72 +1,44 @@
 {
   "task": "OM-002",
-  "why": "tag backfill r1 for node mods/corner-build-anything — round 0",
+  "why": "tag backfill r2 for node mods/corner-build-anything — round 0",
   "node": "C:\\dev\\ONI-Mods\\mods\\corner-build-anything",
   "base": {
-    "domains/README.md": "sha256:9fcf6cabc2d5400620715706ef0b286278c84e87ec19e71d7f59fbbbf6714499",
-    "domains/entities.md": "sha256:8ef500d14f085f8c09270f164977efa9b1caa43e7a5e42fddd0df9625a8dae38",
-    "domains/glossary.md": "sha256:02e0288bc506a8e223c0a292fd7501137f50ad911e695f45cb9f41a377e4de5d",
-    "overview.md": "sha256:318f63ca2314bc714ac91903138d2a1641636e11f49d9861ab29fa3949ff81e1",
-    "standards/error-handling.md": "sha256:dd77f26ab31648b4a830798ba3c123b781dcfdcfba2d78d7e75abd7391b4ada3",
-    "standards/code-style.md": "sha256:c660763c52b96aaa61513567856064bacd719f9b196128a4d19a77f7bd377ff1",
-    "standards/naming-conventions.md": "sha256:1c63d65f9100259c1a93432c139ced88e54cbfa3e45d905c6fde7b988f225eee"
+    "standards/README.md": "sha256:55638a3d522a9d875f7e162914ce32d1ad922d4b24c5d550466a8c57aab2ff9d",
+    "standards/code-style.md": "sha256:aa1b016873971e8209cc1162c7c2f61efd992cd6056150f047b3e7847b8891b1",
+    "standards/naming-conventions.md": "sha256:1908d4143c7054a4ae535111b738c12d8ca8144efac0ae7059910f1cfc1a99aa",
+    "standards/error-handling.md": "sha256:62b5476b94d734580d3f2308373b67a0e870cace86bbbc0d720a9e159eb33476"
   },
   "ops": [
     {
-      "target": "domains/README.md",
+      "target": "standards/README.md",
       "mode": "tag",
       "add": [
-        "reach-table"
-      ]
-    },
-    {
-      "target": "domains/entities.md",
-      "mode": "tag",
-      "add": [
-        "reach-table",
-        "transpiler"
-      ]
-    },
-    {
-      "target": "domains/glossary.md",
-      "mode": "tag",
-      "add": [
-        "reach-table"
-      ]
-    },
-    {
-      "target": "overview.md",
-      "mode": "tag",
-      "add": [
-        "reach-table"
-      ]
-    },
-    {
-      "target": "standards/error-handling.md",
-      "mode": "tag",
-      "add": [
-        "vanilla-fallback",
-        "logging"
+        "code-style"
       ]
     },
     {
       "target": "standards/code-style.md",
       "mode": "tag",
       "add": [
+        "code-style",
         "harmony-patching",
-        "transpiler",
-        "mod-entry-point"
-      ],
-      "section": "harmony-patches"
+        "transpiler"
+      ]
     },
     {
       "target": "standards/naming-conventions.md",
       "mode": "tag",
       "add": [
-        "harmony-patching",
-        "mod-entry-point"
+        "code-style"
+      ]
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching"
       ],
-      "section": "files-and-directories/examples-by-type"
+      "section": "principles"
     }
   ]
 }

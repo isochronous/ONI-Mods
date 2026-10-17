@@ -1,0 +1,670 @@
+{
+ "mods/bitshifter": [
+  {
+   "term": "code-style",
+   "gloss": "A record earns this term when it is about the house style in which a mod's C# source code is written.",
+   "new_or_existing": "new",
+   "est_records": 21,
+   "est_untagged": 17,
+   "est_documents": 2,
+   "evidence": [
+    "standards/code-style.md",
+    "standards/code-style.md#formatting/indentation",
+    "standards/code-style.md#formatting/line-length",
+    "standards/code-style.md#formatting/braces",
+    "standards/code-style.md#imports-includes/organization",
+    "standards/code-style.md#imports-includes/example",
+    "standards/code-style.md#comments/when-to-comment",
+    "standards/code-style.md#comments/when-not-to-comment",
+    "standards/code-style.md#comments/format",
+    "standards/code-style.md#control-structures/conditionals",
+    "standards/code-style.md#control-structures/loops",
+    "standards/code-style.md#control-structures/strings",
+    "standards/naming-conventions.md",
+    "standards/naming-conventions.md#files-and-directories/general-rules",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "standards/naming-conventions.md#code-naming/variables",
+    "standards/naming-conventions.md#code-naming/functions-methods",
+    "standards/naming-conventions.md#code-naming/classes-types-interfaces",
+    "standards/naming-conventions.md#code-naming/booleans",
+    "standards/naming-conventions.md#code-naming/strings-modstrings",
+    "standards/naming-conventions.md#code-naming/ids-and-tags"
+   ]
+  },
+  {
+   "term": "bit-display",
+   "gloss": "A record earns this term when it is about the digit display and lights on which the Ribbon Reader and Writer show their selected bit.",
+   "new_or_existing": "new",
+   "est_records": 4,
+   "est_untagged": 1,
+   "est_documents": 3,
+   "evidence": [
+    "domains/entities.md#key-entities/display",
+    "domains/glossary.md#cross-domain-terms/port-lights",
+    "domains/entities.md#key-code-paths",
+    "overview.md#what-this-is"
+   ]
+  }
+ ],
+ "mods/corner-build-anything": [
+  {
+   "term": "code-style",
+   "gloss": "A record earns this term when it is about the house style in which a mod's C# source code is written.",
+   "new_or_existing": "new",
+   "est_records": 21,
+   "est_untagged": 18,
+   "est_documents": 2,
+   "evidence": [
+    "standards/code-style.md",
+    "standards/code-style.md#formatting/indentation",
+    "standards/code-style.md#formatting/line-length",
+    "standards/code-style.md#formatting/braces",
+    "standards/code-style.md#imports-includes/organization",
+    "standards/code-style.md#imports-includes/example",
+    "standards/code-style.md#comments/when-to-comment",
+    "standards/code-style.md#comments/when-not-to-comment",
+    "standards/code-style.md#comments/format",
+    "standards/code-style.md#control-structures/conditionals",
+    "standards/code-style.md#control-structures/loops",
+    "standards/code-style.md#control-structures/strings",
+    "standards/naming-conventions.md",
+    "standards/naming-conventions.md#files-and-directories/general-rules",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "standards/naming-conventions.md#code-naming/variables",
+    "standards/naming-conventions.md#code-naming/functions-methods",
+    "standards/naming-conventions.md#code-naming/classes-types-interfaces",
+    "standards/naming-conventions.md#code-naming/booleans",
+    "standards/naming-conventions.md#code-naming/strings-modstrings",
+    "standards/naming-conventions.md#code-naming/ids-and-tags"
+   ]
+  }
+ ],
+ "mods/detect-any-element": [
+  {
+   "term": "code-style",
+   "gloss": "A record earns this term when it is about the house style in which a mod's C# source code is written.",
+   "new_or_existing": "new",
+   "est_records": 21,
+   "est_untagged": 15,
+   "est_documents": 2,
+   "evidence": [
+    "standards/code-style.md",
+    "standards/code-style.md#formatting/indentation",
+    "standards/code-style.md#formatting/line-length",
+    "standards/code-style.md#formatting/braces",
+    "standards/code-style.md#imports-includes/organization",
+    "standards/code-style.md#imports-includes/example",
+    "standards/code-style.md#comments/when-to-comment",
+    "standards/code-style.md#comments/when-not-to-comment",
+    "standards/code-style.md#comments/format",
+    "standards/code-style.md#control-structures/conditionals",
+    "standards/code-style.md#control-structures/loops",
+    "standards/code-style.md#control-structures/strings",
+    "standards/naming-conventions.md",
+    "standards/naming-conventions.md#files-and-directories/general-rules",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "standards/naming-conventions.md#code-naming/variables",
+    "standards/naming-conventions.md#code-naming/functions-methods",
+    "standards/naming-conventions.md#code-naming/classes-types-interfaces",
+    "standards/naming-conventions.md#code-naming/booleans",
+    "standards/naming-conventions.md#code-naming/strings-modstrings",
+    "standards/naming-conventions.md#code-naming/ids-and-tags"
+   ]
+  },
+  {
+   "term": "reflection",
+   "gloss": "A record earns this term when it is about reaching non-public members of the game or of another mod through reflection.",
+   "new_or_existing": "existing",
+   "est_records": 4,
+   "est_untagged": 1,
+   "est_documents": 3,
+   "evidence": [
+    "domains/entities.md#key-entities/switches",
+    "standards/code-style.md#harmony-patches",
+    "standards/error-handling.md#guarding-patches/missing-member-warn-leave-vanilla",
+    "standards/error-handling.md#anti-patterns-to-avoid/assuming-the-game-s-internals"
+   ]
+  }
+ ],
+ "mods/dont-count-eggs-on-rails": [
+  {
+   "term": "code-style",
+   "gloss": "A record earns this term when it is about the house style in which a mod's C# source code is written.",
+   "new_or_existing": "new",
+   "est_records": 21,
+   "est_untagged": 17,
+   "est_documents": 2,
+   "evidence": [
+    "standards/code-style.md",
+    "standards/code-style.md#formatting/indentation",
+    "standards/code-style.md#formatting/line-length",
+    "standards/code-style.md#formatting/braces",
+    "standards/code-style.md#imports-includes/organization",
+    "standards/code-style.md#imports-includes/example",
+    "standards/code-style.md#comments/when-to-comment",
+    "standards/code-style.md#comments/when-not-to-comment",
+    "standards/code-style.md#comments/format",
+    "standards/code-style.md#control-structures/conditionals",
+    "standards/code-style.md#control-structures/loops",
+    "standards/code-style.md#control-structures/strings",
+    "standards/naming-conventions.md",
+    "standards/naming-conventions.md#files-and-directories/general-rules",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "standards/naming-conventions.md#code-naming/variables",
+    "standards/naming-conventions.md#code-naming/functions-methods",
+    "standards/naming-conventions.md#code-naming/classes-types-interfaces",
+    "standards/naming-conventions.md#code-naming/booleans",
+    "standards/naming-conventions.md#code-naming/strings-modstrings",
+    "standards/naming-conventions.md#code-naming/ids-and-tags"
+   ]
+  },
+  {
+   "term": "room-tracking",
+   "gloss": "A record earns this term when it is about how the game records which room a critter or egg is in.",
+   "new_or_existing": "new",
+   "est_records": 6,
+   "est_untagged": 5,
+   "est_documents": 3,
+   "evidence": [
+    "domains/glossary.md#cross-domain-terms/room-and-cavity",
+    "domains/glossary.md#cross-domain-terms/room-prober",
+    "domains/glossary.md#cross-domain-terms/overcrowding-monitor",
+    "domains/entities.md#key-entities/overcrowdingmonitor-updateregion-patch",
+    "domains/entities.md#overview",
+    "standards/error-handling.md#project-specific-patterns/don-t-count-eggs-on-rails-specifics"
+   ]
+  }
+ ],
+ "mods/jumper-bridges": [
+  {
+   "term": "code-style",
+   "gloss": "A record earns this term when it is about the house style in which a mod's C# source code is written.",
+   "new_or_existing": "new",
+   "est_records": 21,
+   "est_untagged": 15,
+   "est_documents": 2,
+   "evidence": [
+    "standards/code-style.md",
+    "standards/code-style.md#formatting/indentation",
+    "standards/code-style.md#formatting/line-length",
+    "standards/code-style.md#formatting/braces",
+    "standards/code-style.md#imports-includes/organization",
+    "standards/code-style.md#imports-includes/example",
+    "standards/code-style.md#comments/when-to-comment",
+    "standards/code-style.md#comments/when-not-to-comment",
+    "standards/code-style.md#comments/format",
+    "standards/code-style.md#control-structures/conditionals",
+    "standards/code-style.md#control-structures/loops",
+    "standards/code-style.md#control-structures/strings",
+    "standards/naming-conventions.md",
+    "standards/naming-conventions.md#files-and-directories/general-rules",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "standards/naming-conventions.md#code-naming/variables",
+    "standards/naming-conventions.md#code-naming/functions-methods",
+    "standards/naming-conventions.md#code-naming/classes-types-interfaces",
+    "standards/naming-conventions.md#code-naming/booleans",
+    "standards/naming-conventions.md#code-naming/strings-modstrings",
+    "standards/naming-conventions.md#code-naming/ids-and-tags"
+   ]
+  }
+ ],
+ "mods/just-fall-already": [
+  {
+   "term": "code-style",
+   "gloss": "A record earns this term when it is about the house style in which a mod's C# source code is written.",
+   "new_or_existing": "new",
+   "est_records": 21,
+   "est_untagged": 13,
+   "est_documents": 2,
+   "evidence": [
+    "standards/code-style.md",
+    "standards/code-style.md#formatting/indentation",
+    "standards/code-style.md#formatting/line-length",
+    "standards/code-style.md#formatting/braces",
+    "standards/code-style.md#imports-includes/organization",
+    "standards/code-style.md#imports-includes/example",
+    "standards/code-style.md#comments/when-to-comment",
+    "standards/code-style.md#comments/when-not-to-comment",
+    "standards/code-style.md#comments/format",
+    "standards/code-style.md#control-structures/conditionals",
+    "standards/code-style.md#control-structures/loops",
+    "standards/code-style.md#control-structures/strings",
+    "standards/naming-conventions.md",
+    "standards/naming-conventions.md#files-and-directories/general-rules",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "standards/naming-conventions.md#code-naming/variables",
+    "standards/naming-conventions.md#code-naming/functions-methods",
+    "standards/naming-conventions.md#code-naming/classes-types-interfaces",
+    "standards/naming-conventions.md#code-naming/booleans",
+    "standards/naming-conventions.md#code-naming/strings-modstrings",
+    "standards/naming-conventions.md#code-naming/ids-and-tags"
+   ]
+  }
+ ],
+ "mods/motion-sensor-range": [
+  {
+   "term": "code-style",
+   "gloss": "A record earns this term when it is about the house style in which a mod's C# source code is written.",
+   "new_or_existing": "new",
+   "est_records": 21,
+   "est_untagged": 16,
+   "est_documents": 2,
+   "evidence": [
+    "standards/code-style.md",
+    "standards/code-style.md#formatting/indentation",
+    "standards/code-style.md#formatting/line-length",
+    "standards/code-style.md#formatting/braces",
+    "standards/code-style.md#imports-includes/organization",
+    "standards/code-style.md#imports-includes/example",
+    "standards/code-style.md#comments/when-to-comment",
+    "standards/code-style.md#comments/when-not-to-comment",
+    "standards/code-style.md#comments/format",
+    "standards/code-style.md#control-structures/conditionals",
+    "standards/code-style.md#control-structures/loops",
+    "standards/code-style.md#control-structures/strings",
+    "standards/naming-conventions.md",
+    "standards/naming-conventions.md#files-and-directories/general-rules",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "standards/naming-conventions.md#code-naming/variables",
+    "standards/naming-conventions.md#code-naming/functions-methods",
+    "standards/naming-conventions.md#code-naming/classes-types-interfaces",
+    "standards/naming-conventions.md#code-naming/booleans",
+    "standards/naming-conventions.md#code-naming/strings-modstrings",
+    "standards/naming-conventions.md#code-naming/ids-and-tags"
+   ]
+  }
+ ],
+ "mods/multichannel-critter-sensor": [
+  {
+   "term": "code-style",
+   "gloss": "A record earns this term when it is about the house style in which a mod's C# source code is written.",
+   "new_or_existing": "new",
+   "est_records": 21,
+   "est_untagged": 16,
+   "est_documents": 2,
+   "evidence": [
+    "standards/code-style.md",
+    "standards/code-style.md#formatting/indentation",
+    "standards/code-style.md#formatting/line-length",
+    "standards/code-style.md#formatting/braces",
+    "standards/code-style.md#imports-includes/organization",
+    "standards/code-style.md#imports-includes/example",
+    "standards/code-style.md#comments/when-to-comment",
+    "standards/code-style.md#comments/when-not-to-comment",
+    "standards/code-style.md#comments/format",
+    "standards/code-style.md#control-structures/conditionals",
+    "standards/code-style.md#control-structures/loops",
+    "standards/code-style.md#control-structures/strings",
+    "standards/naming-conventions.md",
+    "standards/naming-conventions.md#files-and-directories/general-rules",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "standards/naming-conventions.md#code-naming/variables",
+    "standards/naming-conventions.md#code-naming/functions-methods",
+    "standards/naming-conventions.md#code-naming/classes-types-interfaces",
+    "standards/naming-conventions.md#code-naming/booleans",
+    "standards/naming-conventions.md#code-naming/strings-modstrings",
+    "standards/naming-conventions.md#code-naming/ids-and-tags"
+   ]
+  },
+  {
+   "term": "pulse-output",
+   "gloss": "A record earns this term when it is about the one-tick pulses the sensor sends when its counted total rises or falls.",
+   "new_or_existing": "new",
+   "est_records": 7,
+   "est_untagged": 3,
+   "est_documents": 3,
+   "evidence": [
+    "domains/glossary.md#cross-domain-terms/logic-tick",
+    "domains/glossary.md#cross-domain-terms/tracked-total",
+    "domains/glossary.md#cross-domain-terms/sim200ms",
+    "domains/entities.md#business-rules",
+    "domains/entities.md#key-code-paths",
+    "domains/entities.md#overview",
+    "overview.md#what-this-is"
+   ]
+  }
+ ],
+ "mods/natural-backwalls-everywhere": [
+  {
+   "term": "code-style",
+   "gloss": "A record earns this term when it is about the house style in which a mod's C# source code is written.",
+   "new_or_existing": "new",
+   "est_records": 21,
+   "est_untagged": 15,
+   "est_documents": 2,
+   "evidence": [
+    "standards/code-style.md",
+    "standards/code-style.md#formatting/indentation",
+    "standards/code-style.md#formatting/line-length",
+    "standards/code-style.md#formatting/braces",
+    "standards/code-style.md#imports-includes/organization",
+    "standards/code-style.md#imports-includes/example",
+    "standards/code-style.md#comments/when-to-comment",
+    "standards/code-style.md#comments/when-not-to-comment",
+    "standards/code-style.md#comments/format",
+    "standards/code-style.md#control-structures/conditionals",
+    "standards/code-style.md#control-structures/loops",
+    "standards/code-style.md#control-structures/strings",
+    "standards/naming-conventions.md",
+    "standards/naming-conventions.md#files-and-directories/general-rules",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "standards/naming-conventions.md#code-naming/variables",
+    "standards/naming-conventions.md#code-naming/functions-methods",
+    "standards/naming-conventions.md#code-naming/classes-types-interfaces",
+    "standards/naming-conventions.md#code-naming/booleans",
+    "standards/naming-conventions.md#code-naming/strings-modstrings",
+    "standards/naming-conventions.md#code-naming/ids-and-tags"
+   ]
+  }
+ ],
+ "mods/no-magic-fridges": [
+  {
+   "term": "code-style",
+   "gloss": "A record earns this term when it is about the house style in which a mod's C# source code is written.",
+   "new_or_existing": "new",
+   "est_records": 21,
+   "est_untagged": 18,
+   "est_documents": 2,
+   "evidence": [
+    "standards/code-style.md",
+    "standards/code-style.md#formatting/indentation",
+    "standards/code-style.md#formatting/line-length",
+    "standards/code-style.md#formatting/braces",
+    "standards/code-style.md#imports-includes/organization",
+    "standards/code-style.md#imports-includes/example",
+    "standards/code-style.md#comments/when-to-comment",
+    "standards/code-style.md#comments/when-not-to-comment",
+    "standards/code-style.md#comments/format",
+    "standards/code-style.md#control-structures/conditionals",
+    "standards/code-style.md#control-structures/loops",
+    "standards/code-style.md#control-structures/strings",
+    "standards/naming-conventions.md",
+    "standards/naming-conventions.md#files-and-directories/general-rules",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "standards/naming-conventions.md#code-naming/variables",
+    "standards/naming-conventions.md#code-naming/functions-methods",
+    "standards/naming-conventions.md#code-naming/classes-types-interfaces",
+    "standards/naming-conventions.md#code-naming/booleans",
+    "standards/naming-conventions.md#code-naming/strings-modstrings",
+    "standards/naming-conventions.md#code-naming/ids-and-tags"
+   ]
+  }
+ ],
+ "mods/refined-building": [
+  {
+   "term": "code-style",
+   "gloss": "A record earns this term when it is about the house style in which a mod's C# source code is written.",
+   "new_or_existing": "new",
+   "est_records": 21,
+   "est_untagged": 17,
+   "est_documents": 2,
+   "evidence": [
+    "standards/code-style.md",
+    "standards/code-style.md#formatting/indentation",
+    "standards/code-style.md#formatting/line-length",
+    "standards/code-style.md#formatting/braces",
+    "standards/code-style.md#imports-includes/organization",
+    "standards/code-style.md#imports-includes/example",
+    "standards/code-style.md#comments/when-to-comment",
+    "standards/code-style.md#comments/when-not-to-comment",
+    "standards/code-style.md#comments/format",
+    "standards/code-style.md#control-structures/conditionals",
+    "standards/code-style.md#control-structures/loops",
+    "standards/code-style.md#control-structures/strings",
+    "standards/naming-conventions.md",
+    "standards/naming-conventions.md#files-and-directories/general-rules",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "standards/naming-conventions.md#code-naming/variables",
+    "standards/naming-conventions.md#code-naming/functions-methods",
+    "standards/naming-conventions.md#code-naming/classes-types-interfaces",
+    "standards/naming-conventions.md#code-naming/booleans",
+    "standards/naming-conventions.md#code-naming/strings-modstrings",
+    "standards/naming-conventions.md#code-naming/ids-and-tags"
+   ]
+  },
+  {
+   "term": "vanilla-fallback",
+   "gloss": "A record earns this term when it is about how a mod keeps the game's own behaviour when something it depends on is missing or has changed.",
+   "new_or_existing": "existing",
+   "est_records": 9,
+   "est_untagged": 8,
+   "est_documents": 2,
+   "evidence": [
+    "standards/code-style.md#harmony-patches",
+    "standards/error-handling.md#principles",
+    "standards/error-handling.md#guarding-patches/missing-member-warn-leave-vanilla",
+    "standards/error-handling.md#guarding-patches/transpiler-count-the-match",
+    "standards/error-handling.md#guarding-patches/missing-data-warn-continue",
+    "standards/error-handling.md#guarding-patches/null-checks-on-game-objects",
+    "standards/error-handling.md#anti-patterns-to-avoid/assuming-the-game-s-internals",
+    "standards/error-handling.md#anti-patterns-to-avoid/silent-degradation",
+    "standards/error-handling.md#project-specific-patterns/refined-building-specifics"
+   ]
+  }
+ ],
+ "mods/salty-surf": [
+  {
+   "term": "code-style",
+   "gloss": "A record earns this term when it is about the house style in which a mod's C# source code is written.",
+   "new_or_existing": "new",
+   "est_records": 21,
+   "est_untagged": 14,
+   "est_documents": 2,
+   "evidence": [
+    "standards/code-style.md",
+    "standards/code-style.md#formatting/indentation",
+    "standards/code-style.md#formatting/line-length",
+    "standards/code-style.md#formatting/braces",
+    "standards/code-style.md#imports-includes/organization",
+    "standards/code-style.md#imports-includes/example",
+    "standards/code-style.md#comments/when-to-comment",
+    "standards/code-style.md#comments/when-not-to-comment",
+    "standards/code-style.md#comments/format",
+    "standards/code-style.md#control-structures/conditionals",
+    "standards/code-style.md#control-structures/loops",
+    "standards/code-style.md#control-structures/strings",
+    "standards/naming-conventions.md",
+    "standards/naming-conventions.md#files-and-directories/general-rules",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "standards/naming-conventions.md#code-naming/variables",
+    "standards/naming-conventions.md#code-naming/functions-methods",
+    "standards/naming-conventions.md#code-naming/classes-types-interfaces",
+    "standards/naming-conventions.md#code-naming/booleans",
+    "standards/naming-conventions.md#code-naming/strings-modstrings",
+    "standards/naming-conventions.md#code-naming/ids-and-tags"
+   ]
+  }
+ ],
+ "mods/smart-weight-plate": [
+  {
+   "term": "code-style",
+   "gloss": "A record earns this term when it is about the house style in which a mod's C# source code is written.",
+   "new_or_existing": "new",
+   "est_records": 21,
+   "est_untagged": 14,
+   "est_documents": 2,
+   "evidence": [
+    "standards/code-style.md",
+    "standards/code-style.md#formatting/indentation",
+    "standards/code-style.md#formatting/line-length",
+    "standards/code-style.md#formatting/braces",
+    "standards/code-style.md#imports-includes/organization",
+    "standards/code-style.md#imports-includes/example",
+    "standards/code-style.md#comments/when-to-comment",
+    "standards/code-style.md#comments/when-not-to-comment",
+    "standards/code-style.md#comments/format",
+    "standards/code-style.md#control-structures/conditionals",
+    "standards/code-style.md#control-structures/loops",
+    "standards/code-style.md#control-structures/strings",
+    "standards/naming-conventions.md",
+    "standards/naming-conventions.md#files-and-directories/general-rules",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "standards/naming-conventions.md#code-naming/variables",
+    "standards/naming-conventions.md#code-naming/functions-methods",
+    "standards/naming-conventions.md#code-naming/classes-types-interfaces",
+    "standards/naming-conventions.md#code-naming/booleans",
+    "standards/naming-conventions.md#code-naming/strings-modstrings",
+    "standards/naming-conventions.md#code-naming/ids-and-tags"
+   ]
+  }
+ ],
+ "mods/storage-pod-redux": [
+  {
+   "term": "code-style",
+   "gloss": "A record earns this term when it is about the house style in which a mod's C# source code is written.",
+   "new_or_existing": "new",
+   "est_records": 21,
+   "est_untagged": 15,
+   "est_documents": 2,
+   "evidence": [
+    "standards/code-style.md",
+    "standards/code-style.md#formatting/indentation",
+    "standards/code-style.md#formatting/line-length",
+    "standards/code-style.md#formatting/braces",
+    "standards/code-style.md#imports-includes/organization",
+    "standards/code-style.md#imports-includes/example",
+    "standards/code-style.md#comments/when-to-comment",
+    "standards/code-style.md#comments/when-not-to-comment",
+    "standards/code-style.md#comments/format",
+    "standards/code-style.md#control-structures/conditionals",
+    "standards/code-style.md#control-structures/loops",
+    "standards/code-style.md#control-structures/strings",
+    "standards/naming-conventions.md",
+    "standards/naming-conventions.md#files-and-directories/general-rules",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "standards/naming-conventions.md#code-naming/variables",
+    "standards/naming-conventions.md#code-naming/functions-methods",
+    "standards/naming-conventions.md#code-naming/classes-types-interfaces",
+    "standards/naming-conventions.md#code-naming/booleans",
+    "standards/naming-conventions.md#code-naming/strings-modstrings",
+    "standards/naming-conventions.md#code-naming/ids-and-tags"
+   ]
+  }
+ ],
+ "mods/sweep-zones": [
+  {
+   "term": "code-style",
+   "gloss": "A record earns this term when it is about the house style in which a mod's C# source code is written.",
+   "new_or_existing": "new",
+   "est_records": 21,
+   "est_untagged": 15,
+   "est_documents": 2,
+   "evidence": [
+    "standards/code-style.md",
+    "standards/code-style.md#formatting/indentation",
+    "standards/code-style.md#formatting/line-length",
+    "standards/code-style.md#formatting/braces",
+    "standards/code-style.md#imports-includes/organization",
+    "standards/code-style.md#imports-includes/example",
+    "standards/code-style.md#comments/when-to-comment",
+    "standards/code-style.md#comments/when-not-to-comment",
+    "standards/code-style.md#comments/format",
+    "standards/code-style.md#control-structures/conditionals",
+    "standards/code-style.md#control-structures/loops",
+    "standards/code-style.md#control-structures/strings",
+    "standards/naming-conventions.md",
+    "standards/naming-conventions.md#files-and-directories/general-rules",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "standards/naming-conventions.md#code-naming/variables",
+    "standards/naming-conventions.md#code-naming/functions-methods",
+    "standards/naming-conventions.md#code-naming/classes-types-interfaces",
+    "standards/naming-conventions.md#code-naming/booleans",
+    "standards/naming-conventions.md#code-naming/strings-modstrings",
+    "standards/naming-conventions.md#code-naming/ids-and-tags"
+   ]
+  }
+ ],
+ "mods/upgrade-planner": [
+  {
+   "term": "code-style",
+   "gloss": "A record earns this term when it is about the house style in which a mod's C# source code is written.",
+   "new_or_existing": "new",
+   "est_records": 21,
+   "est_untagged": 14,
+   "est_documents": 2,
+   "evidence": [
+    "standards/code-style.md",
+    "standards/code-style.md#formatting/indentation",
+    "standards/code-style.md#formatting/line-length",
+    "standards/code-style.md#formatting/braces",
+    "standards/code-style.md#imports-includes/organization",
+    "standards/code-style.md#imports-includes/example",
+    "standards/code-style.md#comments/when-to-comment",
+    "standards/code-style.md#comments/when-not-to-comment",
+    "standards/code-style.md#comments/format",
+    "standards/code-style.md#control-structures/conditionals",
+    "standards/code-style.md#control-structures/loops",
+    "standards/code-style.md#control-structures/strings",
+    "standards/naming-conventions.md",
+    "standards/naming-conventions.md#files-and-directories/general-rules",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "standards/naming-conventions.md#code-naming/variables",
+    "standards/naming-conventions.md#code-naming/functions-methods",
+    "standards/naming-conventions.md#code-naming/classes-types-interfaces",
+    "standards/naming-conventions.md#code-naming/booleans",
+    "standards/naming-conventions.md#code-naming/strings-modstrings",
+    "standards/naming-conventions.md#code-naming/ids-and-tags"
+   ]
+  },
+  {
+   "term": "building-family",
+   "gloss": "A record earns this term when it is about a building type as the build menu lists it, with the per-material defs that may stand behind it.",
+   "new_or_existing": "new",
+   "est_records": 4,
+   "est_untagged": 3,
+   "est_documents": 2,
+   "evidence": [
+    "domains/entities.md#key-entities/family-and-category",
+    "domains/glossary.md#cross-domain-terms/variant-family-member",
+    "domains/entities.md#key-entities/rules",
+    "domains/entities.md#domain-terminology"
+   ]
+  },
+  {
+   "term": "planner-window",
+   "gloss": "A record earns this term when it is about the Upgrade Planner's dialog window in which the player sets up a plan.",
+   "new_or_existing": "new",
+   "est_records": 3,
+   "est_untagged": 2,
+   "est_documents": 2,
+   "evidence": [
+    "domains/entities.md#key-entities/window",
+    "domains/glossary.md#cross-domain-terms/materialselectionpanel",
+    "domains/entities.md#business-rules"
+   ]
+  }
+ ],
+ "mods/vent-freeze-fix": [
+  {
+   "term": "code-style",
+   "gloss": "A record earns this term when it is about the house style in which a mod's C# source code is written.",
+   "new_or_existing": "new",
+   "est_records": 21,
+   "est_untagged": 15,
+   "est_documents": 2,
+   "evidence": [
+    "standards/code-style.md",
+    "standards/code-style.md#formatting/indentation",
+    "standards/code-style.md#formatting/line-length",
+    "standards/code-style.md#formatting/braces",
+    "standards/code-style.md#imports-includes/organization",
+    "standards/code-style.md#imports-includes/example",
+    "standards/code-style.md#comments/when-to-comment",
+    "standards/code-style.md#comments/when-not-to-comment",
+    "standards/code-style.md#comments/format",
+    "standards/code-style.md#control-structures/conditionals",
+    "standards/code-style.md#control-structures/loops",
+    "standards/code-style.md#control-structures/strings",
+    "standards/naming-conventions.md",
+    "standards/naming-conventions.md#files-and-directories/general-rules",
+    "standards/naming-conventions.md#files-and-directories/examples-by-type",
+    "standards/naming-conventions.md#code-naming/variables",
+    "standards/naming-conventions.md#code-naming/functions-methods",
+    "standards/naming-conventions.md#code-naming/classes-types-interfaces",
+    "standards/naming-conventions.md#code-naming/booleans",
+    "standards/naming-conventions.md#code-naming/strings-modstrings",
+    "standards/naming-conventions.md#code-naming/ids-and-tags"
+   ]
+  }
+ ]
+}

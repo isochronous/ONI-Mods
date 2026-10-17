@@ -1,4 +1,5 @@
 ---
+tags: code-style
 doc_id: doc-0fb73d165b3f
 description: "Naming conventions for Refined Building: files, variables, methods, types, ModStrings keys, ids and tags, plus its test class, log prefix and staticID"
 applies_to:

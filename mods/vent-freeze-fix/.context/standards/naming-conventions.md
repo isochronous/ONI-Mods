@@ -1,4 +1,5 @@
 ---
+tags: code-style
 doc_id: doc-95f7b77404ee
 description: "Naming rules for the Vent Freeze Fix mod: files, namespaces, patch classes, variables, ModStrings keys, ids and tests, plus its option string keys, test classes with the VFF prefix, and log prefix"
 applies_to:

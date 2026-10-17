@@ -6,7 +6,8 @@ description: "Overview of the Smart Weight Plate mod: the two-threshold weight p
 # smart-weight-plate
 
 ## What this is
-**Id:** blk-a357f3b4017a
+**Id:** blk-a357f3b4017a  
+**Tags:** building-config
 
 Smart Weight Plate is an Oxygen Not Included mod that adds one building, a weight plate with a low and a high threshold. It weighs what sits on the tile above it like the vanilla Weight Plate (solid tiles, loose items and debris, Duplicants and critters; gases and liquids do not count). It sends a green signal once the weight reaches the High Threshold and holds it until the weight drops to the Low Threshold, then sends red, the way a Liquid or Gas Reservoir's signal behaves. Thresholds run 0 to 2000 kg, an Invert Signal option swaps the colours, and settings copy with the copy-settings tool. Art by 3GuB. Version 0.3.0, status work in progress. Targets the current game with all DLC content (minimumSupportedBuild 744825).
 

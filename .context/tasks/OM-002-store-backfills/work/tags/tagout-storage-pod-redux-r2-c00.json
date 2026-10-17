@@ -1,0 +1,249 @@
+{
+ "documents": [
+  {
+   "id": "standards/README.md",
+   "tags": [
+    "code-style"
+   ]
+  },
+  {
+   "id": "standards/code-style.md",
+   "tags": [
+    "code-style"
+   ]
+  },
+  {
+   "id": "standards/naming-conventions.md",
+   "tags": [
+    "code-style"
+   ]
+  }
+ ],
+ "sections": [
+  {
+   "id": "domains/README.md#domains",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/entities.md#overview",
+   "tags": [
+    "mod-compatibility"
+   ]
+  },
+  {
+   "id": "domains/entities.md#key-entities",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/entities.md#related",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/storage-pod",
+   "tags": [
+    "building-config"
+   ]
+  },
+  {
+   "id": "domains/glossary.md#related",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/README.md#standards",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/code-style.md#formatting",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/code-style.md#formatting/indentation",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/code-style.md#formatting/line-length",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/code-style.md#formatting/braces",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/code-style.md#language-and-toolchain",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "C# language version and build toolchain setup"
+  },
+  {
+   "id": "standards/code-style.md#imports-includes",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/code-style.md#imports-includes/organization",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/code-style.md#imports-includes/example",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/code-style.md#comments",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/code-style.md#comments/when-to-comment",
+   "tags": [
+    "harmony-patching",
+    "mod-compatibility"
+   ]
+  },
+  {
+   "id": "standards/code-style.md#comments/when-not-to-comment",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/code-style.md#comments/format",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/code-style.md#control-structures",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/code-style.md#control-structures/conditionals",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/code-style.md#control-structures/loops",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/code-style.md#related",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#guarding-patches/missing-member-warn-leave-vanilla",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#guarding-patches/transpiler-count-the-match",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#guarding-patches/null-checks-on-game-objects",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#guarding-patches/warn-once",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#logging",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#logging/log-levels",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#logging/what-to-include",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#anti-patterns-to-avoid",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#anti-patterns-to-avoid/swallowing-exceptions",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#anti-patterns-to-avoid/silent-degradation",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#anti-patterns-to-avoid/spamming-the-log",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#project-specific-patterns",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#related",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/naming-conventions.md#files-and-directories",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/naming-conventions.md#files-and-directories/general-rules",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/naming-conventions.md#code-naming",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/naming-conventions.md#code-naming/variables",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/naming-conventions.md#code-naming/booleans",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/naming-conventions.md#project-specific-conventions",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/naming-conventions.md#related",
+   "tags": [],
+   "reason": "inherits"
+  }
+ ]
+}

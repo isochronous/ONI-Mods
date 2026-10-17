@@ -1,19 +1,18 @@
 {
   "task": "OM-002",
-  "why": "tag backfill r1 for node mods/upgrade-planner — round 10",
+  "why": "tag backfill r2 for node mods/upgrade-planner — round 10",
   "node": "C:\\dev\\ONI-Mods\\mods\\upgrade-planner",
   "base": {
-    "standards/error-handling.md": "sha256:b0fc45e76d2744265dc56caf96201707044c4e59f6328720a79bcf44900371be"
+    "standards/code-style.md": "sha256:2fb1513b1ee6918139eea0e0b91d8a0d7668709677df8e2a5083f617b30ef44f"
   },
   "ops": [
     {
-      "target": "standards/error-handling.md",
+      "target": "standards/code-style.md",
       "mode": "tag",
       "add": [
-        "reflection",
-        "harmony-patching"
+        "code-style"
       ],
-      "section": "anti-patterns-to-avoid/assuming-the-game-s-internals"
+      "section": "game-components"
     }
   ]
 }

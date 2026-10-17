@@ -1,4 +1,5 @@
 ---
+tags: toolbar-tool, saved-state, cleaning-errands
 doc_id: doc-3aeb5f2729be
 description: Index of the domain documents for the Sweep Zones Redux mod, linking its entities file (zone store, paint tool, marking rules) and its glossary of terms
 ---

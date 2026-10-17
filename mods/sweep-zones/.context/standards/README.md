@@ -1,4 +1,5 @@
 ---
+tags: code-style, logging, vanilla-fallback
 doc_id: doc-fb2d7079ec1f
 description: Index of the Sweep Zones Redux standards documents, linking the code-style, error-handling and naming-conventions guides with a line on each
 ---

@@ -1,74 +1,53 @@
 {
   "task": "OM-002",
-  "why": "tag backfill r1 for node mods/bitshifter — round 0",
+  "why": "tag backfill r2 for node mods/bitshifter — round 0",
   "node": "C:\\dev\\ONI-Mods\\mods\\bitshifter",
   "base": {
-    "domains/README.md": "sha256:b235443552e573b1fe69c5a4e139500ae9886ef66c505ce5b6c672a28c316d3d",
-    "domains/entities.md": "sha256:b1371d57e836531ad113e12ca7c92fd35759f683831e0c493e9bee5d3acad309",
-    "domains/glossary.md": "sha256:a735e594fe0956ca9352546a3b3cb37993f834943096be36242c3b5b46a9e1d6",
-    "overview.md": "sha256:04ade094153ca6a1985b0c4630864d039c8562fbbd88999a02f930f816e00996",
-    "standards/error-handling.md": "sha256:5dcdbfea2effddeaf3dfee7e7c826bf157782874fa16ce12caa4f5dbee5a1c3d",
-    "standards/code-style.md": "sha256:be16b852d46b49168ab3211aea5f23b041b0aab82f7504c3a3983e1b9837fe9c",
-    "standards/naming-conventions.md": "sha256:f9afd4fcf1e392daa9d566ec02a23edd5712e1ddc85b3d96c64c6ed0ab02abe5"
+    "standards/README.md": "sha256:122147a1063adefd2977693c7cb77d8420159d8a518f116e7f8805f2c379985e",
+    "standards/code-style.md": "sha256:3247d52bcad24e58fab94ee753178d1fc7cddb424ecec5b6783094ec037a38de",
+    "standards/naming-conventions.md": "sha256:37ea105b27bf741f8a7a1998df866038edc824810eabd41a5456a09f32279983",
+    "domains/entities.md": "sha256:07b371f71889aa3ad15f223dedc62fc5553174093dfff219fad427dc588ee365",
+    "standards/error-handling.md": "sha256:69cb5b6b87da560245b6e5d107961123d4cedcc5c44fd2a3455020b08910d612"
   },
   "ops": [
     {
-      "target": "domains/README.md",
+      "target": "standards/README.md",
       "mode": "tag",
       "add": [
-        "automation-ribbon"
-      ]
-    },
-    {
-      "target": "domains/entities.md",
-      "mode": "tag",
-      "add": [
-        "automation-ribbon",
-        "harmony-patching"
-      ]
-    },
-    {
-      "target": "domains/glossary.md",
-      "mode": "tag",
-      "add": [
-        "automation-ribbon"
-      ]
-    },
-    {
-      "target": "overview.md",
-      "mode": "tag",
-      "add": [
-        "automation-ribbon"
-      ]
-    },
-    {
-      "target": "standards/error-handling.md",
-      "mode": "tag",
-      "add": [
-        "vanilla-fallback",
-        "logging"
+        "code-style",
+        "logging",
+        "vanilla-fallback"
       ]
     },
     {
       "target": "standards/code-style.md",
       "mode": "tag",
       "add": [
-        "harmony-patching",
-        "transpiler",
-        "mod-entry-point"
-      ],
-      "section": "harmony-patches"
+        "code-style"
+      ]
     },
     {
       "target": "standards/naming-conventions.md",
       "mode": "tag",
       "add": [
-        "mod-entry-point",
-        "side-screen",
-        "kanim-art",
+        "code-style"
+      ]
+    },
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "bit-depth"
+      ],
+      "section": "overview"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
         "harmony-patching"
       ],
-      "section": "files-and-directories/examples-by-type"
+      "section": "guarding-patches/null-checks-on-game-objects"
     }
   ]
 }

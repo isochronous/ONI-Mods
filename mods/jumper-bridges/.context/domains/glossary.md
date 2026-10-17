@@ -38,11 +38,13 @@ Terms used in the Jumper Bridges mod (`mods/jumper-bridges`). For the classes an
 
 ### Bridge end
 **Id:** blk-fa52bd2fd391  
+**Tags:** utility-network  
 **Definition**: One of a bridge's two end cells, which the game finds through the bridge's input ports.  
 **Used in**: all files
 
 ### Bridge end node
 **Id:** blk-2b5366f53fe2  
+**Tags:** utility-network, game-component  
 **Definition**: The stand-in for a wire under a bridge end: a building-less GameObject that registers the wire tile layer, a physical node and a network item so the port at that cell is connected.  
 **Used in**: `BridgeEndNode`, `JumperBridge`
 
@@ -102,6 +104,7 @@ Terms used in the Jumper Bridges mod (`mods/jumper-bridges`). For the classes an
 
 ### Overlay
 **Id:** blk-3955244df226  
+**Tags:** utility-network, harmony-patching  
 **Definition**: The automation or power view that colours wires by network; the mod colours node pieces the same way.  
 **Used in**: `OverlayModes` patches
 

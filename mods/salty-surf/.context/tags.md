@@ -52,3 +52,8 @@ A record earns this term when it is about the Mechanical Surfboard and the liqui
 **Id:** blk-251f23c41134
 
 A record earns this term when it is about the lines a building shows in its info panel.
+
+## code-style
+**Id:** blk-e7c517726889
+
+A record earns this term when it is about the house style in which a mod's C# source code is written.

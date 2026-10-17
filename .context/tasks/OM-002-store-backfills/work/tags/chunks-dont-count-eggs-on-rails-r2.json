@@ -1,0 +1,26 @@
+[
+ {
+  "id": "dont-count-eggs-on-rails-r2-c00",
+  "kind": "ordinary",
+  "documents": [
+   "domains/README.md",
+   "domains/entities.md",
+   "domains/glossary.md",
+   "overview.md",
+   "standards/README.md",
+   "standards/code-style.md",
+   "standards/error-handling.md"
+  ],
+  "sections": 54,
+  "dependsOn": null
+ },
+ {
+  "id": "dont-count-eggs-on-rails-r2-c01",
+  "kind": "ordinary",
+  "documents": [
+   "standards/naming-conventions.md"
+  ],
+  "sections": 8,
+  "dependsOn": null
+ }
+]

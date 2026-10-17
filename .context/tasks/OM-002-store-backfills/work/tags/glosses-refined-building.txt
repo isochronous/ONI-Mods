@@ -1,7 +1,9 @@
 term                count  gloss
-building-materials      0  A record earns this term when it is about which materials a building recipe accepts and how a building's material is chosen.
-game-tag                0  A record earns this term when it is about a game Tag that a mod creates, adds to things or reads to recognise them.
-harmony-patching        0  A record earns this term when it is about writing or applying the Harmony patches through which a mod changes game methods.
-in-game-testing         0  A record earns this term when it is about testing a mod inside the running game with TestRunner and its [OniTest] coroutines.
-logging                 0  A record earns this term when it is about what a mod writes to the game log and at which level.
-mod-entry-point         0  A record earns this term when it is about a mod's UserMod2 class and what it does when the game loads the mod.
+building-materials     25  A record earns this term when it is about which materials a building recipe accepts and how a building's material is chosen.
+code-style              0  A record earns this term when it is about the house style in which a mod's C# source code is written.
+game-tag               29  A record earns this term when it is about a game Tag that a mod creates, adds to things or reads to recognise them.
+harmony-patching       40  A record earns this term when it is about writing or applying the Harmony patches through which a mod changes game methods.
+in-game-testing        29  A record earns this term when it is about testing a mod inside the running game with TestRunner and its [OniTest] coroutines.
+logging                30  A record earns this term when it is about what a mod writes to the game log and at which level.
+mod-entry-point         3  A record earns this term when it is about a mod's UserMod2 class and what it does when the game loads the mod.
+vanilla-fallback        0  A record earns this term when it is about how a mod keeps the game's own behaviour when something it depends on is missing or has changed.

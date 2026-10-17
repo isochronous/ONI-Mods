@@ -1,4 +1,5 @@
 ---
+tags: code-style
 doc_id: doc-6d1db2ae5a52
 description: "Naming conventions for Motion Sensor Range: files, namespaces, variables, methods, patch classes, `ModStrings` keys and ids, plus its side screen string branch, test classes, log prefix and `staticID`"
 applies_to:
@@ -86,7 +87,8 @@ private static readonly Dictionary<int, float> armed = new Dictionary<int, float
 - Long branches are shortened with an alias at the top of the file (`using OPTIONS = NaturalBackwalls.ModStrings.NATURALBACKWALLS.OPTIONS;`).
 
 ### Ids and Tags
-**Id:** blk-e8a34f4dbe20
+**Id:** blk-e8a34f4dbe20  
+**Tags:** in-game-testing
 
 - Building ids are PascalCase and match the config class (`SmartWeightPlate`); a mod that replaces another mod's buildings reuses that mod's ids (`StoragePodConfig`, `CoolPodConfig` in `mods/storage-pod-redux`).
 - Tags and PAction ids carry a mod prefix: `DetectAnyElement_Any`, `Isochronous.SweepZones.Tool`.

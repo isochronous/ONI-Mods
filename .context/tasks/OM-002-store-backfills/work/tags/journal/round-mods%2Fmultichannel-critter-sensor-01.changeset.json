@@ -1,45 +1,28 @@
 {
   "task": "OM-002",
-  "why": "tag backfill r1 for node mods/multichannel-critter-sensor — round 1",
+  "why": "tag backfill r2 for node mods/multichannel-critter-sensor — round 1",
   "node": "C:\\dev\\ONI-Mods\\mods\\multichannel-critter-sensor",
   "base": {
-    "domains/entities.md": "sha256:219ae731ba99a574d4889e22cf1dfd6a4bcdb06c8b3ec703024cdc735dde79e9",
-    "domains/glossary.md": "sha256:d6c379393b5e985f402a6c8d72cd7a1b370a6cfd1ef45d870bfd0e32ea6d2136",
-    "overview.md": "sha256:9ac68e9f0016cdf5b363ae5296b75a06b02b06ed4179e8e6cdde8506ddc77017",
-    "standards/error-handling.md": "sha256:06c95241273d623454b6f956f7ddb2f32ba41f0a19ca1ac7cf7ab6e89d066785",
-    "standards/code-style.md": "sha256:e817d632e82b1781640b591b5801b09b070af40628f61fba38ca4e23ee2d8f19",
-    "standards/naming-conventions.md": "sha256:391c3061b70db1ee57ef669d9767bfeedc1b7fb76f232b210318bfd00347ede6"
+    "standards/naming-conventions.md": "sha256:e5794caacc6838415419f5c7a9fd8b8c2cdbd1a652b6530fc1d7617e6145594b",
+    "domains/glossary.md": "sha256:498884770a25ff70fb6220eb74c8d31750929514aedb141cdda4fb5329f66a14",
+    "standards/error-handling.md": "sha256:43793fc0f7063c97dc8776059b4140f708e7cf516fa73dcc2abdc6b6b56fc2c8"
   },
   "ops": [
     {
-      "target": "domains/entities.md",
+      "target": "standards/naming-conventions.md",
       "mode": "tag",
       "add": [
-        "building-unlock",
-        "kanim-art",
-        "signal-threshold"
+        "harmony-patching"
       ],
-      "section": "overview"
+      "section": "code-naming/functions-methods"
     },
     {
       "target": "domains/glossary.md",
       "mode": "tag",
       "add": [
-        "kanim-art",
-        "in-game-testing"
+        "pulse-output"
       ],
-      "section": "abbreviations-and-acronyms"
-    },
-    {
-      "target": "overview.md",
-      "mode": "tag",
-      "add": [
-        "kanim-art",
-        "side-screen",
-        "mod-strings",
-        "signal-threshold"
-      ],
-      "section": "what-this-is"
+      "section": "cross-domain-terms/sim200ms"
     },
     {
       "target": "standards/error-handling.md",
@@ -47,24 +30,7 @@
       "add": [
         "harmony-patching"
       ],
-      "section": "guarding-patches"
-    },
-    {
-      "target": "standards/code-style.md",
-      "mode": "tag",
-      "add": [
-        "harmony-patching",
-        "mod-entry-point"
-      ],
-      "section": "harmony-patches"
-    },
-    {
-      "target": "standards/naming-conventions.md",
-      "mode": "tag",
-      "add": [
-        "harmony-patching"
-      ],
-      "section": "code-naming/classes-types-interfaces"
+      "section": "yielding-to-other-mods"
     }
   ]
 }

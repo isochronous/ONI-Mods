@@ -1,4 +1,5 @@
 ---
+tags: code-style
 doc_id: doc-436d434261c6
 description: "Naming conventions for Jumper Bridges: files, namespaces, variables, methods, patch classes, `ModStrings` keys and ids, plus its `OPTIONS` keys, `BridgeKind` instances, log prefix and `staticID`"
 applies_to:

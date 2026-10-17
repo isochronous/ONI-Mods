@@ -1,4 +1,5 @@
 ---
+tags: code-style
 doc_id: doc-c9711fdcdf52
 description: "C# code style for the Bitshifter mod: formatting, toolchain, imports, comments, Harmony patch and component conventions, plus Bitshifter's own layout in src/Bitshifter such as Patches.cs and the Display helper"
 applies_to:
@@ -82,7 +83,8 @@ using UnityEngine;
 **Id:** blk-aa5709424e26
 
 ### When to Comment
-**Id:** blk-764a3de83887
+**Id:** blk-764a3de83887  
+**Tags:** harmony-patching
 
 - On every non-trivial class, an XML `<summary>` that says what the game does and what the patch changes, so a reader can check the patch against the game code. The long summary on `OvercrowdingMonitor_UpdateRegion_Patch` in `mods/dont-count-eggs-on-rails/src/DontCountEggsOnRails/Mod.cs` is the model.
 - Where a game quirk forces an odd line: `// The game's .NET Framework has no AddOrUpdate on this table.`

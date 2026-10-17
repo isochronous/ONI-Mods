@@ -1,0 +1,26 @@
+[
+ {
+  "id": "sweep-zones-r2-c00",
+  "kind": "ordinary",
+  "documents": [
+   "domains/README.md",
+   "domains/entities.md",
+   "domains/glossary.md",
+   "overview.md",
+   "standards/README.md",
+   "standards/code-style.md",
+   "standards/error-handling.md"
+  ],
+  "sections": 50,
+  "dependsOn": null
+ },
+ {
+  "id": "sweep-zones-r2-c01",
+  "kind": "ordinary",
+  "documents": [
+   "standards/naming-conventions.md"
+  ],
+  "sections": 7,
+  "dependsOn": null
+ }
+]

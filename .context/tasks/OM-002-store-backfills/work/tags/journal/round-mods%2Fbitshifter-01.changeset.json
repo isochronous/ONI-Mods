@@ -1,68 +1,18 @@
 {
   "task": "OM-002",
-  "why": "tag backfill r1 for node mods/bitshifter — round 1",
+  "why": "tag backfill r2 for node mods/bitshifter — round 1",
   "node": "C:\\dev\\ONI-Mods\\mods\\bitshifter",
   "base": {
-    "domains/entities.md": "sha256:60fe8b4630183c33d5033ad760ebc34254b035428bf7ed923792115e0f51c1e9",
-    "domains/glossary.md": "sha256:346c4c1be20f0cbf8831ffdcf924b0df15a51cd71fe444482f5339aaa8dac6b6",
-    "overview.md": "sha256:cf39cbaa9c27f54e54ff2fcc42bd38eb2843545673cc4f92c635af636f301a69",
-    "standards/error-handling.md": "sha256:ca5557dcbe74909c28eb21eee3b4ea87b986ba3a628206dbf08c111f4f4d7fc7",
-    "standards/code-style.md": "sha256:1011660f80d87a85a16d75e5fe7e4dd880d1bd487cf7f3e74cb3a978dc478e24",
-    "standards/naming-conventions.md": "sha256:5b42098b7d636e933c8ae58b0750c48f6c7ea3b782f8f84a3f31ce1b34d05e3d"
+    "standards/code-style.md": "sha256:627bf3607a8f64e4796429fc7e2c1c53ea303d3fd3feeec6c88fca3316d56e60"
   },
   "ops": [
-    {
-      "target": "domains/entities.md",
-      "mode": "tag",
-      "add": [
-        "mod-entry-point",
-        "mod-compatibility"
-      ],
-      "section": "key-entities/bitshiftermod"
-    },
-    {
-      "target": "domains/glossary.md",
-      "mode": "tag",
-      "add": [
-        "kanim-art",
-        "mod-compatibility"
-      ],
-      "section": "abbreviations-and-acronyms"
-    },
-    {
-      "target": "overview.md",
-      "mode": "tag",
-      "add": [
-        "bit-depth",
-        "not-gate",
-        "side-screen",
-        "mod-compatibility"
-      ],
-      "section": "what-this-is"
-    },
-    {
-      "target": "standards/error-handling.md",
-      "mode": "tag",
-      "add": [
-        "harmony-patching"
-      ],
-      "section": "principles"
-    },
     {
       "target": "standards/code-style.md",
       "mode": "tag",
       "add": [
-        "saved-state"
-      ],
-      "section": "game-components"
-    },
-    {
-      "target": "standards/naming-conventions.md",
-      "mode": "tag",
-      "add": [
         "harmony-patching"
       ],
-      "section": "code-naming/functions-methods"
+      "section": "comments/when-to-comment"
     }
   ]
 }

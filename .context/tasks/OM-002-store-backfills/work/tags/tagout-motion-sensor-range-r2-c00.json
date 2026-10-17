@@ -1,0 +1,272 @@
+{
+ "documents": [
+  {
+   "id": "standards/README.md",
+   "tags": [
+    "code-style"
+   ]
+  },
+  {
+   "id": "standards/code-style.md",
+   "tags": [
+    "code-style"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md",
+   "tags": [
+    "harmony-patching",
+    "logging"
+   ]
+  },
+  {
+   "id": "standards/naming-conventions.md",
+   "tags": [
+    "code-style"
+   ]
+  }
+ ],
+ "sections": [
+  {
+   "id": "domains/README.md#domains",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/entities.md#overview",
+   "tags": [
+    "side-screen",
+    "game-component"
+   ]
+  },
+  {
+   "id": "domains/entities.md#key-entities",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/entities.md#related",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/glossary.md#abbreviations-and-acronyms",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/glossary.md#terms-to-avoid",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/duplicant-motion-sensor",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/pickuprange",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/scene-partitioner",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/extents",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/rangevisualizer",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/glossary.md#related",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "overview.md#what-this-is",
+   "tags": [
+    "side-screen",
+    "copy-settings",
+    "saved-state",
+    "harmony-patching"
+   ]
+  },
+  {
+   "id": "overview.md#where-things-are",
+   "tags": [
+    "in-game-testing",
+    "mod-strings"
+   ]
+  },
+  {
+   "id": "standards/README.md#standards",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/code-style.md#formatting",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/code-style.md#formatting/indentation",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/code-style.md#formatting/line-length",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/code-style.md#formatting/braces",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/code-style.md#language-and-toolchain",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/code-style.md#imports-includes",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/code-style.md#imports-includes/organization",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/code-style.md#imports-includes/example",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/code-style.md#comments",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/code-style.md#comments/when-to-comment",
+   "tags": [
+    "harmony-patching"
+   ]
+  },
+  {
+   "id": "standards/code-style.md#comments/when-not-to-comment",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/code-style.md#comments/format",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/code-style.md#control-structures",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/code-style.md#control-structures/conditionals",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/code-style.md#control-structures/loops",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/code-style.md#related",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#guarding-patches",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#yielding-to-other-mods",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "a mod yielding to another mod that does the same job"
+  },
+  {
+   "id": "standards/error-handling.md#logging",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#anti-patterns-to-avoid",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#project-specific-patterns",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#related",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/naming-conventions.md#files-and-directories",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/naming-conventions.md#files-and-directories/general-rules",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/naming-conventions.md#code-naming",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/naming-conventions.md#code-naming/variables",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/naming-conventions.md#code-naming/booleans",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/naming-conventions.md#code-naming/ids-and-tags",
+   "tags": [
+    "in-game-testing"
+   ]
+  },
+  {
+   "id": "standards/naming-conventions.md#project-specific-conventions",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/naming-conventions.md#related",
+   "tags": [],
+   "reason": "inherits"
+  }
+ ]
+}

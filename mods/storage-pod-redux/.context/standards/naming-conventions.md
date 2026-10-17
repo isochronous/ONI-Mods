@@ -1,4 +1,5 @@
 ---
+tags: code-style
 doc_id: doc-c7340fd78545
 description: "Naming rules for the Storage Pod Redux mod: files, namespaces, patch classes, variables, ModStrings keys, ids and tests, plus its option keys, string branches, test classes and log prefix"
 applies_to:

@@ -1,0 +1,458 @@
+{
+ "documents": [
+  {
+   "id": "domains/README.md",
+   "title": "Domains",
+   "description": "Index of the domain documents in the Corner Build Anything node: the entities and glossary files covering the reach-table swap for construction and deconstruction",
+   "document_tags": [
+    "reach-table"
+   ],
+   "text": "---\ntags: reach-table\ndoc_id: doc-9d9eb5d3254b\ndescription: \"Index of the domain documents in the Corner Build Anything node: the entities and glossary files covering the reach-table swap for construction and deconstruction\"\n---\n\n# Domains\n\n## Domains\n**Id:** blk-c92ebef9d852\n\nDocuments in this folder:\n\n- [entities](entities.md): The reach-table swap for construction and deconstruction, with the key code paths.\n- [glossary](glossary.md): How construction reach tables are swapped.\n",
+   "sections": [
+    {
+     "id": "domains/README.md#domains",
+     "title": "Domains",
+     "text": "## Domains\n**Id:** blk-c92ebef9d852\n\nDocuments in this folder:\n\n- [entities](entities.md): The reach-table swap for construction and deconstruction, with the key code paths.\n- [glossary](glossary.md): How construction reach tables are swapped.\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "domains/entities.md",
+   "title": "Corner Build Anything domain",
+   "description": "The game tables and Harmony transpilers of the Corner Build Anything mod (src/CornerBuildAnything): the two OffsetGroups reach tables, the Constructable and Deconstructable OnSpawn patches and SwapTable, with locations",
+   "document_tags": [
+    "reach-table",
+    "transpiler"
+   ],
+   "text": "---\ntags: reach-table, transpiler\nwitness_digest: \"sha256:0306519df41aa63a1a600c61bb32b39a0b3a095827e6365f9dd180909f6c8a3f\"\nwitness: loose\napplies_to:\n  - \"src/CornerBuildAnything/**\"\ndoc_id: doc-5047cbea51fc\ndescription: \"The game tables and Harmony transpilers of the Corner Build Anything mod (src/CornerBuildAnything): the two OffsetGroups reach tables, the Constructable and Deconstructable OnSpawn patches and SwapTable, with locations\"\n---\n\n# Corner Build Anything domain\n\n## Overview\n**Id:** blk-5eaa0c4a7e12\n\nCorner Build Anything lets duplicants build and deconstruct any building through a diagonal gap, the way the game already lets them build tiles. It adds no buildings, options or saved state; it changes which reach table two game methods use. Source is in `mods/corner-build-anything/src/CornerBuildAnything/`.\n\n## Key Entities\n**Id:** blk-649a6e358fea\n\n### OffsetGroups reach tables\n**Id:** blk-21f0d61743aa  \n**Description**: The game keeps two tables of offsets that say where a duplicant may stand to work on a building. `InvertedStandardTable` reaches a diagonal cell only by way of one of its two orthogonal neighbours. `InvertedStandardTableWithCorners` reaches diagonal cells outright. The corner table is a strict superset of the standard one: every standing cell the standard table reaches, it reaches, by the same or a shorter row of intermediate cells.  \n**Location**: game class `OffsetGroups` (not in this repo); the mod reads both as static fields in `mods/corner-build-anything/src/CornerBuildAnything/ReachTablePatches.cs`\n\n**Relationships**: `OffsetGroups.BuildReachabilityTable` caches by table reference, so the swapped table gets its own cache entries and does not collide with a mod that still asks for the standard one.\n\n### Constructable.OnSpawn patch\n**Id:** blk-b8025016d218  \n**Tags:** harmony-patching  \n**Description**: Transpiler that replaces every `ldsfld OffsetGroups.InvertedStandardTable` in `Constructable.OnSpawn` with a load of the corner table. The game picks the corner table here for tiles only; after the patch every building gets it.  \n**Location**: `mods/corner-build-anything/src/CornerBuildAnything/ReachTablePatches.cs` (`Constructable_OnSpawn`)\n\n### Deconstructable.OnSpawn patch\n**Id:** blk-ba96c6ad3eb0  \n**Tags:** harmony-patching  \n**Description**: The same transpiler on `Deconstructable.OnSpawn`, so a building put up through a corner can be taken down through the same corner.  \n**Location**: `mods/corner-build-anything/src/CornerBuildAnything/ReachTablePatches.cs` (`Deconstructable_OnSpawn`)\n\n### SwapTable\n**Id:** blk-1b351a36e13a  \n**Tags:** harmony-patching, vanilla-fallback, logging  \n**Description**: The shared instruction rewrite. Counts the swapped loads, logs `corner reach table in place` per method, or logs a warning and leaves the method unchanged when it no longer loads the standard table.  \n**Location**: `mods/corner-build-anything/src/CornerBuildAnything/ReachTablePatches.cs`\n\n### CornerBuildAnythingMod\n**Id:** blk-b1cf9481a19b  \n**Tags:** mod-entry-point, logging  \n**Description**: The `UserMod2` entry point. Calls `base.OnLoad` (which applies all patches) and logs the version.  \n**Location**: `mods/corner-build-anything/src/CornerBuildAnything/Mod.cs`\n\n## Business Rules\n**Id:** blk-5fd39b686cad  \n**Tags:** vanilla-fallback\n\n- Duplicants may build and deconstruct any building from a corner standing cell, not only tiles.\n- Multi-cell buildings, bridges included, are covered by the same swap: the game builds their reach from every footprint cell, taking the rows of the nearest footprint cell to the standing cell, so a bridge is reachable through a corner from either end and its middle. No bridge-specific patch exists.\n- Placement rules are unchanged: what can be placed where is exactly as before. Only who can reach it once placed changes.\n- Rotation, a building's own offset filter (the cells it refuses to be worked from, for example a pressure plate) and the delivery storage that shares the construction table keep the game's values, so materials arrive through the corner too.\n- The change only adds reachable positions; it never removes one.\n- A game update that stops either method loading the standard table does not fail the patch; the method is left as is and a warning is logged.\n\n## Key Code Paths\n**Id:** blk-3ccd0caf0b17  \n**Tags:** in-game-testing, harmony-patching\n\n- **Build through a corner**: `Constructable.OnSpawn` reads the corner table (patched) — see `mods/corner-build-anything/src/CornerBuildAnything/ReachTablePatches.cs`\n- **Deconstruct through a corner**: `Deconstructable.OnSpawn` reads the corner table (patched) — see the same file\n- **Tests**: in-game tests in `mods/corner-build-anything/src/CornerBuildAnything.Tests/`: `Reach.cs` (table loads, reach checks, controls, superset check, placement unchanged), `Pockets.cs` (pocket fixtures), `ByHand.cs` (duplicants build a switch, a 2x2 generator and a bridge end through corners and take them down)\n\n## Related\n**Id:** blk-01a371e4fdff\n\n- See also: [glossary](glossary.md)\n",
+   "sections": [
+    {
+     "id": "domains/entities.md#overview",
+     "title": "Overview",
+     "text": "## Overview\n**Id:** blk-5eaa0c4a7e12\n\nCorner Build Anything lets duplicants build and deconstruct any building through a diagonal gap, the way the game already lets them build tiles. It adds no buildings, options or saved state; it changes which reach table two game methods use. Source is in `mods/corner-build-anything/src/CornerBuildAnything/`.\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/entities.md#key-entities",
+     "title": "Key Entities",
+     "text": "## Key Entities\n**Id:** blk-649a6e358fea\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/entities.md#key-entities/offsetgroups-reach-tables",
+     "title": "OffsetGroups reach tables",
+     "text": "### OffsetGroups reach tables\n**Id:** blk-21f0d61743aa  \n**Description**: The game keeps two tables of offsets that say where a duplicant may stand to work on a building. `InvertedStandardTable` reaches a diagonal cell only by way of one of its two orthogonal neighbours. `InvertedStandardTableWithCorners` reaches diagonal cells outright. The corner table is a strict superset of the standard one: every standing cell the standard table reaches, it reaches, by the same or a shorter row of intermediate cells.  \n**Location**: game class `OffsetGroups` (not in this repo); the mod reads both as static fields in `mods/corner-build-anything/src/CornerBuildAnything/ReachTablePatches.cs`\n\n**Relationships**: `OffsetGroups.BuildReachabilityTable` caches by table reference, so the swapped table gets its own cache entries and does not collide with a mod that still asks for the standard one.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/entities.md#related",
+     "title": "Related",
+     "text": "## Related\n**Id:** blk-01a371e4fdff\n\n- See also: [glossary](glossary.md)\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "domains/glossary.md",
+   "title": "Domain Glossary",
+   "description": "Glossary for the Corner Build Anything mod: ONI and OnSpawn abbreviations, the term to avoid (corner placement), and definitions of reach table, standard and corner tables, corner pocket, footprint and offset filter",
+   "document_tags": [
+    "reach-table"
+   ],
+   "text": "---\ntags: reach-table\nwitness_digest: \"sha256:0306519df41aa63a1a600c61bb32b39a0b3a095827e6365f9dd180909f6c8a3f\"\nwitness: loose\napplies_to:\n  - \"src/CornerBuildAnything/**\"\ndoc_id: doc-d3898b8e3b24\ndescription: \"Glossary for the Corner Build Anything mod: ONI and OnSpawn abbreviations, the term to avoid (corner placement), and definitions of reach table, standard and corner tables, corner pocket, footprint and offset filter\"\n---\n\n# Domain Glossary\n\nTerms used in the Corner Build Anything mod (`mods/corner-build-anything`). For the classes and patches behind them, see the entities document.\n\n## Abbreviations and Acronyms\n**Id:** blk-6df20dc29a0d\n\n| Abbreviation | Full Term | Context |\n|--------------|-----------|---------|\n| ONI | Oxygen Not Included | The game this mod is for |\n| OnSpawn | Component spawn callback | `Constructable.OnSpawn` and `Deconstructable.OnSpawn` are the two patched methods |\n\n## Terms to Avoid\n**Id:** blk-8812a9239a96\n\n| Avoid | Use Instead | Reason |\n|-------|-------------|--------|\n| Corner placement | Corner reach | The mod changes who can reach a building once placed; what can be placed where is unchanged |\n\n## Cross-Domain Terms\n**Id:** blk-831d591151c9\n\n### Reach table\n**Id:** blk-2e755327158e  \n**Definition**: A table of offsets that says where a duplicant may stand to work on a building. The game keeps two: standard and with corners.  \n**Used in**: `OffsetGroups`, both patches\n\n### Standard table\n**Id:** blk-b85705fc1357  \n**Definition**: `OffsetGroups.InvertedStandardTable`. A diagonal cell is reachable only by way of one of its two orthogonal neighbours.  \n**Used in**: the game's setup for non-tile buildings; the mod's `Standard` field\n\n### Corner table\n**Id:** blk-61683cf3e067  \n**Definition**: `OffsetGroups.InvertedStandardTableWithCorners`. Diagonal cells are reachable outright. The game uses it for digging and for tiles; the mod makes every building use it.  \n**Used in**: the mod's `WithCorners` field\n\n### Corner pocket\n**Id:** blk-0666a699ad10  \n**Definition**: A cell whose only opening is a diagonal gap. Under the standard table it is out of reach for building, so it can be dug and tiled but not laddered or piped.  \n**Used in**: `Pockets.cs` in the tests\n\n### Footprint\n**Id:** blk-cc24605602b3  \n**Definition**: All the cells a building occupies. A multi-cell building's reach is built from every footprint cell, using the rows of the one nearest the standing cell.  \n**Used in**: bridge handling, `Reach.cs` tests\n\n### Offset filter\n**Id:** blk-9c225ac82915  \n**Definition**: A building's own list of cells it refuses to be worked from (a pressure plate, for example). The mod leaves it as the game sets it.  \n**Used in**: the pressure plate control test in `Reach.cs`\n\n### Standing cell\n**Id:** blk-d7404ebb59b2  \n**Definition**: The cell a duplicant stands in to work on a building.  \n**Used in**: reach checks\n\n## Related\n**Id:** blk-79d498f02cc9\n\n- See also: [entities](entities.md)\n",
+   "sections": [
+    {
+     "id": "domains/glossary.md#abbreviations-and-acronyms",
+     "title": "Abbreviations and Acronyms",
+     "text": "## Abbreviations and Acronyms\n**Id:** blk-6df20dc29a0d\n\n| Abbreviation | Full Term | Context |\n|--------------|-----------|---------|\n| ONI | Oxygen Not Included | The game this mod is for |\n| OnSpawn | Component spawn callback | `Constructable.OnSpawn` and `Deconstructable.OnSpawn` are the two patched methods |\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#terms-to-avoid",
+     "title": "Terms to Avoid",
+     "text": "## Terms to Avoid\n**Id:** blk-8812a9239a96\n\n| Avoid | Use Instead | Reason |\n|-------|-------------|--------|\n| Corner placement | Corner reach | The mod changes who can reach a building once placed; what can be placed where is unchanged |\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms",
+     "title": "Cross-Domain Terms",
+     "text": "## Cross-Domain Terms\n**Id:** blk-831d591151c9\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/reach-table",
+     "title": "Reach table",
+     "text": "### Reach table\n**Id:** blk-2e755327158e  \n**Definition**: A table of offsets that says where a duplicant may stand to work on a building. The game keeps two: standard and with corners.  \n**Used in**: `OffsetGroups`, both patches\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/standard-table",
+     "title": "Standard table",
+     "text": "### Standard table\n**Id:** blk-b85705fc1357  \n**Definition**: `OffsetGroups.InvertedStandardTable`. A diagonal cell is reachable only by way of one of its two orthogonal neighbours.  \n**Used in**: the game's setup for non-tile buildings; the mod's `Standard` field\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/corner-table",
+     "title": "Corner table",
+     "text": "### Corner table\n**Id:** blk-61683cf3e067  \n**Definition**: `OffsetGroups.InvertedStandardTableWithCorners`. Diagonal cells are reachable outright. The game uses it for digging and for tiles; the mod makes every building use it.  \n**Used in**: the mod's `WithCorners` field\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/corner-pocket",
+     "title": "Corner pocket",
+     "text": "### Corner pocket\n**Id:** blk-0666a699ad10  \n**Definition**: A cell whose only opening is a diagonal gap. Under the standard table it is out of reach for building, so it can be dug and tiled but not laddered or piped.  \n**Used in**: `Pockets.cs` in the tests\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/footprint",
+     "title": "Footprint",
+     "text": "### Footprint\n**Id:** blk-cc24605602b3  \n**Definition**: All the cells a building occupies. A multi-cell building's reach is built from every footprint cell, using the rows of the one nearest the standing cell.  \n**Used in**: bridge handling, `Reach.cs` tests\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/offset-filter",
+     "title": "Offset filter",
+     "text": "### Offset filter\n**Id:** blk-9c225ac82915  \n**Definition**: A building's own list of cells it refuses to be worked from (a pressure plate, for example). The mod leaves it as the game sets it.  \n**Used in**: the pressure plate control test in `Reach.cs`\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/standing-cell",
+     "title": "Standing cell",
+     "text": "### Standing cell\n**Id:** blk-d7404ebb59b2  \n**Definition**: The cell a duplicant stands in to work on a building.  \n**Used in**: reach checks\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#related",
+     "title": "Related",
+     "text": "## Related\n**Id:** blk-79d498f02cc9\n\n- See also: [entities](entities.md)\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "overview.md",
+   "title": "corner-build-anything",
+   "description": "What the Corner Build Anything mod does (building and deconstructing through diagonal gaps, bridges from either end), its version and release state, and where its source, tests, README and publish folder sit",
+   "document_tags": [
+    "reach-table"
+   ],
+   "text": "---\ntags: reach-table\ndescription: What the Corner Build Anything mod does (building and deconstructing through diagonal gaps, bridges from either end), its version and release state, and where its source, tests, README and publish folder sit\n---\n\n# corner-build-anything\n\n## What this is\n**Id:** blk-80ead4e4d699\n\nCorner Build Anything is an Oxygen Not Included mod that lets duplicants build and deconstruct any building through a diagonal gap, the way the game already lets them build tiles. Bridges of every kind count from either end, not just their middle. It swaps the reach table that Constructable and Deconstructable use when a building spawns. Version 0.1.0 in `mod_info.yaml`, minimum supported build 744825; the changelog lists it as Unreleased and the node holds no Workshop id.\n\n## Where things are\n**Id:** blk-775902750f85  \n**Tags:** mod-entry-point, in-game-testing\n\nTop-level folders and key files:\n\n- `src/CornerBuildAnything/`: the mod. `Mod.cs` (entry point), `ReachTablePatches.cs` (the Constructable and Deconstructable reach-table swap), `mod.yaml`, `mod_info.yaml`.\n- `src/CornerBuildAnything.Tests/`: in-game tests (`Reach.cs`, `Pockets.cs`, `ByHand.cs`).\n- `README.md`: what the mod does, compatibility, installing and how it works.\n- `CHANGELOG.md`: release notes per version.\n- `publish/`: Workshop description and tags.\n\nThe `.context/` documents of this node: [domains](domains/README.md) (entities, glossary), [standards](standards/README.md) (code style, error handling, naming conventions), `decisions/` and `retrospectives/`.\n",
+   "sections": [
+    {
+     "id": "overview.md#what-this-is",
+     "title": "What this is",
+     "text": "## What this is\n**Id:** blk-80ead4e4d699\n\nCorner Build Anything is an Oxygen Not Included mod that lets duplicants build and deconstruct any building through a diagonal gap, the way the game already lets them build tiles. Bridges of every kind count from either end, not just their middle. It swaps the reach table that Constructable and Deconstructable use when a building spawns. Version 0.1.0 in `mod_info.yaml`, minimum supported build 744825; the changelog lists it as Unreleased and the node holds no Workshop id.\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "standards/README.md",
+   "title": "Standards",
+   "description": "Index of the standards documents in the Corner Build Anything node: code style, error handling and naming conventions",
+   "document_tags": [],
+   "text": "---\ndoc_id: doc-ec3351cfc2fb\ndescription: \"Index of the standards documents in the Corner Build Anything node: code style, error handling and naming conventions\"\n---\n\n# Standards\n\n## Standards\n**Id:** blk-d3a9c94f87e7\n\nDocuments in this folder:\n\n- [code-style](code-style.md): C# formatting, imports, comments, Harmony patch and component conventions, with this mod's own layout.\n- [error-handling](error-handling.md): How the mod guards its Harmony patches, reflection lookups and file reads, and what it logs when something is missing.\n- [naming-conventions](naming-conventions.md): File, namespace, patch class, string key and id naming.\n",
+   "sections": [
+    {
+     "id": "standards/README.md#standards",
+     "title": "Standards",
+     "text": "## Standards\n**Id:** blk-d3a9c94f87e7\n\nDocuments in this folder:\n\n- [code-style](code-style.md): C# formatting, imports, comments, Harmony patch and component conventions, with this mod's own layout.\n- [error-handling](error-handling.md): How the mod guards its Harmony patches, reflection lookups and file reads, and what it logs when something is missing.\n- [naming-conventions](naming-conventions.md): File, namespace, patch class, string key and id naming.\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "standards/code-style.md",
+   "title": "Code Style Guide",
+   "description": "C# code style for the Corner Build Anything mod: formatting, toolchain, imports, comments, Harmony conventions, plus its two nested transpilers over SwapTable in ReachTablePatches.cs",
+   "document_tags": [],
+   "text": "---\ndoc_id: doc-5d79dd719a71\ndescription: \"C# code style for the Corner Build Anything mod: formatting, toolchain, imports, comments, Harmony conventions, plus its two nested transpilers over SwapTable in ReachTablePatches.cs\"\napplies_to:\n  - \"src/**\"\n---\n\n# Code Style Guide\n\n## Formatting\n**Id:** blk-997822456e5d\n\n### Indentation\n**Id:** blk-7b1361387080\n\n- Tabs, one per level, in every `.cs` file (`mods/bitshifter/src/Bitshifter/Mod.cs`).\n- Project files (`.csproj`, `common/oni-mod.props`, `common/oni-mod.targets`) use two spaces.\n- Files are committed with LF line endings; Windows checkouts convert them to CRLF (`core.autocrlf` is true), so do not hand-normalise line endings.\n\n### Line Length\n**Id:** blk-a92de9fa26ec\n\n- No limit is configured and the repository has no `.editorconfig`.\n- Wrap long calls and string concatenations after an argument or before a `+`, and indent the continuation one tab. The start-up log call in `mods/jumper-bridges/src/JumperBridges/Mod.cs` is the pattern.\n- TODO(owner): decide whether to add an `.editorconfig` recording tabs and brace placement so editors enforce what the code already does.\n\n### Braces\n**Id:** blk-d28ac43fbcdb\n\n- Opening brace on its own line (Allman) for namespaces, types, members and multi-line control blocks.\n- A body of one short statement goes on the next line without braces:\n\n```csharp\nforeach (Mod mod in mods)\n{\n\tif (!mod.IsEnabledForActiveDlc())\n\t\tcontinue;\n\t...\n}\n```\n\n- Multi-line initialisers and enums end with a trailing comma (`YieldToWorkshopIds` in `mods/bitshifter/src/Bitshifter/Mod.cs`, `CoolPodMode` in `mods/storage-pod-redux/src/StoragePodRedux/Options.cs`).\n\n## Language and Toolchain\n**Id:** blk-e1e99df9f199\n\n- C# 9 on .NET Framework 4.8 (`LangVersion` 9.0 and `TargetFramework` net48 in `common/oni-mod.props`). Namespace blocks, not file-scoped namespaces; no nullable reference types.\n- Mods compile against the game's own assemblies (`common/oni-mod.targets`): `Assembly-CSharp`, `Assembly-CSharp-firstpass`, `0Harmony` and Unity modules. The game's .NET Framework lacks some newer APIs (`ConditionalWeakTable.AddOrUpdate` is missing, see `mods/detect-any-element/src/DetectAnyElement/Patches.cs`).\n- Optional references are switched on in the mod csproj before the targets import: `ReferenceUnityUI`, `ReferenceImageConversion`, `UsePLib` (PLib is ILRepack-merged into the mod DLL) and `UseTranslations` (compiles `common/src/Translations.cs` in).\n- One namespace per mod, equal to its `RootNamespace`. Subfolders organise files and do not add namespaces (`mods/upgrade-planner/src/UpgradePlanner/Plan`, `Rules`, `Tool`, `UI` all declare `namespace UpgradePlanner`).\n\n## Imports/Includes\n**Id:** blk-748fc9985831\n\n### Organization\n**Id:** blk-af16ffcd943c\n\n`using` directives sit above the namespace, in one block with no blank lines, sorted alphabetically with `System.*` first. Aliases for `ModStrings` branches come last.\n\n1. `System.*`\n2. Everything else alphabetically: `HarmonyLib`, `Isochronous`, `KMod`, `Newtonsoft.Json`, `PeterHan.PLib.*`, `ProcGenGame`, `UnityEngine`\n3. Aliases (`using TOOL = SweepZones.ModStrings.UI.TOOLS.SWEEPZONES;`)\n\n### Example\n**Id:** blk-431be121fc8c\n\n```csharp\nusing System.Collections.Generic;\nusing System.Reflection;\nusing HarmonyLib;\nusing Isochronous;\nusing Klei;\nusing KMod;\nusing STRINGS;\nusing UnityEngine;\n```\n(`mods/salty-surf/src/SaltySurf/Mod.cs`)\n\n`Debug.Log` resolves either to `UnityEngine.Debug` or to the game's own global `Debug` class, so several `Mod.cs` files omit `using UnityEngine`. When a file imports `System.Diagnostics`, qualify the call as `UnityEngine.Debug.Log` (`mods/just-fall-already/src/JustFallAlready/FallPoke.cs`).\n\n## Comments\n**Id:** blk-34567b821480\n\n### When to Comment\n**Id:** blk-b19160e035af\n\n- On every non-trivial class, an XML `<summary>` that says what the game does and what the patch changes, so a reader can check the patch against the game code. The long summary on `OvercrowdingMonitor_UpdateRegion_Patch` in `mods/dont-count-eggs-on-rails/src/DontCountEggsOnRails/Mod.cs` is the model.\n- Where a game quirk forces an odd line: `// The game's .NET Framework has no AddOrUpdate on this table.`\n- Where another mod is involved, name it and its Workshop id (`mods/bitshifter/src/Bitshifter/Mod.cs`, `mods/smart-weight-plate/src/SmartWeightPlate/Mod.cs`).\n- Escape angle brackets in XML comments as `&lt;` and `&gt;`.\n\n### When NOT to Comment\n**Id:** blk-606e426f80cf\n\n- Code that reads clearly from its names.\n- Commented-out code; delete it.\n- Restating what a line does.\n\n### Format\n**Id:** blk-693adf4828c6\n\n```csharp\n/// <summary>\n/// The \"Any\" choice. It is a tag like the elements a sensor's Filterable holds, so it rides\n/// in the same saved field and copies with the building's settings.\n/// </summary>\npublic static class AnyElement\n\n// Single-line note for a quirk or a reason.\n```\n\n## Control Structures\n**Id:** blk-27f2a339c877\n\n### Conditionals\n**Id:** blk-817cd2a98a1e\n\nGuard clauses and early `return` or `continue` keep nesting shallow (`SettleSimBackwalls.UpdateFromSim` in `mods/natural-backwalls-everywhere/src/NaturalBackwalls/SettleSimPatch.cs`):\n\n```csharp\nif (!Grid.IsValidCell(cell))\n\tcontinue;\nushort idx = data->backwallElement[cell];\nif (idx == ushort.MaxValue || idx >= elements.Count)\n\tcontinue;\n```\n\n### Loops\n**Id:** blk-c6278ac1655d\n\n- Plain `for` and `foreach`. Code that runs every sim tick or frame avoids LINQ and allocations; reuse scratch lists (`scratch` in `mods/just-fall-already/src/JustFallAlready/FallPoke.cs`).\n- Local types are written out (`Tech tech = ...`). `var` appears mainly in `mods/upgrade-planner`, `mods/natural-backwalls-everywhere` and the test projects; follow the surrounding file.\n\n### Strings\n**Id:** blk-968f3a86b207\n\n- Log and UI text is built with `+` concatenation, or `string.Format` on a `LocString`. String interpolation is not used in mod code.\n- Player-visible text is a `LocString` field in `ModStrings`, never a literal at the call site (see [naming conventions](naming-conventions.md)).\n\n## Harmony Patches\n**Id:** blk-1ebc400095cd  \n**Tags:** harmony-patching, transpiler, mod-entry-point\n\n- A patch is a static class with `[HarmonyPatch(typeof(Type), nameof(Type.Method))]`, or `[HarmonyPatch(typeof(Type), \"PrivateMethod\")]` for a non-public method, and methods named `Prefix`, `Postfix`, `Transpiler` or `Finalizer` (`mods/bitshifter/src/Bitshifter/Patches.cs`).\n- Game state arrives through Harmony parameters: `__instance`, `__result`, `___field`. Fields read repeatedly use `AccessTools.FieldRefAccess` kept in a `static readonly` field (`mods/detect-any-element/src/DetectAnyElement/Patches.cs`).\n- A prefix returns `true` to let the game's method run and `false` only when it replaces the method (`mods/dont-count-eggs-on-rails`, `mods/bitshifter` `UpdateVisuals`).\n- A patch that depends on an option implements `Prepare()` (`mods/jumper-bridges/src/JumperBridges/Patches.cs`); a patch with several targets implements `TargetMethods()`.\n- `UserMod2.OnLoad` calls `base.OnLoad(harmony)`, which applies every patch in the assembly, then registers libraries and logs the version. A mod that must patch after all others applies its patches from `OnAllModsLoaded` instead (`mods/bitshifter/src/Bitshifter/Mod.cs`).\n- Transpilers search for the instruction they change and report when it is not found; see [error handling](error-handling.md).\n\n## Game Components\n**Id:** blk-3c9f317e1942\n\n- A component extends `KMonoBehaviour`, overrides `OnPrefabInit`, `OnSpawn` and `OnCleanUp` and calls `base` from each. Sibling components come in through `[MyCmpGet]` or `[MyCmpReq]` (`mods/no-magic-fridges/src/NoMagicFridges/FridgeThermostat.cs`).\n- Saved state uses `[Serialize]` fields with `[SerializationConfig(MemberSerialization.OptIn)]` on the class (`mods/sweep-zones/src/SweepZones/ZoneStore.cs`).\n- Components are added to prefabs from a `DoPostConfigureComplete` postfix with `go.AddOrGet<T>()`.\n\n## Project-Specific Rules\n**Id:** blk-ae5190625f1d\n\n- Mod options are a PLib `POptions` class marked `[JsonObject(MemberSerialization.OptIn)]` and `[ConfigFile(SharedConfigLocation: true)]`, read through a static `Load()` (`mods/vent-freeze-fix/src/VentFreezeFix/Options.cs`) or through `SingletonOptions<Options>` (`mods/storage-pod-redux`). Option titles are string-table keys, so the translation follows the language.\n- Every mod logs one line at load: `[<Name>] Loaded version <assembly version>`.\n- Tests live in a separate `<Name>.Tests` project and are written as `[OniTest]` coroutines against the real game.\n\n### Corner Build Anything specifics\n**Id:** blk-7a0bd3890da4  \n**Tags:** transpiler, harmony-patching, mod-entry-point, reach-table\n\n- The mod is two transpilers over one shared method. They are nested in `internal static class ReachTablePatches` (`src/CornerBuildAnything/ReachTablePatches.cs`) and call `SwapTable(instructions, original)`.\n- No PLib, no translations, no options; `Mod.cs` only logs the version.\n- `ReachTablePatches.cs` uses `var` for the instruction list, one of the few places in production code.\n\n## Related\n**Id:** blk-2f0e144efce8\n\n- See also: [naming conventions](naming-conventions.md)\n- See also: [error handling](error-handling.md)\n",
+   "sections": [
+    {
+     "id": "standards/code-style.md#formatting",
+     "title": "Formatting",
+     "text": "## Formatting\n**Id:** blk-997822456e5d\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#formatting/indentation",
+     "title": "Indentation",
+     "text": "### Indentation\n**Id:** blk-7b1361387080\n\n- Tabs, one per level, in every `.cs` file (`mods/bitshifter/src/Bitshifter/Mod.cs`).\n- Project files (`.csproj`, `common/oni-mod.props`, `common/oni-mod.targets`) use two spaces.\n- Files are committed with LF line endings; Windows checkouts convert them to CRLF (`core.autocrlf` is true), so do not hand-normalise line endings.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#formatting/line-length",
+     "title": "Line Length",
+     "text": "### Line Length\n**Id:** blk-a92de9fa26ec\n\n- No limit is configured and the repository has no `.editorconfig`.\n- Wrap long calls and string concatenations after an argument or before a `+`, and indent the continuation one tab. The start-up log call in `mods/jumper-bridges/src/JumperBridges/Mod.cs` is the pattern.\n- TODO(owner): decide whether to add an `.editorconfig` recording tabs and brace placement so editors enforce what the code already does.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#formatting/braces",
+     "title": "Braces",
+     "text": "### Braces\n**Id:** blk-d28ac43fbcdb\n\n- Opening brace on its own line (Allman) for namespaces, types, members and multi-line control blocks.\n- A body of one short statement goes on the next line without braces:\n\n```csharp\nforeach (Mod mod in mods)\n{\n\tif (!mod.IsEnabledForActiveDlc())\n\t\tcontinue;\n\t...\n}\n```\n\n- Multi-line initialisers and enums end with a trailing comma (`YieldToWorkshopIds` in `mods/bitshifter/src/Bitshifter/Mod.cs`, `CoolPodMode` in `mods/storage-pod-redux/src/StoragePodRedux/Options.cs`).\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#language-and-toolchain",
+     "title": "Language and Toolchain",
+     "text": "## Language and Toolchain\n**Id:** blk-e1e99df9f199\n\n- C# 9 on .NET Framework 4.8 (`LangVersion` 9.0 and `TargetFramework` net48 in `common/oni-mod.props`). Namespace blocks, not file-scoped namespaces; no nullable reference types.\n- Mods compile against the game's own assemblies (`common/oni-mod.targets`): `Assembly-CSharp`, `Assembly-CSharp-firstpass`, `0Harmony` and Unity modules. The game's .NET Framework lacks some newer APIs (`ConditionalWeakTable.AddOrUpdate` is missing, see `mods/detect-any-element/src/DetectAnyElement/Patches.cs`).\n- Optional references are switched on in the mod csproj before the targets import: `ReferenceUnityUI`, `ReferenceImageConversion`, `UsePLib` (PLib is ILRepack-merged into the mod DLL) and `UseTranslations` (compiles `common/src/Translations.cs` in).\n- One namespace per mod, equal to its `RootNamespace`. Subfolders organise files and do not add namespaces (`mods/upgrade-planner/src/UpgradePlanner/Plan`, `Rules`, `Tool`, `UI` all declare `namespace UpgradePlanner`).\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#imports-includes",
+     "title": "Imports/Includes",
+     "text": "## Imports/Includes\n**Id:** blk-748fc9985831\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#imports-includes/organization",
+     "title": "Organization",
+     "text": "### Organization\n**Id:** blk-af16ffcd943c\n\n`using` directives sit above the namespace, in one block with no blank lines, sorted alphabetically with `System.*` first. Aliases for `ModStrings` branches come last.\n\n1. `System.*`\n2. Everything else alphabetically: `HarmonyLib`, `Isochronous`, `KMod`, `Newtonsoft.Json`, `PeterHan.PLib.*`, `ProcGenGame`, `UnityEngine`\n3. Aliases (`using TOOL = SweepZones.ModStrings.UI.TOOLS.SWEEPZONES;`)\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#imports-includes/example",
+     "title": "Example",
+     "text": "### Example\n**Id:** blk-431be121fc8c\n\n```csharp\nusing System.Collections.Generic;\nusing System.Reflection;\nusing HarmonyLib;\nusing Isochronous;\nusing Klei;\nusing KMod;\nusing STRINGS;\nusing UnityEngine;\n```\n(`mods/salty-surf/src/SaltySurf/Mod.cs`)\n\n`Debug.Log` resolves either to `UnityEngine.Debug` or to the game's own global `Debug` class, so several `Mod.cs` files omit `using UnityEngine`. When a file imports `System.Diagnostics`, qualify the call as `UnityEngine.Debug.Log` (`mods/just-fall-already/src/JustFallAlready/FallPoke.cs`).\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#comments",
+     "title": "Comments",
+     "text": "## Comments\n**Id:** blk-34567b821480\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#comments/when-to-comment",
+     "title": "When to Comment",
+     "text": "### When to Comment\n**Id:** blk-b19160e035af\n\n- On every non-trivial class, an XML `<summary>` that says what the game does and what the patch changes, so a reader can check the patch against the game code. The long summary on `OvercrowdingMonitor_UpdateRegion_Patch` in `mods/dont-count-eggs-on-rails/src/DontCountEggsOnRails/Mod.cs` is the model.\n- Where a game quirk forces an odd line: `// The game's .NET Framework has no AddOrUpdate on this table.`\n- Where another mod is involved, name it and its Workshop id (`mods/bitshifter/src/Bitshifter/Mod.cs`, `mods/smart-weight-plate/src/SmartWeightPlate/Mod.cs`).\n- Escape angle brackets in XML comments as `&lt;` and `&gt;`.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#comments/when-not-to-comment",
+     "title": "When NOT to Comment",
+     "text": "### When NOT to Comment\n**Id:** blk-606e426f80cf\n\n- Code that reads clearly from its names.\n- Commented-out code; delete it.\n- Restating what a line does.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#comments/format",
+     "title": "Format",
+     "text": "### Format\n**Id:** blk-693adf4828c6\n\n```csharp\n/// <summary>\n/// The \"Any\" choice. It is a tag like the elements a sensor's Filterable holds, so it rides\n/// in the same saved field and copies with the building's settings.\n/// </summary>\npublic static class AnyElement\n\n// Single-line note for a quirk or a reason.\n```\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#control-structures",
+     "title": "Control Structures",
+     "text": "## Control Structures\n**Id:** blk-27f2a339c877\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#control-structures/conditionals",
+     "title": "Conditionals",
+     "text": "### Conditionals\n**Id:** blk-817cd2a98a1e\n\nGuard clauses and early `return` or `continue` keep nesting shallow (`SettleSimBackwalls.UpdateFromSim` in `mods/natural-backwalls-everywhere/src/NaturalBackwalls/SettleSimPatch.cs`):\n\n```csharp\nif (!Grid.IsValidCell(cell))\n\tcontinue;\nushort idx = data->backwallElement[cell];\nif (idx == ushort.MaxValue || idx >= elements.Count)\n\tcontinue;\n```\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#control-structures/loops",
+     "title": "Loops",
+     "text": "### Loops\n**Id:** blk-c6278ac1655d\n\n- Plain `for` and `foreach`. Code that runs every sim tick or frame avoids LINQ and allocations; reuse scratch lists (`scratch` in `mods/just-fall-already/src/JustFallAlready/FallPoke.cs`).\n- Local types are written out (`Tech tech = ...`). `var` appears mainly in `mods/upgrade-planner`, `mods/natural-backwalls-everywhere` and the test projects; follow the surrounding file.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#control-structures/strings",
+     "title": "Strings",
+     "text": "### Strings\n**Id:** blk-968f3a86b207\n\n- Log and UI text is built with `+` concatenation, or `string.Format` on a `LocString`. String interpolation is not used in mod code.\n- Player-visible text is a `LocString` field in `ModStrings`, never a literal at the call site (see [naming conventions](naming-conventions.md)).\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#game-components",
+     "title": "Game Components",
+     "text": "## Game Components\n**Id:** blk-3c9f317e1942\n\n- A component extends `KMonoBehaviour`, overrides `OnPrefabInit`, `OnSpawn` and `OnCleanUp` and calls `base` from each. Sibling components come in through `[MyCmpGet]` or `[MyCmpReq]` (`mods/no-magic-fridges/src/NoMagicFridges/FridgeThermostat.cs`).\n- Saved state uses `[Serialize]` fields with `[SerializationConfig(MemberSerialization.OptIn)]` on the class (`mods/sweep-zones/src/SweepZones/ZoneStore.cs`).\n- Components are added to prefabs from a `DoPostConfigureComplete` postfix with `go.AddOrGet<T>()`.\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#project-specific-rules",
+     "title": "Project-Specific Rules",
+     "text": "## Project-Specific Rules\n**Id:** blk-ae5190625f1d\n\n- Mod options are a PLib `POptions` class marked `[JsonObject(MemberSerialization.OptIn)]` and `[ConfigFile(SharedConfigLocation: true)]`, read through a static `Load()` (`mods/vent-freeze-fix/src/VentFreezeFix/Options.cs`) or through `SingletonOptions<Options>` (`mods/storage-pod-redux`). Option titles are string-table keys, so the translation follows the language.\n- Every mod logs one line at load: `[<Name>] Loaded version <assembly version>`.\n- Tests live in a separate `<Name>.Tests` project and are written as `[OniTest]` coroutines against the real game.\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#related",
+     "title": "Related",
+     "text": "## Related\n**Id:** blk-2f0e144efce8\n\n- See also: [naming conventions](naming-conventions.md)\n- See also: [error handling](error-handling.md)\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "standards/error-handling.md",
+   "title": "Error Handling Conventions",
+   "description": "Error handling conventions for the Corner Build Anything mod: guarding patches and transpilers, logging levels, plus how SwapTable counts replaced loads and warns when none match",
+   "document_tags": [
+    "vanilla-fallback",
+    "logging"
+   ],
+   "text": "---\ntags: vanilla-fallback, logging\ndoc_id: doc-bec2d98ee48a\ndescription: \"Error handling conventions for the Corner Build Anything mod: guarding patches and transpilers, logging levels, plus how SwapTable counts replaced loads and warns when none match\"\napplies_to:\n  - \"src/**\"\n---\n\n# Error Handling Conventions\n\n## Principles\n**Id:** blk-ff2bf3b4f17f\n\n1. **Never break the game for a mod's sake.** A patch that cannot do its job leaves the vanilla behaviour in place and says so in the log. It does not throw into the game's update loop.\n2. **Check what you patch.** Game updates rename fields and move code. Every reflection lookup, transpiler match and prefab or tech lookup is checked for a miss.\n3. **Say what degraded.** A warning names the thing that was not found and the consequence, so a bug report with `Player.log` is enough to diagnose.\n4. **Don't swallow.** A `catch` logs and either returns a safe default or continues; it is never empty.\n5. **Log at the right level.** `Debug.Log` for start-up and summaries, `Debug.LogWarning` for degraded behaviour, `Debug.LogError` for a failed player action.\n\nThere is no custom exception hierarchy. Mods are small patches over game code, so errors are handled where they occur.\n\n## Guarding Patches\n**Id:** blk-a806354c0ca6  \n**Tags:** harmony-patching\n\n### Missing member: warn, leave vanilla\n**Id:** blk-3246f83ea12b\n\nA reflection lookup that returns null is checked before use. The patch then does nothing, or returns `true` from a prefix so the game's method runs.\n\n```csharp\nif (ActiveField == null || StorageField == null)\n\treturn true; // the game renamed its fields: leave vanilla alone rather than throw\n```\n(`mods/no-magic-fridges/src/NoMagicFridges/Patches.cs`; the warning is logged once at load by `SimTransferMethod` in `FridgeThermostat.cs`.)\n\n### Transpiler: count the match\n**Id:** blk-101f4f9d4623  \n**Tags:** transpiler\n\nA transpiler counts the instructions it replaced. Zero (or more than expected) logs a warning and returns the original code, so a game update disables the change instead of breaking the method.\n\n```csharp\nif (swapped == 0)\n\tDebug.LogWarning(\"[CornerBuildAnything] \" + where + \" does not load OffsetGroups.InvertedStandardTable; corner reach not applied there\");\n```\n(`mods/corner-build-anything/src/CornerBuildAnything/ReachTablePatches.cs`; same pattern in `mods/bitshifter/src/Bitshifter/Patches.cs` and `mods/natural-backwalls-everywhere/src/NaturalBackwalls/SettleSimPatch.cs`.)\n\n### Missing data: warn, continue\n**Id:** blk-da49810c7ea2\n\nA build-menu, tech or asset lookup that finds nothing warns and keeps the mod working:\n\n```csharp\nTech tech = Db.Get().Techs.TryGet(TechId);\nif (tech == null)\n{\n\tDebug.LogWarning(\"[SmartWeightPlate] Tech '\" + TechId + \"' not found; building will be unlocked from the start\");\n\treturn;\n}\n```\n(`mods/smart-weight-plate/src/SmartWeightPlate/Patches.cs`; also `mods/multichannel-critter-sensor`, `mods/storage-pod-redux`.) Missing art or a missing vanilla prefab degrades the same way (`Display.UseAnim` in `mods/bitshifter/src/Bitshifter/Patches.cs`, `mods/multichannel-critter-sensor/src/MultichannelCritterSensor/MultichannelCritterSensorSideScreen.cs`).\n\n### Null checks on game objects\n**Id:** blk-fcfa7d5a5167\n\nComponents and arguments that can be absent are tested before use: `if (stt == null || !Sim.IsValidHandle(stt.SimHandle)) return true;`, `if (sensor == null || GameScenePartitioner.Instance == null) return;` (`mods/motion-sensor-range/src/MotionSensorRange/RangeSlider.cs`).\n\n### Warn once\n**Id:** blk-68f2815379e6\n\nWork that repeats every frame or tick warns once behind a flag (`warnedMissingInternals` in `RangeSlider.cs`).\n\n## try/catch\n**Id:** blk-e5aba18fd731\n\n`try`/`catch (Exception e)` is used in four situations and nowhere else:\n\n1. **Optional integration with another mod.** Patching or reading another mod's types may fail for any reason. Log the message and skip the integration (`BetterAutomationOverlayCompat.Apply` in `mods/smart-weight-plate/src/SmartWeightPlate/Mod.cs`; `mods/upgrade-planner/src/UpgradePlanner/Compat/BlueprintsCompat.cs`).\n2. **File and JSON reads and writes.** Return an empty or null result (`mods/upgrade-planner/src/UpgradePlanner/Plan/Presets.cs`, `mods/storage-pod-redux/src/StoragePodRedux/ModDetection.cs`, `mods/sweep-zones/src/SweepZones/ToolIcon.cs`).\n3. **Patches that run inside worldgen or per-cell work**, where an escaping exception kills a thread or a whole pass (`mods/natural-backwalls-everywhere/src/NaturalBackwalls/FeaturePatch.cs`, `PlanetoidPatch.cs`, `Patches.cs`, `Census.cs`).\n4. **Per-job work in a queue**, so one failure does not stop the rest (`mods/upgrade-planner/src/UpgradePlanner/Tool/PlacementQueue.cs`, logged with `Debug.LogError`).\n\nThe message form is `\"[<Name>] <what was skipped>: \" + e.Message`. Use `e.GetBaseException().Message` when the exception may be a reflection wrapper, and the full `e` when the stack trace is needed.\n\n### Finalizer for a thread with no handler\n**Id:** blk-e5797c076f0c  \n**Tags:** harmony-patching\n\n`Cluster.BeginGeneration` is the worldgen thread body and has none; an exception ends the thread and the loading screen waits forever. A finalizer reports the failure through the game's own error path and logs the exception (`Cluster_BeginGeneration_Patch` in `mods/natural-backwalls-everywhere/src/NaturalBackwalls/WorldgenThreadPatch.cs`).\n\n## Yielding to Other Mods\n**Id:** blk-ae05b9df7071\n\nWhen another mod already does the job or shares an id, the mod steps aside and logs why:\n- Bitshifter disables itself when Digital CPU is enabled or the contested methods already have Harmony owners (`WhyYield` in `mods/bitshifter/src/Bitshifter/Mod.cs`).\n- Storage Pod Redux does not register its buildings while the original Storage Pod is enabled, and logs a warning telling the player to disable one (`mods/storage-pod-redux/src/StoragePodRedux/Mod.cs`).\n\n## Logging\n**Id:** blk-3c1abb664829\n\n### Log Levels\n**Id:** blk-2519a49b0e5f\n\n| Level | Use For | Example |\n|-------|---------|---------|\n| `Debug.LogError` | A player action failed and was abandoned | `PlacementQueue` in `mods/upgrade-planner` |\n| `Debug.LogWarning` | Degraded or skipped behaviour | the examples above |\n| `Debug.Log` | Load line, a one-line summary of what a pass changed | `Tagged N refined metal(s)` in `mods/refined-building` |\n\n### What to Include\n**Id:** blk-738df9dacdf7\n\n- The `[<ModName>] ` prefix on every line; `JumperBridgesMod.LogPrefix` holds it for that mod.\n- What was expected, what was found, and what the mod does instead.\n- Cell numbers, building names and element ids when they identify the case (`mods/vent-freeze-fix`).\n- Per-tick or per-frame telemetry only behind a debug option (`VentFreezeWatcher.Verbose`, `DebugSave.Enabled`) or capped (`DetailLines` in `SettleSimPatch.cs`).\n\nPLib's `PUtil.Log*` helpers are not used; all mods log through `Debug`.\n\n## Anti-Patterns to Avoid\n**Id:** blk-5bc0b9c40252\n\n### Swallowing exceptions\n**Id:** blk-f9d4eb421dfe\n\nAn empty `catch` hides a broken patch. The one `catch` that returns a fallback without a log is `GuessLanguageCode` in `common/src/Translations.cs`, because a missing language preference is the normal case before the game has started.\n\n### Throwing from a patch\n**Id:** blk-0be6d9e365d6  \n**Tags:** harmony-patching\n\nAn exception in a prefix or postfix on a per-frame or sim method repeats every frame. Guard, log once, return.\n\n### Assuming the game's internals\n**Id:** blk-b84f941bdb22  \n**Tags:** harmony-patching, transpiler\n\nReading a private field by name without a null check on the `FieldInfo`, or replacing an instruction without confirming it was found, breaks on the next game update.\n\n### Silent degradation\n**Id:** blk-9aeff1954315\n\nDoing nothing without a log line leaves a player and the author guessing. Every skipped path logs.\n\n### Spamming the log\n**Id:** blk-95478e1309d9\n\nA warning inside an update method fires thousands of times. Use a once-flag.\n\n## Project-Specific Patterns\n**Id:** blk-d861a9eb5703\n\n### Corner Build Anything specifics\n**Id:** blk-be6bc503e715  \n**Tags:** reach-table, transpiler\n\n- `SwapTable` counts the loads of `OffsetGroups.InvertedStandardTable` it replaced. Zero logs a warning naming `<Type>.<Method>` and returns the code unchanged; otherwise it logs that the corner table is in place.\n- The transpilers run once at patch time, so there is no run-time guard.\n\n## Related\n**Id:** blk-0f671bedac9c\n\n- See also: [code style](code-style.md)\n- See also: [naming conventions](naming-conventions.md)\n",
+   "sections": [
+    {
+     "id": "standards/error-handling.md#principles",
+     "title": "Principles",
+     "text": "## Principles\n**Id:** blk-ff2bf3b4f17f\n\n1. **Never break the game for a mod's sake.** A patch that cannot do its job leaves the vanilla behaviour in place and says so in the log. It does not throw into the game's update loop.\n2. **Check what you patch.** Game updates rename fields and move code. Every reflection lookup, transpiler match and prefab or tech lookup is checked for a miss.\n3. **Say what degraded.** A warning names the thing that was not found and the consequence, so a bug report with `Player.log` is enough to diagnose.\n4. **Don't swallow.** A `catch` logs and either returns a safe default or continues; it is never empty.\n5. **Log at the right level.** `Debug.Log` for start-up and summaries, `Debug.LogWarning` for degraded behaviour, `Debug.LogError` for a failed player action.\n\nThere is no custom exception hierarchy. Mods are small patches over game code, so errors are handled where they occur.\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/error-handling.md#guarding-patches/missing-member-warn-leave-vanilla",
+     "title": "Missing member: warn, leave vanilla",
+     "text": "### Missing member: warn, leave vanilla\n**Id:** blk-3246f83ea12b\n\nA reflection lookup that returns null is checked before use. The patch then does nothing, or returns `true` from a prefix so the game's method runs.\n\n```csharp\nif (ActiveField == null || StorageField == null)\n\treturn true; // the game renamed its fields: leave vanilla alone rather than throw\n```\n(`mods/no-magic-fridges/src/NoMagicFridges/Patches.cs`; the warning is logged once at load by `SimTransferMethod` in `FridgeThermostat.cs`.)\n",
+     "level": 3,
+     "enclosing_tags": [
+      "harmony-patching"
+     ]
+    },
+    {
+     "id": "standards/error-handling.md#guarding-patches/missing-data-warn-continue",
+     "title": "Missing data: warn, continue",
+     "text": "### Missing data: warn, continue\n**Id:** blk-da49810c7ea2\n\nA build-menu, tech or asset lookup that finds nothing warns and keeps the mod working:\n\n```csharp\nTech tech = Db.Get().Techs.TryGet(TechId);\nif (tech == null)\n{\n\tDebug.LogWarning(\"[SmartWeightPlate] Tech '\" + TechId + \"' not found; building will be unlocked from the start\");\n\treturn;\n}\n```\n(`mods/smart-weight-plate/src/SmartWeightPlate/Patches.cs`; also `mods/multichannel-critter-sensor`, `mods/storage-pod-redux`.) Missing art or a missing vanilla prefab degrades the same way (`Display.UseAnim` in `mods/bitshifter/src/Bitshifter/Patches.cs`, `mods/multichannel-critter-sensor/src/MultichannelCritterSensor/MultichannelCritterSensorSideScreen.cs`).\n",
+     "level": 3,
+     "enclosing_tags": [
+      "harmony-patching"
+     ]
+    },
+    {
+     "id": "standards/error-handling.md#guarding-patches/null-checks-on-game-objects",
+     "title": "Null checks on game objects",
+     "text": "### Null checks on game objects\n**Id:** blk-fcfa7d5a5167\n\nComponents and arguments that can be absent are tested before use: `if (stt == null || !Sim.IsValidHandle(stt.SimHandle)) return true;`, `if (sensor == null || GameScenePartitioner.Instance == null) return;` (`mods/motion-sensor-range/src/MotionSensorRange/RangeSlider.cs`).\n",
+     "level": 3,
+     "enclosing_tags": [
+      "harmony-patching"
+     ]
+    },
+    {
+     "id": "standards/error-handling.md#guarding-patches/warn-once",
+     "title": "Warn once",
+     "text": "### Warn once\n**Id:** blk-68f2815379e6\n\nWork that repeats every frame or tick warns once behind a flag (`warnedMissingInternals` in `RangeSlider.cs`).\n",
+     "level": 3,
+     "enclosing_tags": [
+      "harmony-patching"
+     ]
+    },
+    {
+     "id": "standards/error-handling.md#try-catch",
+     "title": "try/catch",
+     "text": "## try/catch\n**Id:** blk-e5aba18fd731\n\n`try`/`catch (Exception e)` is used in four situations and nowhere else:\n\n1. **Optional integration with another mod.** Patching or reading another mod's types may fail for any reason. Log the message and skip the integration (`BetterAutomationOverlayCompat.Apply` in `mods/smart-weight-plate/src/SmartWeightPlate/Mod.cs`; `mods/upgrade-planner/src/UpgradePlanner/Compat/BlueprintsCompat.cs`).\n2. **File and JSON reads and writes.** Return an empty or null result (`mods/upgrade-planner/src/UpgradePlanner/Plan/Presets.cs`, `mods/storage-pod-redux/src/StoragePodRedux/ModDetection.cs`, `mods/sweep-zones/src/SweepZones/ToolIcon.cs`).\n3. **Patches that run inside worldgen or per-cell work**, where an escaping exception kills a thread or a whole pass (`mods/natural-backwalls-everywhere/src/NaturalBackwalls/FeaturePatch.cs`, `PlanetoidPatch.cs`, `Patches.cs`, `Census.cs`).\n4. **Per-job work in a queue**, so one failure does not stop the rest (`mods/upgrade-planner/src/UpgradePlanner/Tool/PlacementQueue.cs`, logged with `Debug.LogError`).\n\nThe message form is `\"[<Name>] <what was skipped>: \" + e.Message`. Use `e.GetBaseException().Message` when the exception may be a reflection wrapper, and the full `e` when the stack trace is needed.\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/error-handling.md#yielding-to-other-mods",
+     "title": "Yielding to Other Mods",
+     "text": "## Yielding to Other Mods\n**Id:** blk-ae05b9df7071\n\nWhen another mod already does the job or shares an id, the mod steps aside and logs why:\n- Bitshifter disables itself when Digital CPU is enabled or the contested methods already have Harmony owners (`WhyYield` in `mods/bitshifter/src/Bitshifter/Mod.cs`).\n- Storage Pod Redux does not register its buildings while the original Storage Pod is enabled, and logs a warning telling the player to disable one (`mods/storage-pod-redux/src/StoragePodRedux/Mod.cs`).\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/error-handling.md#logging",
+     "title": "Logging",
+     "text": "## Logging\n**Id:** blk-3c1abb664829\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/error-handling.md#logging/log-levels",
+     "title": "Log Levels",
+     "text": "### Log Levels\n**Id:** blk-2519a49b0e5f\n\n| Level | Use For | Example |\n|-------|---------|---------|\n| `Debug.LogError` | A player action failed and was abandoned | `PlacementQueue` in `mods/upgrade-planner` |\n| `Debug.LogWarning` | Degraded or skipped behaviour | the examples above |\n| `Debug.Log` | Load line, a one-line summary of what a pass changed | `Tagged N refined metal(s)` in `mods/refined-building` |\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/error-handling.md#logging/what-to-include",
+     "title": "What to Include",
+     "text": "### What to Include\n**Id:** blk-738df9dacdf7\n\n- The `[<ModName>] ` prefix on every line; `JumperBridgesMod.LogPrefix` holds it for that mod.\n- What was expected, what was found, and what the mod does instead.\n- Cell numbers, building names and element ids when they identify the case (`mods/vent-freeze-fix`).\n- Per-tick or per-frame telemetry only behind a debug option (`VentFreezeWatcher.Verbose`, `DebugSave.Enabled`) or capped (`DetailLines` in `SettleSimPatch.cs`).\n\nPLib's `PUtil.Log*` helpers are not used; all mods log through `Debug`.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/error-handling.md#anti-patterns-to-avoid",
+     "title": "Anti-Patterns to Avoid",
+     "text": "## Anti-Patterns to Avoid\n**Id:** blk-5bc0b9c40252\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/error-handling.md#anti-patterns-to-avoid/swallowing-exceptions",
+     "title": "Swallowing exceptions",
+     "text": "### Swallowing exceptions\n**Id:** blk-f9d4eb421dfe\n\nAn empty `catch` hides a broken patch. The one `catch` that returns a fallback without a log is `GuessLanguageCode` in `common/src/Translations.cs`, because a missing language preference is the normal case before the game has started.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/error-handling.md#anti-patterns-to-avoid/silent-degradation",
+     "title": "Silent degradation",
+     "text": "### Silent degradation\n**Id:** blk-9aeff1954315\n\nDoing nothing without a log line leaves a player and the author guessing. Every skipped path logs.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/error-handling.md#anti-patterns-to-avoid/spamming-the-log",
+     "title": "Spamming the log",
+     "text": "### Spamming the log\n**Id:** blk-95478e1309d9\n\nA warning inside an update method fires thousands of times. Use a once-flag.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/error-handling.md#project-specific-patterns",
+     "title": "Project-Specific Patterns",
+     "text": "## Project-Specific Patterns\n**Id:** blk-d861a9eb5703\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/error-handling.md#related",
+     "title": "Related",
+     "text": "## Related\n**Id:** blk-0f671bedac9c\n\n- See also: [code style](code-style.md)\n- See also: [naming conventions](naming-conventions.md)\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  }
+ ]
+}

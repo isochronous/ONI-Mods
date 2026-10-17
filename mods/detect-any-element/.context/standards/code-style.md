@@ -1,4 +1,5 @@
 ---
+tags: code-style
 doc_id: doc-57f3985fd9e2
 description: "C# code style for the Detect Any Element mod: formatting, toolchain, imports, comments, Harmony conventions, plus its translations setup, AnyElement class and sensor patches in src/DetectAnyElement"
 applies_to:
@@ -82,7 +83,8 @@ using UnityEngine;
 **Id:** blk-3309b637ae29
 
 ### When to Comment
-**Id:** blk-6e6c7ccc6bba
+**Id:** blk-6e6c7ccc6bba  
+**Tags:** harmony-patching
 
 - On every non-trivial class, an XML `<summary>` that says what the game does and what the patch changes, so a reader can check the patch against the game code. The long summary on `OvercrowdingMonitor_UpdateRegion_Patch` in `mods/dont-count-eggs-on-rails/src/DontCountEggsOnRails/Mod.cs` is the model.
 - Where a game quirk forces an odd line: `// The game's .NET Framework has no AddOrUpdate on this table.`

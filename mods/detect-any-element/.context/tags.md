@@ -62,3 +62,13 @@ A record earns this term when it is about a game Tag that a mod creates, adds to
 **Id:** blk-ed8300466b3c
 
 A record earns this term when it is about the element sensors and how they decide that an element is present.
+
+## code-style
+**Id:** blk-67f1887fc67b
+
+A record earns this term when it is about the house style in which a mod's C# source code is written.
+
+## reflection
+**Id:** blk-042d94b9eaed
+
+A record earns this term when it is about reaching non-public members of the game or of another mod through reflection.

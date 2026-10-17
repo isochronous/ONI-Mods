@@ -77,3 +77,8 @@ A record earns this term when it is about deciding whether a mod's building is r
 **Id:** blk-2db9f30eb94a
 
 A record earns this term when it is about a building that stores items and what it accepts.
+
+## code-style
+**Id:** blk-92d1217132e0
+
+A record earns this term when it is about the house style in which a mod's C# source code is written.

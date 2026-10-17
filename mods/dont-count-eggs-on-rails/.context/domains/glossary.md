@@ -13,7 +13,8 @@ description: "Glossary for Don't Count Eggs on Rails: abbreviations, a term to a
 Terms used in the Don't Count Eggs on Rails mod (`mods/dont-count-eggs-on-rails`). For the classes and patches behind them, see the entities document.
 
 ## Abbreviations and Acronyms
-**Id:** blk-77b4fbda4643
+**Id:** blk-77b4fbda4643  
+**Tags:** in-game-testing
 
 | Abbreviation | Full Term | Context |
 |--------------|-----------|---------|
@@ -39,16 +40,19 @@ Terms used in the Don't Count Eggs on Rails mod (`mods/dont-count-eggs-on-rails`
 
 ### Room and cavity
 **Id:** blk-37f904dc661d  
+**Tags:** room-tracking  
 **Definition**: A room is a prober-detected enclosed area; the egg's `cavity` is the room list it is currently in. `RemoveFromCavity` takes it out.  
 **Used in**: `OvercrowdingMonitor_UpdateRegion_Patch`
 
 ### Room prober
 **Id:** blk-f818fb057849  
+**Tags:** room-tracking  
 **Definition**: `Game.Instance.roomProber`, the game system that tracks rooms and their contents.  
 **Used in**: `UpdateRoom(cavity)` call in the prefix
 
 ### Overcrowding monitor
 **Id:** blk-bd3bc3efff75  
+**Tags:** room-tracking, harmony-patching  
 **Definition**: `OvercrowdingMonitor`, the state machine on critters and eggs that lists them in their room once a second (`UpdateRegion`).  
 **Used in**: the patch target
 

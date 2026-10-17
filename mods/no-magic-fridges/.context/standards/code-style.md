@@ -1,4 +1,5 @@
 ---
+tags: code-style
 doc_id: doc-46f4375d60c5
 description: "C# code style for No Magic Fridges: indentation, braces, imports, comments, control structures, Harmony patch and game component conventions, plus its nested Patches class, FridgeThermostat fields and reflection use"
 applies_to:
@@ -82,7 +83,8 @@ using UnityEngine;
 **Id:** blk-daafd1797aa8
 
 ### When to Comment
-**Id:** blk-f989724353cb
+**Id:** blk-f989724353cb  
+**Tags:** harmony-patching
 
 - On every non-trivial class, an XML `<summary>` that says what the game does and what the patch changes, so a reader can check the patch against the game code. The long summary on `OvercrowdingMonitor_UpdateRegion_Patch` in `mods/dont-count-eggs-on-rails/src/DontCountEggsOnRails/Mod.cs` is the model.
 - Where a game quirk forces an odd line: `// The game's .NET Framework has no AddOrUpdate on this table.`
@@ -157,7 +159,8 @@ if (idx == ushort.MaxValue || idx >= elements.Count)
 - Components are added to prefabs from a `DoPostConfigureComplete` postfix with `go.AddOrGet<T>()`.
 
 ## Project-Specific Rules
-**Id:** blk-447262e58ac0
+**Id:** blk-447262e58ac0  
+**Tags:** logging, in-game-testing
 
 - Mod options are a PLib `POptions` class marked `[JsonObject(MemberSerialization.OptIn)]` and `[ConfigFile(SharedConfigLocation: true)]`, read through a static `Load()` (`mods/vent-freeze-fix/src/VentFreezeFix/Options.cs`) or through `SingletonOptions<Options>` (`mods/storage-pod-redux`). Option titles are string-table keys, so the translation follows the language.
 - Every mod logs one line at load: `[<Name>] Loaded version <assembly version>`.

@@ -1,4 +1,5 @@
 ---
+tags: code-style
 doc_id: doc-97035e1a7776
 description: "Naming conventions for the Detect Any Element mod: files, namespaces, variables, methods, strings and ids, plus its ModStrings branch, DetectAnyElement_Any tag name, glyph symbol constants and log prefix"
 applies_to:

@@ -1,4 +1,5 @@
 ---
+tags: code-style
 doc_id: doc-b35b5c30a8f8
 description: "C# code style for the Sweep Zones Redux mod: formatting, imports, comments, Harmony patch and game component conventions, plus a section on its hotkey action, zone store component and drag tool"
 applies_to:
@@ -53,7 +54,8 @@ foreach (Mod mod in mods)
 **Id:** blk-faa925a5196c
 
 ### Organization
-**Id:** blk-c912752fe0ac
+**Id:** blk-c912752fe0ac  
+**Tags:** mod-strings
 
 `using` directives sit above the namespace, in one block with no blank lines, sorted alphabetically with `System.*` first. Aliases for `ModStrings` branches come last.
 

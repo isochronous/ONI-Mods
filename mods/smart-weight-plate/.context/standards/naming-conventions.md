@@ -1,4 +1,5 @@
 ---
+tags: code-style
 doc_id: doc-b2eb0f826a7b
 description: "Naming conventions for Smart Weight Plate: files, variables, methods, types, ModStrings keys, ids and tags, plus its string branches, test classes, Kit helper file, log prefix and staticID"
 applies_to:
@@ -95,7 +96,7 @@ private static readonly Dictionary<int, float> armed = new Dictionary<int, float
 - Test names start with the mod's name or an abbreviation of it: `[OniTest("Bitshifter: a NOT gate on a ribbon inverts every bit")]`, `VFF:` for Vent Freeze Fix.
 
 ## Project-Specific Conventions
-**Id:** blk-25e3cdd8d8fe
+**Id:** blk-25e3cdd8d8fe  
 
 ### Smart Weight Plate specifics
 **Id:** blk-4a874c4487b8  

@@ -1,0 +1,20 @@
+[
+ {
+  "id": "standards/code-style.md#language-and-toolchain",
+  "reason": "no-good-match",
+  "suggestion": "language version and build toolchain",
+  "kept": []
+ },
+ {
+  "id": "standards/naming-conventions.md#code-naming/strings-modstrings",
+  "reason": "no-good-match",
+  "suggestion": "ModStrings string tables and LocString keys",
+  "kept": []
+ },
+ {
+  "id": "standards/naming-conventions.md#code-naming/ids-and-tags",
+  "reason": "no-good-match",
+  "suggestion": "building, tag and mod identifiers",
+  "kept": []
+ }
+]

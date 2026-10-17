@@ -1,53 +1,20 @@
 {
   "task": "OM-002",
-  "why": "tag backfill r1 for node mods/multichannel-critter-sensor — round 0",
+  "why": "tag backfill r2 for node mods/multichannel-critter-sensor — round 0",
   "node": "C:\\dev\\ONI-Mods\\mods\\multichannel-critter-sensor",
   "base": {
-    "domains/README.md": "sha256:b0f4edc0119e05460dae3ba45c9abe49b7a7b7ce762120a3bc6be3c602d27c76",
-    "domains/entities.md": "sha256:a35ad56bf605286af5c158d86ff05f257d3b70d707ed98a3fa0ee47e7eb92f7d",
-    "domains/glossary.md": "sha256:5837356636c6f183093336dc98e1047a0a9446b5ae9a9b6571aab1d88b42b17a",
-    "overview.md": "sha256:4ad3e26367e444aff87803cc4aa807a3902d3da3815bad39f1cb143afba7156d",
-    "standards/error-handling.md": "sha256:52d28acaf40b53c269be5944ab8f5f09965c8d8b5bb00e977d9a6cedb350e000",
-    "standards/code-style.md": "sha256:47d3cb13b311272fc442f7e5367a4d67de7b4a9d1513d5ba7c109cf9e7c304a1",
-    "standards/naming-conventions.md": "sha256:c0118248569be06faeeb884ca0a5dfab1681ca695469cbd37124db2e0888332d"
+    "standards/README.md": "sha256:1203a1b846bc581a8775e2df7158dfd0a2db5bbbaa1f1373fd8ec393492c6374",
+    "standards/code-style.md": "sha256:cff2fd772e2581cf42734abcf07ee5ff2abefbfa62147a0fe5af9e4ba35aa1e9",
+    "standards/naming-conventions.md": "sha256:c8ec6fd87c0261c494c38083675ea5feac68cc81a741e6b5648e94e27d37f4cc",
+    "domains/glossary.md": "sha256:a06910eeb06f45c2a632319d62bee45a1bb797b308d5e75e2ddea9d94b765cf0",
+    "standards/error-handling.md": "sha256:dc381f4ea351231c33bd59c1232ba2f8fdf22d6f13626111cb563845c1717485"
   },
   "ops": [
     {
-      "target": "domains/README.md",
+      "target": "standards/README.md",
       "mode": "tag",
       "add": [
-        "critter-sensor",
-        "automation-ribbon"
-      ]
-    },
-    {
-      "target": "domains/entities.md",
-      "mode": "tag",
-      "add": [
-        "critter-sensor",
-        "automation-ribbon"
-      ]
-    },
-    {
-      "target": "domains/glossary.md",
-      "mode": "tag",
-      "add": [
-        "critter-sensor",
-        "automation-ribbon"
-      ]
-    },
-    {
-      "target": "overview.md",
-      "mode": "tag",
-      "add": [
-        "critter-sensor",
-        "automation-ribbon"
-      ]
-    },
-    {
-      "target": "standards/error-handling.md",
-      "mode": "tag",
-      "add": [
+        "code-style",
         "vanilla-fallback",
         "logging"
       ]
@@ -56,21 +23,31 @@
       "target": "standards/code-style.md",
       "mode": "tag",
       "add": [
-        "mod-strings",
-        "logging"
-      ],
-      "section": "control-structures/strings"
+        "code-style"
+      ]
     },
     {
       "target": "standards/naming-conventions.md",
       "mode": "tag",
       "add": [
-        "building-config",
-        "side-screen",
-        "mod-entry-point",
-        "kanim-art"
+        "code-style"
+      ]
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "pulse-output"
       ],
-      "section": "files-and-directories/examples-by-type"
+      "section": "cross-domain-terms/logic-tick"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching"
+      ],
+      "section": "try-catch"
     }
   ]
 }

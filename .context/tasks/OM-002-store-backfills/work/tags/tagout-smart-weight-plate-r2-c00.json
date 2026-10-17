@@ -1,0 +1,239 @@
+{
+ "documents": [
+  {
+   "id": "standards/naming-conventions.md",
+   "tags": [
+    "code-style"
+   ]
+  }
+ ],
+ "sections": [
+  {
+   "id": "domains/README.md#domains",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/entities.md#overview",
+   "tags": [
+    "building-config"
+   ]
+  },
+  {
+   "id": "domains/entities.md#key-entities",
+   "tags": [
+    "building-config",
+    "game-component",
+    "side-screen"
+   ]
+  },
+  {
+   "id": "domains/entities.md#domain-terminology",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/entities.md#related",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/glossary.md#terms-to-avoid",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/reservoir-semantics",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/logic-signal-green-red",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/glossary.md#related",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "overview.md#what-this-is",
+   "tags": [
+    "building-config"
+   ]
+  },
+  {
+   "id": "standards/README.md#standards",
+   "tags": [
+    "code-style",
+    "logging"
+   ]
+  },
+  {
+   "id": "standards/code-style.md#formatting",
+   "tags": [
+    "code-style"
+   ]
+  },
+  {
+   "id": "standards/code-style.md#formatting/indentation",
+   "tags": [
+    "code-style"
+   ]
+  },
+  {
+   "id": "standards/code-style.md#formatting/line-length",
+   "tags": [
+    "code-style"
+   ]
+  },
+  {
+   "id": "standards/code-style.md#formatting/braces",
+   "tags": [
+    "code-style"
+   ]
+  },
+  {
+   "id": "standards/code-style.md#language-and-toolchain",
+   "tags": [
+    "code-style"
+   ]
+  },
+  {
+   "id": "standards/code-style.md#imports-includes",
+   "tags": [
+    "code-style"
+   ]
+  },
+  {
+   "id": "standards/code-style.md#imports-includes/organization",
+   "tags": [
+    "code-style"
+   ]
+  },
+  {
+   "id": "standards/code-style.md#imports-includes/example",
+   "tags": [
+    "code-style"
+   ]
+  },
+  {
+   "id": "standards/code-style.md#comments",
+   "tags": [
+    "code-style"
+   ]
+  },
+  {
+   "id": "standards/code-style.md#comments/when-to-comment",
+   "tags": [
+    "code-style"
+   ]
+  },
+  {
+   "id": "standards/code-style.md#comments/when-not-to-comment",
+   "tags": [
+    "code-style"
+   ]
+  },
+  {
+   "id": "standards/code-style.md#comments/format",
+   "tags": [
+    "code-style"
+   ]
+  },
+  {
+   "id": "standards/code-style.md#control-structures",
+   "tags": [
+    "code-style"
+   ]
+  },
+  {
+   "id": "standards/code-style.md#control-structures/conditionals",
+   "tags": [
+    "code-style"
+   ]
+  },
+  {
+   "id": "standards/code-style.md#control-structures/loops",
+   "tags": [
+    "code-style"
+   ]
+  },
+  {
+   "id": "standards/code-style.md#related",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#guarding-patches",
+   "tags": [
+    "harmony-patching"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#logging",
+   "tags": [
+    "logging"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#anti-patterns-to-avoid",
+   "tags": [
+    "logging"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#project-specific-patterns",
+   "tags": [
+    "mod-compatibility"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#related",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/naming-conventions.md#files-and-directories",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/naming-conventions.md#files-and-directories/general-rules",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/naming-conventions.md#code-naming",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/naming-conventions.md#code-naming/variables",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/naming-conventions.md#code-naming/booleans",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/naming-conventions.md#project-specific-conventions",
+   "tags": [
+    "mod-strings"
+   ]
+  },
+  {
+   "id": "standards/naming-conventions.md#related",
+   "tags": [],
+   "reason": "inherits"
+  }
+ ]
+}

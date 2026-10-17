@@ -1,18 +1,17 @@
 {
   "task": "OM-002",
-  "why": "tag backfill r1 for node mods/vent-freeze-fix — round 0",
+  "why": "tag backfill r2 for node mods/vent-freeze-fix — round 0",
   "node": "C:\\dev\\ONI-Mods\\mods\\vent-freeze-fix",
   "base": {
-    "domains/entities.md": "sha256:dc4b8361cf056f6ec3753917bb444673aac77777625c4f818564a07bb9e56623",
-    "domains/glossary.md": "sha256:03cb4fa5d044b0c8bfa016012e49a77f806cd5cfeb0c76fdd5659e93396a079f",
-    "overview.md": "sha256:36aa38bc278f2e42f73701579deac94013ed594640eb6f519d2fcceb4fcac3a9",
-    "standards/code-style.md": "sha256:b174845273de52669da61aace0b9a84c22b65befaeacbf9713bb42103ad8e265",
-    "standards/error-handling.md": "sha256:31be3f805c791bb596d1132d656680e76502b10593263c7d8426f7f309c725d9",
-    "standards/naming-conventions.md": "sha256:97c9251a4a8e4b63bd202d5673508bf0f40a321b283804b5b490ad220fca7d43"
+    "domains/README.md": "sha256:f7a29cd82462f558e2e4990b7bb93eda95cedb18fc061dd555e54a3c4bb7d4ec",
+    "standards/README.md": "sha256:2b279f8703f02b060f7032707774f62587be02a87a88936c4dd9fcecdebcd64d",
+    "standards/code-style.md": "sha256:7b830e4b18d1b9091ff2e36efa1a63e4f782ad0e1453030f8a686ba53c0426ad",
+    "standards/error-handling.md": "sha256:857d3855720af0cc23d1fe1fb35792faf2c93753f63fe9eb71455c7bef13ac04",
+    "standards/naming-conventions.md": "sha256:8acef77349df4978b19f34cf9c70ecce7e0b9bc39fa15651a8a15292bd2595e6"
   },
   "ops": [
     {
-      "target": "domains/entities.md",
+      "target": "domains/README.md",
       "mode": "tag",
       "add": [
         "liquid-vent",
@@ -21,30 +20,20 @@
       ]
     },
     {
-      "target": "domains/glossary.md",
+      "target": "standards/README.md",
       "mode": "tag",
       "add": [
-        "liquid-vent",
-        "liquid-freezing",
-        "tile-repair"
-      ]
-    },
-    {
-      "target": "overview.md",
-      "mode": "tag",
-      "add": [
-        "liquid-vent",
-        "liquid-freezing",
-        "tile-repair"
+        "code-style",
+        "harmony-patching",
+        "logging"
       ]
     },
     {
       "target": "standards/code-style.md",
       "mode": "tag",
       "add": [
-        "mod-strings"
-      ],
-      "section": "control-structures/strings"
+        "code-style"
+      ]
     },
     {
       "target": "standards/error-handling.md",
@@ -52,19 +41,14 @@
       "add": [
         "harmony-patching",
         "logging"
-      ],
-      "section": "principles"
+      ]
     },
     {
       "target": "standards/naming-conventions.md",
       "mode": "tag",
       "add": [
-        "mod-entry-point",
-        "mod-options",
-        "mod-strings",
-        "in-game-testing"
-      ],
-      "section": "files-and-directories/examples-by-type"
+        "code-style"
+      ]
     }
   ]
 }

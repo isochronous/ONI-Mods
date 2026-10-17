@@ -1,4 +1,5 @@
 ---
+tags: code-style
 doc_id: doc-84c05e729b11
 description: "Naming conventions for Natural Backwalls Everywhere: files, variables, methods, types, ModStrings keys, ids and tags, plus the NaturalBackwalls patch class pattern, biome and zone string groups and test class names"
 applies_to:
