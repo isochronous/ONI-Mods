@@ -1,0 +1,31 @@
+{
+  "task": "OM-002",
+  "why": "Replace the scaffold placeholders in overview.md, domains/README.md and standards/README.md of mods/detect-any-element with content read from the node.",
+  "node": "mods/detect-any-element",
+  "ops": [
+    {
+      "mode": "section",
+      "target": "overview.md",
+      "section": "What this is",
+      "body": "Detect Any Element is an Oxygen Not Included mod that adds an Any choice, right under None, to the element sensors. The Liquid Pipe, Gas Pipe and Conveyor Rail Element Sensors go green for any packet passing through, and the Gas and Liquid Element Sensors for any gas or liquid in their cell. Picking an element switches the sensor back to normal. The Any choice carries an asterisk drawn by a small kanim. Version 0.2.1 in `mod_info.yaml` (released 2026-10-12), minimum supported build 744825, published on the Steam Workshop with Korean, Russian and Chinese translations."
+    },
+    {
+      "mode": "section",
+      "target": "overview.md",
+      "section": "Where things are",
+      "body": "Top-level folders and key files:\n\n- `src/DetectAnyElement/`: the mod. `Mod.cs` (entry point and the Any tag), `Patches.cs` (side screen, pipe and world sensor patches), `AnyGlyph.cs` (the asterisk behaviour), `ModStrings.cs` (translatable strings), `anim/` (asterisk art), `translations/` (`.pot` and `.po` files), `mod.yaml`, `mod_info.yaml`.\n- `src/DetectAnyElement.Tests/`: in-game tests for the glyph, persistence, pipe sensors, side screen and world sensors.\n- `tools/make_art.py`: generates the asterisk art; `tools/` also holds the Liberation Sans font and its licence.\n- `preview/`: preview image source.\n- `README.md`: what the mod does, compatibility, installing and how it works.\n- `CHANGELOG.md`: release notes per version.\n- `publish/`: Workshop description, tags, preview image and the packaged mod.\n\nThe `.context/` documents of this node: [domains](domains/README.md) (entities, glossary), [standards](standards/README.md) (code style, error handling, naming conventions), `decisions/` and `retrospectives/`."
+    },
+    {
+      "mode": "section",
+      "target": "domains/README.md",
+      "section": "Domains",
+      "body": "Documents in this folder:\n\n- [entities](entities.md): The Any choice for the five element sensors, with the key code paths.\n- [glossary](glossary.md): The Any choice, the sensors it patches and the asterisk art."
+    },
+    {
+      "mode": "section",
+      "target": "standards/README.md",
+      "section": "Standards",
+      "body": "Documents in this folder:\n\n- [code-style](code-style.md): C# formatting, imports, comments, Harmony patch and component conventions, with this mod's own layout.\n- [error-handling](error-handling.md): How the mod guards its Harmony patches, reflection lookups and file reads, and what it logs when something is missing.\n- [naming-conventions](naming-conventions.md): File, namespace, patch class, string key and id naming."
+    }
+  ]
+}

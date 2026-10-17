@@ -1,0 +1,31 @@
+{
+  "task": "OM-002",
+  "why": "replace the scaffold placeholders in natural-backwalls-everywhere's overview and the domains and standards indexes with its real content",
+  "node": "mods/natural-backwalls-everywhere",
+  "ops": [
+    {
+      "mode": "section",
+      "target": "overview.md",
+      "section": "What this is",
+      "body": "Natural Backwalls Everywhere is an Oxygen Not Included mod that gives every biome the natural backwall tiles the Aquatic Planet Pack places behind its own biomes. Each biome gets a configurable material chosen from that biome's own solids and a configurable coverage, and each subworld zone picks the noise pattern its backwall patches follow. It works on new worlds only: backwalls are written during world generation, by adding the pack's `backwallNoise` and `<biome>_backwall` band data to every other subworld and biome on the per-world copy of the worldgen settings. It does not need the Aquatic Planet Pack; it ships its own copies of the pack's four noise trees. Version 0.3.0 is on the Steam Workshop (id 3816744732); the README marks it work in progress, with defaults still being tuned. `mod.yaml` sets `supportedContent: ALL` and `minimumSupportedBuild: 744825`. Available in English, Chinese (Simplified), Korean and Russian.\n"
+    },
+    {
+      "mode": "section",
+      "target": "overview.md",
+      "section": "Where things are",
+      "body": "- `src/NaturalBackwalls/`: the mod. `Mod.cs` (entry point), `Patches.cs` (clones the backwall data into each new world's settings), `PlanetoidPatch.cs` and `FeaturePatch.cs` (worldgen ordering and feature cells), `SettleSimPatch.cs` and `WorldgenThreadPatch.cs` (guards for the settle sim and the worldgen thread), `Options.cs`, `BiomeOptionsEntry.cs` and `PatternOptionsEntry.cs` (options screen), `BiomeGroups.cs` and `Patterns.cs` (biome families and noise patterns), `Census.cs` (backwall counts logged per game load), `ExportOverlay.cs` (writes the settings as a plain worldgen overlay), `ModStrings.cs`, `mod.yaml`, `mod_info.yaml`.\n- `src/NaturalBackwalls/worldgen/noise/`: the four shipped noise trees (reef, kelp, abyss, beach); `translations/` holds the `.pot` template and `.po` files.\n- `src/NaturalBackwalls.Tests/`: in-game and worldgen tests (`Generated.cs`, `Guards.cs`, `Looks.cs`, `Planning.cs`, shared `Support.cs`).\n- `tools/BiomePreview/`: a Windows program that previews one biome's backwalls outside the game with the game's own noise trees and band tables.\n- `publish/`: Workshop material (`workshop-description.txt`, `workshop-id.txt`, `preview.jpg`, `content/` and `NaturalBackwalls.zip`, the packaged mod).\n- `preview/`, `README.md`, `CHANGELOG.md`: preview art, user-facing description and release history.\n- `.context/` holds `overview.md` (this file), `domains/` (entities and glossary), `standards/` (code style, error handling, naming conventions), `decisions/`, `retrospectives/`, `projects.md` and `META.md`.\n"
+    },
+    {
+      "mode": "section",
+      "target": "domains/README.md",
+      "section": "Domains",
+      "body": "- [entities](entities.md): what the mod adds to worldgen (biome groups, patterns, options, the patches that place backwalls), with file locations, the placement rules and key code paths.\n- [glossary](glossary.md): ONI and mod-specific terms used by Natural Backwalls Everywhere.\n"
+    },
+    {
+      "mode": "section",
+      "target": "standards/README.md",
+      "section": "Standards",
+      "body": "- [code-style](code-style.md): C# formatting, imports, comments, Harmony patch and component conventions, with this mod's own layout.\n- [error-handling](error-handling.md): how Natural Backwalls Everywhere guards its Harmony patches, reflection lookups and file reads, and what it logs when something is missing.\n- [naming-conventions](naming-conventions.md): file, namespace, patch class, string key and id naming for project NaturalBackwalls.\n"
+    }
+  ]
+}

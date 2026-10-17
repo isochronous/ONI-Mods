@@ -1,0 +1,31 @@
+{
+  "task": "OM-002",
+  "why": "Phase A: replace the scaffold placeholders in vent-freeze-fix overview, domains index and standards index with content from the repo.",
+  "node": "mods/vent-freeze-fix",
+  "ops": [
+    {
+      "mode": "section",
+      "target": "overview.md",
+      "section": "What this is",
+      "body": "Vent Freeze Fix is an Oxygen Not Included mod for a save/load bug with liquid vents. A save written while super-cooled liquid is in flight comes back from the load as a natural tile, either inside the vent (entombing it) or on the floor under it (taking the debris pile with it), because the game only applies its 80%-of-default-mass rule to tiles formed in running play. The mod insulates each liquid vent's storage so the packet it holds is not solidified, and for the first second after a load a watcher digs up any tile at or under a vent formed from less liquid than a tile needs, dropping it as debris at full mass. Both fixes are options, on by default; developer options add a reproduction button and debug logging. Version 0.2.0. Targets the current game with all DLC content (minimumSupportedBuild 744825)."
+    },
+    {
+      "mode": "section",
+      "target": "overview.md",
+      "section": "Where things are",
+      "body": "- `README.md`, `CHANGELOG.md`: player-facing description and release notes.\n- `src/VentFreezeFix/`: the mod. `Mod.cs` (entry point and the vent storage patch), `VentFreezeWatcher.cs` (post-load watcher), `DigRequests.cs` (the dig answer), `Options.cs` (settings), `DebugSave.cs` (the save-on-next-vent-emit reproduction button), `ModStrings.cs` (UI strings), `mod.yaml` and `mod_info.yaml` (manifests).\n- `src/VentFreezeFix/translations/`: `.pot` template and `ko`, `ru`, `zh` po files.\n- `src/VentFreezeFix.Tests/`: in-game tests (storage, repair, repro save).\n- `publish/`: Workshop description, tags, preview image (with its xcf source) and workshop id.\n- `.context/`: `overview.md`, `domains/` ([entities](domains/entities.md), [glossary](domains/glossary.md)), `standards/` ([code-style](standards/code-style.md), [error-handling](standards/error-handling.md), [naming-conventions](standards/naming-conventions.md)), `decisions/`, `retrospectives/`, `META.md`, `projects.md`."
+    },
+    {
+      "mode": "section",
+      "target": "domains/README.md",
+      "section": "Domains",
+      "body": "- [entities](entities.md): the vent storage insulation, the repair watcher and the dig answer.\n- [glossary](glossary.md): game and mod terms, abbreviations and terms to avoid."
+    },
+    {
+      "mode": "section",
+      "target": "standards/README.md",
+      "section": "Standards",
+      "body": "- [code-style](code-style.md): C# formatting, imports, comments, Harmony patch and component conventions, with this mod's own layout.\n- [error-handling](error-handling.md): how the mod guards its Harmony patches, reflection lookups and file reads, and what it logs when something is missing.\n- [naming-conventions](naming-conventions.md): file, namespace, patch class, string key and id naming."
+    }
+  ]
+}

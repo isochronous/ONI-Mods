@@ -7,4 +7,7 @@ description: "TODO(owner): the subject knowledge dont-count-eggs-on-rails keeps 
 ## Domains
 **Id:** blk-03228deaecb9
 
-TODO(owner): the subject knowledge of this node, one record per domain in this folder.
+Documents in this folder:
+
+- [entities](entities.md): Rail eggs excluded from critter sensor counts, with the key code paths.
+- [glossary](glossary.md): How rail eggs are kept out of room counts.

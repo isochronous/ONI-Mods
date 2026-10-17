@@ -1,0 +1,31 @@
+{
+  "task": "OM-002",
+  "why": "replace the scaffold placeholders in no-magic-fridges's overview and the domains and standards indexes with its real content",
+  "node": "mods/no-magic-fridges",
+  "ops": [
+    {
+      "mode": "section",
+      "target": "overview.md",
+      "section": "What this is",
+      "body": "No Magic Fridges is an Oxygen Not Included mod that makes a powered fridge behave like an insulated box with a thermostat. Vanilla attaches a simulated 1 degC heat reservoir to every stored item, which cools warm food but also warms deep-frozen food back up to 1 degC. With this mod a powered fridge only ever cools what is warmer than 1 degC, never heats what is colder, lets its contents share heat with each other, and insulates cold food from the room. An unpowered fridge is exactly vanilla. Version 0.2.2 is on the Steam Workshop (id 3805326379); `mod.yaml` sets `supportedContent: ALL` and `minimumSupportedBuild: 744825`.\n"
+    },
+    {
+      "mode": "section",
+      "target": "overview.md",
+      "section": "Where things are",
+      "body": "- `src/NoMagicFridges/`: the mod. `Mod.cs` (entry point), `Patches.cs` (stops the vanilla reservoir being attached and adds the thermostat to the fridge prefabs), `FridgeThermostat.cs` (the thermal model, run once a second), `mod.yaml`, `mod_info.yaml`.\n- `src/NoMagicFridges.Tests/`: in-game tests of fridge behaviour (`Fridges.cs`).\n- `publish/`: Workshop material (`workshop-description.txt`, `workshop-id.txt`).\n- `README.md`, `CHANGELOG.md`: user-facing description and release history.\n- `.context/` holds `overview.md` (this file), `domains/` (entities and glossary), `standards/` (code style, error handling, naming conventions), `decisions/`, `retrospectives/`, `projects.md` and `META.md`.\n"
+    },
+    {
+      "mode": "section",
+      "target": "domains/README.md",
+      "section": "Domains",
+      "body": "- [entities](entities.md): what the mod changes about powered fridges (the `FridgeThermostat` component and the sim patches), with file locations, the thermal rules and key code paths.\n- [glossary](glossary.md): ONI and mod-specific terms used by No Magic Fridges.\n"
+    },
+    {
+      "mode": "section",
+      "target": "standards/README.md",
+      "section": "Standards",
+      "body": "- [code-style](code-style.md): C# formatting, imports, comments, Harmony patch and component conventions, with this mod's own layout.\n- [error-handling](error-handling.md): how No Magic Fridges guards its Harmony patches, reflection lookups and file reads, and what it logs when something is missing.\n- [naming-conventions](naming-conventions.md): file, namespace, patch class, string key and id naming for project NoMagicFridges.\n"
+    }
+  ]
+}
