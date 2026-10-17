@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Pasting Ribbon Readers or Writers with Blueprints Expanded while Better Automation Overlay is enabled no longer crashes the game.
+
 ## 1.2.0 - 2026-10-16
 
 - A NOT gate on a ribbon inverts all 31 bits, not just bits 1-4.

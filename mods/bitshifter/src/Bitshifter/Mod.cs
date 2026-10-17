@@ -44,6 +44,7 @@ namespace Bitshifter
 
 		public override void OnAllModsLoaded(Harmony harmony, IReadOnlyList<Mod> mods)
 		{
+			OverlayLabelGuard.Apply(harmony);
 			string reason = WhyYield(mods);
 			if (reason != null)
 			{
