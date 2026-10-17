@@ -1,0 +1,60 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/jumper-bridges — round 3",
+  "node": "C:\\dev\\ONI-Mods\\mods\\jumper-bridges",
+  "base": {
+    "domains/entities.md": "sha256:9b5a6a6c2929ac523d22db84d20dd4fcf240cc1bfbdd89c78d44fb9b3fef2bcb",
+    "domains/glossary.md": "sha256:d02c17b40a04aac5eba2923a89899254fd10157972a2b0445825d196c75c9c0b",
+    "standards/code-style.md": "sha256:73ae4cace0df930da56aee651cc361c3b8b5a5729f502bd09790de19551f3bf1",
+    "standards/error-handling.md": "sha256:8c5ca8bc46a67f4e01d8280f3d6fd97da11fca3ffbfc137d09ac636739026ed4",
+    "standards/naming-conventions.md": "sha256:f6f945782cddbfdf274e4734eaf588b2226f93704be78a22ff9bde82c6b1c845"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "mod-options",
+        "mod-strings"
+      ],
+      "section": "key-entities/options"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "automation-ribbon"
+      ],
+      "section": "cross-domain-terms/automation-ribbon-bit-depth"
+    },
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "mod-options",
+        "logging",
+        "in-game-testing",
+        "mod-strings"
+      ],
+      "section": "project-specific-rules"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "vanilla-fallback",
+        "logging"
+      ],
+      "section": "guarding-patches/transpiler-count-the-match"
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "tag",
+      "add": [
+        "mod-strings",
+        "mod-options"
+      ],
+      "section": "code-naming/strings-modstrings"
+    }
+  ]
+}

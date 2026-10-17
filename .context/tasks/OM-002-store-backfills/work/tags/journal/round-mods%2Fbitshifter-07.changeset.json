@@ -1,0 +1,39 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/bitshifter — round 7",
+  "node": "C:\\dev\\ONI-Mods\\mods\\bitshifter",
+  "base": {
+    "domains/entities.md": "sha256:cc166d9fcbd24de66ac21047c4809e2fa043fd14c362abda2c57054022b38f48",
+    "domains/glossary.md": "sha256:4e28a9f82561ad0e12bb1ad57263c5e10d6161136f0b42a3a47cee75c7c07db3",
+    "standards/error-handling.md": "sha256:b4764021c7ea2ff23ad82fd937798219aea33ae832e4a3ad28262cad62ca9c5d"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "bit-depth",
+        "not-gate",
+        "mod-compatibility"
+      ],
+      "section": "business-rules"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "side-screen",
+        "bit-depth"
+      ],
+      "section": "cross-domain-terms/bit-selector-side-screen"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching"
+      ],
+      "section": "anti-patterns-to-avoid/throwing-from-a-patch"
+    }
+  ]
+}

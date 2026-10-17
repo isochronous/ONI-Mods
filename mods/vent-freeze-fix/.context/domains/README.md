@@ -1,10 +1,13 @@
 ---
+tags: liquid-vent, liquid-freezing, tile-repair
 doc_id: doc-93cf049e83b0
-description: "TODO(owner): the subject knowledge vent-freeze-fix keeps here."
+description: Index of the domain documents for the Vent Freeze Fix mod, linking its entities file (vent storage insulation, repair watcher, dig answer) and its glossary of terms
 ---
+
 # Domains
 
 ## Domains
 **Id:** blk-d25fbac06212
 
-TODO(owner): the subject knowledge of this node, one record per domain in this folder.
+- [entities](entities.md): the vent storage insulation, the repair watcher and the dig answer.
+- [glossary](glossary.md): game and mod terms, abbreviations and terms to avoid.

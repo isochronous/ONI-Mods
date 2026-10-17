@@ -1,0 +1,28 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/detect-any-element — round 8",
+  "node": "C:\\dev\\ONI-Mods\\mods\\detect-any-element",
+  "base": {
+    "domains/entities.md": "sha256:2017f5cb093217625758e7c47db259006c51cca472ce50c8e5830ea405756f1a",
+    "standards/error-handling.md": "sha256:d6665a3c16884afe057dd51354a3002ef114e897e64c57734dd5c2e1e21ba87b"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "game-component",
+        "kanim-art"
+      ],
+      "section": "key-entities/anyglyph"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching"
+      ],
+      "section": "try-catch/finalizer-for-a-thread-with-no-handler"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r2 for node mods/natural-backwalls-everywhere — round 3",
+  "node": "C:\\dev\\ONI-Mods\\mods\\natural-backwalls-everywhere",
+  "base": {
+    "domains/glossary.md": "sha256:172b81056c44d27d7f7d11e9d7a31a675f255406c0ef6465716b5ffb3f6bc687"
+  },
+  "ops": [
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching",
+        "biome-group"
+      ],
+      "section": "cross-domain-terms/feature-room"
+    }
+  ]
+}

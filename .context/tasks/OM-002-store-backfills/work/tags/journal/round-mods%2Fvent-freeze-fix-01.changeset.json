@@ -1,0 +1,59 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/vent-freeze-fix — round 1",
+  "node": "C:\\dev\\ONI-Mods\\mods\\vent-freeze-fix",
+  "base": {
+    "domains/entities.md": "sha256:b8fea4e3705833c6c2f36954c779c7ebbc0bab51b0197a37008bf1b92fd057bf",
+    "overview.md": "sha256:3d2d0b21c91d35cee9d3f133ac6279919b7db72d44a848f2faf4f218be5f134b",
+    "standards/code-style.md": "sha256:6146d4cbde7922134d1950f9b91a400c0c561dc1e88881862fae37062d9fb956",
+    "standards/error-handling.md": "sha256:f066f5ec6b59f9455033894af8570afab8cf3aae616868474982735dc872995f",
+    "standards/naming-conventions.md": "sha256:2a4c4a590c332f9cf47b061b2adc5d738078e99e5e924a4ad09b2825a959c6e9"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching"
+      ],
+      "section": "key-entities/insulated-vent-storage-patch-on-liquidventconfig"
+    },
+    {
+      "target": "overview.md",
+      "mode": "tag",
+      "add": [
+        "mod-entry-point",
+        "mod-options",
+        "mod-strings",
+        "in-game-testing"
+      ],
+      "section": "where-things-are"
+    },
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching",
+        "mod-entry-point",
+        "mod-options"
+      ],
+      "section": "harmony-patches"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching"
+      ],
+      "section": "guarding-patches"
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching"
+      ],
+      "section": "code-naming/functions-methods"
+    }
+  ]
+}

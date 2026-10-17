@@ -1,0 +1,31 @@
+{
+  "task": "OM-002",
+  "why": "Replace the scaffold placeholders in overview.md, domains/README.md and standards/README.md of mods/corner-build-anything with content read from the node.",
+  "node": "mods/corner-build-anything",
+  "ops": [
+    {
+      "mode": "section",
+      "target": "overview.md",
+      "section": "What this is",
+      "body": "Corner Build Anything is an Oxygen Not Included mod that lets duplicants build and deconstruct any building through a diagonal gap, the way the game already lets them build tiles. Bridges of every kind count from either end, not just their middle. It swaps the reach table that Constructable and Deconstructable use when a building spawns. Version 0.1.0 in `mod_info.yaml`, minimum supported build 744825; the changelog lists it as Unreleased and the node holds no Workshop id."
+    },
+    {
+      "mode": "section",
+      "target": "overview.md",
+      "section": "Where things are",
+      "body": "Top-level folders and key files:\n\n- `src/CornerBuildAnything/`: the mod. `Mod.cs` (entry point), `ReachTablePatches.cs` (the Constructable and Deconstructable reach-table swap), `mod.yaml`, `mod_info.yaml`.\n- `src/CornerBuildAnything.Tests/`: in-game tests (`Reach.cs`, `Pockets.cs`, `ByHand.cs`).\n- `README.md`: what the mod does, compatibility, installing and how it works.\n- `CHANGELOG.md`: release notes per version.\n- `publish/`: Workshop description and tags.\n\nThe `.context/` documents of this node: [domains](domains/README.md) (entities, glossary), [standards](standards/README.md) (code style, error handling, naming conventions), `decisions/` and `retrospectives/`."
+    },
+    {
+      "mode": "section",
+      "target": "domains/README.md",
+      "section": "Domains",
+      "body": "Documents in this folder:\n\n- [entities](entities.md): The reach-table swap for construction and deconstruction, with the key code paths.\n- [glossary](glossary.md): How construction reach tables are swapped."
+    },
+    {
+      "mode": "section",
+      "target": "standards/README.md",
+      "section": "Standards",
+      "body": "Documents in this folder:\n\n- [code-style](code-style.md): C# formatting, imports, comments, Harmony patch and component conventions, with this mod's own layout.\n- [error-handling](error-handling.md): How the mod guards its Harmony patches, reflection lookups and file reads, and what it logs when something is missing.\n- [naming-conventions](naming-conventions.md): File, namespace, patch class, string key and id naming."
+    }
+  ]
+}

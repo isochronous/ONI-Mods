@@ -1,9 +1,11 @@
 ---
+tags: code-style
 doc_id: doc-04bb7f7fdd3b
-description: "C# formatting, imports, comments, Harmony patch and component conventions for Just Fall Already! (makes critters fall at once when a door removes their footing), with this mod's own layout."
+description: "Code style guide for Just Fall Already!: C# formatting, imports, comments, control structures, Harmony patch and game component conventions, plus its `FallPoke` static class and state field naming"
 applies_to:
   - "src/**"
 ---
+
 # Code Style Guide
 
 ## Formatting
@@ -61,7 +63,7 @@ foreach (Mod mod in mods)
 3. Aliases (`using TOOL = SweepZones.ModStrings.UI.TOOLS.SWEEPZONES;`)
 
 ### Example
-**Id:** blk-5b62e7507604
+**Id:** blk-5b62e7507604  
 
 ```csharp
 using System.Collections.Generic;
@@ -81,7 +83,7 @@ using UnityEngine;
 **Id:** blk-9edc9a83a58d
 
 ### When to Comment
-**Id:** blk-00af2e4182a4
+**Id:** blk-00af2e4182a4  
 
 - On every non-trivial class, an XML `<summary>` that says what the game does and what the patch changes, so a reader can check the patch against the game code. The long summary on `OvercrowdingMonitor_UpdateRegion_Patch` in `mods/dont-count-eggs-on-rails/src/DontCountEggsOnRails/Mod.cs` is the model.
 - Where a game quirk forces an odd line: `// The game's .NET Framework has no AddOrUpdate on this table.`
@@ -125,19 +127,21 @@ if (idx == ushort.MaxValue || idx >= elements.Count)
 ```
 
 ### Loops
-**Id:** blk-dffe3109ac36
+**Id:** blk-dffe3109ac36  
+**Tags:** performance
 
 - Plain `for` and `foreach`. Code that runs every sim tick or frame avoids LINQ and allocations; reuse scratch lists (`scratch` in `mods/just-fall-already/src/JustFallAlready/FallPoke.cs`).
 - Local types are written out (`Tech tech = ...`). `var` appears mainly in `mods/upgrade-planner`, `mods/natural-backwalls-everywhere` and the test projects; follow the surrounding file.
 
 ### Strings
-**Id:** blk-786743155fe7
+**Id:** blk-786743155fe7  
 
 - Log and UI text is built with `+` concatenation, or `string.Format` on a `LocString`. String interpolation is not used in mod code.
 - Player-visible text is a `LocString` field in `ModStrings`, never a literal at the call site (see [naming conventions](naming-conventions.md)).
 
 ## Harmony Patches
-**Id:** blk-bcc50465e110
+**Id:** blk-bcc50465e110  
+**Tags:** harmony-patching
 
 - A patch is a static class with `[HarmonyPatch(typeof(Type), nameof(Type.Method))]`, or `[HarmonyPatch(typeof(Type), "PrivateMethod")]` for a non-public method, and methods named `Prefix`, `Postfix`, `Transpiler` or `Finalizer` (`mods/bitshifter/src/Bitshifter/Patches.cs`).
 - Game state arrives through Harmony parameters: `__instance`, `__result`, `___field`. Fields read repeatedly use `AccessTools.FieldRefAccess` kept in a `static readonly` field (`mods/detect-any-element/src/DetectAnyElement/Patches.cs`).
@@ -154,14 +158,16 @@ if (idx == ushort.MaxValue || idx >= elements.Count)
 - Components are added to prefabs from a `DoPostConfigureComplete` postfix with `go.AddOrGet<T>()`.
 
 ## Project-Specific Rules
-**Id:** blk-9d74aee10321
+**Id:** blk-9d74aee10321  
+**Tags:** logging, in-game-testing
 
 - Mod options are a PLib `POptions` class marked `[JsonObject(MemberSerialization.OptIn)]` and `[ConfigFile(SharedConfigLocation: true)]`, read through a static `Load()` (`mods/vent-freeze-fix/src/VentFreezeFix/Options.cs`) or through `SingletonOptions<Options>` (`mods/storage-pod-redux`). Option titles are string-table keys, so the translation follows the language.
 - Every mod logs one line at load: `[<Name>] Loaded version <assembly version>`.
 - Tests live in a separate `<Name>.Tests` project and are written as `[OniTest]` coroutines against the real game.
 
 ### Just Fall Already! specifics
-**Id:** blk-58f12d9bf0cf
+**Id:** blk-58f12d9bf0cf  
+**Tags:** harmony-patching, navigation-grid
 
 - `FallPoke` is a public static class that is both the patch on `Pathfinding.AddNavGrid` and the holder of all state, with the nested patch `Door_SetWorldState_Patch` (`src/JustFallAlready/FallPoke.cs`).
 - State is private static fields: constants in PascalCase (`ArmSeconds`, `SlowMilliseconds`), mutable caches in camelCase (`armed`, `scratch`, `lastGrid`, `crittersByCell`).

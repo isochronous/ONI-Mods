@@ -1,0 +1,43 @@
+{
+"documents": [
+{"id":"standards/error-handling.md","tags":["vanilla-fallback","logging"]},
+{"id":"standards/naming-conventions.md","tags":[],"reason":"no-good-match","suggestion":"naming conventions for files, code and ids"}
+],
+"sections": [
+{"id":"standards/error-handling.md#principles","tags":[],"reason":"inherits"},
+{"id":"standards/error-handling.md#guarding-patches","tags":["harmony-patching"]},
+{"id":"standards/error-handling.md#guarding-patches/missing-member-warn-leave-vanilla","tags":[],"reason":"no-good-match","suggestion":"null-checked reflection lookups"},
+{"id":"standards/error-handling.md#guarding-patches/transpiler-count-the-match","tags":[],"reason":"no-good-match","suggestion":"transpiler instruction match counting"},
+{"id":"standards/error-handling.md#guarding-patches/missing-data-warn-continue","tags":["building-unlock"]},
+{"id":"standards/error-handling.md#guarding-patches/null-checks-on-game-objects","tags":[],"reason":"no-good-match","suggestion":"null checks on game objects and components"},
+{"id":"standards/error-handling.md#guarding-patches/warn-once","tags":[],"reason":"inherits"},
+{"id":"standards/error-handling.md#try-catch","tags":[],"reason":"no-good-match","suggestion":"where try/catch is allowed"},
+{"id":"standards/error-handling.md#try-catch/finalizer-for-a-thread-with-no-handler","tags":["harmony-patching"]},
+{"id":"standards/error-handling.md#yielding-to-other-mods","tags":[],"reason":"no-good-match","suggestion":"stepping aside for a conflicting mod"},
+{"id":"standards/error-handling.md#logging","tags":[],"reason":"inherits"},
+{"id":"standards/error-handling.md#logging/log-levels","tags":[],"reason":"inherits"},
+{"id":"standards/error-handling.md#logging/what-to-include","tags":[],"reason":"inherits"},
+{"id":"standards/error-handling.md#anti-patterns-to-avoid","tags":[],"reason":"inherits"},
+{"id":"standards/error-handling.md#anti-patterns-to-avoid/swallowing-exceptions","tags":[],"reason":"inherits"},
+{"id":"standards/error-handling.md#anti-patterns-to-avoid/throwing-from-a-patch","tags":["harmony-patching"]},
+{"id":"standards/error-handling.md#anti-patterns-to-avoid/assuming-the-game-s-internals","tags":["harmony-patching"]},
+{"id":"standards/error-handling.md#anti-patterns-to-avoid/silent-degradation","tags":[],"reason":"inherits"},
+{"id":"standards/error-handling.md#anti-patterns-to-avoid/spamming-the-log","tags":[],"reason":"inherits"},
+{"id":"standards/error-handling.md#project-specific-patterns","tags":[],"reason":"inherits"},
+{"id":"standards/error-handling.md#project-specific-patterns/multichannel-critter-sensor-specifics","tags":["building-unlock","side-screen"]},
+{"id":"standards/error-handling.md#related","tags":[],"reason":"inherits"},
+{"id":"standards/naming-conventions.md#files-and-directories","tags":[],"reason":"inherits"},
+{"id":"standards/naming-conventions.md#files-and-directories/general-rules","tags":[],"reason":"no-good-match","suggestion":"mod folder, project and file naming"},
+{"id":"standards/naming-conventions.md#files-and-directories/examples-by-type","tags":["building-config","side-screen","mod-entry-point","kanim-art"]},
+{"id":"standards/naming-conventions.md#code-naming","tags":[],"reason":"inherits"},
+{"id":"standards/naming-conventions.md#code-naming/variables","tags":[],"reason":"no-good-match","suggestion":"identifier casing"},
+{"id":"standards/naming-conventions.md#code-naming/functions-methods","tags":[],"reason":"no-good-match","suggestion":"identifier casing"},
+{"id":"standards/naming-conventions.md#code-naming/classes-types-interfaces","tags":["harmony-patching"]},
+{"id":"standards/naming-conventions.md#code-naming/booleans","tags":[],"reason":"no-good-match","suggestion":"identifier casing"},
+{"id":"standards/naming-conventions.md#code-naming/strings-modstrings","tags":["mod-strings"]},
+{"id":"standards/naming-conventions.md#code-naming/ids-and-tags","tags":["building-config","in-game-testing"]},
+{"id":"standards/naming-conventions.md#project-specific-conventions","tags":[],"reason":"inherits"},
+{"id":"standards/naming-conventions.md#project-specific-conventions/multichannel-critter-sensor-specifics","tags":["mod-strings","logging"]},
+{"id":"standards/naming-conventions.md#related","tags":[],"reason":"inherits"}
+]
+}

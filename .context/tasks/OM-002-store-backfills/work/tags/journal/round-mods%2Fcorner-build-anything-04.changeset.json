@@ -1,0 +1,28 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/corner-build-anything — round 4",
+  "node": "C:\\dev\\ONI-Mods\\mods\\corner-build-anything",
+  "base": {
+    "domains/entities.md": "sha256:4d4a0e33b649d3503d1b2552b5a93d1f932f2485beca71de6e821984a0aa0029",
+    "standards/error-handling.md": "sha256:66b308294a231f5894c3c85a120646f3d23ae045d15364f691811127e9df7d9e"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "mod-entry-point",
+        "logging"
+      ],
+      "section": "key-entities/cornerbuildanythingmod"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching"
+      ],
+      "section": "anti-patterns-to-avoid/throwing-from-a-patch"
+    }
+  ]
+}

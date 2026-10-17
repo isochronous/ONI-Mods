@@ -1,0 +1,53 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r2 for node mods/multichannel-critter-sensor — round 0",
+  "node": "C:\\dev\\ONI-Mods\\mods\\multichannel-critter-sensor",
+  "base": {
+    "standards/README.md": "sha256:1203a1b846bc581a8775e2df7158dfd0a2db5bbbaa1f1373fd8ec393492c6374",
+    "standards/code-style.md": "sha256:cff2fd772e2581cf42734abcf07ee5ff2abefbfa62147a0fe5af9e4ba35aa1e9",
+    "standards/naming-conventions.md": "sha256:c8ec6fd87c0261c494c38083675ea5feac68cc81a741e6b5648e94e27d37f4cc",
+    "domains/glossary.md": "sha256:a06910eeb06f45c2a632319d62bee45a1bb797b308d5e75e2ddea9d94b765cf0",
+    "standards/error-handling.md": "sha256:dc381f4ea351231c33bd59c1232ba2f8fdf22d6f13626111cb563845c1717485"
+  },
+  "ops": [
+    {
+      "target": "standards/README.md",
+      "mode": "tag",
+      "add": [
+        "code-style",
+        "vanilla-fallback",
+        "logging"
+      ]
+    },
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "code-style"
+      ]
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "tag",
+      "add": [
+        "code-style"
+      ]
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "pulse-output"
+      ],
+      "section": "cross-domain-terms/logic-tick"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching"
+      ],
+      "section": "try-catch"
+    }
+  ]
+}

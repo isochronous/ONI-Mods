@@ -1,0 +1,51 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r2 for node mods/storage-pod-redux — round 0",
+  "node": "C:\\dev\\ONI-Mods\\mods\\storage-pod-redux",
+  "base": {
+    "standards/README.md": "sha256:404e12f310bb54515520001463557ec6955eba9acd842bd3b860f0786fdc3c52",
+    "standards/code-style.md": "sha256:8ce5ee13ddbe7aac0dec54ecdec7ac7771352e63b38e17faf026e854358fd0ba",
+    "standards/naming-conventions.md": "sha256:de92f9f896f3871b0cff4703878ac89ae60e83967df90cda4756d8452b6980e4",
+    "domains/entities.md": "sha256:85986cbd7076f70bbf47cf772e20a1e8acf52ea47aeff15005632504efd49714",
+    "domains/glossary.md": "sha256:66b29320354eed87436cec3330e72da40a03f45539cc0f569b0f8ebe5e37c763"
+  },
+  "ops": [
+    {
+      "target": "standards/README.md",
+      "mode": "tag",
+      "add": [
+        "code-style"
+      ]
+    },
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "code-style"
+      ]
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "tag",
+      "add": [
+        "code-style"
+      ]
+    },
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "mod-compatibility"
+      ],
+      "section": "overview"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "building-config"
+      ],
+      "section": "cross-domain-terms/storage-pod"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r2 for node mods/natural-backwalls-everywhere — round 2",
+  "node": "C:\\dev\\ONI-Mods\\mods\\natural-backwalls-everywhere",
+  "base": {
+    "standards/code-style.md": "sha256:2fabac21c87f0e7d9157f72f6d50bc92dc55b4d3f14647016b8a9cbb319b9962",
+    "domains/glossary.md": "sha256:9bb4b512db7a3615d6fed605a51bb404147c686606bffc23885a9cec0270b05d"
+  },
+  "ops": [
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching"
+      ],
+      "section": "game-components"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "noise-pattern"
+      ],
+      "section": "cross-domain-terms/band-table"
+    }
+  ]
+}

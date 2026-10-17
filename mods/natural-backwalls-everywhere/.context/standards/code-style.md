@@ -1,9 +1,11 @@
 ---
+tags: code-style
 doc_id: doc-999fea2863cc
-description: "C# formatting, imports, comments, Harmony patch and component conventions for Natural Backwalls Everywhere (adds backwalls to natural biomes during worldgen), with this mod's own layout."
+description: "C# code style for Natural Backwalls Everywhere: indentation, braces, imports, comments, control structures, Harmony patch and game component conventions, plus the NaturalBackwalls project layout, patch files and options screen"
 applies_to:
   - "src/**"
 ---
+
 # Code Style Guide
 
 ## Formatting
@@ -81,7 +83,7 @@ using UnityEngine;
 **Id:** blk-da159b997542
 
 ### When to Comment
-**Id:** blk-93242b225403
+**Id:** blk-93242b225403  
 
 - On every non-trivial class, an XML `<summary>` that says what the game does and what the patch changes, so a reader can check the patch against the game code. The long summary on `OvercrowdingMonitor_UpdateRegion_Patch` in `mods/dont-count-eggs-on-rails/src/DontCountEggsOnRails/Mod.cs` is the model.
 - Where a game quirk forces an odd line: `// The game's .NET Framework has no AddOrUpdate on this table.`
@@ -131,13 +133,15 @@ if (idx == ushort.MaxValue || idx >= elements.Count)
 - Local types are written out (`Tech tech = ...`). `var` appears mainly in `mods/upgrade-planner`, `mods/natural-backwalls-everywhere` and the test projects; follow the surrounding file.
 
 ### Strings
-**Id:** blk-a5b5ed29ed18
+**Id:** blk-a5b5ed29ed18  
+**Tags:** mod-strings
 
 - Log and UI text is built with `+` concatenation, or `string.Format` on a `LocString`. String interpolation is not used in mod code.
 - Player-visible text is a `LocString` field in `ModStrings`, never a literal at the call site (see [naming conventions](naming-conventions.md)).
 
 ## Harmony Patches
-**Id:** blk-cfbf3f14521b
+**Id:** blk-cfbf3f14521b  
+**Tags:** harmony-patching
 
 - A patch is a static class with `[HarmonyPatch(typeof(Type), nameof(Type.Method))]`, or `[HarmonyPatch(typeof(Type), "PrivateMethod")]` for a non-public method, and methods named `Prefix`, `Postfix`, `Transpiler` or `Finalizer` (`mods/bitshifter/src/Bitshifter/Patches.cs`).
 - Game state arrives through Harmony parameters: `__instance`, `__result`, `___field`. Fields read repeatedly use `AccessTools.FieldRefAccess` kept in a `static readonly` field (`mods/detect-any-element/src/DetectAnyElement/Patches.cs`).
@@ -147,21 +151,23 @@ if (idx == ushort.MaxValue || idx >= elements.Count)
 - Transpilers search for the instruction they change and report when it is not found; see [error handling](error-handling.md).
 
 ## Game Components
-**Id:** blk-fd0855e66b70
+**Id:** blk-fd0855e66b70  
 
 - A component extends `KMonoBehaviour`, overrides `OnPrefabInit`, `OnSpawn` and `OnCleanUp` and calls `base` from each. Sibling components come in through `[MyCmpGet]` or `[MyCmpReq]` (`mods/no-magic-fridges/src/NoMagicFridges/FridgeThermostat.cs`).
 - Saved state uses `[Serialize]` fields with `[SerializationConfig(MemberSerialization.OptIn)]` on the class (`mods/sweep-zones/src/SweepZones/ZoneStore.cs`).
 - Components are added to prefabs from a `DoPostConfigureComplete` postfix with `go.AddOrGet<T>()`.
 
 ## Project-Specific Rules
-**Id:** blk-8c7f61bf806a
+**Id:** blk-8c7f61bf806a  
+**Tags:** mod-options, logging, in-game-testing
 
 - Mod options are a PLib `POptions` class marked `[JsonObject(MemberSerialization.OptIn)]` and `[ConfigFile(SharedConfigLocation: true)]`, read through a static `Load()` (`mods/vent-freeze-fix/src/VentFreezeFix/Options.cs`) or through `SingletonOptions<Options>` (`mods/storage-pod-redux`). Option titles are string-table keys, so the translation follows the language.
 - Every mod logs one line at load: `[<Name>] Loaded version <assembly version>`.
 - Tests live in a separate `<Name>.Tests` project and are written as `[OniTest]` coroutines against the real game.
 
 ### Natural Backwalls Everywhere specifics
-**Id:** blk-a2d21dcff957
+**Id:** blk-a2d21dcff957  
+**Tags:** harmony-patching, settle-sim, worldgen
 
 - The folder is `natural-backwalls-everywhere` but the project, assembly, namespace and log prefix are `NaturalBackwalls`; `staticID` is `Isochronous.NaturalBackwallsEverywhere`.
 - `UsePLib`, `UseTranslations` and `ReferenceUnityUI`. The mod ships a `worldgen` folder, copied next to the DLL by the `DeployWorldgen` target in `src/NaturalBackwalls/NaturalBackwalls.csproj`.

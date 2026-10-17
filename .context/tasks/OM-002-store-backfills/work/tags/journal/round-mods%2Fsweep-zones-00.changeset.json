@@ -1,0 +1,47 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r2 for node mods/sweep-zones — round 0",
+  "node": "C:\\dev\\ONI-Mods\\mods\\sweep-zones",
+  "base": {
+    "domains/README.md": "sha256:002d10913786f49258f5cef8df3cb120b5a668936ec94340ab737f6bf2d3707e",
+    "standards/README.md": "sha256:ccdb951e96878b678bdbfd1bc85afc47087ef7cd6c3ee2bb7b683ae62a20158e",
+    "standards/code-style.md": "sha256:75ac9b95b664508f667b522d409ab1325ea782796e0c385bda65bf442f4df56f",
+    "standards/naming-conventions.md": "sha256:f8250d9a9c1ee6765fb170a612090bb7108104445f0a0a5b28f9f02c27b172cd"
+  },
+  "ops": [
+    {
+      "target": "domains/README.md",
+      "mode": "tag",
+      "add": [
+        "toolbar-tool",
+        "saved-state",
+        "cleaning-errands"
+      ]
+    },
+    {
+      "target": "standards/README.md",
+      "mode": "tag",
+      "add": [
+        "code-style",
+        "logging",
+        "vanilla-fallback"
+      ]
+    },
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "code-style",
+        "harmony-patching"
+      ]
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "tag",
+      "add": [
+        "code-style",
+        "mod-strings"
+      ]
+    }
+  ]
+}

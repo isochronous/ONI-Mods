@@ -1,0 +1,57 @@
+{
+  "task": "OM-002",
+  "why": "a generated description for every document, saying what that document contains",
+  "node": "C:\\dev\\ONI-Mods\\mods\\dont-count-eggs-on-rails",
+  "ops": [
+    {
+      "target": "domains/README.md",
+      "mode": "describe",
+      "description": "Index of the two domain documents of Don't Count Eggs on Rails, the entities and the glossary, each with a one-line summary of the rail egg subject it covers"
+    },
+    {
+      "target": "domains/entities.md",
+      "mode": "describe",
+      "description": "The one Harmony prefix on `OvercrowdingMonitor.UpdateRegion` in Don't Count Eggs on Rails, with its members, the rail egg business rules, key code paths and the egg tests in `Eggs.cs`"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "describe",
+      "description": "Glossary for Don't Count Eggs on Rails: abbreviations, a term to avoid, and definitions of critter sensor, room and cavity, room prober, overcrowding monitor, conveyor rail and the stored tag"
+    },
+    {
+      "target": "overview.md",
+      "mode": "describe",
+      "description": "Overview of the Don't Count Eggs on Rails mod: what it does for critter sensors, its version and release state, and a map of its source, tests, preview, publish and `.context` folders"
+    },
+    {
+      "target": "standards/README.md",
+      "mode": "describe",
+      "description": "Index of the three standards documents of Don't Count Eggs on Rails (code style, error handling, naming conventions), each with a one-line summary of what it covers"
+    },
+    {
+      "target": "standards/code-style.md",
+      "mode": "describe",
+      "description": "Code style guide for Don't Count Eggs on Rails: C# formatting, imports, comments, control structures, Harmony patch and game component conventions, plus the single-file `Mod.cs` layout of this mod"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "describe",
+      "description": "Error handling conventions for Don't Count Eggs on Rails: guarding patches, try/catch cases, logging levels and anti-patterns, plus how its one prefix falls back to vanilla and checks `OnRail`"
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "describe",
+      "description": "Naming conventions for Don't Count Eggs on Rails: files, namespaces, variables, methods, patch classes, `ModStrings` keys and ids, plus its patch name, `Eggs` test class, log prefix and `staticID`"
+    }
+  ],
+  "base": {
+    "domains/README.md": "sha256:52fe04a4904a1cbf92d9e0bd9453465140697b7cf8d81cd4998721eed483f1c0",
+    "domains/entities.md": "sha256:c51789b3b9b6592201a95ec94093f4482d58c0effe3c6fa2f832efb9f0c55577",
+    "domains/glossary.md": "sha256:905d26c08985c5e4ebda26d93e2f7b5e8cc6ef85c383a358faed4c7695bbd818",
+    "overview.md": "sha256:347a9c3f715eef6b0b9b5daa5675c59f28f8ed2a8d6970366be2caef7ab6d269",
+    "standards/README.md": "sha256:109eb7ba35db29fdfa91feaac06233d439d61fb8cd1adc08544a29baec989905",
+    "standards/code-style.md": "sha256:2307d4f2e99bacabd2badef9d9cc1d900e3b694b2661783d1c604f712d19530e",
+    "standards/error-handling.md": "sha256:1eb25b3fd580526bf2c22660ea4d21e183cf0423fbd8a01af1bbbf0b05e5bfe4",
+    "standards/naming-conventions.md": "sha256:40b6df5bb9208fe90ed2b52342e50ffc75dae3f267c7c5cfa2adbe522a92cf65"
+  }
+}

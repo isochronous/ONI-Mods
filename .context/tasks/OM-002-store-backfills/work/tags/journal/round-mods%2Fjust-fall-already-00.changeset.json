@@ -1,0 +1,25 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r2 for node mods/just-fall-already — round 0",
+  "node": "C:\\dev\\ONI-Mods\\mods\\just-fall-already",
+  "base": {
+    "standards/code-style.md": "sha256:82305a9faee46afeb538484dcc9492723939379c0052e4fc341d0b24953e6a43",
+    "standards/naming-conventions.md": "sha256:c0bfb9f2500cc2bea4278925def4beb7fc2178b7a8efa7a74d2fbffc0b16e129"
+  },
+  "ops": [
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "code-style"
+      ]
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "tag",
+      "add": [
+        "code-style"
+      ]
+    }
+  ]
+}

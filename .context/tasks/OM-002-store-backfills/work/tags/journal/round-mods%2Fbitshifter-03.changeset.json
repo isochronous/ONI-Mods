@@ -1,0 +1,58 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/bitshifter — round 3",
+  "node": "C:\\dev\\ONI-Mods\\mods\\bitshifter",
+  "base": {
+    "domains/entities.md": "sha256:a24eb7975aeab0101c7802835368cf4f19d88e7305bb1d24c5a0bda804fa3f78",
+    "domains/glossary.md": "sha256:2778c06b3e81008acff4e4cbb3a81551944dd3554ef6820cf3dc5a8a8d97bcee",
+    "standards/error-handling.md": "sha256:a017a7ca7b52542792e568a6d0af9d42ec46a6a42d1aa9a9dae5f91a50a1f336",
+    "standards/code-style.md": "sha256:b31241a9f2af287e18d4d38e599a9949771115420613b9b31101034fe0e83748",
+    "standards/naming-conventions.md": "sha256:f92087eb26c1be85db055bcf3d8433f52f57d6a45fb515271160bfdc9ec7d984"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "kanim-art"
+      ],
+      "section": "key-entities/display"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "bit-depth"
+      ],
+      "section": "cross-domain-terms/ribbon"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "transpiler",
+        "harmony-patching"
+      ],
+      "section": "guarding-patches/transpiler-count-the-match"
+    },
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "mod-entry-point",
+        "harmony-patching",
+        "side-screen",
+        "kanim-art"
+      ],
+      "section": "project-specific-rules/bitshifter-specifics"
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "tag",
+      "add": [
+        "in-game-testing"
+      ],
+      "section": "code-naming/ids-and-tags"
+    }
+  ]
+}

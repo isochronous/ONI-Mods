@@ -1,0 +1,48 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/no-magic-fridges — round 3",
+  "node": "C:\\dev\\ONI-Mods\\mods\\no-magic-fridges",
+  "base": {
+    "domains/entities.md": "sha256:2a3e123a30fa84e3944933c738c44eb56383c38f9cbad0f9e2a06ad87d0de9e9",
+    "domains/glossary.md": "sha256:fbe9f9cee21116a033c38b40b9145edd8be503d5e682b0ea517ef2280a7bcf59",
+    "standards/error-handling.md": "sha256:5d889cc9a7b1ce5365af8166586a4987ad1ecfb3323e922c9d04ecc73d6ccc20",
+    "standards/naming-conventions.md": "sha256:0d06b1a8a2b62af7bcfe20629c64c15746fcebf1a51be2026acdc4d2acd1aba2"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "mod-entry-point"
+      ],
+      "section": "key-entities/mod-entry"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "game-component"
+      ],
+      "section": "cross-domain-terms/operational-powered"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "reflection"
+      ],
+      "section": "guarding-patches/missing-member-warn-leave-vanilla"
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "tag",
+      "add": [
+        "refrigerator",
+        "harmony-patching",
+        "game-component",
+        "in-game-testing"
+      ],
+      "section": "project-specific-conventions/no-magic-fridges-specifics"
+    }
+  ]
+}

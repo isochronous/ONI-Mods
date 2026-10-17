@@ -1,0 +1,18 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r2 for node mods/bitshifter — round 1",
+  "node": "C:\\dev\\ONI-Mods\\mods\\bitshifter",
+  "base": {
+    "standards/code-style.md": "sha256:627bf3607a8f64e4796429fc7e2c1c53ea303d3fd3feeec6c88fca3316d56e60"
+  },
+  "ops": [
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching"
+      ],
+      "section": "comments/when-to-comment"
+    }
+  ]
+}

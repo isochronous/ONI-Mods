@@ -1,0 +1,335 @@
+{
+ "documents": [
+  {
+   "id": "domains/README.md",
+   "tags": [
+    "mechanical-surfboard"
+   ]
+  },
+  {
+   "id": "domains/entities.md",
+   "tags": [
+    "mechanical-surfboard"
+   ]
+  },
+  {
+   "id": "domains/glossary.md",
+   "tags": [
+    "mechanical-surfboard"
+   ]
+  },
+  {
+   "id": "overview.md",
+   "tags": [
+    "mechanical-surfboard"
+   ]
+  },
+  {
+   "id": "standards/README.md",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "coding conventions of the mod (style, error handling, naming)"
+  },
+  {
+   "id": "standards/code-style.md",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "C# code style and coding conventions of the mod"
+  }
+ ],
+ "sections": [
+  {
+   "id": "domains/README.md#domains",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/entities.md#overview",
+   "tags": [
+    "harmony-patching",
+    "game-tag"
+   ]
+  },
+  {
+   "id": "domains/entities.md#key-entities",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/entities.md#key-entities/surfwater",
+   "tags": [
+    "game-tag",
+    "mod-strings"
+   ]
+  },
+  {
+   "id": "domains/entities.md#key-entities/harmony-patches",
+   "tags": [
+    "harmony-patching",
+    "game-tag",
+    "info-panel-text"
+   ]
+  },
+  {
+   "id": "domains/entities.md#key-entities/mod-entry-and-strings",
+   "tags": [
+    "mod-entry-point",
+    "mod-strings"
+   ]
+  },
+  {
+   "id": "domains/entities.md#key-entities/saved-state",
+   "tags": [
+    "game-tag"
+   ]
+  },
+  {
+   "id": "domains/entities.md#business-rules",
+   "tags": [
+    "info-panel-text",
+    "vanilla-fallback"
+   ]
+  },
+  {
+   "id": "domains/entities.md#key-code-paths",
+   "tags": [
+    "in-game-testing",
+    "harmony-patching",
+    "game-tag"
+   ]
+  },
+  {
+   "id": "domains/entities.md#related",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/glossary.md#abbreviations-and-acronyms",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "abbreviations and acronyms used in the docs"
+  },
+  {
+   "id": "domains/glossary.md#terms-to-avoid",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "preferred wording for game names in docs"
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/mechanical-surfboard",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/intake-capacity-tag",
+   "tags": [
+    "game-tag"
+   ]
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/shared-tag-saltysurfwater",
+   "tags": [
+    "game-tag"
+   ]
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/oretags",
+   "tags": [
+    "game-tag",
+    "harmony-patching"
+   ]
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/readiness-isready",
+   "tags": [
+    "harmony-patching"
+   ]
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/spill",
+   "tags": [
+    "harmony-patching"
+   ]
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/wrong-liquid",
+   "tags": [
+    "vanilla-fallback",
+    "in-game-testing"
+   ]
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/descriptor",
+   "tags": [
+    "info-panel-text",
+    "harmony-patching"
+   ]
+  },
+  {
+   "id": "domains/glossary.md#related",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "overview.md#what-this-is",
+   "tags": [
+    "info-panel-text",
+    "mod-strings",
+    "vanilla-fallback"
+   ]
+  },
+  {
+   "id": "overview.md#where-things-are",
+   "tags": [
+    "mod-entry-point",
+    "harmony-patching",
+    "mod-strings",
+    "in-game-testing"
+   ]
+  },
+  {
+   "id": "standards/README.md#standards",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "index of the coding standards documents"
+  },
+  {
+   "id": "standards/code-style.md#formatting",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "source formatting rules"
+  },
+  {
+   "id": "standards/code-style.md#formatting/indentation",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "source formatting rules"
+  },
+  {
+   "id": "standards/code-style.md#formatting/line-length",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "source formatting rules"
+  },
+  {
+   "id": "standards/code-style.md#formatting/braces",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "source formatting rules"
+  },
+  {
+   "id": "standards/code-style.md#language-and-toolchain",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "language version and build toolchain"
+  },
+  {
+   "id": "standards/code-style.md#imports-includes",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "using directive organisation"
+  },
+  {
+   "id": "standards/code-style.md#imports-includes/organization",
+   "tags": [
+    "mod-strings"
+   ]
+  },
+  {
+   "id": "standards/code-style.md#imports-includes/example",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "using directive organisation"
+  },
+  {
+   "id": "standards/code-style.md#comments",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "code comment conventions"
+  },
+  {
+   "id": "standards/code-style.md#comments/when-to-comment",
+   "tags": [
+    "harmony-patching"
+   ]
+  },
+  {
+   "id": "standards/code-style.md#comments/when-not-to-comment",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "code comment conventions"
+  },
+  {
+   "id": "standards/code-style.md#comments/format",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "code comment conventions"
+  },
+  {
+   "id": "standards/code-style.md#control-structures",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "control flow style"
+  },
+  {
+   "id": "standards/code-style.md#control-structures/conditionals",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "control flow style"
+  },
+  {
+   "id": "standards/code-style.md#control-structures/loops",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "control flow style"
+  },
+  {
+   "id": "standards/code-style.md#control-structures/strings",
+   "tags": [
+    "mod-strings",
+    "logging"
+   ]
+  },
+  {
+   "id": "standards/code-style.md#harmony-patches",
+   "tags": [
+    "harmony-patching",
+    "reflection",
+    "mod-entry-point"
+   ]
+  },
+  {
+   "id": "standards/code-style.md#game-components",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "game component (KMonoBehaviour) conventions"
+  },
+  {
+   "id": "standards/code-style.md#project-specific-rules",
+   "tags": [
+    "logging",
+    "in-game-testing",
+    "mod-strings"
+   ]
+  },
+  {
+   "id": "standards/code-style.md#project-specific-rules/salty-surf-specifics",
+   "tags": [
+    "mod-strings",
+    "reflection",
+    "harmony-patching",
+    "mechanical-surfboard"
+   ]
+  },
+  {
+   "id": "standards/code-style.md#related",
+   "tags": [],
+   "reason": "inherits"
+  }
+ ]
+}

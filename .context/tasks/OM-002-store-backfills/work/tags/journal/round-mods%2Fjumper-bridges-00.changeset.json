@@ -1,0 +1,51 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r2 for node mods/jumper-bridges — round 0",
+  "node": "C:\\dev\\ONI-Mods\\mods\\jumper-bridges",
+  "base": {
+    "standards/README.md": "sha256:22c94d15103f7d56436a093918f62cae1564eb4e7c523799ab06bdec76ff8e9c",
+    "standards/code-style.md": "sha256:b6898790e388b94da2a481137026a64e8ca969386a81f5fae3d26385c5b6b907",
+    "standards/error-handling.md": "sha256:af2f0def3aa3f210f28e7d8e93d6ad155cdf668a5132b85a72b84bd6144b1051",
+    "standards/naming-conventions.md": "sha256:8b1f21ad2d1b8e2fb1c07463b7e961f7d03c002cb9b51a87b4ab8c290327dc9c",
+    "domains/glossary.md": "sha256:e2331aae7c368a9e9271cc975730148130760ee87e49373fddccf2dd6a9fd301"
+  },
+  "ops": [
+    {
+      "target": "standards/README.md",
+      "mode": "tag",
+      "add": [
+        "code-style"
+      ]
+    },
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "code-style"
+      ]
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "logging",
+        "vanilla-fallback"
+      ]
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "tag",
+      "add": [
+        "code-style"
+      ]
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "utility-network"
+      ],
+      "section": "cross-domain-terms/bridge-end"
+    }
+  ]
+}

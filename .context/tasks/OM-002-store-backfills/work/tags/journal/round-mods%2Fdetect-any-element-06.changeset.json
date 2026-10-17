@@ -1,0 +1,36 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/detect-any-element — round 6",
+  "node": "C:\\dev\\ONI-Mods\\mods\\detect-any-element",
+  "base": {
+    "domains/entities.md": "sha256:4ba2473c920e43277f33933be45b57545b34ae93d8a04888829ea0adcf34d6b6",
+    "domains/glossary.md": "sha256:37c38e581670ec2e5343359b01db41474fc2e72e4cb4ec23a80f6471c6f71eb4",
+    "standards/error-handling.md": "sha256:e3dee07317c136e151f1fa94ff5484e87169bbca7ad7fc1c0ded2b0a292c0741"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching"
+      ],
+      "section": "key-entities/logicelementsensor-sim200ms-patch"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "side-screen"
+      ],
+      "section": "cross-domain-terms/filtersidescreen"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "logging"
+      ],
+      "section": "guarding-patches/warn-once"
+    }
+  ]
+}

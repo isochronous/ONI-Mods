@@ -1,0 +1,30 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/motion-sensor-range — round 5",
+  "node": "C:\\dev\\ONI-Mods\\mods\\motion-sensor-range",
+  "base": {
+    "domains/entities.md": "sha256:f3ce6db1c01f6e8a2636e01855b879a042da621f10871437150eab9138fc6308",
+    "standards/error-handling.md": "sha256:6e0dfd6e01a051c00c199bd2dbb5a8fb72dd4411cb65409db1d8a3c910fee06c"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "saved-state",
+        "copy-settings",
+        "under-construction-building",
+        "vanilla-fallback"
+      ],
+      "section": "business-rules"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "logging"
+      ],
+      "section": "guarding-patches/warn-once"
+    }
+  ]
+}

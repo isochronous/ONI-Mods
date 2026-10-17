@@ -1,0 +1,60 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/motion-sensor-range — round 4",
+  "node": "C:\\dev\\ONI-Mods\\mods\\motion-sensor-range",
+  "base": {
+    "domains/entities.md": "sha256:93c1e315a3e5d3a1a88145efcc490cfa03891d747b10501e5e2c0029b4f873ea",
+    "domains/glossary.md": "sha256:cda8b500387cc5fcc4e7d1c8a4d5cfbb643f2320fe98addcc6b5fd43180bfd41",
+    "standards/code-style.md": "sha256:f69d00fea0af8ffc55e0206f48a93a26eb85d4f3875d1ef00cc92324c5783273",
+    "standards/error-handling.md": "sha256:8878a216e066949f2bd2c0b7c65a443a3eec7726d14fa20f9222c292dba33cce",
+    "standards/naming-conventions.md": "sha256:bdd5d37777ea653c6fab258e0e67b77e5d3ecd2ffc957808ef68b0c92c9e00d2"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "saved-state"
+      ],
+      "section": "key-entities/saved-state-and-settings"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "saved-state"
+      ],
+      "section": "cross-domain-terms/kserialization"
+    },
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "game-component",
+        "side-screen",
+        "copy-settings",
+        "harmony-patching"
+      ],
+      "section": "project-specific-rules/motion-sensor-range-specifics"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "vanilla-fallback"
+      ],
+      "section": "guarding-patches/null-checks-on-game-objects"
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "tag",
+      "add": [
+        "side-screen",
+        "mod-strings",
+        "in-game-testing",
+        "logging"
+      ],
+      "section": "project-specific-conventions/motion-sensor-range-specifics"
+    }
+  ]
+}

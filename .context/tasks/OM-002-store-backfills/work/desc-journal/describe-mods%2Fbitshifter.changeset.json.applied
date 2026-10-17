@@ -1,0 +1,57 @@
+{
+  "task": "OM-002",
+  "why": "a generated description for every document, saying what that document contains",
+  "node": "C:\\dev\\ONI-Mods\\mods\\bitshifter",
+  "ops": [
+    {
+      "target": "domains/README.md",
+      "mode": "describe",
+      "description": "Index of the domain documents in the Bitshifter node: the entities and glossary files covering the Ribbon Reader and Writer bit selection, display and NOT gate patches"
+    },
+    {
+      "target": "domains/entities.md",
+      "mode": "describe",
+      "description": "The classes and Harmony patches of the Bitshifter mod (src/Bitshifter): entry point and compatibility checks, 31-bit depth, display, side screen, NOT gate and overlay label guard, with locations and rules"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "describe",
+      "description": "Glossary for the Bitshifter mod: abbreviations such as BAO and ONICPU, terms to avoid like Bit 32 and Bit 0, and definitions of ribbon, Reader, Writer, bit depth and the bit selector side screen"
+    },
+    {
+      "target": "overview.md",
+      "mode": "describe",
+      "description": "What the Bitshifter mod does (31-bit selection on the Ribbon Reader and Writer, amber display, NOT gate), its version, and where its source, tests, art tool, README and publish folder sit"
+    },
+    {
+      "target": "standards/README.md",
+      "mode": "describe",
+      "description": "Index of the standards documents in the Bitshifter node: code style, error handling and naming conventions"
+    },
+    {
+      "target": "standards/code-style.md",
+      "mode": "describe",
+      "description": "C# code style for the Bitshifter mod: formatting, toolchain, imports, comments, Harmony patch and component conventions, plus Bitshifter's own layout in src/Bitshifter such as Patches.cs and the Display helper"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "describe",
+      "description": "Error handling conventions for the Bitshifter mod: guarding Harmony patches and transpilers, try/catch, logging levels, plus Bitshifter's yield rules for Digital CPU, the NOT gate mask check and missing-kanim fallback"
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "describe",
+      "description": "Naming conventions for the Bitshifter mod: files, namespaces, variables, methods, strings and ids, plus its <Type>_<Method>_Patch classes, the Bits constant, kanim names and log prefix"
+    }
+  ],
+  "base": {
+    "domains/README.md": "sha256:c8c28bfc1c7fc58299fe58f2d3d5e8b6e83be12966610d15d96301dca7af7d20",
+    "domains/entities.md": "sha256:f99fd2d17855426c8b75cd59d2c4c7b7ba7baf8c033cb519f937a70e2e44a6b6",
+    "domains/glossary.md": "sha256:80e0810cc4616050e88b2368bbd2e983a18ddf1d3a193e87dddfcc7b6868c325",
+    "overview.md": "sha256:3497fc7e5bc685935c9b6892ea46952c4c3ecd430184a95a845febc818823f0c",
+    "standards/README.md": "sha256:cddfce3cf48b8fc1383be67534a2619ff73bbeb0fb16c8a644d07df9283fdae6",
+    "standards/code-style.md": "sha256:7a4c89244056370d7a58051bf08250cbc2f45e208e8dc0d0cbec3643d9731bb2",
+    "standards/error-handling.md": "sha256:1396c9d72019c83c5cb19055ca21526250c7cf6f706928ba61b50ef9ff8f26da",
+    "standards/naming-conventions.md": "sha256:5b63aa2a0acb742cb3cff1a0b8e6d0f9f46ef08d32744ced3c893635aaae23ab"
+  }
+}

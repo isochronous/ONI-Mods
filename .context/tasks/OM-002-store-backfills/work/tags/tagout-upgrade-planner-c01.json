@@ -1,0 +1,273 @@
+{
+ "documents": [
+  {
+   "id": "standards/code-style.md",
+   "tags": [
+    "harmony-patching"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md",
+   "tags": [
+    "exception-handling",
+    "logging",
+    "vanilla-fallback"
+   ]
+  }
+ ],
+ "sections": [
+  {
+   "id": "standards/code-style.md#formatting",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/code-style.md#formatting/indentation",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "C# source formatting conventions"
+  },
+  {
+   "id": "standards/code-style.md#formatting/line-length",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "C# source formatting conventions"
+  },
+  {
+   "id": "standards/code-style.md#formatting/braces",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "C# source formatting conventions"
+  },
+  {
+   "id": "standards/code-style.md#language-and-toolchain",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "C# language version and build toolchain"
+  },
+  {
+   "id": "standards/code-style.md#imports-includes",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/code-style.md#imports-includes/organization",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "using directive ordering"
+  },
+  {
+   "id": "standards/code-style.md#imports-includes/example",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "using directive ordering"
+  },
+  {
+   "id": "standards/code-style.md#comments",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/code-style.md#comments/when-to-comment",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "code comment conventions"
+  },
+  {
+   "id": "standards/code-style.md#comments/when-not-to-comment",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "code comment conventions"
+  },
+  {
+   "id": "standards/code-style.md#comments/format",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "code comment conventions"
+  },
+  {
+   "id": "standards/code-style.md#control-structures",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/code-style.md#control-structures/conditionals",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "guard clause and control flow style"
+  },
+  {
+   "id": "standards/code-style.md#control-structures/loops",
+   "tags": [
+    "performance"
+   ]
+  },
+  {
+   "id": "standards/code-style.md#control-structures/strings",
+   "tags": [
+    "mod-strings",
+    "logging"
+   ]
+  },
+  {
+   "id": "standards/code-style.md#harmony-patches",
+   "tags": [
+    "mod-entry-point"
+   ]
+  },
+  {
+   "id": "standards/code-style.md#game-components",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "game component conventions (KMonoBehaviour, serialised state)"
+  },
+  {
+   "id": "standards/code-style.md#project-specific-rules",
+   "tags": [
+    "logging",
+    "in-game-testing"
+   ]
+  },
+  {
+   "id": "standards/code-style.md#project-specific-rules/upgrade-planner-specifics",
+   "tags": [
+    "mod-entry-point",
+    "reflection",
+    "in-game-testing",
+    "mod-compatibility"
+   ]
+  },
+  {
+   "id": "standards/code-style.md#related",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#principles",
+   "tags": [
+    "harmony-patching",
+    "reflection"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#guarding-patches",
+   "tags": [
+    "harmony-patching"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#guarding-patches/missing-member-warn-leave-vanilla",
+   "tags": [
+    "reflection"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#guarding-patches/transpiler-count-the-match",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#guarding-patches/missing-data-warn-continue",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#guarding-patches/null-checks-on-game-objects",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#guarding-patches/warn-once",
+   "tags": [
+    "performance"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#try-catch",
+   "tags": [
+    "mod-compatibility"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#try-catch/finalizer-for-a-thread-with-no-handler",
+   "tags": [
+    "harmony-patching"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#yielding-to-other-mods",
+   "tags": [
+    "mod-compatibility"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#logging",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#logging/log-levels",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#logging/what-to-include",
+   "tags": [
+    "performance"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#anti-patterns-to-avoid",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#anti-patterns-to-avoid/swallowing-exceptions",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#anti-patterns-to-avoid/throwing-from-a-patch",
+   "tags": [
+    "harmony-patching",
+    "performance"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#anti-patterns-to-avoid/assuming-the-game-s-internals",
+   "tags": [
+    "reflection",
+    "harmony-patching"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#anti-patterns-to-avoid/silent-degradation",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#anti-patterns-to-avoid/spamming-the-log",
+   "tags": [
+    "performance"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#project-specific-patterns",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#project-specific-patterns/upgrade-planner-specifics",
+   "tags": [
+    "mod-compatibility",
+    "plan-presets",
+    "reflection"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#related",
+   "tags": [],
+   "reason": "inherits"
+  }
+ ]
+}

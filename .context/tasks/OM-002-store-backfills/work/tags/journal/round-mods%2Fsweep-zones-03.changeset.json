@@ -1,0 +1,47 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/sweep-zones — round 3",
+  "node": "C:\\dev\\ONI-Mods\\mods\\sweep-zones",
+  "base": {
+    "domains/entities.md": "sha256:6149a9e4d737059f553dd8efa8d371fdebecbda81977cd235787a515ac8ee32b",
+    "standards/error-handling.md": "sha256:ea63dbabe974e6127ffa74212829a94860533b9bcd73e9eb5a2397bd2e154f76",
+    "standards/code-style.md": "sha256:5d52f1bf7a93c858cccadf587ca1987672527555fbe8e66c11851544a08e002e",
+    "standards/naming-conventions.md": "sha256:9ac333e56b859c90c886c58eae5118fa74930a04e54dd850c4a190893299f389"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching"
+      ],
+      "section": "key-entities/harmony-patches"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "reflection"
+      ],
+      "section": "guarding-patches/missing-member-warn-leave-vanilla"
+    },
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "logging",
+        "in-game-testing",
+        "mod-strings"
+      ],
+      "section": "project-specific-rules"
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "tag",
+      "add": [
+        "mod-strings"
+      ],
+      "section": "code-naming/strings-modstrings"
+    }
+  ]
+}

@@ -1,9 +1,11 @@
 ---
+tags: code-style
 doc_id: doc-e8559324cf55
-description: "File, namespace, patch class, string key and id naming for Salty Surf (project SaltySurf)."
+description: "Naming conventions for Salty Surf: files, variables, methods, types, ModStrings keys, ids and tags, plus its SALTYSURF string branch, patch class names, SaltySurfWater tag, test classes and log prefix"
 applies_to:
   - "src/**"
 ---
+
 # Naming Conventions
 
 ## Files and Directories
@@ -18,7 +20,7 @@ applies_to:
 - Release tags are `<mod-folder>-v<version>` (repository README).
 
 ### Examples by Type
-**Id:** blk-2963fe01febc
+**Id:** blk-2963fe01febc  
 
 | Type | Convention | Example |
 |------|------------|---------|
@@ -53,14 +55,16 @@ private static readonly Dictionary<int, float> armed = new Dictionary<int, float
 (`mods/just-fall-already/src/JustFallAlready/FallPoke.cs`)
 
 ### Functions/Methods
-**Id:** blk-6231f404990b
+**Id:** blk-6231f404990b  
+**Tags:** harmony-patching
 
 - PascalCase, starting with a verb: `Apply`, `Decide`, `SwapTable`, `CopyRangeFrom`, `ApplyRange`.
 - Game callbacks keep the game's names (`OnSpawn`, `OnPrefabInit`, `OnCleanUp`, `Sim1000ms`).
 - Harmony methods are named for their kind: `Prefix`, `Postfix`, `Transpiler`, `Finalizer`, plus `Prepare`, `TargetMethod`, `TargetMethods`.
 
 ### Classes/Types/Interfaces
-**Id:** blk-1f42632fe550
+**Id:** blk-1f42632fe550  
+**Tags:** harmony-patching
 
 - PascalCase nouns. Interfaces take an `I` prefix (`IPlanTab` and `ITabView` in `mods/upgrade-planner`, and the game's own).
 - Harmony patch classes: `<PatchedType>_<PatchedMethod>_Patch` (`LogicRibbonReader_GetBitDepth_Patch`, `Db_Initialize_Patch`, `GeneratedBuildings_LoadGeneratedBuildings_Patch`). A patch for a type with one concern may use `<Type>_Patch` (`LiquidVentConfig_Patch`). Patches nested in a holder class may drop the suffix (`Constructable_OnSpawn` in `ReachTablePatches`).
@@ -73,7 +77,8 @@ private static readonly Dictionary<int, float> armed = new Dictionary<int, float
 - Prefix with `Is`, `Has`, `Can`, `Should` or name the state: `IsEnabled`, `OriginalActive`, `isSpawned`, `warnedMissingInternals`.
 
 ### Strings (`ModStrings`)
-**Id:** blk-b1e09ec0d9e6
+**Id:** blk-b1e09ec0d9e6  
+**Tags:** mod-strings
 
 - `ModStrings` mirrors the game's `STRINGS` tree: nested static classes and `LocString` fields in UPPER_SNAKE_CASE. `ModStrings.BUILDINGS.PREFABS.<BUILDINGID>.NAME` is registered as `STRINGS.BUILDINGS.PREFABS.<BUILDINGID>.NAME`, the key the game looks a building name up by (`mods/smart-weight-plate/src/SmartWeightPlate/ModStrings.cs`).
 - Mod-private text goes under a branch named for the mod in capitals (`ModStrings.SALTYSURF.ELEMENT_LIST`, `ModStrings.JUMPERBRIDGES.OPTIONS`).
@@ -81,7 +86,7 @@ private static readonly Dictionary<int, float> armed = new Dictionary<int, float
 - Long branches are shortened with an alias at the top of the file (`using OPTIONS = NaturalBackwalls.ModStrings.NATURALBACKWALLS.OPTIONS;`).
 
 ### Ids and Tags
-**Id:** blk-adaded572132
+**Id:** blk-adaded572132  
 
 - Building ids are PascalCase and match the config class (`SmartWeightPlate`); a mod that replaces another mod's buildings reuses that mod's ids (`StoragePodConfig`, `CoolPodConfig` in `mods/storage-pod-redux`).
 - Tags and PAction ids carry a mod prefix: `DetectAnyElement_Any`, `Isochronous.SweepZones.Tool`.
@@ -92,7 +97,8 @@ private static readonly Dictionary<int, float> armed = new Dictionary<int, float
 **Id:** blk-adf1405638ec
 
 ### Salty Surf specifics
-**Id:** blk-3172870f57ef
+**Id:** blk-3172870f57ef  
+**Tags:** mod-strings, harmony-patching, game-tag, in-game-testing
 
 - One `ModStrings` branch, `SALTYSURF`.
 - Patch classes: `ElementLoader_Load_Patch`, `MechanicalSurfboardConfig_Patch`, `MechanicalSurfboard_IsReady_Patch`, `MechanicalSurfboard_GetDescriptors_Patch`.

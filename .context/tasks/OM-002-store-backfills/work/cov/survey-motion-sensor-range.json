@@ -1,0 +1,34 @@
+{
+  "survey_id": "sha256:b720a92af498bb92e58c26bc0eb70c3f8fece2947f478cccb9319e4516bd970e",
+  "node": "C:/dev/ONI-Mods/mods/motion-sensor-range",
+  "store_root": "C:/dev/ONI-Mods",
+  "window": {
+    "declared": 1000,
+    "read": 414,
+    "rho": 0.02,
+    "shortened": true
+  },
+  "owed": {
+    "door": 0,
+    "person": 0
+  },
+  "candidates": [],
+  "splits": [],
+  "splits_unfinished": [],
+  "splits_stranded": [],
+  "split_journals_unreadable": [],
+  "split_findings": [],
+  "not_proposed": {
+    "no_candidate": [
+      {
+        "document": "domains/README.md",
+        "reason": "one target only"
+      },
+      {
+        "document": "standards/README.md",
+        "reason": "no resolved token"
+      }
+    ],
+    "rule_scoped": []
+  }
+}

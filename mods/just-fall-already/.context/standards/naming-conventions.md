@@ -1,9 +1,11 @@
 ---
+tags: code-style
 doc_id: doc-2d228f2c8f5b
-description: "File, namespace, patch class, string key and id naming for Just Fall Already! (project JustFallAlready)."
+description: "Naming conventions for Just Fall Already!: files, namespaces, variables, methods, patch classes and ids, plus its `FallPoke` patch names, `Doors` test class, log prefix and `staticID`"
 applies_to:
   - "src/**"
 ---
+
 # Naming Conventions
 
 ## Files and Directories
@@ -18,7 +20,7 @@ applies_to:
 - Release tags are `<mod-folder>-v<version>` (repository README).
 
 ### Examples by Type
-**Id:** blk-9b2fe98dd4dd
+**Id:** blk-9b2fe98dd4dd  
 
 | Type | Convention | Example |
 |------|------------|---------|
@@ -53,14 +55,16 @@ private static readonly Dictionary<int, float> armed = new Dictionary<int, float
 (`mods/just-fall-already/src/JustFallAlready/FallPoke.cs`)
 
 ### Functions/Methods
-**Id:** blk-6de0f47c6523
+**Id:** blk-6de0f47c6523  
+**Tags:** harmony-patching
 
 - PascalCase, starting with a verb: `Apply`, `Decide`, `SwapTable`, `CopyRangeFrom`, `ApplyRange`.
 - Game callbacks keep the game's names (`OnSpawn`, `OnPrefabInit`, `OnCleanUp`, `Sim1000ms`).
 - Harmony methods are named for their kind: `Prefix`, `Postfix`, `Transpiler`, `Finalizer`, plus `Prepare`, `TargetMethod`, `TargetMethods`.
 
 ### Classes/Types/Interfaces
-**Id:** blk-db8f29e6a349
+**Id:** blk-db8f29e6a349  
+**Tags:** harmony-patching
 
 - PascalCase nouns. Interfaces take an `I` prefix (`IPlanTab` and `ITabView` in `mods/upgrade-planner`, and the game's own).
 - Harmony patch classes: `<PatchedType>_<PatchedMethod>_Patch` (`LogicRibbonReader_GetBitDepth_Patch`, `Db_Initialize_Patch`, `GeneratedBuildings_LoadGeneratedBuildings_Patch`). A patch for a type with one concern may use `<Type>_Patch` (`LiquidVentConfig_Patch`). Patches nested in a holder class may drop the suffix (`Constructable_OnSpawn` in `ReachTablePatches`).
@@ -81,7 +85,7 @@ private static readonly Dictionary<int, float> armed = new Dictionary<int, float
 - Long branches are shortened with an alias at the top of the file (`using OPTIONS = NaturalBackwalls.ModStrings.NATURALBACKWALLS.OPTIONS;`).
 
 ### Ids and Tags
-**Id:** blk-4c4517ee03f9
+**Id:** blk-4c4517ee03f9  
 
 - Building ids are PascalCase and match the config class (`SmartWeightPlate`); a mod that replaces another mod's buildings reuses that mod's ids (`StoragePodConfig`, `CoolPodConfig` in `mods/storage-pod-redux`).
 - Tags and PAction ids carry a mod prefix: `DetectAnyElement_Any`, `Isochronous.SweepZones.Tool`.
@@ -92,7 +96,8 @@ private static readonly Dictionary<int, float> armed = new Dictionary<int, float
 **Id:** blk-c001c1b3fc6a
 
 ### Just Fall Already! specifics
-**Id:** blk-f21fb042f2ec
+**Id:** blk-f21fb042f2ec  
+**Tags:** harmony-patching, in-game-testing, logging
 
 - Patch classes: `FallPoke` (top-level, patches `AddNavGrid`) and `Door_SetWorldState_Patch`.
 - Test class `Doors` in `src/JustFallAlready.Tests/Doors.cs`.

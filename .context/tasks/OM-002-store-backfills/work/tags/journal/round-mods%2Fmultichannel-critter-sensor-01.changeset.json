@@ -1,0 +1,36 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r2 for node mods/multichannel-critter-sensor — round 1",
+  "node": "C:\\dev\\ONI-Mods\\mods\\multichannel-critter-sensor",
+  "base": {
+    "standards/naming-conventions.md": "sha256:e5794caacc6838415419f5c7a9fd8b8c2cdbd1a652b6530fc1d7617e6145594b",
+    "domains/glossary.md": "sha256:498884770a25ff70fb6220eb74c8d31750929514aedb141cdda4fb5329f66a14",
+    "standards/error-handling.md": "sha256:43793fc0f7063c97dc8776059b4140f708e7cf516fa73dcc2abdc6b6b56fc2c8"
+  },
+  "ops": [
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching"
+      ],
+      "section": "code-naming/functions-methods"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "pulse-output"
+      ],
+      "section": "cross-domain-terms/sim200ms"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching"
+      ],
+      "section": "yielding-to-other-mods"
+    }
+  ]
+}

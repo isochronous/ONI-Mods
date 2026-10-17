@@ -1,0 +1,18 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r2 for node mods/refined-building — round 3",
+  "node": "C:\\dev\\ONI-Mods\\mods\\refined-building",
+  "base": {
+    "standards/error-handling.md": "sha256:0becec649aea0a535000f46db0d4b730a15eb31a1e847202fd463cb6890f2dd5"
+  },
+  "ops": [
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "vanilla-fallback"
+      ],
+      "section": "anti-patterns-to-avoid/assuming-the-game-s-internals"
+    }
+  ]
+}

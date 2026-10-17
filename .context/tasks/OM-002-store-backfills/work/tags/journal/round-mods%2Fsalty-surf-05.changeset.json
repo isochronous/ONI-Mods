@@ -1,0 +1,48 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/salty-surf — round 5",
+  "node": "C:\\dev\\ONI-Mods\\mods\\salty-surf",
+  "base": {
+    "domains/entities.md": "sha256:bcc114223a34241c8e8dd934bec6cc2afcf1dcf63218fbd1afee040cd08fa6fa",
+    "domains/glossary.md": "sha256:1f0f551dd1a58f02410dec264411989cd73896f15f8eb7ec8567126c8cfc9764",
+    "standards/code-style.md": "sha256:98b8d0304ec5a6d2196bc85059eb7828e5470d62b705d80e400810c19eb5846e",
+    "standards/error-handling.md": "sha256:186ec12e31db0da0533345e33faaf134fa74dae3edd9f6538b00d89eec286934"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "game-tag"
+      ],
+      "section": "key-entities/saved-state"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching"
+      ],
+      "section": "cross-domain-terms/spill"
+    },
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "reflection",
+        "harmony-patching",
+        "mechanical-surfboard"
+      ],
+      "section": "project-specific-rules/salty-surf-specifics"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "logging",
+        "reflection"
+      ],
+      "section": "guarding-patches/warn-once"
+    }
+  ]
+}

@@ -1,11 +1,14 @@
 ---
+tags: in-game-testing
 doc_id: doc-797b7d024719
-description: "How a mod's behaviour is tested in ONI-Mods: [OniTest] coroutines run in the real game by TestRunner, with the kit's assertions and per-test options."
+description: "How ONI-Mods writes [OniTest] coroutines run in the real game by TestRunner: tool list, test project layout, TestKit assertions and waits, per-test options, run commands, coverage rules and anti-patterns"
 ---
+
 # Unit Testing Conventions
 
 ## Framework and Tools
-**Id:** blk-5e77d0d9ce90
+**Id:** blk-5e77d0d9ce90  
+**Tags:** game-update-compatibility
 
 There is no desktop unit-test project in this repository: no xUnit, NUnit or MSTest. The mods run inside Unity's Mono in the game and call game code that exists only there, so every test runs in the real game.
 
@@ -19,7 +22,8 @@ There is no desktop unit-test project in this repository: no xUnit, NUnit or MST
 The full reference for the kit is `common/tools/TestRunner/README.md`.
 
 ## Test File Location
-**Id:** blk-41ffba520973
+**Id:** blk-41ffba520973  
+**Tags:** mod-build
 
 Each mod has a test project beside it, referencing the mod and the TestRunner project:
 
@@ -35,7 +39,7 @@ All 17 mods have a `<Mod>.Tests` project, grouped by what is tested (for Detect 
 **Id:** blk-9a1088df279a
 
 ### File Organization
-**Id:** blk-1a5825c096e0
+**Id:** blk-1a5825c096e0  
 
 A test class is `public static`; a test is a `public static IEnumerator` taking a `TestContext`, marked `[OniTest("<name>")]` with a `[Layer(n)]`. Tests run in declaration order. From `mods/detect-any-element/src/DetectAnyElement.Tests/Persistence.cs`:
 
@@ -58,7 +62,8 @@ public static class Persistence
 Arrange, act, assert, with a `yield return` of game time between steps.
 
 ### Naming Conventions
-**Id:** blk-7316ec9fd58f
+**Id:** blk-7316ec9fd58f  
+**Tags:** test-assertions, screenshots
 
 - The display name starts with the mod's short prefix and a colon (`DAE:`, `NB:`, `VFF:`, `JFA:`, `MSR:`, `MCS:`, `NMF:`, `SWP:`, `DCEOR:`, `Bitshifter:`, `SaltySurf:`, `PLib:`), then a sentence saying the behaviour: "wire dragged from a bridge end to its neighbour connects both". Photograph-only tests use `looks:`, and a control case that runs beside the behaviour it checks uses `control:` (`mods/jumper-bridges/src/JumperBridges.Tests/WireDrags.cs`).
 - Class names group by subject (`Persistence`, `SideScreen`, `Glyph`), method names say the case (`CopySettings`, `DragFromEnd`).
@@ -77,7 +82,8 @@ Arrange, act, assert, with a `yield return` of game time between steps.
 There is no mocking library. Tests use the real game objects: `t.World.Build(id, cell)` builds an actual building (`BuildingDef.Build`, instant), `t.Dupes.Spawn(n, cell)` makes real Duplicants, `t.Dupes.Drop(material, kg, cell)` leaves a loose pile. Setup helpers shared by one mod's tests live in a `Kit.cs` beside them (`mods/detect-any-element/src/DetectAnyElement.Tests/Kit.cs`).
 
 ### Settings and environment
-**Id:** blk-0272c27e23d2
+**Id:** blk-0272c27e23d2  
+**Tags:** test-cleanup, player-log
 
 - `t.InstantBuild(on)` turns instant build off or on for the test, restored at cleanup.
 - `t.ResearchAll()` researches every tech so menus offer everything.
@@ -86,12 +92,14 @@ There is no mocking library. Tests use the real game objects: `t.World.Build(id,
 - `t.AllowLogError(regex)` accepts an error the game is expected to log; any other `Error`, `Exception` or `Assert` logged during a test fails it.
 
 ## Assertion Patterns
-**Id:** blk-0194e02d0fd6
+**Id:** blk-0194e02d0fd6  
+**Tags:** test-assertions
 
 `t.Assert` offers `True`, `False`, `Eq`, `NotEq`, `Null`, `NotNull`, `Has(flag, bits)`, `Lacks` and `Fail`, each taking a message.
 
 ### Waiting
-**Id:** blk-33fb80177cba
+**Id:** blk-33fb80177cba  
+**Tags:** test-pacing, player-log
 
 Yield `t.Frames(n)`, `t.WaitGameSeconds(s)` (scaled sim time), `t.WaitRealSeconds(s)`, or `t.WaitUntil(cond, timeout, what)`; a timeout fails the test with `what`. Wait for a condition instead of counting frames.
 
@@ -101,12 +109,14 @@ Yield `t.Frames(n)`, `t.WaitGameSeconds(s)` (scaled sim time), `t.WaitRealSecond
 **Id:** blk-b9b075d91c5b
 
 ### Fixtures
-**Id:** blk-66e912fbb652
+**Id:** blk-66e912fbb652  
+**Tags:** save-files, test-cleanup
 
 The fixture is a save: `common/tools/TestRunner/fixtures/testbed-so.sav` in Spaced Out mode, `testbed-base.sav` otherwise, chosen by the game's current mode; `-Fixture <path.sav>` overrides it. `testbed-so.sav` is tracked in `common`; `testbed-base.sav` is not there, so a base-game run needs a save copied in under that name. The harness picks a 40x10 area of the world, clears it before the first test and after every test, and `t.Rect(w, h)` hands a test its cells. See `common/tools/TestRunner/fixtures/README.md`.
 
 ### Per-test options on `[OniTest]`
-**Id:** blk-c8a18ea4088d
+**Id:** blk-c8a18ea4088d  
+**Tags:** generated-worlds, save-files
 
 | Option | Meaning |
 |--------|---------|
@@ -120,7 +130,8 @@ The fixture is a save: `common/tools/TestRunner/fixtures/testbed-so.sav` in Spac
 A `NoColony` test is the closest thing here to a plain unit test: it exercises strings, registrations or option dialogs with no save loaded (`mods/natural-backwalls-everywhere/src/NaturalBackwalls.Tests/Looks.cs`).
 
 ## Running Tests
-**Id:** blk-960faf85db39
+**Id:** blk-960faf85db39  
+**Tags:** mod-build, mod-compatibility
 
 ```bash
 # One mod (the project folder name under src/, not the mod folder)
@@ -144,7 +155,7 @@ Steam must be running and the game must not be (other than the harness's own liv
 Pass `-Steam <id>` when a bug appears only with a player's other mods installed: the harness enables those Workshop items next to the mod under test.
 
 ## Coverage Requirements
-**Id:** blk-d3c50bc15df0
+**Id:** blk-d3c50bc15df0  
 
 No coverage tool is run and no percentage is required. TODO(owner): state a target if one is wanted. In practice a test is added with the behaviour or fix it covers (commits such as "Bitshifter: test for the NOT gate constant mask", "Salty Surf: in-game tests").
 
@@ -152,7 +163,8 @@ No coverage tool is run and no percentage is required. TODO(owner): state a targ
 **Id:** blk-6e0e91ddc944
 
 ### Frames-apart build, change and destroy
-**Id:** blk-db81d810e051
+**Id:** blk-db81d810e051  
+**Tags:** test-pacing
 
 ```csharp
 // Bad: objects destroyed a frame after they were built; sim callbacks arrive late
@@ -166,12 +178,14 @@ yield return t.WaitUntil(() => sensor.currentCount == 1, 15, "the sensor to coun
 ```
 
 ### Asserting on a private field instead of the behaviour
-**Id:** blk-4224fccba710
+**Id:** blk-4224fccba710  
+**Tags:** test-assertions, game-update-compatibility
 
 Assert what a player or the game's own API can see (the preview tint, the logic network, the symbol override), not an internal field. Private game members the harness reads are listed in `common/tools/TestRunner/Reflect.cs` with a self-check that names the member when a game update renames it; add to that list rather than reflecting ad hoc in a test.
 
 ### Meaningless assertions
-**Id:** blk-f054250ed484
+**Id:** blk-f054250ed484  
+**Tags:** test-assertions
 
 ```csharp
 // Bad
@@ -181,7 +195,8 @@ t.Assert.Eq(Color.white, wire.PreviewTint(r.Cell(1, 0)), "the neighbour previews
 ```
 
 ### Letting an expected game error fail unrelated tests
-**Id:** blk-fb116707eda5
+**Id:** blk-fb116707eda5  
+**Tags:** test-assertions, player-log
 
 Declare it with `t.AllowLogError(regex)` in the one test that provokes it.
 

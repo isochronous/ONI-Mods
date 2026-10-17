@@ -1,0 +1,32 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/natural-backwalls-everywhere — round 14",
+  "node": "C:\\dev\\ONI-Mods\\mods\\natural-backwalls-everywhere",
+  "base": {
+    "domains/entities.md": "sha256:4ad2d50803870768f3b88b80677bdab3181df7cda07b3226617adb35a59a82bf",
+    "standards/error-handling.md": "sha256:6282c39dc6a946a5f5369379c3084114ab52f9519a226ee7450790bd7f530840"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching",
+        "settle-sim",
+        "in-game-testing",
+        "transpiler"
+      ],
+      "section": "key-code-paths"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "vanilla-fallback",
+        "harmony-patching",
+        "transpiler"
+      ],
+      "section": "anti-patterns-to-avoid/assuming-the-game-s-internals"
+    }
+  ]
+}

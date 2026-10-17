@@ -1,0 +1,21 @@
+{
+ "task": "OM-002",
+ "why": "round two put terms on documents whose sections already declare them; the narrower answer keeps them on the sections, so they come off the document",
+ "node": "mods/natural-backwalls-everywhere",
+ "ops": [
+  {
+   "mode": "tag",
+   "target": "standards/README.md",
+   "remove": [
+    "exception-handling"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/naming-conventions.md",
+   "remove": [
+    "mod-strings"
+   ]
+  }
+ ]
+}

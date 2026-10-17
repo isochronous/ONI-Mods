@@ -1,0 +1,1567 @@
+{
+ "store_root": "C:/dev/ONI-Mods",
+ "documents": [
+  {
+   "node": "mods/detect-any-element",
+   "path": "domains/README.md",
+   "source_path": "mods/detect-any-element/.context/domains/README.md",
+   "id": "domains/README.md",
+   "format": "narrative",
+   "title": "Domains",
+   "description": "Index of the domain documents in the Detect Any Element node: the entities and glossary files covering the Any choice for the five element sensors",
+   "adr": null,
+   "tags": [
+    "element-sensor"
+   ],
+   "document_tags_declined": false,
+   "sections": [
+    {
+     "node": "mods/detect-any-element",
+     "path": "domains/README.md",
+     "id": "domains/README.md#domains",
+     "address": "domains",
+     "heading": "Domains",
+     "level": 2,
+     "ordinal": 1,
+     "title": "Domains",
+     "description": null,
+     "tags": []
+    }
+   ]
+  },
+  {
+   "node": "mods/detect-any-element",
+   "path": "domains/entities.md",
+   "source_path": "mods/detect-any-element/.context/domains/entities.md",
+   "id": "domains/entities.md",
+   "format": "narrative",
+   "title": "Detect Any Element domain",
+   "description": "The tag, strings and Harmony patches of the Detect Any Element mod (src/DetectAnyElement): the Any tag, ModStrings, side screen row, pipe, rail and world sensor patches and the asterisk glyph, with locations",
+   "adr": null,
+   "tags": [
+    "element-sensor"
+   ],
+   "document_tags_declined": false,
+   "sections": [
+    {
+     "node": "mods/detect-any-element",
+     "path": "domains/entities.md",
+     "id": "domains/entities.md#overview",
+     "address": "overview",
+     "heading": "Overview",
+     "level": 2,
+     "ordinal": 1,
+     "title": "Overview",
+     "description": null,
+     "tags": [
+      "side-screen",
+      "game-tag",
+      "saved-state"
+     ]
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "domains/entities.md",
+     "id": "domains/entities.md#key-entities",
+     "address": "key-entities",
+     "heading": "Key Entities",
+     "level": 2,
+     "ordinal": 2,
+     "title": "Key Entities",
+     "description": null,
+     "tags": []
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "domains/entities.md",
+     "id": "domains/entities.md#key-entities/anyelement",
+     "address": "key-entities/anyelement",
+     "heading": "AnyElement",
+     "level": 3,
+     "ordinal": 3,
+     "title": "AnyElement",
+     "description": "The Any choice. A `Tag` named `DetectAnyElement_Any`, created with the English name \"Any\" through `TagManager.Create`. It rides in the same saved `Filterable` field as element tags, so it is saved with the building and copied by copy-settings. Without the mod, a sensor saved on Any keeps the tag and matches nothing.",
+     "tags": [
+      "game-tag",
+      "saved-state"
+     ]
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "domains/entities.md",
+     "id": "domains/entities.md#key-entities/modstrings",
+     "address": "key-entities/modstrings",
+     "heading": "ModStrings",
+     "level": 3,
+     "ordinal": 4,
+     "title": "ModStrings",
+     "description": "The mod's one string, `ModStrings.MISC.TAGS.DETECTANYELEMENT_ANY` (\"Any\"), registered under the game's `STRINGS.MISC.TAGS` and replaced from `translations/<locale>.po`. Chinese (Simplified), Korean and Russian ship; the template is `translations/DetectAnyElement.pot`.",
+     "tags": [
+      "mod-strings"
+     ]
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "domains/entities.md",
+     "id": "domains/entities.md#key-entities/filtersidescreen-settarget-patch",
+     "address": "key-entities/filtersidescreen-settarget-patch",
+     "heading": "FilterSideScreen.SetTarget patch",
+     "level": 3,
+     "ordinal": 5,
+     "title": "FilterSideScreen.SetTarget patch",
+     "description": "Postfix that adds an Any row second in the list, under None, on screens with `isLogicFilter` (the pipe and rail element sensors and the in-world sensors; the conveyor and pipe filters keep only None). The row has its icon hidden, like None. The row is kept per screen in a `ConditionalWeakTable`, and selected when the target is already on Any.",
+     "tags": [
+      "side-screen",
+      "harmony-patching"
+     ]
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "domains/entities.md",
+     "id": "domains/entities.md#key-entities/conduitelementsensor-conduitupdate-patch",
+     "address": "key-entities/conduitelementsensor-conduitupdate-patch",
+     "heading": "ConduitElementSensor.ConduitUpdate patch",
+     "level": 3,
+     "ordinal": 6,
+     "title": "ConduitElementSensor.ConduitUpdate patch",
+     "description": "Prefix for the Liquid Pipe, Gas Pipe and Conveyor Rail Element Sensors. On Any the sensor is on while the conduit at its cell holds mass above zero (any packet, whatever the element or item); it toggles the switch to match and skips the game's element test.",
+     "tags": [
+      "harmony-patching"
+     ]
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "domains/entities.md",
+     "id": "domains/entities.md#key-entities/logicelementsensor-sim200ms-patch",
+     "address": "key-entities/logicelementsensor-sim200ms-patch",
+     "heading": "LogicElementSensor.Sim200ms patch",
+     "level": 3,
+     "ordinal": 7,
+     "title": "LogicElementSensor.Sim200ms patch",
+     "description": "Prefix for the in-world Gas and Liquid Element Sensors. On Any the sensor is on while its cell holds any element of its desired state (any gas, or any liquid; vacuum counts as nothing). It keeps the game's eight-sample steadiness window (`samples`, `sampleIdx`) and drops only the element test.",
+     "tags": [
+      "harmony-patching"
+     ]
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "domains/entities.md",
+     "id": "domains/entities.md#key-entities/logicelementsensor-onelementselected-patch",
+     "address": "key-entities/logicelementsensor-onelementselected-patch",
+     "heading": "LogicElementSensor.OnElementSelected patch",
+     "level": 3,
+     "ordinal": 8,
+     "title": "LogicElementSensor.OnElementSelected patch",
+     "description": "Postfix that clears the \"no element selected\" status item when the choice is Any, since Any is a choice and not a lack of one.",
+     "tags": [
+      "harmony-patching",
+      "side-screen"
+     ]
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "domains/entities.md",
+     "id": "domains/entities.md#key-entities/anyglyph",
+     "address": "key-entities/anyglyph",
+     "heading": "AnyGlyph",
+     "level": 3,
+     "ordinal": 9,
+     "title": "AnyGlyph",
+     "description": "`KMonoBehaviour` added to each of the five sensors. While the sensor is on Any it overrides the symbol `elements` (the icon the screen flashes when on) with an asterisk symbol from the mod's `detect_any_asterisk_kanim`, named `asterisk_<sensor kanim>`; each is in that icon's colour and offset to land mid-screen. Off or another choice removes the override. If the symbol is missing it logs a warning and the sensor keeps the vanilla icon.",
+     "tags": [
+      "game-component",
+      "kanim-art"
+     ]
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "domains/entities.md",
+     "id": "domains/entities.md#key-entities/sensorconfigs-dopostconfigurecomplete-patch",
+     "address": "key-entities/sensorconfigs-dopostconfigurecomplete-patch",
+     "heading": "SensorConfigs_DoPostConfigureComplete_Patch",
+     "level": 3,
+     "ordinal": 10,
+     "title": "SensorConfigs_DoPostConfigureComplete_Patch",
+     "description": "Postfix on `DoPostConfigureComplete` of `LiquidConduitElementSensorConfig`, `GasConduitElementSensorConfig`, `SolidConduitElementSensorConfig`, `LogicElementSensorGasConfig` and `LogicElementSensorLiquidConfig`. Adds a `SymbolOverrideController` to the prefab when missing (it must exist before the anim controller is instantiated) and adds `AnyGlyph`.",
+     "tags": [
+      "harmony-patching",
+      "game-component"
+     ]
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "domains/entities.md",
+     "id": "domains/entities.md#key-entities/switches",
+     "address": "key-entities/switches",
+     "heading": "Switches",
+     "level": 3,
+     "ordinal": 11,
+     "title": "Switches",
+     "description": "Delegate for the protected `Switch.Toggle`, which the sensors flip through.",
+     "tags": []
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "domains/entities.md",
+     "id": "domains/entities.md#business-rules",
+     "address": "business-rules",
+     "heading": "Business Rules",
+     "level": 2,
+     "ordinal": 12,
+     "title": "Business Rules",
+     "description": null,
+     "tags": [
+      "side-screen",
+      "saved-state"
+     ]
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "domains/entities.md",
+     "id": "domains/entities.md#key-code-paths",
+     "address": "key-code-paths",
+     "heading": "Key Code Paths",
+     "level": 2,
+     "ordinal": 13,
+     "title": "Key Code Paths",
+     "description": null,
+     "tags": [
+      "harmony-patching",
+      "kanim-art",
+      "in-game-testing"
+     ]
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "domains/entities.md",
+     "id": "domains/entities.md#related",
+     "address": "related",
+     "heading": "Related",
+     "level": 2,
+     "ordinal": 14,
+     "title": "Related",
+     "description": null,
+     "tags": []
+    }
+   ]
+  },
+  {
+   "node": "mods/detect-any-element",
+   "path": "domains/glossary.md",
+   "source_path": "mods/detect-any-element/.context/domains/glossary.md",
+   "id": "domains/glossary.md",
+   "format": "narrative",
+   "title": "Domain Glossary",
+   "description": "Glossary for the Detect Any Element mod: abbreviations such as kanim and .po, terms to avoid like Wildcard, and definitions of Any, element sensor, Filterable, Tag and FilterSideScreen",
+   "adr": null,
+   "tags": [
+    "element-sensor"
+   ],
+   "document_tags_declined": false,
+   "sections": [
+    {
+     "node": "mods/detect-any-element",
+     "path": "domains/glossary.md",
+     "id": "domains/glossary.md#abbreviations-and-acronyms",
+     "address": "abbreviations-and-acronyms",
+     "heading": "Abbreviations and Acronyms",
+     "level": 2,
+     "ordinal": 1,
+     "title": "Abbreviations and Acronyms",
+     "description": null,
+     "tags": [
+      "kanim-art",
+      "mod-strings"
+     ]
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "domains/glossary.md",
+     "id": "domains/glossary.md#terms-to-avoid",
+     "address": "terms-to-avoid",
+     "heading": "Terms to Avoid",
+     "level": 2,
+     "ordinal": 2,
+     "title": "Terms to Avoid",
+     "description": null,
+     "tags": [
+      "side-screen",
+      "game-tag"
+     ]
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "domains/glossary.md",
+     "id": "domains/glossary.md#cross-domain-terms",
+     "address": "cross-domain-terms",
+     "heading": "Cross-Domain Terms",
+     "level": 2,
+     "ordinal": 3,
+     "title": "Cross-Domain Terms",
+     "description": null,
+     "tags": []
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "domains/glossary.md",
+     "id": "domains/glossary.md#cross-domain-terms/any",
+     "address": "cross-domain-terms/any",
+     "heading": "Any",
+     "level": 3,
+     "ordinal": 4,
+     "title": "Any",
+     "description": null,
+     "tags": [
+      "side-screen",
+      "game-tag"
+     ]
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "domains/glossary.md",
+     "id": "domains/glossary.md#cross-domain-terms/element-sensor",
+     "address": "cross-domain-terms/element-sensor",
+     "heading": "Element sensor",
+     "level": 3,
+     "ordinal": 5,
+     "title": "Element sensor",
+     "description": null,
+     "tags": []
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "domains/glossary.md",
+     "id": "domains/glossary.md#cross-domain-terms/filterable",
+     "address": "cross-domain-terms/filterable",
+     "heading": "Filterable",
+     "level": 3,
+     "ordinal": 6,
+     "title": "Filterable",
+     "description": null,
+     "tags": [
+      "saved-state",
+      "game-component",
+      "game-tag"
+     ]
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "domains/glossary.md",
+     "id": "domains/glossary.md#cross-domain-terms/tag",
+     "address": "cross-domain-terms/tag",
+     "heading": "Tag",
+     "level": 3,
+     "ordinal": 7,
+     "title": "Tag",
+     "description": null,
+     "tags": [
+      "game-tag",
+      "mod-strings"
+     ]
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "domains/glossary.md",
+     "id": "domains/glossary.md#cross-domain-terms/filtersidescreen",
+     "address": "cross-domain-terms/filtersidescreen",
+     "heading": "FilterSideScreen",
+     "level": 3,
+     "ordinal": 8,
+     "title": "FilterSideScreen",
+     "description": null,
+     "tags": [
+      "side-screen"
+     ]
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "domains/glossary.md",
+     "id": "domains/glossary.md#cross-domain-terms/conduit",
+     "address": "cross-domain-terms/conduit",
+     "heading": "Conduit",
+     "level": 3,
+     "ordinal": 9,
+     "title": "Conduit",
+     "description": null,
+     "tags": []
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "domains/glossary.md",
+     "id": "domains/glossary.md#cross-domain-terms/steadiness-window",
+     "address": "cross-domain-terms/steadiness-window",
+     "heading": "Steadiness window",
+     "level": 3,
+     "ordinal": 10,
+     "title": "Steadiness window",
+     "description": null,
+     "tags": []
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "domains/glossary.md",
+     "id": "domains/glossary.md#cross-domain-terms/symbol-override",
+     "address": "cross-domain-terms/symbol-override",
+     "heading": "Symbol override",
+     "level": 3,
+     "ordinal": 11,
+     "title": "Symbol override",
+     "description": null,
+     "tags": [
+      "kanim-art"
+     ]
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "domains/glossary.md",
+     "id": "domains/glossary.md#related",
+     "address": "related",
+     "heading": "Related",
+     "level": 2,
+     "ordinal": 12,
+     "title": "Related",
+     "description": null,
+     "tags": []
+    }
+   ]
+  },
+  {
+   "node": "mods/detect-any-element",
+   "path": "overview.md",
+   "source_path": "mods/detect-any-element/.context/overview.md",
+   "id": "overview.md",
+   "format": "narrative",
+   "title": "detect-any-element",
+   "description": "What the Detect Any Element mod does (an Any choice on five element sensors, drawn with an asterisk), its version and translations, and where its source, tests, art tool, README and publish folder sit",
+   "adr": null,
+   "tags": [
+    "element-sensor"
+   ],
+   "document_tags_declined": false,
+   "sections": [
+    {
+     "node": "mods/detect-any-element",
+     "path": "overview.md",
+     "id": "overview.md#what-this-is",
+     "address": "what-this-is",
+     "heading": "What this is",
+     "level": 2,
+     "ordinal": 1,
+     "title": "What this is",
+     "description": null,
+     "tags": [
+      "kanim-art",
+      "mod-strings"
+     ]
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "overview.md",
+     "id": "overview.md#where-things-are",
+     "address": "where-things-are",
+     "heading": "Where things are",
+     "level": 2,
+     "ordinal": 2,
+     "title": "Where things are",
+     "description": null,
+     "tags": [
+      "mod-entry-point",
+      "mod-strings",
+      "kanim-art",
+      "in-game-testing"
+     ]
+    }
+   ]
+  },
+  {
+   "node": "mods/detect-any-element",
+   "path": "standards/README.md",
+   "source_path": "mods/detect-any-element/.context/standards/README.md",
+   "id": "standards/README.md",
+   "format": "narrative",
+   "title": "Standards",
+   "description": "Index of the standards documents in the Detect Any Element node: code style, error handling and naming conventions",
+   "adr": null,
+   "tags": [],
+   "document_tags_declined": false,
+   "sections": [
+    {
+     "node": "mods/detect-any-element",
+     "path": "standards/README.md",
+     "id": "standards/README.md#standards",
+     "address": "standards",
+     "heading": "Standards",
+     "level": 2,
+     "ordinal": 1,
+     "title": "Standards",
+     "description": null,
+     "tags": []
+    }
+   ]
+  },
+  {
+   "node": "mods/detect-any-element",
+   "path": "standards/code-style.md",
+   "source_path": "mods/detect-any-element/.context/standards/code-style.md",
+   "id": "standards/code-style.md",
+   "format": "narrative",
+   "title": "Code Style Guide",
+   "description": "C# code style for the Detect Any Element mod: formatting, toolchain, imports, comments, Harmony conventions, plus its translations setup, AnyElement class and sensor patches in src/DetectAnyElement",
+   "adr": null,
+   "tags": [],
+   "document_tags_declined": false,
+   "sections": [
+    {
+     "node": "mods/detect-any-element",
+     "path": "standards/code-style.md",
+     "id": "standards/code-style.md#formatting",
+     "address": "formatting",
+     "heading": "Formatting",
+     "level": 2,
+     "ordinal": 1,
+     "title": "Formatting",
+     "description": null,
+     "tags": []
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "standards/code-style.md",
+     "id": "standards/code-style.md#formatting/indentation",
+     "address": "formatting/indentation",
+     "heading": "Indentation",
+     "level": 3,
+     "ordinal": 2,
+     "title": "Indentation",
+     "description": null,
+     "tags": []
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "standards/code-style.md",
+     "id": "standards/code-style.md#formatting/line-length",
+     "address": "formatting/line-length",
+     "heading": "Line Length",
+     "level": 3,
+     "ordinal": 3,
+     "title": "Line Length",
+     "description": null,
+     "tags": []
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "standards/code-style.md",
+     "id": "standards/code-style.md#formatting/braces",
+     "address": "formatting/braces",
+     "heading": "Braces",
+     "level": 3,
+     "ordinal": 4,
+     "title": "Braces",
+     "description": null,
+     "tags": []
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "standards/code-style.md",
+     "id": "standards/code-style.md#language-and-toolchain",
+     "address": "language-and-toolchain",
+     "heading": "Language and Toolchain",
+     "level": 2,
+     "ordinal": 5,
+     "title": "Language and Toolchain",
+     "description": null,
+     "tags": []
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "standards/code-style.md",
+     "id": "standards/code-style.md#imports-includes",
+     "address": "imports-includes",
+     "heading": "Imports/Includes",
+     "level": 2,
+     "ordinal": 6,
+     "title": "Imports/Includes",
+     "description": null,
+     "tags": []
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "standards/code-style.md",
+     "id": "standards/code-style.md#imports-includes/organization",
+     "address": "imports-includes/organization",
+     "heading": "Organization",
+     "level": 3,
+     "ordinal": 7,
+     "title": "Organization",
+     "description": null,
+     "tags": []
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "standards/code-style.md",
+     "id": "standards/code-style.md#imports-includes/example",
+     "address": "imports-includes/example",
+     "heading": "Example",
+     "level": 3,
+     "ordinal": 8,
+     "title": "Example",
+     "description": null,
+     "tags": []
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "standards/code-style.md",
+     "id": "standards/code-style.md#comments",
+     "address": "comments",
+     "heading": "Comments",
+     "level": 2,
+     "ordinal": 9,
+     "title": "Comments",
+     "description": null,
+     "tags": []
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "standards/code-style.md",
+     "id": "standards/code-style.md#comments/when-to-comment",
+     "address": "comments/when-to-comment",
+     "heading": "When to Comment",
+     "level": 3,
+     "ordinal": 10,
+     "title": "When to Comment",
+     "description": null,
+     "tags": []
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "standards/code-style.md",
+     "id": "standards/code-style.md#comments/when-not-to-comment",
+     "address": "comments/when-not-to-comment",
+     "heading": "When NOT to Comment",
+     "level": 3,
+     "ordinal": 11,
+     "title": "When NOT to Comment",
+     "description": null,
+     "tags": []
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "standards/code-style.md",
+     "id": "standards/code-style.md#comments/format",
+     "address": "comments/format",
+     "heading": "Format",
+     "level": 3,
+     "ordinal": 12,
+     "title": "Format",
+     "description": null,
+     "tags": []
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "standards/code-style.md",
+     "id": "standards/code-style.md#control-structures",
+     "address": "control-structures",
+     "heading": "Control Structures",
+     "level": 2,
+     "ordinal": 13,
+     "title": "Control Structures",
+     "description": null,
+     "tags": []
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "standards/code-style.md",
+     "id": "standards/code-style.md#control-structures/conditionals",
+     "address": "control-structures/conditionals",
+     "heading": "Conditionals",
+     "level": 3,
+     "ordinal": 14,
+     "title": "Conditionals",
+     "description": null,
+     "tags": []
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "standards/code-style.md",
+     "id": "standards/code-style.md#control-structures/loops",
+     "address": "control-structures/loops",
+     "heading": "Loops",
+     "level": 3,
+     "ordinal": 15,
+     "title": "Loops",
+     "description": null,
+     "tags": []
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "standards/code-style.md",
+     "id": "standards/code-style.md#control-structures/strings",
+     "address": "control-structures/strings",
+     "heading": "Strings",
+     "level": 3,
+     "ordinal": 16,
+     "title": "Strings",
+     "description": null,
+     "tags": [
+      "mod-strings"
+     ]
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "standards/code-style.md",
+     "id": "standards/code-style.md#harmony-patches",
+     "address": "harmony-patches",
+     "heading": "Harmony Patches",
+     "level": 2,
+     "ordinal": 17,
+     "title": "Harmony Patches",
+     "description": null,
+     "tags": [
+      "harmony-patching",
+      "mod-entry-point",
+      "vanilla-fallback"
+     ]
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "standards/code-style.md",
+     "id": "standards/code-style.md#game-components",
+     "address": "game-components",
+     "heading": "Game Components",
+     "level": 2,
+     "ordinal": 18,
+     "title": "Game Components",
+     "description": null,
+     "tags": [
+      "game-component",
+      "saved-state"
+     ]
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "standards/code-style.md",
+     "id": "standards/code-style.md#project-specific-rules",
+     "address": "project-specific-rules",
+     "heading": "Project-Specific Rules",
+     "level": 2,
+     "ordinal": 19,
+     "title": "Project-Specific Rules",
+     "description": null,
+     "tags": [
+      "in-game-testing",
+      "logging"
+     ]
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "standards/code-style.md",
+     "id": "standards/code-style.md#project-specific-rules/detect-any-element-specifics",
+     "address": "project-specific-rules/detect-any-element-specifics",
+     "heading": "Detect Any Element specifics",
+     "level": 3,
+     "ordinal": 20,
+     "title": "Detect Any Element specifics",
+     "description": null,
+     "tags": [
+      "mod-entry-point",
+      "mod-strings",
+      "game-tag",
+      "harmony-patching"
+     ]
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "standards/code-style.md",
+     "id": "standards/code-style.md#related",
+     "address": "related",
+     "heading": "Related",
+     "level": 2,
+     "ordinal": 21,
+     "title": "Related",
+     "description": null,
+     "tags": []
+    }
+   ]
+  },
+  {
+   "node": "mods/detect-any-element",
+   "path": "standards/error-handling.md",
+   "source_path": "mods/detect-any-element/.context/standards/error-handling.md",
+   "id": "standards/error-handling.md",
+   "format": "narrative",
+   "title": "Error Handling Conventions",
+   "description": "Error handling conventions for the Detect Any Element mod: guarding patches, logging levels, plus its missing-glyph-symbol fallback, early returns in patches and the Any tag's saved Filterable field",
+   "adr": null,
+   "tags": [
+    "vanilla-fallback"
+   ],
+   "document_tags_declined": false,
+   "sections": [
+    {
+     "node": "mods/detect-any-element",
+     "path": "standards/error-handling.md",
+     "id": "standards/error-handling.md#principles",
+     "address": "principles",
+     "heading": "Principles",
+     "level": 2,
+     "ordinal": 1,
+     "title": "Principles",
+     "description": null,
+     "tags": [
+      "logging",
+      "harmony-patching"
+     ]
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "standards/error-handling.md",
+     "id": "standards/error-handling.md#guarding-patches",
+     "address": "guarding-patches",
+     "heading": "Guarding Patches",
+     "level": 2,
+     "ordinal": 2,
+     "title": "Guarding Patches",
+     "description": null,
+     "tags": []
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "standards/error-handling.md",
+     "id": "standards/error-handling.md#guarding-patches/missing-member-warn-leave-vanilla",
+     "address": "guarding-patches/missing-member-warn-leave-vanilla",
+     "heading": "Missing member: warn, leave vanilla",
+     "level": 3,
+     "ordinal": 3,
+     "title": "Missing member: warn, leave vanilla",
+     "description": null,
+     "tags": [
+      "harmony-patching"
+     ]
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "standards/error-handling.md",
+     "id": "standards/error-handling.md#guarding-patches/transpiler-count-the-match",
+     "address": "guarding-patches/transpiler-count-the-match",
+     "heading": "Transpiler: count the match",
+     "level": 3,
+     "ordinal": 4,
+     "title": "Transpiler: count the match",
+     "description": null,
+     "tags": [
+      "harmony-patching",
+      "logging"
+     ]
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "standards/error-handling.md",
+     "id": "standards/error-handling.md#guarding-patches/missing-data-warn-continue",
+     "address": "guarding-patches/missing-data-warn-continue",
+     "heading": "Missing data: warn, continue",
+     "level": 3,
+     "ordinal": 5,
+     "title": "Missing data: warn, continue",
+     "description": null,
+     "tags": [
+      "logging"
+     ]
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "standards/error-handling.md",
+     "id": "standards/error-handling.md#guarding-patches/null-checks-on-game-objects",
+     "address": "guarding-patches/null-checks-on-game-objects",
+     "heading": "Null checks on game objects",
+     "level": 3,
+     "ordinal": 6,
+     "title": "Null checks on game objects",
+     "description": null,
+     "tags": [
+      "harmony-patching"
+     ]
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "standards/error-handling.md",
+     "id": "standards/error-handling.md#guarding-patches/warn-once",
+     "address": "guarding-patches/warn-once",
+     "heading": "Warn once",
+     "level": 3,
+     "ordinal": 7,
+     "title": "Warn once",
+     "description": null,
+     "tags": [
+      "logging"
+     ]
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "standards/error-handling.md",
+     "id": "standards/error-handling.md#try-catch",
+     "address": "try-catch",
+     "heading": "try/catch",
+     "level": 2,
+     "ordinal": 8,
+     "title": "try/catch",
+     "description": null,
+     "tags": [
+      "logging"
+     ]
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "standards/error-handling.md",
+     "id": "standards/error-handling.md#try-catch/finalizer-for-a-thread-with-no-handler",
+     "address": "try-catch/finalizer-for-a-thread-with-no-handler",
+     "heading": "Finalizer for a thread with no handler",
+     "level": 3,
+     "ordinal": 9,
+     "title": "Finalizer for a thread with no handler",
+     "description": null,
+     "tags": [
+      "harmony-patching"
+     ]
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "standards/error-handling.md",
+     "id": "standards/error-handling.md#yielding-to-other-mods",
+     "address": "yielding-to-other-mods",
+     "heading": "Yielding to Other Mods",
+     "level": 2,
+     "ordinal": 10,
+     "title": "Yielding to Other Mods",
+     "description": null,
+     "tags": [
+      "logging"
+     ]
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "standards/error-handling.md",
+     "id": "standards/error-handling.md#logging",
+     "address": "logging",
+     "heading": "Logging",
+     "level": 2,
+     "ordinal": 11,
+     "title": "Logging",
+     "description": null,
+     "tags": []
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "standards/error-handling.md",
+     "id": "standards/error-handling.md#logging/log-levels",
+     "address": "logging/log-levels",
+     "heading": "Log Levels",
+     "level": 3,
+     "ordinal": 12,
+     "title": "Log Levels",
+     "description": null,
+     "tags": [
+      "logging"
+     ]
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "standards/error-handling.md",
+     "id": "standards/error-handling.md#logging/what-to-include",
+     "address": "logging/what-to-include",
+     "heading": "What to Include",
+     "level": 3,
+     "ordinal": 13,
+     "title": "What to Include",
+     "description": null,
+     "tags": [
+      "logging"
+     ]
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "standards/error-handling.md",
+     "id": "standards/error-handling.md#anti-patterns-to-avoid",
+     "address": "anti-patterns-to-avoid",
+     "heading": "Anti-Patterns to Avoid",
+     "level": 2,
+     "ordinal": 14,
+     "title": "Anti-Patterns to Avoid",
+     "description": null,
+     "tags": []
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "standards/error-handling.md",
+     "id": "standards/error-handling.md#anti-patterns-to-avoid/swallowing-exceptions",
+     "address": "anti-patterns-to-avoid/swallowing-exceptions",
+     "heading": "Swallowing exceptions",
+     "level": 3,
+     "ordinal": 15,
+     "title": "Swallowing exceptions",
+     "description": null,
+     "tags": [
+      "logging"
+     ]
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "standards/error-handling.md",
+     "id": "standards/error-handling.md#anti-patterns-to-avoid/throwing-from-a-patch",
+     "address": "anti-patterns-to-avoid/throwing-from-a-patch",
+     "heading": "Throwing from a patch",
+     "level": 3,
+     "ordinal": 16,
+     "title": "Throwing from a patch",
+     "description": null,
+     "tags": [
+      "harmony-patching"
+     ]
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "standards/error-handling.md",
+     "id": "standards/error-handling.md#anti-patterns-to-avoid/assuming-the-game-s-internals",
+     "address": "anti-patterns-to-avoid/assuming-the-game-s-internals",
+     "heading": "Assuming the game's internals",
+     "level": 3,
+     "ordinal": 17,
+     "title": "Assuming the game's internals",
+     "description": null,
+     "tags": [
+      "harmony-patching"
+     ]
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "standards/error-handling.md",
+     "id": "standards/error-handling.md#anti-patterns-to-avoid/silent-degradation",
+     "address": "anti-patterns-to-avoid/silent-degradation",
+     "heading": "Silent degradation",
+     "level": 3,
+     "ordinal": 18,
+     "title": "Silent degradation",
+     "description": null,
+     "tags": [
+      "logging"
+     ]
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "standards/error-handling.md",
+     "id": "standards/error-handling.md#anti-patterns-to-avoid/spamming-the-log",
+     "address": "anti-patterns-to-avoid/spamming-the-log",
+     "heading": "Spamming the log",
+     "level": 3,
+     "ordinal": 19,
+     "title": "Spamming the log",
+     "description": null,
+     "tags": [
+      "logging"
+     ]
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "standards/error-handling.md",
+     "id": "standards/error-handling.md#project-specific-patterns",
+     "address": "project-specific-patterns",
+     "heading": "Project-Specific Patterns",
+     "level": 2,
+     "ordinal": 20,
+     "title": "Project-Specific Patterns",
+     "description": null,
+     "tags": []
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "standards/error-handling.md",
+     "id": "standards/error-handling.md#project-specific-patterns/detect-any-element-specifics",
+     "address": "project-specific-patterns/detect-any-element-specifics",
+     "heading": "Detect Any Element specifics",
+     "level": 3,
+     "ordinal": 21,
+     "title": "Detect Any Element specifics",
+     "description": null,
+     "tags": [
+      "kanim-art",
+      "side-screen",
+      "saved-state",
+      "logging"
+     ]
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "standards/error-handling.md",
+     "id": "standards/error-handling.md#related",
+     "address": "related",
+     "heading": "Related",
+     "level": 2,
+     "ordinal": 22,
+     "title": "Related",
+     "description": null,
+     "tags": []
+    }
+   ]
+  },
+  {
+   "node": "mods/detect-any-element",
+   "path": "standards/naming-conventions.md",
+   "source_path": "mods/detect-any-element/.context/standards/naming-conventions.md",
+   "id": "standards/naming-conventions.md",
+   "format": "narrative",
+   "title": "Naming Conventions",
+   "description": "Naming conventions for the Detect Any Element mod: files, namespaces, variables, methods, strings and ids, plus its ModStrings branch, DetectAnyElement_Any tag name, glyph symbol constants and log prefix",
+   "adr": null,
+   "tags": [],
+   "document_tags_declined": false,
+   "sections": [
+    {
+     "node": "mods/detect-any-element",
+     "path": "standards/naming-conventions.md",
+     "id": "standards/naming-conventions.md#files-and-directories",
+     "address": "files-and-directories",
+     "heading": "Files and Directories",
+     "level": 2,
+     "ordinal": 1,
+     "title": "Files and Directories",
+     "description": null,
+     "tags": []
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "standards/naming-conventions.md",
+     "id": "standards/naming-conventions.md#files-and-directories/general-rules",
+     "address": "files-and-directories/general-rules",
+     "heading": "General Rules",
+     "level": 3,
+     "ordinal": 2,
+     "title": "General Rules",
+     "description": null,
+     "tags": []
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "standards/naming-conventions.md",
+     "id": "standards/naming-conventions.md#files-and-directories/examples-by-type",
+     "address": "files-and-directories/examples-by-type",
+     "heading": "Examples by Type",
+     "level": 3,
+     "ordinal": 3,
+     "title": "Examples by Type",
+     "description": null,
+     "tags": [
+      "mod-entry-point",
+      "side-screen",
+      "game-component"
+     ]
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "standards/naming-conventions.md",
+     "id": "standards/naming-conventions.md#code-naming",
+     "address": "code-naming",
+     "heading": "Code Naming",
+     "level": 2,
+     "ordinal": 4,
+     "title": "Code Naming",
+     "description": null,
+     "tags": []
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "standards/naming-conventions.md",
+     "id": "standards/naming-conventions.md#code-naming/variables",
+     "address": "code-naming/variables",
+     "heading": "Variables",
+     "level": 3,
+     "ordinal": 5,
+     "title": "Variables",
+     "description": null,
+     "tags": []
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "standards/naming-conventions.md",
+     "id": "standards/naming-conventions.md#code-naming/functions-methods",
+     "address": "code-naming/functions-methods",
+     "heading": "Functions/Methods",
+     "level": 3,
+     "ordinal": 6,
+     "title": "Functions/Methods",
+     "description": null,
+     "tags": [
+      "harmony-patching"
+     ]
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "standards/naming-conventions.md",
+     "id": "standards/naming-conventions.md#code-naming/classes-types-interfaces",
+     "address": "code-naming/classes-types-interfaces",
+     "heading": "Classes/Types/Interfaces",
+     "level": 3,
+     "ordinal": 7,
+     "title": "Classes/Types/Interfaces",
+     "description": null,
+     "tags": [
+      "harmony-patching"
+     ]
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "standards/naming-conventions.md",
+     "id": "standards/naming-conventions.md#code-naming/booleans",
+     "address": "code-naming/booleans",
+     "heading": "Booleans",
+     "level": 3,
+     "ordinal": 8,
+     "title": "Booleans",
+     "description": null,
+     "tags": []
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "standards/naming-conventions.md",
+     "id": "standards/naming-conventions.md#code-naming/strings-modstrings",
+     "address": "code-naming/strings-modstrings",
+     "heading": "Strings (`ModStrings`)",
+     "level": 3,
+     "ordinal": 9,
+     "title": "Strings (`ModStrings`)",
+     "description": null,
+     "tags": [
+      "mod-strings"
+     ]
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "standards/naming-conventions.md",
+     "id": "standards/naming-conventions.md#code-naming/ids-and-tags",
+     "address": "code-naming/ids-and-tags",
+     "heading": "Ids and Tags",
+     "level": 3,
+     "ordinal": 10,
+     "title": "Ids and Tags",
+     "description": null,
+     "tags": [
+      "game-tag",
+      "in-game-testing"
+     ]
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "standards/naming-conventions.md",
+     "id": "standards/naming-conventions.md#project-specific-conventions",
+     "address": "project-specific-conventions",
+     "heading": "Project-Specific Conventions",
+     "level": 2,
+     "ordinal": 11,
+     "title": "Project-Specific Conventions",
+     "description": null,
+     "tags": []
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "standards/naming-conventions.md",
+     "id": "standards/naming-conventions.md#project-specific-conventions/detect-any-element-specifics",
+     "address": "project-specific-conventions/detect-any-element-specifics",
+     "heading": "Detect Any Element specifics",
+     "level": 3,
+     "ordinal": 12,
+     "title": "Detect Any Element specifics",
+     "description": null,
+     "tags": [
+      "mod-strings",
+      "game-tag",
+      "logging"
+     ]
+    },
+    {
+     "node": "mods/detect-any-element",
+     "path": "standards/naming-conventions.md",
+     "id": "standards/naming-conventions.md#related",
+     "address": "related",
+     "heading": "Related",
+     "level": 2,
+     "ordinal": 13,
+     "title": "Related",
+     "description": null,
+     "tags": []
+    }
+   ]
+  }
+ ],
+ "excluded": {
+  "not_carried": [
+   "OM-001"
+  ],
+  "destination": [
+   "tags.md",
+   "tags.md#in-game-testing",
+   "tags.md#test-pacing",
+   "tags.md#test-cleanup",
+   "tags.md#test-assertions",
+   "tags.md#simulated-input",
+   "tags.md#generated-worlds",
+   "tags.md#save-files",
+   "tags.md#screenshots",
+   "tags.md#mod-compatibility",
+   "tags.md#mod-loadout",
+   "tags.md#game-update-compatibility",
+   "tags.md#player-log",
+   "tags.md#machine-setup",
+   "tags.md#mod-build",
+   "tags.md#common-submodule",
+   "tags.md#translations",
+   "tags.md#release-process",
+   "tags.md#steam-workshop",
+   "tags.md#changelog",
+   "tags.md#github-issues",
+   "tags.md#commit-messages",
+   "tags.md#assistant-attribution",
+   "tags.md#git-branches",
+   "tags.md#task-id",
+   "tags.md#task-plan",
+   "tags.md#phase-handoff",
+   "tags.md#unit-spec",
+   "tags.md#code-review",
+   "tags.md#knowledge-store",
+   "tags.md",
+   "tags.md#harmony-patching",
+   "tags.md#transpiler",
+   "tags.md#vanilla-fallback",
+   "tags.md#logging",
+   "tags.md#mod-compatibility",
+   "tags.md#saved-state",
+   "tags.md#in-game-testing",
+   "tags.md#mod-entry-point",
+   "tags.md#side-screen",
+   "tags.md#kanim-art",
+   "tags.md#automation-ribbon",
+   "tags.md#bit-depth",
+   "tags.md#not-gate",
+   "tags.md#code-style",
+   "tags.md",
+   "tags.md#harmony-patching",
+   "tags.md#transpiler",
+   "tags.md#vanilla-fallback",
+   "tags.md#logging",
+   "tags.md#in-game-testing",
+   "tags.md#mod-entry-point",
+   "tags.md#reach-table",
+   "tags.md#code-style",
+   "tags.md",
+   "tags.md#harmony-patching",
+   "tags.md#vanilla-fallback",
+   "tags.md#logging",
+   "tags.md#saved-state",
+   "tags.md#in-game-testing",
+   "tags.md#mod-entry-point",
+   "tags.md#mod-strings",
+   "tags.md#game-component",
+   "tags.md#side-screen",
+   "tags.md#kanim-art",
+   "tags.md#game-tag",
+   "tags.md#element-sensor",
+   "tags.md#code-style",
+   "tags.md#reflection",
+   "tags.md",
+   "tags.md#harmony-patching",
+   "tags.md#vanilla-fallback",
+   "tags.md#logging",
+   "tags.md#in-game-testing",
+   "tags.md#mod-entry-point",
+   "tags.md#critter-sensor",
+   "tags.md#game-tag",
+   "tags.md#conveyor-rail",
+   "tags.md#code-style",
+   "tags.md#room-tracking",
+   "tags.md",
+   "tags.md#harmony-patching",
+   "tags.md#vanilla-fallback",
+   "tags.md#logging",
+   "tags.md#mod-options",
+   "tags.md#in-game-testing",
+   "tags.md#mod-entry-point",
+   "tags.md#mod-strings",
+   "tags.md#reflection",
+   "tags.md#game-component",
+   "tags.md#automation-ribbon",
+   "tags.md#bridge-end",
+   "tags.md#utility-network",
+   "tags.md#wire-tools",
+   "tags.md#code-style",
+   "tags.md",
+   "tags.md#harmony-patching",
+   "tags.md#vanilla-fallback",
+   "tags.md#logging",
+   "tags.md#mod-compatibility",
+   "tags.md#in-game-testing",
+   "tags.md#mod-entry-point",
+   "tags.md#performance",
+   "tags.md#critter-falling",
+   "tags.md#navigation-grid",
+   "tags.md#code-style",
+   "tags.md",
+   "tags.md#harmony-patching",
+   "tags.md#vanilla-fallback",
+   "tags.md#logging",
+   "tags.md#saved-state",
+   "tags.md#copy-settings",
+   "tags.md#in-game-testing",
+   "tags.md#mod-entry-point",
+   "tags.md#mod-strings",
+   "tags.md#reflection",
+   "tags.md#game-component",
+   "tags.md#side-screen",
+   "tags.md#detection-range",
+   "tags.md#under-construction-building",
+   "tags.md#code-style",
+   "tags.md",
+   "tags.md#harmony-patching",
+   "tags.md#vanilla-fallback",
+   "tags.md#logging",
+   "tags.md#saved-state",
+   "tags.md#copy-settings",
+   "tags.md#in-game-testing",
+   "tags.md#mod-entry-point",
+   "tags.md#mod-strings",
+   "tags.md#game-component",
+   "tags.md#side-screen",
+   "tags.md#building-config",
+   "tags.md#building-unlock",
+   "tags.md#kanim-art",
+   "tags.md#automation-ribbon",
+   "tags.md#critter-sensor",
+   "tags.md#signal-threshold",
+   "tags.md#code-style",
+   "tags.md#pulse-output",
+   "tags.md",
+   "tags.md#harmony-patching",
+   "tags.md#transpiler",
+   "tags.md#vanilla-fallback",
+   "tags.md#logging",
+   "tags.md#exception-handling",
+   "tags.md#mod-compatibility",
+   "tags.md#mod-options",
+   "tags.md#in-game-testing",
+   "tags.md#mod-entry-point",
+   "tags.md#mod-strings",
+   "tags.md#developer-tooling",
+   "tags.md#worldgen",
+   "tags.md#biome-group",
+   "tags.md#noise-pattern",
+   "tags.md#settle-sim",
+   "tags.md#code-style",
+   "tags.md",
+   "tags.md#harmony-patching",
+   "tags.md#vanilla-fallback",
+   "tags.md#logging",
+   "tags.md#in-game-testing",
+   "tags.md#mod-entry-point",
+   "tags.md#reflection",
+   "tags.md#game-component",
+   "tags.md#refrigerator",
+   "tags.md#heat-exchange",
+   "tags.md#code-style",
+   "tags.md",
+   "tags.md#harmony-patching",
+   "tags.md#logging",
+   "tags.md#in-game-testing",
+   "tags.md#mod-entry-point",
+   "tags.md#game-tag",
+   "tags.md#building-materials",
+   "tags.md#code-style",
+   "tags.md#vanilla-fallback",
+   "tags.md",
+   "tags.md#harmony-patching",
+   "tags.md#vanilla-fallback",
+   "tags.md#logging",
+   "tags.md#in-game-testing",
+   "tags.md#mod-entry-point",
+   "tags.md#mod-strings",
+   "tags.md#reflection",
+   "tags.md#game-tag",
+   "tags.md#mechanical-surfboard",
+   "tags.md#info-panel-text",
+   "tags.md#code-style",
+   "tags.md",
+   "tags.md#harmony-patching",
+   "tags.md#vanilla-fallback",
+   "tags.md#logging",
+   "tags.md#mod-compatibility",
+   "tags.md#saved-state",
+   "tags.md#in-game-testing",
+   "tags.md#mod-entry-point",
+   "tags.md#mod-strings",
+   "tags.md#game-component",
+   "tags.md#side-screen",
+   "tags.md#building-config",
+   "tags.md#building-unlock",
+   "tags.md#kanim-art",
+   "tags.md#signal-threshold",
+   "tags.md#weight-sensing",
+   "tags.md#code-style",
+   "tags.md",
+   "tags.md#harmony-patching",
+   "tags.md#vanilla-fallback",
+   "tags.md#logging",
+   "tags.md#mod-compatibility",
+   "tags.md#mod-options",
+   "tags.md#saved-state",
+   "tags.md#in-game-testing",
+   "tags.md#mod-entry-point",
+   "tags.md#mod-strings",
+   "tags.md#building-config",
+   "tags.md#building-unlock",
+   "tags.md#kanim-art",
+   "tags.md#refrigerator",
+   "tags.md#building-registration",
+   "tags.md#storage-building",
+   "tags.md#code-style",
+   "tags.md",
+   "tags.md#harmony-patching",
+   "tags.md#vanilla-fallback",
+   "tags.md#logging",
+   "tags.md#saved-state",
+   "tags.md#in-game-testing",
+   "tags.md#mod-entry-point",
+   "tags.md#mod-strings",
+   "tags.md#reflection",
+   "tags.md#toolbar-tool",
+   "tags.md#hotkey",
+   "tags.md#cleaning-errands",
+   "tags.md#code-style",
+   "tags.md",
+   "tags.md#harmony-patching",
+   "tags.md#vanilla-fallback",
+   "tags.md#logging",
+   "tags.md#exception-handling",
+   "tags.md#mod-compatibility",
+   "tags.md#in-game-testing",
+   "tags.md#mod-entry-point",
+   "tags.md#mod-strings",
+   "tags.md#reflection",
+   "tags.md#toolbar-tool",
+   "tags.md#hotkey",
+   "tags.md#performance",
+   "tags.md#building-materials",
+   "tags.md#building-replacement",
+   "tags.md#plan-presets",
+   "tags.md#code-style",
+   "tags.md",
+   "tags.md#harmony-patching",
+   "tags.md#logging",
+   "tags.md#mod-options",
+   "tags.md#saved-state",
+   "tags.md#in-game-testing",
+   "tags.md#mod-entry-point",
+   "tags.md#mod-strings",
+   "tags.md#game-component",
+   "tags.md#developer-tooling",
+   "tags.md#liquid-vent",
+   "tags.md#liquid-freezing",
+   "tags.md#tile-repair",
+   "tags.md#code-style"
+  ]
+ },
+ "problems": []
+}

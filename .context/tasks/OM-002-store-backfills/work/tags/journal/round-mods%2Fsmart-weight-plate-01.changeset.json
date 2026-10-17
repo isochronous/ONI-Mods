@@ -1,0 +1,47 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r2 for node mods/smart-weight-plate — round 1",
+  "node": "C:\\dev\\ONI-Mods\\mods\\smart-weight-plate",
+  "base": {
+    "standards/naming-conventions.md": "sha256:ab86cef12267913fdca27b82bba9f0f413c24949b2e60faf42c553e7ae603f18",
+    "domains/entities.md": "sha256:53c0c6a39703721c6cdede710d41a3df5cbda9411b51dfeccc8452aac90f0a7a",
+    "standards/code-style.md": "sha256:df85aa581ca7c92681841bfaa657b6c0225294879c6cfdfafaea38318ee7520b",
+    "standards/error-handling.md": "sha256:45157be4f5ef17069548b2050ad0c888111925e13a7626775939b9dbcf7f04cf"
+  },
+  "ops": [
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "tag",
+      "add": [
+        "mod-strings"
+      ],
+      "section": "project-specific-conventions"
+    },
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "building-config",
+        "game-component",
+        "side-screen"
+      ],
+      "section": "key-entities"
+    },
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "code-style"
+      ],
+      "section": "language-and-toolchain"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "logging"
+      ],
+      "section": "logging"
+    }
+  ]
+}

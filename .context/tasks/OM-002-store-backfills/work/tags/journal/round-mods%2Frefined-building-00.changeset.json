@@ -1,0 +1,34 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r2 for node mods/refined-building — round 0",
+  "node": "C:\\dev\\ONI-Mods\\mods\\refined-building",
+  "base": {
+    "standards/code-style.md": "sha256:c76802f453822b22547a32122654133b718f802a38480d0c132ce529abd73705",
+    "standards/naming-conventions.md": "sha256:d6649a4199f66a5c81bc0d8f3257443eee60468a4e101cd9679f486363480bad",
+    "standards/error-handling.md": "sha256:d02c10168df619d955c73a2ff325beb3d38c36c0d87a8802aa72d4ab7db8f0a9"
+  },
+  "ops": [
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "code-style"
+      ]
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "tag",
+      "add": [
+        "code-style"
+      ]
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "vanilla-fallback"
+      ],
+      "section": "principles"
+    }
+  ]
+}

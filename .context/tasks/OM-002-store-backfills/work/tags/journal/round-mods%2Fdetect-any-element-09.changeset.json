@@ -1,0 +1,28 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/detect-any-element — round 9",
+  "node": "C:\\dev\\ONI-Mods\\mods\\detect-any-element",
+  "base": {
+    "domains/entities.md": "sha256:9bbb445bb569d6f305751baa4e44b0b184eab074e35239987665be937cca9f76",
+    "standards/error-handling.md": "sha256:67ab5c7cfd310a8fe1857233ce27cefaff77037d4cd41a5d5af747546ada6e11"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching",
+        "game-component"
+      ],
+      "section": "key-entities/sensorconfigs-dopostconfigurecomplete-patch"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "logging"
+      ],
+      "section": "yielding-to-other-mods"
+    }
+  ]
+}

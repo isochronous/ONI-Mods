@@ -1,0 +1,19 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r2 for node mods/dont-count-eggs-on-rails — round 3",
+  "node": "C:\\dev\\ONI-Mods\\mods\\dont-count-eggs-on-rails",
+  "base": {
+    "domains/glossary.md": "sha256:efd90eab500eec344d91eac253ce334a6caa9a52a0bdb3db0d56e3c438b41296"
+  },
+  "ops": [
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "room-tracking",
+        "harmony-patching"
+      ],
+      "section": "cross-domain-terms/overcrowding-monitor"
+    }
+  ]
+}

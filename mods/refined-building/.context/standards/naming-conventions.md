@@ -1,9 +1,11 @@
 ---
+tags: code-style
 doc_id: doc-0fb73d165b3f
-description: "File, namespace, patch class, string key and id naming for Refined Building (project RefinedBuilding)."
+description: "Naming conventions for Refined Building: files, variables, methods, types, ids and tags, plus its test class, log prefix and staticID"
 applies_to:
   - "src/**"
 ---
+
 # Naming Conventions
 
 ## Files and Directories
@@ -18,7 +20,7 @@ applies_to:
 - Release tags are `<mod-folder>-v<version>` (repository README).
 
 ### Examples by Type
-**Id:** blk-0fc5ffaf284d
+**Id:** blk-0fc5ffaf284d  
 
 | Type | Convention | Example |
 |------|------------|---------|
@@ -53,14 +55,16 @@ private static readonly Dictionary<int, float> armed = new Dictionary<int, float
 (`mods/just-fall-already/src/JustFallAlready/FallPoke.cs`)
 
 ### Functions/Methods
-**Id:** blk-c7064cd6381a
+**Id:** blk-c7064cd6381a  
+**Tags:** harmony-patching
 
 - PascalCase, starting with a verb: `Apply`, `Decide`, `SwapTable`, `CopyRangeFrom`, `ApplyRange`.
 - Game callbacks keep the game's names (`OnSpawn`, `OnPrefabInit`, `OnCleanUp`, `Sim1000ms`).
 - Harmony methods are named for their kind: `Prefix`, `Postfix`, `Transpiler`, `Finalizer`, plus `Prepare`, `TargetMethod`, `TargetMethods`.
 
 ### Classes/Types/Interfaces
-**Id:** blk-511a12365272
+**Id:** blk-511a12365272  
+**Tags:** harmony-patching
 
 - PascalCase nouns. Interfaces take an `I` prefix (`IPlanTab` and `ITabView` in `mods/upgrade-planner`, and the game's own).
 - Harmony patch classes: `<PatchedType>_<PatchedMethod>_Patch` (`LogicRibbonReader_GetBitDepth_Patch`, `Db_Initialize_Patch`, `GeneratedBuildings_LoadGeneratedBuildings_Patch`). A patch for a type with one concern may use `<Type>_Patch` (`LiquidVentConfig_Patch`). Patches nested in a holder class may drop the suffix (`Constructable_OnSpawn` in `ReachTablePatches`).
@@ -81,7 +85,7 @@ private static readonly Dictionary<int, float> armed = new Dictionary<int, float
 - Long branches are shortened with an alias at the top of the file (`using OPTIONS = NaturalBackwalls.ModStrings.NATURALBACKWALLS.OPTIONS;`).
 
 ### Ids and Tags
-**Id:** blk-21749c3920f4
+**Id:** blk-21749c3920f4  
 
 - Building ids are PascalCase and match the config class (`SmartWeightPlate`); a mod that replaces another mod's buildings reuses that mod's ids (`StoragePodConfig`, `CoolPodConfig` in `mods/storage-pod-redux`).
 - Tags and PAction ids carry a mod prefix: `DetectAnyElement_Any`, `Isochronous.SweepZones.Tool`.
@@ -92,7 +96,8 @@ private static readonly Dictionary<int, float> armed = new Dictionary<int, float
 **Id:** blk-f0647e086a79
 
 ### Refined Building specifics
-**Id:** blk-e51b20086b2b
+**Id:** blk-e51b20086b2b  
+**Tags:** logging, in-game-testing
 
 - Test class `RefinedMetals` in `src/RefinedBuilding.Tests/RefinedMetals.cs`.
 - Log prefix `[RefinedBuilding]`; `staticID` `Isochronous.RefinedBuilding`.

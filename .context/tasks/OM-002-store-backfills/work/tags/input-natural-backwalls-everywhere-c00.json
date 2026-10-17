@@ -1,0 +1,322 @@
+{
+ "documents": [
+  {
+   "id": "domains/README.md",
+   "title": "Domains",
+   "description": "Index of the Natural Backwalls Everywhere domains folder, linking the entities document on the worldgen patches, biome groups and noise patterns and the glossary of ONI and mod terms",
+   "document_tags": [],
+   "text": "---\ndoc_id: doc-39f6ffbdfe73\ndescription: Index of the Natural Backwalls Everywhere domains folder, linking the entities document on the worldgen patches, biome groups and noise patterns and the glossary of ONI and mod terms\n---\n\n# Domains\n\n## Domains\n**Id:** blk-bae867c75e8e\n\n- [entities](entities.md): what the mod adds to worldgen (biome groups, patterns, options, the patches that place backwalls), with file locations, the placement rules and key code paths.\n- [glossary](glossary.md): ONI and mod-specific terms used by Natural Backwalls Everywhere.\n",
+   "sections": [
+    {
+     "id": "domains/README.md#domains",
+     "title": "Domains",
+     "text": "## Domains\n**Id:** blk-bae867c75e8e\n\n- [entities](entities.md): what the mod adds to worldgen (biome groups, patterns, options, the patches that place backwalls), with file locations, the placement rules and key code paths.\n- [glossary](glossary.md): ONI and mod-specific terms used by Natural Backwalls Everywhere.\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "domains/entities.md",
+   "title": "Natural Backwalls Everywhere domain",
+   "description": "The worldgen patches, options, biome groups, noise patterns, export overlay and BiomePreview tool of Natural Backwalls Everywhere in src/NaturalBackwalls, with placement rules, file locations, code paths and saved state",
+   "document_tags": [],
+   "text": "---\ndoc_id: doc-5d8e44113c75\ndescription: The worldgen patches, options, biome groups, noise patterns, export overlay and BiomePreview tool of Natural Backwalls Everywhere in src/NaturalBackwalls, with placement rules, file locations, code paths and saved state\napplies_to:\n  - \"src/NaturalBackwalls/**\"\n---\n\n# Natural Backwalls Everywhere domain\n\n## Overview\n**Id:** blk-6a8da1feb411\n\nNatural Backwalls Everywhere gives every biome the natural backwall tiles the Aquatic Planet Pack places behind its own biomes. A backwall is plain worldgen data: a subworld opts in with a `backwallNoise` tree, and a biome band table named `<biome>_backwall` picks the element from that noise (a non-solid, usually Vacuum, means no backwall). The mod adds both pieces to every other subworld and biome on the per-world copy of the worldgen settings, right before the game computes band thresholds. Material and coverage are configurable per biome family, the noise pattern per subworld zone. It acts only during world generation, so it affects new worlds only and can be added or removed without touching a save. Aquatic Planet Pack is not required: the mod ships copies of the pack's four noise trees.\n\n## Key Entities\n**Id:** blk-66f7350a3837\n\n### CloneInToNewWorld_Patch\n**Id:** blk-e0426cc98c9b  \n**Description**: The core patch, a postfix on `SettingsCache.CloneInToNewWorld`. `Apply` loads the options, calls `Plan` for every subworld, writes the resulting band tables into `MutatedWorldData.biomes.BiomeBackgroundElementBandConfigurations` and sets each chosen `SubWorld.backwallNoise`. Any exception is caught and logged and worldgen continues untouched. `Plan` decides without changing anything and is reused by the YAML export.  \n**Location**: `src/NaturalBackwalls/Patches.cs`\n\n| Member | Type | Description |\n|--------|------|-------------|\n| FallbackNoise | const string | `noise/SandstoneStrange`, the base-game tree used when a shipped tree is missing |\n| Suffix | const string | `_backwall`, the band-table key suffix |\n| ModdedBiomes | HashSet<string> | Biome keys whose table the mod built for the world being generated |\n| FeatureBackwalls / OtherPlanetoids | bool | Option values captured per world |\n| EnabledSubworlds | Dictionary<World, List<SubWorld>> | Subworlds the mod enabled, per world, so the starting-world check can undo them |\n| SubworldPlan | class | Name, subworld, tree to set, band tables built, enabled flag |\n\n**Relationships**: Uses `Options`, `BiomeGroups`, `Patterns`. `Build` makes the band table (the chosen material at the coverage, plus Vacuum for the rest); `KeepVanilla` leaves a game-made table alone while its group is at the defaults; `IsSurface` excludes space and surface subworlds; `DominantSolid` picks a biome-from-another-mod's commonest solid (skipping Unobtanium and Katairite); `StartBiomes` finds the biomes of the world's start subworld.\n\n### Options\n**Id:** blk-ced10beb987e  \n**Description**: The mod's settings, a PLib `IOptions` class stored in the shared config location and read again for each world generated, so changes need no restart.  \n**Location**: `src/NaturalBackwalls/Options.cs`\n\n| Property | Type | Description |\n|----------|------|-------------|\n| FeatureBackwalls | bool, default true | Backwalls behind carved caves and lakes |\n| OtherPlanetoids | bool, default false | Backwalls on worlds other than the starting one |\n| OtherModBiomes | bool, default true | Give biomes from other mods their commonest solid |\n| OtherModCoverage | float 0..1, default 0.4 | Coverage for those biomes |\n| StartCoverage | float 0..1, default 1 | Coverage in the starting subworld's biomes |\n| LogCensus | bool, default false | Developer option: log the backwall census at each colony load |\n| Materials | Dictionary<string,string> | Material element name per biome group id |\n| Coverages | Dictionary<string,float> | Coverage per biome group id |\n| PatternIds | Dictionary<string,string> | Pattern id per zone id |\n| ExportOverlayButton | Action | Runs `ExportOverlay.Run` |\n\n**Relationships**: `CreateOptions` yields a help text block, one `BiomeOptionsEntry` per available `BiomeGroup`, a second help block, one `PatternOptionsEntry` per available `PatternGroup`, and the census checkbox last. Titles and tooltips are string-table keys resolved by PLib.\n\n### BiomeGroup and BiomeGroups\n**Id:** blk-dbaa08df895f  \n**Description**: A family of worldgen biome files sharing one material and coverage setting (Sandstone, Forest, Frozen, Caustic, Marsh, Ocean, Oil, Rust, Magma, Barren; Swamp, Wasteland, Metallic, Moo, Radioactive, Aquatic for Spaced Out; CarrotQuarry, IceCaves, SugarWoods for Frosty Planet; Garden, Raptor, Wetlands for Prehistoric Planet; Beach, Reef, KelpForest, Abyss for Aquatic Planet Pack).  \n**Location**: `src/NaturalBackwalls/BiomeGroups.cs`\n\n| Property | Type | Description |\n|----------|------|-------------|\n| Id | string | Options key |\n| Dlc | string | DLC that must be active, or null for base game |\n| BiomeFiles / ExtraBiomes | string[] | Biome files and individual biome keys in the group |\n| Materials | string[] | Solid elements found in the group's band tables (the dropdown); unknown or non-solid names dropped at runtime |\n| DefaultMaterial | string | The biome's filler rock |\n| DefaultCoverage | float | 0.4, or 0.15 for biomes whose zone defaults to the kelp pattern |\n| Vanilla | bool | True for the Aquatic pack's biomes, whose own data is kept while settings are at defaults |\n\n### Pattern, PatternGroup and Patterns\n**Id:** blk-9fdaa6a295e8  \n**Description**: A `Pattern` is a noise tree (Reef, Kelp, Abyss, Beach under `noise/NaturalBackwalls*`, plus the base-game `Strange`, plus `Vanilla` meaning the subworld's own tree). A `PatternGroup` is a subworld zone type (`SubWorld.ZoneType`) with a default pattern: Kelp for ToxicJungle, BoggyMarsh, Swamp, SugarWoods, PrehistoricGarden, PrehistoricWetlands; Abyss for OilField, Rust, MagmaCore, Barren, Wasteland, Metallic, Radioactive; Reef elsewhere; the Aquatic pack's own zones default to Vanilla.  \n**Location**: `src/NaturalBackwalls/Patterns.cs`\n\n### Options entries\n**Id:** blk-91bd1415587e  \n**Description**: Custom PLib option rows: `BiomeOptionsEntry` (material dropdown plus coverage text box per biome group) and `PatternOptionsEntry` (pattern dropdown showing each tree's density per zone).  \n**Location**: `src/NaturalBackwalls/BiomeOptionsEntry.cs`, `src/NaturalBackwalls/PatternOptionsEntry.cs`\n\n### Worldgen noise trees\n**Id:** blk-966cbf23a002  \n**Description**: Four YAML noise trees shipped with the mod (`NaturalBackwallsReef`, `Kelp`, `Abyss`, `Beach`). `mod.yaml` and the worldgen folder are deployed with the mod.  \n**Location**: `src/NaturalBackwalls/worldgen/noise/*.yaml` (copies for the Workshop package in `publish/content/worldgen/noise/`)\n\n### Other Harmony patches\n**Id:** blk-e61211aa02df  \n**Location**: `src/NaturalBackwalls/`\n\n| Patch target | File | Purpose |\n|--------------|------|---------|\n| `TerrainCell.ApplyBackground` (postfix) | `FeaturePatch.cs` | Runs the backwall placement over feature-room cells (the base pass covers only unclaimed cells), for biomes in `ModdedBiomes`, when `FeatureBackwalls` is on |\n| `WorldGen.GenerateOffline` (prefix) | `PlanetoidPatch.cs` | For a world that is not the starting world, clears the noise the mod enabled when `OtherPlanetoids` is off |\n| `WorldGenSimUtil.DoSettleSim` (transpiler) | `SettleSimPatch.cs` | Replaces the one call to `BackwallManager.UpdateFromSim` with `SettleSimBackwalls.UpdateFromSim`, a worldgen-safe twin |\n| `Cluster.BeginGeneration` (finalizer) | `WorldgenThreadPatch.cs` | Turns an exception that escapes the worldgen thread into the game's \"not all seeds germinate\" failure and logs it |\n| `Game.OnSpawn` and `SubworldZoneRenderData.OnSpawn` (postfixes) | `Census.cs` | Writes the backwall census per zone type once per load when `LogCensus` is on |\n\n### ExportOverlay\n**Id:** blk-48d469661fa6  \n**Description**: Writes the current settings as a mod-style worldgen YAML folder, `NaturalBackwalls-overlay` in the game's root folder (`Util.RootFolder()`), for external renderers and the preview tool. Reuses `Plan`.  \n**Location**: `src/NaturalBackwalls/ExportOverlay.cs`\n\n### BiomePreview tool\n**Id:** blk-48a2302aeae3  \n**Description**: A .NET 8 Windows tool that runs the game's noise trees and band tables for one biome and writes an HTML preview. Not part of the mod DLL.  \n**Location**: `tools/BiomePreview/` (see `tools/BiomePreview/README.md`)\n\n### Mod entry and strings\n**Id:** blk-80646e2a7680  \n**Location**: `src/NaturalBackwalls/Mod.cs`, `ModStrings.cs`, `translations/`\n`NaturalBackwallsMod` initialises PLib, registers `ModStrings` through `Isochronous.Translations`, and registers `Options` with `POptions`. Chinese, Korean and Russian come from `translations/<locale>.po`. Mod id `Isochronous.NaturalBackwallsEverywhere` (`mod.yaml`).\n\n### Saved state\n**Id:** blk-6a6e975cc857\n\nNone in saves. The only persistent state is the options file (shared config location).\n\n## Business Rules\n**Id:** blk-0897bf42bb22\n\n- A subworld is enabled only if at least one of its biomes resolves to a solid material. A biome without one gets a Vacuum-only table, so a subworld with backwall noise never falls back to its terrain bands (which would give gas and ore backwalls).\n- Space, surface and rocket-interior subworlds are never touched: a backwalled cell is not open to space, which would break solar panels, rockets and meteors.\n- Default materials are the biome's filler rock, so a backwall never yields a resource the biome lacks.\n- Coverage is the band fraction of the chosen material; the rest of the table is Vacuum. A coverage of 0, material None, or a non-solid material leaves the biome without backwalls and its subworld off.\n- The starting biome (the biomes of `startSubworldName`) uses the separate start coverage, default 1.\n- A subworld that already has a backwall noise tree keeps it, and a biome that already has a `_backwall` table keeps it, until its group's material or coverage differs from the vanilla defaults (the beach's algae pockets stay Dirt).\n- Biomes from other mods get their commonest solid at `OtherModCoverage`, or nothing if `OtherModBiomes` is off.\n- Other planetoids get no backwalls unless the option is on; only the starting asteroid is walled by default.\n- POIs and geysers keep their holes: stamping a template overwrites the backwall under its footprint, and the mod leaves that alone.\n- Every patch is guarded: a failure in the mod's pass is logged and skipped, leaving worldgen as the game and other mods set it up.\n- During the settle sim a backwall past its melting point becomes the liquid in its cell, applied by the mod's twin with a logged count.\n\n## Key Code Paths\n**Id:** blk-eaf00ac88258\n\n- **Planning**: `CloneInToNewWorld_Patch.Plan` per subworld, then `Apply` writes bands and noise — see `src/NaturalBackwalls/Patches.cs`\n- **Feature rooms**: `TerrainCell.ApplyBackground` postfix — see `src/NaturalBackwalls/FeaturePatch.cs`\n- **Other planetoids**: `WorldGen.GenerateOffline` prefix calls `ClearBackwallNoise` — see `src/NaturalBackwalls/PlanetoidPatch.cs`, `Patches.cs`\n- **Settle guard**: `DoSettleSim` transpiler and `SettleSimBackwalls.UpdateFromSim` — see `src/NaturalBackwalls/SettleSimPatch.cs`\n- **Thread guard**: `Cluster.BeginGeneration` finalizer — see `src/NaturalBackwalls/WorldgenThreadPatch.cs`\n- **Options dialog**: `Options.CreateOptions` — see `src/NaturalBackwalls/Options.cs`\n- **YAML export**: `ExportOverlay.Run` — see `src/NaturalBackwalls/ExportOverlay.cs`\n- **Census**: `Game_OnSpawn_Census.Write` — see `src/NaturalBackwalls/Census.cs`\n- **Tests**: in-game `[OniTest]` cases in `src/NaturalBackwalls.Tests/` (`Planning.cs` plan and options behaviour on the game's data; `Guards.cs` patch targets, settle guard, finalizer, census, options defaults; `Generated.cs` full cluster worldgen tests; `Looks.cs` screenshot cases; `Support.cs` helpers)\n\n## Related\n**Id:** blk-5c32e4c730c0\n\n- See also: [glossary](glossary.md)\n",
+   "sections": [
+    {
+     "id": "domains/entities.md#overview",
+     "title": "Overview",
+     "text": "## Overview\n**Id:** blk-6a8da1feb411\n\nNatural Backwalls Everywhere gives every biome the natural backwall tiles the Aquatic Planet Pack places behind its own biomes. A backwall is plain worldgen data: a subworld opts in with a `backwallNoise` tree, and a biome band table named `<biome>_backwall` picks the element from that noise (a non-solid, usually Vacuum, means no backwall). The mod adds both pieces to every other subworld and biome on the per-world copy of the worldgen settings, right before the game computes band thresholds. Material and coverage are configurable per biome family, the noise pattern per subworld zone. It acts only during world generation, so it affects new worlds only and can be added or removed without touching a save. Aquatic Planet Pack is not required: the mod ships copies of the pack's four noise trees.\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/entities.md#key-entities",
+     "title": "Key Entities",
+     "text": "## Key Entities\n**Id:** blk-66f7350a3837\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/entities.md#key-entities/cloneintonewworld-patch",
+     "title": "CloneInToNewWorld_Patch",
+     "text": "### CloneInToNewWorld_Patch\n**Id:** blk-e0426cc98c9b  \n**Description**: The core patch, a postfix on `SettingsCache.CloneInToNewWorld`. `Apply` loads the options, calls `Plan` for every subworld, writes the resulting band tables into `MutatedWorldData.biomes.BiomeBackgroundElementBandConfigurations` and sets each chosen `SubWorld.backwallNoise`. Any exception is caught and logged and worldgen continues untouched. `Plan` decides without changing anything and is reused by the YAML export.  \n**Location**: `src/NaturalBackwalls/Patches.cs`\n\n| Member | Type | Description |\n|--------|------|-------------|\n| FallbackNoise | const string | `noise/SandstoneStrange`, the base-game tree used when a shipped tree is missing |\n| Suffix | const string | `_backwall`, the band-table key suffix |\n| ModdedBiomes | HashSet<string> | Biome keys whose table the mod built for the world being generated |\n| FeatureBackwalls / OtherPlanetoids | bool | Option values captured per world |\n| EnabledSubworlds | Dictionary<World, List<SubWorld>> | Subworlds the mod enabled, per world, so the starting-world check can undo them |\n| SubworldPlan | class | Name, subworld, tree to set, band tables built, enabled flag |\n\n**Relationships**: Uses `Options`, `BiomeGroups`, `Patterns`. `Build` makes the band table (the chosen material at the coverage, plus Vacuum for the rest); `KeepVanilla` leaves a game-made table alone while its group is at the defaults; `IsSurface` excludes space and surface subworlds; `DominantSolid` picks a biome-from-another-mod's commonest solid (skipping Unobtanium and Katairite); `StartBiomes` finds the biomes of the world's start subworld.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/entities.md#key-entities/options",
+     "title": "Options",
+     "text": "### Options\n**Id:** blk-ced10beb987e  \n**Description**: The mod's settings, a PLib `IOptions` class stored in the shared config location and read again for each world generated, so changes need no restart.  \n**Location**: `src/NaturalBackwalls/Options.cs`\n\n| Property | Type | Description |\n|----------|------|-------------|\n| FeatureBackwalls | bool, default true | Backwalls behind carved caves and lakes |\n| OtherPlanetoids | bool, default false | Backwalls on worlds other than the starting one |\n| OtherModBiomes | bool, default true | Give biomes from other mods their commonest solid |\n| OtherModCoverage | float 0..1, default 0.4 | Coverage for those biomes |\n| StartCoverage | float 0..1, default 1 | Coverage in the starting subworld's biomes |\n| LogCensus | bool, default false | Developer option: log the backwall census at each colony load |\n| Materials | Dictionary<string,string> | Material element name per biome group id |\n| Coverages | Dictionary<string,float> | Coverage per biome group id |\n| PatternIds | Dictionary<string,string> | Pattern id per zone id |\n| ExportOverlayButton | Action | Runs `ExportOverlay.Run` |\n\n**Relationships**: `CreateOptions` yields a help text block, one `BiomeOptionsEntry` per available `BiomeGroup`, a second help block, one `PatternOptionsEntry` per available `PatternGroup`, and the census checkbox last. Titles and tooltips are string-table keys resolved by PLib.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/entities.md#key-entities/biomegroup-and-biomegroups",
+     "title": "BiomeGroup and BiomeGroups",
+     "text": "### BiomeGroup and BiomeGroups\n**Id:** blk-dbaa08df895f  \n**Description**: A family of worldgen biome files sharing one material and coverage setting (Sandstone, Forest, Frozen, Caustic, Marsh, Ocean, Oil, Rust, Magma, Barren; Swamp, Wasteland, Metallic, Moo, Radioactive, Aquatic for Spaced Out; CarrotQuarry, IceCaves, SugarWoods for Frosty Planet; Garden, Raptor, Wetlands for Prehistoric Planet; Beach, Reef, KelpForest, Abyss for Aquatic Planet Pack).  \n**Location**: `src/NaturalBackwalls/BiomeGroups.cs`\n\n| Property | Type | Description |\n|----------|------|-------------|\n| Id | string | Options key |\n| Dlc | string | DLC that must be active, or null for base game |\n| BiomeFiles / ExtraBiomes | string[] | Biome files and individual biome keys in the group |\n| Materials | string[] | Solid elements found in the group's band tables (the dropdown); unknown or non-solid names dropped at runtime |\n| DefaultMaterial | string | The biome's filler rock |\n| DefaultCoverage | float | 0.4, or 0.15 for biomes whose zone defaults to the kelp pattern |\n| Vanilla | bool | True for the Aquatic pack's biomes, whose own data is kept while settings are at defaults |\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/entities.md#key-entities/pattern-patterngroup-and-patterns",
+     "title": "Pattern, PatternGroup and Patterns",
+     "text": "### Pattern, PatternGroup and Patterns\n**Id:** blk-9fdaa6a295e8  \n**Description**: A `Pattern` is a noise tree (Reef, Kelp, Abyss, Beach under `noise/NaturalBackwalls*`, plus the base-game `Strange`, plus `Vanilla` meaning the subworld's own tree). A `PatternGroup` is a subworld zone type (`SubWorld.ZoneType`) with a default pattern: Kelp for ToxicJungle, BoggyMarsh, Swamp, SugarWoods, PrehistoricGarden, PrehistoricWetlands; Abyss for OilField, Rust, MagmaCore, Barren, Wasteland, Metallic, Radioactive; Reef elsewhere; the Aquatic pack's own zones default to Vanilla.  \n**Location**: `src/NaturalBackwalls/Patterns.cs`\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/entities.md#key-entities/options-entries",
+     "title": "Options entries",
+     "text": "### Options entries\n**Id:** blk-91bd1415587e  \n**Description**: Custom PLib option rows: `BiomeOptionsEntry` (material dropdown plus coverage text box per biome group) and `PatternOptionsEntry` (pattern dropdown showing each tree's density per zone).  \n**Location**: `src/NaturalBackwalls/BiomeOptionsEntry.cs`, `src/NaturalBackwalls/PatternOptionsEntry.cs`\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/entities.md#key-entities/worldgen-noise-trees",
+     "title": "Worldgen noise trees",
+     "text": "### Worldgen noise trees\n**Id:** blk-966cbf23a002  \n**Description**: Four YAML noise trees shipped with the mod (`NaturalBackwallsReef`, `Kelp`, `Abyss`, `Beach`). `mod.yaml` and the worldgen folder are deployed with the mod.  \n**Location**: `src/NaturalBackwalls/worldgen/noise/*.yaml` (copies for the Workshop package in `publish/content/worldgen/noise/`)\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/entities.md#key-entities/other-harmony-patches",
+     "title": "Other Harmony patches",
+     "text": "### Other Harmony patches\n**Id:** blk-e61211aa02df  \n**Location**: `src/NaturalBackwalls/`\n\n| Patch target | File | Purpose |\n|--------------|------|---------|\n| `TerrainCell.ApplyBackground` (postfix) | `FeaturePatch.cs` | Runs the backwall placement over feature-room cells (the base pass covers only unclaimed cells), for biomes in `ModdedBiomes`, when `FeatureBackwalls` is on |\n| `WorldGen.GenerateOffline` (prefix) | `PlanetoidPatch.cs` | For a world that is not the starting world, clears the noise the mod enabled when `OtherPlanetoids` is off |\n| `WorldGenSimUtil.DoSettleSim` (transpiler) | `SettleSimPatch.cs` | Replaces the one call to `BackwallManager.UpdateFromSim` with `SettleSimBackwalls.UpdateFromSim`, a worldgen-safe twin |\n| `Cluster.BeginGeneration` (finalizer) | `WorldgenThreadPatch.cs` | Turns an exception that escapes the worldgen thread into the game's \"not all seeds germinate\" failure and logs it |\n| `Game.OnSpawn` and `SubworldZoneRenderData.OnSpawn` (postfixes) | `Census.cs` | Writes the backwall census per zone type once per load when `LogCensus` is on |\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/entities.md#key-entities/exportoverlay",
+     "title": "ExportOverlay",
+     "text": "### ExportOverlay\n**Id:** blk-48d469661fa6  \n**Description**: Writes the current settings as a mod-style worldgen YAML folder, `NaturalBackwalls-overlay` in the game's root folder (`Util.RootFolder()`), for external renderers and the preview tool. Reuses `Plan`.  \n**Location**: `src/NaturalBackwalls/ExportOverlay.cs`\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/entities.md#key-entities/biomepreview-tool",
+     "title": "BiomePreview tool",
+     "text": "### BiomePreview tool\n**Id:** blk-48a2302aeae3  \n**Description**: A .NET 8 Windows tool that runs the game's noise trees and band tables for one biome and writes an HTML preview. Not part of the mod DLL.  \n**Location**: `tools/BiomePreview/` (see `tools/BiomePreview/README.md`)\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/entities.md#key-entities/mod-entry-and-strings",
+     "title": "Mod entry and strings",
+     "text": "### Mod entry and strings\n**Id:** blk-80646e2a7680  \n**Location**: `src/NaturalBackwalls/Mod.cs`, `ModStrings.cs`, `translations/`\n`NaturalBackwallsMod` initialises PLib, registers `ModStrings` through `Isochronous.Translations`, and registers `Options` with `POptions`. Chinese, Korean and Russian come from `translations/<locale>.po`. Mod id `Isochronous.NaturalBackwallsEverywhere` (`mod.yaml`).\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/entities.md#key-entities/saved-state",
+     "title": "Saved state",
+     "text": "### Saved state\n**Id:** blk-6a6e975cc857\n\nNone in saves. The only persistent state is the options file (shared config location).\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/entities.md#business-rules",
+     "title": "Business Rules",
+     "text": "## Business Rules\n**Id:** blk-0897bf42bb22\n\n- A subworld is enabled only if at least one of its biomes resolves to a solid material. A biome without one gets a Vacuum-only table, so a subworld with backwall noise never falls back to its terrain bands (which would give gas and ore backwalls).\n- Space, surface and rocket-interior subworlds are never touched: a backwalled cell is not open to space, which would break solar panels, rockets and meteors.\n- Default materials are the biome's filler rock, so a backwall never yields a resource the biome lacks.\n- Coverage is the band fraction of the chosen material; the rest of the table is Vacuum. A coverage of 0, material None, or a non-solid material leaves the biome without backwalls and its subworld off.\n- The starting biome (the biomes of `startSubworldName`) uses the separate start coverage, default 1.\n- A subworld that already has a backwall noise tree keeps it, and a biome that already has a `_backwall` table keeps it, until its group's material or coverage differs from the vanilla defaults (the beach's algae pockets stay Dirt).\n- Biomes from other mods get their commonest solid at `OtherModCoverage`, or nothing if `OtherModBiomes` is off.\n- Other planetoids get no backwalls unless the option is on; only the starting asteroid is walled by default.\n- POIs and geysers keep their holes: stamping a template overwrites the backwall under its footprint, and the mod leaves that alone.\n- Every patch is guarded: a failure in the mod's pass is logged and skipped, leaving worldgen as the game and other mods set it up.\n- During the settle sim a backwall past its melting point becomes the liquid in its cell, applied by the mod's twin with a logged count.\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/entities.md#key-code-paths",
+     "title": "Key Code Paths",
+     "text": "## Key Code Paths\n**Id:** blk-eaf00ac88258\n\n- **Planning**: `CloneInToNewWorld_Patch.Plan` per subworld, then `Apply` writes bands and noise — see `src/NaturalBackwalls/Patches.cs`\n- **Feature rooms**: `TerrainCell.ApplyBackground` postfix — see `src/NaturalBackwalls/FeaturePatch.cs`\n- **Other planetoids**: `WorldGen.GenerateOffline` prefix calls `ClearBackwallNoise` — see `src/NaturalBackwalls/PlanetoidPatch.cs`, `Patches.cs`\n- **Settle guard**: `DoSettleSim` transpiler and `SettleSimBackwalls.UpdateFromSim` — see `src/NaturalBackwalls/SettleSimPatch.cs`\n- **Thread guard**: `Cluster.BeginGeneration` finalizer — see `src/NaturalBackwalls/WorldgenThreadPatch.cs`\n- **Options dialog**: `Options.CreateOptions` — see `src/NaturalBackwalls/Options.cs`\n- **YAML export**: `ExportOverlay.Run` — see `src/NaturalBackwalls/ExportOverlay.cs`\n- **Census**: `Game_OnSpawn_Census.Write` — see `src/NaturalBackwalls/Census.cs`\n- **Tests**: in-game `[OniTest]` cases in `src/NaturalBackwalls.Tests/` (`Planning.cs` plan and options behaviour on the game's data; `Guards.cs` patch targets, settle guard, finalizer, census, options defaults; `Generated.cs` full cluster worldgen tests; `Looks.cs` screenshot cases; `Support.cs` helpers)\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/entities.md#related",
+     "title": "Related",
+     "text": "## Related\n**Id:** blk-5c32e4c730c0\n\n- See also: [glossary](glossary.md)\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "domains/glossary.md",
+   "title": "Natural Backwalls Everywhere glossary",
+   "description": "Glossary for Natural Backwalls Everywhere: abbreviations, terms to avoid, and definitions of backwall, subworld, biome group, zone type, noise tree, band table, coverage and settle sim, each with the files using it",
+   "document_tags": [],
+   "text": "---\nwitness_digest: \"sha256:3078d537bf2fc3f461b3c463dd8356dd58d0ad38f62814a174b0ffe50091d1c3\"\nwitness: loose\napplies_to:\n  - \"src/NaturalBackwalls/**\"\ndoc_id: doc-afc6c48467c3\ndescription: \"Glossary for Natural Backwalls Everywhere: abbreviations, terms to avoid, and definitions of backwall, subworld, biome group, zone type, noise tree, band table, coverage and settle sim, each with the files using it\"\n---\n\n# Natural Backwalls Everywhere glossary\n\nTerms for the Natural Backwalls Everywhere mod. For the code behind them, see [entities](entities.md).\n\n## Abbreviations and Acronyms\n**Id:** blk-54f649d0bc79\n\n| Abbreviation | Full Term | Context |\n|--------------|-----------|---------|\n| ONI | Oxygen Not Included | The game this mod targets |\n| NB | Natural Backwalls | Prefix of the in-game test names in `src/NaturalBackwalls.Tests/` |\n| POI | Point of interest | A worldgen template (ruins, geysers) stamped onto the map; keeps its own backwall data |\n| SO | Spaced Out | The Spaced Out DLC (`DlcManager.EXPANSION1_ID`); gates several biome and zone groups |\n| Aquatic pack | Aquatic Planet Pack | DLC 5, the source of the backwall design (`DlcManager.DLC5_ID`) |\n| PLib | Peter Han's mod library | Builds the options screen |\n| YAML | Worldgen data format | Subworlds, biomes and noise trees are YAML files |\n\n## Terms to Avoid\n**Id:** blk-5b562a58ad46\n\n| Avoid | Use Instead | Reason |\n|-------|-------------|--------|\n| Background | Backwall | The game's worldgen code says \"background\" (`ApplyBackground`, `BiomeBackgroundElementBandConfigurations`); mod text and options say backwall |\n| Biome (for a pattern) | Zone | A noise tree belongs to a subworld and its zone type, not a biome; material and coverage belong to the biome group |\n| Coverage as a percent | Coverage as a fraction | Options store 0 to 1; the density figures for patterns are percentages of cells |\n\n## Cross-Domain Terms\n**Id:** blk-4fbe497263b4\n\n### Backwall\n**Id:** blk-b8fb7d2bb919  \n**Definition**: A natural background tile behind the open space of a cell, written only in world generation. The game writes one only where the sampled element is a solid.  \n**Used in**: `Patches.cs`, `FeaturePatch.cs`, `SettleSimPatch.cs`\n\n### Subworld\n**Id:** blk-e31f1d15e9f2  \n**Definition**: A worldgen unit (`ProcGen.SubWorld`) that lists weighted biomes, declares a zone type, and may name a `backwallNoise` tree.  \n**Used in**: `Patches.cs`, `Patterns.cs`\n\n### Biome\n**Id:** blk-73d7be9bdfb2  \n**Definition**: A worldgen biome file with an element band table. The mod looks up the `<biome>_backwall` table by biome key.  \n**Used in**: `Patches.cs`, `BiomeGroups.cs`\n\n### Biome group\n**Id:** blk-4125ee054752  \n**Definition**: A family of biome files sharing one material and coverage setting (one options row). Grouped by biome file, not zone.  \n**Used in**: `BiomeGroups.cs`, `Options.cs`\n\n### Zone type\n**Id:** blk-3b99ed7e6f88  \n**Definition**: `SubWorld.ZoneType`, the category every subworld declares (Sandstone, Marsh, Magma, and so on). The unit a noise pattern applies to.  \n**Used in**: `Patterns.cs`\n\n### Noise tree (pattern)\n**Id:** blk-5d8b183e9daf  \n**Definition**: A worldgen noise YAML the backwall band is sampled with; sets the shape and density of backwall patches. Shipped: Reef, Kelp (kelp forest), Abyss, Beach, plus the base-game Strange.  \n**Used in**: `Patterns.cs`, `worldgen/noise/`\n\n### Band table\n**Id:** blk-8b548e0e81c3  \n**Definition**: `ElementBandConfiguration`: an ordered list of element gradients with band sizes. The noise value picks the element by band; for backwalls, a Vacuum band means no backwall.  \n**Used in**: `CloneInToNewWorld_Patch.Build`\n\n### Coverage\n**Id:** blk-2b18c261e35b  \n**Definition**: The band size, 0 to 1, of the backwall material in a biome's `_backwall` table. About the fraction of cells that get a backwall, shaped by the noise tree.  \n**Used in**: `Options.cs`, `BiomeGroups.cs`\n\n### Starting biome\n**Id:** blk-90a62c62bac8  \n**Definition**: The biomes of the world's starting subworld (`startSubworldName`); they use the separate start coverage.  \n**Used in**: `CloneInToNewWorld_Patch.StartBiomes`\n\n### Feature room\n**Id:** blk-9c0189c6ee53  \n**Definition**: A cave, lake or geode a subworld carves after claiming its cells (the slime biome's TallRoom and BlobRoom). The base backwall pass skips them; the mod's postfix covers them.  \n**Used in**: `FeaturePatch.cs`\n\n### Settle sim\n**Id:** blk-936e79273cf9  \n**Definition**: The hundred-second simulation worldgen runs to settle gases and liquids (`WorldGenSimUtil.DoSettleSim`). Backwall phase changes during it need the guard in `SettleSimPatch.cs`.  \n**Used in**: `SettleSimPatch.cs`\n\n### Census\n**Id:** blk-2431d358dea8  \n**Definition**: A developer log table of backwall cells per zone type, written at colony load when `LogCensus` is on; comparable with the BiomePreview tool's numbers.  \n**Used in**: `Census.cs`\n\n### Overlay (export)\n**Id:** blk-9826cc006e19  \n**Definition**: A mod-style worldgen YAML folder the options screen writes (`NaturalBackwalls-overlay`), for external renderers and the preview tool.  \n**Used in**: `ExportOverlay.cs`\n\n### MutatedWorldData\n**Id:** blk-b8e708373c1d  \n**Definition**: The per-world copy of the worldgen settings (subworlds, biomes) that `SettingsCache.CloneInToNewWorld` returns; the mod changes only this copy, never the global cache.  \n**Used in**: `Patches.cs`\n\n### Worldgen thread\n**Id:** blk-7406ad5fa7c5  \n**Definition**: The thread that runs `Cluster.BeginGeneration`. It has no exception handler, so an escaped error left the loading screen waiting forever; the finalizer reports it instead.  \n**Used in**: `WorldgenThreadPatch.cs`\n\n## Related\n**Id:** blk-9c39658d3297\n\n- See also: [entities](entities.md)\n",
+   "sections": [
+    {
+     "id": "domains/glossary.md#abbreviations-and-acronyms",
+     "title": "Abbreviations and Acronyms",
+     "text": "## Abbreviations and Acronyms\n**Id:** blk-54f649d0bc79\n\n| Abbreviation | Full Term | Context |\n|--------------|-----------|---------|\n| ONI | Oxygen Not Included | The game this mod targets |\n| NB | Natural Backwalls | Prefix of the in-game test names in `src/NaturalBackwalls.Tests/` |\n| POI | Point of interest | A worldgen template (ruins, geysers) stamped onto the map; keeps its own backwall data |\n| SO | Spaced Out | The Spaced Out DLC (`DlcManager.EXPANSION1_ID`); gates several biome and zone groups |\n| Aquatic pack | Aquatic Planet Pack | DLC 5, the source of the backwall design (`DlcManager.DLC5_ID`) |\n| PLib | Peter Han's mod library | Builds the options screen |\n| YAML | Worldgen data format | Subworlds, biomes and noise trees are YAML files |\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#terms-to-avoid",
+     "title": "Terms to Avoid",
+     "text": "## Terms to Avoid\n**Id:** blk-5b562a58ad46\n\n| Avoid | Use Instead | Reason |\n|-------|-------------|--------|\n| Background | Backwall | The game's worldgen code says \"background\" (`ApplyBackground`, `BiomeBackgroundElementBandConfigurations`); mod text and options say backwall |\n| Biome (for a pattern) | Zone | A noise tree belongs to a subworld and its zone type, not a biome; material and coverage belong to the biome group |\n| Coverage as a percent | Coverage as a fraction | Options store 0 to 1; the density figures for patterns are percentages of cells |\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms",
+     "title": "Cross-Domain Terms",
+     "text": "## Cross-Domain Terms\n**Id:** blk-4fbe497263b4\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/backwall",
+     "title": "Backwall",
+     "text": "### Backwall\n**Id:** blk-b8fb7d2bb919  \n**Definition**: A natural background tile behind the open space of a cell, written only in world generation. The game writes one only where the sampled element is a solid.  \n**Used in**: `Patches.cs`, `FeaturePatch.cs`, `SettleSimPatch.cs`\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/subworld",
+     "title": "Subworld",
+     "text": "### Subworld\n**Id:** blk-e31f1d15e9f2  \n**Definition**: A worldgen unit (`ProcGen.SubWorld`) that lists weighted biomes, declares a zone type, and may name a `backwallNoise` tree.  \n**Used in**: `Patches.cs`, `Patterns.cs`\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/biome",
+     "title": "Biome",
+     "text": "### Biome\n**Id:** blk-73d7be9bdfb2  \n**Definition**: A worldgen biome file with an element band table. The mod looks up the `<biome>_backwall` table by biome key.  \n**Used in**: `Patches.cs`, `BiomeGroups.cs`\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/biome-group",
+     "title": "Biome group",
+     "text": "### Biome group\n**Id:** blk-4125ee054752  \n**Definition**: A family of biome files sharing one material and coverage setting (one options row). Grouped by biome file, not zone.  \n**Used in**: `BiomeGroups.cs`, `Options.cs`\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/zone-type",
+     "title": "Zone type",
+     "text": "### Zone type\n**Id:** blk-3b99ed7e6f88  \n**Definition**: `SubWorld.ZoneType`, the category every subworld declares (Sandstone, Marsh, Magma, and so on). The unit a noise pattern applies to.  \n**Used in**: `Patterns.cs`\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/noise-tree-pattern",
+     "title": "Noise tree (pattern)",
+     "text": "### Noise tree (pattern)\n**Id:** blk-5d8b183e9daf  \n**Definition**: A worldgen noise YAML the backwall band is sampled with; sets the shape and density of backwall patches. Shipped: Reef, Kelp (kelp forest), Abyss, Beach, plus the base-game Strange.  \n**Used in**: `Patterns.cs`, `worldgen/noise/`\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/band-table",
+     "title": "Band table",
+     "text": "### Band table\n**Id:** blk-8b548e0e81c3  \n**Definition**: `ElementBandConfiguration`: an ordered list of element gradients with band sizes. The noise value picks the element by band; for backwalls, a Vacuum band means no backwall.  \n**Used in**: `CloneInToNewWorld_Patch.Build`\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/coverage",
+     "title": "Coverage",
+     "text": "### Coverage\n**Id:** blk-2b18c261e35b  \n**Definition**: The band size, 0 to 1, of the backwall material in a biome's `_backwall` table. About the fraction of cells that get a backwall, shaped by the noise tree.  \n**Used in**: `Options.cs`, `BiomeGroups.cs`\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/starting-biome",
+     "title": "Starting biome",
+     "text": "### Starting biome\n**Id:** blk-90a62c62bac8  \n**Definition**: The biomes of the world's starting subworld (`startSubworldName`); they use the separate start coverage.  \n**Used in**: `CloneInToNewWorld_Patch.StartBiomes`\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/feature-room",
+     "title": "Feature room",
+     "text": "### Feature room\n**Id:** blk-9c0189c6ee53  \n**Definition**: A cave, lake or geode a subworld carves after claiming its cells (the slime biome's TallRoom and BlobRoom). The base backwall pass skips them; the mod's postfix covers them.  \n**Used in**: `FeaturePatch.cs`\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/settle-sim",
+     "title": "Settle sim",
+     "text": "### Settle sim\n**Id:** blk-936e79273cf9  \n**Definition**: The hundred-second simulation worldgen runs to settle gases and liquids (`WorldGenSimUtil.DoSettleSim`). Backwall phase changes during it need the guard in `SettleSimPatch.cs`.  \n**Used in**: `SettleSimPatch.cs`\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/census",
+     "title": "Census",
+     "text": "### Census\n**Id:** blk-2431d358dea8  \n**Definition**: A developer log table of backwall cells per zone type, written at colony load when `LogCensus` is on; comparable with the BiomePreview tool's numbers.  \n**Used in**: `Census.cs`\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/overlay-export",
+     "title": "Overlay (export)",
+     "text": "### Overlay (export)\n**Id:** blk-9826cc006e19  \n**Definition**: A mod-style worldgen YAML folder the options screen writes (`NaturalBackwalls-overlay`), for external renderers and the preview tool.  \n**Used in**: `ExportOverlay.cs`\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/mutatedworlddata",
+     "title": "MutatedWorldData",
+     "text": "### MutatedWorldData\n**Id:** blk-b8e708373c1d  \n**Definition**: The per-world copy of the worldgen settings (subworlds, biomes) that `SettingsCache.CloneInToNewWorld` returns; the mod changes only this copy, never the global cache.  \n**Used in**: `Patches.cs`\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/worldgen-thread",
+     "title": "Worldgen thread",
+     "text": "### Worldgen thread\n**Id:** blk-7406ad5fa7c5  \n**Definition**: The thread that runs `Cluster.BeginGeneration`. It has no exception handler, so an escaped error left the loading screen waiting forever; the finalizer reports it instead.  \n**Used in**: `WorldgenThreadPatch.cs`\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#related",
+     "title": "Related",
+     "text": "## Related\n**Id:** blk-9c39658d3297\n\n- See also: [entities](entities.md)\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "overview.md",
+   "title": "natural-backwalls-everywhere",
+   "description": "Overview of the Natural Backwalls Everywhere mod: what it does to worldgen, its Workshop version and supported content, and a map of its source, tests, preview tool, publish and context folders",
+   "document_tags": [],
+   "text": "---\ndescription: \"Overview of the Natural Backwalls Everywhere mod: what it does to worldgen, its Workshop version and supported content, and a map of its source, tests, preview tool, publish and context folders\"\n---\n\n# natural-backwalls-everywhere\n\n## What this is\n**Id:** blk-6327e8e4c1c0\n\nNatural Backwalls Everywhere is an Oxygen Not Included mod that gives every biome the natural backwall tiles the Aquatic Planet Pack places behind its own biomes. Each biome gets a configurable material chosen from that biome's own solids and a configurable coverage, and each subworld zone picks the noise pattern its backwall patches follow. It works on new worlds only: backwalls are written during world generation, by adding the pack's `backwallNoise` and `<biome>_backwall` band data to every other subworld and biome on the per-world copy of the worldgen settings. It does not need the Aquatic Planet Pack; it ships its own copies of the pack's four noise trees. Version 0.3.0 is on the Steam Workshop (id 3816744732); the README marks it work in progress, with defaults still being tuned. `mod.yaml` sets `supportedContent: ALL` and `minimumSupportedBuild: 744825`. Available in English, Chinese (Simplified), Korean and Russian.\n\n## Where things are\n**Id:** blk-db3477ac8cc6\n\n- `src/NaturalBackwalls/`: the mod. `Mod.cs` (entry point), `Patches.cs` (clones the backwall data into each new world's settings), `PlanetoidPatch.cs` and `FeaturePatch.cs` (worldgen ordering and feature cells), `SettleSimPatch.cs` and `WorldgenThreadPatch.cs` (guards for the settle sim and the worldgen thread), `Options.cs`, `BiomeOptionsEntry.cs` and `PatternOptionsEntry.cs` (options screen), `BiomeGroups.cs` and `Patterns.cs` (biome families and noise patterns), `Census.cs` (backwall counts logged per game load), `ExportOverlay.cs` (writes the settings as a plain worldgen overlay), `ModStrings.cs`, `mod.yaml`, `mod_info.yaml`.\n- `src/NaturalBackwalls/worldgen/noise/`: the four shipped noise trees (reef, kelp, abyss, beach); `translations/` holds the `.pot` template and `.po` files.\n- `src/NaturalBackwalls.Tests/`: in-game and worldgen tests (`Generated.cs`, `Guards.cs`, `Looks.cs`, `Planning.cs`, shared `Support.cs`).\n- `tools/BiomePreview/`: a Windows program that previews one biome's backwalls outside the game with the game's own noise trees and band tables.\n- `publish/`: Workshop material (`workshop-description.txt`, `workshop-id.txt`, `preview.jpg`, `content/` and `NaturalBackwalls.zip`, the packaged mod).\n- `preview/`, `README.md`, `CHANGELOG.md`: preview art, user-facing description and release history.\n- `.context/` holds `overview.md` (this file), `domains/` (entities and glossary), `standards/` (code style, error handling, naming conventions), `decisions/`, `retrospectives/`, `projects.md` and `META.md`.\n",
+   "sections": [
+    {
+     "id": "overview.md#what-this-is",
+     "title": "What this is",
+     "text": "## What this is\n**Id:** blk-6327e8e4c1c0\n\nNatural Backwalls Everywhere is an Oxygen Not Included mod that gives every biome the natural backwall tiles the Aquatic Planet Pack places behind its own biomes. Each biome gets a configurable material chosen from that biome's own solids and a configurable coverage, and each subworld zone picks the noise pattern its backwall patches follow. It works on new worlds only: backwalls are written during world generation, by adding the pack's `backwallNoise` and `<biome>_backwall` band data to every other subworld and biome on the per-world copy of the worldgen settings. It does not need the Aquatic Planet Pack; it ships its own copies of the pack's four noise trees. Version 0.3.0 is on the Steam Workshop (id 3816744732); the README marks it work in progress, with defaults still being tuned. `mod.yaml` sets `supportedContent: ALL` and `minimumSupportedBuild: 744825`. Available in English, Chinese (Simplified), Korean and Russian.\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "overview.md#where-things-are",
+     "title": "Where things are",
+     "text": "## Where things are\n**Id:** blk-db3477ac8cc6\n\n- `src/NaturalBackwalls/`: the mod. `Mod.cs` (entry point), `Patches.cs` (clones the backwall data into each new world's settings), `PlanetoidPatch.cs` and `FeaturePatch.cs` (worldgen ordering and feature cells), `SettleSimPatch.cs` and `WorldgenThreadPatch.cs` (guards for the settle sim and the worldgen thread), `Options.cs`, `BiomeOptionsEntry.cs` and `PatternOptionsEntry.cs` (options screen), `BiomeGroups.cs` and `Patterns.cs` (biome families and noise patterns), `Census.cs` (backwall counts logged per game load), `ExportOverlay.cs` (writes the settings as a plain worldgen overlay), `ModStrings.cs`, `mod.yaml`, `mod_info.yaml`.\n- `src/NaturalBackwalls/worldgen/noise/`: the four shipped noise trees (reef, kelp, abyss, beach); `translations/` holds the `.pot` template and `.po` files.\n- `src/NaturalBackwalls.Tests/`: in-game and worldgen tests (`Generated.cs`, `Guards.cs`, `Looks.cs`, `Planning.cs`, shared `Support.cs`).\n- `tools/BiomePreview/`: a Windows program that previews one biome's backwalls outside the game with the game's own noise trees and band tables.\n- `publish/`: Workshop material (`workshop-description.txt`, `workshop-id.txt`, `preview.jpg`, `content/` and `NaturalBackwalls.zip`, the packaged mod).\n- `preview/`, `README.md`, `CHANGELOG.md`: preview art, user-facing description and release history.\n- `.context/` holds `overview.md` (this file), `domains/` (entities and glossary), `standards/` (code style, error handling, naming conventions), `decisions/`, `retrospectives/`, `projects.md` and `META.md`.\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "standards/README.md",
+   "title": "Standards",
+   "description": "Index of the Natural Backwalls Everywhere standards folder, linking its code style, error handling and naming conventions documents with a line on what each covers",
+   "document_tags": [],
+   "text": "---\ndoc_id: doc-44beb9ff1d4a\ndescription: Index of the Natural Backwalls Everywhere standards folder, linking its code style, error handling and naming conventions documents with a line on what each covers\n---\n\n# Standards\n\n## Standards\n**Id:** blk-edabb7fbb2a6\n\n- [code-style](code-style.md): C# formatting, imports, comments, Harmony patch and component conventions, with this mod's own layout.\n- [error-handling](error-handling.md): how Natural Backwalls Everywhere guards its Harmony patches, reflection lookups and file reads, and what it logs when something is missing.\n- [naming-conventions](naming-conventions.md): file, namespace, patch class, string key and id naming for project NaturalBackwalls.\n",
+   "sections": [
+    {
+     "id": "standards/README.md#standards",
+     "title": "Standards",
+     "text": "## Standards\n**Id:** blk-edabb7fbb2a6\n\n- [code-style](code-style.md): C# formatting, imports, comments, Harmony patch and component conventions, with this mod's own layout.\n- [error-handling](error-handling.md): how Natural Backwalls Everywhere guards its Harmony patches, reflection lookups and file reads, and what it logs when something is missing.\n- [naming-conventions](naming-conventions.md): file, namespace, patch class, string key and id naming for project NaturalBackwalls.\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  }
+ ]
+}

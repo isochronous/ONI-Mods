@@ -1,0 +1,87 @@
+{
+  "task": "OM-002",
+  "why": "a generated description for every document, saying what that document contains",
+  "node": "C:/dev/ONI-Mods",
+  "ops": [
+    {
+      "target": "domains/tooling-friction.md",
+      "mode": "describe",
+      "description": "Dated entries recording friction met with ICON's ks engine, skills and hooks in the ONI-Mods repository, each giving the invocation, what happened, what was expected and the workaround"
+    },
+    {
+      "target": "overview.md",
+      "mode": "describe",
+      "description": "Overview of the ONI-Mods monorepo: its 17 mods under mods/, the shared common/ build kit submodule, the solution and props files, GitHub folder, and where each part of the repository lives"
+    },
+    {
+      "target": "testing/integration-testing.md",
+      "mode": "describe",
+      "description": "How ONI-Mods tests a mod inside the whole running game: the TestRunner launcher options, input-layer and tool tests, generated worlds, saves, other authors' mods, screenshots and machine requirements"
+    },
+    {
+      "target": "testing/unit-testing.md",
+      "mode": "describe",
+      "description": "How ONI-Mods writes [OniTest] coroutines run in the real game by TestRunner: tool list, test project layout, TestKit assertions and waits, per-test options, run commands, coverage rules and anti-patterns"
+    },
+    {
+      "target": "workflows/branching.md",
+      "mode": "describe",
+      "description": "Branching in ONI-Mods: the single main branch, ICON task branches named OM-NNN, per-mod release tags, the common submodule, and the steps for task work, mod work, releases and merging"
+    },
+    {
+      "target": "workflows/ci-cd.md",
+      "mode": "describe",
+      "description": "The ONI-Mods build, test and release pipeline, all run locally: dotnet build, in-game tests, ModCheck, translations check, release script with GitHub release, Workshop upload and Discord notice, the issue-labelling action, and retry and rollback steps"
+    },
+    {
+      "target": "workflows/commit-conventions.md",
+      "mode": "describe",
+      "description": "Commit message style in ONI-Mods: the mod-name prefix with one terse line, shared-tooling and release commit forms, task-prefixed commits and the Phase-Handoff trailer, with examples from the log"
+    },
+    {
+      "target": "workflows/task-plan/base.md",
+      "mode": "describe",
+      "description": "The plan.md template for ONI-Mods tasks: required sections, Phase State and Phase Handoff Log formats, guidance for each section and the repository's build and test verification commands"
+    },
+    {
+      "target": "workflows/task-plan/phase-architecture.md",
+      "mode": "describe",
+      "description": "The architecture phase of an ONI-Mods task plan: entry and exit steps, extra review triggers for build kit and test harness changes, the design unit spec template and the decision capture format"
+    },
+    {
+      "target": "workflows/task-plan/phase-completion.md",
+      "mode": "describe",
+      "description": "The completion phase of an ONI-Mods task plan: entry and exit steps, plan.md reconciliation, the review unit spec, store update checklist, two-stage retrospective template and completion summary format"
+    },
+    {
+      "target": "workflows/task-plan/phase-implementation.md",
+      "mode": "describe",
+      "description": "The implementation phase of an ONI-Mods task plan: entry and exit steps, the implement unit spec template, progress tracker, deviation log entry format and pre-completion review"
+    },
+    {
+      "target": "workflows/task-plan/phase-investigation.md",
+      "mode": "describe",
+      "description": "The investigation phase of an ONI-Mods task plan: entry and exit steps, extra context files to read, and the research and plan unit spec templates"
+    },
+    {
+      "target": "workflows/task-plan/phase-testing.md",
+      "mode": "describe",
+      "description": "The testing phase of an ONI-Mods task plan: entry and exit steps, the test unit spec template and a status tracker for in-game harness tests"
+    }
+  ],
+  "base": {
+    "domains/tooling-friction.md": "sha256:1b9e1916b09084edbab553f8984f71c847bdaf3bfd79984e3c69e2b45fc6b0f8",
+    "overview.md": "sha256:042b1009291d5cad339903d569758c5cc17beacfd3669543632c28f038d374c1",
+    "testing/integration-testing.md": "sha256:bd01ef97f1ab52241fa613df52e719ff65144b16ed5de5894583e0f1542542a2",
+    "testing/unit-testing.md": "sha256:ae8dbd30dde63d41982ba659ca6218817fd88c18eed0e3b14d58adcc0ce95141",
+    "workflows/branching.md": "sha256:1ef6abd7c3fb54244c325fda18546c3d8c0fd0227b4643fee6ffef2425b1a28b",
+    "workflows/ci-cd.md": "sha256:b00aac10aa73235e9f46adc863d54a8c3b463d613f46dc3d2cfc530acb86042c",
+    "workflows/commit-conventions.md": "sha256:dd57c5854e46e582bbd5ea60f259cb5808c1647bbc8c9010fa681c47f8a91ae1",
+    "workflows/task-plan/base.md": "sha256:999d18ffc20ef166baeb476c6a5f0860515750e219061cca14922a17d38266b3",
+    "workflows/task-plan/phase-architecture.md": "sha256:e6ffb05dccc631283d32538190a2cf51935ad0fb85972e4eab7dfdac8ce8584d",
+    "workflows/task-plan/phase-completion.md": "sha256:bbc6d7396c96b5c5a9e2164ec431e2fe88afaadba049dfe8d6197f9410e7224f",
+    "workflows/task-plan/phase-implementation.md": "sha256:d248a483fbd5622f323c2676710aaa675212ed18a6d6e27e357a55ed021b4882",
+    "workflows/task-plan/phase-investigation.md": "sha256:07ff4e72f189f26fa18743986a56d8cf62ccd2ab00af1c2e5fe6666a5fb47439",
+    "workflows/task-plan/phase-testing.md": "sha256:90e127400f1a343c8449a09a60bf990b4608a64381637815b9b6b37c44f14c05"
+  }
+}

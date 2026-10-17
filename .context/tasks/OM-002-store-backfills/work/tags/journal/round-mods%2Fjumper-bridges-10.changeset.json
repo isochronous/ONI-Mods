@@ -1,0 +1,38 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/jumper-bridges — round 10",
+  "node": "C:\\dev\\ONI-Mods\\mods\\jumper-bridges",
+  "base": {
+    "domains/entities.md": "sha256:0f2c07b30b4be3e2cd99bf9362c258a0158e89a6580c018de61437c6b8dcb158",
+    "domains/glossary.md": "sha256:bcfe2301d4b1fb9daf6351d49b3f227b0ae3836aef8bbb53dcdfd638e54d4466",
+    "standards/error-handling.md": "sha256:7650c0c2dd2023f58dff2caaa7b85a396a20109931a91eb6dfb71d7d9577c54f"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "wire-tools",
+        "vanilla-fallback",
+        "mod-options"
+      ],
+      "section": "business-rules"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "automation-ribbon"
+      ],
+      "section": "cross-domain-terms/overload"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "logging"
+      ],
+      "section": "logging"
+    }
+  ]
+}

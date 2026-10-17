@@ -1,0 +1,319 @@
+{
+ "documents": [
+  {
+   "id": "domains/README.md",
+   "title": "Domains",
+   "description": "Index of the Refined Building domains folder, linking the entities document on the element-table patch that tags refined metals and the glossary of ONI and mod terms",
+   "document_tags": [
+    "building-materials",
+    "game-tag"
+   ],
+   "text": "---\ntags: building-materials, game-tag\ndoc_id: doc-850f06967f35\ndescription: Index of the Refined Building domains folder, linking the entities document on the element-table patch that tags refined metals and the glossary of ONI and mod terms\n---\n\n# Domains\n\n## Domains\n**Id:** blk-1e04afe936fc\n\n- [entities](entities.md): what the mod patches (the element table load that tags refined metals), with file locations, the tagging rules and key code paths.\n- [glossary](glossary.md): ONI and mod-specific terms used by Refined Building.\n",
+   "sections": [
+    {
+     "id": "domains/README.md#domains",
+     "title": "Domains",
+     "text": "## Domains\n**Id:** blk-1e04afe936fc\n\n- [entities](entities.md): what the mod patches (the element table load that tags refined metals), with file locations, the tagging rules and key code paths.\n- [glossary](glossary.md): ONI and mod-specific terms used by Refined Building.\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "domains/entities.md",
+   "title": "Refined Building domain",
+   "description": "The ElementLoader.Load patch and mod entry of Refined Building in src/RefinedBuilding that tag refined metals as Metal, with the tagging rules, affected buildings, file locations, code path and tests",
+   "document_tags": [
+    "building-materials",
+    "game-tag",
+    "harmony-patching"
+   ],
+   "text": "---\ntags: building-materials, game-tag, harmony-patching\ndoc_id: doc-88e47a3aca23\ndescription: The ElementLoader.Load patch and mod entry of Refined Building in src/RefinedBuilding that tag refined metals as Metal, with the tagging rules, affected buildings, file locations, code path and tests\napplies_to:\n  - \"src/RefinedBuilding/**\"\n---\n\n# Refined Building domain\n\n## Overview\n**Id:** blk-0fa48a39c914\n\nRefined Building lets every refined metal stand in wherever a building recipe asks for raw Metal Ore. It does this by adding the `Metal` tag to every solid element that carries `RefinedMetal` but not `Metal`, once, right after the game loads its element table. It adds no building, no component, no options and no saved state, so it can be added to or removed from an existing save. The mod is retired on the Workshop: another mod there already does the same job (`publish/retired.txt`).\n\n## Key Entities\n**Id:** blk-4255333b0ff3\n\n### ElementLoader_Load_Patch\n**Id:** blk-e1d4c3dc435f  \n**Tags:** logging  \n**Description**: The mod's only code of substance: a Harmony postfix on `ElementLoader.Load`. It walks `ElementLoader.elements`, skips non-solids, skips elements that lack `GameTags.RefinedMetal` or already have `GameTags.Metal`, and appends `GameTags.Metal` to the element's `oreTags`. It logs `Tagged N refined metal(s) as raw metal: ...`.  \n**Location**: `src/RefinedBuilding/Patches.cs`\n\n| Property | Type | Description |\n|----------|------|-------------|\n| element.oreTags | Tag[] | The tag array the patch extends with `Metal` |\n\n**Relationships**: `ElementLoader` only creates elements whose DLC is enabled and folds `materialCategory: RefinedMetal` into `oreTags`, so the loaded table covers the base game, enabled DLCs and elements other mods define. The material selector in the build menu matches recipes on tags, so the tagged metals appear beside the ores in the lists of `MATERIALS.RAW_METALS`, `MATERIALS.ALL_METALS` and the `BuildableRaw&Metal` group.\n\n### Mod entry\n**Id:** blk-e6f82a0713e3  \n**Tags:** mod-entry-point, logging  \n**Location**: `src/RefinedBuilding/Mod.cs`\n`RefinedBuildingMod` (a `UserMod2`) only logs the version. No PLib, no strings, no translations. Mod id `Isochronous.RefinedBuilding` (`mod.yaml`).\n\n## Business Rules\n**Id:** blk-68956ddc3d8d\n\n- Every loaded solid element tagged `RefinedMetal` ends up with the `Metal` tag, exactly once.\n- Elements that already carry both tags in vanilla (Steel, Niobium, Thermium, Iridium) are left alone. On the current game with all DLCs the mod adds the tag to Copper, Iron, Gold, Lead, Aluminum, Tungsten, Cobalt, Nickel, Zinc, Solid Mercury and Depleted Uranium.\n- Minerals, fuels, liquids, gases and raw ores are never retagged; raw ores keep `Metal`.\n- Buildings that ask for Refined Metal or for raw minerals only (regular pipes, ladders, plain tiles) are unchanged.\n- Discovery is unchanged: a metal appears in the build menu once it is discovered and available, like an ore.\n- Refined metal debris now satisfies deliveries that ask for any Metal, such as the Oxygen Mask Station; storage filters key on the material category, so refined metals stay under Refined Metal there.\n- The Metal Refinery and Rock Crusher build recipes from the same tag but skip anything without an ore-to-metal transition, so no new recipes appear.\n\n## Key Code Paths\n**Id:** blk-f6b9d46b071d  \n**Tags:** in-game-testing\n\n- **Retagging at load**: the `ElementLoader.Load` postfix — see `src/RefinedBuilding/Patches.cs`\n- **Tests**: in-game `[OniTest]` cases in `src/RefinedBuilding.Tests/RefinedMetals.cs` (every solid refined metal has `Metal` once; minerals, fuels, liquids and gases do not gain it; a loose refined pile counts as Metal for deliveries; wire and gas pipe offer refined metals; mineral-only and Refined Metal buildings untouched; the refinery and crusher gain no self-recipe)\n\n## Related\n**Id:** blk-8ef648f9082a\n\n- See also: [glossary](glossary.md)\n",
+   "sections": [
+    {
+     "id": "domains/entities.md#overview",
+     "title": "Overview",
+     "text": "## Overview\n**Id:** blk-0fa48a39c914\n\nRefined Building lets every refined metal stand in wherever a building recipe asks for raw Metal Ore. It does this by adding the `Metal` tag to every solid element that carries `RefinedMetal` but not `Metal`, once, right after the game loads its element table. It adds no building, no component, no options and no saved state, so it can be added to or removed from an existing save. The mod is retired on the Workshop: another mod there already does the same job (`publish/retired.txt`).\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/entities.md#key-entities",
+     "title": "Key Entities",
+     "text": "## Key Entities\n**Id:** blk-4255333b0ff3\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/entities.md#business-rules",
+     "title": "Business Rules",
+     "text": "## Business Rules\n**Id:** blk-68956ddc3d8d\n\n- Every loaded solid element tagged `RefinedMetal` ends up with the `Metal` tag, exactly once.\n- Elements that already carry both tags in vanilla (Steel, Niobium, Thermium, Iridium) are left alone. On the current game with all DLCs the mod adds the tag to Copper, Iron, Gold, Lead, Aluminum, Tungsten, Cobalt, Nickel, Zinc, Solid Mercury and Depleted Uranium.\n- Minerals, fuels, liquids, gases and raw ores are never retagged; raw ores keep `Metal`.\n- Buildings that ask for Refined Metal or for raw minerals only (regular pipes, ladders, plain tiles) are unchanged.\n- Discovery is unchanged: a metal appears in the build menu once it is discovered and available, like an ore.\n- Refined metal debris now satisfies deliveries that ask for any Metal, such as the Oxygen Mask Station; storage filters key on the material category, so refined metals stay under Refined Metal there.\n- The Metal Refinery and Rock Crusher build recipes from the same tag but skip anything without an ore-to-metal transition, so no new recipes appear.\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/entities.md#related",
+     "title": "Related",
+     "text": "## Related\n**Id:** blk-8ef648f9082a\n\n- See also: [glossary](glossary.md)\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "domains/glossary.md",
+   "title": "Refined Building glossary",
+   "description": "Glossary for Refined Building: abbreviations, terms to avoid, and definitions of the Metal and RefinedMetal tags, oreTags, material category lists, ElementLoader and the Metal Refinery, with the code using each",
+   "document_tags": [
+    "game-tag",
+    "building-materials"
+   ],
+   "text": "---\ntags: game-tag, building-materials\nwitness_digest: \"sha256:d10283b86caf5c7d8c6a6af6939de06a4a749d28c59b86155c47c2117d87d519\"\nwitness: loose\napplies_to:\n  - \"src/RefinedBuilding/**\"\ndoc_id: doc-a642a3738d44\ndescription: \"Glossary for Refined Building: abbreviations, terms to avoid, and definitions of the Metal and RefinedMetal tags, oreTags, material category lists, ElementLoader and the Metal Refinery, with the code using each\"\n---\n\n# Refined Building glossary\n\nTerms for the Refined Building mod. For the code behind them, see [entities](entities.md).\n\n## Abbreviations and Acronyms\n**Id:** blk-2daabcea9b32\n\n| Abbreviation | Full Term | Context |\n|--------------|-----------|---------|\n| ONI | Oxygen Not Included | The game this mod targets |\n| DLC | Downloadable content | Spaced Out, Frosty Planet and others; `ElementLoader` loads only elements of enabled DLCs |\n\n## Terms to Avoid\n**Id:** blk-199a729f1e95\n\n| Avoid | Use Instead | Reason |\n|-------|-------------|--------|\n| Raw metal (for any metal) | Metal Ore / the `Metal` tag | \"Raw\" means unrefined ore; the mod makes refined metals count as that tag, they do not become ore |\n| Pipes, ladders, plain tiles as affected buildings | Wire, pneumatic doors, mesh tiles, batteries, pumps, valves, vents | The early description named buildings that are built from raw minerals and never took metal (fixed in 1.0.1) |\n\n## Cross-Domain Terms\n**Id:** blk-594839f51b52\n\n### Metal (tag)\n**Id:** blk-d237716673b4  \n**Definition**: `GameTags.Metal`. The tag building recipes match when they ask for \"Metal Ore\". Raw metal ores carry it; the mod adds it to refined metals.  \n**Used in**: `Patches.cs`\n\n### RefinedMetal (tag)\n**Id:** blk-830e38f6d68e  \n**Definition**: `GameTags.RefinedMetal`. The tag of refined metal elements (from `materialCategory: RefinedMetal`); the mod's filter.  \n**Used in**: `Patches.cs`\n\n### oreTags\n**Id:** blk-501ed9940ebc  \n**Definition**: The tag array on an `Element` that `ElementLoader` fills from its material category. The mod appends `Metal` to it.  \n**Used in**: `Patches.cs`\n\n### MATERIALS.RAW_METALS / ALL_METALS\n**Id:** blk-d2a4e6688b06  \n**Definition**: The game's material-category lists a building recipe names. Despite its name `ALL_METALS` is also just `{\"Metal\"}`; the `BuildableRaw&Metal` group (gas pipes, storage bins, wash basins) also matches the tag.  \n**Used in**: `README.md`\n\n### ElementLoader\n**Id:** blk-17f70d2804d2  \n**Tags:** harmony-patching  \n**Definition**: The game class that loads the element table; `ElementLoader.Load` is patched and `ElementLoader.elements` is the loaded list.  \n**Used in**: `Patches.cs`\n\n### Refined Metal (material)\n**Id:** blk-5e045b8ba0c0  \n**Definition**: The material category buildings such as the Metal Refinery's outputs belong to (Copper, Iron, Steel and so on). Buildings that ask for Refined Metal are untouched.  \n**Used in**: `README.md`\n\n### Metal Refinery and Rock Crusher\n**Id:** blk-45c15c79ef6f  \n**Definition**: Buildings that build recipe lists from the same tag. They skip anything without an ore-to-metal transition, so the mod adds no recipe to them.  \n**Used in**: `RefinedMetals.cs` tests\n\n## Related\n**Id:** blk-fdc9cbe0e3b5\n\n- See also: [entities](entities.md)\n",
+   "sections": [
+    {
+     "id": "domains/glossary.md#abbreviations-and-acronyms",
+     "title": "Abbreviations and Acronyms",
+     "text": "## Abbreviations and Acronyms\n**Id:** blk-2daabcea9b32\n\n| Abbreviation | Full Term | Context |\n|--------------|-----------|---------|\n| ONI | Oxygen Not Included | The game this mod targets |\n| DLC | Downloadable content | Spaced Out, Frosty Planet and others; `ElementLoader` loads only elements of enabled DLCs |\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#terms-to-avoid",
+     "title": "Terms to Avoid",
+     "text": "## Terms to Avoid\n**Id:** blk-199a729f1e95\n\n| Avoid | Use Instead | Reason |\n|-------|-------------|--------|\n| Raw metal (for any metal) | Metal Ore / the `Metal` tag | \"Raw\" means unrefined ore; the mod makes refined metals count as that tag, they do not become ore |\n| Pipes, ladders, plain tiles as affected buildings | Wire, pneumatic doors, mesh tiles, batteries, pumps, valves, vents | The early description named buildings that are built from raw minerals and never took metal (fixed in 1.0.1) |\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms",
+     "title": "Cross-Domain Terms",
+     "text": "## Cross-Domain Terms\n**Id:** blk-594839f51b52\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/metal-tag",
+     "title": "Metal (tag)",
+     "text": "### Metal (tag)\n**Id:** blk-d237716673b4  \n**Definition**: `GameTags.Metal`. The tag building recipes match when they ask for \"Metal Ore\". Raw metal ores carry it; the mod adds it to refined metals.  \n**Used in**: `Patches.cs`\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/refinedmetal-tag",
+     "title": "RefinedMetal (tag)",
+     "text": "### RefinedMetal (tag)\n**Id:** blk-830e38f6d68e  \n**Definition**: `GameTags.RefinedMetal`. The tag of refined metal elements (from `materialCategory: RefinedMetal`); the mod's filter.  \n**Used in**: `Patches.cs`\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/oretags",
+     "title": "oreTags",
+     "text": "### oreTags\n**Id:** blk-501ed9940ebc  \n**Definition**: The tag array on an `Element` that `ElementLoader` fills from its material category. The mod appends `Metal` to it.  \n**Used in**: `Patches.cs`\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/materials-raw-metals-all-metals",
+     "title": "MATERIALS.RAW_METALS / ALL_METALS",
+     "text": "### MATERIALS.RAW_METALS / ALL_METALS\n**Id:** blk-d2a4e6688b06  \n**Definition**: The game's material-category lists a building recipe names. Despite its name `ALL_METALS` is also just `{\"Metal\"}`; the `BuildableRaw&Metal` group (gas pipes, storage bins, wash basins) also matches the tag.  \n**Used in**: `README.md`\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/refined-metal-material",
+     "title": "Refined Metal (material)",
+     "text": "### Refined Metal (material)\n**Id:** blk-5e045b8ba0c0  \n**Definition**: The material category buildings such as the Metal Refinery's outputs belong to (Copper, Iron, Steel and so on). Buildings that ask for Refined Metal are untouched.  \n**Used in**: `README.md`\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/metal-refinery-and-rock-crusher",
+     "title": "Metal Refinery and Rock Crusher",
+     "text": "### Metal Refinery and Rock Crusher\n**Id:** blk-45c15c79ef6f  \n**Definition**: Buildings that build recipe lists from the same tag. They skip anything without an ore-to-metal transition, so the mod adds no recipe to them.  \n**Used in**: `RefinedMetals.cs` tests\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#related",
+     "title": "Related",
+     "text": "## Related\n**Id:** blk-fdc9cbe0e3b5\n\n- See also: [entities](entities.md)\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "overview.md",
+   "title": "refined-building",
+   "description": "Overview of the Refined Building mod: how refined metals are made usable wherever a building asks for Metal Ore, its version, unlisted Workshop status and supported content, and a map of its source, tests and publish folders",
+   "document_tags": [
+    "building-materials",
+    "game-tag"
+   ],
+   "text": "---\ntags: building-materials, game-tag\ndescription: \"Overview of the Refined Building mod: how refined metals are made usable wherever a building asks for Metal Ore, its version, unlisted Workshop status and supported content, and a map of its source, tests and publish folders\"\n---\n\n# refined-building\n\n## What this is\n**Id:** blk-d87d99e6bbcc\n\nRefined Building is an Oxygen Not Included mod that lets every refined metal be used wherever a building asks for raw Metal Ore: wire, pneumatic doors and airlocks, mesh tiles, batteries, pumps, valves, vents, coal generators, the electrolyzer, sinks and showers. After the game loads its element table, every solid element tagged `RefinedMetal` that lacks the `Metal` tag gets it, so the refined metals appear in those buildings' material lists. It finds the metals at runtime, so it covers the base game, the enabled DLCs and refined metals added by other mods. Buildings that ask for Refined Metal are untouched. It does the same job as Cairath's Refined Metals Usable As Raw Metals, without a fixed list. Version 1.0.1 is built; `publish/retired.txt` records that the mod is unlisted on the Workshop (id 3806989781) because an existing mod already does this job. `mod.yaml` sets `supportedContent: ALL` and `minimumSupportedBuild: 744825`.\n\n## Where things are\n**Id:** blk-eecf05761bd9  \n**Tags:** mod-entry-point, in-game-testing, harmony-patching\n\n- `src/RefinedBuilding/`: the mod. `Mod.cs` (entry point), `Patches.cs` (the postfix on `ElementLoader.Load` that tags the metals), `mod.yaml`, `mod_info.yaml`.\n- `src/RefinedBuilding.Tests/`: in-game tests (`RefinedMetals.cs`).\n- `publish/`: Workshop material (`workshop-description.txt`, `workshop-id.txt`, `retired.txt`).\n- `README.md`, `CHANGELOG.md`: user-facing description and release history.\n- `.context/` holds `overview.md` (this file), `domains/` (entities and glossary), `standards/` (code style, error handling, naming conventions), `decisions/`, `retrospectives/`, `projects.md` and `META.md`.\n",
+   "sections": [
+    {
+     "id": "overview.md#what-this-is",
+     "title": "What this is",
+     "text": "## What this is\n**Id:** blk-d87d99e6bbcc\n\nRefined Building is an Oxygen Not Included mod that lets every refined metal be used wherever a building asks for raw Metal Ore: wire, pneumatic doors and airlocks, mesh tiles, batteries, pumps, valves, vents, coal generators, the electrolyzer, sinks and showers. After the game loads its element table, every solid element tagged `RefinedMetal` that lacks the `Metal` tag gets it, so the refined metals appear in those buildings' material lists. It finds the metals at runtime, so it covers the base game, the enabled DLCs and refined metals added by other mods. Buildings that ask for Refined Metal are untouched. It does the same job as Cairath's Refined Metals Usable As Raw Metals, without a fixed list. Version 1.0.1 is built; `publish/retired.txt` records that the mod is unlisted on the Workshop (id 3806989781) because an existing mod already does this job. `mod.yaml` sets `supportedContent: ALL` and `minimumSupportedBuild: 744825`.\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "standards/README.md",
+   "title": "Standards",
+   "description": "Index of the Refined Building standards folder, linking its code style, error handling and naming conventions documents with a line on what each covers",
+   "document_tags": [
+    "harmony-patching",
+    "logging"
+   ],
+   "text": "---\ntags: harmony-patching, logging\ndoc_id: doc-8a8a166dd81b\ndescription: Index of the Refined Building standards folder, linking its code style, error handling and naming conventions documents with a line on what each covers\n---\n\n# Standards\n\n## Standards\n**Id:** blk-b4974026c266\n\n- [code-style](code-style.md): C# formatting, imports, comments, Harmony patch and component conventions, with this mod's own layout.\n- [error-handling](error-handling.md): how Refined Building guards its Harmony patches, reflection lookups and file reads, and what it logs when something is missing.\n- [naming-conventions](naming-conventions.md): file, namespace, patch class, string key and id naming for project RefinedBuilding.\n",
+   "sections": [
+    {
+     "id": "standards/README.md#standards",
+     "title": "Standards",
+     "text": "## Standards\n**Id:** blk-b4974026c266\n\n- [code-style](code-style.md): C# formatting, imports, comments, Harmony patch and component conventions, with this mod's own layout.\n- [error-handling](error-handling.md): how Refined Building guards its Harmony patches, reflection lookups and file reads, and what it logs when something is missing.\n- [naming-conventions](naming-conventions.md): file, namespace, patch class, string key and id naming for project RefinedBuilding.\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "standards/code-style.md",
+   "title": "Code Style Guide",
+   "description": "C# code style for Refined Building: indentation, braces, imports, comments, control structures, Harmony patch and game component conventions, plus its single ElementLoader_Load_Patch postfix and absence of PLib and options",
+   "document_tags": [],
+   "text": "---\ndoc_id: doc-c26260a752d7\ndescription: \"C# code style for Refined Building: indentation, braces, imports, comments, control structures, Harmony patch and game component conventions, plus its single ElementLoader_Load_Patch postfix and absence of PLib and options\"\napplies_to:\n  - \"src/**\"\n---\n\n# Code Style Guide\n\n## Formatting\n**Id:** blk-277cf56a0a47\n\n### Indentation\n**Id:** blk-f713dfa869e5\n\n- Tabs, one per level, in every `.cs` file (`mods/bitshifter/src/Bitshifter/Mod.cs`).\n- Project files (`.csproj`, `common/oni-mod.props`, `common/oni-mod.targets`) use two spaces.\n- Files are committed with LF line endings; Windows checkouts convert them to CRLF (`core.autocrlf` is true), so do not hand-normalise line endings.\n\n### Line Length\n**Id:** blk-a120aa101a26\n\n- No limit is configured and the repository has no `.editorconfig`.\n- Wrap long calls and string concatenations after an argument or before a `+`, and indent the continuation one tab. The start-up log call in `mods/jumper-bridges/src/JumperBridges/Mod.cs` is the pattern.\n- TODO(owner): decide whether to add an `.editorconfig` recording tabs and brace placement so editors enforce what the code already does.\n\n### Braces\n**Id:** blk-3b9868193a7b\n\n- Opening brace on its own line (Allman) for namespaces, types, members and multi-line control blocks.\n- A body of one short statement goes on the next line without braces:\n\n```csharp\nforeach (Mod mod in mods)\n{\n\tif (!mod.IsEnabledForActiveDlc())\n\t\tcontinue;\n\t...\n}\n```\n\n- Multi-line initialisers and enums end with a trailing comma (`YieldToWorkshopIds` in `mods/bitshifter/src/Bitshifter/Mod.cs`, `CoolPodMode` in `mods/storage-pod-redux/src/StoragePodRedux/Options.cs`).\n\n## Language and Toolchain\n**Id:** blk-881a63a90ca6\n\n- C# 9 on .NET Framework 4.8 (`LangVersion` 9.0 and `TargetFramework` net48 in `common/oni-mod.props`). Namespace blocks, not file-scoped namespaces; no nullable reference types.\n- Mods compile against the game's own assemblies (`common/oni-mod.targets`): `Assembly-CSharp`, `Assembly-CSharp-firstpass`, `0Harmony` and Unity modules. The game's .NET Framework lacks some newer APIs (`ConditionalWeakTable.AddOrUpdate` is missing, see `mods/detect-any-element/src/DetectAnyElement/Patches.cs`).\n- Optional references are switched on in the mod csproj before the targets import: `ReferenceUnityUI`, `ReferenceImageConversion`, `UsePLib` (PLib is ILRepack-merged into the mod DLL) and `UseTranslations` (compiles `common/src/Translations.cs` in).\n- One namespace per mod, equal to its `RootNamespace`. Subfolders organise files and do not add namespaces (`mods/upgrade-planner/src/UpgradePlanner/Plan`, `Rules`, `Tool`, `UI` all declare `namespace UpgradePlanner`).\n\n## Imports/Includes\n**Id:** blk-34e56fbb43e7\n\n### Organization\n**Id:** blk-1c3f65331cfd\n\n`using` directives sit above the namespace, in one block with no blank lines, sorted alphabetically with `System.*` first. Aliases for `ModStrings` branches come last.\n\n1. `System.*`\n2. Everything else alphabetically: `HarmonyLib`, `Isochronous`, `KMod`, `Newtonsoft.Json`, `PeterHan.PLib.*`, `ProcGenGame`, `UnityEngine`\n3. Aliases (`using TOOL = SweepZones.ModStrings.UI.TOOLS.SWEEPZONES;`)\n\n### Example\n**Id:** blk-94c9c06009e9\n\n```csharp\nusing System.Collections.Generic;\nusing System.Reflection;\nusing HarmonyLib;\nusing Isochronous;\nusing Klei;\nusing KMod;\nusing STRINGS;\nusing UnityEngine;\n```\n(`mods/salty-surf/src/SaltySurf/Mod.cs`)\n\n`Debug.Log` resolves either to `UnityEngine.Debug` or to the game's own global `Debug` class, so several `Mod.cs` files omit `using UnityEngine`. When a file imports `System.Diagnostics`, qualify the call as `UnityEngine.Debug.Log` (`mods/just-fall-already/src/JustFallAlready/FallPoke.cs`).\n\n## Comments\n**Id:** blk-e90a14565ddc\n\n### When to Comment\n**Id:** blk-15a99617bbd0\n\n- On every non-trivial class, an XML `<summary>` that says what the game does and what the patch changes, so a reader can check the patch against the game code. The long summary on `OvercrowdingMonitor_UpdateRegion_Patch` in `mods/dont-count-eggs-on-rails/src/DontCountEggsOnRails/Mod.cs` is the model.\n- Where a game quirk forces an odd line: `// The game's .NET Framework has no AddOrUpdate on this table.`\n- Where another mod is involved, name it and its Workshop id (`mods/bitshifter/src/Bitshifter/Mod.cs`, `mods/smart-weight-plate/src/SmartWeightPlate/Mod.cs`).\n- Escape angle brackets in XML comments as `&lt;` and `&gt;`.\n\n### When NOT to Comment\n**Id:** blk-1dc327d9416e\n\n- Code that reads clearly from its names.\n- Commented-out code; delete it.\n- Restating what a line does.\n\n### Format\n**Id:** blk-596093bc92de\n\n```csharp\n/// <summary>\n/// The \"Any\" choice. It is a tag like the elements a sensor's Filterable holds, so it rides\n/// in the same saved field and copies with the building's settings.\n/// </summary>\npublic static class AnyElement\n\n// Single-line note for a quirk or a reason.\n```\n\n## Control Structures\n**Id:** blk-52ac607639a8\n\n### Conditionals\n**Id:** blk-67be97919660\n\nGuard clauses and early `return` or `continue` keep nesting shallow (`SettleSimBackwalls.UpdateFromSim` in `mods/natural-backwalls-everywhere/src/NaturalBackwalls/SettleSimPatch.cs`):\n\n```csharp\nif (!Grid.IsValidCell(cell))\n\tcontinue;\nushort idx = data->backwallElement[cell];\nif (idx == ushort.MaxValue || idx >= elements.Count)\n\tcontinue;\n```\n\n### Loops\n**Id:** blk-6b9561f02621\n\n- Plain `for` and `foreach`. Code that runs every sim tick or frame avoids LINQ and allocations; reuse scratch lists (`scratch` in `mods/just-fall-already/src/JustFallAlready/FallPoke.cs`).\n- Local types are written out (`Tech tech = ...`). `var` appears mainly in `mods/upgrade-planner`, `mods/natural-backwalls-everywhere` and the test projects; follow the surrounding file.\n\n### Strings\n**Id:** blk-70589d7fbf84\n\n- Log and UI text is built with `+` concatenation, or `string.Format` on a `LocString`. String interpolation is not used in mod code.\n- Player-visible text is a `LocString` field in `ModStrings`, never a literal at the call site (see [naming conventions](naming-conventions.md)).\n\n## Harmony Patches\n**Id:** blk-c504cd81f19d  \n**Tags:** harmony-patching\n\n- A patch is a static class with `[HarmonyPatch(typeof(Type), nameof(Type.Method))]`, or `[HarmonyPatch(typeof(Type), \"PrivateMethod\")]` for a non-public method, and methods named `Prefix`, `Postfix`, `Transpiler` or `Finalizer` (`mods/bitshifter/src/Bitshifter/Patches.cs`).\n- Game state arrives through Harmony parameters: `__instance`, `__result`, `___field`. Fields read repeatedly use `AccessTools.FieldRefAccess` kept in a `static readonly` field (`mods/detect-any-element/src/DetectAnyElement/Patches.cs`).\n- A prefix returns `true` to let the game's method run and `false` only when it replaces the method (`mods/dont-count-eggs-on-rails`, `mods/bitshifter` `UpdateVisuals`).\n- A patch that depends on an option implements `Prepare()` (`mods/jumper-bridges/src/JumperBridges/Patches.cs`); a patch with several targets implements `TargetMethods()`.\n- `UserMod2.OnLoad` calls `base.OnLoad(harmony)`, which applies every patch in the assembly, then registers libraries and logs the version. A mod that must patch after all others applies its patches from `OnAllModsLoaded` instead (`mods/bitshifter/src/Bitshifter/Mod.cs`).\n- Transpilers search for the instruction they change and report when it is not found; see [error handling](error-handling.md).\n\n## Game Components\n**Id:** blk-f9f0a392308b\n\n- A component extends `KMonoBehaviour`, overrides `OnPrefabInit`, `OnSpawn` and `OnCleanUp` and calls `base` from each. Sibling components come in through `[MyCmpGet]` or `[MyCmpReq]` (`mods/no-magic-fridges/src/NoMagicFridges/FridgeThermostat.cs`).\n- Saved state uses `[Serialize]` fields with `[SerializationConfig(MemberSerialization.OptIn)]` on the class (`mods/sweep-zones/src/SweepZones/ZoneStore.cs`).\n- Components are added to prefabs from a `DoPostConfigureComplete` postfix with `go.AddOrGet<T>()`.\n\n## Project-Specific Rules\n**Id:** blk-4cf063d3f818  \n**Tags:** logging, in-game-testing\n\n- Mod options are a PLib `POptions` class marked `[JsonObject(MemberSerialization.OptIn)]` and `[ConfigFile(SharedConfigLocation: true)]`, read through a static `Load()` (`mods/vent-freeze-fix/src/VentFreezeFix/Options.cs`) or through `SingletonOptions<Options>` (`mods/storage-pod-redux`). Option titles are string-table keys, so the translation follows the language.\n- Every mod logs one line at load: `[<Name>] Loaded version <assembly version>`.\n- Tests live in a separate `<Name>.Tests` project and are written as `[OniTest]` coroutines against the real game.\n\n### Refined Building specifics\n**Id:** blk-a69b73b86b85  \n**Tags:** harmony-patching\n\n- One patch, `ElementLoader_Load_Patch`, `internal static` with a `private static void Postfix()` (`src/RefinedBuilding/Patches.cs`).\n- Uses `var` for locals in the patch, one of the few production files that does.\n- No PLib, no translations, no options.\n\n## Related\n**Id:** blk-aba4d9e44799\n\n- See also: [naming conventions](naming-conventions.md)\n- See also: [error handling](error-handling.md)\n",
+   "sections": [
+    {
+     "id": "standards/code-style.md#formatting",
+     "title": "Formatting",
+     "text": "## Formatting\n**Id:** blk-277cf56a0a47\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#formatting/indentation",
+     "title": "Indentation",
+     "text": "### Indentation\n**Id:** blk-f713dfa869e5\n\n- Tabs, one per level, in every `.cs` file (`mods/bitshifter/src/Bitshifter/Mod.cs`).\n- Project files (`.csproj`, `common/oni-mod.props`, `common/oni-mod.targets`) use two spaces.\n- Files are committed with LF line endings; Windows checkouts convert them to CRLF (`core.autocrlf` is true), so do not hand-normalise line endings.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#formatting/line-length",
+     "title": "Line Length",
+     "text": "### Line Length\n**Id:** blk-a120aa101a26\n\n- No limit is configured and the repository has no `.editorconfig`.\n- Wrap long calls and string concatenations after an argument or before a `+`, and indent the continuation one tab. The start-up log call in `mods/jumper-bridges/src/JumperBridges/Mod.cs` is the pattern.\n- TODO(owner): decide whether to add an `.editorconfig` recording tabs and brace placement so editors enforce what the code already does.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#formatting/braces",
+     "title": "Braces",
+     "text": "### Braces\n**Id:** blk-3b9868193a7b\n\n- Opening brace on its own line (Allman) for namespaces, types, members and multi-line control blocks.\n- A body of one short statement goes on the next line without braces:\n\n```csharp\nforeach (Mod mod in mods)\n{\n\tif (!mod.IsEnabledForActiveDlc())\n\t\tcontinue;\n\t...\n}\n```\n\n- Multi-line initialisers and enums end with a trailing comma (`YieldToWorkshopIds` in `mods/bitshifter/src/Bitshifter/Mod.cs`, `CoolPodMode` in `mods/storage-pod-redux/src/StoragePodRedux/Options.cs`).\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#language-and-toolchain",
+     "title": "Language and Toolchain",
+     "text": "## Language and Toolchain\n**Id:** blk-881a63a90ca6\n\n- C# 9 on .NET Framework 4.8 (`LangVersion` 9.0 and `TargetFramework` net48 in `common/oni-mod.props`). Namespace blocks, not file-scoped namespaces; no nullable reference types.\n- Mods compile against the game's own assemblies (`common/oni-mod.targets`): `Assembly-CSharp`, `Assembly-CSharp-firstpass`, `0Harmony` and Unity modules. The game's .NET Framework lacks some newer APIs (`ConditionalWeakTable.AddOrUpdate` is missing, see `mods/detect-any-element/src/DetectAnyElement/Patches.cs`).\n- Optional references are switched on in the mod csproj before the targets import: `ReferenceUnityUI`, `ReferenceImageConversion`, `UsePLib` (PLib is ILRepack-merged into the mod DLL) and `UseTranslations` (compiles `common/src/Translations.cs` in).\n- One namespace per mod, equal to its `RootNamespace`. Subfolders organise files and do not add namespaces (`mods/upgrade-planner/src/UpgradePlanner/Plan`, `Rules`, `Tool`, `UI` all declare `namespace UpgradePlanner`).\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#imports-includes",
+     "title": "Imports/Includes",
+     "text": "## Imports/Includes\n**Id:** blk-34e56fbb43e7\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#imports-includes/organization",
+     "title": "Organization",
+     "text": "### Organization\n**Id:** blk-1c3f65331cfd\n\n`using` directives sit above the namespace, in one block with no blank lines, sorted alphabetically with `System.*` first. Aliases for `ModStrings` branches come last.\n\n1. `System.*`\n2. Everything else alphabetically: `HarmonyLib`, `Isochronous`, `KMod`, `Newtonsoft.Json`, `PeterHan.PLib.*`, `ProcGenGame`, `UnityEngine`\n3. Aliases (`using TOOL = SweepZones.ModStrings.UI.TOOLS.SWEEPZONES;`)\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#imports-includes/example",
+     "title": "Example",
+     "text": "### Example\n**Id:** blk-94c9c06009e9\n\n```csharp\nusing System.Collections.Generic;\nusing System.Reflection;\nusing HarmonyLib;\nusing Isochronous;\nusing Klei;\nusing KMod;\nusing STRINGS;\nusing UnityEngine;\n```\n(`mods/salty-surf/src/SaltySurf/Mod.cs`)\n\n`Debug.Log` resolves either to `UnityEngine.Debug` or to the game's own global `Debug` class, so several `Mod.cs` files omit `using UnityEngine`. When a file imports `System.Diagnostics`, qualify the call as `UnityEngine.Debug.Log` (`mods/just-fall-already/src/JustFallAlready/FallPoke.cs`).\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#comments",
+     "title": "Comments",
+     "text": "## Comments\n**Id:** blk-e90a14565ddc\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#comments/when-to-comment",
+     "title": "When to Comment",
+     "text": "### When to Comment\n**Id:** blk-15a99617bbd0\n\n- On every non-trivial class, an XML `<summary>` that says what the game does and what the patch changes, so a reader can check the patch against the game code. The long summary on `OvercrowdingMonitor_UpdateRegion_Patch` in `mods/dont-count-eggs-on-rails/src/DontCountEggsOnRails/Mod.cs` is the model.\n- Where a game quirk forces an odd line: `// The game's .NET Framework has no AddOrUpdate on this table.`\n- Where another mod is involved, name it and its Workshop id (`mods/bitshifter/src/Bitshifter/Mod.cs`, `mods/smart-weight-plate/src/SmartWeightPlate/Mod.cs`).\n- Escape angle brackets in XML comments as `&lt;` and `&gt;`.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#comments/when-not-to-comment",
+     "title": "When NOT to Comment",
+     "text": "### When NOT to Comment\n**Id:** blk-1dc327d9416e\n\n- Code that reads clearly from its names.\n- Commented-out code; delete it.\n- Restating what a line does.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#comments/format",
+     "title": "Format",
+     "text": "### Format\n**Id:** blk-596093bc92de\n\n```csharp\n/// <summary>\n/// The \"Any\" choice. It is a tag like the elements a sensor's Filterable holds, so it rides\n/// in the same saved field and copies with the building's settings.\n/// </summary>\npublic static class AnyElement\n\n// Single-line note for a quirk or a reason.\n```\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#control-structures",
+     "title": "Control Structures",
+     "text": "## Control Structures\n**Id:** blk-52ac607639a8\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#control-structures/conditionals",
+     "title": "Conditionals",
+     "text": "### Conditionals\n**Id:** blk-67be97919660\n\nGuard clauses and early `return` or `continue` keep nesting shallow (`SettleSimBackwalls.UpdateFromSim` in `mods/natural-backwalls-everywhere/src/NaturalBackwalls/SettleSimPatch.cs`):\n\n```csharp\nif (!Grid.IsValidCell(cell))\n\tcontinue;\nushort idx = data->backwallElement[cell];\nif (idx == ushort.MaxValue || idx >= elements.Count)\n\tcontinue;\n```\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#control-structures/loops",
+     "title": "Loops",
+     "text": "### Loops\n**Id:** blk-6b9561f02621\n\n- Plain `for` and `foreach`. Code that runs every sim tick or frame avoids LINQ and allocations; reuse scratch lists (`scratch` in `mods/just-fall-already/src/JustFallAlready/FallPoke.cs`).\n- Local types are written out (`Tech tech = ...`). `var` appears mainly in `mods/upgrade-planner`, `mods/natural-backwalls-everywhere` and the test projects; follow the surrounding file.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#control-structures/strings",
+     "title": "Strings",
+     "text": "### Strings\n**Id:** blk-70589d7fbf84\n\n- Log and UI text is built with `+` concatenation, or `string.Format` on a `LocString`. String interpolation is not used in mod code.\n- Player-visible text is a `LocString` field in `ModStrings`, never a literal at the call site (see [naming conventions](naming-conventions.md)).\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#game-components",
+     "title": "Game Components",
+     "text": "## Game Components\n**Id:** blk-f9f0a392308b\n\n- A component extends `KMonoBehaviour`, overrides `OnPrefabInit`, `OnSpawn` and `OnCleanUp` and calls `base` from each. Sibling components come in through `[MyCmpGet]` or `[MyCmpReq]` (`mods/no-magic-fridges/src/NoMagicFridges/FridgeThermostat.cs`).\n- Saved state uses `[Serialize]` fields with `[SerializationConfig(MemberSerialization.OptIn)]` on the class (`mods/sweep-zones/src/SweepZones/ZoneStore.cs`).\n- Components are added to prefabs from a `DoPostConfigureComplete` postfix with `go.AddOrGet<T>()`.\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#related",
+     "title": "Related",
+     "text": "## Related\n**Id:** blk-aba4d9e44799\n\n- See also: [naming conventions](naming-conventions.md)\n- See also: [error handling](error-handling.md)\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  }
+ ]
+}

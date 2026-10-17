@@ -1,0 +1,64 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r2 for node mods/motion-sensor-range — round 0",
+  "node": "C:\\dev\\ONI-Mods\\mods\\motion-sensor-range",
+  "base": {
+    "standards/README.md": "sha256:f166531fcd14bf484373cccdd2fdd18c1d78380dfabf03a520224de20209315b",
+    "standards/code-style.md": "sha256:90eaf5160e82bb2e7a99b4fc69bc32a2330ed23562e16d2ffedef76c62f73078",
+    "standards/error-handling.md": "sha256:fe4e304ce7358a9f37e6ca6cc79429f0e674ad7888bc630b176f05a05dfd59ca",
+    "standards/naming-conventions.md": "sha256:ceca5525e46987a0f2e262158f9ba8475cf82126a5704eb376f69073ca6872a7",
+    "domains/entities.md": "sha256:78529a89258aff923c36276ada2c280602d8f38dedc90bb56f31f4d6225bb535",
+    "overview.md": "sha256:fb05228cdc62c4f88a0be9500af85a8fec704a6af78ffbb7f1c44fbd8a9aa75a"
+  },
+  "ops": [
+    {
+      "target": "standards/README.md",
+      "mode": "tag",
+      "add": [
+        "code-style"
+      ]
+    },
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "code-style"
+      ]
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching",
+        "logging"
+      ]
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "tag",
+      "add": [
+        "code-style"
+      ]
+    },
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "side-screen",
+        "game-component"
+      ],
+      "section": "overview"
+    },
+    {
+      "target": "overview.md",
+      "mode": "tag",
+      "add": [
+        "side-screen",
+        "copy-settings",
+        "saved-state",
+        "harmony-patching"
+      ],
+      "section": "what-this-is"
+    }
+  ]
+}

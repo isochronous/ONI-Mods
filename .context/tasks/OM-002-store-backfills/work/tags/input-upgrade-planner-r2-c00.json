@@ -1,0 +1,451 @@
+{
+ "documents": [
+  {
+   "id": "domains/README.md",
+   "title": "Domains",
+   "description": "Index of the domain documents for the Upgrade Planner mod, linking its entities file (planner tool, plans, order queue, Blueprints Expanded link) and its glossary of terms",
+   "document_tags": [
+    "toolbar-tool",
+    "building-replacement"
+   ],
+   "text": "---\ntags: toolbar-tool, building-replacement\ndoc_id: doc-1578ba6b48ea\ndescription: Index of the domain documents for the Upgrade Planner mod, linking its entities file (planner tool, plans, order queue, Blueprints Expanded link) and its glossary of terms\n---\n\n# Domains\n\n## Domains\n**Id:** blk-41427816625f\n\n- [entities](entities.md): the planner tool, its plans and rules, the order queue and the Blueprints Expanded link.\n- [glossary](glossary.md): game and mod terms, abbreviations and terms to avoid.\n",
+   "sections": [
+    {
+     "id": "domains/README.md#domains",
+     "title": "Domains",
+     "text": "## Domains\n**Id:** blk-41427816625f\n\n- [entities](entities.md): the planner tool, its plans and rules, the order queue and the Blueprints Expanded link.\n- [glossary](glossary.md): game and mod terms, abbreviations and terms to avoid.\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "domains/entities.md",
+   "title": "Upgrade Planner domain",
+   "description": "The planner tool, plan classes, replacement rules, order queue, presets, dialog, Blueprints Expanded compatibility, hotkey and patches of Upgrade Planner, with business rules, saved state and the source file each lives in",
+   "document_tags": [
+    "toolbar-tool",
+    "building-replacement",
+    "building-materials",
+    "plan-presets",
+    "mod-compatibility"
+   ],
+   "text": "---\ntags: toolbar-tool, building-replacement, building-materials, plan-presets, mod-compatibility\ndoc_id: doc-5e37d1980952\ndescription: The planner tool, plan classes, replacement rules, order queue, presets, dialog, Blueprints Expanded compatibility, hotkey and patches of Upgrade Planner, with business rules, saved state and the source file each lives in\napplies_to:\n  - \"src/UpgradePlanner/**\"\n---\n\n# Upgrade Planner domain\n\n## Overview\n**Id:** blk-e852e7d310a2\n\nUpgrade Planner adds a toolbar tool that rebuilds the buildings in a box-dragged area: the same type in another material (Change material), or one type replaced by another the game lets you build over it (Replace type). It reads the game's own replacement rules and queues the same replacement order the build tool would. It depends on Blueprints Expanded (static ID `BlueprintsV2`) to keep an upgraded building's settings. The mod is `mods/upgrade-planner`, static ID `Isochronous.UpgradePlanner`, source in `src/UpgradePlanner/`. It adds no buildings.\n\n## Key Entities\n**Id:** blk-abde66e7508d\n\n### UpgradeTool\n**Id:** blk-7671dcf41450  \n**Tags:** reflection  \n**Description**: The box-drag tool, a subclass of the game's `DragTool`. Cursor and area-visualizer assets are cloned from the vanilla Sweep (`ClearTool`) tool by reflection. Owns the dialog, the compiled plan, the highlight (blue for buildings the plan would touch, green for ones already pending), the overlay switch and the hover card. A drag works from the plan as it stood at the last Apply.  \n**Location**: `src/UpgradePlanner/Tool/UpgradeTool.cs`\n\n**Relationships**: holds `UpgradePlan.Current` and an `applied` snapshot; opens `UpgradeDialog`; hands drags to `PlacementQueue`; `WindowToggle` drives the \"Upgrade Planner Config\" button next to the priority picker.\n\n### UpgradePlan, ChangeMaterialPlan, ReplaceTypePlan\n**Id:** blk-10be300a8170  \n**Description**: The player's choices on both tabs, kept for the session. `UpgradePlan.Current` holds the active `PlanMode` (`ChangeMaterial` or `ReplaceType`) and a `Version` bumped on every change, so highlights recompile. Each tab implements `IPlanTab` (`IsComplete`, `Summary`, `TouchedDefs`, `Compile`, `Save`, `Load`).  \n**Location**: `src/UpgradePlanner/Plan/UpgradePlan.cs`, `ChangeMaterialPlan.cs`, `ReplaceTypePlan.cs`\n\n| Property | Type | Description |\n|----------|------|-------------|\n| Change material: picked types | HashSet<string> | Prefab IDs of picked types; null means every offered type |\n| Change material: SourceMode, Source, Target | MaterialMode, Tag, Tag | `Any` or `Specific` material to replace; the one material to build in |\n| Change material: AllBuildings | bool | Also offer buildings the game cannot build over (needs Blueprints Expanded) |\n| Replace type: Source, SourceMode, SourceMaterials | Family, MaterialMode, Tag[] | The type to replace and its materials, one per recipe ingredient |\n| Replace type: Target, TargetMaterials | Family, Tag[] | The type to build over it and its materials |\n\n### Matcher and Upgrade\n**Id:** blk-eb0cfd6059c7  \n**Description**: A plan compiled for a drag or highlight. `Matcher.Matches(building)` says whether the plan takes a building; `TryPlan(building, out Upgrade)` says what it becomes. `Upgrade` holds the target `BuildingDef`, the materials and `Rebuild` (deconstruct and reconstruct instead of building over). Made again when the plan changes and once a second, since research changes what is allowed.  \n**Location**: `src/UpgradePlanner/Plan/UpgradePlan.cs`\n\n### Family and Category\n**Id:** blk-edd76d9c5a3f  \n**Description**: A `Family` is a building type as the build menu lists it: usually one def, or several defs made by one config class when a mod makes one def per material and lists one (Decor Pack's stained glass tiles). A `Category` is a heading of families, by replacement layer or by build menu category.  \n**Location**: `src/UpgradePlanner/Rules/Families.cs`\n\n### Rules\n**Id:** blk-b0f419b32269  \n**Description**: `ReplacementRules` decides what the game lets be built over what (`IsReplaceable`, `CanReplace`, `IsBuildable`, source and target categories). `MaterialSwap` decides which types the Change material tab offers and which recipe ingredient a change swaps. `Materials` reads what a building was built from (`Deconstructable.constructionElements`). `Variants.Resolve` picks the def to build for a family and materials by running other mods' `BuildTool.Activate` prefixes.  \n**Location**: `src/UpgradePlanner/Rules/ReplacementRules.cs`, `MaterialSwap.cs`, `Materials.cs`, `Variants.cs`\n\n### Orders and PlacementQueue\n**Id:** blk-89e4c8708ab0  \n**Tags:** performance  \n**Description**: `Orders.Place` queues one upgrade: `Replace` follows the build tool's sequence (`GetReplacementCandidate`, `IsReplacementLayerOccupied` over the footprint, `CanReplace`, same-type-same-material skip, `TryReplaceTile`, write into the replacement layer, priority from the tool menu); `Reconstruct` goes through `Reconstructable.RequestReconstruct` with every ingredient set. `PlacementQueue` places the drag's buildings in slices of about 4 ms a frame, re-checks each as placed, and shows the popup when the last is done. With instant build (debug toggle or sandbox setting) buildings are replaced on the spot.  \n**Location**: `src/UpgradePlanner/Tool/Orders.cs`, `src/UpgradePlanner/Tool/PlacementQueue.cs`\n\n### Presets\n**Id:** blk-82a395d5be77  \n**Description**: A `PlanPreset` is one tab's plan saved by name, by prefab ID and element tag so it reads back in any colony. Each tab lists only its own presets and a name is unique within a tab. Stored in `mods/config/UpgradePlanner/presets.json` under the game's data folder (`Presets.FilePath`); tests point it elsewhere.  \n**Location**: `src/UpgradePlanner/Plan/Presets.cs`, `src/UpgradePlanner/UI/PresetBar.cs`\n\n### Window\n**Id:** blk-07f5b34ed3fd  \n**Description**: A PLib `PDialog` (`UpgradeDialog`), non-modal, with one view per tab (`MaterialTabView`, `TypeTabView`). Materials are picked in the game's own `MaterialSelectionPanel`, instantiated from the build menu's prefab (`MaterialPicker`). `Widgets.cs` holds shared controls, `ToolMarker` and `ToolIcon` the cursor marker and toolbar sprite, `PlannerHoverCard` the hover card.  \n**Location**: `src/UpgradePlanner/UI/`\n\n### Compat\n**Id:** blk-24d2573ff9eb  \n**Tags:** harmony-patching, reflection  \n**Description**: `BlueprintsCompat` binds to Blueprints Expanded's `API_Methods.GetAllAdditionalBuildingData` and its `UnderConstructionDataTransfer` carrier, and sets `Loaded`. `OtherModSettings` registers Suppress Notifications' and No Manual Delivery's per-building settings with Blueprints Expanded's API. `ModCompat` patches Adaptive Building Menu's two layout appliers to skip the planner's pickers.  \n**Location**: `src/UpgradePlanner/Compat/`\n\n### Hotkey\n**Id:** blk-32317980a9a4  \n**Tags:** hotkey  \n**Description**: PLib `PAction` `Isochronous.UpgradePlanner.Tool`, default Shift+U, in `UpgradePlannerMod.ToolAction`.  \n**Location**: `src/UpgradePlanner/Mod.cs`\n\n### Harmony patches\n**Id:** blk-2fd79bc0f22b  \n**Tags:** harmony-patching  \n**Location**: `src/UpgradePlanner/Patches.cs`, `src/UpgradePlanner/Compat/ModCompat.cs`\n\n| Target | Kind | Purpose |\n|--------|------|---------|\n| `Db.Initialize` | Postfix | Registers the tool icon |\n| `PlayerController.OnPrefabInit` | Postfix | Adds `UpgradeTool` to the player's tools |\n| `ToolMenu.CreateBasicTools` | Postfix | Adds the toolbar button |\n| `MaterialSelector.UpdateScrollBar` | Postfix | Puts the planner's picker size back after the game sets the build menu's (pickers with a `SizeKeeper` only) |\n| `MaterialSelector.OnSelectMaterial` | Prefix | Nulls the recipe for the planner's pickers so picks stay out of the game's saved last-material memory |\n| `Reconstructable.TryCommenceReconstruct` | Postfix | `Orders.FollowRebuild` places the rebuilt building's order if the game's own was refused |\n| Adaptive Building Menu `MaterialSelectorLayoutApplier.Apply`, `MaterialSelectionPanelLayoutApplier.Apply` | Prefix, found by name | Skips layout for the planner's pickers, only when that mod is loaded |\n\n### Saved state\n**Id:** blk-4e9607ecfcda\n\nPresets in `presets.json`. The plan itself lives for the session only. Settings of rebuilt buildings are carried by Blueprints Expanded, not by this mod.\n\n## Business Rules\n**Id:** blk-5ec4d3dd1f4e  \n**Tags:** vanilla-fallback\n\n- The mod never changes what can replace what: a pair the game refuses in the build tool is refused here. A target qualifies when it names a replacement layer, the source carries one of its replacement tags, and the source's tile or object layer is one the target searches (`ReplacementRules.CanReplace`); utility buildings (wires, pipes, rails) of one tile layer replace each other.\n- The Change material tab lists a type when the game lets it be built over by itself. With All buildings on and Blueprints Expanded loaded, any reconstructable type is also offered; those are deconstructed and rebuilt, out of service until done.\n- A same-type swap is allowed only when the material changes; same type in the same materials is skipped.\n- A building with a two-ingredient recipe has only the ingredient holding the material to replace swapped.\n- A drag with no applied plan, or an incomplete one, shows an error instead of marking anything. Apply closes the window and keeps the tool active; Clear takes back the applied plan.\n- Each marked building gets a replacement order with its own orientation at the tool's current priority. A popup counts those marked and those skipped (already pending, already that type and material).\n- A building replaced with another type keeps none of its settings; a same-type rebuild keeps them through Blueprints Expanded.\n- Without Blueprints Expanded, settings are lost and only buildings the game lets you build over are offered; a warning is logged.\n- Picks in the planner's pickers never change the build menu's last-picked materials, including the Printing Pod's (`MaterialSwap.PickerResult` names the real building `Headquarters` the recipe needs).\n- Nothing is deconstructed except the buildings All buildings adds.\n\n## Domain Terminology\n**Id:** blk-22b4459badcc\n\n| Term | Definition |\n|------|-----------|\n| Replacement | The build tool's way of building over a finished building; the old one works until the new one is built |\n| Reconstruct | The game's deconstruct-and-rebuild in a new material (the material button in a building's side screen) |\n| Plan | The choices on a tab; compiled into a `Matcher` for drags |\n| Applied plan | The plan as it stood at the last Apply; what drags use |\n| Family | A building type as the build menu lists it, with any per-material variant defs |\n| Change material / Replace type | The two tabs |\n| All buildings | Header checkbox that also offers buildings the game cannot build over |\n| Preset | A named, saved plan for one tab |\n\n## Key Code Paths\n**Id:** blk-ff3c8a3f00bf  \n**Tags:** hotkey, mod-entry-point, in-game-testing\n\n- **Select and configure**: toolbar button or Shift+U -> `UpgradeTool.OnActivateTool` -> window opens; choices change `UpgradePlan` -> `Version++` -> highlight recompiles. See `src/UpgradePlanner/Tool/UpgradeTool.cs`, `src/UpgradePlanner/UI/UpgradeDialog.cs`.\n- **Apply and drag**: Apply snapshots the plan; button-up settles each building's `Upgrade` through the `Matcher`, then `PlacementQueue.Add` -> `Orders.Place`. See `src/UpgradePlanner/Tool/PlacementQueue.cs`, `src/UpgradePlanner/Tool/Orders.cs`.\n- **Replacement vs rebuild**: `Upgrade.Rebuild` (from `MaterialSwap.Rebuilds`) -> `Orders.Reconstruct`, else `Orders.Replace`; `Reconstructable.TryCommenceReconstruct` patch -> `Orders.FollowRebuild`.\n- **Settings carry-over**: `BlueprintsCompat.CarrySettings(oldBuilding, order)` in `Orders.Replace`. See `src/UpgradePlanner/Compat/BlueprintsCompat.cs`.\n- **Startup**: `OnLoad` registers translations and the hotkey; `OnAllModsLoaded` runs `ModCompat.Apply` and `BlueprintsCompat.Init`. See `src/UpgradePlanner/Mod.cs`.\n- **Presets**: `PresetBar` -> `Presets` -> `presets.json`. See `src/UpgradePlanner/UI/PresetBar.cs`, `src/UpgradePlanner/Plan/Presets.cs`.\n- **Tests**: in-game `[OniTest]` suites in `src/UpgradePlanner.Tests/` (`MaterialChange.cs`, `TypeTab.cs`, `AllBuildings.cs`, `BuildingSettings.cs`, `WireReplace.cs`, `ToolParity.cs`, `DragTiming.cs`, `Closing.cs`, `Looks.cs`, and the `ByHand` walkthroughs); `src/UpgradePlanner.Tests/README.md` describes them.\n\n## Related\n**Id:** blk-de8d2d185a04\n\n- See also: [glossary](glossary.md)\n",
+   "sections": [
+    {
+     "id": "domains/entities.md#overview",
+     "title": "Overview",
+     "text": "## Overview\n**Id:** blk-e852e7d310a2\n\nUpgrade Planner adds a toolbar tool that rebuilds the buildings in a box-dragged area: the same type in another material (Change material), or one type replaced by another the game lets you build over it (Replace type). It reads the game's own replacement rules and queues the same replacement order the build tool would. It depends on Blueprints Expanded (static ID `BlueprintsV2`) to keep an upgraded building's settings. The mod is `mods/upgrade-planner`, static ID `Isochronous.UpgradePlanner`, source in `src/UpgradePlanner/`. It adds no buildings.\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/entities.md#key-entities",
+     "title": "Key Entities",
+     "text": "## Key Entities\n**Id:** blk-abde66e7508d\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/entities.md#key-entities/upgradeplan-changematerialplan-replacetypeplan",
+     "title": "UpgradePlan, ChangeMaterialPlan, ReplaceTypePlan",
+     "text": "### UpgradePlan, ChangeMaterialPlan, ReplaceTypePlan\n**Id:** blk-10be300a8170  \n**Description**: The player's choices on both tabs, kept for the session. `UpgradePlan.Current` holds the active `PlanMode` (`ChangeMaterial` or `ReplaceType`) and a `Version` bumped on every change, so highlights recompile. Each tab implements `IPlanTab` (`IsComplete`, `Summary`, `TouchedDefs`, `Compile`, `Save`, `Load`).  \n**Location**: `src/UpgradePlanner/Plan/UpgradePlan.cs`, `ChangeMaterialPlan.cs`, `ReplaceTypePlan.cs`\n\n| Property | Type | Description |\n|----------|------|-------------|\n| Change material: picked types | HashSet<string> | Prefab IDs of picked types; null means every offered type |\n| Change material: SourceMode, Source, Target | MaterialMode, Tag, Tag | `Any` or `Specific` material to replace; the one material to build in |\n| Change material: AllBuildings | bool | Also offer buildings the game cannot build over (needs Blueprints Expanded) |\n| Replace type: Source, SourceMode, SourceMaterials | Family, MaterialMode, Tag[] | The type to replace and its materials, one per recipe ingredient |\n| Replace type: Target, TargetMaterials | Family, Tag[] | The type to build over it and its materials |\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/entities.md#key-entities/matcher-and-upgrade",
+     "title": "Matcher and Upgrade",
+     "text": "### Matcher and Upgrade\n**Id:** blk-eb0cfd6059c7  \n**Description**: A plan compiled for a drag or highlight. `Matcher.Matches(building)` says whether the plan takes a building; `TryPlan(building, out Upgrade)` says what it becomes. `Upgrade` holds the target `BuildingDef`, the materials and `Rebuild` (deconstruct and reconstruct instead of building over). Made again when the plan changes and once a second, since research changes what is allowed.  \n**Location**: `src/UpgradePlanner/Plan/UpgradePlan.cs`\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/entities.md#key-entities/family-and-category",
+     "title": "Family and Category",
+     "text": "### Family and Category\n**Id:** blk-edd76d9c5a3f  \n**Description**: A `Family` is a building type as the build menu lists it: usually one def, or several defs made by one config class when a mod makes one def per material and lists one (Decor Pack's stained glass tiles). A `Category` is a heading of families, by replacement layer or by build menu category.  \n**Location**: `src/UpgradePlanner/Rules/Families.cs`\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/entities.md#key-entities/rules",
+     "title": "Rules",
+     "text": "### Rules\n**Id:** blk-b0f419b32269  \n**Description**: `ReplacementRules` decides what the game lets be built over what (`IsReplaceable`, `CanReplace`, `IsBuildable`, source and target categories). `MaterialSwap` decides which types the Change material tab offers and which recipe ingredient a change swaps. `Materials` reads what a building was built from (`Deconstructable.constructionElements`). `Variants.Resolve` picks the def to build for a family and materials by running other mods' `BuildTool.Activate` prefixes.  \n**Location**: `src/UpgradePlanner/Rules/ReplacementRules.cs`, `MaterialSwap.cs`, `Materials.cs`, `Variants.cs`\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/entities.md#key-entities/presets",
+     "title": "Presets",
+     "text": "### Presets\n**Id:** blk-82a395d5be77  \n**Description**: A `PlanPreset` is one tab's plan saved by name, by prefab ID and element tag so it reads back in any colony. Each tab lists only its own presets and a name is unique within a tab. Stored in `mods/config/UpgradePlanner/presets.json` under the game's data folder (`Presets.FilePath`); tests point it elsewhere.  \n**Location**: `src/UpgradePlanner/Plan/Presets.cs`, `src/UpgradePlanner/UI/PresetBar.cs`\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/entities.md#key-entities/window",
+     "title": "Window",
+     "text": "### Window\n**Id:** blk-07f5b34ed3fd  \n**Description**: A PLib `PDialog` (`UpgradeDialog`), non-modal, with one view per tab (`MaterialTabView`, `TypeTabView`). Materials are picked in the game's own `MaterialSelectionPanel`, instantiated from the build menu's prefab (`MaterialPicker`). `Widgets.cs` holds shared controls, `ToolMarker` and `ToolIcon` the cursor marker and toolbar sprite, `PlannerHoverCard` the hover card.  \n**Location**: `src/UpgradePlanner/UI/`\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/entities.md#key-entities/saved-state",
+     "title": "Saved state",
+     "text": "### Saved state\n**Id:** blk-4e9607ecfcda\n\nPresets in `presets.json`. The plan itself lives for the session only. Settings of rebuilt buildings are carried by Blueprints Expanded, not by this mod.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/entities.md#domain-terminology",
+     "title": "Domain Terminology",
+     "text": "## Domain Terminology\n**Id:** blk-22b4459badcc\n\n| Term | Definition |\n|------|-----------|\n| Replacement | The build tool's way of building over a finished building; the old one works until the new one is built |\n| Reconstruct | The game's deconstruct-and-rebuild in a new material (the material button in a building's side screen) |\n| Plan | The choices on a tab; compiled into a `Matcher` for drags |\n| Applied plan | The plan as it stood at the last Apply; what drags use |\n| Family | A building type as the build menu lists it, with any per-material variant defs |\n| Change material / Replace type | The two tabs |\n| All buildings | Header checkbox that also offers buildings the game cannot build over |\n| Preset | A named, saved plan for one tab |\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/entities.md#related",
+     "title": "Related",
+     "text": "## Related\n**Id:** blk-de8d2d185a04\n\n- See also: [glossary](glossary.md)\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "domains/glossary.md",
+   "title": "Upgrade Planner glossary",
+   "description": "Glossary for Upgrade Planner: abbreviations (BE, ABM, PLib, def), terms to avoid such as upgrade and reconstruct, and definitions of replacement layers, tags, variants and material terms with where each is used",
+   "document_tags": [
+    "building-replacement",
+    "building-materials"
+   ],
+   "text": "---\ntags: building-replacement, building-materials\nwitness_digest: \"sha256:e76f9e8279fb4f9b360438528479b314547a025bcabce57dba07c31edbc4bbd2\"\nwitness: loose\napplies_to:\n  - \"src/UpgradePlanner/**\"\ndoc_id: doc-ff4db6770074\ndescription: \"Glossary for Upgrade Planner: abbreviations (BE, ABM, PLib, def), terms to avoid such as upgrade and reconstruct, and definitions of replacement layers, tags, variants and material terms with where each is used\"\n---\n\n# Upgrade Planner glossary\n\nTerms for the Upgrade Planner mod. For the mod's entities, rules and code paths see [entities](entities.md).\n\n## Abbreviations and Acronyms\n**Id:** blk-41dd8d370f1a  \n**Tags:** mod-compatibility\n\n| Abbreviation | Full Term | Context |\n|--------------|-----------|---------|\n| ONI | Oxygen Not Included | The game the mod is for |\n| BE | Blueprints Expanded | Sgt_Imalas's mod, static ID `BlueprintsV2`; keeps settings of upgraded buildings. The code calls it Blueprints or `BlueprintsCompat` |\n| PLib | Peter Han's mod library | Window (`PDialog`) and hotkey; merged into the DLL |\n| ABM | Adaptive Building Menu | Optional mod whose picker layout the planner opts out of (`ModCompat.cs`) |\n| def | `BuildingDef` | The game's building definition, one per prefab |\n\n## Terms to Avoid\n**Id:** blk-65df537bac20\n\n| Avoid | Use Instead | Reason |\n|-------|-------------|--------|\n| Upgrade (for the game action) | Replace, rebuild | The game has no upgrade action; the tool queues replacement orders or reconstructs. \"Upgrade\" is only in the mod's name and the `Upgrade` struct |\n| Reconstruct for building over | Replace | Reconstruct means deconstruct then rebuild, with downtime; replacement keeps the old building working until the new one is built |\n\n## Cross-Domain Terms\n**Id:** blk-8b803e4f169a\n\n### Replacement layer\n**Id:** blk-b457904aa82e  \n**Definition**: The `ObjectLayer` a `BuildingDef` names (`ReplacementLayer`) for the order it places over an existing building. The game's rule for what may be built over what comes from it, `ReplacementTags` and `ReplacementCandidateLayers`.  \n**Used in**: `ReplacementRules.cs`, `Orders.cs`.\n\n### Replacement tags\n**Id:** blk-fe6a05f87425  \n**Definition**: Tags a building must carry for a def to be built over it. Most come from the prefab config; some, like `GameTags.Ladders`, are added by a component on the finished building.  \n**Used in**: `ReplacementRules.CarriesReplacementTag`.\n\n### Replacement candidate\n**Id:** blk-55d85070c060  \n**Definition**: The finished building `BuildingDef.GetReplacementCandidate(cell)` finds in a cell. The planner places an order only when it is the building being upgraded.  \n**Used in**: `Orders.Replace`.\n\n### Utility building\n**Id:** blk-6195032777b7  \n**Definition**: A wire, pipe, rail or other building dragged as a path with the utility build tool (`BuildingDef.isUtility`). These replace each other by tile layer, with no tag check.  \n**Used in**: `ReplacementRules.CanReplace`, `Orders.Replace`.\n\n### Reconstructable\n**Id:** blk-3e707cb5548c  \n**Definition**: The game component behind the material button in a building's side screen; it deconstructs the building and rebuilds it in other materials.  \n**Used in**: `Orders.Reconstruct`, `Patches.cs`.\n\n### MaterialSelectionPanel\n**Id:** blk-22853fcb8417  \n**Definition**: The game's material picker under a building in the build menu, one row per recipe ingredient. The planner instantiates it inside its window.  \n**Used in**: `MaterialPicker.cs`, `MaterialTabView.cs`, `TypeTabView.cs`.\n\n### Instant build\n**Id:** blk-17388add876b  \n**Definition**: The debug toggle, or sandbox mode with its instant build setting, that finishes buildings on the spot. The planner replaces buildings immediately when it is on.  \n**Used in**: `Orders.InstantBuild`.\n\n### Material / element tag\n**Id:** blk-4e9f18b6b5ff  \n**Tags:** plan-presets  \n**Definition**: The tag of a building material (an element such as `Granite`), as used in a recipe ingredient or `constructionElements`. Presets save them by name.  \n**Used in**: `Materials.cs`, `Presets.cs`.\n\n### Variant (family member)\n**Id:** blk-9a1c4ba535a3  \n**Tags:** mod-compatibility  \n**Definition**: One of several defs made by one config class that the build menu lists as a single type, one per material (Decor Pack stained glass tiles). `Variants.Resolve` picks the right one.  \n**Used in**: `Families.cs`, `Variants.cs`.\n\n## Related\n**Id:** blk-70af1cd54055\n\n- See also: [entities](entities.md)\n",
+   "sections": [
+    {
+     "id": "domains/glossary.md#terms-to-avoid",
+     "title": "Terms to Avoid",
+     "text": "## Terms to Avoid\n**Id:** blk-65df537bac20\n\n| Avoid | Use Instead | Reason |\n|-------|-------------|--------|\n| Upgrade (for the game action) | Replace, rebuild | The game has no upgrade action; the tool queues replacement orders or reconstructs. \"Upgrade\" is only in the mod's name and the `Upgrade` struct |\n| Reconstruct for building over | Replace | Reconstruct means deconstruct then rebuild, with downtime; replacement keeps the old building working until the new one is built |\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms",
+     "title": "Cross-Domain Terms",
+     "text": "## Cross-Domain Terms\n**Id:** blk-8b803e4f169a\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/replacement-layer",
+     "title": "Replacement layer",
+     "text": "### Replacement layer\n**Id:** blk-b457904aa82e  \n**Definition**: The `ObjectLayer` a `BuildingDef` names (`ReplacementLayer`) for the order it places over an existing building. The game's rule for what may be built over what comes from it, `ReplacementTags` and `ReplacementCandidateLayers`.  \n**Used in**: `ReplacementRules.cs`, `Orders.cs`.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/replacement-tags",
+     "title": "Replacement tags",
+     "text": "### Replacement tags\n**Id:** blk-fe6a05f87425  \n**Definition**: Tags a building must carry for a def to be built over it. Most come from the prefab config; some, like `GameTags.Ladders`, are added by a component on the finished building.  \n**Used in**: `ReplacementRules.CarriesReplacementTag`.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/replacement-candidate",
+     "title": "Replacement candidate",
+     "text": "### Replacement candidate\n**Id:** blk-55d85070c060  \n**Definition**: The finished building `BuildingDef.GetReplacementCandidate(cell)` finds in a cell. The planner places an order only when it is the building being upgraded.  \n**Used in**: `Orders.Replace`.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/utility-building",
+     "title": "Utility building",
+     "text": "### Utility building\n**Id:** blk-6195032777b7  \n**Definition**: A wire, pipe, rail or other building dragged as a path with the utility build tool (`BuildingDef.isUtility`). These replace each other by tile layer, with no tag check.  \n**Used in**: `ReplacementRules.CanReplace`, `Orders.Replace`.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/reconstructable",
+     "title": "Reconstructable",
+     "text": "### Reconstructable\n**Id:** blk-3e707cb5548c  \n**Definition**: The game component behind the material button in a building's side screen; it deconstructs the building and rebuilds it in other materials.  \n**Used in**: `Orders.Reconstruct`, `Patches.cs`.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/materialselectionpanel",
+     "title": "MaterialSelectionPanel",
+     "text": "### MaterialSelectionPanel\n**Id:** blk-22853fcb8417  \n**Definition**: The game's material picker under a building in the build menu, one row per recipe ingredient. The planner instantiates it inside its window.  \n**Used in**: `MaterialPicker.cs`, `MaterialTabView.cs`, `TypeTabView.cs`.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/instant-build",
+     "title": "Instant build",
+     "text": "### Instant build\n**Id:** blk-17388add876b  \n**Definition**: The debug toggle, or sandbox mode with its instant build setting, that finishes buildings on the spot. The planner replaces buildings immediately when it is on.  \n**Used in**: `Orders.InstantBuild`.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#related",
+     "title": "Related",
+     "text": "## Related\n**Id:** blk-70af1cd54055\n\n- See also: [entities](entities.md)\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "overview.md",
+   "title": "upgrade-planner",
+   "description": "Overview of the Upgrade Planner mod: the box-drag tool that changes building materials or replaces building types, its tabs, presets and Blueprints Expanded requirement, version, and a map of its source folders, tests and publish files",
+   "document_tags": [
+    "toolbar-tool",
+    "building-replacement",
+    "building-materials",
+    "plan-presets",
+    "mod-compatibility"
+   ],
+   "text": "---\ntags: toolbar-tool, building-replacement, building-materials, plan-presets, mod-compatibility\ndescription: \"Overview of the Upgrade Planner mod: the box-drag tool that changes building materials or replaces building types, its tabs, presets and Blueprints Expanded requirement, version, and a map of its source folders, tests and publish files\"\n---\n\n# upgrade-planner\n\n## What this is\n**Id:** blk-61c64a38a275\n\nUpgrade Planner is an Oxygen Not Included mod that adds a toolbar tool for rebuilding the buildings in a box-dragged area. It changes the material of one building type (every sandstone tile, ladder or pipe rebuilt in granite) or replaces one type with another the game lets you build over it (plain pipes to insulated, insulated to plain, modded pipes included). The mod reads the game's own replacement rules and queues the same replacement order the build tool would, once per matching building, keeping each building's orientation. It has a Change material tab, a type tab and presets. It requires Blueprints Expanded by Sgt_Imalas, which keeps an upgraded building's settings and makes every building available to the Change material tab. Version 0.5.0. Targets the current game with all DLC content (minimumSupportedBuild 744825).\n\n## Where things are\n**Id:** blk-e9942a956580  \n**Tags:** mod-entry-point, harmony-patching, mod-strings, in-game-testing\n\n- `README.md`, `CHANGELOG.md`: player-facing description and release notes.\n- `src/UpgradePlanner/`: the mod. `Mod.cs` (entry point), `Patches.cs` (Harmony patches), `ModStrings.cs` (UI strings), `mod.yaml` and `mod_info.yaml` (manifests).\n- `src/UpgradePlanner/Tool/`: the tool and the order queue (`UpgradeTool.cs`, `PlacementQueue.cs`, `Orders.cs`, `WindowToggle.cs`).\n- `src/UpgradePlanner/Plan/`: plans and presets (`UpgradePlan.cs`, `ChangeMaterialPlan.cs`, `ReplaceTypePlan.cs`, `Presets.cs`).\n- `src/UpgradePlanner/Rules/`: replacement rules, families, variants and materials.\n- `src/UpgradePlanner/UI/`: the planner dialog, tabs, material picker, preset bar, hover card and tool icon.\n- `src/UpgradePlanner/Compat/`: Blueprints Expanded link and settings handling for other mods (`BlueprintsCompat.cs`, `ModCompat.cs`, `OtherModSettings.cs`).\n- `src/UpgradePlanner/translations/`: `.pot` template and `ko`, `ru`, `zh` po files.\n- `src/UpgradePlanner.Tests/`: in-game tests, with its own `README.md`.\n- `lib/PLib/`: the PLib copy the mod builds against.\n- `preview/`: preview image sources; `publish/`: Workshop description, tags, preview image and workshop id.\n- `.context/`: `overview.md`, `domains/` ([entities](domains/entities.md), [glossary](domains/glossary.md)), `standards/` ([code-style](standards/code-style.md), [error-handling](standards/error-handling.md), [naming-conventions](standards/naming-conventions.md)), `decisions/`, `retrospectives/`, `META.md`, `projects.md`.\n",
+   "sections": [
+    {
+     "id": "overview.md#what-this-is",
+     "title": "What this is",
+     "text": "## What this is\n**Id:** blk-61c64a38a275\n\nUpgrade Planner is an Oxygen Not Included mod that adds a toolbar tool for rebuilding the buildings in a box-dragged area. It changes the material of one building type (every sandstone tile, ladder or pipe rebuilt in granite) or replaces one type with another the game lets you build over it (plain pipes to insulated, insulated to plain, modded pipes included). The mod reads the game's own replacement rules and queues the same replacement order the build tool would, once per matching building, keeping each building's orientation. It has a Change material tab, a type tab and presets. It requires Blueprints Expanded by Sgt_Imalas, which keeps an upgraded building's settings and makes every building available to the Change material tab. Version 0.5.0. Targets the current game with all DLC content (minimumSupportedBuild 744825).\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "standards/README.md",
+   "title": "Standards",
+   "description": "Index of the Upgrade Planner standards documents, linking the code-style, error-handling and naming-conventions guides with a line on each",
+   "document_tags": [
+    "harmony-patching",
+    "exception-handling",
+    "logging"
+   ],
+   "text": "---\ntags: harmony-patching, exception-handling, logging\ndoc_id: doc-c4afa748d082\ndescription: Index of the Upgrade Planner standards documents, linking the code-style, error-handling and naming-conventions guides with a line on each\n---\n\n# Standards\n\n## Standards\n**Id:** blk-904e167f6419\n\n- [code-style](code-style.md): C# formatting, imports, comments, Harmony patch and component conventions, with this mod's own layout.\n- [error-handling](error-handling.md): how the mod guards its Harmony patches, reflection lookups and file reads, and what it logs when something is missing.\n- [naming-conventions](naming-conventions.md): file, namespace, patch class, string key and id naming.\n",
+   "sections": [
+    {
+     "id": "standards/README.md#standards",
+     "title": "Standards",
+     "text": "## Standards\n**Id:** blk-904e167f6419\n\n- [code-style](code-style.md): C# formatting, imports, comments, Harmony patch and component conventions, with this mod's own layout.\n- [error-handling](error-handling.md): how the mod guards its Harmony patches, reflection lookups and file reads, and what it logs when something is missing.\n- [naming-conventions](naming-conventions.md): file, namespace, patch class, string key and id naming.\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "standards/code-style.md",
+   "title": "Code Style Guide",
+   "description": "C# code style for the Upgrade Planner mod: formatting, imports, comments, Harmony patch and game component conventions, plus a section on its vendored PLib build, subfolder layout, internals access and use of var",
+   "document_tags": [
+    "harmony-patching"
+   ],
+   "text": "---\ntags: harmony-patching\ndoc_id: doc-af668e9256d1\ndescription: \"C# code style for the Upgrade Planner mod: formatting, imports, comments, Harmony patch and game component conventions, plus a section on its vendored PLib build, subfolder layout, internals access and use of var\"\napplies_to:\n  - \"src/**\"\n---\n\n# Code Style Guide\n\n## Formatting\n**Id:** blk-9392b4305e97\n\n### Indentation\n**Id:** blk-d6127a0d35e2\n\n- Tabs, one per level, in every `.cs` file (`mods/bitshifter/src/Bitshifter/Mod.cs`).\n- Project files (`.csproj`, `common/oni-mod.props`, `common/oni-mod.targets`) use two spaces.\n- Files are committed with LF line endings; Windows checkouts convert them to CRLF (`core.autocrlf` is true), so do not hand-normalise line endings.\n\n### Line Length\n**Id:** blk-c900cc8f62e1\n\n- No limit is configured and the repository has no `.editorconfig`.\n- Wrap long calls and string concatenations after an argument or before a `+`, and indent the continuation one tab. The start-up log call in `mods/jumper-bridges/src/JumperBridges/Mod.cs` is the pattern.\n- TODO(owner): decide whether to add an `.editorconfig` recording tabs and brace placement so editors enforce what the code already does.\n\n### Braces\n**Id:** blk-29c3d03bda81\n\n- Opening brace on its own line (Allman) for namespaces, types, members and multi-line control blocks.\n- A body of one short statement goes on the next line without braces:\n\n```csharp\nforeach (Mod mod in mods)\n{\n\tif (!mod.IsEnabledForActiveDlc())\n\t\tcontinue;\n\t...\n}\n```\n\n- Multi-line initialisers and enums end with a trailing comma (`YieldToWorkshopIds` in `mods/bitshifter/src/Bitshifter/Mod.cs`, `CoolPodMode` in `mods/storage-pod-redux/src/StoragePodRedux/Options.cs`).\n\n## Language and Toolchain\n**Id:** blk-1bb22689d03c\n\n- C# 9 on .NET Framework 4.8 (`LangVersion` 9.0 and `TargetFramework` net48 in `common/oni-mod.props`). Namespace blocks, not file-scoped namespaces; no nullable reference types.\n- Mods compile against the game's own assemblies (`common/oni-mod.targets`): `Assembly-CSharp`, `Assembly-CSharp-firstpass`, `0Harmony` and Unity modules. The game's .NET Framework lacks some newer APIs (`ConditionalWeakTable.AddOrUpdate` is missing, see `mods/detect-any-element/src/DetectAnyElement/Patches.cs`).\n- Optional references are switched on in the mod csproj before the targets import: `ReferenceUnityUI`, `ReferenceImageConversion`, `UsePLib` (PLib is ILRepack-merged into the mod DLL) and `UseTranslations` (compiles `common/src/Translations.cs` in).\n- One namespace per mod, equal to its `RootNamespace`. Subfolders organise files and do not add namespaces (`mods/upgrade-planner/src/UpgradePlanner/Plan`, `Rules`, `Tool`, `UI` all declare `namespace UpgradePlanner`).\n\n## Imports/Includes\n**Id:** blk-32d2997d39b4\n\n### Organization\n**Id:** blk-74f7e8ec10e3\n\n`using` directives sit above the namespace, in one block with no blank lines, sorted alphabetically with `System.*` first. Aliases for `ModStrings` branches come last.\n\n1. `System.*`\n2. Everything else alphabetically: `HarmonyLib`, `Isochronous`, `KMod`, `Newtonsoft.Json`, `PeterHan.PLib.*`, `ProcGenGame`, `UnityEngine`\n3. Aliases (`using TOOL = SweepZones.ModStrings.UI.TOOLS.SWEEPZONES;`)\n\n### Example\n**Id:** blk-0fe521f2b16f\n\n```csharp\nusing System.Collections.Generic;\nusing System.Reflection;\nusing HarmonyLib;\nusing Isochronous;\nusing Klei;\nusing KMod;\nusing STRINGS;\nusing UnityEngine;\n```\n(`mods/salty-surf/src/SaltySurf/Mod.cs`)\n\n`Debug.Log` resolves either to `UnityEngine.Debug` or to the game's own global `Debug` class, so several `Mod.cs` files omit `using UnityEngine`. When a file imports `System.Diagnostics`, qualify the call as `UnityEngine.Debug.Log` (`mods/just-fall-already/src/JustFallAlready/FallPoke.cs`).\n\n## Comments\n**Id:** blk-204267986144\n\n### When to Comment\n**Id:** blk-29493d7a7b8a\n\n- On every non-trivial class, an XML `<summary>` that says what the game does and what the patch changes, so a reader can check the patch against the game code. The long summary on `OvercrowdingMonitor_UpdateRegion_Patch` in `mods/dont-count-eggs-on-rails/src/DontCountEggsOnRails/Mod.cs` is the model.\n- Where a game quirk forces an odd line: `// The game's .NET Framework has no AddOrUpdate on this table.`\n- Where another mod is involved, name it and its Workshop id (`mods/bitshifter/src/Bitshifter/Mod.cs`, `mods/smart-weight-plate/src/SmartWeightPlate/Mod.cs`).\n- Escape angle brackets in XML comments as `&lt;` and `&gt;`.\n\n### When NOT to Comment\n**Id:** blk-048e7c4db4ca\n\n- Code that reads clearly from its names.\n- Commented-out code; delete it.\n- Restating what a line does.\n\n### Format\n**Id:** blk-81b3c906b97e\n\n```csharp\n/// <summary>\n/// The \"Any\" choice. It is a tag like the elements a sensor's Filterable holds, so it rides\n/// in the same saved field and copies with the building's settings.\n/// </summary>\npublic static class AnyElement\n\n// Single-line note for a quirk or a reason.\n```\n\n## Control Structures\n**Id:** blk-56dd524f168a\n\n### Conditionals\n**Id:** blk-80cb5901b7e0\n\nGuard clauses and early `return` or `continue` keep nesting shallow (`SettleSimBackwalls.UpdateFromSim` in `mods/natural-backwalls-everywhere/src/NaturalBackwalls/SettleSimPatch.cs`):\n\n```csharp\nif (!Grid.IsValidCell(cell))\n\tcontinue;\nushort idx = data->backwallElement[cell];\nif (idx == ushort.MaxValue || idx >= elements.Count)\n\tcontinue;\n```\n\n### Loops\n**Id:** blk-ca4a91a387a7  \n**Tags:** performance\n\n- Plain `for` and `foreach`. Code that runs every sim tick or frame avoids LINQ and allocations; reuse scratch lists (`scratch` in `mods/just-fall-already/src/JustFallAlready/FallPoke.cs`).\n- Local types are written out (`Tech tech = ...`). `var` appears mainly in `mods/upgrade-planner`, `mods/natural-backwalls-everywhere` and the test projects; follow the surrounding file.\n\n### Strings\n**Id:** blk-01963724bcfa  \n**Tags:** mod-strings, logging\n\n- Log and UI text is built with `+` concatenation, or `string.Format` on a `LocString`. String interpolation is not used in mod code.\n- Player-visible text is a `LocString` field in `ModStrings`, never a literal at the call site (see [naming conventions](naming-conventions.md)).\n\n## Harmony Patches\n**Id:** blk-fc6578139fc1  \n**Tags:** mod-entry-point\n\n- A patch is a static class with `[HarmonyPatch(typeof(Type), nameof(Type.Method))]`, or `[HarmonyPatch(typeof(Type), \"PrivateMethod\")]` for a non-public method, and methods named `Prefix`, `Postfix`, `Transpiler` or `Finalizer` (`mods/bitshifter/src/Bitshifter/Patches.cs`).\n- Game state arrives through Harmony parameters: `__instance`, `__result`, `___field`. Fields read repeatedly use `AccessTools.FieldRefAccess` kept in a `static readonly` field (`mods/detect-any-element/src/DetectAnyElement/Patches.cs`).\n- A prefix returns `true` to let the game's method run and `false` only when it replaces the method (`mods/dont-count-eggs-on-rails`, `mods/bitshifter` `UpdateVisuals`).\n- A patch that depends on an option implements `Prepare()` (`mods/jumper-bridges/src/JumperBridges/Patches.cs`); a patch with several targets implements `TargetMethods()`.\n- `UserMod2.OnLoad` calls `base.OnLoad(harmony)`, which applies every patch in the assembly, then registers libraries and logs the version. A mod that must patch after all others applies its patches from `OnAllModsLoaded` instead (`mods/bitshifter/src/Bitshifter/Mod.cs`).\n- Transpilers search for the instruction they change and report when it is not found; see [error handling](error-handling.md).\n\n## Game Components\n**Id:** blk-e214e0eaebc5\n\n- A component extends `KMonoBehaviour`, overrides `OnPrefabInit`, `OnSpawn` and `OnCleanUp` and calls `base` from each. Sibling components come in through `[MyCmpGet]` or `[MyCmpReq]` (`mods/no-magic-fridges/src/NoMagicFridges/FridgeThermostat.cs`).\n- Saved state uses `[Serialize]` fields with `[SerializationConfig(MemberSerialization.OptIn)]` on the class (`mods/sweep-zones/src/SweepZones/ZoneStore.cs`).\n- Components are added to prefabs from a `DoPostConfigureComplete` postfix with `go.AddOrGet<T>()`.\n\n## Project-Specific Rules\n**Id:** blk-0c7eed225774  \n**Tags:** logging, in-game-testing\n\n- Mod options are a PLib `POptions` class marked `[JsonObject(MemberSerialization.OptIn)]` and `[ConfigFile(SharedConfigLocation: true)]`, read through a static `Load()` (`mods/vent-freeze-fix/src/VentFreezeFix/Options.cs`) or through `SingletonOptions<Options>` (`mods/storage-pod-redux`). Option titles are string-table keys, so the translation follows the language.\n- Every mod logs one line at load: `[<Name>] Loaded version <assembly version>`.\n- Tests live in a separate `<Name>.Tests` project and are written as `[OniTest]` coroutines against the real game.\n\n### Upgrade Planner specifics\n**Id:** blk-f5da873da87c  \n**Tags:** mod-entry-point, reflection, mod-compatibility\n\n- `UsePLib`, `UseTranslations` and `ReferenceUnityUI`. It builds against the vendored PLib in `lib/PLib/PLib.dll` (`PLibDll`, `PLibDraggable` in `src/UpgradePlanner/UpgradePlanner.csproj`); `-p:PLibDraggable=false` builds against the NuGet PLib instead.\n- Files sit in subfolders `Compat`, `Plan`, `Rules`, `Tool`, `UI`; all declare `namespace UpgradePlanner`.\n- `Mod.cs` carries `[assembly: InternalsVisibleTo(\"UpgradePlanner.Tests\")]`; members the tests need are `internal`. It also registers the PLib hotkey action and calls `ModCompat.Apply` and `BlueprintsCompat.Init` from `OnAllModsLoaded`.\n- This mod uses `var` more than any other; match the file you are editing. Newtonsoft JSON stores presets (`Plan/Presets.cs`).\n- `Compat/` classes bind to other mods by reflection and log what they found.\n\n## Related\n**Id:** blk-fe12aa38cc4c\n\n- See also: [naming conventions](naming-conventions.md)\n- See also: [error handling](error-handling.md)\n",
+   "sections": [
+    {
+     "id": "standards/code-style.md#formatting",
+     "title": "Formatting",
+     "text": "## Formatting\n**Id:** blk-9392b4305e97\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#formatting/indentation",
+     "title": "Indentation",
+     "text": "### Indentation\n**Id:** blk-d6127a0d35e2\n\n- Tabs, one per level, in every `.cs` file (`mods/bitshifter/src/Bitshifter/Mod.cs`).\n- Project files (`.csproj`, `common/oni-mod.props`, `common/oni-mod.targets`) use two spaces.\n- Files are committed with LF line endings; Windows checkouts convert them to CRLF (`core.autocrlf` is true), so do not hand-normalise line endings.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#formatting/line-length",
+     "title": "Line Length",
+     "text": "### Line Length\n**Id:** blk-c900cc8f62e1\n\n- No limit is configured and the repository has no `.editorconfig`.\n- Wrap long calls and string concatenations after an argument or before a `+`, and indent the continuation one tab. The start-up log call in `mods/jumper-bridges/src/JumperBridges/Mod.cs` is the pattern.\n- TODO(owner): decide whether to add an `.editorconfig` recording tabs and brace placement so editors enforce what the code already does.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#formatting/braces",
+     "title": "Braces",
+     "text": "### Braces\n**Id:** blk-29c3d03bda81\n\n- Opening brace on its own line (Allman) for namespaces, types, members and multi-line control blocks.\n- A body of one short statement goes on the next line without braces:\n\n```csharp\nforeach (Mod mod in mods)\n{\n\tif (!mod.IsEnabledForActiveDlc())\n\t\tcontinue;\n\t...\n}\n```\n\n- Multi-line initialisers and enums end with a trailing comma (`YieldToWorkshopIds` in `mods/bitshifter/src/Bitshifter/Mod.cs`, `CoolPodMode` in `mods/storage-pod-redux/src/StoragePodRedux/Options.cs`).\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#language-and-toolchain",
+     "title": "Language and Toolchain",
+     "text": "## Language and Toolchain\n**Id:** blk-1bb22689d03c\n\n- C# 9 on .NET Framework 4.8 (`LangVersion` 9.0 and `TargetFramework` net48 in `common/oni-mod.props`). Namespace blocks, not file-scoped namespaces; no nullable reference types.\n- Mods compile against the game's own assemblies (`common/oni-mod.targets`): `Assembly-CSharp`, `Assembly-CSharp-firstpass`, `0Harmony` and Unity modules. The game's .NET Framework lacks some newer APIs (`ConditionalWeakTable.AddOrUpdate` is missing, see `mods/detect-any-element/src/DetectAnyElement/Patches.cs`).\n- Optional references are switched on in the mod csproj before the targets import: `ReferenceUnityUI`, `ReferenceImageConversion`, `UsePLib` (PLib is ILRepack-merged into the mod DLL) and `UseTranslations` (compiles `common/src/Translations.cs` in).\n- One namespace per mod, equal to its `RootNamespace`. Subfolders organise files and do not add namespaces (`mods/upgrade-planner/src/UpgradePlanner/Plan`, `Rules`, `Tool`, `UI` all declare `namespace UpgradePlanner`).\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#imports-includes",
+     "title": "Imports/Includes",
+     "text": "## Imports/Includes\n**Id:** blk-32d2997d39b4\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#imports-includes/organization",
+     "title": "Organization",
+     "text": "### Organization\n**Id:** blk-74f7e8ec10e3\n\n`using` directives sit above the namespace, in one block with no blank lines, sorted alphabetically with `System.*` first. Aliases for `ModStrings` branches come last.\n\n1. `System.*`\n2. Everything else alphabetically: `HarmonyLib`, `Isochronous`, `KMod`, `Newtonsoft.Json`, `PeterHan.PLib.*`, `ProcGenGame`, `UnityEngine`\n3. Aliases (`using TOOL = SweepZones.ModStrings.UI.TOOLS.SWEEPZONES;`)\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#imports-includes/example",
+     "title": "Example",
+     "text": "### Example\n**Id:** blk-0fe521f2b16f\n\n```csharp\nusing System.Collections.Generic;\nusing System.Reflection;\nusing HarmonyLib;\nusing Isochronous;\nusing Klei;\nusing KMod;\nusing STRINGS;\nusing UnityEngine;\n```\n(`mods/salty-surf/src/SaltySurf/Mod.cs`)\n\n`Debug.Log` resolves either to `UnityEngine.Debug` or to the game's own global `Debug` class, so several `Mod.cs` files omit `using UnityEngine`. When a file imports `System.Diagnostics`, qualify the call as `UnityEngine.Debug.Log` (`mods/just-fall-already/src/JustFallAlready/FallPoke.cs`).\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#comments",
+     "title": "Comments",
+     "text": "## Comments\n**Id:** blk-204267986144\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#comments/when-to-comment",
+     "title": "When to Comment",
+     "text": "### When to Comment\n**Id:** blk-29493d7a7b8a\n\n- On every non-trivial class, an XML `<summary>` that says what the game does and what the patch changes, so a reader can check the patch against the game code. The long summary on `OvercrowdingMonitor_UpdateRegion_Patch` in `mods/dont-count-eggs-on-rails/src/DontCountEggsOnRails/Mod.cs` is the model.\n- Where a game quirk forces an odd line: `// The game's .NET Framework has no AddOrUpdate on this table.`\n- Where another mod is involved, name it and its Workshop id (`mods/bitshifter/src/Bitshifter/Mod.cs`, `mods/smart-weight-plate/src/SmartWeightPlate/Mod.cs`).\n- Escape angle brackets in XML comments as `&lt;` and `&gt;`.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#comments/when-not-to-comment",
+     "title": "When NOT to Comment",
+     "text": "### When NOT to Comment\n**Id:** blk-048e7c4db4ca\n\n- Code that reads clearly from its names.\n- Commented-out code; delete it.\n- Restating what a line does.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#comments/format",
+     "title": "Format",
+     "text": "### Format\n**Id:** blk-81b3c906b97e\n\n```csharp\n/// <summary>\n/// The \"Any\" choice. It is a tag like the elements a sensor's Filterable holds, so it rides\n/// in the same saved field and copies with the building's settings.\n/// </summary>\npublic static class AnyElement\n\n// Single-line note for a quirk or a reason.\n```\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#control-structures",
+     "title": "Control Structures",
+     "text": "## Control Structures\n**Id:** blk-56dd524f168a\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#control-structures/conditionals",
+     "title": "Conditionals",
+     "text": "### Conditionals\n**Id:** blk-80cb5901b7e0\n\nGuard clauses and early `return` or `continue` keep nesting shallow (`SettleSimBackwalls.UpdateFromSim` in `mods/natural-backwalls-everywhere/src/NaturalBackwalls/SettleSimPatch.cs`):\n\n```csharp\nif (!Grid.IsValidCell(cell))\n\tcontinue;\nushort idx = data->backwallElement[cell];\nif (idx == ushort.MaxValue || idx >= elements.Count)\n\tcontinue;\n```\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#game-components",
+     "title": "Game Components",
+     "text": "## Game Components\n**Id:** blk-e214e0eaebc5\n\n- A component extends `KMonoBehaviour`, overrides `OnPrefabInit`, `OnSpawn` and `OnCleanUp` and calls `base` from each. Sibling components come in through `[MyCmpGet]` or `[MyCmpReq]` (`mods/no-magic-fridges/src/NoMagicFridges/FridgeThermostat.cs`).\n- Saved state uses `[Serialize]` fields with `[SerializationConfig(MemberSerialization.OptIn)]` on the class (`mods/sweep-zones/src/SweepZones/ZoneStore.cs`).\n- Components are added to prefabs from a `DoPostConfigureComplete` postfix with `go.AddOrGet<T>()`.\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#related",
+     "title": "Related",
+     "text": "## Related\n**Id:** blk-fe12aa38cc4c\n\n- See also: [naming conventions](naming-conventions.md)\n- See also: [error handling](error-handling.md)\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "standards/error-handling.md",
+   "title": "Error Handling Conventions",
+   "description": "Error handling and logging rules for the Upgrade Planner mod: guarding patches, try/catch use, yielding to other mods, log levels, anti-patterns, plus how its Blueprints link, presets, variants and placement queue fail",
+   "document_tags": [
+    "exception-handling",
+    "logging",
+    "vanilla-fallback"
+   ],
+   "text": "---\ntags: exception-handling, logging, vanilla-fallback\ndoc_id: doc-ec7a8d0f341f\ndescription: \"Error handling and logging rules for the Upgrade Planner mod: guarding patches, try/catch use, yielding to other mods, log levels, anti-patterns, plus how its Blueprints link, presets, variants and placement queue fail\"\napplies_to:\n  - \"src/**\"\n---\n\n# Error Handling Conventions\n\n## Principles\n**Id:** blk-e04e91cfb788  \n**Tags:** harmony-patching, reflection\n\n1. **Never break the game for a mod's sake.** A patch that cannot do its job leaves the vanilla behaviour in place and says so in the log. It does not throw into the game's update loop.\n2. **Check what you patch.** Game updates rename fields and move code. Every reflection lookup, transpiler match and prefab or tech lookup is checked for a miss.\n3. **Say what degraded.** A warning names the thing that was not found and the consequence, so a bug report with `Player.log` is enough to diagnose.\n4. **Don't swallow.** A `catch` logs and either returns a safe default or continues; it is never empty.\n5. **Log at the right level.** `Debug.Log` for start-up and summaries, `Debug.LogWarning` for degraded behaviour, `Debug.LogError` for a failed player action.\n\nThere is no custom exception hierarchy. Mods are small patches over game code, so errors are handled where they occur.\n\n## Guarding Patches\n**Id:** blk-b193e73a84af  \n**Tags:** harmony-patching\n\n### Missing member: warn, leave vanilla\n**Id:** blk-4c5784f27e28  \n**Tags:** reflection\n\nA reflection lookup that returns null is checked before use. The patch then does nothing, or returns `true` from a prefix so the game's method runs.\n\n```csharp\nif (ActiveField == null || StorageField == null)\n\treturn true; // the game renamed its fields: leave vanilla alone rather than throw\n```\n(`mods/no-magic-fridges/src/NoMagicFridges/Patches.cs`; the warning is logged once at load by `SimTransferMethod` in `FridgeThermostat.cs`.)\n\n### Transpiler: count the match\n**Id:** blk-8bf05515feca\n\nA transpiler counts the instructions it replaced. Zero (or more than expected) logs a warning and returns the original code, so a game update disables the change instead of breaking the method.\n\n```csharp\nif (swapped == 0)\n\tDebug.LogWarning(\"[CornerBuildAnything] \" + where + \" does not load OffsetGroups.InvertedStandardTable; corner reach not applied there\");\n```\n(`mods/corner-build-anything/src/CornerBuildAnything/ReachTablePatches.cs`; same pattern in `mods/bitshifter/src/Bitshifter/Patches.cs` and `mods/natural-backwalls-everywhere/src/NaturalBackwalls/SettleSimPatch.cs`.)\n\n### Missing data: warn, continue\n**Id:** blk-9a05a76074e8\n\nA build-menu, tech or asset lookup that finds nothing warns and keeps the mod working:\n\n```csharp\nTech tech = Db.Get().Techs.TryGet(TechId);\nif (tech == null)\n{\n\tDebug.LogWarning(\"[SmartWeightPlate] Tech '\" + TechId + \"' not found; building will be unlocked from the start\");\n\treturn;\n}\n```\n(`mods/smart-weight-plate/src/SmartWeightPlate/Patches.cs`; also `mods/multichannel-critter-sensor`, `mods/storage-pod-redux`.) Missing art or a missing vanilla prefab degrades the same way (`Display.UseAnim` in `mods/bitshifter/src/Bitshifter/Patches.cs`, `mods/multichannel-critter-sensor/src/MultichannelCritterSensor/MultichannelCritterSensorSideScreen.cs`).\n\n### Null checks on game objects\n**Id:** blk-08ab5b72b198\n\nComponents and arguments that can be absent are tested before use: `if (stt == null || !Sim.IsValidHandle(stt.SimHandle)) return true;`, `if (sensor == null || GameScenePartitioner.Instance == null) return;` (`mods/motion-sensor-range/src/MotionSensorRange/RangeSlider.cs`).\n\n### Warn once\n**Id:** blk-102610fa711e  \n**Tags:** performance\n\nWork that repeats every frame or tick warns once behind a flag (`warnedMissingInternals` in `RangeSlider.cs`).\n\n## try/catch\n**Id:** blk-dcc0a4ff3762  \n**Tags:** mod-compatibility\n\n`try`/`catch (Exception e)` is used in four situations and nowhere else:\n\n1. **Optional integration with another mod.** Patching or reading another mod's types may fail for any reason. Log the message and skip the integration (`BetterAutomationOverlayCompat.Apply` in `mods/smart-weight-plate/src/SmartWeightPlate/Mod.cs`; `mods/upgrade-planner/src/UpgradePlanner/Compat/BlueprintsCompat.cs`).\n2. **File and JSON reads and writes.** Return an empty or null result (`mods/upgrade-planner/src/UpgradePlanner/Plan/Presets.cs`, `mods/storage-pod-redux/src/StoragePodRedux/ModDetection.cs`, `mods/sweep-zones/src/SweepZones/ToolIcon.cs`).\n3. **Patches that run inside worldgen or per-cell work**, where an escaping exception kills a thread or a whole pass (`mods/natural-backwalls-everywhere/src/NaturalBackwalls/FeaturePatch.cs`, `PlanetoidPatch.cs`, `Patches.cs`, `Census.cs`).\n4. **Per-job work in a queue**, so one failure does not stop the rest (`mods/upgrade-planner/src/UpgradePlanner/Tool/PlacementQueue.cs`, logged with `Debug.LogError`).\n\nThe message form is `\"[<Name>] <what was skipped>: \" + e.Message`. Use `e.GetBaseException().Message` when the exception may be a reflection wrapper, and the full `e` when the stack trace is needed.\n\n### Finalizer for a thread with no handler\n**Id:** blk-9655db8a0ecd  \n**Tags:** harmony-patching\n\n`Cluster.BeginGeneration` is the worldgen thread body and has none; an exception ends the thread and the loading screen waits forever. A finalizer reports the failure through the game's own error path and logs the exception (`Cluster_BeginGeneration_Patch` in `mods/natural-backwalls-everywhere/src/NaturalBackwalls/WorldgenThreadPatch.cs`).\n\n## Yielding to Other Mods\n**Id:** blk-aa972d3701f9  \n**Tags:** mod-compatibility\n\nWhen another mod already does the job or shares an id, the mod steps aside and logs why:\n- Bitshifter disables itself when Digital CPU is enabled or the contested methods already have Harmony owners (`WhyYield` in `mods/bitshifter/src/Bitshifter/Mod.cs`).\n- Storage Pod Redux does not register its buildings while the original Storage Pod is enabled, and logs a warning telling the player to disable one (`mods/storage-pod-redux/src/StoragePodRedux/Mod.cs`).\n\n## Logging\n**Id:** blk-2bc51bf35a83\n\n### Log Levels\n**Id:** blk-e3fc753da293\n\n| Level | Use For | Example |\n|-------|---------|---------|\n| `Debug.LogError` | A player action failed and was abandoned | `PlacementQueue` in `mods/upgrade-planner` |\n| `Debug.LogWarning` | Degraded or skipped behaviour | the examples above |\n| `Debug.Log` | Load line, a one-line summary of what a pass changed | `Tagged N refined metal(s)` in `mods/refined-building` |\n\n### What to Include\n**Id:** blk-491326ff88e4  \n**Tags:** performance\n\n- The `[<ModName>] ` prefix on every line; `JumperBridgesMod.LogPrefix` holds it for that mod.\n- What was expected, what was found, and what the mod does instead.\n- Cell numbers, building names and element ids when they identify the case (`mods/vent-freeze-fix`).\n- Per-tick or per-frame telemetry only behind a debug option (`VentFreezeWatcher.Verbose`, `DebugSave.Enabled`) or capped (`DetailLines` in `SettleSimPatch.cs`).\n\nPLib's `PUtil.Log*` helpers are not used; all mods log through `Debug`.\n\n## Anti-Patterns to Avoid\n**Id:** blk-e4325c74d374\n\n### Swallowing exceptions\n**Id:** blk-707db46802de\n\nAn empty `catch` hides a broken patch. The one `catch` that returns a fallback without a log is `GuessLanguageCode` in `common/src/Translations.cs`, because a missing language preference is the normal case before the game has started.\n\n### Throwing from a patch\n**Id:** blk-a79c1180fc5c  \n**Tags:** harmony-patching, performance\n\nAn exception in a prefix or postfix on a per-frame or sim method repeats every frame. Guard, log once, return.\n\n### Assuming the game's internals\n**Id:** blk-baf501e66502  \n**Tags:** reflection, harmony-patching\n\nReading a private field by name without a null check on the `FieldInfo`, or replacing an instruction without confirming it was found, breaks on the next game update.\n\n### Silent degradation\n**Id:** blk-3983b476e44f\n\nDoing nothing without a log line leaves a player and the author guessing. Every skipped path logs.\n\n### Spamming the log\n**Id:** blk-5f9246cf1510  \n**Tags:** performance\n\nA warning inside an update method fires thousands of times. Use a once-flag.\n\n## Project-Specific Patterns\n**Id:** blk-3df0b44c102f\n\n### Upgrade Planner specifics\n**Id:** blk-b8e68616a6cc  \n**Tags:** mod-compatibility, plan-presets, reflection\n\n- `BlueprintsCompat` binds to Blueprints Expanded methods by name and return type, logs `<Type>.<Method> not found` or `returns <T>, not <U>`, and treats a failed bind as integration off. Read and copy failures log `e.GetBaseException().Message` and return null or the partial result.\n- `Presets` read and save inside `try`/`catch`, log the file path and message, and return an empty list on a read failure.\n- `Variants` asks the build tool's patches for a dry run; a refusal is logged with `Debug.Log` and an unexpected exception with a warning.\n- `PlacementQueue` catches per job and logs `Debug.LogError` with the building name and the full exception, so the queue continues.\n- Missing donor tool fields warn in `Tool/UpgradeTool.cs`, as in Sweep Zones.\n\n## Related\n**Id:** blk-ab7dc9291edf\n\n- See also: [code style](code-style.md)\n- See also: [naming conventions](naming-conventions.md)\n",
+   "sections": [
+    {
+     "id": "standards/error-handling.md#guarding-patches/transpiler-count-the-match",
+     "title": "Transpiler: count the match",
+     "text": "### Transpiler: count the match\n**Id:** blk-8bf05515feca\n\nA transpiler counts the instructions it replaced. Zero (or more than expected) logs a warning and returns the original code, so a game update disables the change instead of breaking the method.\n\n```csharp\nif (swapped == 0)\n\tDebug.LogWarning(\"[CornerBuildAnything] \" + where + \" does not load OffsetGroups.InvertedStandardTable; corner reach not applied there\");\n```\n(`mods/corner-build-anything/src/CornerBuildAnything/ReachTablePatches.cs`; same pattern in `mods/bitshifter/src/Bitshifter/Patches.cs` and `mods/natural-backwalls-everywhere/src/NaturalBackwalls/SettleSimPatch.cs`.)\n",
+     "level": 3,
+     "enclosing_tags": [
+      "harmony-patching"
+     ]
+    },
+    {
+     "id": "standards/error-handling.md#guarding-patches/missing-data-warn-continue",
+     "title": "Missing data: warn, continue",
+     "text": "### Missing data: warn, continue\n**Id:** blk-9a05a76074e8\n\nA build-menu, tech or asset lookup that finds nothing warns and keeps the mod working:\n\n```csharp\nTech tech = Db.Get().Techs.TryGet(TechId);\nif (tech == null)\n{\n\tDebug.LogWarning(\"[SmartWeightPlate] Tech '\" + TechId + \"' not found; building will be unlocked from the start\");\n\treturn;\n}\n```\n(`mods/smart-weight-plate/src/SmartWeightPlate/Patches.cs`; also `mods/multichannel-critter-sensor`, `mods/storage-pod-redux`.) Missing art or a missing vanilla prefab degrades the same way (`Display.UseAnim` in `mods/bitshifter/src/Bitshifter/Patches.cs`, `mods/multichannel-critter-sensor/src/MultichannelCritterSensor/MultichannelCritterSensorSideScreen.cs`).\n",
+     "level": 3,
+     "enclosing_tags": [
+      "harmony-patching"
+     ]
+    },
+    {
+     "id": "standards/error-handling.md#guarding-patches/null-checks-on-game-objects",
+     "title": "Null checks on game objects",
+     "text": "### Null checks on game objects\n**Id:** blk-08ab5b72b198\n\nComponents and arguments that can be absent are tested before use: `if (stt == null || !Sim.IsValidHandle(stt.SimHandle)) return true;`, `if (sensor == null || GameScenePartitioner.Instance == null) return;` (`mods/motion-sensor-range/src/MotionSensorRange/RangeSlider.cs`).\n",
+     "level": 3,
+     "enclosing_tags": [
+      "harmony-patching"
+     ]
+    },
+    {
+     "id": "standards/error-handling.md#logging",
+     "title": "Logging",
+     "text": "## Logging\n**Id:** blk-2bc51bf35a83\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/error-handling.md#logging/log-levels",
+     "title": "Log Levels",
+     "text": "### Log Levels\n**Id:** blk-e3fc753da293\n\n| Level | Use For | Example |\n|-------|---------|---------|\n| `Debug.LogError` | A player action failed and was abandoned | `PlacementQueue` in `mods/upgrade-planner` |\n| `Debug.LogWarning` | Degraded or skipped behaviour | the examples above |\n| `Debug.Log` | Load line, a one-line summary of what a pass changed | `Tagged N refined metal(s)` in `mods/refined-building` |\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/error-handling.md#anti-patterns-to-avoid",
+     "title": "Anti-Patterns to Avoid",
+     "text": "## Anti-Patterns to Avoid\n**Id:** blk-e4325c74d374\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/error-handling.md#anti-patterns-to-avoid/swallowing-exceptions",
+     "title": "Swallowing exceptions",
+     "text": "### Swallowing exceptions\n**Id:** blk-707db46802de\n\nAn empty `catch` hides a broken patch. The one `catch` that returns a fallback without a log is `GuessLanguageCode` in `common/src/Translations.cs`, because a missing language preference is the normal case before the game has started.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/error-handling.md#anti-patterns-to-avoid/silent-degradation",
+     "title": "Silent degradation",
+     "text": "### Silent degradation\n**Id:** blk-3983b476e44f\n\nDoing nothing without a log line leaves a player and the author guessing. Every skipped path logs.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/error-handling.md#project-specific-patterns",
+     "title": "Project-Specific Patterns",
+     "text": "## Project-Specific Patterns\n**Id:** blk-3df0b44c102f\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/error-handling.md#related",
+     "title": "Related",
+     "text": "## Related\n**Id:** blk-ab7dc9291edf\n\n- See also: [code style](code-style.md)\n- See also: [naming conventions](naming-conventions.md)\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  }
+ ]
+}

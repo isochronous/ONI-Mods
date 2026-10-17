@@ -1,0 +1,53 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r2 for node mods/bitshifter — round 0",
+  "node": "C:\\dev\\ONI-Mods\\mods\\bitshifter",
+  "base": {
+    "standards/README.md": "sha256:122147a1063adefd2977693c7cb77d8420159d8a518f116e7f8805f2c379985e",
+    "standards/code-style.md": "sha256:3247d52bcad24e58fab94ee753178d1fc7cddb424ecec5b6783094ec037a38de",
+    "standards/naming-conventions.md": "sha256:37ea105b27bf741f8a7a1998df866038edc824810eabd41a5456a09f32279983",
+    "domains/entities.md": "sha256:07b371f71889aa3ad15f223dedc62fc5553174093dfff219fad427dc588ee365",
+    "standards/error-handling.md": "sha256:69cb5b6b87da560245b6e5d107961123d4cedcc5c44fd2a3455020b08910d612"
+  },
+  "ops": [
+    {
+      "target": "standards/README.md",
+      "mode": "tag",
+      "add": [
+        "code-style",
+        "logging",
+        "vanilla-fallback"
+      ]
+    },
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "code-style"
+      ]
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "tag",
+      "add": [
+        "code-style"
+      ]
+    },
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "bit-depth"
+      ],
+      "section": "overview"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching"
+      ],
+      "section": "guarding-patches/null-checks-on-game-objects"
+    }
+  ]
+}

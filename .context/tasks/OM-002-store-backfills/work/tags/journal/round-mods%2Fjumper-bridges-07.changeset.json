@@ -1,0 +1,39 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/jumper-bridges — round 7",
+  "node": "C:\\dev\\ONI-Mods\\mods\\jumper-bridges",
+  "base": {
+    "domains/entities.md": "sha256:6bf66dbb06f2ab2a1f7693af810f8c9335672a948ac2a63d33caf77bc82bf49b",
+    "domains/glossary.md": "sha256:6abed1aeb9bb1cd722c2eb72ed60df1652d8bc1ee885fe6799cbbb855fbc8ee8",
+    "standards/error-handling.md": "sha256:d9d634ff55f737070400288ea3eaa8dc80a3ecbfb67d21cb6bf2e2f2c2a89c19"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "game-component",
+        "wire-tools"
+      ],
+      "section": "key-entities/bridgefootprint"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "utility-network"
+      ],
+      "section": "cross-domain-terms/joint-plate-heavy-watt"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "logging",
+        "vanilla-fallback",
+        "reflection"
+      ],
+      "section": "try-catch"
+    }
+  ]
+}

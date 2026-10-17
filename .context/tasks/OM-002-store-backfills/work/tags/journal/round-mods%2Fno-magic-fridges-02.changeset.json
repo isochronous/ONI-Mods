@@ -1,0 +1,28 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r2 for node mods/no-magic-fridges — round 2",
+  "node": "C:\\dev\\ONI-Mods\\mods\\no-magic-fridges",
+  "base": {
+    "standards/code-style.md": "sha256:c59eac8db007f88633e5a08e66ea6c3cb6ab574f5da9d08d64ad5ce18fe2dead",
+    "domains/glossary.md": "sha256:8016548ee098c1c31668b03c7b9eb25bfa89682a0bca8ee39fb8150f8eb8ea78"
+  },
+  "ops": [
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "logging",
+        "in-game-testing"
+      ],
+      "section": "project-specific-rules"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "game-component"
+      ],
+      "section": "cross-domain-terms/sim1000ms"
+    }
+  ]
+}

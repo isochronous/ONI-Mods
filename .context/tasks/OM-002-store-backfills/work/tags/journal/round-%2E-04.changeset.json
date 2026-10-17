@@ -1,0 +1,102 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node . — round 4",
+  "node": "C:/dev/ONI-Mods",
+  "base": {
+    "testing/integration-testing.md": "sha256:443a1a3341cafee03c94e4c987effc71bbc15bdda82bbea347f7f65e82781c9b",
+    "testing/unit-testing.md": "sha256:ca121b5a7f52420088fc5f6910a4ee167efb2dfa7ad06aeda95e81977caf0880",
+    "workflows/branching.md": "sha256:f845a5ba8c94bb59417d6791d44318ca17af32c73e75c6506b7ed608e5eed1da",
+    "workflows/ci-cd.md": "sha256:12b94e4405a6718387918ea882b97912b07c20e1b1f587a13ed5d0ce135289da",
+    "workflows/commit-conventions.md": "sha256:469666c5c6d6f0a27bb1946cc651f6267d4db3fbbcc8695c18ede472c824de41",
+    "workflows/task-plan/phase-architecture.md": "sha256:0bd3efd4b8c5a91aebbf7f89e1987f2b744eb560f192797334ff5e8598fbacdd",
+    "workflows/task-plan/phase-completion.md": "sha256:01ef7941b598134bad8d448df86090a320f88f4d156fb73a6ab6bc768d34a606",
+    "workflows/task-plan/phase-implementation.md": "sha256:423ea90ae53a6a3984776cfa09de439f80c250b696ab321579f903199a755fb2",
+    "workflows/task-plan/phase-investigation.md": "sha256:feb85a218880afca7b2566344d3dab1a56fddbdb962ad955a85e64c6313ca36a",
+    "workflows/task-plan/phase-testing.md": "sha256:3655800dec5cd34acdc1e2d72e9fcb31b9e9e7e467774aa7834d23f7cf2bce32"
+  },
+  "ops": [
+    {
+      "target": "testing/integration-testing.md",
+      "mode": "tag",
+      "add": [
+        "test-cleanup"
+      ],
+      "section": "test-structure/setup-and-teardown"
+    },
+    {
+      "target": "testing/unit-testing.md",
+      "mode": "tag",
+      "add": [
+        "test-assertions",
+        "screenshots"
+      ],
+      "section": "test-structure/naming-conventions"
+    },
+    {
+      "target": "workflows/branching.md",
+      "mode": "tag",
+      "add": [
+        "release-process"
+      ],
+      "section": "naming-conventions/release-tags"
+    },
+    {
+      "target": "workflows/ci-cd.md",
+      "mode": "tag",
+      "add": [
+        "translations"
+      ],
+      "section": "stage-details/4-translations-check"
+    },
+    {
+      "target": "workflows/commit-conventions.md",
+      "mode": "tag",
+      "add": [
+        "task-id",
+        "git-branches"
+      ],
+      "section": "task-id-generation"
+    },
+    {
+      "target": "workflows/task-plan/phase-architecture.md",
+      "mode": "tag",
+      "add": [
+        "knowledge-store"
+      ],
+      "section": "architecture-decision-capture"
+    },
+    {
+      "target": "workflows/task-plan/phase-completion.md",
+      "mode": "tag",
+      "add": [
+        "knowledge-store"
+      ],
+      "section": "context-update-checklist"
+    },
+    {
+      "target": "workflows/task-plan/phase-implementation.md",
+      "mode": "tag",
+      "add": [
+        "code-review"
+      ],
+      "section": "pre-completion-review"
+    },
+    {
+      "target": "workflows/task-plan/phase-investigation.md",
+      "mode": "tag",
+      "add": [
+        "unit-spec"
+      ],
+      "section": "research-unit-spec-template"
+    },
+    {
+      "target": "workflows/task-plan/phase-testing.md",
+      "mode": "tag",
+      "add": [
+        "in-game-testing",
+        "generated-worlds"
+      ],
+      "section": "test-status-tracker"
+    }
+  ]
+}

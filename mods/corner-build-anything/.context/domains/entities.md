@@ -1,10 +1,11 @@
 ---
+tags: reach-table, transpiler
 witness_digest: "sha256:0306519df41aa63a1a600c61bb32b39a0b3a095827e6365f9dd180909f6c8a3f"
 witness: loose
 applies_to:
   - "src/CornerBuildAnything/**"
 doc_id: doc-5047cbea51fc
-description: "Entities, business rules and key code paths of corner-build-anything: reach-table swap for construction and deconstruction"
+description: "The game tables and Harmony transpilers of the Corner Build Anything mod (src/CornerBuildAnything): the two OffsetGroups reach tables, the Constructable and Deconstructable OnSpawn patches and SwapTable, with locations"
 ---
 
 # Corner Build Anything domain
@@ -26,26 +27,31 @@ Corner Build Anything lets duplicants build and deconstruct any building through
 
 ### Constructable.OnSpawn patch
 **Id:** blk-b8025016d218  
+**Tags:** harmony-patching  
 **Description**: Transpiler that replaces every `ldsfld OffsetGroups.InvertedStandardTable` in `Constructable.OnSpawn` with a load of the corner table. The game picks the corner table here for tiles only; after the patch every building gets it.  
 **Location**: `mods/corner-build-anything/src/CornerBuildAnything/ReachTablePatches.cs` (`Constructable_OnSpawn`)
 
 ### Deconstructable.OnSpawn patch
 **Id:** blk-ba96c6ad3eb0  
+**Tags:** harmony-patching  
 **Description**: The same transpiler on `Deconstructable.OnSpawn`, so a building put up through a corner can be taken down through the same corner.  
 **Location**: `mods/corner-build-anything/src/CornerBuildAnything/ReachTablePatches.cs` (`Deconstructable_OnSpawn`)
 
 ### SwapTable
 **Id:** blk-1b351a36e13a  
+**Tags:** harmony-patching, vanilla-fallback, logging  
 **Description**: The shared instruction rewrite. Counts the swapped loads, logs `corner reach table in place` per method, or logs a warning and leaves the method unchanged when it no longer loads the standard table.  
 **Location**: `mods/corner-build-anything/src/CornerBuildAnything/ReachTablePatches.cs`
 
 ### CornerBuildAnythingMod
 **Id:** blk-b1cf9481a19b  
+**Tags:** mod-entry-point, logging  
 **Description**: The `UserMod2` entry point. Calls `base.OnLoad` (which applies all patches) and logs the version.  
 **Location**: `mods/corner-build-anything/src/CornerBuildAnything/Mod.cs`
 
 ## Business Rules
-**Id:** blk-5fd39b686cad
+**Id:** blk-5fd39b686cad  
+**Tags:** vanilla-fallback
 
 - Duplicants may build and deconstruct any building from a corner standing cell, not only tiles.
 - Multi-cell buildings, bridges included, are covered by the same swap: the game builds their reach from every footprint cell, taking the rows of the nearest footprint cell to the standing cell, so a bridge is reachable through a corner from either end and its middle. No bridge-specific patch exists.
@@ -55,7 +61,8 @@ Corner Build Anything lets duplicants build and deconstruct any building through
 - A game update that stops either method loading the standard table does not fail the patch; the method is left as is and a warning is logged.
 
 ## Key Code Paths
-**Id:** blk-3ccd0caf0b17
+**Id:** blk-3ccd0caf0b17  
+**Tags:** in-game-testing, harmony-patching
 
 - **Build through a corner**: `Constructable.OnSpawn` reads the corner table (patched) — see `mods/corner-build-anything/src/CornerBuildAnything/ReachTablePatches.cs`
 - **Deconstruct through a corner**: `Deconstructable.OnSpawn` reads the corner table (patched) — see the same file

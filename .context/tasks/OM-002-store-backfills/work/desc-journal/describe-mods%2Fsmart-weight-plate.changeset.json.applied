@@ -1,0 +1,57 @@
+{
+  "task": "OM-002",
+  "why": "a generated description for every document, saying what that document contains",
+  "node": "C:\\dev\\ONI-Mods\\mods\\smart-weight-plate",
+  "ops": [
+    {
+      "target": "domains/README.md",
+      "mode": "describe",
+      "description": "Index of the Smart Weight Plate domains folder, linking the entities document on the building, its two-threshold latch and the wiring patches and the glossary of game and mod terms"
+    },
+    {
+      "target": "domains/entities.md",
+      "mode": "describe",
+      "description": "The Smart Weight Plate building, its two-threshold latch component, side screen and Harmony patches in src/SmartWeightPlate, with weighing, signal and threshold rules, file locations, code paths, tests and saved state"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "describe",
+      "description": "Glossary for Smart Weight Plate: abbreviations such as kanim and BAO, terms to avoid, and definitions of the vanilla Weight Plate, reservoir semantics, logic signal, FloorSwitchActivator, Pickupable and settings version"
+    },
+    {
+      "target": "overview.md",
+      "mode": "describe",
+      "description": "Overview of the Smart Weight Plate mod: the two-threshold weight plate building and its signal behaviour, version, status and credits, and a map of its source, art, translations, tests, tools and publish folders"
+    },
+    {
+      "target": "standards/README.md",
+      "mode": "describe",
+      "description": "Index of the Smart Weight Plate standards folder, linking its code style, error handling and naming conventions documents with a line on what each covers"
+    },
+    {
+      "target": "standards/code-style.md",
+      "mode": "describe",
+      "description": "C# code style for Smart Weight Plate: indentation, braces, imports, comments, control structures, Harmony patch and game component conventions, plus its nested Patches class, PLib side screen and Better Automation Overlay compat"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "describe",
+      "description": "Error handling rules for Smart Weight Plate: guarding Harmony patches and transpilers, try/catch, logging levels and anti-patterns, plus its guarded Better Automation Overlay compat, research tech warning and null target check"
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "describe",
+      "description": "Naming conventions for Smart Weight Plate: files, variables, methods, types, ModStrings keys, ids and tags, plus its string branches, test classes, Kit helper file, log prefix and staticID"
+    }
+  ],
+  "base": {
+    "domains/README.md": "sha256:2a26765ea0a4e0088ed524d83776779c8362e7148c550532fdbac90e71377450",
+    "domains/entities.md": "sha256:e5efa61c95468c77ff7387ff2244a637dffd7a8dc575258929243541d77fc23e",
+    "domains/glossary.md": "sha256:86950b34d0a86d909479e3e868ffdaf3874bd68ccb1ea2e33013d9f61318d279",
+    "overview.md": "sha256:f34dfd12c25b22c5209cd5d477b0c9c7c29ad6309e1cd98aa92ce566d92dc9b3",
+    "standards/README.md": "sha256:c0a6ec5e35baf9ee4f9701548318ff679a67a53227b2f2689bb2397538ae6cbf",
+    "standards/code-style.md": "sha256:0813ed46ecd28ce783bf9a4378b4d27f4ba99fb3192ff30c46f8ec9038ee38b1",
+    "standards/error-handling.md": "sha256:cad89b512ea782be3b110a7f9dc679bda88ec4410291482d9699d2e399852d31",
+    "standards/naming-conventions.md": "sha256:3017f82d4e40fc0b1047fc4ba757f4c2a059f8a631707039002ea0084692938b"
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/multichannel-critter-sensor — round 4",
+  "node": "C:\\dev\\ONI-Mods\\mods\\multichannel-critter-sensor",
+  "base": {
+    "domains/entities.md": "sha256:c8a06e553b38cb6f87815961284c948f33b8d63167f91b1a455f9944e776e647",
+    "domains/glossary.md": "sha256:a0719668dc63256187a898b934f8c3645ac2229a7d812cb7f45b2d714ce26ae4",
+    "standards/error-handling.md": "sha256:7bc97b0fdd1cb313dd931e0582de218c104c3bd31386fdcbea8f7acd17127fde",
+    "standards/code-style.md": "sha256:375ce2a5566c7ef54826c02b8432f250ebeb30c954fe9e152a7efd5e29b5085f",
+    "standards/naming-conventions.md": "sha256:075a6a551d231be51882616430c30cfc76ff43028ec1adcf9f60ccea092c0658"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "signal-threshold",
+        "side-screen"
+      ],
+      "section": "key-entities/thresholdadapter"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "signal-threshold"
+      ],
+      "section": "cross-domain-terms/combined-and-separate-mode"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching"
+      ],
+      "section": "anti-patterns-to-avoid/throwing-from-a-patch"
+    },
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "mod-entry-point",
+        "building-unlock",
+        "side-screen",
+        "harmony-patching"
+      ],
+      "section": "project-specific-rules/multichannel-critter-sensor-specifics"
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "tag",
+      "add": [
+        "mod-strings",
+        "logging"
+      ],
+      "section": "project-specific-conventions/multichannel-critter-sensor-specifics"
+    }
+  ]
+}

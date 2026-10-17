@@ -1,0 +1,39 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node . — round 13",
+  "node": "C:/dev/ONI-Mods",
+  "base": {
+    "testing/integration-testing.md": "sha256:f27f4b32b49188833c5184a5c631a7e05ded65bf099e487dd599821a6ed4d486",
+    "testing/unit-testing.md": "sha256:eebfaa85d7699384afee7b4dfe7d671872ecd4c05d6875302c7bcf45a4b6207e",
+    "workflows/ci-cd.md": "sha256:5c6835e5849fbeb5fe1e3a9ff619ff55e7f8bdef47decafb0562705b7003e38d"
+  },
+  "ops": [
+    {
+      "target": "testing/integration-testing.md",
+      "mode": "tag",
+      "add": [
+        "machine-setup",
+        "save-files"
+      ],
+      "section": "configuration/machine-requirements"
+    },
+    {
+      "target": "testing/unit-testing.md",
+      "mode": "tag",
+      "add": [
+        "test-assertions",
+        "game-update-compatibility"
+      ],
+      "section": "anti-patterns-to-avoid/asserting-on-a-private-field-instead-of-the-behaviour"
+    },
+    {
+      "target": "workflows/ci-cd.md",
+      "mode": "tag",
+      "add": [
+        "release-process",
+        "steam-workshop"
+      ],
+      "section": "manual-actions/rollback"
+    }
+  ]
+}

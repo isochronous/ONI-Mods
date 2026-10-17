@@ -1,0 +1,296 @@
+{
+ "documents": [
+  {
+   "id": "domains/README.md",
+   "tags": [
+    "critter-sensor",
+    "conveyor-rail"
+   ]
+  },
+  {
+   "id": "domains/entities.md",
+   "tags": [
+    "harmony-patching",
+    "critter-sensor",
+    "conveyor-rail"
+   ]
+  },
+  {
+   "id": "domains/glossary.md",
+   "tags": [
+    "critter-sensor",
+    "conveyor-rail"
+   ]
+  },
+  {
+   "id": "overview.md",
+   "tags": [
+    "critter-sensor",
+    "conveyor-rail"
+   ]
+  },
+  {
+   "id": "standards/README.md",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "mod coding standards"
+  },
+  {
+   "id": "standards/code-style.md",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "C# code style conventions"
+  }
+ ],
+ "sections": [
+  {
+   "id": "domains/README.md#domains",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/entities.md#overview",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/entities.md#key-entities",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/entities.md#key-entities/overcrowdingmonitor-updateregion-patch",
+   "tags": [
+    "vanilla-fallback",
+    "game-tag"
+   ]
+  },
+  {
+   "id": "domains/entities.md#key-entities/dontcounteggsonrailsmod",
+   "tags": [
+    "mod-entry-point"
+   ]
+  },
+  {
+   "id": "domains/entities.md#business-rules",
+   "tags": [
+    "game-tag",
+    "vanilla-fallback"
+   ]
+  },
+  {
+   "id": "domains/entities.md#key-code-paths",
+   "tags": [
+    "in-game-testing"
+   ]
+  },
+  {
+   "id": "domains/entities.md#related",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/glossary.md#abbreviations-and-acronyms",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "abbreviation table"
+  },
+  {
+   "id": "domains/glossary.md#terms-to-avoid",
+   "tags": [
+    "game-tag"
+   ]
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/critter-sensor",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/room-and-cavity",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "rooms and room cavities"
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/room-prober",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "room detection by the room prober"
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/overcrowding-monitor",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "the overcrowding monitor state machine"
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/conveyor-rail",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/stored-tag",
+   "tags": [
+    "game-tag"
+   ]
+  },
+  {
+   "id": "domains/glossary.md#related",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "overview.md#what-this-is",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "overview.md#where-things-are",
+   "tags": [
+    "mod-entry-point",
+    "in-game-testing"
+   ]
+  },
+  {
+   "id": "standards/README.md#standards",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "mod coding standards"
+  },
+  {
+   "id": "standards/code-style.md#formatting",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "C# formatting rules"
+  },
+  {
+   "id": "standards/code-style.md#formatting/indentation",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "C# formatting rules"
+  },
+  {
+   "id": "standards/code-style.md#formatting/line-length",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "C# formatting rules"
+  },
+  {
+   "id": "standards/code-style.md#formatting/braces",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "C# formatting rules"
+  },
+  {
+   "id": "standards/code-style.md#language-and-toolchain",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "C# language version and build toolchain"
+  },
+  {
+   "id": "standards/code-style.md#imports-includes",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "C# using directives"
+  },
+  {
+   "id": "standards/code-style.md#imports-includes/organization",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "C# using directives"
+  },
+  {
+   "id": "standards/code-style.md#imports-includes/example",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "C# using directives"
+  },
+  {
+   "id": "standards/code-style.md#comments",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "code comments"
+  },
+  {
+   "id": "standards/code-style.md#comments/when-to-comment",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "code comments"
+  },
+  {
+   "id": "standards/code-style.md#comments/when-not-to-comment",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "code comments"
+  },
+  {
+   "id": "standards/code-style.md#comments/format",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "code comments"
+  },
+  {
+   "id": "standards/code-style.md#control-structures",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "C# control structures"
+  },
+  {
+   "id": "standards/code-style.md#control-structures/conditionals",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "C# control structures"
+  },
+  {
+   "id": "standards/code-style.md#control-structures/loops",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "C# control structures"
+  },
+  {
+   "id": "standards/code-style.md#control-structures/strings",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "building log and UI strings"
+  },
+  {
+   "id": "standards/code-style.md#harmony-patches",
+   "tags": [
+    "harmony-patching",
+    "mod-entry-point"
+   ]
+  },
+  {
+   "id": "standards/code-style.md#game-components",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "game component conventions"
+  },
+  {
+   "id": "standards/code-style.md#project-specific-rules",
+   "tags": [
+    "in-game-testing",
+    "logging"
+   ]
+  },
+  {
+   "id": "standards/code-style.md#project-specific-rules/don-t-count-eggs-on-rails-specifics",
+   "tags": [
+    "harmony-patching",
+    "mod-entry-point"
+   ]
+  },
+  {
+   "id": "standards/code-style.md#related",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "C# code style conventions"
+  }
+ ]
+}

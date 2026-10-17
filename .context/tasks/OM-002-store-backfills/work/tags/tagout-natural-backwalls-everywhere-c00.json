@@ -1,0 +1,302 @@
+{
+ "documents": [
+  {
+   "id": "domains/README.md",
+   "tags": [
+    "worldgen"
+   ]
+  },
+  {
+   "id": "domains/entities.md",
+   "tags": [
+    "worldgen"
+   ]
+  },
+  {
+   "id": "domains/glossary.md",
+   "tags": [
+    "worldgen"
+   ]
+  },
+  {
+   "id": "overview.md",
+   "tags": [
+    "worldgen"
+   ]
+  },
+  {
+   "id": "standards/README.md",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "coding standards and conventions"
+  }
+ ],
+ "sections": [
+  {
+   "id": "domains/README.md#domains",
+   "tags": [
+    "biome-group",
+    "noise-pattern",
+    "mod-options",
+    "harmony-patching"
+   ]
+  },
+  {
+   "id": "domains/entities.md#overview",
+   "tags": [
+    "biome-group",
+    "noise-pattern"
+   ]
+  },
+  {
+   "id": "domains/entities.md#key-entities",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/entities.md#key-entities/cloneintonewworld-patch",
+   "tags": [
+    "harmony-patching",
+    "exception-handling",
+    "biome-group"
+   ]
+  },
+  {
+   "id": "domains/entities.md#key-entities/options",
+   "tags": [
+    "mod-options",
+    "developer-tooling"
+   ]
+  },
+  {
+   "id": "domains/entities.md#key-entities/biomegroup-and-biomegroups",
+   "tags": [
+    "biome-group"
+   ]
+  },
+  {
+   "id": "domains/entities.md#key-entities/pattern-patterngroup-and-patterns",
+   "tags": [
+    "noise-pattern"
+   ]
+  },
+  {
+   "id": "domains/entities.md#key-entities/options-entries",
+   "tags": [
+    "mod-options",
+    "biome-group",
+    "noise-pattern"
+   ]
+  },
+  {
+   "id": "domains/entities.md#key-entities/worldgen-noise-trees",
+   "tags": [
+    "noise-pattern"
+   ]
+  },
+  {
+   "id": "domains/entities.md#key-entities/other-harmony-patches",
+   "tags": [
+    "harmony-patching",
+    "transpiler",
+    "settle-sim",
+    "exception-handling"
+   ]
+  },
+  {
+   "id": "domains/entities.md#key-entities/exportoverlay",
+   "tags": [
+    "developer-tooling"
+   ]
+  },
+  {
+   "id": "domains/entities.md#key-entities/biomepreview-tool",
+   "tags": [
+    "developer-tooling",
+    "noise-pattern"
+   ]
+  },
+  {
+   "id": "domains/entities.md#key-entities/mod-entry-and-strings",
+   "tags": [
+    "mod-entry-point",
+    "mod-strings",
+    "mod-options"
+   ]
+  },
+  {
+   "id": "domains/entities.md#key-entities/saved-state",
+   "tags": [
+    "mod-options"
+   ]
+  },
+  {
+   "id": "domains/entities.md#business-rules",
+   "tags": [
+    "biome-group",
+    "settle-sim",
+    "exception-handling",
+    "vanilla-fallback"
+   ]
+  },
+  {
+   "id": "domains/entities.md#key-code-paths",
+   "tags": [
+    "harmony-patching",
+    "settle-sim",
+    "in-game-testing",
+    "transpiler"
+   ]
+  },
+  {
+   "id": "domains/entities.md#related",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/glossary.md#abbreviations-and-acronyms",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "abbreviations and acronyms"
+  },
+  {
+   "id": "domains/glossary.md#terms-to-avoid",
+   "tags": [
+    "biome-group",
+    "noise-pattern"
+   ]
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/backwall",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/subworld",
+   "tags": [
+    "noise-pattern"
+   ]
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/biome",
+   "tags": [
+    "biome-group"
+   ]
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/biome-group",
+   "tags": [
+    "biome-group"
+   ]
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/zone-type",
+   "tags": [
+    "noise-pattern"
+   ]
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/noise-tree-pattern",
+   "tags": [
+    "noise-pattern"
+   ]
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/band-table",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "element band tables"
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/coverage",
+   "tags": [
+    "biome-group",
+    "mod-options"
+   ]
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/starting-biome",
+   "tags": [
+    "biome-group",
+    "mod-options"
+   ]
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/feature-room",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "feature rooms (carved caves and lakes)"
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/settle-sim",
+   "tags": [
+    "settle-sim",
+    "harmony-patching"
+   ]
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/census",
+   "tags": [
+    "developer-tooling",
+    "logging"
+   ]
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/overlay-export",
+   "tags": [
+    "developer-tooling",
+    "mod-options"
+   ]
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/mutatedworlddata",
+   "tags": [
+    "harmony-patching"
+   ]
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/worldgen-thread",
+   "tags": [
+    "exception-handling",
+    "harmony-patching"
+   ]
+  },
+  {
+   "id": "domains/glossary.md#related",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "overview.md#what-this-is",
+   "tags": [
+    "biome-group",
+    "noise-pattern",
+    "mod-options",
+    "mod-strings"
+   ]
+  },
+  {
+   "id": "overview.md#where-things-are",
+   "tags": [
+    "mod-entry-point",
+    "harmony-patching",
+    "in-game-testing",
+    "developer-tooling"
+   ]
+  },
+  {
+   "id": "standards/README.md#standards",
+   "tags": [
+    "harmony-patching",
+    "exception-handling",
+    "logging",
+    "mod-strings"
+   ]
+  }
+ ]
+}

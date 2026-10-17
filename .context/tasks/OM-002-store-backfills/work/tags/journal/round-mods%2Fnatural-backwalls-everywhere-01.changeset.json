@@ -1,0 +1,27 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r2 for node mods/natural-backwalls-everywhere — round 1",
+  "node": "C:\\dev\\ONI-Mods\\mods\\natural-backwalls-everywhere",
+  "base": {
+    "standards/code-style.md": "sha256:e059d9081cff81b1cc8146ddbd745a4a4dcdab691b033debd20c55f13dcd18ba",
+    "domains/glossary.md": "sha256:312bfc1405679b6f3222505f9709d49384d98604f7f04df83a068855ab1835da"
+  },
+  "ops": [
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "mod-compatibility"
+      ],
+      "section": "comments/when-to-comment"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "settle-sim"
+      ],
+      "section": "cross-domain-terms/backwall"
+    }
+  ]
+}

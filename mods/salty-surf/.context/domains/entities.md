@@ -1,13 +1,16 @@
 ---
+tags: mechanical-surfboard
 doc_id: doc-4e6a503ac17c
-description: "The things Salty Surf adds or patches, with file locations, gameplay rules and key code paths."
+description: The SurfWater tag helper, Harmony patches, mod strings and translations of Salty Surf in src/SaltySurf, with the accepted-liquid, readiness, spill and info panel rules, file locations, code paths, tests and saved state
 applies_to:
   - "src/SaltySurf/**"
 ---
+
 # Salty Surf domain
 
 ## Overview
-**Id:** blk-5c09c48ae91d
+**Id:** blk-5c09c48ae91d  
+**Tags:** harmony-patching, game-tag
 
 Salty Surf makes the Mechanical Surfboard run on Salt Water as well as Water. The vanilla building keys its pipe intake, its readiness check and its spill to the Water element alone. The mod tags Water and Salt Water with one shared tag when the element table loads, then points those three places, and the info panel text, at the tag. The mod adds no building and no options, and saves nothing of its own: the tank contents are ordinary stored liquid.
 
@@ -16,6 +19,7 @@ Salty Surf makes the Mechanical Surfboard run on Salt Water as well as Water. Th
 
 ### SurfWater
 **Id:** blk-eab76ffa269c  
+**Tags:** game-tag, mod-strings  
 **Description**: The static holder of the shared tag and the accepted elements.  
 **Location**: `src/SaltySurf/Mod.cs`
 
@@ -27,6 +31,7 @@ Salty Surf makes the Mechanical Surfboard run on Salt Water as well as Water. Th
 
 ### Harmony patches
 **Id:** blk-0d5a13c73107  
+**Tags:** harmony-patching, game-tag, info-panel-text  
 **Location**: `src/SaltySurf/Mod.cs`
 
 | Patch target | Kind | Purpose |
@@ -39,16 +44,19 @@ Salty Surf makes the Mechanical Surfboard run on Salt Water as well as Water. Th
 
 ### Mod entry and strings
 **Id:** blk-858e2835d046  
+**Tags:** mod-entry-point, mod-strings  
 **Location**: `src/SaltySurf/Mod.cs`, `src/SaltySurf/ModStrings.cs`, `src/SaltySurf/translations/`
 `SaltySurfMod` (a `UserMod2`) registers `ModStrings` through `Isochronous.Translations`. The one string is `SALTYSURF.ELEMENT_LIST`; Chinese, Korean and Russian come from `translations/<locale>.po`. Mod id `Isochronous.SaltySurf` (`mod.yaml`).
 
 ### Saved state
-**Id:** blk-99d39a8ff721
+**Id:** blk-99d39a8ff721  
+**Tags:** game-tag
 
 None of the mod's own. A board saved with Salt Water in its tank loads with the Salt Water still there, counts as ready and spills it, because the stored chunk carries the shared tag from the element definition.
 
 ## Business Rules
-**Id:** blk-cabaabc55d71
+**Id:** blk-cabaabc55d71  
+**Tags:** info-panel-text, vanilla-fallback
 
 - The intake accepts Water or Salt Water; either fills the tank without damaging the building.
 - The board is ready at 2 kg of either liquid, or of both together; less than 2 kg, or other liquids, is not ready.
@@ -58,7 +66,8 @@ None of the mod's own. A board saved with Salt Water in its tank loads with the 
 - The vanilla descriptor line is matched by its exact text, so a changed line is left alone.
 
 ## Key Code Paths
-**Id:** blk-ecc935e6ebf6
+**Id:** blk-ecc935e6ebf6  
+**Tags:** in-game-testing, harmony-patching, game-tag
 
 - **Tagging the elements**: the `ElementLoader.Load` postfix — see `src/SaltySurf/Mod.cs`
 - **Intake**: `capacityTag` set in the `ConfigureBuildingTemplate` postfix — see `src/SaltySurf/Mod.cs`

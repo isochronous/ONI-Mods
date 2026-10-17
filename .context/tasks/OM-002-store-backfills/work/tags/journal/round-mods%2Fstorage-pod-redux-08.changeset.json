@@ -1,0 +1,38 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/storage-pod-redux — round 8",
+  "node": "C:\\dev\\ONI-Mods\\mods\\storage-pod-redux",
+  "base": {
+    "domains/entities.md": "sha256:352ebb6bfeaab3e3eed53d2d9e5d1f365cdd9ba71b96fc1cd374a7e1e6fd7412",
+    "domains/glossary.md": "sha256:ab98caef2801b664b9fb5431f1b75913ea3a1d4fffc4f1d2102fd70d3e152548",
+    "standards/error-handling.md": "sha256:8077c7874672b5d81840f003727f7f5ec90004b4e233bb1d47ffdf10095d8c4e"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "refrigerator",
+        "mod-compatibility"
+      ],
+      "section": "domain-terminology"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "saved-state",
+        "building-config"
+      ],
+      "section": "cross-domain-terms/prefab-id"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching"
+      ],
+      "section": "anti-patterns-to-avoid/assuming-the-game-s-internals"
+    }
+  ]
+}

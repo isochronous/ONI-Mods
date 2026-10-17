@@ -1,0 +1,11 @@
+term              count  gloss
+code-style            0  A record earns this term when it is about the house style in which a mod's C# source code is written.
+conveyor-rail        24  A record earns this term when it is about the conveyor rail and the items it carries through the world.
+critter-sensor       24  A record earns this term when it is about the game's critter sensor and how it counts the critters and eggs in a room.
+game-tag             10  A record earns this term when it is about a game Tag that a mod creates, adds to things or reads to recognise them.
+harmony-patching     37  A record earns this term when it is about writing or applying the Harmony patches through which a mod changes game methods.
+in-game-testing      10  A record earns this term when it is about testing a mod inside the running game with TestRunner and its [OniTest] coroutines.
+logging              26  A record earns this term when it is about what a mod writes to the game log and at which level.
+mod-entry-point       5  A record earns this term when it is about a mod's UserMod2 class and what it does when the game loads the mod.
+room-tracking         0  A record earns this term when it is about how the game records which room a critter or egg is in.
+vanilla-fallback     25  A record earns this term when it is about how a mod keeps the game's own behaviour when something it depends on is missing or has changed.

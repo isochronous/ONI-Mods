@@ -1,0 +1,31 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/smart-weight-plate — round 7",
+  "node": "C:\\dev\\ONI-Mods\\mods\\smart-weight-plate",
+  "base": {
+    "domains/entities.md": "sha256:460383b53659bf3b73660eff2ef0a83f3e5d7a9a6d192cc12381ac82cc06681c",
+    "standards/error-handling.md": "sha256:419b4e2ec3ad46d9913fc07c619a3fdbf7fa7d70162bff0dfc112ecfdea13ae1"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "kanim-art",
+        "in-game-testing",
+        "side-screen",
+        "mod-strings"
+      ],
+      "section": "key-code-paths"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "mod-compatibility",
+        "logging"
+      ],
+      "section": "try-catch"
+    }
+  ]
+}

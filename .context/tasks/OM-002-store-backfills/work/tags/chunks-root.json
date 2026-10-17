@@ -1,0 +1,39 @@
+[
+ {
+  "id": "root-c00",
+  "kind": "ordinary",
+  "documents": [
+   "domains/tooling-friction.md",
+   "overview.md",
+   "testing/integration-testing.md",
+   "testing/unit-testing.md"
+  ],
+  "sections": 48,
+  "dependsOn": null
+ },
+ {
+  "id": "root-c01",
+  "kind": "ordinary",
+  "documents": [
+   "workflows/branching.md",
+   "workflows/ci-cd.md",
+   "workflows/commit-conventions.md",
+   "workflows/task-plan/base.md",
+   "workflows/task-plan/phase-architecture.md"
+  ],
+  "sections": 55,
+  "dependsOn": null
+ },
+ {
+  "id": "root-c02",
+  "kind": "ordinary",
+  "documents": [
+   "workflows/task-plan/phase-completion.md",
+   "workflows/task-plan/phase-implementation.md",
+   "workflows/task-plan/phase-investigation.md",
+   "workflows/task-plan/phase-testing.md"
+  ],
+  "sections": 23,
+  "dependsOn": null
+ }
+]

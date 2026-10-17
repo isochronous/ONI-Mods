@@ -1,0 +1,17 @@
+term                   count  gloss
+building-config           38  A record earns this term when it is about the definition of a building a mod adds through an IBuildingConfig class.
+building-registration     38  A record earns this term when it is about deciding whether a mod's building is registered with the game at all.
+building-unlock           38  A record earns this term when it is about how a mod's building is placed in the build menu and unlocked by research.
+code-style                 0  A record earns this term when it is about the house style in which a mod's C# source code is written.
+harmony-patching          17  A record earns this term when it is about writing or applying the Harmony patches through which a mod changes game methods.
+in-game-testing            5  A record earns this term when it is about testing a mod inside the running game with TestRunner and its [OniTest] coroutines.
+kanim-art                  5  A record earns this term when it is about the kanim animation art a mod ships or swaps onto a building and how that art is made.
+logging                   28  A record earns this term when it is about what a mod writes to the game log and at which level.
+mod-compatibility         21  A record earns this term when it is about a mod working correctly alongside other authors' mods installed in the same game.
+mod-entry-point           21  A record earns this term when it is about a mod's UserMod2 class and what it does when the game loads the mod.
+mod-options               21  A record earns this term when it is about the player-facing settings a mod exposes on its options screen and how the mod reads them.
+mod-strings               21  A record earns this term when it is about the player-visible text a mod defines in ModStrings and the translations of that text.
+refrigerator               7  A record earns this term when it is about the game's refrigerators and how they keep stored food cold.
+saved-state                3  A record earns this term when it is about what a mod stores in a save file and how that data is restored when the save loads.
+storage-building          38  A record earns this term when it is about a building that stores items and what it accepts.
+vanilla-fallback          23  A record earns this term when it is about how a mod keeps the game's own behaviour when something it depends on is missing or has changed.

@@ -1,13 +1,16 @@
 ---
+tags: task-plan
 doc_id: doc-04c65bf246dc
-description: "Architecture phase protocol for ONI-Mods tasks: entry and exit contracts, review triggers for shared build and harness changes, and the design unit spec."
+description: "The architecture phase of an ONI-Mods task plan: entry and exit steps, extra review triggers for build kit and test harness changes, the design unit spec template and the decision capture format"
 ---
+
 # Architecture Phase Templates
 
 > Loaded by the `task-plan-phase-architecture` skill when present.
 
 ## Phase Entry (run FIRST, before any phase work)
-**Id:** blk-185dd3b16b29
+**Id:** blk-185dd3b16b29  
+**Tags:** phase-handoff
 
 > Reconstruct-first: resume from the committed `plan.md`, not session memory.
 > **Fail closed** — never silently re-derive a missing input. Section names
@@ -23,7 +26,8 @@ description: "Architecture phase protocol for ONI-Mods tasks: entry and exit con
 **Entry contract — architecture requires:** investigation findings (scope + the structural question to decide), the open questions the decision must resolve, and any research findings the decision depends on.
 
 ## Phase Exit / Handoff (run LAST, at the phase boundary)
-**Id:** blk-332ec12bedd2
+**Id:** blk-332ec12bedd2  
+**Tags:** phase-handoff
 
 > Every boundary ends with a commit. Uncommitted work at a boundary is an
 > incomplete handoff and the next phase fails closed.
@@ -34,7 +38,8 @@ description: "Architecture phase protocol for ONI-Mods tasks: entry and exit con
 4. Commit `plan.md` + artifact deltas with the trailer `Phase-Handoff: architecture`.
 
 ## Additional Architecture Review Triggers
-**Id:** blk-c8ecd5229a93
+**Id:** blk-c8ecd5229a93  
+**Tags:** mod-build, translations, mod-compatibility, release-process
 
 > These supplement the standard decision matrix in the phase skill.
 > Add project-specific triggers below.
@@ -47,7 +52,8 @@ description: "Architecture phase protocol for ONI-Mods tasks: entry and exit con
 - Changes to the release scripts (`common/tools/Release`) or Workshop upload (`common/tools/WorkshopUpload`)
 
 ## `design` Unit Spec Template
-**Id:** blk-f47eff9e625d
+**Id:** blk-f47eff9e625d  
+**Tags:** unit-spec
 
 > The body of `tasks/<id>/units/NN-design.md`. Compose the packet with
 > `icon-handoff` **with `--decisions`** (the brief carries the architecture and
@@ -70,7 +76,8 @@ Model tier: complex
 ```
 
 ## Architecture Decision Capture
-**Id:** blk-8b4c19a25fbe
+**Id:** blk-8b4c19a25fbe  
+**Tags:** knowledge-store
 
 > Paste this block into plan.md when recording an architecture decision. A
 > ruling worth keeping also lands as a decision record through `adr-discipline`.

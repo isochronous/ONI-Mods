@@ -1,0 +1,70 @@
+C:/dev/ONI-Mods
+
+scan set  node discovery — no path here is declared vendored or generated (checked against linguist-vendored, linguist-generated, gitlab-generated)
+scan set  file scan — no path here is declared vendored or generated (checked against linguist-vendored, linguist-generated, gitlab-generated)
+
+advise  .context/domains/tooling-friction.md
+        Nothing in the governing node's knowledge store links to domains/tooling-friction.md, and it links to nothing. Anyone navigating by following references will never arrive at it. That is worth a look, not a verdict: link it from where it belongs, or leave it as a document people open directly.
+
+advise  .context/workflows/branching.md
+        Nothing in the governing node's knowledge store links to workflows/branching.md, and it links to nothing. Anyone navigating by following references will never arrive at it. That is worth a look, not a verdict: link it from where it belongs, or leave it as a document people open directly.
+
+advise  .context/workflows/commit-conventions.md
+        Nothing in the governing node's knowledge store links to workflows/commit-conventions.md, and it links to nothing. Anyone navigating by following references will never arrive at it. That is worth a look, not a verdict: link it from where it belongs, or leave it as a document people open directly.
+
+advise  .context/workflows/task-plan/base.md
+        Nothing in the governing node's knowledge store links to workflows/task-plan/base.md, and it links to nothing. Anyone navigating by following references will never arrive at it. That is worth a look, not a verdict: link it from where it belongs, or leave it as a document people open directly.
+
+advise  .context/workflows/task-plan/phase-architecture.md
+        Nothing in the governing node's knowledge store links to workflows/task-plan/phase-architecture.md, and it links to nothing. Anyone navigating by following references will never arrive at it. That is worth a look, not a verdict: link it from where it belongs, or leave it as a document people open directly.
+
+advise  .context/workflows/task-plan/phase-completion.md
+        Nothing in the governing node's knowledge store links to workflows/task-plan/phase-completion.md, and it links to nothing. Anyone navigating by following references will never arrive at it. That is worth a look, not a verdict: link it from where it belongs, or leave it as a document people open directly.
+
+advise  .context/workflows/task-plan/phase-implementation.md
+        Nothing in the governing node's knowledge store links to workflows/task-plan/phase-implementation.md, and it links to nothing. Anyone navigating by following references will never arrive at it. That is worth a look, not a verdict: link it from where it belongs, or leave it as a document people open directly.
+
+advise  .context/workflows/task-plan/phase-investigation.md
+        Nothing in the governing node's knowledge store links to workflows/task-plan/phase-investigation.md, and it links to nothing. Anyone navigating by following references will never arrive at it. That is worth a look, not a verdict: link it from where it belongs, or leave it as a document people open directly.
+
+advise  .context/workflows/task-plan/phase-testing.md
+        Nothing in the governing node's knowledge store links to workflows/task-plan/phase-testing.md, and it links to nothing. Anyone navigating by following references will never arrive at it. That is worth a look, not a verdict: link it from where it belongs, or leave it as a document people open directly.
+
+27 checks · 16 ran · 11 not run · 0 block · 9 advise · 0 inform
+  a heading block declares its identity on the line directly under the heading — 0 block, 0 advise, 0 inform   (covered 150 paths)
+  a canon copy is byte-identical to what its manifest recorded, and the manifest accounts for every copy — not run: this check declared nothing to scan, so it has nothing it could report
+  a recorded conformance_version matches what this node's own structure has earned — 0 block, 0 advise, 0 inform   (covered 19 paths)
+  a unit_id is declared by only one node, and an absorbed-number alias is claimed by only one live record — not run: this check declared nothing to scan, so it has nothing it could report
+  every internal citation resolves to exactly one record that exists — 0 block, 0 advise, 0 inform   (covered 225 paths)
+  a decisions README that exists declares the generated index region — not run: this check declared nothing to scan, so it has nothing it could report
+  a node's declared scope agrees with the structure it actually has — 0 block, 0 advise, 0 inform   (covered 19 paths)
+  generated regions still match the files they are generated from — 0 block, 0 advise, 0 inform   (covered 19 paths)
+  no two decision records in one node carry the same number — 0 block, 0 advise, 0 inform   (covered 19 paths)
+  no two sibling headings in one document slug to the same block address — 0 block, 0 advise, 0 inform   (covered 150 paths)
+  no two heading blocks claim one block id, and a declared id is a block id — 0 block, 0 advise, 0 inform   (covered 150 paths)
+  no two documents claim one document id — 0 block, 0 advise, 0 inform   (covered 150 paths)
+  no file carries an unresolved merge conflict marker — 0 block, 0 advise, 0 inform   (covered 263 paths)
+  every heading block and every retrospective entry carries the identity a reference keeps when its address moves — 0 block, 0 advise, 0 inform   (covered 151 paths)
+  every narrative document carries a one-line description — 0 block, 0 advise, 0 inform   (covered 150 paths)
+  every linked-tree document is reachable by following references — 0 block, 9 advise, 0 inform   (covered 131 paths)
+  a pin carries the provenance fields it owes, and none of them names a filesystem location — not run: this check declared nothing to scan, so it has nothing it could report
+  platform records claim only what was measured, in the environment they are read in — not run: this check declared nothing to scan, so it has nothing it could report
+  each node carries the file set its scope requires — 0 block, 0 advise, 0 inform   (covered 96 paths)
+  a lesson says what to avoid, what to repeat, and what it changed — 0 block, 0 advise, 0 inform   (covered 1 path)
+  an opted-in roadmap parses as the ordered work queue it claims to be — not run: this check declared nothing to scan, so it has nothing it could report
+  node descriptors validate against the schema they declare — 0 block, 0 advise, 0 inform   (covered 38 paths)
+  every shipped skill records who may invoke it, and leaves a way in — not run: this check declared nothing to scan, so it has nothing it could report
+  live records do not point at records that have been superseded — not run: this check declared nothing to scan, so it has nothing it could report
+  no decision is superseded by its own eventual successor — not run: this check declared nothing to scan, so it has nothing it could report
+  a status naming a successor names one this node holds, in a shape this store can read — not run: this check declared nothing to scan, so it has nothing it could report
+  every tag on a record names a term some dictionary declares — not run: this check declared nothing to scan, so it has nothing it could report
+
+inputs  sha256:5e88a7df78b5cc479c85267eda5dd1f4936a7557a75cd4296794b8cc9aae402a — 263 files, 1704 records, 19 nodes
+notes   18 while reading: text before the first `### ` entry belongs to no record
+nothing was written — this run is a report, and the store is exactly as it was.
+
+C:/dev/ONI-Mods
+
+every generated artifact matches the sources it is generated from (4 registered).
+compared: generated regions still match the files they are generated from, and no node-scoped generated file is present here.
+nothing was written — this run regenerates in memory and compares.

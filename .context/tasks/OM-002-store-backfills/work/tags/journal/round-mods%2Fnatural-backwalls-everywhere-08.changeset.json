@@ -1,0 +1,40 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/natural-backwalls-everywhere — round 8",
+  "node": "C:\\dev\\ONI-Mods\\mods\\natural-backwalls-everywhere",
+  "base": {
+    "domains/entities.md": "sha256:d90d4a9307b74502e120cb3f4f06f7c55bd2bf7b8fdac1a3c149f2cb87f62cd3",
+    "domains/glossary.md": "sha256:e9ff54b881f7476c4e7edb21b85461c99929230984aa5e95eb5859bca6c63ec8",
+    "standards/error-handling.md": "sha256:a427ea2c55278ada83ef97c8cb24076437a4f9d4ba1740ba0e6332af625503eb"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching",
+        "transpiler",
+        "settle-sim",
+        "exception-handling"
+      ],
+      "section": "key-entities/other-harmony-patches"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "biome-group",
+        "mod-options"
+      ],
+      "section": "cross-domain-terms/starting-biome"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching"
+      ],
+      "section": "try-catch/finalizer-for-a-thread-with-no-handler"
+    }
+  ]
+}

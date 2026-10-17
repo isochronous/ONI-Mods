@@ -1,0 +1,28 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/multichannel-critter-sensor — round 7",
+  "node": "C:\\dev\\ONI-Mods\\mods\\multichannel-critter-sensor",
+  "base": {
+    "domains/entities.md": "sha256:44004458c41e5c3e5500320676c9c382e07da944fb4367646028298e2ab7392a",
+    "domains/glossary.md": "sha256:c2d76ae640e5d4925aa00d011862a4de04a8be71f2c5e6d32fa3efd53611c698"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "mod-entry-point",
+        "mod-strings"
+      ],
+      "section": "key-entities/mod-entry-and-strings"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "building-unlock"
+      ],
+      "section": "cross-domain-terms/multiplexing"
+    }
+  ]
+}

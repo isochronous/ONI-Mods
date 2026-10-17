@@ -1,0 +1,66 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/just-fall-already — round 2",
+  "node": "C:\\dev\\ONI-Mods\\mods\\just-fall-already",
+  "base": {
+    "domains/entities.md": "sha256:828d2fc8ced0b839ef2894a2f1d2923a3f6ccf690feeb3d4c5ed154ecba5f351",
+    "domains/glossary.md": "sha256:02fa6163c7bb75da2c1e6a4bf757edb6978c4083d543188cf48646ea3f9f1e06",
+    "overview.md": "sha256:d5a72c08b2443708f9471ea6d891d4a774dcccf7a41914d4a233ed5c83b276ae",
+    "standards/error-handling.md": "sha256:dfd0d069ff0a95ad9fbddd80ea4851d9feaee6ab4fe5117495c8da016a77ad87",
+    "standards/code-style.md": "sha256:79e3b3027065c7903d2d84152521f9938f0c612fab5d7abf55a57de57450b98a",
+    "standards/naming-conventions.md": "sha256:6448a57a679f6d228f3189f3115a54db33385071ef9ae9a8b94cb5ffcb10e5da"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching",
+        "mod-compatibility"
+      ],
+      "section": "key-entities/door-setworldstate-patch"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "navigation-grid"
+      ],
+      "section": "cross-domain-terms/armed-cell"
+    },
+    {
+      "target": "overview.md",
+      "mode": "tag",
+      "add": [
+        "mod-entry-point",
+        "in-game-testing"
+      ],
+      "section": "where-things-are"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching"
+      ],
+      "section": "guarding-patches"
+    },
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "performance"
+      ],
+      "section": "control-structures/loops"
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching",
+        "mod-entry-point"
+      ],
+      "section": "code-naming/classes-types-interfaces"
+    }
+  ]
+}

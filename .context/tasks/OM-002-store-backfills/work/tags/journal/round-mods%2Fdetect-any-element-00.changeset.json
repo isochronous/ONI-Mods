@@ -1,0 +1,42 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r2 for node mods/detect-any-element — round 0",
+  "node": "C:\\dev\\ONI-Mods\\mods\\detect-any-element",
+  "base": {
+    "standards/README.md": "sha256:e7fcebceb24c94537cef6e83eb9192175b60a09bd06e2ece66cd207e757f79c0",
+    "standards/code-style.md": "sha256:5d155603d1696b7b5b09d19182644f1700ef55340d7f062a1482947bb78329f8",
+    "standards/naming-conventions.md": "sha256:0d6ff128c70b925eb9e69fba2b38fae7f5796c85cacc8303313686c642cb05d5",
+    "domains/entities.md": "sha256:c5e53d40fc9879cee158e87dd2fda17fa99861f406dde0dafa7dec159c7d56ea"
+  },
+  "ops": [
+    {
+      "target": "standards/README.md",
+      "mode": "tag",
+      "add": [
+        "code-style"
+      ]
+    },
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "code-style"
+      ]
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "tag",
+      "add": [
+        "code-style"
+      ]
+    },
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "reflection"
+      ],
+      "section": "key-entities/switches"
+    }
+  ]
+}

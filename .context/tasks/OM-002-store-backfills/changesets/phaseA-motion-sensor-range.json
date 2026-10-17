@@ -1,0 +1,31 @@
+{
+  "task": "OM-002",
+  "why": "replace the scaffold placeholders in motion-sensor-range's overview and the domains and standards indexes with its real content",
+  "node": "mods/motion-sensor-range",
+  "ops": [
+    {
+      "mode": "section",
+      "target": "overview.md",
+      "section": "What this is",
+      "body": "Motion Sensor Range is an Oxygen Not Included mod that makes the detection range of the vanilla Duplicant Motion Sensor adjustable from a slider in the building's side screen: 2 to 16 tiles in steps of 2, default 4 (the vanilla range). It adds no building of its own. A `RangeSlider` component is attached to the sensor prefab by a Harmony postfix and rewrites the sensor's detection area at runtime; the range is saved with the building, works with the vanilla copy-settings tool, and carries over from an under-construction building. It is a from-scratch rewrite of Cairath's Configurable Motion Sensor Range for the current game. Version 1.2.0 is released on the Steam Workshop (id 3804025857); `mod.yaml` sets `supportedContent: ALL` and `minimumSupportedBuild: 744825`, so it loads with every DLC.\n"
+    },
+    {
+      "mode": "section",
+      "target": "overview.md",
+      "section": "Where things are",
+      "body": "- `src/MotionSensorRange/`: the mod. `Mod.cs` (entry point), `Patches.cs` (Harmony patches on the motion sensor config and construction), `RangeSlider.cs` (the component), `ModStrings.cs` (text registered under the game's STRINGS tree), `mod.yaml` and `mod_info.yaml` (game manifests), `translations/` (`.pot` template plus `ko.po`, `ru.po`, `zh.po`).\n- `src/MotionSensorRange.Tests/`: in-game tests for detection, persistence and range (`Detection.cs`, `Persistence.cs`, `Range.cs`).\n- `assets-src/`: preview art sources and `PreviewGen/`, the small program that renders the Workshop preview.\n- `publish/`: Workshop material (`workshop-description.txt`, `workshop-id.txt`, `preview.png`, and `obsolete-description.txt` for the retired earlier upload).\n- `README.md`, `CHANGELOG.md`: user-facing description and release history.\n- `.context/` holds `overview.md` (this file), `domains/` (entities and glossary), `standards/` (code style, error handling, naming conventions), `decisions/`, `retrospectives/`, `projects.md` and `META.md`.\n"
+    },
+    {
+      "mode": "section",
+      "target": "domains/README.md",
+      "section": "Domains",
+      "body": "- [entities](entities.md): what the mod adds to the vanilla Duplicant Motion Sensor (the `RangeSlider` component), with file locations, the range rules and key code paths.\n- [glossary](glossary.md): ONI and mod-specific terms used by Motion Sensor Range.\n"
+    },
+    {
+      "mode": "section",
+      "target": "standards/README.md",
+      "section": "Standards",
+      "body": "- [code-style](code-style.md): C# formatting, imports, comments, Harmony patch and component conventions, with this mod's own layout.\n- [error-handling](error-handling.md): how Motion Sensor Range guards its Harmony patches, reflection lookups and file reads, and what it logs when something is missing.\n- [naming-conventions](naming-conventions.md): file, namespace, patch class, string key and id naming for project MotionSensorRange.\n"
+    }
+  ]
+}

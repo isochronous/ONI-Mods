@@ -1,0 +1,27 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r2 for node mods/salty-surf — round 1",
+  "node": "C:\\dev\\ONI-Mods\\mods\\salty-surf",
+  "base": {
+    "standards/code-style.md": "sha256:3744a002fc8c35bb6c275ed090f04670fbbc0b12d4b8b1eb409205906e734e8d",
+    "standards/naming-conventions.md": "sha256:aaedc0d2b62dcf539608d3f58d730599d8b23d7e113a02109fb2bb7fedd8ecdb"
+  },
+  "ops": [
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "logging"
+      ],
+      "section": "imports-includes/example"
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching"
+      ],
+      "section": "code-naming/functions-methods"
+    }
+  ]
+}

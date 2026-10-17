@@ -1,0 +1,37 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/detect-any-element — round 7",
+  "node": "C:\\dev\\ONI-Mods\\mods\\detect-any-element",
+  "base": {
+    "domains/entities.md": "sha256:84c73a6dda5d49bd2c05e8e1d1d5740e70bf629689af6f61832f7af64f0cd0da",
+    "domains/glossary.md": "sha256:9d374941870b6102192db07a13fc8f3169961bfbd9beca1d0fcf274cc8d28516",
+    "standards/error-handling.md": "sha256:229ff36671b86d5c647611d363f97204b44e5ea7f6f40f587585a1473756495b"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching",
+        "side-screen"
+      ],
+      "section": "key-entities/logicelementsensor-onelementselected-patch"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "kanim-art"
+      ],
+      "section": "cross-domain-terms/symbol-override"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "logging"
+      ],
+      "section": "try-catch"
+    }
+  ]
+}

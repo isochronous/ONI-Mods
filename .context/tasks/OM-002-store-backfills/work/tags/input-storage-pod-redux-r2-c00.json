@@ -1,0 +1,393 @@
+{
+ "documents": [
+  {
+   "id": "domains/README.md",
+   "title": "Domains",
+   "description": "Index of the domain documents for the Storage Pod Redux mod, linking its entities file (pod buildings, options, registration gate) and its glossary of terms",
+   "document_tags": [
+    "storage-building"
+   ],
+   "text": "---\ntags: storage-building\ndoc_id: doc-b691ccbfeb36\ndescription: Index of the domain documents for the Storage Pod Redux mod, linking its entities file (pod buildings, options, registration gate) and its glossary of terms\n---\n\n# Domains\n\n## Domains\n**Id:** blk-78eb469ca4b3\n\n- [entities](entities.md): the Storage Pod and Cool Pod buildings, their options and the registration gate.\n- [glossary](glossary.md): game and mod terms, abbreviations and terms to avoid.\n",
+   "sections": [
+    {
+     "id": "domains/README.md#domains",
+     "title": "Domains",
+     "text": "## Domains\n**Id:** blk-78eb469ca4b3\n\n- [entities](entities.md): the Storage Pod and Cool Pod buildings, their options and the registration gate.\n- [glossary](glossary.md): game and mod terms, abbreviations and terms to avoid.\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "domains/entities.md",
+   "title": "Storage Pod Redux domain",
+   "description": "The Storage Pod and Cool Pod buildings of Storage Pod Redux, with their property tables, options, mod detection, registration gate, Harmony patches, business rules and the source file each lives in",
+   "document_tags": [
+    "storage-building",
+    "building-registration"
+   ],
+   "text": "---\ntags: storage-building, building-registration\ndoc_id: doc-4b5791f2e9a8\ndescription: The Storage Pod and Cool Pod buildings of Storage Pod Redux, with their property tables, options, mod detection, registration gate, Harmony patches, business rules and the source file each lives in\napplies_to:\n  - \"src/StoragePodRedux/**\"\n---\n\n# Storage Pod Redux domain\n\n## Overview\n**Id:** blk-157f709a0f36\n\nStorage Pod Redux adds two compact 1x1 storage buildings that can be built anywhere, rockets included: the Storage Pod (solids) and the Cool Pod (a powered fridge). It is a code rewrite of Skyrunner's Storage Pod, keeping that mod's prefab IDs and art. The mod is `mods/storage-pod-redux`, static ID `Isochronous.StoragePodRedux`, source in `src/StoragePodRedux/`.\n\n## Key Entities\n**Id:** blk-bd15ff5c5a22\n\n### Storage Pod (building)\n**Id:** blk-f1d8d33bbdb4  \n**Tags:** building-config, building-unlock, kanim-art  \n**Description**: A Storage Bin in one cell, mirroring the vanilla `StorageLockerConfig`. Costs 100 kg of Refined Metal (`CONSTRUCTION_MASS_KG.TIER2`), needs no power, build rule `Anywhere`. Found in Base > Storage after the Storage Bin; unlocked by the `RefinedObjects` tech (Refined Renovations).  \n**Location**: `src/StoragePodRedux/StoragePodConfig.cs`; art `src/StoragePodRedux/anim/assets/` (`storage_pod_kanim`).\n\n| Property | Type | Description |\n|----------|------|-------------|\n| ID | string | `StoragePodConfig`, the original mod's prefab ID, so saves keep their pods |\n| Capacity | float | `Options.StoragePodCapacity`, default 5000 kg |\n| Filters | List<Tag> | `STORAGEFILTERS.STORAGE_LOCKERS_STANDARD`, plus `STORAGEFILTERS.FOOD` when `StoragePodStoresFood` is on |\n\n**Relationships**: components `Storage`, `StorageLocker`, `CopyBuildingSettings` (group `GameTags.StorageLocker`), `UserNameable`, `RocketUsageRestriction.Def`, `StorageController.Def`.\n\n### Cool Pod (building)\n**Id:** blk-0e2ce168150c  \n**Tags:** building-config, building-unlock, refrigerator, kanim-art  \n**Description**: A fridge in one cell, built the way the game builds its Mini Fridge (`MiniFridgeConfig`). Costs 100 kg of Refined Metal, uses 60 W and 10 W once its contents are cold, build rule `Anywhere`, no DLC requirement. Found in Food > Storage after the Refrigerator; unlocked by the `Agriculture` tech.  \n**Location**: `src/StoragePodRedux/CoolPodConfig.cs`; art `cool_pod_kanim`.\n\n| Property | Type | Description |\n|----------|------|-------------|\n| ID | string | `CoolPodConfig`, the original mod's prefab ID |\n| Capacity | float | `Options.CoolPodCapacity`, default 50 kg, food only (`STORAGEFILTERS.FOOD`) |\n| Power | float | 60 W active (`PowerW`), 10 W saver (`EnergySaverW`) |\n| Logic port | LogicPorts.Port | `FilteredStorage.FULL_PORT_ID`, the refrigerator's Full output, with the vanilla Refrigerator strings |\n\n**Relationships**: components `Storage`, `FoodStorage`, `Refrigerator`, `RefrigeratorController.Def`, `TreeFilterable`, `UserNameable`, `DropAllWorkable`, `RocketUsageRestriction.Def` (`restrictOperational = false`, so it works in flight), `StorageController.Def`; tagged `RoomConstraints.ConstraintTags.KitchenRefrigerator` so it satisfies the Kitchen room.\n\n### Options\n**Id:** blk-96dad730c3ce  \n**Tags:** mod-options, mod-strings  \n**Description**: Saved with PLib `SingletonOptions<Options>`, shared config location, restart required.  \n**Location**: `src/StoragePodRedux/Options.cs`\n\n| Property | Type | Description |\n|----------|------|-------------|\n| StoragePodEnabled | bool | Default true |\n| StoragePodCapacity | float | 100 to 50000 kg, default 5000 |\n| StoragePodStoresFood | bool | Default false; the pod is not refrigerated |\n| CoolPod | CoolPodMode | `Auto` (default), `Enabled`, `Disabled` |\n| CoolPodCapacity | float | 10 to 5000 kg, default 50 |\n\nOption titles and tooltips are keys into `ModStrings` (`STRINGS.STORAGEPODREDUX.OPTIONS...`), so the options screen follows the translation.\n\n### Buildings (decision state)\n**Id:** blk-a270aff56acd  \n**Tags:** mod-compatibility, logging  \n**Description**: Which of the two buildings this game gets, decided once all mods are loaded and read by the registration patch. `StoragePodEnabled`, `CoolPodEnabled`, `CoolPodReason` (logged), `IsEnabled(config|id)`; `IsEnabled` is false for both when the original mod is active.  \n**Location**: `src/StoragePodRedux/Buildings.cs`\n\n### Mod detection\n**Id:** blk-ae5a3fd77fc3  \n**Tags:** mod-compatibility  \n**Description**: `ModDetection` finds an enabled mod by static ID and reads another mod's JSON config. `RonivansLegacy.FridgePodActive` decides whether Ronivan's Legacy - Industrial Revolution (`RonivansLegacy_ChemicalProcessing`) has its Fridge Pod active: module `DupesRefrigeration_Enabled` in `config.json` (default true) and `BuildingConfigurations.FridgePod.BuildingEnabled` (default true) in `RonivanAIO_BuildingConfig.json`, or `BuildingEnabledForce`. A missing file or key means the default.  \n**Location**: `src/StoragePodRedux/ModDetection.cs`. The original mod's static ID is `Storage Pod` (`StoragePodReduxMod.OriginalStaticID`).\n\n### Harmony patches\n**Id:** blk-55d1a13d9ef6  \n**Tags:** harmony-patching, building-unlock  \n**Location**: `src/StoragePodRedux/Patches.cs`\n\n| Target | Kind | Purpose |\n|--------|------|---------|\n| `BuildingConfigManager.RegisterBuilding` | Prefix | Returns false for a pod that is turned off, so it is absent from the build menu, tech tree and codex |\n| `GeneratedBuildings.LoadGeneratedBuildings` | Prefix | Adds enabled pods to the plan screen (Base/storage after `StorageLockerConfig`, Food/storage after `RefrigeratorConfig`) |\n| `Db.Initialize` | Postfix | Adds enabled pods to the `RefinedObjects` and `Agriculture` techs; a missing tech logs a warning |\n\n## Business Rules\n**Id:** blk-3f72d6cebb5f  \n**Tags:** saved-state, mod-compatibility\n\n- Both pods use the original mod's prefab IDs (`StoragePodConfig`, `CoolPodConfig`), so a save made with the original keeps its pods.\n- If the original mod is enabled alongside, Redux registers no building and logs a warning; the user must disable one.\n- A building turned off in the options is never registered; `IBuildingConfig.ForbidFromLoading` is not used because the game never calls it.\n- Cool Pod Auto adds the pod unless Ronivan's Legacy is enabled with its Fridge Pod active; Enabled and Disabled force it.\n- The Storage Pod holds the standard locker solids, and food only when the option is on. The Cool Pod holds food only.\n- The Cool Pod drops to 10 W once everything inside is cold, cools with `coolingHeatKW` 0.1875 and self-heats 0.125 kW when active.\n- Option changes take effect after a restart.\n\n## Domain Terminology\n**Id:** blk-4a9d0a5cfeeb  \n**Tags:** refrigerator, mod-compatibility\n\n| Term | Definition |\n|------|-----------|\n| Pod | Either building of this mod |\n| Auto | The Cool Pod mode that defers to another mod's Fridge Pod |\n| Original mod | Skyrunner's Storage Pod (`Storage Pod`), whose IDs and art this mod reuses |\n| Energy saver | The refrigerator's lower power draw once its contents are cold |\n\n## Key Code Paths\n**Id:** blk-344beb8e3371  \n**Tags:** mod-entry-point, harmony-patching\n\n- **Startup**: `StoragePodReduxMod.OnLoad` inits PLib, registers `ModStrings` translations and the options; `OnAllModsLoaded` checks for the original mod and calls `Buildings.Decide`. See `src/StoragePodRedux/Mod.cs`.\n- **Registration gate**: `RegisterBuilding` prefix -> `Buildings.IsEnabled(config)`. See `src/StoragePodRedux/Patches.cs`, `src/StoragePodRedux/Buildings.cs`.\n- **Cool Pod mode**: `Buildings.Decide` -> `RonivansLegacy.FridgePodActive`. See `src/StoragePodRedux/Buildings.cs`, `src/StoragePodRedux/ModDetection.cs`.\n- **Prefab setup**: `CreateBuildingDef`, `ConfigureBuildingTemplate`, `DoPostConfigureComplete` in `StoragePodConfig.cs` and `CoolPodConfig.cs`; capacities and filters read from `Options.Instance` at configure time.\n- **Tests**: in-game `[OniTest]` suites in `src/StoragePodRedux.Tests/` (`Registration.cs`, `Pods.cs`, `Decisions.cs`, `Helpers.cs`).\n\n## Related\n**Id:** blk-5cc270c3cf27\n\n- See also: [glossary](glossary.md)\n",
+   "sections": [
+    {
+     "id": "domains/entities.md#overview",
+     "title": "Overview",
+     "text": "## Overview\n**Id:** blk-157f709a0f36\n\nStorage Pod Redux adds two compact 1x1 storage buildings that can be built anywhere, rockets included: the Storage Pod (solids) and the Cool Pod (a powered fridge). It is a code rewrite of Skyrunner's Storage Pod, keeping that mod's prefab IDs and art. The mod is `mods/storage-pod-redux`, static ID `Isochronous.StoragePodRedux`, source in `src/StoragePodRedux/`.\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/entities.md#key-entities",
+     "title": "Key Entities",
+     "text": "## Key Entities\n**Id:** blk-bd15ff5c5a22\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/entities.md#related",
+     "title": "Related",
+     "text": "## Related\n**Id:** blk-5cc270c3cf27\n\n- See also: [glossary](glossary.md)\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "domains/glossary.md",
+   "title": "Storage Pod Redux glossary",
+   "description": "Glossary for Storage Pod Redux: abbreviations (kanim, PLib), terms to avoid such as Fridge Pod, and definitions of pod, prefab ID and vanilla fridge terms with the files that use them",
+   "document_tags": [
+    "storage-building"
+   ],
+   "text": "---\ntags: storage-building\nwitness_digest: \"sha256:4ca967e5ba46efa9209fa2082f56d2c5d8c4bd31f26343f9b36b9df3d30ed70e\"\nwitness: loose\napplies_to:\n  - \"src/StoragePodRedux/**\"\ndoc_id: doc-7eb761dcb233\ndescription: \"Glossary for Storage Pod Redux: abbreviations (kanim, PLib), terms to avoid such as Fridge Pod, and definitions of pod, prefab ID and vanilla fridge terms with the files that use them\"\n---\n\n# Storage Pod Redux glossary\n\nTerms for the Storage Pod Redux mod. For the mod's entities, rules and code paths see [entities](entities.md).\n\n## Abbreviations and Acronyms\n**Id:** blk-34c753e3b961  \n**Tags:** kanim-art, mod-options\n\n| Abbreviation | Full Term | Context |\n|--------------|-----------|---------|\n| ONI | Oxygen Not Included | The game the mod is for |\n| kanim | Klei animation | Pod art: `storage_pod_kanim`, `cool_pod_kanim` |\n| PLib | Peter Han's mod library | Options screen and mod init |\n| W / kW | Watt / kilowatt | Cool Pod power and heat figures |\n\n## Terms to Avoid\n**Id:** blk-c8df511c1d86  \n**Tags:** mod-compatibility\n\n| Avoid | Use Instead | Reason |\n|-------|-------------|--------|\n| Fridge Pod | Cool Pod | Fridge Pod is Ronivan's Legacy's building; this mod's is the Cool Pod |\n| Storage Pod mod | Storage Pod Redux, or \"the original mod\" | The original Skyrunner mod shares the prefab IDs; the two must be told apart |\n\n## Cross-Domain Terms\n**Id:** blk-99feade92c06\n\n### Storage Pod\n**Id:** blk-46849ef15e2a  \n**Definition**: This mod's 1x1 solid storage building (prefab `StoragePodConfig`), 5,000 kg by default.  \n**Used in**: `StoragePodConfig.cs`, `Options.cs`, `Patches.cs`.\n\n### Cool Pod\n**Id:** blk-dc88b27b42b1  \n**Tags:** refrigerator  \n**Definition**: This mod's 1x1 powered fridge (prefab `CoolPodConfig`), 50 kg of food by default.  \n**Used in**: `CoolPodConfig.cs`, `Buildings.cs`, `Options.cs`.\n\n### Mini Fridge\n**Id:** blk-5f575abce47b  \n**Tags:** refrigerator, building-config  \n**Definition**: The vanilla rocket-capable fridge (`MiniFridgeConfig`) whose component set the Cool Pod copies. The Storage Pod likewise copies the Storage Bin (`StorageLockerConfig`).  \n**Used in**: `CoolPodConfig.cs`, `StoragePodConfig.cs`.\n\n### BuildLocationRule.Anywhere\n**Id:** blk-52d73c8fcf50  \n**Tags:** building-config  \n**Definition**: The game rule that lets a building be placed without a floor or wall behind it, which is why the pods fit inside rockets.  \n**Used in**: both config classes.\n\n### Kitchen refrigerator tag\n**Id:** blk-e675dd0eae9b  \n**Tags:** refrigerator, building-config  \n**Definition**: `RoomConstraints.ConstraintTags.KitchenRefrigerator`; a building with it counts as the fridge a Kitchen room requires. The Cool Pod has it.  \n**Used in**: `CoolPodConfig.ConfigureBuildingTemplate`.\n\n### Full output\n**Id:** blk-c0f37de3b12d  \n**Tags:** refrigerator, building-config  \n**Definition**: The logic port (`FilteredStorage.FULL_PORT_ID`) that sends a green signal when the storage is full; the Cool Pod has the same one as the Refrigerator.  \n**Used in**: `CoolPodConfig.CreateBuildingDef`.\n\n### Prefab ID\n**Id:** blk-a0285ad72c56  \n**Tags:** saved-state, building-config  \n**Definition**: The string a building is saved under. Reusing the original mod's IDs is what keeps old saves' pods.  \n**Used in**: `StoragePodConfig.ID`, `CoolPodConfig.ID`.\n\n### Static ID\n**Id:** blk-ffa41e0b104a  \n**Tags:** mod-compatibility  \n**Definition**: A mod's identity in `mod.yaml` (`staticID`). Used to detect other mods: `Storage Pod` and `RonivansLegacy_ChemicalProcessing`.  \n**Used in**: `Mod.cs`, `ModDetection.cs`.\n\n## Related\n**Id:** blk-cb877d63299e\n\n- See also: [entities](entities.md)\n",
+   "sections": [
+    {
+     "id": "domains/glossary.md#cross-domain-terms",
+     "title": "Cross-Domain Terms",
+     "text": "## Cross-Domain Terms\n**Id:** blk-99feade92c06\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/storage-pod",
+     "title": "Storage Pod",
+     "text": "### Storage Pod\n**Id:** blk-46849ef15e2a  \n**Definition**: This mod's 1x1 solid storage building (prefab `StoragePodConfig`), 5,000 kg by default.  \n**Used in**: `StoragePodConfig.cs`, `Options.cs`, `Patches.cs`.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#related",
+     "title": "Related",
+     "text": "## Related\n**Id:** blk-cb877d63299e\n\n- See also: [entities](entities.md)\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "standards/README.md",
+   "title": "Standards",
+   "description": "Index of the Storage Pod Redux standards documents, linking the code-style, error-handling and naming-conventions guides with a line on each",
+   "document_tags": [],
+   "text": "---\ndoc_id: doc-bd9a3bd51203\ndescription: Index of the Storage Pod Redux standards documents, linking the code-style, error-handling and naming-conventions guides with a line on each\n---\n\n# Standards\n\n## Standards\n**Id:** blk-83af63dea0e5\n\n- [code-style](code-style.md): C# formatting, imports, comments, Harmony patch and component conventions, with this mod's own layout.\n- [error-handling](error-handling.md): how the mod guards its Harmony patches, reflection lookups and file reads, and what it logs when something is missing.\n- [naming-conventions](naming-conventions.md): file, namespace, patch class, string key and id naming.\n",
+   "sections": [
+    {
+     "id": "standards/README.md#standards",
+     "title": "Standards",
+     "text": "## Standards\n**Id:** blk-83af63dea0e5\n\n- [code-style](code-style.md): C# formatting, imports, comments, Harmony patch and component conventions, with this mod's own layout.\n- [error-handling](error-handling.md): how the mod guards its Harmony patches, reflection lookups and file reads, and what it logs when something is missing.\n- [naming-conventions](naming-conventions.md): file, namespace, patch class, string key and id naming.\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "standards/code-style.md",
+   "title": "Code Style Guide",
+   "description": "C# code style for the Storage Pod Redux mod: formatting, imports, comments, Harmony patch and game component conventions, plus a section on its options class, original-mod detection and patch layout",
+   "document_tags": [],
+   "text": "---\ndoc_id: doc-3f8274c8e738\ndescription: \"C# code style for the Storage Pod Redux mod: formatting, imports, comments, Harmony patch and game component conventions, plus a section on its options class, original-mod detection and patch layout\"\napplies_to:\n  - \"src/**\"\n---\n\n# Code Style Guide\n\n## Formatting\n**Id:** blk-645fab47f254\n\n### Indentation\n**Id:** blk-6f333a1f8d0d\n\n- Tabs, one per level, in every `.cs` file (`mods/bitshifter/src/Bitshifter/Mod.cs`).\n- Project files (`.csproj`, `common/oni-mod.props`, `common/oni-mod.targets`) use two spaces.\n- Files are committed with LF line endings; Windows checkouts convert them to CRLF (`core.autocrlf` is true), so do not hand-normalise line endings.\n\n### Line Length\n**Id:** blk-c130e4cc3f34\n\n- No limit is configured and the repository has no `.editorconfig`.\n- Wrap long calls and string concatenations after an argument or before a `+`, and indent the continuation one tab. The start-up log call in `mods/jumper-bridges/src/JumperBridges/Mod.cs` is the pattern.\n- TODO(owner): decide whether to add an `.editorconfig` recording tabs and brace placement so editors enforce what the code already does.\n\n### Braces\n**Id:** blk-8a5c70148048\n\n- Opening brace on its own line (Allman) for namespaces, types, members and multi-line control blocks.\n- A body of one short statement goes on the next line without braces:\n\n```csharp\nforeach (Mod mod in mods)\n{\n\tif (!mod.IsEnabledForActiveDlc())\n\t\tcontinue;\n\t...\n}\n```\n\n- Multi-line initialisers and enums end with a trailing comma (`YieldToWorkshopIds` in `mods/bitshifter/src/Bitshifter/Mod.cs`, `CoolPodMode` in `mods/storage-pod-redux/src/StoragePodRedux/Options.cs`).\n\n## Language and Toolchain\n**Id:** blk-bad4e306ff10\n\n- C# 9 on .NET Framework 4.8 (`LangVersion` 9.0 and `TargetFramework` net48 in `common/oni-mod.props`). Namespace blocks, not file-scoped namespaces; no nullable reference types.\n- Mods compile against the game's own assemblies (`common/oni-mod.targets`): `Assembly-CSharp`, `Assembly-CSharp-firstpass`, `0Harmony` and Unity modules. The game's .NET Framework lacks some newer APIs (`ConditionalWeakTable.AddOrUpdate` is missing, see `mods/detect-any-element/src/DetectAnyElement/Patches.cs`).\n- Optional references are switched on in the mod csproj before the targets import: `ReferenceUnityUI`, `ReferenceImageConversion`, `UsePLib` (PLib is ILRepack-merged into the mod DLL) and `UseTranslations` (compiles `common/src/Translations.cs` in).\n- One namespace per mod, equal to its `RootNamespace`. Subfolders organise files and do not add namespaces (`mods/upgrade-planner/src/UpgradePlanner/Plan`, `Rules`, `Tool`, `UI` all declare `namespace UpgradePlanner`).\n\n## Imports/Includes\n**Id:** blk-31a1dbd322c4\n\n### Organization\n**Id:** blk-93a7df3af5e2\n\n`using` directives sit above the namespace, in one block with no blank lines, sorted alphabetically with `System.*` first. Aliases for `ModStrings` branches come last.\n\n1. `System.*`\n2. Everything else alphabetically: `HarmonyLib`, `Isochronous`, `KMod`, `Newtonsoft.Json`, `PeterHan.PLib.*`, `ProcGenGame`, `UnityEngine`\n3. Aliases (`using TOOL = SweepZones.ModStrings.UI.TOOLS.SWEEPZONES;`)\n\n### Example\n**Id:** blk-7261503b82df\n\n```csharp\nusing System.Collections.Generic;\nusing System.Reflection;\nusing HarmonyLib;\nusing Isochronous;\nusing Klei;\nusing KMod;\nusing STRINGS;\nusing UnityEngine;\n```\n(`mods/salty-surf/src/SaltySurf/Mod.cs`)\n\n`Debug.Log` resolves either to `UnityEngine.Debug` or to the game's own global `Debug` class, so several `Mod.cs` files omit `using UnityEngine`. When a file imports `System.Diagnostics`, qualify the call as `UnityEngine.Debug.Log` (`mods/just-fall-already/src/JustFallAlready/FallPoke.cs`).\n\n## Comments\n**Id:** blk-23bc077eed9e\n\n### When to Comment\n**Id:** blk-3d37bcce99a4\n\n- On every non-trivial class, an XML `<summary>` that says what the game does and what the patch changes, so a reader can check the patch against the game code. The long summary on `OvercrowdingMonitor_UpdateRegion_Patch` in `mods/dont-count-eggs-on-rails/src/DontCountEggsOnRails/Mod.cs` is the model.\n- Where a game quirk forces an odd line: `// The game's .NET Framework has no AddOrUpdate on this table.`\n- Where another mod is involved, name it and its Workshop id (`mods/bitshifter/src/Bitshifter/Mod.cs`, `mods/smart-weight-plate/src/SmartWeightPlate/Mod.cs`).\n- Escape angle brackets in XML comments as `&lt;` and `&gt;`.\n\n### When NOT to Comment\n**Id:** blk-655abaa90905\n\n- Code that reads clearly from its names.\n- Commented-out code; delete it.\n- Restating what a line does.\n\n### Format\n**Id:** blk-85841718b47c\n\n```csharp\n/// <summary>\n/// The \"Any\" choice. It is a tag like the elements a sensor's Filterable holds, so it rides\n/// in the same saved field and copies with the building's settings.\n/// </summary>\npublic static class AnyElement\n\n// Single-line note for a quirk or a reason.\n```\n\n## Control Structures\n**Id:** blk-3bd34806c643\n\n### Conditionals\n**Id:** blk-e4a5925c561f\n\nGuard clauses and early `return` or `continue` keep nesting shallow (`SettleSimBackwalls.UpdateFromSim` in `mods/natural-backwalls-everywhere/src/NaturalBackwalls/SettleSimPatch.cs`):\n\n```csharp\nif (!Grid.IsValidCell(cell))\n\tcontinue;\nushort idx = data->backwallElement[cell];\nif (idx == ushort.MaxValue || idx >= elements.Count)\n\tcontinue;\n```\n\n### Loops\n**Id:** blk-308a838456d3\n\n- Plain `for` and `foreach`. Code that runs every sim tick or frame avoids LINQ and allocations; reuse scratch lists (`scratch` in `mods/just-fall-already/src/JustFallAlready/FallPoke.cs`).\n- Local types are written out (`Tech tech = ...`). `var` appears mainly in `mods/upgrade-planner`, `mods/natural-backwalls-everywhere` and the test projects; follow the surrounding file.\n\n### Strings\n**Id:** blk-2302785791ec  \n**Tags:** mod-strings, logging\n\n- Log and UI text is built with `+` concatenation, or `string.Format` on a `LocString`. String interpolation is not used in mod code.\n- Player-visible text is a `LocString` field in `ModStrings`, never a literal at the call site (see [naming conventions](naming-conventions.md)).\n\n## Harmony Patches\n**Id:** blk-45b3c9a86343  \n**Tags:** harmony-patching\n\n- A patch is a static class with `[HarmonyPatch(typeof(Type), nameof(Type.Method))]`, or `[HarmonyPatch(typeof(Type), \"PrivateMethod\")]` for a non-public method, and methods named `Prefix`, `Postfix`, `Transpiler` or `Finalizer` (`mods/bitshifter/src/Bitshifter/Patches.cs`).\n- Game state arrives through Harmony parameters: `__instance`, `__result`, `___field`. Fields read repeatedly use `AccessTools.FieldRefAccess` kept in a `static readonly` field (`mods/detect-any-element/src/DetectAnyElement/Patches.cs`).\n- A prefix returns `true` to let the game's method run and `false` only when it replaces the method (`mods/dont-count-eggs-on-rails`, `mods/bitshifter` `UpdateVisuals`).\n- A patch that depends on an option implements `Prepare()` (`mods/jumper-bridges/src/JumperBridges/Patches.cs`); a patch with several targets implements `TargetMethods()`.\n- `UserMod2.OnLoad` calls `base.OnLoad(harmony)`, which applies every patch in the assembly, then registers libraries and logs the version. A mod that must patch after all others applies its patches from `OnAllModsLoaded` instead (`mods/bitshifter/src/Bitshifter/Mod.cs`).\n- Transpilers search for the instruction they change and report when it is not found; see [error handling](error-handling.md).\n\n## Game Components\n**Id:** blk-f8667089c191  \n**Tags:** saved-state, building-config\n\n- A component extends `KMonoBehaviour`, overrides `OnPrefabInit`, `OnSpawn` and `OnCleanUp` and calls `base` from each. Sibling components come in through `[MyCmpGet]` or `[MyCmpReq]` (`mods/no-magic-fridges/src/NoMagicFridges/FridgeThermostat.cs`).\n- Saved state uses `[Serialize]` fields with `[SerializationConfig(MemberSerialization.OptIn)]` on the class (`mods/sweep-zones/src/SweepZones/ZoneStore.cs`).\n- Components are added to prefabs from a `DoPostConfigureComplete` postfix with `go.AddOrGet<T>()`.\n\n## Project-Specific Rules\n**Id:** blk-d6a5f3394410  \n**Tags:** mod-options, logging, in-game-testing\n\n- Mod options are a PLib `POptions` class marked `[JsonObject(MemberSerialization.OptIn)]` and `[ConfigFile(SharedConfigLocation: true)]`, read through a static `Load()` (`mods/vent-freeze-fix/src/VentFreezeFix/Options.cs`) or through `SingletonOptions<Options>` (`mods/storage-pod-redux`). Option titles are string-table keys, so the translation follows the language.\n- Every mod logs one line at load: `[<Name>] Loaded version <assembly version>`.\n- Tests live in a separate `<Name>.Tests` project and are written as `[OniTest]` coroutines against the real game.\n\n### Storage Pod Redux specifics\n**Id:** blk-7e6babf9ac79  \n**Tags:** mod-entry-point, harmony-patching, building-registration\n\n- `UsePLib` and `UseTranslations`. `Options` derives from `SingletonOptions<Options>` and carries `[RestartRequired]` on the class; `CoolPodMode` is an enum whose values each carry an `[Option]` (`src/StoragePodRedux/Options.cs`).\n- `StoragePodReduxMod.OriginalActive` is a static property with a private setter, set in `OnAllModsLoaded` from `ModDetection.IsEnabled`; `Buildings.Decide(mods)` then decides which buildings exist.\n- `Patches.cs` is a `public static class Patches` with nested patches. `BuildingConfigManager_RegisterBuilding_Patch.Prefix` returns `Buildings.IsEnabled(config)`, so a disabled building is never registered.\n- `StoragePodConfig` and `CoolPodConfig` use the ids of the original mod's buildings.\n\n## Related\n**Id:** blk-38c0e0a39ec7\n\n- See also: [naming conventions](naming-conventions.md)\n- See also: [error handling](error-handling.md)\n",
+   "sections": [
+    {
+     "id": "standards/code-style.md#formatting",
+     "title": "Formatting",
+     "text": "## Formatting\n**Id:** blk-645fab47f254\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#formatting/indentation",
+     "title": "Indentation",
+     "text": "### Indentation\n**Id:** blk-6f333a1f8d0d\n\n- Tabs, one per level, in every `.cs` file (`mods/bitshifter/src/Bitshifter/Mod.cs`).\n- Project files (`.csproj`, `common/oni-mod.props`, `common/oni-mod.targets`) use two spaces.\n- Files are committed with LF line endings; Windows checkouts convert them to CRLF (`core.autocrlf` is true), so do not hand-normalise line endings.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#formatting/line-length",
+     "title": "Line Length",
+     "text": "### Line Length\n**Id:** blk-c130e4cc3f34\n\n- No limit is configured and the repository has no `.editorconfig`.\n- Wrap long calls and string concatenations after an argument or before a `+`, and indent the continuation one tab. The start-up log call in `mods/jumper-bridges/src/JumperBridges/Mod.cs` is the pattern.\n- TODO(owner): decide whether to add an `.editorconfig` recording tabs and brace placement so editors enforce what the code already does.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#formatting/braces",
+     "title": "Braces",
+     "text": "### Braces\n**Id:** blk-8a5c70148048\n\n- Opening brace on its own line (Allman) for namespaces, types, members and multi-line control blocks.\n- A body of one short statement goes on the next line without braces:\n\n```csharp\nforeach (Mod mod in mods)\n{\n\tif (!mod.IsEnabledForActiveDlc())\n\t\tcontinue;\n\t...\n}\n```\n\n- Multi-line initialisers and enums end with a trailing comma (`YieldToWorkshopIds` in `mods/bitshifter/src/Bitshifter/Mod.cs`, `CoolPodMode` in `mods/storage-pod-redux/src/StoragePodRedux/Options.cs`).\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#language-and-toolchain",
+     "title": "Language and Toolchain",
+     "text": "## Language and Toolchain\n**Id:** blk-bad4e306ff10\n\n- C# 9 on .NET Framework 4.8 (`LangVersion` 9.0 and `TargetFramework` net48 in `common/oni-mod.props`). Namespace blocks, not file-scoped namespaces; no nullable reference types.\n- Mods compile against the game's own assemblies (`common/oni-mod.targets`): `Assembly-CSharp`, `Assembly-CSharp-firstpass`, `0Harmony` and Unity modules. The game's .NET Framework lacks some newer APIs (`ConditionalWeakTable.AddOrUpdate` is missing, see `mods/detect-any-element/src/DetectAnyElement/Patches.cs`).\n- Optional references are switched on in the mod csproj before the targets import: `ReferenceUnityUI`, `ReferenceImageConversion`, `UsePLib` (PLib is ILRepack-merged into the mod DLL) and `UseTranslations` (compiles `common/src/Translations.cs` in).\n- One namespace per mod, equal to its `RootNamespace`. Subfolders organise files and do not add namespaces (`mods/upgrade-planner/src/UpgradePlanner/Plan`, `Rules`, `Tool`, `UI` all declare `namespace UpgradePlanner`).\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#imports-includes",
+     "title": "Imports/Includes",
+     "text": "## Imports/Includes\n**Id:** blk-31a1dbd322c4\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#imports-includes/organization",
+     "title": "Organization",
+     "text": "### Organization\n**Id:** blk-93a7df3af5e2\n\n`using` directives sit above the namespace, in one block with no blank lines, sorted alphabetically with `System.*` first. Aliases for `ModStrings` branches come last.\n\n1. `System.*`\n2. Everything else alphabetically: `HarmonyLib`, `Isochronous`, `KMod`, `Newtonsoft.Json`, `PeterHan.PLib.*`, `ProcGenGame`, `UnityEngine`\n3. Aliases (`using TOOL = SweepZones.ModStrings.UI.TOOLS.SWEEPZONES;`)\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#imports-includes/example",
+     "title": "Example",
+     "text": "### Example\n**Id:** blk-7261503b82df\n\n```csharp\nusing System.Collections.Generic;\nusing System.Reflection;\nusing HarmonyLib;\nusing Isochronous;\nusing Klei;\nusing KMod;\nusing STRINGS;\nusing UnityEngine;\n```\n(`mods/salty-surf/src/SaltySurf/Mod.cs`)\n\n`Debug.Log` resolves either to `UnityEngine.Debug` or to the game's own global `Debug` class, so several `Mod.cs` files omit `using UnityEngine`. When a file imports `System.Diagnostics`, qualify the call as `UnityEngine.Debug.Log` (`mods/just-fall-already/src/JustFallAlready/FallPoke.cs`).\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#comments",
+     "title": "Comments",
+     "text": "## Comments\n**Id:** blk-23bc077eed9e\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#comments/when-to-comment",
+     "title": "When to Comment",
+     "text": "### When to Comment\n**Id:** blk-3d37bcce99a4\n\n- On every non-trivial class, an XML `<summary>` that says what the game does and what the patch changes, so a reader can check the patch against the game code. The long summary on `OvercrowdingMonitor_UpdateRegion_Patch` in `mods/dont-count-eggs-on-rails/src/DontCountEggsOnRails/Mod.cs` is the model.\n- Where a game quirk forces an odd line: `// The game's .NET Framework has no AddOrUpdate on this table.`\n- Where another mod is involved, name it and its Workshop id (`mods/bitshifter/src/Bitshifter/Mod.cs`, `mods/smart-weight-plate/src/SmartWeightPlate/Mod.cs`).\n- Escape angle brackets in XML comments as `&lt;` and `&gt;`.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#comments/when-not-to-comment",
+     "title": "When NOT to Comment",
+     "text": "### When NOT to Comment\n**Id:** blk-655abaa90905\n\n- Code that reads clearly from its names.\n- Commented-out code; delete it.\n- Restating what a line does.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#comments/format",
+     "title": "Format",
+     "text": "### Format\n**Id:** blk-85841718b47c\n\n```csharp\n/// <summary>\n/// The \"Any\" choice. It is a tag like the elements a sensor's Filterable holds, so it rides\n/// in the same saved field and copies with the building's settings.\n/// </summary>\npublic static class AnyElement\n\n// Single-line note for a quirk or a reason.\n```\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#control-structures",
+     "title": "Control Structures",
+     "text": "## Control Structures\n**Id:** blk-3bd34806c643\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#control-structures/conditionals",
+     "title": "Conditionals",
+     "text": "### Conditionals\n**Id:** blk-e4a5925c561f\n\nGuard clauses and early `return` or `continue` keep nesting shallow (`SettleSimBackwalls.UpdateFromSim` in `mods/natural-backwalls-everywhere/src/NaturalBackwalls/SettleSimPatch.cs`):\n\n```csharp\nif (!Grid.IsValidCell(cell))\n\tcontinue;\nushort idx = data->backwallElement[cell];\nif (idx == ushort.MaxValue || idx >= elements.Count)\n\tcontinue;\n```\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#control-structures/loops",
+     "title": "Loops",
+     "text": "### Loops\n**Id:** blk-308a838456d3\n\n- Plain `for` and `foreach`. Code that runs every sim tick or frame avoids LINQ and allocations; reuse scratch lists (`scratch` in `mods/just-fall-already/src/JustFallAlready/FallPoke.cs`).\n- Local types are written out (`Tech tech = ...`). `var` appears mainly in `mods/upgrade-planner`, `mods/natural-backwalls-everywhere` and the test projects; follow the surrounding file.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#related",
+     "title": "Related",
+     "text": "## Related\n**Id:** blk-38c0e0a39ec7\n\n- See also: [naming conventions](naming-conventions.md)\n- See also: [error handling](error-handling.md)\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "standards/error-handling.md",
+   "title": "Error Handling Conventions",
+   "description": "Error handling and logging rules for the Storage Pod Redux mod: guarding patches, try/catch use, yielding to other mods, log levels, anti-patterns, plus how its mod detection and tech unlock handle failures",
+   "document_tags": [
+    "vanilla-fallback",
+    "logging"
+   ],
+   "text": "---\ntags: vanilla-fallback, logging\ndoc_id: doc-a551ee35a37c\ndescription: \"Error handling and logging rules for the Storage Pod Redux mod: guarding patches, try/catch use, yielding to other mods, log levels, anti-patterns, plus how its mod detection and tech unlock handle failures\"\napplies_to:\n  - \"src/**\"\n---\n\n# Error Handling Conventions\n\n## Principles\n**Id:** blk-d724decb81a1  \n**Tags:** harmony-patching\n\n1. **Never break the game for a mod's sake.** A patch that cannot do its job leaves the vanilla behaviour in place and says so in the log. It does not throw into the game's update loop.\n2. **Check what you patch.** Game updates rename fields and move code. Every reflection lookup, transpiler match and prefab or tech lookup is checked for a miss.\n3. **Say what degraded.** A warning names the thing that was not found and the consequence, so a bug report with `Player.log` is enough to diagnose.\n4. **Don't swallow.** A `catch` logs and either returns a safe default or continues; it is never empty.\n5. **Log at the right level.** `Debug.Log` for start-up and summaries, `Debug.LogWarning` for degraded behaviour, `Debug.LogError` for a failed player action.\n\nThere is no custom exception hierarchy. Mods are small patches over game code, so errors are handled where they occur.\n\n## Guarding Patches\n**Id:** blk-be54c6c25658  \n**Tags:** harmony-patching\n\n### Missing member: warn, leave vanilla\n**Id:** blk-45da075bd1a7\n\nA reflection lookup that returns null is checked before use. The patch then does nothing, or returns `true` from a prefix so the game's method runs.\n\n```csharp\nif (ActiveField == null || StorageField == null)\n\treturn true; // the game renamed its fields: leave vanilla alone rather than throw\n```\n(`mods/no-magic-fridges/src/NoMagicFridges/Patches.cs`; the warning is logged once at load by `SimTransferMethod` in `FridgeThermostat.cs`.)\n\n### Transpiler: count the match\n**Id:** blk-a63e92166809\n\nA transpiler counts the instructions it replaced. Zero (or more than expected) logs a warning and returns the original code, so a game update disables the change instead of breaking the method.\n\n```csharp\nif (swapped == 0)\n\tDebug.LogWarning(\"[CornerBuildAnything] \" + where + \" does not load OffsetGroups.InvertedStandardTable; corner reach not applied there\");\n```\n(`mods/corner-build-anything/src/CornerBuildAnything/ReachTablePatches.cs`; same pattern in `mods/bitshifter/src/Bitshifter/Patches.cs` and `mods/natural-backwalls-everywhere/src/NaturalBackwalls/SettleSimPatch.cs`.)\n\n### Missing data: warn, continue\n**Id:** blk-d3e4764112bf  \n**Tags:** building-unlock\n\nA build-menu, tech or asset lookup that finds nothing warns and keeps the mod working:\n\n```csharp\nTech tech = Db.Get().Techs.TryGet(TechId);\nif (tech == null)\n{\n\tDebug.LogWarning(\"[SmartWeightPlate] Tech '\" + TechId + \"' not found; building will be unlocked from the start\");\n\treturn;\n}\n```\n(`mods/smart-weight-plate/src/SmartWeightPlate/Patches.cs`; also `mods/multichannel-critter-sensor`, `mods/storage-pod-redux`.) Missing art or a missing vanilla prefab degrades the same way (`Display.UseAnim` in `mods/bitshifter/src/Bitshifter/Patches.cs`, `mods/multichannel-critter-sensor/src/MultichannelCritterSensor/MultichannelCritterSensorSideScreen.cs`).\n\n### Null checks on game objects\n**Id:** blk-da9dc4418506\n\nComponents and arguments that can be absent are tested before use: `if (stt == null || !Sim.IsValidHandle(stt.SimHandle)) return true;`, `if (sensor == null || GameScenePartitioner.Instance == null) return;` (`mods/motion-sensor-range/src/MotionSensorRange/RangeSlider.cs`).\n\n### Warn once\n**Id:** blk-938567c83e00\n\nWork that repeats every frame or tick warns once behind a flag (`warnedMissingInternals` in `RangeSlider.cs`).\n\n## try/catch\n**Id:** blk-0b448c6c8b2a  \n**Tags:** mod-compatibility\n\n`try`/`catch (Exception e)` is used in four situations and nowhere else:\n\n1. **Optional integration with another mod.** Patching or reading another mod's types may fail for any reason. Log the message and skip the integration (`BetterAutomationOverlayCompat.Apply` in `mods/smart-weight-plate/src/SmartWeightPlate/Mod.cs`; `mods/upgrade-planner/src/UpgradePlanner/Compat/BlueprintsCompat.cs`).\n2. **File and JSON reads and writes.** Return an empty or null result (`mods/upgrade-planner/src/UpgradePlanner/Plan/Presets.cs`, `mods/storage-pod-redux/src/StoragePodRedux/ModDetection.cs`, `mods/sweep-zones/src/SweepZones/ToolIcon.cs`).\n3. **Patches that run inside worldgen or per-cell work**, where an escaping exception kills a thread or a whole pass (`mods/natural-backwalls-everywhere/src/NaturalBackwalls/FeaturePatch.cs`, `PlanetoidPatch.cs`, `Patches.cs`, `Census.cs`).\n4. **Per-job work in a queue**, so one failure does not stop the rest (`mods/upgrade-planner/src/UpgradePlanner/Tool/PlacementQueue.cs`, logged with `Debug.LogError`).\n\nThe message form is `\"[<Name>] <what was skipped>: \" + e.Message`. Use `e.GetBaseException().Message` when the exception may be a reflection wrapper, and the full `e` when the stack trace is needed.\n\n### Finalizer for a thread with no handler\n**Id:** blk-c4cec83a3802  \n**Tags:** harmony-patching\n\n`Cluster.BeginGeneration` is the worldgen thread body and has none; an exception ends the thread and the loading screen waits forever. A finalizer reports the failure through the game's own error path and logs the exception (`Cluster_BeginGeneration_Patch` in `mods/natural-backwalls-everywhere/src/NaturalBackwalls/WorldgenThreadPatch.cs`).\n\n## Yielding to Other Mods\n**Id:** blk-ace726987133  \n**Tags:** mod-compatibility, building-registration\n\nWhen another mod already does the job or shares an id, the mod steps aside and logs why:\n- Bitshifter disables itself when Digital CPU is enabled or the contested methods already have Harmony owners (`WhyYield` in `mods/bitshifter/src/Bitshifter/Mod.cs`).\n- Storage Pod Redux does not register its buildings while the original Storage Pod is enabled, and logs a warning telling the player to disable one (`mods/storage-pod-redux/src/StoragePodRedux/Mod.cs`).\n\n## Logging\n**Id:** blk-b4aef9d13d6a\n\n### Log Levels\n**Id:** blk-621ed646101e\n\n| Level | Use For | Example |\n|-------|---------|---------|\n| `Debug.LogError` | A player action failed and was abandoned | `PlacementQueue` in `mods/upgrade-planner` |\n| `Debug.LogWarning` | Degraded or skipped behaviour | the examples above |\n| `Debug.Log` | Load line, a one-line summary of what a pass changed | `Tagged N refined metal(s)` in `mods/refined-building` |\n\n### What to Include\n**Id:** blk-364ab3eabfbf\n\n- The `[<ModName>] ` prefix on every line; `JumperBridgesMod.LogPrefix` holds it for that mod.\n- What was expected, what was found, and what the mod does instead.\n- Cell numbers, building names and element ids when they identify the case (`mods/vent-freeze-fix`).\n- Per-tick or per-frame telemetry only behind a debug option (`VentFreezeWatcher.Verbose`, `DebugSave.Enabled`) or capped (`DetailLines` in `SettleSimPatch.cs`).\n\nPLib's `PUtil.Log*` helpers are not used; all mods log through `Debug`.\n\n## Anti-Patterns to Avoid\n**Id:** blk-1ebf2836e6b0\n\n### Swallowing exceptions\n**Id:** blk-e6f979141dcf\n\nAn empty `catch` hides a broken patch. The one `catch` that returns a fallback without a log is `GuessLanguageCode` in `common/src/Translations.cs`, because a missing language preference is the normal case before the game has started.\n\n### Throwing from a patch\n**Id:** blk-99c35590320e  \n**Tags:** harmony-patching\n\nAn exception in a prefix or postfix on a per-frame or sim method repeats every frame. Guard, log once, return.\n\n### Assuming the game's internals\n**Id:** blk-84757940be72  \n**Tags:** harmony-patching\n\nReading a private field by name without a null check on the `FieldInfo`, or replacing an instruction without confirming it was found, breaks on the next game update.\n\n### Silent degradation\n**Id:** blk-c03962c87365\n\nDoing nothing without a log line leaves a player and the author guessing. Every skipped path logs.\n\n### Spamming the log\n**Id:** blk-f86e6835567f\n\nA warning inside an update method fires thousands of times. Use a once-flag.\n\n## Project-Specific Patterns\n**Id:** blk-941517728cd8\n\n### Storage Pod Redux specifics\n**Id:** blk-df39373e61dd  \n**Tags:** mod-compatibility, building-unlock\n\n- `ModDetection` reads other mods' files inside `try`/`catch`, logs `Could not read <path>: <message>` and returns null.\n- A conflict with the original Storage Pod mod is logged as a warning that tells the player what to disable; the mod then adds no buildings.\n- `Db_Initialize_Patch.Unlock` warns when a tech is missing and the building is unlocked from the start.\n- The load line states which buildings are enabled and why (`Buildings.CoolPodReason`).\n\n## Related\n**Id:** blk-ee03310aba0a\n\n- See also: [code style](code-style.md)\n- See also: [naming conventions](naming-conventions.md)\n",
+   "sections": [
+    {
+     "id": "standards/error-handling.md#guarding-patches/missing-member-warn-leave-vanilla",
+     "title": "Missing member: warn, leave vanilla",
+     "text": "### Missing member: warn, leave vanilla\n**Id:** blk-45da075bd1a7\n\nA reflection lookup that returns null is checked before use. The patch then does nothing, or returns `true` from a prefix so the game's method runs.\n\n```csharp\nif (ActiveField == null || StorageField == null)\n\treturn true; // the game renamed its fields: leave vanilla alone rather than throw\n```\n(`mods/no-magic-fridges/src/NoMagicFridges/Patches.cs`; the warning is logged once at load by `SimTransferMethod` in `FridgeThermostat.cs`.)\n",
+     "level": 3,
+     "enclosing_tags": [
+      "harmony-patching"
+     ]
+    },
+    {
+     "id": "standards/error-handling.md#guarding-patches/transpiler-count-the-match",
+     "title": "Transpiler: count the match",
+     "text": "### Transpiler: count the match\n**Id:** blk-a63e92166809\n\nA transpiler counts the instructions it replaced. Zero (or more than expected) logs a warning and returns the original code, so a game update disables the change instead of breaking the method.\n\n```csharp\nif (swapped == 0)\n\tDebug.LogWarning(\"[CornerBuildAnything] \" + where + \" does not load OffsetGroups.InvertedStandardTable; corner reach not applied there\");\n```\n(`mods/corner-build-anything/src/CornerBuildAnything/ReachTablePatches.cs`; same pattern in `mods/bitshifter/src/Bitshifter/Patches.cs` and `mods/natural-backwalls-everywhere/src/NaturalBackwalls/SettleSimPatch.cs`.)\n",
+     "level": 3,
+     "enclosing_tags": [
+      "harmony-patching"
+     ]
+    },
+    {
+     "id": "standards/error-handling.md#guarding-patches/null-checks-on-game-objects",
+     "title": "Null checks on game objects",
+     "text": "### Null checks on game objects\n**Id:** blk-da9dc4418506\n\nComponents and arguments that can be absent are tested before use: `if (stt == null || !Sim.IsValidHandle(stt.SimHandle)) return true;`, `if (sensor == null || GameScenePartitioner.Instance == null) return;` (`mods/motion-sensor-range/src/MotionSensorRange/RangeSlider.cs`).\n",
+     "level": 3,
+     "enclosing_tags": [
+      "harmony-patching"
+     ]
+    },
+    {
+     "id": "standards/error-handling.md#guarding-patches/warn-once",
+     "title": "Warn once",
+     "text": "### Warn once\n**Id:** blk-938567c83e00\n\nWork that repeats every frame or tick warns once behind a flag (`warnedMissingInternals` in `RangeSlider.cs`).\n",
+     "level": 3,
+     "enclosing_tags": [
+      "harmony-patching"
+     ]
+    },
+    {
+     "id": "standards/error-handling.md#logging",
+     "title": "Logging",
+     "text": "## Logging\n**Id:** blk-b4aef9d13d6a\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/error-handling.md#logging/log-levels",
+     "title": "Log Levels",
+     "text": "### Log Levels\n**Id:** blk-621ed646101e\n\n| Level | Use For | Example |\n|-------|---------|---------|\n| `Debug.LogError` | A player action failed and was abandoned | `PlacementQueue` in `mods/upgrade-planner` |\n| `Debug.LogWarning` | Degraded or skipped behaviour | the examples above |\n| `Debug.Log` | Load line, a one-line summary of what a pass changed | `Tagged N refined metal(s)` in `mods/refined-building` |\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/error-handling.md#logging/what-to-include",
+     "title": "What to Include",
+     "text": "### What to Include\n**Id:** blk-364ab3eabfbf\n\n- The `[<ModName>] ` prefix on every line; `JumperBridgesMod.LogPrefix` holds it for that mod.\n- What was expected, what was found, and what the mod does instead.\n- Cell numbers, building names and element ids when they identify the case (`mods/vent-freeze-fix`).\n- Per-tick or per-frame telemetry only behind a debug option (`VentFreezeWatcher.Verbose`, `DebugSave.Enabled`) or capped (`DetailLines` in `SettleSimPatch.cs`).\n\nPLib's `PUtil.Log*` helpers are not used; all mods log through `Debug`.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/error-handling.md#anti-patterns-to-avoid",
+     "title": "Anti-Patterns to Avoid",
+     "text": "## Anti-Patterns to Avoid\n**Id:** blk-1ebf2836e6b0\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/error-handling.md#anti-patterns-to-avoid/swallowing-exceptions",
+     "title": "Swallowing exceptions",
+     "text": "### Swallowing exceptions\n**Id:** blk-e6f979141dcf\n\nAn empty `catch` hides a broken patch. The one `catch` that returns a fallback without a log is `GuessLanguageCode` in `common/src/Translations.cs`, because a missing language preference is the normal case before the game has started.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/error-handling.md#anti-patterns-to-avoid/silent-degradation",
+     "title": "Silent degradation",
+     "text": "### Silent degradation\n**Id:** blk-c03962c87365\n\nDoing nothing without a log line leaves a player and the author guessing. Every skipped path logs.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/error-handling.md#anti-patterns-to-avoid/spamming-the-log",
+     "title": "Spamming the log",
+     "text": "### Spamming the log\n**Id:** blk-f86e6835567f\n\nA warning inside an update method fires thousands of times. Use a once-flag.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/error-handling.md#project-specific-patterns",
+     "title": "Project-Specific Patterns",
+     "text": "## Project-Specific Patterns\n**Id:** blk-941517728cd8\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/error-handling.md#related",
+     "title": "Related",
+     "text": "## Related\n**Id:** blk-ee03310aba0a\n\n- See also: [code style](code-style.md)\n- See also: [naming conventions](naming-conventions.md)\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "standards/naming-conventions.md",
+   "title": "Naming Conventions",
+   "description": "Naming rules for the Storage Pod Redux mod: files, namespaces, patch classes, variables, ModStrings keys, ids and tests, plus its option keys, string branches, test classes and log prefix",
+   "document_tags": [],
+   "text": "---\ndoc_id: doc-c7340fd78545\ndescription: \"Naming rules for the Storage Pod Redux mod: files, namespaces, patch classes, variables, ModStrings keys, ids and tests, plus its option keys, string branches, test classes and log prefix\"\napplies_to:\n  - \"src/**\"\n---\n\n# Naming Conventions\n\n## Files and Directories\n**Id:** blk-1765dba9a345\n\n### General Rules\n**Id:** blk-fa9acdd5f55e\n\n- A mod lives in `mods/<kebab-case-name>/` (`natural-backwalls-everywhere`, `just-fall-already`).\n- Its code is under `mods/<name>/src/<PascalName>/` with a matching `src/<PascalName>.Tests/` project. `AssemblyName`, `RootNamespace` and the project folder share one PascalCase name (`DontCountEggsOnRails`).\n- C# files are PascalCase and named for the main type they hold. One concept per file; small related types may share a file (`Display` in `mods/bitshifter/src/Bitshifter/Patches.cs`).\n- Release tags are `<mod-folder>-v<version>` (repository README).\n\n### Examples by Type\n**Id:** blk-5157bbf172ab  \n**Tags:** building-config, harmony-patching, mod-entry-point\n\n| Type | Convention | Example |\n|------|------------|---------|\n| Mod entry class | `Mod.cs`, class `<Name>Mod : UserMod2` | `BitshifterMod` in `Mod.cs` |\n| Harmony patches | `Patches.cs`, or a file named for what is patched | `PlanetoidPatch.cs`, `SettleSimPatch.cs` |\n| Building config | `<Building>Config.cs`, class `<Building>Config : IBuildingConfig` with `public const string ID` | `SmartWeightPlateConfig.cs` |\n| Side screen | `<Building>SideScreen.cs` | `SmartWeightPlateSideScreen.cs` |\n| Components | `<Thing>.cs` named for the component | `FridgeThermostat.cs`, `ZoneStore.cs` |\n| Strings | `ModStrings.cs` | `mods/salty-surf/src/SaltySurf/ModStrings.cs` |\n| Options | `Options.cs`, class `Options` | `mods/vent-freeze-fix/src/VentFreezeFix/Options.cs` |\n| Tests | `<Topic>.cs` in `<Name>.Tests`, one static class per topic | `Reach.cs`, `Gates.cs`, `Persistence.cs`; `Kit.cs` for shared helpers |\n| Mod metadata | `mod.yaml`, `mod_info.yaml` in the project folder | `staticID: \"Isochronous.<PascalName>\"` |\n| Translations | `translations/<locale>.po`, template `<Name>.pot` | `mods/detect-any-element/src/DetectAnyElement/translations` |\n| Art | `anim/` (kanim files), `assets/` | `bitshifter_ribbon_reader_kanim` |\n| Release material | `mods/<name>/publish/`, `CHANGELOG.md`, `README.md` | |\n\n## Code Naming\n**Id:** blk-eb938363199c\n\n### Variables\n**Id:** blk-486b038b51f1\n\n- camelCase for locals, parameters and private instance fields; no underscore prefix.\n- PascalCase for constants (`ArmSeconds`, `Bits`, `TechId`) and for `static readonly` values that act as constants or lookups (`Standard`, `YieldToWorkshopIds`, `Contested`).\n- camelCase for private static mutable state and caches (`armed`, `scratch`, `lastGrid`, `symbols`, `anyRows`).\n- Descriptive names; single letters only for loop indexes and the `e` of a catch.\n\n```csharp\nprivate const float ArmSeconds = 2f;\nprivate static readonly Dictionary<int, float> armed = new Dictionary<int, float>();\n```\n(`mods/just-fall-already/src/JustFallAlready/FallPoke.cs`)\n\n### Functions/Methods\n**Id:** blk-411690c6e6ba  \n**Tags:** harmony-patching\n\n- PascalCase, starting with a verb: `Apply`, `Decide`, `SwapTable`, `CopyRangeFrom`, `ApplyRange`.\n- Game callbacks keep the game's names (`OnSpawn`, `OnPrefabInit`, `OnCleanUp`, `Sim1000ms`).\n- Harmony methods are named for their kind: `Prefix`, `Postfix`, `Transpiler`, `Finalizer`, plus `Prepare`, `TargetMethod`, `TargetMethods`.\n\n### Classes/Types/Interfaces\n**Id:** blk-750673de753e  \n**Tags:** harmony-patching\n\n- PascalCase nouns. Interfaces take an `I` prefix (`IPlanTab` and `ITabView` in `mods/upgrade-planner`, and the game's own).\n- Harmony patch classes: `<PatchedType>_<PatchedMethod>_Patch` (`LogicRibbonReader_GetBitDepth_Patch`, `Db_Initialize_Patch`, `GeneratedBuildings_LoadGeneratedBuildings_Patch`). A patch for a type with one concern may use `<Type>_Patch` (`LiquidVentConfig_Patch`). Patches nested in a holder class may drop the suffix (`Constructable_OnSpawn` in `ReachTablePatches`).\n- Classes are `sealed` unless built for inheritance. The mod class is `public sealed`. Types the game does not reach are `internal`.\n- Option enums and nested helper types are PascalCase (`CoolPodMode`, `BridgeKind`).\n\n### Booleans\n**Id:** blk-decb0aa01f0a\n\n- Prefix with `Is`, `Has`, `Can`, `Should` or name the state: `IsEnabled`, `OriginalActive`, `isSpawned`, `warnedMissingInternals`.\n\n### Strings (`ModStrings`)\n**Id:** blk-35314822ebba  \n**Tags:** mod-strings, mod-options\n\n- `ModStrings` mirrors the game's `STRINGS` tree: nested static classes and `LocString` fields in UPPER_SNAKE_CASE. `ModStrings.BUILDINGS.PREFABS.<BUILDINGID>.NAME` is registered as `STRINGS.BUILDINGS.PREFABS.<BUILDINGID>.NAME`, the key the game looks a building name up by (`mods/smart-weight-plate/src/SmartWeightPlate/ModStrings.cs`).\n- Mod-private text goes under a branch named for the mod in capitals (`ModStrings.SALTYSURF.ELEMENT_LIST`, `ModStrings.JUMPERBRIDGES.OPTIONS`).\n- Option keys are written out as `STRINGS.<MOD>.OPTIONS.<OPTION>.NAME` and `.TOOLTIP`; categories as `STRINGS.<MOD>.OPTIONS.CATEGORY.<NAME>`.\n- Long branches are shortened with an alias at the top of the file (`using OPTIONS = NaturalBackwalls.ModStrings.NATURALBACKWALLS.OPTIONS;`).\n\n### Ids and Tags\n**Id:** blk-1f4b827f8389  \n**Tags:** building-config, in-game-testing\n\n- Building ids are PascalCase and match the config class (`SmartWeightPlate`); a mod that replaces another mod's buildings reuses that mod's ids (`StoragePodConfig`, `CoolPodConfig` in `mods/storage-pod-redux`).\n- Tags and PAction ids carry a mod prefix: `DetectAnyElement_Any`, `Isochronous.SweepZones.Tool`.\n- The `staticID` in `mod.yaml` is `Isochronous.<PascalName>`.\n- Test names start with the mod's name or an abbreviation of it: `[OniTest(\"Bitshifter: a NOT gate on a ribbon inverts every bit\")]`, `VFF:` for Vent Freeze Fix.\n\n## Project-Specific Conventions\n**Id:** blk-d9b8fbbb0b74\n\n### Storage Pod Redux specifics\n**Id:** blk-e06de07a6336  \n**Tags:** mod-strings, mod-options, in-game-testing, logging\n\n- Option keys: `STRINGS.STORAGEPODREDUX.OPTIONS.<OPTION>.NAME` and `.TOOLTIP`, categories `STRINGS.STORAGEPODREDUX.OPTIONS.CATEGORY.STORAGE_POD` and `COOL_POD`.\n- `ModStrings` branches: `BUILDINGS.PREFABS.STORAGEPODCONFIG`, `BUILDINGS.PREFABS.COOLPODCONFIG`, `STORAGEPODREDUX.OPTIONS`.\n- Test classes: `Pods`, `Registration`, `Decisions`; `Helpers.cs` for shared code.\n- Log prefix `[StoragePodRedux]`; `staticID` `Isochronous.StoragePodRedux`.\n\n## Related\n**Id:** blk-5419e5607eef\n\n- See also: [code style](code-style.md)\n- See also: [error handling](error-handling.md)\n",
+   "sections": [
+    {
+     "id": "standards/naming-conventions.md#files-and-directories",
+     "title": "Files and Directories",
+     "text": "## Files and Directories\n**Id:** blk-1765dba9a345\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/naming-conventions.md#files-and-directories/general-rules",
+     "title": "General Rules",
+     "text": "### General Rules\n**Id:** blk-fa9acdd5f55e\n\n- A mod lives in `mods/<kebab-case-name>/` (`natural-backwalls-everywhere`, `just-fall-already`).\n- Its code is under `mods/<name>/src/<PascalName>/` with a matching `src/<PascalName>.Tests/` project. `AssemblyName`, `RootNamespace` and the project folder share one PascalCase name (`DontCountEggsOnRails`).\n- C# files are PascalCase and named for the main type they hold. One concept per file; small related types may share a file (`Display` in `mods/bitshifter/src/Bitshifter/Patches.cs`).\n- Release tags are `<mod-folder>-v<version>` (repository README).\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/naming-conventions.md#code-naming",
+     "title": "Code Naming",
+     "text": "## Code Naming\n**Id:** blk-eb938363199c\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/naming-conventions.md#code-naming/variables",
+     "title": "Variables",
+     "text": "### Variables\n**Id:** blk-486b038b51f1\n\n- camelCase for locals, parameters and private instance fields; no underscore prefix.\n- PascalCase for constants (`ArmSeconds`, `Bits`, `TechId`) and for `static readonly` values that act as constants or lookups (`Standard`, `YieldToWorkshopIds`, `Contested`).\n- camelCase for private static mutable state and caches (`armed`, `scratch`, `lastGrid`, `symbols`, `anyRows`).\n- Descriptive names; single letters only for loop indexes and the `e` of a catch.\n\n```csharp\nprivate const float ArmSeconds = 2f;\nprivate static readonly Dictionary<int, float> armed = new Dictionary<int, float>();\n```\n(`mods/just-fall-already/src/JustFallAlready/FallPoke.cs`)\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/naming-conventions.md#code-naming/booleans",
+     "title": "Booleans",
+     "text": "### Booleans\n**Id:** blk-decb0aa01f0a\n\n- Prefix with `Is`, `Has`, `Can`, `Should` or name the state: `IsEnabled`, `OriginalActive`, `isSpawned`, `warnedMissingInternals`.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/naming-conventions.md#project-specific-conventions",
+     "title": "Project-Specific Conventions",
+     "text": "## Project-Specific Conventions\n**Id:** blk-d9b8fbbb0b74\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/naming-conventions.md#related",
+     "title": "Related",
+     "text": "## Related\n**Id:** blk-5419e5607eef\n\n- See also: [code style](code-style.md)\n- See also: [error handling](error-handling.md)\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  }
+ ]
+}

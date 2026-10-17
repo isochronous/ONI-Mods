@@ -1,10 +1,11 @@
 ---
+tags: cleaning-errands, toolbar-tool
 witness_digest: "sha256:860ec49a263693aff3444e09d132e9d4dfb3c373937615798cf9163271cc09f8"
 witness: loose
 applies_to:
   - "src/SweepZones/**"
 doc_id: doc-1e206f66663b
-description: "Game and mod terms a newcomer needs for Sweep Zones, with abbreviations, terms to avoid and where each is used."
+description: "Glossary for Sweep Zones Redux: abbreviations (U59, PLib, DLC), terms to avoid such as overlay and erase, and definitions of sweep, mop, debris, priority and drag tool terms with where each is used"
 ---
 
 # Sweep Zones glossary
@@ -65,6 +66,7 @@ Terms for the Sweep Zones Redux mod. For the mod's entities, rules and code path
 
 ### Cell
 **Id:** blk-c1edf9b20db2  
+**Tags:** saved-state  
 **Definition**: One tile of the world grid, addressed by an int index; saved zones are keyed by it.  
 **Used in**: `ZoneStore.cs`.
 

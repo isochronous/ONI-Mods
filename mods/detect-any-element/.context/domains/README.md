@@ -1,10 +1,15 @@
 ---
+tags: element-sensor
 doc_id: doc-ab4317b0087d
-description: "TODO(owner): the subject knowledge detect-any-element keeps here."
+description: "Index of the domain documents in the Detect Any Element node: the entities and glossary files covering the Any choice for the five element sensors"
 ---
+
 # Domains
 
 ## Domains
 **Id:** blk-2dd4705dc889
 
-TODO(owner): the subject knowledge of this node, one record per domain in this folder.
+Documents in this folder:
+
+- [entities](entities.md): The Any choice for the five element sensors, with the key code paths.
+- [glossary](glossary.md): The Any choice, the sensors it patches and the asterisk art.

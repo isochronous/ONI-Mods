@@ -1,0 +1,18 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r2 for node mods/dont-count-eggs-on-rails — round 2",
+  "node": "C:\\dev\\ONI-Mods\\mods\\dont-count-eggs-on-rails",
+  "base": {
+    "domains/glossary.md": "sha256:45cd8b832798000682543326bddcdd5ac280c99d484becb86909c9ec71f3103e"
+  },
+  "ops": [
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "room-tracking"
+      ],
+      "section": "cross-domain-terms/room-prober"
+    }
+  ]
+}

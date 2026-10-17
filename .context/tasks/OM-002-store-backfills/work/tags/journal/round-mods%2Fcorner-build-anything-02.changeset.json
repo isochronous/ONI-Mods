@@ -1,0 +1,19 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r2 for node mods/corner-build-anything — round 2",
+  "node": "C:\\dev\\ONI-Mods\\mods\\corner-build-anything",
+  "base": {
+    "standards/code-style.md": "sha256:3377fb04e72b530f835240b16085ed72ff2ea79ee61c72611038476b419181ef"
+  },
+  "ops": [
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "logging",
+        "in-game-testing"
+      ],
+      "section": "project-specific-rules"
+    }
+  ]
+}

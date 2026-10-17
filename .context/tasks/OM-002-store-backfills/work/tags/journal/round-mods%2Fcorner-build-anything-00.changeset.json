@@ -1,0 +1,44 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r2 for node mods/corner-build-anything — round 0",
+  "node": "C:\\dev\\ONI-Mods\\mods\\corner-build-anything",
+  "base": {
+    "standards/README.md": "sha256:55638a3d522a9d875f7e162914ce32d1ad922d4b24c5d550466a8c57aab2ff9d",
+    "standards/code-style.md": "sha256:aa1b016873971e8209cc1162c7c2f61efd992cd6056150f047b3e7847b8891b1",
+    "standards/naming-conventions.md": "sha256:1908d4143c7054a4ae535111b738c12d8ca8144efac0ae7059910f1cfc1a99aa",
+    "standards/error-handling.md": "sha256:62b5476b94d734580d3f2308373b67a0e870cace86bbbc0d720a9e159eb33476"
+  },
+  "ops": [
+    {
+      "target": "standards/README.md",
+      "mode": "tag",
+      "add": [
+        "code-style"
+      ]
+    },
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "code-style",
+        "harmony-patching",
+        "transpiler"
+      ]
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "tag",
+      "add": [
+        "code-style"
+      ]
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching"
+      ],
+      "section": "principles"
+    }
+  ]
+}
