@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.2.0 - 2026-10-17
 
 - Renamed to Jumper Bridges, since it now covers power bridges too.
 - Power bridges too: a Wire Bridge, Conductive Wire Bridge or Insulated Wire Bridge end can sit directly on a power port or another bridge's end. Heavy-watt joint plates are unchanged.
