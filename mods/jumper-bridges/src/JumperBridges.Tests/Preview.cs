@@ -35,7 +35,7 @@ namespace JumperBridges.Tests
 		}
 
 		/// <summary>
-		/// Battery, Conductive Wire Bridge, lamp, lamp, Conductive Wire Bridge, battery on a granite
+		/// Battery, Conductive Wire Bridge, lamp, lamp, Conductive Wire Bridge, battery on a glass
 		/// floor, the two bridge ends on the side-by-side lamps joined by a wire drag.
 		/// </summary>
 		[OniTest("looks: preview, power bridges", Timeout = 90, Explicit = true), Layer(1)]
@@ -44,7 +44,7 @@ namespace JumperBridges.Tests
 			const int width = 6, height = 3;
 			Setup s = new Setup(t, width, height);
 			for (int x = 0; x < width; x++)
-				s.Build("Tile", x, 0, SimHashes.Granite);
+				s.Build("GlassTile", x, 0, SimHashes.Glass);
 			s.Build("Battery", 0, 1);
 			s.Build("FloorLamp", 2, 1, SimHashes.Gold);
 			s.Build("FloorLamp", 3, 1, SimHashes.Gold);
@@ -77,18 +77,22 @@ namespace JumperBridges.Tests
 				if (origin == Grid.InvalidCell)
 					t.Assert.Fail("no open stretch in front of granite back walls for a " + width + "x" + height + " setup");
 				t.Log("building at " + Cells.Describe(origin));
-				t.Cleanup(() =>
-				{
-					for (int dy = -1; dy <= height; dy++)
-						for (int dx = -1; dx <= width; dx++)
-						{
-							int cell = Grid.OffsetCell(origin, dx, dy);
-							foreach (ObjectLayer layer in new[] { ObjectLayer.LogicWire, ObjectLayer.Wire })
-								t.World.Destroy(Grid.Objects[cell, (int)layer]);
-						}
-					foreach (GameObject go in built)
-						t.World.Destroy(go);
-				});
+				t.Cleanup(Clear);
+			}
+
+			/// <summary>Takes the setup away: everything built, and the wires dragged in and around it.</summary>
+			private void Clear()
+			{
+				for (int dy = -1; dy <= height; dy++)
+					for (int dx = -1; dx <= width; dx++)
+					{
+						int cell = Grid.OffsetCell(origin, dx, dy);
+						foreach (ObjectLayer layer in new[] { ObjectLayer.LogicWire, ObjectLayer.Wire })
+							t.World.Destroy(Grid.Objects[cell, (int)layer]);
+					}
+				foreach (GameObject go in built)
+					t.World.Destroy(go);
+				built.Clear();
 			}
 
 			public GameObject Build(string id, int x, int y, SimHashes element = SimHashes.Copper, Orientation orientation = Orientation.Neutral)
@@ -142,6 +146,11 @@ namespace JumperBridges.Tests
 				group.GetType().GetProperty("alpha").SetValue(group, 1f);
 				yield return t.WaitRealSeconds(1);
 				yield return t.Screenshot(name + "-ports");
+				// The same overlay frame with the setup taken away: what the overlay draws on its own
+				// (its grid, dark patches), for telling the setup's highlights apart from it.
+				Clear();
+				yield return t.WaitRealSeconds(2);
+				yield return t.Screenshot(name + "-empty");
 			}
 
 			/// <summary>

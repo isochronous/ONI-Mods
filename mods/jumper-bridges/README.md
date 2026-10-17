@@ -47,6 +47,10 @@ dotnet build ONI-Mods/mods/jumper-bridges/src/JumperBridges -c Release
 
 The build deploys the mod into the game's local mods folder. See `common/README.md` for the shared build and release tooling.
 
+## Workshop preview
+
+`publish/preview.png` is made from the explicit preview tests' screenshots (`src/JumperBridges.Tests/Preview.cs`) by `tools/make_preview.py`; its docstring has the two commands.
+
 ## Testing
 
 Automated in-game tests live in `src/JumperBridges.Tests` and run through the harness in `common/tools/TestRunner` (see its README): the game loads a fixture save, the tests build in a cleared area and drive the real wire tool, and the results land in a run folder.
