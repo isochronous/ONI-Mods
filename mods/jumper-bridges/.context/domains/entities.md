@@ -1,7 +1,12 @@
 ---
+witness_digest: "sha256:ef46729018139a2309bdcd5cdc1cb45c601d5d52cc19e58efd8b43fca4df915d"
+witness: loose
+applies_to:
+  - "src/JumperBridges/**"
 doc_id: doc-dfca545db3a4
 description: "Entities, business rules and key code paths of jumper-bridges: bridge ends on ports, end nodes and link rings"
 ---
+
 # Jumper Bridges domain
 
 ## Overview
@@ -101,7 +106,7 @@ Jumper Bridges lets an Automation Wire Bridge or Automation Ribbon Bridge, and a
 - **Bridge spawns**: `JumperBridge.OnSpawn` schedules node creation, `BridgeEndNode.Create` builds the node, `BridgeLinks.OnConnect` rewrites the ring — see `JumperBridge.cs`, `BridgeEndNode.cs`, `BridgeLinks.cs`
 - **Wire drag onto a bridge end**: `BaseUtilityBuildTool.BuildPath` patch reads the drag's bits into the node — see `Patches.cs`
 - **Deconstruct by ends**: `DeconstructTool.DeconstructCell` and `BridgeFootprint.EndsAt` — see `Patches.cs`, `BridgeFootprint.cs`
-- **Design record**: the investigation notes are in the ONI-Mods workspace, `incubator/direct-automation-bridges/INVESTIGATION.md`, section 6
+- **Design record**: the investigation notes (section 6 covers the design) are kept outside this repository
 - **Tests**: in-game tests in `mods/jumper-bridges/src/JumperBridges.Tests/` (`Signals.cs`, `Gates.cs`, `WireDrags.cs`, `WireUnderEnd.cs`, `Deconstruct.cs`, `Power.cs`, plus explicit `Preview.cs`); `README.md` carries the manual in-game checklist for what is not yet automated
 
 ## Related

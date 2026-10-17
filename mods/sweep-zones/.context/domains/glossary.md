@@ -1,7 +1,12 @@
 ---
+witness_digest: "sha256:860ec49a263693aff3444e09d132e9d4dfb3c373937615798cf9163271cc09f8"
+witness: loose
+applies_to:
+  - "src/SweepZones/**"
 doc_id: doc-1e206f66663b
 description: "Game and mod terms a newcomer needs for Sweep Zones, with abbreviations, terms to avoid and where each is used."
 ---
+
 # Sweep Zones glossary
 
 Terms for the Sweep Zones Redux mod. For the mod's entities, rules and code paths see [entities](entities.md).

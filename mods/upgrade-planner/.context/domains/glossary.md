@@ -1,7 +1,12 @@
 ---
+witness_digest: "sha256:e76f9e8279fb4f9b360438528479b314547a025bcabce57dba07c31edbc4bbd2"
+witness: loose
+applies_to:
+  - "src/UpgradePlanner/**"
 doc_id: doc-ff4db6770074
 description: "Game and mod terms a newcomer needs for Upgrade Planner, with abbreviations, terms to avoid and where each is used."
 ---
+
 # Upgrade Planner glossary
 
 Terms for the Upgrade Planner mod. For the mod's entities, rules and code paths see [entities](entities.md).

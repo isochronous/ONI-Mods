@@ -1,0 +1,29 @@
+{
+  "task": "OM-001",
+  "why": "close OM-001 with its retrospective and the ICON friction its units reported",
+  "node": ".",
+  "ops": [
+    {
+      "row": "retro",
+      "mode": "append",
+      "title": "seed ICON's content documents across the root and all 17 mods",
+      "avoid": "Leaving the coverage shape to each drafting unit. Unit 03 gave its six entities.md no applies_to while units 04 and 05 used src/<Project>/**, and no unit covered glossary.md, so the review had to raise it and a second round of 18 change-sets (with a witness value nobody had chosen) fixed it. A spec that fans out the same document type across many nodes names the applies_to and witness values up front. Also: the review flagged testbed-base.sav as missing because it looked only in this repository; fixture saves live in the common submodule, which a reviewer of mod or testing documents has to check too.",
+      "repeat": "Units draft one change-set per node into the task folder and prove it with write plan; the manager applies them one at a time. 55 change-sets landed with no refusal and no apply racing another, and every unit could run in parallel because none of them wrote the store.",
+      "updated": "domains/tooling-friction.md gains two entries: the handoff brief filled with near-identical sections of the shared standards body, and the cover operation's refusal not naming witness while refusing a section and a cover on one document in one change-set. The testing documents already say where the fixture saves are tracked, so nothing else was promoted."
+    },
+    {
+      "mode": "section",
+      "target": "domains/tooling-friction.md",
+      "section": "2026-10-17 populate-context: briefs fill with near-identical sections of a body repeated across nodes",
+      "create_section": true,
+      "body": "After OM-001 landed the same shared standards body (code style, error handling, naming) at all 17 mod nodes, `ks handoff --scope .context/workflows .context/testing mods ...` composed briefs whose budget went to near-duplicate sections of those standards: the review unit reported 30 of 496 candidates listed, all of them copies of one section, and the fix unit reported the same. The documents the units actually needed, such as the ICON templates the task-plan review was measured against, never appeared. Expected: the brief ranks one copy of a repeated block and spends the rest of the budget elsewhere, or says it collapsed duplicates. Done instead: the units found what they needed by path."
+    },
+    {
+      "mode": "section",
+      "target": "domains/tooling-friction.md",
+      "section": "2026-10-17 populate-context: a cover op's refusal does not name the missing witness, and a section and a cover cannot share a change-set",
+      "create_section": true,
+      "body": "Adding `applies_to` to an existing document with a `cover` operation that lacked `witness`, `ks write plan` refused with text saying \"`cover` is the mode that declares it\", although the operation already was `cover`, and it never named `witness` as the missing field. Separately, Jumper Bridges' `domains/entities.md` needed a section edit and a coverage claim; the writer refuses two operations on one destination in one change-set, so the coverage went into a second change-set applied after the first. Expected: the refusal names the missing field, and a section edit and a coverage change on one document compose in one transaction. Done instead: set `witness: loose` on every cover op and split the Jumper Bridges change into two change-sets."
+    }
+  ]
+}

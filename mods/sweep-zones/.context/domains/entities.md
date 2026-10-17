@@ -69,7 +69,7 @@ Sweep Zones Redux adds a toolbar tool for painting persistent zones. Debris that
 - Painting skips invalid cells; erasing is never restricted.
 - Each zone cell remembers the priority (including yellow alert) selected when painted.
 - Every second, debris in a sweep zone is marked for clearing, unless it is a Duplicant (`GameTags.BaseMinion`, `MinionIdentity`), already marked (`GameTags.Garbage`), or not clearable (critters). A priority already set on an item is never overridden, so manual changes stick.
-- Mop zones follow the vanilla mop rules: a liquid cell on a valid zone cell with no placer yet and mass not over `MopTool.maxMopAmt` (150 kg).
+- Mop zones follow the vanilla mop rules: a liquid cell on a valid zone cell with no placer yet and mass not over the game's `MopTool.maxMopAmt`.
 - Each time the tool is activated or its mode switched, `PruneInvalidCells` drops zone cells that no longer qualify (floor dug out, cell built over).
 - Erasing a zone keeps errands already created; the vanilla Cancel tool removes them.
 - Only the zones of the selected mode's kind are shown (sweep modes show sweep zones, mop modes show mop zones). The display uses the tool's own cell-colouring hook, never an overlay, so overlay-adding mods are unaffected.

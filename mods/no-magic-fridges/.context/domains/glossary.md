@@ -1,7 +1,12 @@
 ---
+witness_digest: "sha256:be1c3bfba2f3ba0bebbb432de154b8fb12c3f13303a0e342b572bcf2cb622932"
+witness: loose
+applies_to:
+  - "src/NoMagicFridges/**"
 doc_id: doc-cf415c96c76b
 description: "ONI and mod-specific terms used by No Magic Fridges."
 ---
+
 # No Magic Fridges glossary
 
 Terms for the No Magic Fridges mod. For the code behind them, see [entities](entities.md).

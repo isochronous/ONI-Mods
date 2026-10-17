@@ -1,7 +1,12 @@
 ---
+witness_digest: "sha256:9688b74ec6e9cba440970a13381f458489d3ef2313d82d57c9e72a7b1d5a4ab8"
+witness: loose
+applies_to:
+  - "src/DetectAnyElement/**"
 doc_id: doc-9501e487a27b
 description: "Glossary for detect-any-element: the Any choice, the sensors it patches and the asterisk art"
 ---
+
 # Domain Glossary
 
 Terms used in the Detect Any Element mod (`mods/detect-any-element`). For the classes and patches behind them, see the entities document.

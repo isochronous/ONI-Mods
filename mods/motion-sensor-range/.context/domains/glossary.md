@@ -1,7 +1,12 @@
 ---
+witness_digest: "sha256:435a2c77cb357228132a18543ba88fd6ddc7de0e9386ad9c3366962153ac94c4"
+witness: loose
+applies_to:
+  - "src/MotionSensorRange/**"
 doc_id: doc-78ff1518516c
 description: "ONI and mod-specific terms used by Motion Sensor Range."
 ---
+
 # Motion Sensor Range glossary
 
 Terms for the Motion Sensor Range mod. For the code behind them, see [entities](entities.md).

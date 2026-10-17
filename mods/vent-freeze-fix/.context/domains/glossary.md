@@ -1,7 +1,12 @@
 ---
+witness_digest: "sha256:6ebc8845a2b258051bf9210868d7f042fe8594560c2a88d50f03ea26282696c7"
+witness: loose
+applies_to:
+  - "src/VentFreezeFix/**"
 doc_id: doc-c11388d0a842
 description: "Game and mod terms a newcomer needs for Vent Freeze Fix, with abbreviations, terms to avoid and where each is used."
 ---
+
 # Vent Freeze Fix glossary
 
 Terms for the Vent Freeze Fix mod. For the mod's entities, rules and code paths see [entities](entities.md).

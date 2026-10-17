@@ -7,12 +7,12 @@ description: "How branches, task branches, release tags and the common submodule
 ## Branch Structure
 **Id:** blk-50d5e8ba9d8f
 
-One long-lived branch, `main`. Every mod lives in the same repository under `mods/<name>`, and the owner commits to `main` directly: the history is linear (no merge commits), and each mod's pre-October-2026 history was brought in as plain commits ("Bring in <mod> with its history"). Work that runs under an ICON task gets its own short-lived branch.
+One long-lived branch, `main`. Every mod lives in the same repository under `mods/<name>`, and the owner commits to `main` directly: the history is linear except for the merge commits that brought each mod in with its history ("Bring in <mod> with its history"). Work that runs under an ICON task gets its own short-lived branch.
 
 ```
 main
  |
- +-- OM-001-populate-context        (task branch: <prefix>-<NNNN>-<kebab description>)
+ +-- OM-001-populate-context        (task branch: <prefix>-<NNN>-<kebab description>)
  |
  +-- tags: <mod>-v<version>         (one per release, made by release.py)
 ```
@@ -25,7 +25,7 @@ main
 | Branch Type | Pattern | Base Branch | Merge To |
 |-------------|---------|-------------|----------|
 | Main | `main` | - | - |
-| Task | `OM-NNNN-short-description` | main | main |
+| Task | `OM-NNN-short-description` | main | main |
 
 There are no `develop`, `release/*` or `hotfix/*` branches. A release is a commit and a tag on `main`, never a branch.
 
@@ -77,7 +77,7 @@ git commit -m "OM-001: <what changed>"
 git push origin OM-001-populate-context
 ```
 
-How a finished task branch returns to `main` (pull request, or a local fast-forward merge): TODO(owner). No pull request has been opened on `isochronous/ONI-Mods` so far, and the history has no merge commits.
+How a finished task branch returns to `main` (pull request, or a local fast-forward merge): TODO(owner). No pull request has been opened on `isochronous/ONI-Mods` so far, and merge commits appear only where a mod's history was brought in.
 
 ### Everyday Mod Work
 **Id:** blk-18b48635f7e5
@@ -119,12 +119,12 @@ After a game update, fix the shared references in `common/` once, push, and bump
 ## Commit Messages
 **Id:** blk-a9cad5493ade
 
-One terse line, no body. The subject starts with the mod's name or `common`. See `commit-conventions.md`.
+One terse subject line; new commits carry no explanatory body. The subject starts with the mod's name or `common`. See `commit-conventions.md`.
 
 ## Pull Request Guidelines
 **Id:** blk-c3ed876035fc
 
-TODO(owner): no pull-request template exists in `.github/` (only issue forms under `.github/ISSUE_TEMPLATE/`). When a task branch goes through a pull request, the description carries the attribution lines required by the session reminder and lists what changed per mod.
+TODO(owner): no pull-request template exists in `.github/` (only issue forms under `.github/ISSUE_TEMPLATE/`). When a task branch goes through a pull request, the description carries the assistant's attribution lines as described in `commit-conventions.md` and lists what changed per mod.
 
 ### Before Merging a Task Branch
 **Id:** blk-3c4f47a35d4f

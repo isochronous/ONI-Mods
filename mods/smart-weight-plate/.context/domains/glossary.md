@@ -1,7 +1,12 @@
 ---
+witness_digest: "sha256:5b3ee5d757a17cd91783a48a109e5d7802c20f030dd499f27722647cdbea5893"
+witness: loose
+applies_to:
+  - "src/SmartWeightPlate/**"
 doc_id: doc-3b2699889607
 description: "Game and mod terms a newcomer needs for Smart Weight Plate, with abbreviations, terms to avoid and where each is used."
 ---
+
 # Smart Weight Plate glossary
 
 Terms for the Smart Weight Plate mod. For the mod's entities, rules and code paths see [entities](entities.md).

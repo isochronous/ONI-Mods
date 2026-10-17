@@ -4,12 +4,12 @@ description: "The commit subject style used in ONI-Mods: mod-name prefix, one te
 ---
 # Commit Conventions
 
-Derived from `git log` of `C:/dev/ONI-Mods` (409 commits, one author, history of each mod imported) and from `.claude/commands/release-mods.md`.
+Derived from the `git log` of this repository (one author, with each mod's history brought in) and from `.claude/commands/release-mods.md`.
 
 ## Format
 **Id:** blk-95a0fad57229
 
-Every commit is a single subject line. There is no body and no conventional-commit type.
+A commit subject is one terse line. New commits carry no explanatory body, and there is no conventional-commit type.
 
 ```
 <Mod name>: <what changed, in plain words>
@@ -86,7 +86,7 @@ The task folder is the ID plus a kebab-case description, and the branch has the 
 OM-001-populate-context
 ```
 
-TODO(owner): confirm the ID width. The scaffolded task is `OM-001`, three digits; the ICON template assumes four.
+Task IDs are three digits (`OM-001`, `OM-002`), the width of the real branch `OM-001-populate-context`.
 
 ## Release Commits
 **Id:** blk-9583fab238e3

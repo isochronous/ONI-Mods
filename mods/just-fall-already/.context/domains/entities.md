@@ -1,7 +1,12 @@
 ---
+witness_digest: "sha256:49eff80a7e3de4b75083d815cb6a92a69df8f2c9f195c336a66e79ed2725449c"
+witness: loose
+applies_to:
+  - "src/JustFallAlready/**"
 doc_id: doc-2b60540b470b
 description: "Entities, business rules and key code paths of just-fall-already: door-armed cells and immediate critter fall checks"
 ---
+
 # Just Fall Already domain
 
 ## Overview

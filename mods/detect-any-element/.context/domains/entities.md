@@ -1,7 +1,12 @@
 ---
+witness_digest: "sha256:9688b74ec6e9cba440970a13381f458489d3ef2313d82d57c9e72a7b1d5a4ab8"
+witness: loose
+applies_to:
+  - "src/DetectAnyElement/**"
 doc_id: doc-25efc9f67a81
 description: "Entities, business rules and key code paths of detect-any-element: Any choice for the five element sensors"
 ---
+
 # Detect Any Element domain
 
 ## Overview

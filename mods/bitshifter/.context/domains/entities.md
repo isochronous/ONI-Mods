@@ -1,7 +1,12 @@
 ---
+witness_digest: "sha256:382ad09629bed52ad2d65446588a629c6e203b36897fb157b4b1ad576692db06"
+witness: loose
+applies_to:
+  - "src/Bitshifter/**"
 doc_id: doc-01b787080f8e
 description: "Entities, business rules and key code paths of bitshifter: Ribbon Reader and Writer bit selection, display and NOT gate patches"
 ---
+
 # Bitshifter domain
 
 ## Overview

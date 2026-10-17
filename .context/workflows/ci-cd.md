@@ -18,7 +18,8 @@ There is no build or test pipeline on a CI server. The mods compile against the 
 **Id:** blk-5a9acfb57722
 
 ### 1. Build
-**Id:** blk-a4c3e53a9565  
+**Id:** blk-a4c3e53a9565
+
 **Trigger**: by hand, and as the first step of every test and release run  
 **Purpose**: compile each mod and, unless told not to, deploy it into the game's local mods folder
 
@@ -28,7 +29,7 @@ dotnet build ONI-Mods.sln -c Release -p:ModDeployFolder=none      # build withou
 dotnet build mods/<name>/src/<Mod> -c Release                     # one mod
 ```
 
-Shared MSBuild configuration is in `common/oni-mod.props` and `common/oni-mod.targets` (target framework net48, game references, deploy step), reached through `$(OniCommon)` set in `Directory.Build.props`. The game folder is found in the usual Steam locations; override with the `GameFolder` property or the `ONI_GAME_FOLDER` environment variable. A successful build deploys the DLL, `mod.yaml`, `mod_info.yaml`, `assets/` and `anim/` to `Documents/Klei/OxygenNotIncluded/mods/local/<ModName>`.
+Shared MSBuild configuration is in `common/oni-mod.props` and `common/oni-mod.targets` (target framework net48, game references, deploy step), reached through `$(OniCommon)` set in `Directory.Build.props`. The game folder is found in the usual Steam locations; override with the `GameFolder` property or the `ONI_GAME_FOLDER` environment variable. A successful build deploys the DLL, `mod.yaml`, `mod_info.yaml`, `assets/`, `anim/` and `translations/` to `Documents/Klei/OxygenNotIncluded/mods/local/<ModName>`. Natural Backwalls also deploys its `worldgen/` folder through its own `DeployWorldgen` target in `NaturalBackwalls.csproj`.
 
 ### 2. Test
 **Id:** blk-abee22d3745c  

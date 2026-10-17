@@ -85,7 +85,7 @@ private static readonly Dictionary<int, float> armed = new Dictionary<int, float
 
 - Building ids are PascalCase and match the config class (`SmartWeightPlate`); a mod that replaces another mod's buildings reuses that mod's ids (`StoragePodConfig`, `CoolPodConfig` in `mods/storage-pod-redux`).
 - Tags and PAction ids carry a mod prefix: `DetectAnyElement_Any`, `Isochronous.SweepZones.Tool`.
-- The `staticID` in `mod_info.yaml` is `Isochronous.<PascalName>`.
+- The `staticID` in `mod.yaml` is `Isochronous.<PascalName>`.
 - Test names start with the mod's name or an abbreviation of it: `[OniTest("Bitshifter: a NOT gate on a ribbon inverts every bit")]`, `VFF:` for Vent Freeze Fix.
 
 ## Project-Specific Conventions

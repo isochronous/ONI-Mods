@@ -1,0 +1,35 @@
+{
+  "task": "OM-001",
+  "why": "correct the review findings in the corner-build-anything standards and domain documents",
+  "node": "mods/corner-build-anything",
+  "ops": [
+    {
+      "mode": "section",
+      "target": "standards/naming-conventions.md",
+      "section": "Ids and Tags",
+      "body": "- Building ids are PascalCase and match the config class (`SmartWeightPlate`); a mod that replaces another mod's buildings reuses that mod's ids (`StoragePodConfig`, `CoolPodConfig` in `mods/storage-pod-redux`).\n- Tags and PAction ids carry a mod prefix: `DetectAnyElement_Any`, `Isochronous.SweepZones.Tool`.\n- The `staticID` in `mod.yaml` is `Isochronous.<PascalName>`.\n- Test names start with the mod's name or an abbreviation of it: `[OniTest(\"Bitshifter: a NOT gate on a ribbon inverts every bit\")]`, `VFF:` for Vent Freeze Fix."
+    },
+    {
+      "mode": "section",
+      "target": "standards/error-handling.md",
+      "section": "try/catch",
+      "body": "`try`/`catch (Exception e)` is used in four situations and nowhere else:\n\n1. **Optional integration with another mod.** Patching or reading another mod's types may fail for any reason. Log the message and skip the integration (`BetterAutomationOverlayCompat.Apply` in `mods/smart-weight-plate/src/SmartWeightPlate/Mod.cs`; `mods/upgrade-planner/src/UpgradePlanner/Compat/BlueprintsCompat.cs`).\n2. **File and JSON reads and writes.** Return an empty or null result (`mods/upgrade-planner/src/UpgradePlanner/Plan/Presets.cs`, `mods/storage-pod-redux/src/StoragePodRedux/ModDetection.cs`, `mods/sweep-zones/src/SweepZones/ToolIcon.cs`).\n3. **Patches that run inside worldgen or per-cell work**, where an escaping exception kills a thread or a whole pass (`mods/natural-backwalls-everywhere/src/NaturalBackwalls/FeaturePatch.cs`, `PlanetoidPatch.cs`, `Patches.cs`, `Census.cs`).\n4. **Per-job work in a queue**, so one failure does not stop the rest (`mods/upgrade-planner/src/UpgradePlanner/Tool/PlacementQueue.cs`, logged with `Debug.LogError`).\n\nThe message form is `\"[<Name>] <what was skipped>: \" + e.Message`. Use `e.GetBaseException().Message` when the exception may be a reflection wrapper, and the full `e` when the stack trace is needed.\n\n### Finalizer for a thread with no handler\n**Id:** blk-e5797c076f0c\n\n`Cluster.BeginGeneration` is the worldgen thread body and has none; an exception ends the thread and the loading screen waits forever. A finalizer reports the failure through the game's own error path and logs the exception (`Cluster_BeginGeneration_Patch` in `mods/natural-backwalls-everywhere/src/NaturalBackwalls/WorldgenThreadPatch.cs`)."
+    },
+    {
+      "mode": "cover",
+      "target": "domains/entities.md",
+      "add": [
+        "src/CornerBuildAnything/**"
+      ],
+      "witness": "loose"
+    },
+    {
+      "mode": "cover",
+      "target": "domains/glossary.md",
+      "add": [
+        "src/CornerBuildAnything/**"
+      ],
+      "witness": "loose"
+    }
+  ]
+}

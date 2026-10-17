@@ -1,0 +1,79 @@
+{
+  "task": "OM-001",
+  "why": "correct the review findings in the root workflow, testing and ci-cd documents",
+  "node": ".",
+  "ops": [
+    {
+      "mode": "section",
+      "target": "workflows/commit-conventions.md",
+      "section": "Format",
+      "body": "A commit subject is one terse line. New commits carry no explanatory body, and there is no conventional-commit type.\n\n```\n<Mod name>: <what changed, in plain words>\n```\n\nUse the mod's display name as the prefix (the same name its README and Workshop page use), then say what changed in terms of the game or the code, past the colon, as a sentence fragment. Real subjects from the log:\n\n```\nJumper Bridges: new preview on glass tiles in the game's colours, made by tools/make_preview.py from the preview tests\nBitshifter: test for the NOT gate constant mask\nBitshifter: NOT gate inverts all 31 bits, bit number reads upright stood on end either way, Reader icon faces the original's way\nUpgrade Planner: Suppress Notifications' damage bar setting no longer errors on a building that has not spawned\nNatural Backwalls: tests in a generated cluster\n```\n\n### Shared tooling and housekeeping\n**Id:** blk-02d371ff9e5a\n\nChanges that belong to no mod start with the area that changed:\n\n```\ncommon: pick up its ICON .context node\nPoint at common with the Kanim tool; art scripts use it\nKanim scripts in the solution\nIgnore Python caches\n```\n\n### Release commits (written by the release scripts)\n**Id:** blk-f2f9b20f215b\n\n```\nRelease bitshifter v1.2.0\nRelease jumper-bridges v0.2.0\nAdd changelog for natural-backwalls-everywhere v0.3.0\nRecord the Workshop item id\n```\n\n`release_mods.py` writes \"Release <folder> vX.Y.Z\"; the folder name and the version are the only variable parts. The changelog commit is made by hand (or by the `/release-mods` command) just before a release. Do not reword these: the release tooling and the `<folder>-v<version>` tags rely on them.\n\n### Imported history\n**Id:** blk-0de738af649c\n\n```\nBring in vent-freeze-fix with its history\n```\n\nOne commit per mod brought into the monorepo; not used for new work.\n\n### Active task work\n**Id:** blk-ffa775f8c3d0\n\nCommits made while executing an ICON task carry the task ID as the prefix:\n\n```\nOM-001: task plan and unit specs for the populate-context pass\n```\n\nPhase-boundary commits made by the task-plan workflow add the `Phase-Handoff: <phase>` trailer (see `workflows/task-plan/`). The prefix is `OM`, from `local_task_id_prefix` in `.context/iconrc.json`."
+    },
+    {
+      "mode": "section",
+      "target": "workflows/commit-conventions.md",
+      "section": "Task ID Generation",
+      "body": "The manager hands out task IDs for `.context/tasks/` folders and task branches. The first task is `OM-001` (three digits as shipped by the scaffold); later IDs follow the same width.\n\n```bash\nMAX=$(ls .context/tasks/ | sed -n 's/^OM-\\([0-9][0-9]*\\).*/\\1/p' | sort -n | tail -n 1)\nNEXT=$(printf '%03d' $((10#${MAX:-0} + 1)))\n```\n\nThe task folder is the ID plus a kebab-case description, and the branch has the same name:\n\n```\n.context/tasks/OM-001-populate-context/\nOM-001-populate-context\n```\n\nTask IDs are three digits (`OM-001`, `OM-002`), the width of the real branch `OM-001-populate-context`."
+    },
+    {
+      "mode": "section",
+      "target": "workflows/branching.md",
+      "section": "Branch Structure",
+      "body": "One long-lived branch, `main`. Every mod lives in the same repository under `mods/<name>`, and the owner commits to `main` directly: the history is linear except for the merge commits that brought each mod in with its history (\"Bring in <mod> with its history\"). Work that runs under an ICON task gets its own short-lived branch.\n\n```\nmain\n |\n +-- OM-001-populate-context        (task branch: <prefix>-<NNN>-<kebab description>)\n |\n +-- tags: <mod>-v<version>         (one per release, made by release.py)\n```\n\n`common/` is a git submodule of `https://github.com/isochronous/oni-mods-common.git` (see `.gitmodules`). It has its own history and its own `main`; the root repository records which commit of it is checked out."
+    },
+    {
+      "mode": "section",
+      "target": "workflows/branching.md",
+      "section": "Branch Types",
+      "body": "| Branch Type | Pattern | Base Branch | Merge To |\n|-------------|---------|-------------|----------|\n| Main | `main` | - | - |\n| Task | `OM-NNN-short-description` | main | main |\n\nThere are no `develop`, `release/*` or `hotfix/*` branches. A release is a commit and a tag on `main`, never a branch."
+    },
+    {
+      "mode": "section",
+      "target": "workflows/branching.md",
+      "section": "Task Work",
+      "body": "```bash\n# 1. Branch from an up-to-date main\ngit checkout main\ngit pull origin main\ngit checkout -b OM-001-populate-context\n\n# 2. Commit as the work lands (one terse line, see commit-conventions.md)\ngit add mods/jumper-bridges\ngit commit -m \"OM-001: <what changed>\"\n\n# 3. Push the branch\ngit push origin OM-001-populate-context\n```\n\nHow a finished task branch returns to `main` (pull request, or a local fast-forward merge): TODO(owner). No pull request has been opened on `isochronous/ONI-Mods` so far, and merge commits appear only where a mod's history was brought in."
+    },
+    {
+      "mode": "section",
+      "target": "workflows/branching.md",
+      "section": "Commit Messages",
+      "body": "One terse subject line; new commits carry no explanatory body. The subject starts with the mod's name or `common`. See `commit-conventions.md`."
+    },
+    {
+      "mode": "section",
+      "target": "workflows/branching.md",
+      "section": "Pull Request Guidelines",
+      "body": "TODO(owner): no pull-request template exists in `.github/` (only issue forms under `.github/ISSUE_TEMPLATE/`). When a task branch goes through a pull request, the description carries the assistant's attribution lines as described in `commit-conventions.md` and lists what changed per mod.\n\n### Before Merging a Task Branch\n**Id:** blk-3c4f47a35d4f\n\n- [ ] `dotnet build ONI-Mods.sln -c Release -p:ModDeployFolder=none` succeeds\n- [ ] The in-game tests of every touched mod pass (`testing/unit-testing.md`)\n- [ ] Self-review of the diff completed\n- [ ] The commit subjects follow `commit-conventions.md`"
+    },
+    {
+      "mode": "section",
+      "target": "testing/unit-testing.md",
+      "section": "Naming Conventions",
+      "body": "- The display name starts with the mod's short prefix and a colon (`DAE:`, `NB:`, `VFF:`, `JFA:`, `MSR:`, `MCS:`, `NMF:`, `SWP:`, `DCEOR:`, `Bitshifter:`, `SaltySurf:`, `PLib:`), then a sentence saying the behaviour: \"wire dragged from a bridge end to its neighbour connects both\". Photograph-only tests use `looks:`, and a control case that runs beside the behaviour it checks uses `control:` (`mods/jumper-bridges/src/JumperBridges.Tests/WireDrags.cs`).\n- Class names group by subject (`Persistence`, `SideScreen`, `Glyph`), method names say the case (`CopySettings`, `DragFromEnd`).\n- The assertion message names what was expected (\"the target took Any\"), not the call.\n\n```csharp\n// Good\n[OniTest(\"VFF: a tile out of a small packet in the landing cell under the vent is dug up and left as debris at full mass\", Timeout = 40), Layer(0)]\n// Avoid\n[OniTest(\"test 1\")]\n```"
+    },
+    {
+      "mode": "section",
+      "target": "testing/unit-testing.md",
+      "section": "Fixtures",
+      "body": "The fixture is a save: `common/tools/TestRunner/fixtures/testbed-so.sav` in Spaced Out mode, `testbed-base.sav` otherwise, chosen by the game's current mode; `-Fixture <path.sav>` overrides it. `testbed-so.sav` is tracked in `common`; `testbed-base.sav` is not there, so a base-game run needs a save copied in under that name. The harness picks a 40x10 area of the world, clears it before the first test and after every test, and `t.Rect(w, h)` hands a test its cells. See `common/tools/TestRunner/fixtures/README.md`."
+    },
+    {
+      "mode": "section",
+      "target": "testing/integration-testing.md",
+      "section": "Launcher Options",
+      "body": "| Option | Default | Meaning |\n|--------|---------|---------|\n| `-TimeoutSec` | 600 | Real seconds the whole session may take |\n| `-TestTimeoutSec` | 60 | Real seconds per test unless the attribute says otherwise |\n| `-Fixture` | `fixtures/testbed-so.sav` in Spaced Out mode, `fixtures/testbed-base.sav` otherwise | Save loaded for fixture tests |\n| `-Label` | `run` | Prefix of the run folder `runs/<label>-<stamp>` |\n| `-NoBuild`, `-NoCheck`, `-BuildArgs` | - | Skip the build or ModCheck pass, or pass arguments to `dotnet build` |"
+    },
+    {
+      "mode": "section",
+      "target": "testing/integration-testing.md",
+      "section": "Machine requirements",
+      "body": "Steam running; the game not running; the game folder found in a Steam location or named by `ONI_GAME_FOLDER`; `testbed-so.sav` is tracked in `common/tools/TestRunner/fixtures/`; a base-game run needs a `testbed-base.sav` copied in beside it."
+    },
+    {
+      "mode": "section",
+      "target": "workflows/ci-cd.md",
+      "section": "1. Build",
+      "body": "**Trigger**: by hand, and as the first step of every test and release run  \n**Purpose**: compile each mod and, unless told not to, deploy it into the game's local mods folder\n\n```\ndotnet build ONI-Mods.sln -c Release\ndotnet build ONI-Mods.sln -c Release -p:ModDeployFolder=none      # build without deploying\ndotnet build mods/<name>/src/<Mod> -c Release                     # one mod\n```\n\nShared MSBuild configuration is in `common/oni-mod.props` and `common/oni-mod.targets` (target framework net48, game references, deploy step), reached through `$(OniCommon)` set in `Directory.Build.props`. The game folder is found in the usual Steam locations; override with the `GameFolder` property or the `ONI_GAME_FOLDER` environment variable. A successful build deploys the DLL, `mod.yaml`, `mod_info.yaml`, `assets/`, `anim/` and `translations/` to `Documents/Klei/OxygenNotIncluded/mods/local/<ModName>`."
+    }
+  ]
+}

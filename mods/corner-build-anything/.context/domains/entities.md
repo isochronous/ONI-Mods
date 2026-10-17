@@ -1,7 +1,12 @@
 ---
+witness_digest: "sha256:0306519df41aa63a1a600c61bb32b39a0b3a095827e6365f9dd180909f6c8a3f"
+witness: loose
+applies_to:
+  - "src/CornerBuildAnything/**"
 doc_id: doc-5047cbea51fc
 description: "Entities, business rules and key code paths of corner-build-anything: reach-table swap for construction and deconstruction"
 ---
+
 # Corner Build Anything domain
 
 ## Overview

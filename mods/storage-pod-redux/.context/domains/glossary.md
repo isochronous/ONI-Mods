@@ -1,7 +1,12 @@
 ---
+witness_digest: "sha256:4ca967e5ba46efa9209fa2082f56d2c5d8c4bd31f26343f9b36b9df3d30ed70e"
+witness: loose
+applies_to:
+  - "src/StoragePodRedux/**"
 doc_id: doc-7eb761dcb233
 description: "Game and mod terms a newcomer needs for Storage Pod Redux, with abbreviations, terms to avoid and where each is used."
 ---
+
 # Storage Pod Redux glossary
 
 Terms for the Storage Pod Redux mod. For the mod's entities, rules and code paths see [entities](entities.md).

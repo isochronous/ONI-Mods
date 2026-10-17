@@ -1,7 +1,12 @@
 ---
+witness_digest: "sha256:a6f9104ca76161d0586dd54ea09e5be2e8ef2c86ad283569ec95283149f30aef"
+witness: loose
+applies_to:
+  - "src/SaltySurf/**"
 doc_id: doc-8bc9e6c6b6ef
 description: "ONI and mod-specific terms used by Salty Surf."
 ---
+
 # Salty Surf glossary
 
 Terms for the Salty Surf mod. For the code behind them, see [entities](entities.md).

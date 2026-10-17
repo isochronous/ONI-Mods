@@ -131,14 +131,14 @@ pwsh common/tools/TestRunner/Invoke-OniTests.ps1 -Mods JumperBridges -Trace
 |--------|---------|---------|
 | `-TimeoutSec` | 600 | Real seconds the whole session may take |
 | `-TestTimeoutSec` | 60 | Real seconds per test unless the attribute says otherwise |
-| `-Fixture` | `fixtures/testbed-so.sav` or `testbed-base.sav` | Save loaded for fixture tests |
+| `-Fixture` | `fixtures/testbed-so.sav` in Spaced Out mode, `fixtures/testbed-base.sav` otherwise | Save loaded for fixture tests |
 | `-Label` | `run` | Prefix of the run folder `runs/<label>-<stamp>` |
 | `-NoBuild`, `-NoCheck`, `-BuildArgs` | - | Skip the build or ModCheck pass, or pass arguments to `dotnet build` |
 
 ### Machine requirements
 **Id:** blk-b55434e0dd4a
 
-Steam running; the game not running; the game folder found in a Steam location or named by `ONI_GAME_FOLDER`; fixture `.sav` files copied into `common/tools/TestRunner/fixtures/` (not committed).
+Steam running; the game not running; the game folder found in a Steam location or named by `ONI_GAME_FOLDER`; `testbed-so.sav` is tracked in `common/tools/TestRunner/fixtures/`; a base-game run needs a `testbed-base.sav` copied in beside it.
 
 ### Screenshots
 **Id:** blk-bac04f55a861

@@ -1,7 +1,12 @@
 ---
+witness_digest: "sha256:0306519df41aa63a1a600c61bb32b39a0b3a095827e6365f9dd180909f6c8a3f"
+witness: loose
+applies_to:
+  - "src/CornerBuildAnything/**"
 doc_id: doc-d3898b8e3b24
 description: "Glossary for corner-build-anything: how construction reach tables are swapped"
 ---
+
 # Domain Glossary
 
 Terms used in the Corner Build Anything mod (`mods/corner-build-anything`). For the classes and patches behind them, see the entities document.

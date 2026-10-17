@@ -1,7 +1,12 @@
 ---
+witness_digest: "sha256:3def3e9e12d6f3c6606d6c6558901f245679b4e000b973436070a67748ac0a6d"
+witness: loose
+applies_to:
+  - "src/DontCountEggsOnRails/**"
 doc_id: doc-55731fdf28b0
 description: "Glossary for dont-count-eggs-on-rails: how rail eggs are kept out of room counts"
 ---
+
 # Domain Glossary
 
 Terms used in the Don't Count Eggs on Rails mod (`mods/dont-count-eggs-on-rails`). For the classes and patches behind them, see the entities document.

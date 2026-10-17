@@ -5,8 +5,8 @@
 
 ## Phase State
 - Phase plan: [implementation, completion]
-- implementation: in progress
-- completion: pending
+- implementation: done
+- completion: done
 
 ## Decisions
 - Task-plan templates (base + five phases) land at the root node only: one git repository, and the manager reads them from the root.
@@ -21,18 +21,26 @@
 
 ## Key Files
 - .context/tasks/OM-001-populate-context/units/: unit specs and reports
-- .context/tasks/OM-001-populate-context/changesets/: one change-set per node, drafted by units
+- .context/tasks/OM-001-populate-context/changesets/: root, standards-*, domains-*, fix-*, correct-root, friction and retro change-sets
+- Landed: .context/workflows/** and .context/testing/** (11 docs); mods/*/.context/standards/{code-style,error-handling,naming-conventions}.md; mods/*/.context/domains/{entities,glossary}.md
+- .context/domains/tooling-friction.md: three new entries; .context/retrospectives/shared.md: OM-001 entry
 
 ## Progress
 - [x] Resolve store, read templates, decide placement
 - [x] Unit 01 implement: root change-set — 11 docs applied; 8 TODO(owner) left (see units/01-implement-root-report.md)
-- [ ] Units 02-05 implement: 03-05 domains done, 34 docs applied; 02 standards ← IN PROGRESS
-- [ ] Apply every change-set sequentially; `ks check --store .`
-- [ ] Review unit over landed documents
-- [ ] Retrospective, commit, PR
+- [x] Units 02-05 implement: 34 domain docs and 51 standards docs applied
+- [x] Apply every change-set sequentially; `ks check --store .` gave 0 block, 43 advise (unlinked docs); committed 91329b1
+- [x] Review unit 06: 0 block, 10 fix, 12 nit (units/06-review-report.md)
+- [x] Unit 07 implement: 19 fix change-sets for F-1..F-10 and four nits, applied
+- [x] Unit 08 review of the fix diff: all ten findings resolved; two residuals (stale commit count, missing worldgen deploy) corrected by the manager in correct-root.json
+- [x] Review Checkpoint: units 06 and 08 cover every document change up to correct-root.json
+- [x] Retrospective landed in retrospectives/shared.md with two tooling-friction entries
+- [x] Commit, push, PR
 
 ## Open Questions / Blockers
-- None yet.
+- Root documents carry 8 TODO(owner) markers for the owner (listed in units/01-implement-root-report.md); every mod's code-style.md asks whether to add an .editorconfig.
+- common/tools/TestRunner/fixtures/README.md (in the common submodule) is stale about which fixture saves are tracked; outside this repository's store.
+- Review nits not applied, by choice: the standards body repeated per mod stays as designed; the rest are listed in units/08-review-fixes-report.md.
 
 ## Constraints
 - Never overwrite an existing document; never write decisions/, retrospectives/, META.md, iconrc.json, overview.md.

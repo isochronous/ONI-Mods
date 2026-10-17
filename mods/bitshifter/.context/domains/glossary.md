@@ -1,7 +1,12 @@
 ---
+witness_digest: "sha256:382ad09629bed52ad2d65446588a629c6e203b36897fb157b4b1ad576692db06"
+witness: loose
+applies_to:
+  - "src/Bitshifter/**"
 doc_id: doc-2605b1cfcd73
 description: "Glossary for bitshifter: what the Bitshifter mod patches, its rules and its terms"
 ---
+
 # Domain Glossary
 
 Terms used in the Bitshifter mod (`mods/bitshifter`). For the classes and patches behind them, see the entities document.

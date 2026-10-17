@@ -60,7 +60,7 @@ Arrange, act, assert, with a `yield return` of game time between steps.
 ### Naming Conventions
 **Id:** blk-7316ec9fd58f
 
-- The display name starts with the mod's short prefix and a colon (`DAE:`, `NB:`, `VFF:`, `JFA:`, `MSR:`, `MCS:`, `NMF:`, `SWP:`, `DCEOR:`, `Bitshifter:`, `SaltySurf:`), then a sentence saying the behaviour: "wire dragged from a bridge end to its neighbour connects both". Photograph-only tests use `looks:`.
+- The display name starts with the mod's short prefix and a colon (`DAE:`, `NB:`, `VFF:`, `JFA:`, `MSR:`, `MCS:`, `NMF:`, `SWP:`, `DCEOR:`, `Bitshifter:`, `SaltySurf:`, `PLib:`), then a sentence saying the behaviour: "wire dragged from a bridge end to its neighbour connects both". Photograph-only tests use `looks:`, and a control case that runs beside the behaviour it checks uses `control:` (`mods/jumper-bridges/src/JumperBridges.Tests/WireDrags.cs`).
 - Class names group by subject (`Persistence`, `SideScreen`, `Glyph`), method names say the case (`CopySettings`, `DragFromEnd`).
 - The assertion message names what was expected ("the target took Any"), not the call.
 
@@ -103,7 +103,7 @@ Yield `t.Frames(n)`, `t.WaitGameSeconds(s)` (scaled sim time), `t.WaitRealSecond
 ### Fixtures
 **Id:** blk-66e912fbb652
 
-The fixture is a save: `common/tools/TestRunner/fixtures/testbed-so.sav` (Spaced Out) or `testbed-base.sav`, chosen by the game's current mode; `-Fixture <path.sav>` overrides it. The `.sav` files are not committed. The harness picks a 40x10 area of the world, clears it before the first test and after every test, and `t.Rect(w, h)` hands a test its cells. See `common/tools/TestRunner/fixtures/README.md`.
+The fixture is a save: `common/tools/TestRunner/fixtures/testbed-so.sav` in Spaced Out mode, `testbed-base.sav` otherwise, chosen by the game's current mode; `-Fixture <path.sav>` overrides it. `testbed-so.sav` is tracked in `common`; `testbed-base.sav` is not there, so a base-game run needs a save copied in under that name. The harness picks a 40x10 area of the world, clears it before the first test and after every test, and `t.Rect(w, h)` hands a test its cells. See `common/tools/TestRunner/fixtures/README.md`.
 
 ### Per-test options on `[OniTest]`
 **Id:** blk-c8a18ea4088d

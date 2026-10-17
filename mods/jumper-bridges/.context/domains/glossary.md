@@ -1,7 +1,12 @@
 ---
+witness_digest: "sha256:ef46729018139a2309bdcd5cdc1cb45c601d5d52cc19e58efd8b43fca4df915d"
+witness: loose
+applies_to:
+  - "src/JumperBridges/**"
 doc_id: doc-59647738de3c
 description: "Glossary for jumper-bridges: bridge end nodes, link rings, patches and options"
 ---
+
 # Domain Glossary
 
 Terms used in the Jumper Bridges mod (`mods/jumper-bridges`). For the classes and patches behind them, see the entities document.

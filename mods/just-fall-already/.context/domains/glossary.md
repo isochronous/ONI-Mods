@@ -1,7 +1,12 @@
 ---
+witness_digest: "sha256:49eff80a7e3de4b75083d815cb6a92a69df8f2c9f195c336a66e79ed2725449c"
+witness: loose
+applies_to:
+  - "src/JustFallAlready/**"
 doc_id: doc-ebdf75035929
 description: "Glossary for just-fall-already: how door changes trigger critter fall checks"
 ---
+
 # Domain Glossary
 
 Terms used in the Just Fall Already mod (`mods/just-fall-already`). For the classes and patches behind them, see the entities document.

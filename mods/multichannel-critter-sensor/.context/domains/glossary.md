@@ -1,7 +1,12 @@
 ---
+witness_digest: "sha256:c4faee29e43d2b01855c3dcaaa107087f0eafb53ee94a8d86275f214e698eb99"
+witness: loose
+applies_to:
+  - "src/MultichannelCritterSensor/**"
 doc_id: doc-cb45b2283a1a
 description: "ONI and mod-specific terms used by Multichannel Critter Sensor."
 ---
+
 # Multichannel Critter Sensor glossary
 
 Terms for the Multichannel Critter Sensor mod. For the code behind them, see [entities](entities.md).

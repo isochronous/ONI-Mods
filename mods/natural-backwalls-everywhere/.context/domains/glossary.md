@@ -1,7 +1,12 @@
 ---
+witness_digest: "sha256:3078d537bf2fc3f461b3c463dd8356dd58d0ad38f62814a174b0ffe50091d1c3"
+witness: loose
+applies_to:
+  - "src/NaturalBackwalls/**"
 doc_id: doc-afc6c48467c3
 description: "ONI and mod-specific terms used by Natural Backwalls Everywhere."
 ---
+
 # Natural Backwalls Everywhere glossary
 
 Terms for the Natural Backwalls Everywhere mod. For the code behind them, see [entities](entities.md).

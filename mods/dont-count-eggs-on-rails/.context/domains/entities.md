@@ -1,7 +1,12 @@
 ---
+witness_digest: "sha256:3def3e9e12d6f3c6606d6c6558901f245679b4e000b973436070a67748ac0a6d"
+witness: loose
+applies_to:
+  - "src/DontCountEggsOnRails/**"
 doc_id: doc-3255e485bb79
 description: "Entities, business rules and key code paths of dont-count-eggs-on-rails: rail eggs excluded from critter sensor counts"
 ---
+
 # Don't Count Eggs on Rails domain
 
 ## Overview
