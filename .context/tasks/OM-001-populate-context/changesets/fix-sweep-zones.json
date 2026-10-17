@@ -1,0 +1,33 @@
+{
+  "task": "OM-001",
+  "why": "correct the review findings in the sweep-zones standards and domain documents",
+  "node": "mods/sweep-zones",
+  "ops": [
+    {
+      "mode": "section",
+      "target": "standards/naming-conventions.md",
+      "section": "Ids and Tags",
+      "body": "- Building ids are PascalCase and match the config class (`SmartWeightPlate`); a mod that replaces another mod's buildings reuses that mod's ids (`StoragePodConfig`, `CoolPodConfig` in `mods/storage-pod-redux`).\n- Tags and PAction ids carry a mod prefix: `DetectAnyElement_Any`, `Isochronous.SweepZones.Tool`.\n- The `staticID` in `mod.yaml` is `Isochronous.<PascalName>`.\n- Test names start with the mod's name or an abbreviation of it: `[OniTest(\"Bitshifter: a NOT gate on a ribbon inverts every bit\")]`, `VFF:` for Vent Freeze Fix."
+    },
+    {
+      "mode": "section",
+      "target": "standards/error-handling.md",
+      "section": "try/catch",
+      "body": "`try`/`catch (Exception e)` is used in four situations and nowhere else:\n\n1. **Optional integration with another mod.** Patching or reading another mod's types may fail for any reason. Log the message and skip the integration (`BetterAutomationOverlayCompat.Apply` in `mods/smart-weight-plate/src/SmartWeightPlate/Mod.cs`; `mods/upgrade-planner/src/UpgradePlanner/Compat/BlueprintsCompat.cs`).\n2. **File and JSON reads and writes.** Return an empty or null result (`mods/upgrade-planner/src/UpgradePlanner/Plan/Presets.cs`, `mods/storage-pod-redux/src/StoragePodRedux/ModDetection.cs`, `mods/sweep-zones/src/SweepZones/ToolIcon.cs`).\n3. **Patches that run inside worldgen or per-cell work**, where an escaping exception kills a thread or a whole pass (`mods/natural-backwalls-everywhere/src/NaturalBackwalls/FeaturePatch.cs`, `PlanetoidPatch.cs`, `Patches.cs`, `Census.cs`).\n4. **Per-job work in a queue**, so one failure does not stop the rest (`mods/upgrade-planner/src/UpgradePlanner/Tool/PlacementQueue.cs`, logged with `Debug.LogError`).\n\nThe message form is `\"[<Name>] <what was skipped>: \" + e.Message`. Use `e.GetBaseException().Message` when the exception may be a reflection wrapper, and the full `e` when the stack trace is needed.\n\n### Finalizer for a thread with no handler\n**Id:** blk-cc7965940363\n\n`Cluster.BeginGeneration` is the worldgen thread body and has none; an exception ends the thread and the loading screen waits forever. A finalizer reports the failure through the game's own error path and logs the exception (`Cluster_BeginGeneration_Patch` in `mods/natural-backwalls-everywhere/src/NaturalBackwalls/WorldgenThreadPatch.cs`)."
+    },
+    {
+      "mode": "section",
+      "target": "domains/entities.md",
+      "section": "Business Rules",
+      "body": "- A zone cell must be an open cell directly above solid ground: not `Grid.Solid`, with a valid solid cell below (`ZoneStore.IsValidZoneCell`). `Grid.Solid` is the sim's material solidity, so surfaces only Duplicants can stand on (open pneumatic doors) are not ground.\n- Painting skips invalid cells; erasing is never restricted.\n- Each zone cell remembers the priority (including yellow alert) selected when painted.\n- Every second, debris in a sweep zone is marked for clearing, unless it is a Duplicant (`GameTags.BaseMinion`, `MinionIdentity`), already marked (`GameTags.Garbage`), or not clearable (critters). A priority already set on an item is never overridden, so manual changes stick.\n- Mop zones follow the vanilla mop rules: a liquid cell on a valid zone cell with no placer yet and mass not over the game's `MopTool.maxMopAmt`.\n- Each time the tool is activated or its mode switched, `PruneInvalidCells` drops zone cells that no longer qualify (floor dug out, cell built over).\n- Erasing a zone keeps errands already created; the vanilla Cancel tool removes them.\n- Only the zones of the selected mode's kind are shown (sweep modes show sweep zones, mop modes show mop zones). The display uses the tool's own cell-colouring hook, never an overlay, so overlay-adding mods are unaffected."
+    },
+    {
+      "mode": "cover",
+      "target": "domains/glossary.md",
+      "add": [
+        "src/SweepZones/**"
+      ],
+      "witness": "loose"
+    }
+  ]
+}
