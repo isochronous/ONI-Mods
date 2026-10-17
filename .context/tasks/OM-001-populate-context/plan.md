@@ -12,6 +12,7 @@
 - Task-plan templates (base + five phases) land at the root node only: one git repository, and the manager reads them from the root.
 - Workflows (branching, commit conventions, CI/CD) land at the root only: one repository, one history, one release flow.
 - Standards (code style, error handling, naming) land at the 17 mod leaves; root, mods/ and common/ are root/aggregator scope and are skipped per the skill.
+- The mod nodes declare `scope: aggregator` because each projects.md lists its csproj folders, but those folders are not nodes. The mod nodes are the deepest nodes and the scaffold gave them standards/ folders, so standards land there anyway.
 - Testing guides (unit, integration) land at the root: the in-game test harness is shared across mods (common/tools/TestRunner).
 - Domains (entities, glossary) land at the 17 mod leaves: their domains/ holds only the scaffold README. Root is skipped because it already has domains/tooling-friction.md.
 - Architecture skipped: not requested. Styling skipped: the template is CSS/SCSS for web frontends; the mods have no such UI.
@@ -24,8 +25,8 @@
 
 ## Progress
 - [x] Resolve store, read templates, decide placement
-- [ ] Unit 01 implement: root change-set (task-plan x6, workflows x3, testing x2) ← IN PROGRESS (dispatched)
-- [ ] Units 02-05 implement: 02 standards for all 17 mods; 03-05 domains, six, six and five mods ← IN PROGRESS (dispatched in parallel)
+- [x] Unit 01 implement: root change-set — 11 docs applied; 8 TODO(owner) left (see units/01-implement-root-report.md)
+- [ ] Units 02-05 implement: 03-05 domains done, 34 docs applied; 02 standards ← IN PROGRESS
 - [ ] Apply every change-set sequentially; `ks check --store .`
 - [ ] Review unit over landed documents
 - [ ] Retrospective, commit, PR

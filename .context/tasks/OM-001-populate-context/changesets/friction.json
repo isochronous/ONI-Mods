@@ -1,0 +1,14 @@
+{
+  "task": "OM-001",
+  "why": "record friction met during the populate-context pass",
+  "node": ".",
+  "ops": [
+    {
+      "mode": "section",
+      "target": "domains/tooling-friction.md",
+      "section": "2026-10-17 populate-context: every mod node is aggregator scope, so the leaf-only standards rule matches no node",
+      "create_section": true,
+      "body": "populate-context seeds `standards/` only where the node is not `root` or `aggregator` scope. `ks resolve mods/sweep-zones/src --json` reports `scope: aggregator`, declared in the node's META.md, with the signal \"projects.md below the governing node\": each mod's projects.md lists its csproj folders (`src/SweepZones`, `src/SweepZones.Tests`), and `ks write plan` labels every mod node `[aggregator]`. Those csproj folders are not nodes, so read literally the rule leaves no node in the store eligible for standards, while `icon-init` gave every mod node a `standards/README.md`. Expected: a node with no child nodes is a leaf for populate-context, or the skill's rule names the deepest node rather than the declared scope. Done instead: landed the three standards documents at all 17 mod nodes, the deepest nodes holding code."
+    }
+  ]
+}
