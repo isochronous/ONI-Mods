@@ -1,0 +1,15 @@
+{
+  "task": "OM-001",
+  "why": "give the jumper-bridges entities document its coverage, after the section fix to the same document has landed",
+  "node": "mods/jumper-bridges",
+  "ops": [
+    {
+      "mode": "cover",
+      "target": "domains/entities.md",
+      "add": [
+        "src/JumperBridges/**"
+      ],
+      "witness": "loose"
+    }
+  ]
+}
