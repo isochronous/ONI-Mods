@@ -1,4 +1,4 @@
-Lets the Automation Ribbon Reader and Ribbon Writer select any of bits 1-31 instead of 1-4, so one ribbon can carry up to 31 independent signals. Nothing else changes.
+Lets the Automation Ribbon Reader and Ribbon Writer select any of bits 1-31 instead of 1-4, so one ribbon can carry up to 31 independent signals without large amounts of chained ribbon readers.
 
 [h2]Why this works[/h2]
 A ribbon's signal is a 32-bit number; the game only exposes the low four bits. The Reader and Writer already work by shifting the whole value by the selected bit, with no upper limit, so offering more bits in their side screen is all it takes. Bit 32 is the sign bit and can never read as on, so it is left out.
@@ -7,8 +7,9 @@ A ribbon's signal is a 32-bit number; the game only exposes the low four bits. T
 [list]
 [*]The bit selector of both buildings lists Bit 1 to Bit 31, in a scrolling list with a scrollbar.
 [*]Readers can read from any of the 31 bits, and writers can write to any of them.
-[*]The building art only has a highlight for bits 1-4; with a higher bit selected the building shows its plain idle pose (lights still correct) and the selection is shown in the side screen.
+[*]NOT gate has been patched to invert all 31 bits, not just the first 4.
 [*]Copy-settings works; the selected bit is saved with the building.
+[*]Fancy seven-segment display to show the current setting.
 [/list]
 
 [h2]Compatibility[/h2]
