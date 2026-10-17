@@ -1,4 +1,5 @@
 ---
+tags: building-materials, game-tag
 doc_id: doc-850f06967f35
 description: Index of the Refined Building domains folder, linking the entities document on the element-table patch that tags refined metals and the glossary of ONI and mod terms
 ---

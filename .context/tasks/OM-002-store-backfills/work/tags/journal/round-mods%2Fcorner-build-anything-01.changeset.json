@@ -1,0 +1,58 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/corner-build-anything — round 1",
+  "node": "C:\\dev\\ONI-Mods\\mods\\corner-build-anything",
+  "base": {
+    "domains/entities.md": "sha256:6723c71c50fc58fd3056330884e76eecc88f16d2bf497b640b191ee3d92cd38d",
+    "overview.md": "sha256:3b0d5cea392845e0ab37279e9276da452877eda6e7e485c233107d22fe3c3f81",
+    "standards/error-handling.md": "sha256:338584d8b78391c3044a6c3d49b7439d59d40d941ee23a8f613ae55bd2ea28de",
+    "standards/code-style.md": "sha256:8a25ee2cff423489715cecad33f03f59d8139ad40d7ca2ab2a5e0e04730cbe51",
+    "standards/naming-conventions.md": "sha256:9c31e6438a566962cef2fce9dc8cdde9a6d2e75c268a7b71979bff4480263ceb"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching"
+      ],
+      "section": "key-entities/constructable-onspawn-patch"
+    },
+    {
+      "target": "overview.md",
+      "mode": "tag",
+      "add": [
+        "mod-entry-point",
+        "in-game-testing"
+      ],
+      "section": "where-things-are"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching"
+      ],
+      "section": "guarding-patches"
+    },
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "transpiler",
+        "harmony-patching",
+        "mod-entry-point",
+        "reach-table"
+      ],
+      "section": "project-specific-rules/corner-build-anything-specifics"
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching"
+      ],
+      "section": "code-naming/functions-methods"
+    }
+  ]
+}

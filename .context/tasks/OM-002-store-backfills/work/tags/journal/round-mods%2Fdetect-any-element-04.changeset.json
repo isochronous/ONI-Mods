@@ -1,0 +1,61 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/detect-any-element — round 4",
+  "node": "C:\\dev\\ONI-Mods\\mods\\detect-any-element",
+  "base": {
+    "domains/entities.md": "sha256:6d4714a3db4128bd2a2ebd8484ea2579512579714b18331c853893622ee5e2d6",
+    "domains/glossary.md": "sha256:141f079cddb51afefec2a5d7db6354cdc2ba3cf8a9298c262ac55adb8589737e",
+    "standards/error-handling.md": "sha256:400c87f37ef2b77836dbe45faa0c0878084ad9ef45ae9e7b65f74bd11ea9c473",
+    "standards/code-style.md": "sha256:e5926aee17e42d2f088eed8c3ff19b2172d98217f28ee259a8e59d7f0167ccc3",
+    "standards/naming-conventions.md": "sha256:85e440671cf079e8c9fdb308cce359698e6857800820812cd1d0c7c917f0ce1e"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "side-screen",
+        "harmony-patching"
+      ],
+      "section": "key-entities/filtersidescreen-settarget-patch"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "saved-state",
+        "game-component",
+        "game-tag"
+      ],
+      "section": "cross-domain-terms/filterable"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "logging"
+      ],
+      "section": "guarding-patches/missing-data-warn-continue"
+    },
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "mod-entry-point",
+        "mod-strings",
+        "game-tag",
+        "harmony-patching"
+      ],
+      "section": "project-specific-rules/detect-any-element-specifics"
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "tag",
+      "add": [
+        "game-tag",
+        "in-game-testing"
+      ],
+      "section": "code-naming/ids-and-tags"
+    }
+  ]
+}

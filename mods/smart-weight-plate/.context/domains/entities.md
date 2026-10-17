@@ -1,4 +1,5 @@
 ---
+tags: weight-sensing, signal-threshold
 doc_id: doc-79fd71f85e3b
 description: The Smart Weight Plate building, its two-threshold latch component, side screen and Harmony patches in src/SmartWeightPlate, with weighing, signal and threshold rules, file locations, code paths, tests and saved state
 applies_to:
@@ -17,6 +18,7 @@ Smart Weight Plate adds one building, a weight plate with a low and a high thres
 
 ### Smart Weight Plate (building)
 **Id:** blk-ca89bb6d9d7b  
+**Tags:** building-config, building-unlock  
 **Description**: A 1x1 foundation tile cloned from the vanilla Weight Plate (`FloorSwitchConfig`). Costs 75 kg of Refined Metal, sits in Automation > Sensors after the vanilla plate, unlocked by the Advanced Automation tech (`LogicCircuits`). Has one logic output port, `SmartWeightPlateLogicPort`, at the building's own cell.  
 **Location**: `src/SmartWeightPlate/SmartWeightPlateConfig.cs` (prefab ID `SmartWeightPlate`); art in `src/SmartWeightPlate/anim/assets/smart_weight_plate/`.
 
@@ -31,6 +33,7 @@ Smart Weight Plate adds one building, a weight plate with a low and a high thres
 
 ### SmartWeightPlate (component)
 **Id:** blk-e3b0a80523d8  
+**Tags:** game-component, saved-state  
 **Description**: The building's behaviour. Measures the weight on the cell above, keeps the heavy/light latch, drives the output port, status item and animation. Implements `IActivationRangeTarget` (so the vanilla two-slider screen edits it) and `ISim200ms`.  
 **Location**: `src/SmartWeightPlate/SmartWeightPlate.cs`
 
@@ -48,11 +51,13 @@ Smart Weight Plate adds one building, a weight plate with a low and a high thres
 
 ### SmartWeightPlateSideScreen (UI)
 **Id:** blk-f4b4c46d8fd9  
+**Tags:** side-screen  
 **Description**: A small PLib panel above the vanilla slider panel: current weight (refreshed every 200 ms) and the Invert Signal checkbox.  
 **Location**: `src/SmartWeightPlate/SmartWeightPlateSideScreen.cs`. Sort order 1, the vanilla range screen is 0.
 
 ### Harmony patches
 **Id:** blk-b15deacafb4d  
+**Tags:** harmony-patching, building-unlock, side-screen, mod-compatibility  
 **Location**: `src/SmartWeightPlate/Patches.cs`, `src/SmartWeightPlate/Mod.cs`
 
 | Target | Kind | Purpose |
@@ -64,12 +69,14 @@ Smart Weight Plate adds one building, a weight plate with a low and a high thres
 | `BetterLogicOverlay.LogicSettingDisplay.ActivationRangeTargetSetting.GetSetting` | Postfix, applied in `OnAllModsLoaded` | Only when Better Automation Overlay is installed: labels the plate as `low - high kg` instead of percentages |
 
 ### Saved state
-**Id:** blk-960f86eec7c8
+**Id:** blk-960f86eec7c8  
+**Tags:** saved-state
 
 Everything marked "saved" above is serialized with the building (`[SerializationConfig(MemberSerialization.OptIn)]`). The mod has no options file and no world-level state.
 
 ## Business Rules
-**Id:** blk-24c523bf6253
+**Id:** blk-24c523bf6253  
+**Tags:** saved-state
 
 - The plate weighs the cell above it, three ways, as the vanilla `LogicMassSensor` does: a solid tile (`Grid.Solid` mass), pickupables (loose items, debris), and `FloorSwitchActivator` objects (Duplicants, critters). Gas and liquid never count.
 - A critter is counted as a pickupable only if it is not a Creature, or is a Creature that does not walk, hover or flop; walkers, hoverers and floppers count through their activator.
@@ -92,7 +99,8 @@ Everything marked "saved" above is serialized with the building (`[Serialization
 | Green / Red signal | Logic signal 1 / 0 on the output port, rendered with `FormatAsAutomationState` |
 
 ## Key Code Paths
-**Id:** blk-474d5d572fe9
+**Id:** blk-474d5d572fe9  
+**Tags:** kanim-art, in-game-testing, side-screen, mod-strings
 
 - **Weighing**: scene-partitioner callbacks `OnSolidChanged`, `OnPickupablesChanged`, `OnActivatorsChanged` update the three masses; each is also called once in `OnSpawn` because items already in the cell raise no event. See `src/SmartWeightPlate/SmartWeightPlate.cs`.
 - **Latch and signal**: `Sim200ms` -> `Refresh` re-evaluates the latch, sends the signal on `PortId` when it changed, sets the Power-category status item, then `UpdateVisualState`. See `src/SmartWeightPlate/SmartWeightPlate.cs`.

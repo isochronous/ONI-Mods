@@ -1,4 +1,5 @@
 ---
+tags: building-materials, game-tag
 description: "Overview of the Refined Building mod: how refined metals are made usable wherever a building asks for Metal Ore, its version, unlisted Workshop status and supported content, and a map of its source, tests and publish folders"
 ---
 
@@ -10,7 +11,8 @@ description: "Overview of the Refined Building mod: how refined metals are made 
 Refined Building is an Oxygen Not Included mod that lets every refined metal be used wherever a building asks for raw Metal Ore: wire, pneumatic doors and airlocks, mesh tiles, batteries, pumps, valves, vents, coal generators, the electrolyzer, sinks and showers. After the game loads its element table, every solid element tagged `RefinedMetal` that lacks the `Metal` tag gets it, so the refined metals appear in those buildings' material lists. It finds the metals at runtime, so it covers the base game, the enabled DLCs and refined metals added by other mods. Buildings that ask for Refined Metal are untouched. It does the same job as Cairath's Refined Metals Usable As Raw Metals, without a fixed list. Version 1.0.1 is built; `publish/retired.txt` records that the mod is unlisted on the Workshop (id 3806989781) because an existing mod already does this job. `mod.yaml` sets `supportedContent: ALL` and `minimumSupportedBuild: 744825`.
 
 ## Where things are
-**Id:** blk-eecf05761bd9
+**Id:** blk-eecf05761bd9  
+**Tags:** mod-entry-point, in-game-testing, harmony-patching
 
 - `src/RefinedBuilding/`: the mod. `Mod.cs` (entry point), `Patches.cs` (the postfix on `ElementLoader.Load` that tags the metals), `mod.yaml`, `mod_info.yaml`.
 - `src/RefinedBuilding.Tests/`: in-game tests (`RefinedMetals.cs`).

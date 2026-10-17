@@ -1,16 +1,19 @@
 ---
+tags: automation-ribbon
 description: What the Bitshifter mod does (31-bit selection on the Ribbon Reader and Writer, amber display, NOT gate), its version, and where its source, tests, art tool, README and publish folder sit
 ---
 
 # bitshifter
 
 ## What this is
-**Id:** blk-037b09df0318
+**Id:** blk-037b09df0318  
+**Tags:** bit-depth, not-gate, side-screen, mod-compatibility
 
 Bitshifter is an Oxygen Not Included mod that lets the Automation Ribbon Reader and Ribbon Writer select any of bits 1 to 31 instead of 1 to 4, so one ribbon can carry up to 31 independent signals. The bit selector side screen lists Bit 1 to Bit 31 in a scroll view, both buildings show the selected bit on an amber two-digit display with a light for that bit's state, and a NOT gate on a ribbon inverts all 31 bits. The mod steps aside and logs it when Digital CPU is enabled or another mod already patches the reader's or writer's bit depth. Version 1.2.0 in `mod_info.yaml`, minimum supported build 744825, published on the Steam Workshop. Players of ribbon-based automation builds use it.
 
 ## Where things are
-**Id:** blk-977e72b83a82
+**Id:** blk-977e72b83a82  
+**Tags:** mod-entry-point, kanim-art, in-game-testing
 
 Top-level folders and key files:
 

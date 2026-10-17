@@ -1,0 +1,18 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/no-magic-fridges — round 6",
+  "node": "C:\\dev\\ONI-Mods\\mods\\no-magic-fridges",
+  "base": {
+    "standards/error-handling.md": "sha256:7c8ec2a11e2aaf623a31fbd38a9961bf38bc293781da913ff454b79de91e5b3c"
+  },
+  "ops": [
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "reflection"
+      ],
+      "section": "anti-patterns-to-avoid/assuming-the-game-s-internals"
+    }
+  ]
+}

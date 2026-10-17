@@ -1,0 +1,82 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/natural-backwalls-everywhere — round 0",
+  "node": "C:\\dev\\ONI-Mods\\mods\\natural-backwalls-everywhere",
+  "base": {
+    "domains/README.md": "sha256:b7cbc98d2f8942ccc19cf9bb8c6393e005d0035ed233674e60782d0a6637ebd4",
+    "domains/entities.md": "sha256:c71f6a6d1ac9cae2c24b86940767cb92d3ef2186c673791d2b2fb1cadf51963f",
+    "domains/glossary.md": "sha256:b0cacfa599da8e0afd243aac7ef4be5e0bb897a62fe1e5eed911cf97457d9e50",
+    "overview.md": "sha256:b1818cd6b0617d35b5163e349fe268a02dd80ee84f8656fcc965e17dd6092ea5",
+    "standards/error-handling.md": "sha256:77bd4fd9736190ad9218612cba1569500b4323f9b0164e29941206a796c2b21d",
+    "standards/README.md": "sha256:a3d8abd01d6c83b8a27b810149c4597dd7db2ad2a48d135bc90228e8b1de4ee8",
+    "standards/code-style.md": "sha256:59fde431a41c120a6980c4a4b6c3d96d09d37c8ea7fbd09f9486589c0b4ae585",
+    "standards/naming-conventions.md": "sha256:3c86942c1b1ec45f7910359ef2e6f081b273d27c6a01f35c98be42eacff205aa"
+  },
+  "ops": [
+    {
+      "target": "domains/README.md",
+      "mode": "tag",
+      "add": [
+        "worldgen"
+      ]
+    },
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "worldgen"
+      ]
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "worldgen"
+      ]
+    },
+    {
+      "target": "overview.md",
+      "mode": "tag",
+      "add": [
+        "worldgen"
+      ]
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "exception-handling"
+      ]
+    },
+    {
+      "target": "standards/README.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching",
+        "exception-handling",
+        "logging",
+        "mod-strings"
+      ],
+      "section": "standards"
+    },
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "mod-strings"
+      ],
+      "section": "control-structures/strings"
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "tag",
+      "add": [
+        "mod-entry-point",
+        "mod-strings",
+        "mod-options",
+        "in-game-testing"
+      ],
+      "section": "files-and-directories/examples-by-type"
+    }
+  ]
+}

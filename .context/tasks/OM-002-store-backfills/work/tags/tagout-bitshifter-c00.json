@@ -1,0 +1,345 @@
+{
+ "documents": [
+  {
+   "id": "domains/README.md",
+   "tags": [
+    "automation-ribbon"
+   ]
+  },
+  {
+   "id": "domains/entities.md",
+   "tags": [
+    "automation-ribbon",
+    "harmony-patching"
+   ]
+  },
+  {
+   "id": "domains/glossary.md",
+   "tags": [
+    "automation-ribbon"
+   ]
+  },
+  {
+   "id": "overview.md",
+   "tags": [
+    "automation-ribbon"
+   ]
+  },
+  {
+   "id": "standards/README.md",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "coding standards for a mod"
+  },
+  {
+   "id": "standards/code-style.md",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "C# code style conventions"
+  }
+ ],
+ "sections": [
+  {
+   "id": "domains/README.md#domains",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/entities.md#overview",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/entities.md#key-entities",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/entities.md#key-entities/bitshiftermod",
+   "tags": [
+    "mod-entry-point",
+    "mod-compatibility"
+   ]
+  },
+  {
+   "id": "domains/entities.md#key-entities/reader-and-writer-bit-depth",
+   "tags": [
+    "bit-depth",
+    "saved-state"
+   ]
+  },
+  {
+   "id": "domains/entities.md#key-entities/display",
+   "tags": [
+    "kanim-art"
+   ]
+  },
+  {
+   "id": "domains/entities.md#key-entities/logicbitselectorsidescreen-scroll-view",
+   "tags": [
+    "side-screen"
+   ]
+  },
+  {
+   "id": "domains/entities.md#key-entities/not-gate-mask",
+   "tags": [
+    "not-gate",
+    "transpiler",
+    "vanilla-fallback"
+   ]
+  },
+  {
+   "id": "domains/entities.md#key-entities/overlaylabelguard",
+   "tags": [
+    "mod-compatibility"
+   ]
+  },
+  {
+   "id": "domains/entities.md#business-rules",
+   "tags": [
+    "bit-depth",
+    "not-gate",
+    "mod-compatibility"
+   ]
+  },
+  {
+   "id": "domains/entities.md#key-code-paths",
+   "tags": [
+    "mod-entry-point",
+    "side-screen",
+    "kanim-art",
+    "in-game-testing"
+   ]
+  },
+  {
+   "id": "domains/entities.md#related",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/glossary.md#abbreviations-and-acronyms",
+   "tags": [
+    "kanim-art",
+    "mod-compatibility"
+   ]
+  },
+  {
+   "id": "domains/glossary.md#terms-to-avoid",
+   "tags": [
+    "bit-depth",
+    "saved-state"
+   ]
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/ribbon",
+   "tags": [
+    "bit-depth"
+   ]
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/automation-ribbon-reader",
+   "tags": [
+    "bit-depth"
+   ]
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/ribbon-writer",
+   "tags": [
+    "bit-depth"
+   ]
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/bit-depth",
+   "tags": [
+    "bit-depth"
+   ]
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/bit-selector-side-screen",
+   "tags": [
+    "side-screen",
+    "bit-depth"
+   ]
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/selected-bit",
+   "tags": [
+    "saved-state",
+    "bit-depth"
+   ]
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/port-lights",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "building port lights and their tint"
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/stand-down",
+   "tags": [
+    "mod-compatibility",
+    "vanilla-fallback",
+    "logging"
+   ]
+  },
+  {
+   "id": "domains/glossary.md#related",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "overview.md#what-this-is",
+   "tags": [
+    "bit-depth",
+    "not-gate",
+    "side-screen",
+    "mod-compatibility"
+   ]
+  },
+  {
+   "id": "overview.md#where-things-are",
+   "tags": [
+    "mod-entry-point",
+    "kanim-art",
+    "in-game-testing"
+   ]
+  },
+  {
+   "id": "standards/README.md#standards",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/code-style.md#formatting",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/code-style.md#formatting/indentation",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "C# formatting and layout conventions"
+  },
+  {
+   "id": "standards/code-style.md#formatting/line-length",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "C# formatting and layout conventions"
+  },
+  {
+   "id": "standards/code-style.md#formatting/braces",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "C# formatting and layout conventions"
+  },
+  {
+   "id": "standards/code-style.md#language-and-toolchain",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "C# language version, toolchain and project references"
+  },
+  {
+   "id": "standards/code-style.md#imports-includes",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/code-style.md#imports-includes/organization",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "using directive ordering"
+  },
+  {
+   "id": "standards/code-style.md#imports-includes/example",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "using directive ordering"
+  },
+  {
+   "id": "standards/code-style.md#comments",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/code-style.md#comments/when-to-comment",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "code comment conventions"
+  },
+  {
+   "id": "standards/code-style.md#comments/when-not-to-comment",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "code comment conventions"
+  },
+  {
+   "id": "standards/code-style.md#comments/format",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "code comment conventions"
+  },
+  {
+   "id": "standards/code-style.md#control-structures",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/code-style.md#control-structures/conditionals",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "control-flow conventions"
+  },
+  {
+   "id": "standards/code-style.md#control-structures/loops",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "control-flow conventions"
+  },
+  {
+   "id": "standards/code-style.md#control-structures/strings",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "string building and LocString use"
+  },
+  {
+   "id": "standards/code-style.md#harmony-patches",
+   "tags": [
+    "harmony-patching",
+    "transpiler",
+    "mod-entry-point"
+   ]
+  },
+  {
+   "id": "standards/code-style.md#game-components",
+   "tags": [
+    "saved-state"
+   ]
+  },
+  {
+   "id": "standards/code-style.md#project-specific-rules",
+   "tags": [
+    "logging",
+    "in-game-testing"
+   ]
+  },
+  {
+   "id": "standards/code-style.md#project-specific-rules/bitshifter-specifics",
+   "tags": [
+    "mod-entry-point",
+    "harmony-patching",
+    "side-screen",
+    "kanim-art"
+   ]
+  },
+  {
+   "id": "standards/code-style.md#related",
+   "tags": [],
+   "reason": "inherits"
+  }
+ ]
+}

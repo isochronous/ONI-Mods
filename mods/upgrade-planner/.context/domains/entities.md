@@ -1,4 +1,5 @@
 ---
+tags: toolbar-tool, building-replacement, building-materials, plan-presets, mod-compatibility
 doc_id: doc-5e37d1980952
 description: The planner tool, plan classes, replacement rules, order queue, presets, dialog, Blueprints Expanded compatibility, hotkey and patches of Upgrade Planner, with business rules, saved state and the source file each lives in
 applies_to:
@@ -17,6 +18,7 @@ Upgrade Planner adds a toolbar tool that rebuilds the buildings in a box-dragged
 
 ### UpgradeTool
 **Id:** blk-7671dcf41450  
+**Tags:** reflection  
 **Description**: The box-drag tool, a subclass of the game's `DragTool`. Cursor and area-visualizer assets are cloned from the vanilla Sweep (`ClearTool`) tool by reflection. Owns the dialog, the compiled plan, the highlight (blue for buildings the plan would touch, green for ones already pending), the overlay switch and the hover card. A drag works from the plan as it stood at the last Apply.  
 **Location**: `src/UpgradePlanner/Tool/UpgradeTool.cs`
 
@@ -52,6 +54,7 @@ Upgrade Planner adds a toolbar tool that rebuilds the buildings in a box-dragged
 
 ### Orders and PlacementQueue
 **Id:** blk-89e4c8708ab0  
+**Tags:** performance  
 **Description**: `Orders.Place` queues one upgrade: `Replace` follows the build tool's sequence (`GetReplacementCandidate`, `IsReplacementLayerOccupied` over the footprint, `CanReplace`, same-type-same-material skip, `TryReplaceTile`, write into the replacement layer, priority from the tool menu); `Reconstruct` goes through `Reconstructable.RequestReconstruct` with every ingredient set. `PlacementQueue` places the drag's buildings in slices of about 4 ms a frame, re-checks each as placed, and shows the popup when the last is done. With instant build (debug toggle or sandbox setting) buildings are replaced on the spot.  
 **Location**: `src/UpgradePlanner/Tool/Orders.cs`, `src/UpgradePlanner/Tool/PlacementQueue.cs`
 
@@ -67,16 +70,19 @@ Upgrade Planner adds a toolbar tool that rebuilds the buildings in a box-dragged
 
 ### Compat
 **Id:** blk-24d2573ff9eb  
+**Tags:** harmony-patching, reflection  
 **Description**: `BlueprintsCompat` binds to Blueprints Expanded's `API_Methods.GetAllAdditionalBuildingData` and its `UnderConstructionDataTransfer` carrier, and sets `Loaded`. `OtherModSettings` registers Suppress Notifications' and No Manual Delivery's per-building settings with Blueprints Expanded's API. `ModCompat` patches Adaptive Building Menu's two layout appliers to skip the planner's pickers.  
 **Location**: `src/UpgradePlanner/Compat/`
 
 ### Hotkey
 **Id:** blk-32317980a9a4  
+**Tags:** hotkey  
 **Description**: PLib `PAction` `Isochronous.UpgradePlanner.Tool`, default Shift+U, in `UpgradePlannerMod.ToolAction`.  
 **Location**: `src/UpgradePlanner/Mod.cs`
 
 ### Harmony patches
 **Id:** blk-2fd79bc0f22b  
+**Tags:** harmony-patching  
 **Location**: `src/UpgradePlanner/Patches.cs`, `src/UpgradePlanner/Compat/ModCompat.cs`
 
 | Target | Kind | Purpose |
@@ -95,7 +101,8 @@ Upgrade Planner adds a toolbar tool that rebuilds the buildings in a box-dragged
 Presets in `presets.json`. The plan itself lives for the session only. Settings of rebuilt buildings are carried by Blueprints Expanded, not by this mod.
 
 ## Business Rules
-**Id:** blk-5ec4d3dd1f4e
+**Id:** blk-5ec4d3dd1f4e  
+**Tags:** vanilla-fallback
 
 - The mod never changes what can replace what: a pair the game refuses in the build tool is refused here. A target qualifies when it names a replacement layer, the source carries one of its replacement tags, and the source's tile or object layer is one the target searches (`ReplacementRules.CanReplace`); utility buildings (wires, pipes, rails) of one tile layer replace each other.
 - The Change material tab lists a type when the game lets it be built over by itself. With All buildings on and Blueprints Expanded loaded, any reconstructable type is also offered; those are deconstructed and rebuilt, out of service until done.
@@ -123,7 +130,8 @@ Presets in `presets.json`. The plan itself lives for the session only. Settings 
 | Preset | A named, saved plan for one tab |
 
 ## Key Code Paths
-**Id:** blk-ff3c8a3f00bf
+**Id:** blk-ff3c8a3f00bf  
+**Tags:** hotkey, mod-entry-point, in-game-testing
 
 - **Select and configure**: toolbar button or Shift+U -> `UpgradeTool.OnActivateTool` -> window opens; choices change `UpgradePlan` -> `Version++` -> highlight recompiles. See `src/UpgradePlanner/Tool/UpgradeTool.cs`, `src/UpgradePlanner/UI/UpgradeDialog.cs`.
 - **Apply and drag**: Apply snapshots the plan; button-up settles each building's `Upgrade` through the `Matcher`, then `PlacementQueue.Add` -> `Orders.Place`. See `src/UpgradePlanner/Tool/PlacementQueue.cs`, `src/UpgradePlanner/Tool/Orders.cs`.

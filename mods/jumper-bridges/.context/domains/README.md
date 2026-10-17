@@ -1,4 +1,5 @@
 ---
+tags: bridge-end
 doc_id: doc-0dbbd6348d44
 description: Index of the two domain documents of Jumper Bridges, the entities and the glossary, each with a one-line summary of the bridge end subject it covers
 ---

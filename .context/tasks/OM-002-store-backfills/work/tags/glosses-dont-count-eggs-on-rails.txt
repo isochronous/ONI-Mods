@@ -1,0 +1,9 @@
+term              count  gloss
+conveyor-rail         0  A record earns this term when it is about the conveyor rail and the items it carries through the world.
+critter-sensor        0  A record earns this term when it is about the game's critter sensor and how it counts the critters and eggs in a room.
+game-tag              0  A record earns this term when it is about a game Tag that a mod creates, adds to things or reads to recognise them.
+harmony-patching      0  A record earns this term when it is about writing or applying the Harmony patches through which a mod changes game methods.
+in-game-testing       0  A record earns this term when it is about testing a mod inside the running game with TestRunner and its [OniTest] coroutines.
+logging               0  A record earns this term when it is about what a mod writes to the game log and at which level.
+mod-entry-point       0  A record earns this term when it is about a mod's UserMod2 class and what it does when the game loads the mod.
+vanilla-fallback      0  A record earns this term when it is about how a mod keeps the game's own behaviour when something it depends on is missing or has changed.

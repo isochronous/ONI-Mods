@@ -1,0 +1,62 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/smart-weight-plate — round 4",
+  "node": "C:\\dev\\ONI-Mods\\mods\\smart-weight-plate",
+  "base": {
+    "domains/entities.md": "sha256:ed130d65867a75e377074b18bd8965376d73cb078e128d7b3365ce80c263de3b",
+    "domains/glossary.md": "sha256:8d00f77913df1fea188130eb33d2acab8bdc8dc64705c0925fb309c0a6acf708",
+    "standards/code-style.md": "sha256:864a6e0d23a6c15ccc5fd5921ecf9001ee9d76116ce15dc3f2b189800dc001d5",
+    "standards/error-handling.md": "sha256:00e18c63071dd112316c7d098938ca8b941ab7f72a04d933cea3108fdb9c93b4",
+    "standards/naming-conventions.md": "sha256:d166790342b5ff6a074a162f3659872929bd082459cdbcef349a58b108aa25f9"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching",
+        "building-unlock",
+        "side-screen",
+        "mod-compatibility"
+      ],
+      "section": "key-entities/harmony-patches"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "game-component"
+      ],
+      "section": "cross-domain-terms/pickupable"
+    },
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "in-game-testing",
+        "logging",
+        "mod-strings"
+      ],
+      "section": "project-specific-rules"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "building-unlock",
+        "logging"
+      ],
+      "section": "guarding-patches/missing-data-warn-continue"
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "tag",
+      "add": [
+        "building-config",
+        "mod-entry-point",
+        "in-game-testing"
+      ],
+      "section": "code-naming/ids-and-tags"
+    }
+  ]
+}

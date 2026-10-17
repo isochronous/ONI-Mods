@@ -1,0 +1,387 @@
+{
+ "documents": [
+  {
+   "id": "domains/README.md",
+   "title": "Domains",
+   "description": "Index of the two domain documents of Motion Sensor Range, the entities and the glossary, each with a one-line summary of the sensor range subject it covers",
+   "document_tags": [],
+   "text": "---\ndoc_id: doc-5c8eee6d9d3f\ndescription: Index of the two domain documents of Motion Sensor Range, the entities and the glossary, each with a one-line summary of the sensor range subject it covers\n---\n\n# Domains\n\n## Domains\n**Id:** blk-f6c83643ad1c\n\n- [entities](entities.md): what the mod adds to the vanilla Duplicant Motion Sensor (the `RangeSlider` component), with file locations, the range rules and key code paths.\n- [glossary](glossary.md): ONI and mod-specific terms used by Motion Sensor Range.\n",
+   "sections": [
+    {
+     "id": "domains/README.md#domains",
+     "title": "Domains",
+     "text": "## Domains\n**Id:** blk-f6c83643ad1c\n\n- [entities](entities.md): what the mod adds to the vanilla Duplicant Motion Sensor (the `RangeSlider` component), with file locations, the range rules and key code paths.\n- [glossary](glossary.md): ONI and mod-specific terms used by Motion Sensor Range.\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "domains/entities.md",
+   "title": "Motion Sensor Range domain",
+   "description": "The `RangeSlider` component, Harmony patches, strings and saved range of Motion Sensor Range, with the 2 to 16 tile range rules, key code paths and tests for range, detection and persistence",
+   "document_tags": [],
+   "text": "---\ndoc_id: doc-160512696e47\ndescription: \"The `RangeSlider` component, Harmony patches, strings and saved range of Motion Sensor Range, with the 2 to 16 tile range rules, key code paths and tests for range, detection and persistence\"\napplies_to:\n  - \"src/MotionSensorRange/**\"\n---\n\n# Motion Sensor Range domain\n\n## Overview\n**Id:** blk-59db01f0a30a\n\nMotion Sensor Range makes the detection range of the vanilla Duplicant Motion Sensor (`LogicDuplicantSensorConfig`) adjustable from a slider in the building's side screen. It adds no building of its own: it bolts one component onto the vanilla prefab and rewrites the sensor's detection area at runtime. The range runs from 2 to 16 tiles in steps of 2, with 4 as the vanilla default.\n\n## Key Entities\n**Id:** blk-6d0612f31e83\n\n### RangeSlider\n**Id:** blk-1d5bba6bb234  \n**Description**: The component that holds the chosen range, exposes it to the game's int-slider side screen, and applies it to the sensor.  \n**Location**: `src/MotionSensorRange/RangeSlider.cs`\n\n| Property | Type | Description |\n|----------|------|-------------|\n| range | int (`[Serialize]`) | The chosen range in tiles; saved with the building (opt-in `KSerialization`) |\n| MinRange / MaxRange / DefaultRange | const int | 2, 16 and 4 |\n| copyBuildingSettings | `CopyBuildingSettings` (`[MyCmpAdd]`) | Puts the motion sensor into the vanilla copy-settings tool, which the vanilla building lacks |\n| sensor | `LogicDuplicantSensor` (`[MyCmpGet]`) | The vanilla sensor whose `pickupRange` and scene-partitioner entry the component rewrites |\n| visualizer | `RangeVisualizer` (`[MyCmpGet]`) | The range overlay, resized to the new area |\n| rotatable | `Rotatable` (`[MyCmpGet]`) | Rotates the detection offset for a sensor facing sideways |\n\n**Relationships**: Implements `IIntSliderControl` (the game's current slider interface). Sits beside `LogicDuplicantSensor` on the same game object. Reads and writes the sensor's private `pickupableExtents`, `pickupablesChangedEntry`, `pickupablesDirty`, `OnPickupablesChanged` and `RefreshReachableCells` through cached Harmony `AccessTools` reflection.\n\n### Harmony patches\n**Id:** blk-c493a6cf7733  \n**Location**: `src/MotionSensorRange/Patches.cs`\n\n| Patch target | Kind | Purpose |\n|--------------|------|---------|\n| `LogicDuplicantSensorConfig.DoPostConfigureComplete` | Postfix | `AddOrGet<RangeSlider>()` on the finished building prefab |\n| `GeneratedBuildings.LoadGeneratedBuildings` | Postfix | Adds `RangeSlider` to the sensor's under-construction prefab, so the range can be preset before the building is finished |\n| `Constructable.FinishConstruction` | Postfix | Copies the range from the construction site's `RangeSlider` to the finished building found in the same cell on the building's object layer |\n\n### Mod entry and strings\n**Id:** blk-4592ab5d1abc  \n**Location**: `src/MotionSensorRange/Mod.cs`, `src/MotionSensorRange/ModStrings.cs`, `src/MotionSensorRange/translations/`\n`MotionSensorRangeMod` (a `UserMod2`) registers `ModStrings` through `Isochronous.Translations` (see `common/`). The three strings (title, tooltip, slider tooltip) live under `STRINGS.UI.UISIDESCREENS.MOTION_SENSOR_RANGE_SIDE_SCREEN`; Chinese, Korean and Russian come from `translations/<locale>.po`.\n\n### Saved state and settings\n**Id:** blk-ef8a1b1dc448\n\nThere is one saved value, `RangeSlider.range`, stored with each motion sensor. The mod has no options screen and no config file. Mod id: `Isochronous.MotionSensorRange` (`src/MotionSensorRange/mod.yaml`).\n\n## Business Rules\n**Id:** blk-129735a5fffc\n\n- The range is 2 to 16 tiles; any value the slider sends is rounded to the nearest even number and clamped (`SetSliderValue`). The scan area spans range/2 tiles to each side and is only symmetric for even ranges.\n- The default is 4, the vanilla range, so an untouched sensor behaves exactly as in the base game.\n- A new range takes effect at once: the sensor's `pickupRange`, its scene-partitioner registration, its reachable-cell refresh and the range overlay all follow it.\n- The range is saved with the building and re-applied on spawn and after deserialization, because `LogicDuplicantSensor.OnSpawn` registers with the default range first.\n- Copy settings between motion sensors copies the range. A range set on the building under construction carries over when construction completes.\n- If a game update renames the sensor's private members, the mod logs one warning and the range setting has no effect; it does not throw.\n\n## Key Code Paths\n**Id:** blk-63f43343ddcb\n\n- **Slider change**: side screen calls `SetSliderValue`, which snaps and clamps, then `ApplyRange` — see `src/MotionSensorRange/RangeSlider.cs`\n- **Applying a range**: `ApplyRange` mirrors the extents math of `LogicDuplicantSensor.OnSpawn`, frees and re-adds the `pickupablesChangedLayer` partitioner entry, marks pickupables dirty, refreshes reachable cells and resizes the visualizer — see `src/MotionSensorRange/RangeSlider.cs`\n- **Construction carry-over**: `Constructable.FinishConstruction` postfix calls `CopyRangeFrom` — see `src/MotionSensorRange/Patches.cs`\n- **Copy settings**: `GameHashes.CopySettings` event handled by `OnCopySettings` — see `src/MotionSensorRange/RangeSlider.cs`\n- **Tests**: in-game `[OniTest]` cases in `src/MotionSensorRange.Tests/` (`Range.cs` for defaults, snapping, detection area, rotation and copy settings; `Detection.cs` for a Duplicant at distance and the side screen; `Persistence.cs` for save/load and construction carry-over)\n\n## Related\n**Id:** blk-eebe4207ea1d\n\n- See also: [glossary](glossary.md)\n",
+   "sections": [
+    {
+     "id": "domains/entities.md#overview",
+     "title": "Overview",
+     "text": "## Overview\n**Id:** blk-59db01f0a30a\n\nMotion Sensor Range makes the detection range of the vanilla Duplicant Motion Sensor (`LogicDuplicantSensorConfig`) adjustable from a slider in the building's side screen. It adds no building of its own: it bolts one component onto the vanilla prefab and rewrites the sensor's detection area at runtime. The range runs from 2 to 16 tiles in steps of 2, with 4 as the vanilla default.\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/entities.md#key-entities",
+     "title": "Key Entities",
+     "text": "## Key Entities\n**Id:** blk-6d0612f31e83\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/entities.md#key-entities/rangeslider",
+     "title": "RangeSlider",
+     "text": "### RangeSlider\n**Id:** blk-1d5bba6bb234  \n**Description**: The component that holds the chosen range, exposes it to the game's int-slider side screen, and applies it to the sensor.  \n**Location**: `src/MotionSensorRange/RangeSlider.cs`\n\n| Property | Type | Description |\n|----------|------|-------------|\n| range | int (`[Serialize]`) | The chosen range in tiles; saved with the building (opt-in `KSerialization`) |\n| MinRange / MaxRange / DefaultRange | const int | 2, 16 and 4 |\n| copyBuildingSettings | `CopyBuildingSettings` (`[MyCmpAdd]`) | Puts the motion sensor into the vanilla copy-settings tool, which the vanilla building lacks |\n| sensor | `LogicDuplicantSensor` (`[MyCmpGet]`) | The vanilla sensor whose `pickupRange` and scene-partitioner entry the component rewrites |\n| visualizer | `RangeVisualizer` (`[MyCmpGet]`) | The range overlay, resized to the new area |\n| rotatable | `Rotatable` (`[MyCmpGet]`) | Rotates the detection offset for a sensor facing sideways |\n\n**Relationships**: Implements `IIntSliderControl` (the game's current slider interface). Sits beside `LogicDuplicantSensor` on the same game object. Reads and writes the sensor's private `pickupableExtents`, `pickupablesChangedEntry`, `pickupablesDirty`, `OnPickupablesChanged` and `RefreshReachableCells` through cached Harmony `AccessTools` reflection.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/entities.md#key-entities/harmony-patches",
+     "title": "Harmony patches",
+     "text": "### Harmony patches\n**Id:** blk-c493a6cf7733  \n**Location**: `src/MotionSensorRange/Patches.cs`\n\n| Patch target | Kind | Purpose |\n|--------------|------|---------|\n| `LogicDuplicantSensorConfig.DoPostConfigureComplete` | Postfix | `AddOrGet<RangeSlider>()` on the finished building prefab |\n| `GeneratedBuildings.LoadGeneratedBuildings` | Postfix | Adds `RangeSlider` to the sensor's under-construction prefab, so the range can be preset before the building is finished |\n| `Constructable.FinishConstruction` | Postfix | Copies the range from the construction site's `RangeSlider` to the finished building found in the same cell on the building's object layer |\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/entities.md#key-entities/mod-entry-and-strings",
+     "title": "Mod entry and strings",
+     "text": "### Mod entry and strings\n**Id:** blk-4592ab5d1abc  \n**Location**: `src/MotionSensorRange/Mod.cs`, `src/MotionSensorRange/ModStrings.cs`, `src/MotionSensorRange/translations/`\n`MotionSensorRangeMod` (a `UserMod2`) registers `ModStrings` through `Isochronous.Translations` (see `common/`). The three strings (title, tooltip, slider tooltip) live under `STRINGS.UI.UISIDESCREENS.MOTION_SENSOR_RANGE_SIDE_SCREEN`; Chinese, Korean and Russian come from `translations/<locale>.po`.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/entities.md#key-entities/saved-state-and-settings",
+     "title": "Saved state and settings",
+     "text": "### Saved state and settings\n**Id:** blk-ef8a1b1dc448\n\nThere is one saved value, `RangeSlider.range`, stored with each motion sensor. The mod has no options screen and no config file. Mod id: `Isochronous.MotionSensorRange` (`src/MotionSensorRange/mod.yaml`).\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/entities.md#business-rules",
+     "title": "Business Rules",
+     "text": "## Business Rules\n**Id:** blk-129735a5fffc\n\n- The range is 2 to 16 tiles; any value the slider sends is rounded to the nearest even number and clamped (`SetSliderValue`). The scan area spans range/2 tiles to each side and is only symmetric for even ranges.\n- The default is 4, the vanilla range, so an untouched sensor behaves exactly as in the base game.\n- A new range takes effect at once: the sensor's `pickupRange`, its scene-partitioner registration, its reachable-cell refresh and the range overlay all follow it.\n- The range is saved with the building and re-applied on spawn and after deserialization, because `LogicDuplicantSensor.OnSpawn` registers with the default range first.\n- Copy settings between motion sensors copies the range. A range set on the building under construction carries over when construction completes.\n- If a game update renames the sensor's private members, the mod logs one warning and the range setting has no effect; it does not throw.\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/entities.md#key-code-paths",
+     "title": "Key Code Paths",
+     "text": "## Key Code Paths\n**Id:** blk-63f43343ddcb\n\n- **Slider change**: side screen calls `SetSliderValue`, which snaps and clamps, then `ApplyRange` — see `src/MotionSensorRange/RangeSlider.cs`\n- **Applying a range**: `ApplyRange` mirrors the extents math of `LogicDuplicantSensor.OnSpawn`, frees and re-adds the `pickupablesChangedLayer` partitioner entry, marks pickupables dirty, refreshes reachable cells and resizes the visualizer — see `src/MotionSensorRange/RangeSlider.cs`\n- **Construction carry-over**: `Constructable.FinishConstruction` postfix calls `CopyRangeFrom` — see `src/MotionSensorRange/Patches.cs`\n- **Copy settings**: `GameHashes.CopySettings` event handled by `OnCopySettings` — see `src/MotionSensorRange/RangeSlider.cs`\n- **Tests**: in-game `[OniTest]` cases in `src/MotionSensorRange.Tests/` (`Range.cs` for defaults, snapping, detection area, rotation and copy settings; `Detection.cs` for a Duplicant at distance and the side screen; `Persistence.cs` for save/load and construction carry-over)\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/entities.md#related",
+     "title": "Related",
+     "text": "## Related\n**Id:** blk-eebe4207ea1d\n\n- See also: [glossary](glossary.md)\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "domains/glossary.md",
+   "title": "Motion Sensor Range glossary",
+   "description": "Glossary for Motion Sensor Range: abbreviations, terms to avoid, and definitions of the Duplicant Motion Sensor, pickupRange, scene partitioner, extents, RangeVisualizer, IIntSliderControl and copy settings",
+   "document_tags": [],
+   "text": "---\nwitness_digest: \"sha256:435a2c77cb357228132a18543ba88fd6ddc7de0e9386ad9c3366962153ac94c4\"\nwitness: loose\napplies_to:\n  - \"src/MotionSensorRange/**\"\ndoc_id: doc-78ff1518516c\ndescription: \"Glossary for Motion Sensor Range: abbreviations, terms to avoid, and definitions of the Duplicant Motion Sensor, pickupRange, scene partitioner, extents, RangeVisualizer, IIntSliderControl and copy settings\"\n---\n\n# Motion Sensor Range glossary\n\nTerms for the Motion Sensor Range mod. For the code behind them, see [entities](entities.md).\n\n## Abbreviations and Acronyms\n**Id:** blk-48c7b28388ed\n\n| Abbreviation | Full Term | Context |\n|--------------|-----------|---------|\n| ONI | Oxygen Not Included | The game this mod targets |\n| MSR | Motion Sensor Range | Prefix of the in-game test names in `src/MotionSensorRange.Tests/` |\n| U59 | Game update 59 | The build the private sensor member names were verified against (744825), noted in `RangeSlider.cs` |\n\n## Terms to Avoid\n**Id:** blk-07a7f0531608\n\n| Avoid | Use Instead | Reason |\n|-------|-------------|--------|\n| Radius | Range | The setting and its strings say \"range\"; the area is a box that spans range/2 tiles to each side, not a circle |\n| Odd range | Even range | Odd values are never stored; the slider snaps to even tiles |\n\n## Cross-Domain Terms\n**Id:** blk-251c889f4fbe\n\n### Duplicant Motion Sensor\n**Id:** blk-f46163b8d190  \n**Definition**: The vanilla automation sensor (`LogicDuplicantSensorConfig`, component `LogicDuplicantSensor`) that sends a green signal while a Duplicant is within its detection area.  \n**Used in**: `Patches.cs`, `RangeSlider.cs`\n\n### pickupRange\n**Id:** blk-24c040f93193  \n**Definition**: The `LogicDuplicantSensor` field holding the sensor's range in tiles; vanilla value 4. The mod sets it from the slider.  \n**Used in**: `RangeSlider.ApplyRange`\n\n### Scene partitioner\n**Id:** blk-72a80114ee4c  \n**Definition**: The game's spatial index (`GameScenePartitioner`). The sensor registers a rectangular `Extents` on the `pickupablesChangedLayer` so it hears when Duplicants move in its area; the mod frees and re-registers that entry when the range changes.  \n**Used in**: `RangeSlider.ApplyRange`\n\n### Extents\n**Id:** blk-c94337e951ad  \n**Definition**: The game's rectangle of grid cells, built here from a centre cell and range/2.  \n**Used in**: `RangeSlider.ApplyRange`\n\n### RangeVisualizer\n**Id:** blk-ebf6560d4c1c  \n**Definition**: The vanilla component that draws the building's range outline on the map; the mod sets its `RangeMin` and `RangeMax` to match the range.  \n**Used in**: `RangeSlider.ApplyRange`\n\n### IIntSliderControl\n**Id:** blk-444be195218b  \n**Definition**: The game's current interface for a building that wants an integer slider in its side screen. An older slider interface (`ISliderControl`) changed shape and broke the earlier mod this one replaces.  \n**Used in**: `RangeSlider`\n\n### Copy settings\n**Id:** blk-129a4f1ab384  \n**Definition**: The vanilla tool (mirror button, drag tool) that copies a building's settings to others of its kind, via the `CopySettings` game event and a `CopyBuildingSettings` component.  \n**Used in**: `RangeSlider.OnCopySettings`\n\n### Under-construction building\n**Id:** blk-7f02101a4db9  \n**Definition**: The placeholder object (`BuildingUnderConstruction`) a building is while Duplicants build it; `Constructable.FinishConstruction` replaces it with the finished building.  \n**Used in**: `Patches.cs`\n\n### KSerialization\n**Id:** blk-7a1f7be29747  \n**Definition**: The game's save serializer; `[Serialize]` fields on a `[SerializationConfig(MemberSerialization.OptIn)]` component are saved with the building.  \n**Used in**: `RangeSlider.range`\n\n## Related\n**Id:** blk-631e5fafb8e2\n\n- See also: [entities](entities.md)\n",
+   "sections": [
+    {
+     "id": "domains/glossary.md#abbreviations-and-acronyms",
+     "title": "Abbreviations and Acronyms",
+     "text": "## Abbreviations and Acronyms\n**Id:** blk-48c7b28388ed\n\n| Abbreviation | Full Term | Context |\n|--------------|-----------|---------|\n| ONI | Oxygen Not Included | The game this mod targets |\n| MSR | Motion Sensor Range | Prefix of the in-game test names in `src/MotionSensorRange.Tests/` |\n| U59 | Game update 59 | The build the private sensor member names were verified against (744825), noted in `RangeSlider.cs` |\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#terms-to-avoid",
+     "title": "Terms to Avoid",
+     "text": "## Terms to Avoid\n**Id:** blk-07a7f0531608\n\n| Avoid | Use Instead | Reason |\n|-------|-------------|--------|\n| Radius | Range | The setting and its strings say \"range\"; the area is a box that spans range/2 tiles to each side, not a circle |\n| Odd range | Even range | Odd values are never stored; the slider snaps to even tiles |\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms",
+     "title": "Cross-Domain Terms",
+     "text": "## Cross-Domain Terms\n**Id:** blk-251c889f4fbe\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/duplicant-motion-sensor",
+     "title": "Duplicant Motion Sensor",
+     "text": "### Duplicant Motion Sensor\n**Id:** blk-f46163b8d190  \n**Definition**: The vanilla automation sensor (`LogicDuplicantSensorConfig`, component `LogicDuplicantSensor`) that sends a green signal while a Duplicant is within its detection area.  \n**Used in**: `Patches.cs`, `RangeSlider.cs`\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/pickuprange",
+     "title": "pickupRange",
+     "text": "### pickupRange\n**Id:** blk-24c040f93193  \n**Definition**: The `LogicDuplicantSensor` field holding the sensor's range in tiles; vanilla value 4. The mod sets it from the slider.  \n**Used in**: `RangeSlider.ApplyRange`\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/scene-partitioner",
+     "title": "Scene partitioner",
+     "text": "### Scene partitioner\n**Id:** blk-72a80114ee4c  \n**Definition**: The game's spatial index (`GameScenePartitioner`). The sensor registers a rectangular `Extents` on the `pickupablesChangedLayer` so it hears when Duplicants move in its area; the mod frees and re-registers that entry when the range changes.  \n**Used in**: `RangeSlider.ApplyRange`\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/extents",
+     "title": "Extents",
+     "text": "### Extents\n**Id:** blk-c94337e951ad  \n**Definition**: The game's rectangle of grid cells, built here from a centre cell and range/2.  \n**Used in**: `RangeSlider.ApplyRange`\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/rangevisualizer",
+     "title": "RangeVisualizer",
+     "text": "### RangeVisualizer\n**Id:** blk-ebf6560d4c1c  \n**Definition**: The vanilla component that draws the building's range outline on the map; the mod sets its `RangeMin` and `RangeMax` to match the range.  \n**Used in**: `RangeSlider.ApplyRange`\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/iintslidercontrol",
+     "title": "IIntSliderControl",
+     "text": "### IIntSliderControl\n**Id:** blk-444be195218b  \n**Definition**: The game's current interface for a building that wants an integer slider in its side screen. An older slider interface (`ISliderControl`) changed shape and broke the earlier mod this one replaces.  \n**Used in**: `RangeSlider`\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/copy-settings",
+     "title": "Copy settings",
+     "text": "### Copy settings\n**Id:** blk-129a4f1ab384  \n**Definition**: The vanilla tool (mirror button, drag tool) that copies a building's settings to others of its kind, via the `CopySettings` game event and a `CopyBuildingSettings` component.  \n**Used in**: `RangeSlider.OnCopySettings`\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/under-construction-building",
+     "title": "Under-construction building",
+     "text": "### Under-construction building\n**Id:** blk-7f02101a4db9  \n**Definition**: The placeholder object (`BuildingUnderConstruction`) a building is while Duplicants build it; `Constructable.FinishConstruction` replaces it with the finished building.  \n**Used in**: `Patches.cs`\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/kserialization",
+     "title": "KSerialization",
+     "text": "### KSerialization\n**Id:** blk-7a1f7be29747  \n**Definition**: The game's save serializer; `[Serialize]` fields on a `[SerializationConfig(MemberSerialization.OptIn)]` component are saved with the building.  \n**Used in**: `RangeSlider.range`\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#related",
+     "title": "Related",
+     "text": "## Related\n**Id:** blk-631e5fafb8e2\n\n- See also: [entities](entities.md)\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "overview.md",
+   "title": "motion-sensor-range",
+   "description": "Overview of the Motion Sensor Range mod: the range slider it adds to the Duplicant Motion Sensor, and a map of its source, tests, preview art, publish, README and `.context` folders",
+   "document_tags": [],
+   "text": "---\ndescription: \"Overview of the Motion Sensor Range mod: the range slider it adds to the Duplicant Motion Sensor, and a map of its source, tests, preview art, publish, README and `.context` folders\"\n---\n\n# motion-sensor-range\n\n## What this is\n**Id:** blk-38f9329ac7bb\n\nMotion Sensor Range is an Oxygen Not Included mod that makes the detection range of the vanilla Duplicant Motion Sensor adjustable from a slider in the building's side screen: 2 to 16 tiles in steps of 2, default 4 (the vanilla range). It adds no building of its own. A `RangeSlider` component is attached to the sensor prefab by a Harmony postfix and rewrites the sensor's detection area at runtime; the range is saved with the building, works with the vanilla copy-settings tool, and carries over from an under-construction building. It is a from-scratch rewrite of Cairath's Configurable Motion Sensor Range for the current game. Version 1.2.0 is released on the Steam Workshop (id 3804025857); `mod.yaml` sets `supportedContent: ALL` and `minimumSupportedBuild: 744825`, so it loads with every DLC.\n\n## Where things are\n**Id:** blk-2ddb429ef268\n\n- `src/MotionSensorRange/`: the mod. `Mod.cs` (entry point), `Patches.cs` (Harmony patches on the motion sensor config and construction), `RangeSlider.cs` (the component), `ModStrings.cs` (text registered under the game's STRINGS tree), `mod.yaml` and `mod_info.yaml` (game manifests), `translations/` (`.pot` template plus `ko.po`, `ru.po`, `zh.po`).\n- `src/MotionSensorRange.Tests/`: in-game tests for detection, persistence and range (`Detection.cs`, `Persistence.cs`, `Range.cs`).\n- `assets-src/`: preview art sources and `PreviewGen/`, the small program that renders the Workshop preview.\n- `publish/`: Workshop material (`workshop-description.txt`, `workshop-id.txt`, `preview.png`, and `obsolete-description.txt` for the retired earlier upload).\n- `README.md`, `CHANGELOG.md`: user-facing description and release history.\n- `.context/` holds `overview.md` (this file), `domains/` (entities and glossary), `standards/` (code style, error handling, naming conventions), `decisions/`, `retrospectives/`, `projects.md` and `META.md`.\n",
+   "sections": [
+    {
+     "id": "overview.md#what-this-is",
+     "title": "What this is",
+     "text": "## What this is\n**Id:** blk-38f9329ac7bb\n\nMotion Sensor Range is an Oxygen Not Included mod that makes the detection range of the vanilla Duplicant Motion Sensor adjustable from a slider in the building's side screen: 2 to 16 tiles in steps of 2, default 4 (the vanilla range). It adds no building of its own. A `RangeSlider` component is attached to the sensor prefab by a Harmony postfix and rewrites the sensor's detection area at runtime; the range is saved with the building, works with the vanilla copy-settings tool, and carries over from an under-construction building. It is a from-scratch rewrite of Cairath's Configurable Motion Sensor Range for the current game. Version 1.2.0 is released on the Steam Workshop (id 3804025857); `mod.yaml` sets `supportedContent: ALL` and `minimumSupportedBuild: 744825`, so it loads with every DLC.\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "overview.md#where-things-are",
+     "title": "Where things are",
+     "text": "## Where things are\n**Id:** blk-2ddb429ef268\n\n- `src/MotionSensorRange/`: the mod. `Mod.cs` (entry point), `Patches.cs` (Harmony patches on the motion sensor config and construction), `RangeSlider.cs` (the component), `ModStrings.cs` (text registered under the game's STRINGS tree), `mod.yaml` and `mod_info.yaml` (game manifests), `translations/` (`.pot` template plus `ko.po`, `ru.po`, `zh.po`).\n- `src/MotionSensorRange.Tests/`: in-game tests for detection, persistence and range (`Detection.cs`, `Persistence.cs`, `Range.cs`).\n- `assets-src/`: preview art sources and `PreviewGen/`, the small program that renders the Workshop preview.\n- `publish/`: Workshop material (`workshop-description.txt`, `workshop-id.txt`, `preview.png`, and `obsolete-description.txt` for the retired earlier upload).\n- `README.md`, `CHANGELOG.md`: user-facing description and release history.\n- `.context/` holds `overview.md` (this file), `domains/` (entities and glossary), `standards/` (code style, error handling, naming conventions), `decisions/`, `retrospectives/`, `projects.md` and `META.md`.\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "standards/README.md",
+   "title": "Standards",
+   "description": "Index of the three standards documents of Motion Sensor Range (code style, error handling, naming conventions), each with a one-line summary of what it covers",
+   "document_tags": [],
+   "text": "---\ndoc_id: doc-549cf82752da\ndescription: Index of the three standards documents of Motion Sensor Range (code style, error handling, naming conventions), each with a one-line summary of what it covers\n---\n\n# Standards\n\n## Standards\n**Id:** blk-3626ad0a7583\n\n- [code-style](code-style.md): C# formatting, imports, comments, Harmony patch and component conventions, with this mod's own layout.\n- [error-handling](error-handling.md): how Motion Sensor Range guards its Harmony patches, reflection lookups and file reads, and what it logs when something is missing.\n- [naming-conventions](naming-conventions.md): file, namespace, patch class, string key and id naming for project MotionSensorRange.\n",
+   "sections": [
+    {
+     "id": "standards/README.md#standards",
+     "title": "Standards",
+     "text": "## Standards\n**Id:** blk-3626ad0a7583\n\n- [code-style](code-style.md): C# formatting, imports, comments, Harmony patch and component conventions, with this mod's own layout.\n- [error-handling](error-handling.md): how Motion Sensor Range guards its Harmony patches, reflection lookups and file reads, and what it logs when something is missing.\n- [naming-conventions](naming-conventions.md): file, namespace, patch class, string key and id naming for project MotionSensorRange.\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "standards/code-style.md",
+   "title": "Code Style Guide",
+   "description": "Code style guide for Motion Sensor Range: C# formatting, imports, comments, control structures, Harmony patch and game component conventions, plus its `RangeSlider` component, patch list and `assets-src` folder",
+   "document_tags": [],
+   "text": "---\ndoc_id: doc-00fd213f60e3\ndescription: \"Code style guide for Motion Sensor Range: C# formatting, imports, comments, control structures, Harmony patch and game component conventions, plus its `RangeSlider` component, patch list and `assets-src` folder\"\napplies_to:\n  - \"src/**\"\n---\n\n# Code Style Guide\n\n## Formatting\n**Id:** blk-9d346420b869\n\n### Indentation\n**Id:** blk-b18c58d2f355\n\n- Tabs, one per level, in every `.cs` file (`mods/bitshifter/src/Bitshifter/Mod.cs`).\n- Project files (`.csproj`, `common/oni-mod.props`, `common/oni-mod.targets`) use two spaces.\n- Files are committed with LF line endings; Windows checkouts convert them to CRLF (`core.autocrlf` is true), so do not hand-normalise line endings.\n\n### Line Length\n**Id:** blk-a24a70111ef7\n\n- No limit is configured and the repository has no `.editorconfig`.\n- Wrap long calls and string concatenations after an argument or before a `+`, and indent the continuation one tab. The start-up log call in `mods/jumper-bridges/src/JumperBridges/Mod.cs` is the pattern.\n- TODO(owner): decide whether to add an `.editorconfig` recording tabs and brace placement so editors enforce what the code already does.\n\n### Braces\n**Id:** blk-def075106b14\n\n- Opening brace on its own line (Allman) for namespaces, types, members and multi-line control blocks.\n- A body of one short statement goes on the next line without braces:\n\n```csharp\nforeach (Mod mod in mods)\n{\n\tif (!mod.IsEnabledForActiveDlc())\n\t\tcontinue;\n\t...\n}\n```\n\n- Multi-line initialisers and enums end with a trailing comma (`YieldToWorkshopIds` in `mods/bitshifter/src/Bitshifter/Mod.cs`, `CoolPodMode` in `mods/storage-pod-redux/src/StoragePodRedux/Options.cs`).\n\n## Language and Toolchain\n**Id:** blk-cac7d95e1fac\n\n- C# 9 on .NET Framework 4.8 (`LangVersion` 9.0 and `TargetFramework` net48 in `common/oni-mod.props`). Namespace blocks, not file-scoped namespaces; no nullable reference types.\n- Mods compile against the game's own assemblies (`common/oni-mod.targets`): `Assembly-CSharp`, `Assembly-CSharp-firstpass`, `0Harmony` and Unity modules. The game's .NET Framework lacks some newer APIs (`ConditionalWeakTable.AddOrUpdate` is missing, see `mods/detect-any-element/src/DetectAnyElement/Patches.cs`).\n- Optional references are switched on in the mod csproj before the targets import: `ReferenceUnityUI`, `ReferenceImageConversion`, `UsePLib` (PLib is ILRepack-merged into the mod DLL) and `UseTranslations` (compiles `common/src/Translations.cs` in).\n- One namespace per mod, equal to its `RootNamespace`. Subfolders organise files and do not add namespaces (`mods/upgrade-planner/src/UpgradePlanner/Plan`, `Rules`, `Tool`, `UI` all declare `namespace UpgradePlanner`).\n\n## Imports/Includes\n**Id:** blk-49b0c41a5de8\n\n### Organization\n**Id:** blk-5290766c841f\n\n`using` directives sit above the namespace, in one block with no blank lines, sorted alphabetically with `System.*` first. Aliases for `ModStrings` branches come last.\n\n1. `System.*`\n2. Everything else alphabetically: `HarmonyLib`, `Isochronous`, `KMod`, `Newtonsoft.Json`, `PeterHan.PLib.*`, `ProcGenGame`, `UnityEngine`\n3. Aliases (`using TOOL = SweepZones.ModStrings.UI.TOOLS.SWEEPZONES;`)\n\n### Example\n**Id:** blk-5379b7234d12\n\n```csharp\nusing System.Collections.Generic;\nusing System.Reflection;\nusing HarmonyLib;\nusing Isochronous;\nusing Klei;\nusing KMod;\nusing STRINGS;\nusing UnityEngine;\n```\n(`mods/salty-surf/src/SaltySurf/Mod.cs`)\n\n`Debug.Log` resolves either to `UnityEngine.Debug` or to the game's own global `Debug` class, so several `Mod.cs` files omit `using UnityEngine`. When a file imports `System.Diagnostics`, qualify the call as `UnityEngine.Debug.Log` (`mods/just-fall-already/src/JustFallAlready/FallPoke.cs`).\n\n## Comments\n**Id:** blk-ee0c232b2f60\n\n### When to Comment\n**Id:** blk-40ac288e819d\n\n- On every non-trivial class, an XML `<summary>` that says what the game does and what the patch changes, so a reader can check the patch against the game code. The long summary on `OvercrowdingMonitor_UpdateRegion_Patch` in `mods/dont-count-eggs-on-rails/src/DontCountEggsOnRails/Mod.cs` is the model.\n- Where a game quirk forces an odd line: `// The game's .NET Framework has no AddOrUpdate on this table.`\n- Where another mod is involved, name it and its Workshop id (`mods/bitshifter/src/Bitshifter/Mod.cs`, `mods/smart-weight-plate/src/SmartWeightPlate/Mod.cs`).\n- Escape angle brackets in XML comments as `&lt;` and `&gt;`.\n\n### When NOT to Comment\n**Id:** blk-26d6296bb90f\n\n- Code that reads clearly from its names.\n- Commented-out code; delete it.\n- Restating what a line does.\n\n### Format\n**Id:** blk-fd526fc7dd55\n\n```csharp\n/// <summary>\n/// The \"Any\" choice. It is a tag like the elements a sensor's Filterable holds, so it rides\n/// in the same saved field and copies with the building's settings.\n/// </summary>\npublic static class AnyElement\n\n// Single-line note for a quirk or a reason.\n```\n\n## Control Structures\n**Id:** blk-b85a4aa83150\n\n### Conditionals\n**Id:** blk-01abe9cbf8da\n\nGuard clauses and early `return` or `continue` keep nesting shallow (`SettleSimBackwalls.UpdateFromSim` in `mods/natural-backwalls-everywhere/src/NaturalBackwalls/SettleSimPatch.cs`):\n\n```csharp\nif (!Grid.IsValidCell(cell))\n\tcontinue;\nushort idx = data->backwallElement[cell];\nif (idx == ushort.MaxValue || idx >= elements.Count)\n\tcontinue;\n```\n\n### Loops\n**Id:** blk-16cd4984fdb3\n\n- Plain `for` and `foreach`. Code that runs every sim tick or frame avoids LINQ and allocations; reuse scratch lists (`scratch` in `mods/just-fall-already/src/JustFallAlready/FallPoke.cs`).\n- Local types are written out (`Tech tech = ...`). `var` appears mainly in `mods/upgrade-planner`, `mods/natural-backwalls-everywhere` and the test projects; follow the surrounding file.\n\n### Strings\n**Id:** blk-3bed2e8b7fac\n\n- Log and UI text is built with `+` concatenation, or `string.Format` on a `LocString`. String interpolation is not used in mod code.\n- Player-visible text is a `LocString` field in `ModStrings`, never a literal at the call site (see [naming conventions](naming-conventions.md)).\n\n## Harmony Patches\n**Id:** blk-183bc6e8000f\n\n- A patch is a static class with `[HarmonyPatch(typeof(Type), nameof(Type.Method))]`, or `[HarmonyPatch(typeof(Type), \"PrivateMethod\")]` for a non-public method, and methods named `Prefix`, `Postfix`, `Transpiler` or `Finalizer` (`mods/bitshifter/src/Bitshifter/Patches.cs`).\n- Game state arrives through Harmony parameters: `__instance`, `__result`, `___field`. Fields read repeatedly use `AccessTools.FieldRefAccess` kept in a `static readonly` field (`mods/detect-any-element/src/DetectAnyElement/Patches.cs`).\n- A prefix returns `true` to let the game's method run and `false` only when it replaces the method (`mods/dont-count-eggs-on-rails`, `mods/bitshifter` `UpdateVisuals`).\n- A patch that depends on an option implements `Prepare()` (`mods/jumper-bridges/src/JumperBridges/Patches.cs`); a patch with several targets implements `TargetMethods()`.\n- `UserMod2.OnLoad` calls `base.OnLoad(harmony)`, which applies every patch in the assembly, then registers libraries and logs the version. A mod that must patch after all others applies its patches from `OnAllModsLoaded` instead (`mods/bitshifter/src/Bitshifter/Mod.cs`).\n- Transpilers search for the instruction they change and report when it is not found; see [error handling](error-handling.md).\n\n## Game Components\n**Id:** blk-9213f30d4abe\n\n- A component extends `KMonoBehaviour`, overrides `OnPrefabInit`, `OnSpawn` and `OnCleanUp` and calls `base` from each. Sibling components come in through `[MyCmpGet]` or `[MyCmpReq]` (`mods/no-magic-fridges/src/NoMagicFridges/FridgeThermostat.cs`).\n- Saved state uses `[Serialize]` fields with `[SerializationConfig(MemberSerialization.OptIn)]` on the class (`mods/sweep-zones/src/SweepZones/ZoneStore.cs`).\n- Components are added to prefabs from a `DoPostConfigureComplete` postfix with `go.AddOrGet<T>()`.\n\n## Project-Specific Rules\n**Id:** blk-f4dd752ab3b9\n\n- Mod options are a PLib `POptions` class marked `[JsonObject(MemberSerialization.OptIn)]` and `[ConfigFile(SharedConfigLocation: true)]`, read through a static `Load()` (`mods/vent-freeze-fix/src/VentFreezeFix/Options.cs`) or through `SingletonOptions<Options>` (`mods/storage-pod-redux`). Option titles are string-table keys, so the translation follows the language.\n- Every mod logs one line at load: `[<Name>] Loaded version <assembly version>`.\n- Tests live in a separate `<Name>.Tests` project and are written as `[OniTest]` coroutines against the real game.\n\n### Motion Sensor Range specifics\n**Id:** blk-2a165385de59\n\n- `UseTranslations` only; no PLib. `Mod.cs` has no `using UnityEngine`, so `Debug` is the game's global class.\n- `RangeSlider` is the component and the `IIntSliderControl` for the side screen; `range` is `[Serialize]` so it saves with the building. `CopyRangeFrom` serves the copy-settings tool and construction completion (`src/MotionSensorRange/RangeSlider.cs`).\n- Patches (`Patches.cs`): `GeneratedBuildings.LoadGeneratedBuildings`, `Constructable.FinishConstruction`, `LogicDuplicantSensorConfig.DoPostConfigureComplete`.\n- `assets-src/` holds a preview generator program outside the mod's `src`.\n\n## Related\n**Id:** blk-2cc5e7ead9a7\n\n- See also: [naming conventions](naming-conventions.md)\n- See also: [error handling](error-handling.md)\n",
+   "sections": [
+    {
+     "id": "standards/code-style.md#formatting",
+     "title": "Formatting",
+     "text": "## Formatting\n**Id:** blk-9d346420b869\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#formatting/indentation",
+     "title": "Indentation",
+     "text": "### Indentation\n**Id:** blk-b18c58d2f355\n\n- Tabs, one per level, in every `.cs` file (`mods/bitshifter/src/Bitshifter/Mod.cs`).\n- Project files (`.csproj`, `common/oni-mod.props`, `common/oni-mod.targets`) use two spaces.\n- Files are committed with LF line endings; Windows checkouts convert them to CRLF (`core.autocrlf` is true), so do not hand-normalise line endings.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#formatting/line-length",
+     "title": "Line Length",
+     "text": "### Line Length\n**Id:** blk-a24a70111ef7\n\n- No limit is configured and the repository has no `.editorconfig`.\n- Wrap long calls and string concatenations after an argument or before a `+`, and indent the continuation one tab. The start-up log call in `mods/jumper-bridges/src/JumperBridges/Mod.cs` is the pattern.\n- TODO(owner): decide whether to add an `.editorconfig` recording tabs and brace placement so editors enforce what the code already does.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#formatting/braces",
+     "title": "Braces",
+     "text": "### Braces\n**Id:** blk-def075106b14\n\n- Opening brace on its own line (Allman) for namespaces, types, members and multi-line control blocks.\n- A body of one short statement goes on the next line without braces:\n\n```csharp\nforeach (Mod mod in mods)\n{\n\tif (!mod.IsEnabledForActiveDlc())\n\t\tcontinue;\n\t...\n}\n```\n\n- Multi-line initialisers and enums end with a trailing comma (`YieldToWorkshopIds` in `mods/bitshifter/src/Bitshifter/Mod.cs`, `CoolPodMode` in `mods/storage-pod-redux/src/StoragePodRedux/Options.cs`).\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#language-and-toolchain",
+     "title": "Language and Toolchain",
+     "text": "## Language and Toolchain\n**Id:** blk-cac7d95e1fac\n\n- C# 9 on .NET Framework 4.8 (`LangVersion` 9.0 and `TargetFramework` net48 in `common/oni-mod.props`). Namespace blocks, not file-scoped namespaces; no nullable reference types.\n- Mods compile against the game's own assemblies (`common/oni-mod.targets`): `Assembly-CSharp`, `Assembly-CSharp-firstpass`, `0Harmony` and Unity modules. The game's .NET Framework lacks some newer APIs (`ConditionalWeakTable.AddOrUpdate` is missing, see `mods/detect-any-element/src/DetectAnyElement/Patches.cs`).\n- Optional references are switched on in the mod csproj before the targets import: `ReferenceUnityUI`, `ReferenceImageConversion`, `UsePLib` (PLib is ILRepack-merged into the mod DLL) and `UseTranslations` (compiles `common/src/Translations.cs` in).\n- One namespace per mod, equal to its `RootNamespace`. Subfolders organise files and do not add namespaces (`mods/upgrade-planner/src/UpgradePlanner/Plan`, `Rules`, `Tool`, `UI` all declare `namespace UpgradePlanner`).\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#imports-includes",
+     "title": "Imports/Includes",
+     "text": "## Imports/Includes\n**Id:** blk-49b0c41a5de8\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#imports-includes/organization",
+     "title": "Organization",
+     "text": "### Organization\n**Id:** blk-5290766c841f\n\n`using` directives sit above the namespace, in one block with no blank lines, sorted alphabetically with `System.*` first. Aliases for `ModStrings` branches come last.\n\n1. `System.*`\n2. Everything else alphabetically: `HarmonyLib`, `Isochronous`, `KMod`, `Newtonsoft.Json`, `PeterHan.PLib.*`, `ProcGenGame`, `UnityEngine`\n3. Aliases (`using TOOL = SweepZones.ModStrings.UI.TOOLS.SWEEPZONES;`)\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#imports-includes/example",
+     "title": "Example",
+     "text": "### Example\n**Id:** blk-5379b7234d12\n\n```csharp\nusing System.Collections.Generic;\nusing System.Reflection;\nusing HarmonyLib;\nusing Isochronous;\nusing Klei;\nusing KMod;\nusing STRINGS;\nusing UnityEngine;\n```\n(`mods/salty-surf/src/SaltySurf/Mod.cs`)\n\n`Debug.Log` resolves either to `UnityEngine.Debug` or to the game's own global `Debug` class, so several `Mod.cs` files omit `using UnityEngine`. When a file imports `System.Diagnostics`, qualify the call as `UnityEngine.Debug.Log` (`mods/just-fall-already/src/JustFallAlready/FallPoke.cs`).\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#comments",
+     "title": "Comments",
+     "text": "## Comments\n**Id:** blk-ee0c232b2f60\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#comments/when-to-comment",
+     "title": "When to Comment",
+     "text": "### When to Comment\n**Id:** blk-40ac288e819d\n\n- On every non-trivial class, an XML `<summary>` that says what the game does and what the patch changes, so a reader can check the patch against the game code. The long summary on `OvercrowdingMonitor_UpdateRegion_Patch` in `mods/dont-count-eggs-on-rails/src/DontCountEggsOnRails/Mod.cs` is the model.\n- Where a game quirk forces an odd line: `// The game's .NET Framework has no AddOrUpdate on this table.`\n- Where another mod is involved, name it and its Workshop id (`mods/bitshifter/src/Bitshifter/Mod.cs`, `mods/smart-weight-plate/src/SmartWeightPlate/Mod.cs`).\n- Escape angle brackets in XML comments as `&lt;` and `&gt;`.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#comments/when-not-to-comment",
+     "title": "When NOT to Comment",
+     "text": "### When NOT to Comment\n**Id:** blk-26d6296bb90f\n\n- Code that reads clearly from its names.\n- Commented-out code; delete it.\n- Restating what a line does.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#comments/format",
+     "title": "Format",
+     "text": "### Format\n**Id:** blk-fd526fc7dd55\n\n```csharp\n/// <summary>\n/// The \"Any\" choice. It is a tag like the elements a sensor's Filterable holds, so it rides\n/// in the same saved field and copies with the building's settings.\n/// </summary>\npublic static class AnyElement\n\n// Single-line note for a quirk or a reason.\n```\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#control-structures",
+     "title": "Control Structures",
+     "text": "## Control Structures\n**Id:** blk-b85a4aa83150\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#control-structures/conditionals",
+     "title": "Conditionals",
+     "text": "### Conditionals\n**Id:** blk-01abe9cbf8da\n\nGuard clauses and early `return` or `continue` keep nesting shallow (`SettleSimBackwalls.UpdateFromSim` in `mods/natural-backwalls-everywhere/src/NaturalBackwalls/SettleSimPatch.cs`):\n\n```csharp\nif (!Grid.IsValidCell(cell))\n\tcontinue;\nushort idx = data->backwallElement[cell];\nif (idx == ushort.MaxValue || idx >= elements.Count)\n\tcontinue;\n```\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#control-structures/loops",
+     "title": "Loops",
+     "text": "### Loops\n**Id:** blk-16cd4984fdb3\n\n- Plain `for` and `foreach`. Code that runs every sim tick or frame avoids LINQ and allocations; reuse scratch lists (`scratch` in `mods/just-fall-already/src/JustFallAlready/FallPoke.cs`).\n- Local types are written out (`Tech tech = ...`). `var` appears mainly in `mods/upgrade-planner`, `mods/natural-backwalls-everywhere` and the test projects; follow the surrounding file.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#control-structures/strings",
+     "title": "Strings",
+     "text": "### Strings\n**Id:** blk-3bed2e8b7fac\n\n- Log and UI text is built with `+` concatenation, or `string.Format` on a `LocString`. String interpolation is not used in mod code.\n- Player-visible text is a `LocString` field in `ModStrings`, never a literal at the call site (see [naming conventions](naming-conventions.md)).\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#harmony-patches",
+     "title": "Harmony Patches",
+     "text": "## Harmony Patches\n**Id:** blk-183bc6e8000f\n\n- A patch is a static class with `[HarmonyPatch(typeof(Type), nameof(Type.Method))]`, or `[HarmonyPatch(typeof(Type), \"PrivateMethod\")]` for a non-public method, and methods named `Prefix`, `Postfix`, `Transpiler` or `Finalizer` (`mods/bitshifter/src/Bitshifter/Patches.cs`).\n- Game state arrives through Harmony parameters: `__instance`, `__result`, `___field`. Fields read repeatedly use `AccessTools.FieldRefAccess` kept in a `static readonly` field (`mods/detect-any-element/src/DetectAnyElement/Patches.cs`).\n- A prefix returns `true` to let the game's method run and `false` only when it replaces the method (`mods/dont-count-eggs-on-rails`, `mods/bitshifter` `UpdateVisuals`).\n- A patch that depends on an option implements `Prepare()` (`mods/jumper-bridges/src/JumperBridges/Patches.cs`); a patch with several targets implements `TargetMethods()`.\n- `UserMod2.OnLoad` calls `base.OnLoad(harmony)`, which applies every patch in the assembly, then registers libraries and logs the version. A mod that must patch after all others applies its patches from `OnAllModsLoaded` instead (`mods/bitshifter/src/Bitshifter/Mod.cs`).\n- Transpilers search for the instruction they change and report when it is not found; see [error handling](error-handling.md).\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#game-components",
+     "title": "Game Components",
+     "text": "## Game Components\n**Id:** blk-9213f30d4abe\n\n- A component extends `KMonoBehaviour`, overrides `OnPrefabInit`, `OnSpawn` and `OnCleanUp` and calls `base` from each. Sibling components come in through `[MyCmpGet]` or `[MyCmpReq]` (`mods/no-magic-fridges/src/NoMagicFridges/FridgeThermostat.cs`).\n- Saved state uses `[Serialize]` fields with `[SerializationConfig(MemberSerialization.OptIn)]` on the class (`mods/sweep-zones/src/SweepZones/ZoneStore.cs`).\n- Components are added to prefabs from a `DoPostConfigureComplete` postfix with `go.AddOrGet<T>()`.\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#project-specific-rules",
+     "title": "Project-Specific Rules",
+     "text": "## Project-Specific Rules\n**Id:** blk-f4dd752ab3b9\n\n- Mod options are a PLib `POptions` class marked `[JsonObject(MemberSerialization.OptIn)]` and `[ConfigFile(SharedConfigLocation: true)]`, read through a static `Load()` (`mods/vent-freeze-fix/src/VentFreezeFix/Options.cs`) or through `SingletonOptions<Options>` (`mods/storage-pod-redux`). Option titles are string-table keys, so the translation follows the language.\n- Every mod logs one line at load: `[<Name>] Loaded version <assembly version>`.\n- Tests live in a separate `<Name>.Tests` project and are written as `[OniTest]` coroutines against the real game.\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#project-specific-rules/motion-sensor-range-specifics",
+     "title": "Motion Sensor Range specifics",
+     "text": "### Motion Sensor Range specifics\n**Id:** blk-2a165385de59\n\n- `UseTranslations` only; no PLib. `Mod.cs` has no `using UnityEngine`, so `Debug` is the game's global class.\n- `RangeSlider` is the component and the `IIntSliderControl` for the side screen; `range` is `[Serialize]` so it saves with the building. `CopyRangeFrom` serves the copy-settings tool and construction completion (`src/MotionSensorRange/RangeSlider.cs`).\n- Patches (`Patches.cs`): `GeneratedBuildings.LoadGeneratedBuildings`, `Constructable.FinishConstruction`, `LogicDuplicantSensorConfig.DoPostConfigureComplete`.\n- `assets-src/` holds a preview generator program outside the mod's `src`.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#related",
+     "title": "Related",
+     "text": "## Related\n**Id:** blk-2cc5e7ead9a7\n\n- See also: [naming conventions](naming-conventions.md)\n- See also: [error handling](error-handling.md)\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  }
+ ]
+}

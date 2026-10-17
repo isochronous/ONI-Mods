@@ -1,0 +1,40 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/multichannel-critter-sensor — round 6",
+  "node": "C:\\dev\\ONI-Mods\\mods\\multichannel-critter-sensor",
+  "base": {
+    "domains/entities.md": "sha256:d8afea12ee7f43deafe51decb2f5d649f90215bcb2d2fe13673948c84618a428",
+    "domains/glossary.md": "sha256:b2a3767f8ffbedbdfbd548873f7913f9f4502902a4e5003a65a2f74a5f177b7e",
+    "standards/error-handling.md": "sha256:673f74793b5e0b56077f8c0db9f148d4ae35bd1854ca2d64f61314b694cbc15d"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching",
+        "building-unlock",
+        "side-screen"
+      ],
+      "section": "key-entities/harmony-patches"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "signal-threshold",
+        "side-screen"
+      ],
+      "section": "cross-domain-terms/ithresholdswitch"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "building-unlock",
+        "side-screen"
+      ],
+      "section": "project-specific-patterns/multichannel-critter-sensor-specifics"
+    }
+  ]
+}

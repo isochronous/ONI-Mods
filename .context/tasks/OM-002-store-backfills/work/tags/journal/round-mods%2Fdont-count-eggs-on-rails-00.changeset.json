@@ -1,0 +1,76 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/dont-count-eggs-on-rails — round 0",
+  "node": "C:\\dev\\ONI-Mods\\mods\\dont-count-eggs-on-rails",
+  "base": {
+    "domains/README.md": "sha256:8b5a8135d5ce726a0e51525a5e5569d9ad8346fd570ec06e5983b1374df19798",
+    "domains/entities.md": "sha256:c40bdc530a2f2dc790457e5e06c056f04cb0ee6c21f3ca2995637c94c14884fc",
+    "domains/glossary.md": "sha256:3610beb771b0aa2f92406c3361acbe4b5a0314f9bccbcd7b473cfd0965875ea0",
+    "overview.md": "sha256:887f849846901cb0bc3a92ac171ae176b8b81dea5228734c1ade76b03f5625b9",
+    "standards/error-handling.md": "sha256:90a4a8bab1eca044080ca73562b29026b5dc8e68fd4c959fe4958b3813993765",
+    "standards/code-style.md": "sha256:66b52a01ed030152f815d5f2a5f7d5f300443a5afa45f5690937433aad927685",
+    "standards/naming-conventions.md": "sha256:caefa81d1f26c376655a3e008483b4fe62f9c4a970d82d823b9a32f4f0e5162c"
+  },
+  "ops": [
+    {
+      "target": "domains/README.md",
+      "mode": "tag",
+      "add": [
+        "critter-sensor",
+        "conveyor-rail"
+      ]
+    },
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching",
+        "critter-sensor",
+        "conveyor-rail"
+      ]
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "critter-sensor",
+        "conveyor-rail"
+      ]
+    },
+    {
+      "target": "overview.md",
+      "mode": "tag",
+      "add": [
+        "critter-sensor",
+        "conveyor-rail"
+      ]
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "vanilla-fallback",
+        "logging",
+        "harmony-patching"
+      ]
+    },
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching",
+        "mod-entry-point"
+      ],
+      "section": "harmony-patches"
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "tag",
+      "add": [
+        "mod-entry-point",
+        "harmony-patching"
+      ],
+      "section": "files-and-directories/examples-by-type"
+    }
+  ]
+}

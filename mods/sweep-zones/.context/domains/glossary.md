@@ -1,4 +1,5 @@
 ---
+tags: cleaning-errands, toolbar-tool
 witness_digest: "sha256:860ec49a263693aff3444e09d132e9d4dfb3c373937615798cf9163271cc09f8"
 witness: loose
 applies_to:
@@ -65,6 +66,7 @@ Terms for the Sweep Zones Redux mod. For the mod's entities, rules and code path
 
 ### Cell
 **Id:** blk-c1edf9b20db2  
+**Tags:** saved-state  
 **Definition**: One tile of the world grid, addressed by an int index; saved zones are keyed by it.  
 **Used in**: `ZoneStore.cs`.
 

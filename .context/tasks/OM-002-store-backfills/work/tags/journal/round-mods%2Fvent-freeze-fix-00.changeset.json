@@ -1,0 +1,70 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/vent-freeze-fix — round 0",
+  "node": "C:\\dev\\ONI-Mods\\mods\\vent-freeze-fix",
+  "base": {
+    "domains/entities.md": "sha256:dc4b8361cf056f6ec3753917bb444673aac77777625c4f818564a07bb9e56623",
+    "domains/glossary.md": "sha256:03cb4fa5d044b0c8bfa016012e49a77f806cd5cfeb0c76fdd5659e93396a079f",
+    "overview.md": "sha256:36aa38bc278f2e42f73701579deac94013ed594640eb6f519d2fcceb4fcac3a9",
+    "standards/code-style.md": "sha256:b174845273de52669da61aace0b9a84c22b65befaeacbf9713bb42103ad8e265",
+    "standards/error-handling.md": "sha256:31be3f805c791bb596d1132d656680e76502b10593263c7d8426f7f309c725d9",
+    "standards/naming-conventions.md": "sha256:97c9251a4a8e4b63bd202d5673508bf0f40a321b283804b5b490ad220fca7d43"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "liquid-vent",
+        "liquid-freezing",
+        "tile-repair"
+      ]
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "liquid-vent",
+        "liquid-freezing",
+        "tile-repair"
+      ]
+    },
+    {
+      "target": "overview.md",
+      "mode": "tag",
+      "add": [
+        "liquid-vent",
+        "liquid-freezing",
+        "tile-repair"
+      ]
+    },
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "mod-strings"
+      ],
+      "section": "control-structures/strings"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching",
+        "logging"
+      ],
+      "section": "principles"
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "tag",
+      "add": [
+        "mod-entry-point",
+        "mod-options",
+        "mod-strings",
+        "in-game-testing"
+      ],
+      "section": "files-and-directories/examples-by-type"
+    }
+  ]
+}

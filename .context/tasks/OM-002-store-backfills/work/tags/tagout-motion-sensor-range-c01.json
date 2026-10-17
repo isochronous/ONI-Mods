@@ -1,0 +1,240 @@
+{
+ "documents": [
+  {
+   "id": "standards/error-handling.md",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "error-handling conventions"
+  },
+  {
+   "id": "standards/naming-conventions.md",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "naming conventions"
+  }
+ ],
+ "sections": [
+  {
+   "id": "standards/error-handling.md#principles",
+   "tags": [
+    "vanilla-fallback",
+    "logging",
+    "reflection",
+    "harmony-patching"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#guarding-patches",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#guarding-patches/missing-member-warn-leave-vanilla",
+   "tags": [
+    "reflection",
+    "vanilla-fallback",
+    "harmony-patching"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#guarding-patches/transpiler-count-the-match",
+   "tags": [
+    "harmony-patching",
+    "vanilla-fallback",
+    "logging"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#guarding-patches/missing-data-warn-continue",
+   "tags": [
+    "vanilla-fallback",
+    "logging"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#guarding-patches/null-checks-on-game-objects",
+   "tags": [
+    "vanilla-fallback"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#guarding-patches/warn-once",
+   "tags": [
+    "logging"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#try-catch",
+   "tags": [
+    "logging",
+    "reflection"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#try-catch/finalizer-for-a-thread-with-no-handler",
+   "tags": [
+    "harmony-patching",
+    "logging"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#yielding-to-other-mods",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "yielding to other mods"
+  },
+  {
+   "id": "standards/error-handling.md#logging",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#logging/log-levels",
+   "tags": [
+    "logging"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#logging/what-to-include",
+   "tags": [
+    "logging"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#anti-patterns-to-avoid",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#anti-patterns-to-avoid/swallowing-exceptions",
+   "tags": [
+    "logging"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#anti-patterns-to-avoid/throwing-from-a-patch",
+   "tags": [
+    "harmony-patching"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#anti-patterns-to-avoid/assuming-the-game-s-internals",
+   "tags": [
+    "reflection",
+    "harmony-patching",
+    "vanilla-fallback"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#anti-patterns-to-avoid/silent-degradation",
+   "tags": [
+    "logging"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#anti-patterns-to-avoid/spamming-the-log",
+   "tags": [
+    "logging"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#project-specific-patterns",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#project-specific-patterns/motion-sensor-range-specifics",
+   "tags": [
+    "detection-range",
+    "vanilla-fallback",
+    "copy-settings",
+    "reflection"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#related",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/naming-conventions.md#files-and-directories",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/naming-conventions.md#files-and-directories/general-rules",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "file and project naming"
+  },
+  {
+   "id": "standards/naming-conventions.md#files-and-directories/examples-by-type",
+   "tags": [
+    "mod-entry-point",
+    "harmony-patching",
+    "side-screen",
+    "mod-strings"
+   ]
+  },
+  {
+   "id": "standards/naming-conventions.md#code-naming",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/naming-conventions.md#code-naming/variables",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "identifier naming"
+  },
+  {
+   "id": "standards/naming-conventions.md#code-naming/functions-methods",
+   "tags": [
+    "harmony-patching"
+   ]
+  },
+  {
+   "id": "standards/naming-conventions.md#code-naming/classes-types-interfaces",
+   "tags": [
+    "harmony-patching"
+   ]
+  },
+  {
+   "id": "standards/naming-conventions.md#code-naming/booleans",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "identifier naming"
+  },
+  {
+   "id": "standards/naming-conventions.md#code-naming/strings-modstrings",
+   "tags": [
+    "mod-strings"
+   ]
+  },
+  {
+   "id": "standards/naming-conventions.md#code-naming/ids-and-tags",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "building, tag and test id naming"
+  },
+  {
+   "id": "standards/naming-conventions.md#project-specific-conventions",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/naming-conventions.md#project-specific-conventions/motion-sensor-range-specifics",
+   "tags": [
+    "side-screen",
+    "mod-strings",
+    "in-game-testing",
+    "logging"
+   ]
+  },
+  {
+   "id": "standards/naming-conventions.md#related",
+   "tags": [],
+   "reason": "inherits"
+  }
+ ]
+}

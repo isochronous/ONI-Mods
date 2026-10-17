@@ -1,4 +1,5 @@
 ---
+tags: element-sensor
 doc_id: doc-ab4317b0087d
 description: "Index of the domain documents in the Detect Any Element node: the entities and glossary files covering the Any choice for the five element sensors"
 ---

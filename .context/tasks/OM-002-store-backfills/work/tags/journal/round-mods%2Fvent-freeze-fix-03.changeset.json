@@ -1,0 +1,48 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/vent-freeze-fix — round 3",
+  "node": "C:\\dev\\ONI-Mods\\mods\\vent-freeze-fix",
+  "base": {
+    "domains/entities.md": "sha256:abc16fe1a07ee8f8d786b9353d8479f7128a4cd6fa2dec49ac5345c491cc37f6",
+    "standards/code-style.md": "sha256:db204bf940445358903f0af30fa95faed70ccbead57beeaded30d52a831847ce",
+    "standards/error-handling.md": "sha256:38e0e2f44c017687b66152762a00a7204d91dadcfa544c1420a066c3bc6b3de2",
+    "standards/naming-conventions.md": "sha256:bf3c24fbdf34a9526e3f3f02b6d916498bf32f122f6a904ce8c631d1e4db98fb"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching"
+      ],
+      "section": "key-entities/digrequests"
+    },
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "mod-options",
+        "logging",
+        "in-game-testing"
+      ],
+      "section": "project-specific-rules"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "logging"
+      ],
+      "section": "guarding-patches/transpiler-count-the-match"
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "tag",
+      "add": [
+        "mod-strings",
+        "mod-options"
+      ],
+      "section": "code-naming/strings-modstrings"
+    }
+  ]
+}

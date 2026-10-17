@@ -1,0 +1,61 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/motion-sensor-range — round 1",
+  "node": "C:\\dev\\ONI-Mods\\mods\\motion-sensor-range",
+  "base": {
+    "domains/entities.md": "sha256:c20a4b4212486d27eb0df2027805056cba3bc9614a5a5683e37066e5d4f115fe",
+    "domains/glossary.md": "sha256:90be38f0b23b724c1033ddc23b4c0b8625cc4df4b9c8e8aa8dd0e395fc5d1684",
+    "standards/code-style.md": "sha256:612dcb5bec491a9c4092a46ffbac8844177e65774515d1abd8f830058e24b32f",
+    "standards/error-handling.md": "sha256:fe09f21f43cbd2f7eefb5467bafdebdd8ca37e4cf46047b481680c9aac26e586",
+    "standards/naming-conventions.md": "sha256:509ff0570d62a3197a10152f2bbbee1aaeea50ef41a52f80f62032d75ef4129d"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "game-component",
+        "side-screen",
+        "saved-state",
+        "reflection"
+      ],
+      "section": "key-entities/rangeslider"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "side-screen"
+      ],
+      "section": "cross-domain-terms/iintslidercontrol"
+    },
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching",
+        "mod-entry-point",
+        "reflection"
+      ],
+      "section": "harmony-patches"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "reflection",
+        "vanilla-fallback",
+        "harmony-patching"
+      ],
+      "section": "guarding-patches/missing-member-warn-leave-vanilla"
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching"
+      ],
+      "section": "code-naming/functions-methods"
+    }
+  ]
+}

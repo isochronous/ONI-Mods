@@ -1,4 +1,5 @@
 ---
+tags: mechanical-surfboard
 witness_digest: "sha256:a6f9104ca76161d0586dd54ea09e5be2e8ef2c86ad283569ec95283149f30aef"
 witness: loose
 applies_to:
@@ -37,36 +38,43 @@ Terms for the Salty Surf mod. For the code behind them, see [entities](entities.
 
 ### Intake / capacity tag
 **Id:** blk-63dbbc9820b9  
+**Tags:** game-tag  
 **Definition**: The pipe intake is a `ConduitConsumer`; its `capacityTag` names which element it accepts. Vanilla uses Water; the mod uses the shared tag.  
 **Used in**: `MechanicalSurfboardConfig_Patch`
 
 ### Shared tag (SaltySurfWater)
 **Id:** blk-7c1deca7e340  
+**Tags:** game-tag  
 **Definition**: The tag the mod adds to Water and Salt Water. The game copies an element's tags onto every stored chunk when the chunk is created, so one tag on the element covers the pipe check, the storage mass check and the spill.  
 **Used in**: `SurfWater`, `ElementLoader_Load_Patch`
 
 ### oreTags
 **Id:** blk-ac3b96f5c9c1  
+**Tags:** game-tag, harmony-patching  
 **Definition**: The tag array on an `Element` that `ElementLoader` fills; the mod appends the shared tag.  
 **Used in**: `ElementLoader_Load_Patch`
 
 ### Readiness (IsReady)
 **Id:** blk-8bc9bf639fb2  
+**Tags:** harmony-patching  
 **Definition**: The board's state-machine check that its tank holds `minOperationalWaterKG` (2 kg); only then can a Duplicant surf.  
 **Used in**: `MechanicalSurfboard_IsReady_Patch`
 
 ### Spill
 **Id:** blk-29c423cd1692  
+**Tags:** harmony-patching  
 **Definition**: The liquid the board drops on the floor while in use, at `waterSpillRateKG` per second of work, through `FallingWater`.  
 **Used in**: `MechanicalSurfboardWorkable_OnWorkTick_Patch`
 
 ### Wrong liquid
 **Id:** blk-79266a9a9f87  
+**Tags:** vanilla-fallback, in-game-testing  
 **Definition**: Any liquid other than Water or Salt Water: it damages the building and is dumped, as in the base game.  
 **Used in**: `Intake.cs` tests
 
 ### Descriptor
 **Id:** blk-90e71a732047  
+**Tags:** info-panel-text, harmony-patching  
 **Definition**: A line in a building's info panel (`Descriptor` from `IGameObjectEffectDescriptor`); the mod rewrites the water requirement line.  
 **Used in**: `MechanicalSurfboard_GetDescriptors_Patch`
 

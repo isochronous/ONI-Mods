@@ -1,0 +1,38 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/jumper-bridges — round 9",
+  "node": "C:\\dev\\ONI-Mods\\mods\\jumper-bridges",
+  "base": {
+    "domains/entities.md": "sha256:7af288dce321a07051a9f7edca13eea1f8afdedd661ffca1c49d6b9b20f6a090",
+    "domains/glossary.md": "sha256:03c126ffc7e36d4799202a410fee8a7525333d83cfeff2c6939c223db829446a",
+    "standards/error-handling.md": "sha256:03b8f70d609bf4a8a2110878082e5b2d7c61e5f4f5a64f6549c3d1f8845ae3c2"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching",
+        "wire-tools"
+      ],
+      "section": "key-entities/harmony-patches"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "wire-tools"
+      ],
+      "section": "cross-domain-terms/disconnect-tool"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "vanilla-fallback",
+        "logging"
+      ],
+      "section": "yielding-to-other-mods"
+    }
+  ]
+}

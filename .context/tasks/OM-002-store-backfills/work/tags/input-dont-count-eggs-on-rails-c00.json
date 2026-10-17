@@ -1,0 +1,352 @@
+{
+ "documents": [
+  {
+   "id": "domains/README.md",
+   "title": "Domains",
+   "description": "Index of the two domain documents of Don't Count Eggs on Rails, the entities and the glossary, each with a one-line summary of the rail egg subject it covers",
+   "document_tags": [],
+   "text": "---\ndoc_id: doc-23c8d67c6ade\ndescription: Index of the two domain documents of Don't Count Eggs on Rails, the entities and the glossary, each with a one-line summary of the rail egg subject it covers\n---\n\n# Domains\n\n## Domains\n**Id:** blk-03228deaecb9\n\nDocuments in this folder:\n\n- [entities](entities.md): Rail eggs excluded from critter sensor counts, with the key code paths.\n- [glossary](glossary.md): How rail eggs are kept out of room counts.\n",
+   "sections": [
+    {
+     "id": "domains/README.md#domains",
+     "title": "Domains",
+     "text": "## Domains\n**Id:** blk-03228deaecb9\n\nDocuments in this folder:\n\n- [entities](entities.md): Rail eggs excluded from critter sensor counts, with the key code paths.\n- [glossary](glossary.md): How rail eggs are kept out of room counts.\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "domains/entities.md",
+   "title": "Don't Count Eggs on Rails domain",
+   "description": "The one Harmony prefix on `OvercrowdingMonitor.UpdateRegion` in Don't Count Eggs on Rails, with its members, the rail egg business rules, key code paths and the egg tests in `Eggs.cs`",
+   "document_tags": [],
+   "text": "---\nwitness_digest: \"sha256:3def3e9e12d6f3c6606d6c6558901f245679b4e000b973436070a67748ac0a6d\"\nwitness: loose\napplies_to:\n  - \"src/DontCountEggsOnRails/**\"\ndoc_id: doc-3255e485bb79\ndescription: \"The one Harmony prefix on `OvercrowdingMonitor.UpdateRegion` in Don't Count Eggs on Rails, with its members, the rail egg business rules, key code paths and the egg tests in `Eggs.cs`\"\n---\n\n# Don't Count Eggs on Rails domain\n\n## Overview\n**Id:** blk-233337a30535\n\nDon't Count Eggs on Rails keeps critter sensors from counting eggs that are riding a conveyor rail. It adds no buildings, options or saved state: one Harmony prefix on the egg's room tracking. Source is in `mods/dont-count-eggs-on-rails/src/DontCountEggsOnRails/Mod.cs`.\n\n## Key Entities\n**Id:** blk-be406fb6be06\n\n### OvercrowdingMonitor.UpdateRegion patch\n**Id:** blk-e83dca4a52f5  \n**Description**: A prefix on `OvercrowdingMonitor.UpdateRegion`, the once-a-second step in which an egg lists itself in the room its position falls in. For an egg on a rail it removes the egg from the room it was in and skips the original; for everything else it returns true and the game runs as usual.  \n**Location**: `mods/dont-count-eggs-on-rails/src/DontCountEggsOnRails/Mod.cs` (`OvercrowdingMonitor_UpdateRegion_Patch`)\n\n| Member | Type | Description |\n|--------|------|-------------|\n| Prefix | bool | False when the egg is on a rail; also calls `smi.RemoveFromCavity()`, `roomProber.UpdateRoom(cavity)` and clears `smi.cavity` |\n| OnRail | bool | The egg has `GameTags.Stored` and its `Pickupable.storage` is null |\n\n**Relationships**: reads `OvercrowdingMonitor.Instance` (`IsEgg`, `cavity`, `kpid`); critter sensors count the eggs the room prober lists for their room, so unlisting the egg removes it from every sensor's count. Sensors, rails and the room prober are not patched.\n\n### DontCountEggsOnRailsMod\n**Id:** blk-549ca7135900  \n**Description**: The `UserMod2` entry point. Calls `base.OnLoad` (which applies the patch) and logs the version.  \n**Location**: `mods/dont-count-eggs-on-rails/src/DontCountEggsOnRails/Mod.cs`\n\n## Business Rules\n**Id:** blk-6376f81fca35\n\n- An egg on a conveyor rail is not counted by any critter sensor.\n- A rail marks the item it carries as stored without giving it a storage (it fires the store event with a plain true). Nothing else does: an egg in an incubator or in a duplicant's hands has a real storage, and an egg on the floor is not stored. That combination is how the mod recognizes a rail egg.\n- Eggs on the floor, in incubators, in storage or carried by duplicants count exactly as before.\n- When an egg leaves the rail the game's own update lists it again within a second; the mod keeps no state.\n\n## Key Code Paths\n**Id:** blk-ee826a4ccee7\n\n- **Unlisting a rail egg**: `Prefix` then `OnRail` — see `mods/dont-count-eggs-on-rails/src/DontCountEggsOnRails/Mod.cs`\n- **Tests**: `mods/dont-count-eggs-on-rails/src/DontCountEggsOnRails.Tests/Eggs.cs` covers a floor egg (counted), a rail egg (not counted, whether counted before or never, counted again off the rail) and an incubator egg (counted)\n\n## Related\n**Id:** blk-e8208f2a5ef0\n\n- See also: [glossary](glossary.md)\n",
+   "sections": [
+    {
+     "id": "domains/entities.md#overview",
+     "title": "Overview",
+     "text": "## Overview\n**Id:** blk-233337a30535\n\nDon't Count Eggs on Rails keeps critter sensors from counting eggs that are riding a conveyor rail. It adds no buildings, options or saved state: one Harmony prefix on the egg's room tracking. Source is in `mods/dont-count-eggs-on-rails/src/DontCountEggsOnRails/Mod.cs`.\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/entities.md#key-entities",
+     "title": "Key Entities",
+     "text": "## Key Entities\n**Id:** blk-be406fb6be06\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/entities.md#key-entities/overcrowdingmonitor-updateregion-patch",
+     "title": "OvercrowdingMonitor.UpdateRegion patch",
+     "text": "### OvercrowdingMonitor.UpdateRegion patch\n**Id:** blk-e83dca4a52f5  \n**Description**: A prefix on `OvercrowdingMonitor.UpdateRegion`, the once-a-second step in which an egg lists itself in the room its position falls in. For an egg on a rail it removes the egg from the room it was in and skips the original; for everything else it returns true and the game runs as usual.  \n**Location**: `mods/dont-count-eggs-on-rails/src/DontCountEggsOnRails/Mod.cs` (`OvercrowdingMonitor_UpdateRegion_Patch`)\n\n| Member | Type | Description |\n|--------|------|-------------|\n| Prefix | bool | False when the egg is on a rail; also calls `smi.RemoveFromCavity()`, `roomProber.UpdateRoom(cavity)` and clears `smi.cavity` |\n| OnRail | bool | The egg has `GameTags.Stored` and its `Pickupable.storage` is null |\n\n**Relationships**: reads `OvercrowdingMonitor.Instance` (`IsEgg`, `cavity`, `kpid`); critter sensors count the eggs the room prober lists for their room, so unlisting the egg removes it from every sensor's count. Sensors, rails and the room prober are not patched.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/entities.md#key-entities/dontcounteggsonrailsmod",
+     "title": "DontCountEggsOnRailsMod",
+     "text": "### DontCountEggsOnRailsMod\n**Id:** blk-549ca7135900  \n**Description**: The `UserMod2` entry point. Calls `base.OnLoad` (which applies the patch) and logs the version.  \n**Location**: `mods/dont-count-eggs-on-rails/src/DontCountEggsOnRails/Mod.cs`\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/entities.md#business-rules",
+     "title": "Business Rules",
+     "text": "## Business Rules\n**Id:** blk-6376f81fca35\n\n- An egg on a conveyor rail is not counted by any critter sensor.\n- A rail marks the item it carries as stored without giving it a storage (it fires the store event with a plain true). Nothing else does: an egg in an incubator or in a duplicant's hands has a real storage, and an egg on the floor is not stored. That combination is how the mod recognizes a rail egg.\n- Eggs on the floor, in incubators, in storage or carried by duplicants count exactly as before.\n- When an egg leaves the rail the game's own update lists it again within a second; the mod keeps no state.\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/entities.md#key-code-paths",
+     "title": "Key Code Paths",
+     "text": "## Key Code Paths\n**Id:** blk-ee826a4ccee7\n\n- **Unlisting a rail egg**: `Prefix` then `OnRail` — see `mods/dont-count-eggs-on-rails/src/DontCountEggsOnRails/Mod.cs`\n- **Tests**: `mods/dont-count-eggs-on-rails/src/DontCountEggsOnRails.Tests/Eggs.cs` covers a floor egg (counted), a rail egg (not counted, whether counted before or never, counted again off the rail) and an incubator egg (counted)\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/entities.md#related",
+     "title": "Related",
+     "text": "## Related\n**Id:** blk-e8208f2a5ef0\n\n- See also: [glossary](glossary.md)\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "domains/glossary.md",
+   "title": "Domain Glossary",
+   "description": "Glossary for Don't Count Eggs on Rails: abbreviations, a term to avoid, and definitions of critter sensor, room and cavity, room prober, overcrowding monitor, conveyor rail and the stored tag",
+   "document_tags": [],
+   "text": "---\nwitness_digest: \"sha256:3def3e9e12d6f3c6606d6c6558901f245679b4e000b973436070a67748ac0a6d\"\nwitness: loose\napplies_to:\n  - \"src/DontCountEggsOnRails/**\"\ndoc_id: doc-55731fdf28b0\ndescription: \"Glossary for Don't Count Eggs on Rails: abbreviations, a term to avoid, and definitions of critter sensor, room and cavity, room prober, overcrowding monitor, conveyor rail and the stored tag\"\n---\n\n# Domain Glossary\n\nTerms used in the Don't Count Eggs on Rails mod (`mods/dont-count-eggs-on-rails`). For the classes and patches behind them, see the entities document.\n\n## Abbreviations and Acronyms\n**Id:** blk-77b4fbda4643\n\n| Abbreviation | Full Term | Context |\n|--------------|-----------|---------|\n| ONI | Oxygen Not Included | The game this mod is for |\n| DCEOR | Don't Count Eggs on Rails | Prefix of the in-game test names in `Eggs.cs` |\n| SMI | State machine instance | `OvercrowdingMonitor.Instance smi`, the patch's argument |\n\n## Terms to Avoid\n**Id:** blk-fa9a4522cadc\n\n| Avoid | Use Instead | Reason |\n|-------|-------------|--------|\n| Stored egg | Egg on a rail | A rail marks its item stored with no storage; an egg in an incubator is also stored but has a real storage and is still counted |\n\n## Cross-Domain Terms\n**Id:** blk-661bdc636455\n\n### Critter sensor\n**Id:** blk-4a5e82831748  \n**Definition**: Automation sensor that counts the critters and eggs the game lists for its room and switches on a threshold.  \n**Used in**: the problem the mod fixes\n\n### Room and cavity\n**Id:** blk-37f904dc661d  \n**Definition**: A room is a prober-detected enclosed area; the egg's `cavity` is the room list it is currently in. `RemoveFromCavity` takes it out.  \n**Used in**: `OvercrowdingMonitor_UpdateRegion_Patch`\n\n### Room prober\n**Id:** blk-f818fb057849  \n**Definition**: `Game.Instance.roomProber`, the game system that tracks rooms and their contents.  \n**Used in**: `UpdateRoom(cavity)` call in the prefix\n\n### Overcrowding monitor\n**Id:** blk-bd3bc3efff75  \n**Definition**: `OvercrowdingMonitor`, the state machine on critters and eggs that lists them in their room once a second (`UpdateRegion`).  \n**Used in**: the patch target\n\n### Conveyor rail\n**Id:** blk-1f8734576039  \n**Definition**: The solid conduit network (shipping rail) that moves packets of items through the world and so through rooms.  \n**Used in**: the rail egg condition\n\n### Stored tag\n**Id:** blk-85612028f708  \n**Definition**: `GameTags.Stored`, set on an item inside a storage, and set by a rail on its packet's item without any storage behind it.  \n**Used in**: `OnRail`\n\n## Related\n**Id:** blk-a89b35e148f6\n\n- See also: [entities](entities.md)\n",
+   "sections": [
+    {
+     "id": "domains/glossary.md#abbreviations-and-acronyms",
+     "title": "Abbreviations and Acronyms",
+     "text": "## Abbreviations and Acronyms\n**Id:** blk-77b4fbda4643\n\n| Abbreviation | Full Term | Context |\n|--------------|-----------|---------|\n| ONI | Oxygen Not Included | The game this mod is for |\n| DCEOR | Don't Count Eggs on Rails | Prefix of the in-game test names in `Eggs.cs` |\n| SMI | State machine instance | `OvercrowdingMonitor.Instance smi`, the patch's argument |\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#terms-to-avoid",
+     "title": "Terms to Avoid",
+     "text": "## Terms to Avoid\n**Id:** blk-fa9a4522cadc\n\n| Avoid | Use Instead | Reason |\n|-------|-------------|--------|\n| Stored egg | Egg on a rail | A rail marks its item stored with no storage; an egg in an incubator is also stored but has a real storage and is still counted |\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms",
+     "title": "Cross-Domain Terms",
+     "text": "## Cross-Domain Terms\n**Id:** blk-661bdc636455\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/critter-sensor",
+     "title": "Critter sensor",
+     "text": "### Critter sensor\n**Id:** blk-4a5e82831748  \n**Definition**: Automation sensor that counts the critters and eggs the game lists for its room and switches on a threshold.  \n**Used in**: the problem the mod fixes\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/room-and-cavity",
+     "title": "Room and cavity",
+     "text": "### Room and cavity\n**Id:** blk-37f904dc661d  \n**Definition**: A room is a prober-detected enclosed area; the egg's `cavity` is the room list it is currently in. `RemoveFromCavity` takes it out.  \n**Used in**: `OvercrowdingMonitor_UpdateRegion_Patch`\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/room-prober",
+     "title": "Room prober",
+     "text": "### Room prober\n**Id:** blk-f818fb057849  \n**Definition**: `Game.Instance.roomProber`, the game system that tracks rooms and their contents.  \n**Used in**: `UpdateRoom(cavity)` call in the prefix\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/overcrowding-monitor",
+     "title": "Overcrowding monitor",
+     "text": "### Overcrowding monitor\n**Id:** blk-bd3bc3efff75  \n**Definition**: `OvercrowdingMonitor`, the state machine on critters and eggs that lists them in their room once a second (`UpdateRegion`).  \n**Used in**: the patch target\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/conveyor-rail",
+     "title": "Conveyor rail",
+     "text": "### Conveyor rail\n**Id:** blk-1f8734576039  \n**Definition**: The solid conduit network (shipping rail) that moves packets of items through the world and so through rooms.  \n**Used in**: the rail egg condition\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/stored-tag",
+     "title": "Stored tag",
+     "text": "### Stored tag\n**Id:** blk-85612028f708  \n**Definition**: `GameTags.Stored`, set on an item inside a storage, and set by a rail on its packet's item without any storage behind it.  \n**Used in**: `OnRail`\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#related",
+     "title": "Related",
+     "text": "## Related\n**Id:** blk-a89b35e148f6\n\n- See also: [entities](entities.md)\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "overview.md",
+   "title": "dont-count-eggs-on-rails",
+   "description": "Overview of the Don't Count Eggs on Rails mod: what it does for critter sensors, its version and release state, and a map of its source, tests, preview, publish and `.context` folders",
+   "document_tags": [],
+   "text": "---\ndescription: \"Overview of the Don't Count Eggs on Rails mod: what it does for critter sensors, its version and release state, and a map of its source, tests, preview, publish and `.context` folders\"\n---\n\n# dont-count-eggs-on-rails\n\n## What this is\n**Id:** blk-edbb0dfde74e\n\nDon't Count Eggs on Rails is an Oxygen Not Included mod: critter sensors no longer count eggs that are riding a conveyor rail through the room. Eggs on the floor, in incubators or carried by duplicants count as before. It patches `OvercrowdingMonitor.UpdateRegion`. Version 0.1.0 in `mod_info.yaml` (released 2026-10-09), minimum supported build 744825, published on the Steam Workshop.\n\n## Where things are\n**Id:** blk-d02ae3ef8404\n\nTop-level folders and key files:\n\n- `src/DontCountEggsOnRails/`: the mod. `Mod.cs` holds the entry point and the `OvercrowdingMonitor.UpdateRegion` patch; `mod.yaml`, `mod_info.yaml`.\n- `src/DontCountEggsOnRails.Tests/`: in-game tests (`Eggs.cs`).\n- `preview/`: before and after screenshots and the preview image with its source.\n- `README.md`: what the mod does, compatibility, installing and how it works.\n- `CHANGELOG.md`: release notes per version.\n- `publish/`: Workshop description, tags, preview image and the packaged mod.\n\nThe `.context/` documents of this node: [domains](domains/README.md) (entities, glossary), [standards](standards/README.md) (code style, error handling, naming conventions), `decisions/` and `retrospectives/`.\n",
+   "sections": [
+    {
+     "id": "overview.md#what-this-is",
+     "title": "What this is",
+     "text": "## What this is\n**Id:** blk-edbb0dfde74e\n\nDon't Count Eggs on Rails is an Oxygen Not Included mod: critter sensors no longer count eggs that are riding a conveyor rail through the room. Eggs on the floor, in incubators or carried by duplicants count as before. It patches `OvercrowdingMonitor.UpdateRegion`. Version 0.1.0 in `mod_info.yaml` (released 2026-10-09), minimum supported build 744825, published on the Steam Workshop.\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "overview.md#where-things-are",
+     "title": "Where things are",
+     "text": "## Where things are\n**Id:** blk-d02ae3ef8404\n\nTop-level folders and key files:\n\n- `src/DontCountEggsOnRails/`: the mod. `Mod.cs` holds the entry point and the `OvercrowdingMonitor.UpdateRegion` patch; `mod.yaml`, `mod_info.yaml`.\n- `src/DontCountEggsOnRails.Tests/`: in-game tests (`Eggs.cs`).\n- `preview/`: before and after screenshots and the preview image with its source.\n- `README.md`: what the mod does, compatibility, installing and how it works.\n- `CHANGELOG.md`: release notes per version.\n- `publish/`: Workshop description, tags, preview image and the packaged mod.\n\nThe `.context/` documents of this node: [domains](domains/README.md) (entities, glossary), [standards](standards/README.md) (code style, error handling, naming conventions), `decisions/` and `retrospectives/`.\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "standards/README.md",
+   "title": "Standards",
+   "description": "Index of the three standards documents of Don't Count Eggs on Rails (code style, error handling, naming conventions), each with a one-line summary of what it covers",
+   "document_tags": [],
+   "text": "---\ndoc_id: doc-543e449e57d3\ndescription: Index of the three standards documents of Don't Count Eggs on Rails (code style, error handling, naming conventions), each with a one-line summary of what it covers\n---\n\n# Standards\n\n## Standards\n**Id:** blk-bfe0faafaa64\n\nDocuments in this folder:\n\n- [code-style](code-style.md): C# formatting, imports, comments, Harmony patch and component conventions, with this mod's own layout.\n- [error-handling](error-handling.md): How the mod guards its Harmony patches, reflection lookups and file reads, and what it logs when something is missing.\n- [naming-conventions](naming-conventions.md): File, namespace, patch class, string key and id naming.\n",
+   "sections": [
+    {
+     "id": "standards/README.md#standards",
+     "title": "Standards",
+     "text": "## Standards\n**Id:** blk-bfe0faafaa64\n\nDocuments in this folder:\n\n- [code-style](code-style.md): C# formatting, imports, comments, Harmony patch and component conventions, with this mod's own layout.\n- [error-handling](error-handling.md): How the mod guards its Harmony patches, reflection lookups and file reads, and what it logs when something is missing.\n- [naming-conventions](naming-conventions.md): File, namespace, patch class, string key and id naming.\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "standards/code-style.md",
+   "title": "Code Style Guide",
+   "description": "Code style guide for Don't Count Eggs on Rails: C# formatting, imports, comments, control structures, Harmony patch and game component conventions, plus the single-file `Mod.cs` layout of this mod",
+   "document_tags": [],
+   "text": "---\ndoc_id: doc-e0ba6af997a6\ndescription: \"Code style guide for Don't Count Eggs on Rails: C# formatting, imports, comments, control structures, Harmony patch and game component conventions, plus the single-file `Mod.cs` layout of this mod\"\napplies_to:\n  - \"src/**\"\n---\n\n# Code Style Guide\n\n## Formatting\n**Id:** blk-f61f2288e82e\n\n### Indentation\n**Id:** blk-a3e384879caa\n\n- Tabs, one per level, in every `.cs` file (`mods/bitshifter/src/Bitshifter/Mod.cs`).\n- Project files (`.csproj`, `common/oni-mod.props`, `common/oni-mod.targets`) use two spaces.\n- Files are committed with LF line endings; Windows checkouts convert them to CRLF (`core.autocrlf` is true), so do not hand-normalise line endings.\n\n### Line Length\n**Id:** blk-527ddcf84ecb\n\n- No limit is configured and the repository has no `.editorconfig`.\n- Wrap long calls and string concatenations after an argument or before a `+`, and indent the continuation one tab. The start-up log call in `mods/jumper-bridges/src/JumperBridges/Mod.cs` is the pattern.\n- TODO(owner): decide whether to add an `.editorconfig` recording tabs and brace placement so editors enforce what the code already does.\n\n### Braces\n**Id:** blk-8bb005c4e96e\n\n- Opening brace on its own line (Allman) for namespaces, types, members and multi-line control blocks.\n- A body of one short statement goes on the next line without braces:\n\n```csharp\nforeach (Mod mod in mods)\n{\n\tif (!mod.IsEnabledForActiveDlc())\n\t\tcontinue;\n\t...\n}\n```\n\n- Multi-line initialisers and enums end with a trailing comma (`YieldToWorkshopIds` in `mods/bitshifter/src/Bitshifter/Mod.cs`, `CoolPodMode` in `mods/storage-pod-redux/src/StoragePodRedux/Options.cs`).\n\n## Language and Toolchain\n**Id:** blk-ad40ad142018\n\n- C# 9 on .NET Framework 4.8 (`LangVersion` 9.0 and `TargetFramework` net48 in `common/oni-mod.props`). Namespace blocks, not file-scoped namespaces; no nullable reference types.\n- Mods compile against the game's own assemblies (`common/oni-mod.targets`): `Assembly-CSharp`, `Assembly-CSharp-firstpass`, `0Harmony` and Unity modules. The game's .NET Framework lacks some newer APIs (`ConditionalWeakTable.AddOrUpdate` is missing, see `mods/detect-any-element/src/DetectAnyElement/Patches.cs`).\n- Optional references are switched on in the mod csproj before the targets import: `ReferenceUnityUI`, `ReferenceImageConversion`, `UsePLib` (PLib is ILRepack-merged into the mod DLL) and `UseTranslations` (compiles `common/src/Translations.cs` in).\n- One namespace per mod, equal to its `RootNamespace`. Subfolders organise files and do not add namespaces (`mods/upgrade-planner/src/UpgradePlanner/Plan`, `Rules`, `Tool`, `UI` all declare `namespace UpgradePlanner`).\n\n## Imports/Includes\n**Id:** blk-bac1fa61cd8a\n\n### Organization\n**Id:** blk-527b18e7c558\n\n`using` directives sit above the namespace, in one block with no blank lines, sorted alphabetically with `System.*` first. Aliases for `ModStrings` branches come last.\n\n1. `System.*`\n2. Everything else alphabetically: `HarmonyLib`, `Isochronous`, `KMod`, `Newtonsoft.Json`, `PeterHan.PLib.*`, `ProcGenGame`, `UnityEngine`\n3. Aliases (`using TOOL = SweepZones.ModStrings.UI.TOOLS.SWEEPZONES;`)\n\n### Example\n**Id:** blk-b243414742bb\n\n```csharp\nusing System.Collections.Generic;\nusing System.Reflection;\nusing HarmonyLib;\nusing Isochronous;\nusing Klei;\nusing KMod;\nusing STRINGS;\nusing UnityEngine;\n```\n(`mods/salty-surf/src/SaltySurf/Mod.cs`)\n\n`Debug.Log` resolves either to `UnityEngine.Debug` or to the game's own global `Debug` class, so several `Mod.cs` files omit `using UnityEngine`. When a file imports `System.Diagnostics`, qualify the call as `UnityEngine.Debug.Log` (`mods/just-fall-already/src/JustFallAlready/FallPoke.cs`).\n\n## Comments\n**Id:** blk-922fd4a4d120\n\n### When to Comment\n**Id:** blk-9dbadebf4997\n\n- On every non-trivial class, an XML `<summary>` that says what the game does and what the patch changes, so a reader can check the patch against the game code. The long summary on `OvercrowdingMonitor_UpdateRegion_Patch` in `mods/dont-count-eggs-on-rails/src/DontCountEggsOnRails/Mod.cs` is the model.\n- Where a game quirk forces an odd line: `// The game's .NET Framework has no AddOrUpdate on this table.`\n- Where another mod is involved, name it and its Workshop id (`mods/bitshifter/src/Bitshifter/Mod.cs`, `mods/smart-weight-plate/src/SmartWeightPlate/Mod.cs`).\n- Escape angle brackets in XML comments as `&lt;` and `&gt;`.\n\n### When NOT to Comment\n**Id:** blk-838f08430525\n\n- Code that reads clearly from its names.\n- Commented-out code; delete it.\n- Restating what a line does.\n\n### Format\n**Id:** blk-e528b6f5c462\n\n```csharp\n/// <summary>\n/// The \"Any\" choice. It is a tag like the elements a sensor's Filterable holds, so it rides\n/// in the same saved field and copies with the building's settings.\n/// </summary>\npublic static class AnyElement\n\n// Single-line note for a quirk or a reason.\n```\n\n## Control Structures\n**Id:** blk-42d32a037e13\n\n### Conditionals\n**Id:** blk-e4043aca66fc\n\nGuard clauses and early `return` or `continue` keep nesting shallow (`SettleSimBackwalls.UpdateFromSim` in `mods/natural-backwalls-everywhere/src/NaturalBackwalls/SettleSimPatch.cs`):\n\n```csharp\nif (!Grid.IsValidCell(cell))\n\tcontinue;\nushort idx = data->backwallElement[cell];\nif (idx == ushort.MaxValue || idx >= elements.Count)\n\tcontinue;\n```\n\n### Loops\n**Id:** blk-8f46b5b1e7a3\n\n- Plain `for` and `foreach`. Code that runs every sim tick or frame avoids LINQ and allocations; reuse scratch lists (`scratch` in `mods/just-fall-already/src/JustFallAlready/FallPoke.cs`).\n- Local types are written out (`Tech tech = ...`). `var` appears mainly in `mods/upgrade-planner`, `mods/natural-backwalls-everywhere` and the test projects; follow the surrounding file.\n\n### Strings\n**Id:** blk-a2e97c0e50fa\n\n- Log and UI text is built with `+` concatenation, or `string.Format` on a `LocString`. String interpolation is not used in mod code.\n- Player-visible text is a `LocString` field in `ModStrings`, never a literal at the call site (see [naming conventions](naming-conventions.md)).\n\n## Harmony Patches\n**Id:** blk-d536a96e7ec3\n\n- A patch is a static class with `[HarmonyPatch(typeof(Type), nameof(Type.Method))]`, or `[HarmonyPatch(typeof(Type), \"PrivateMethod\")]` for a non-public method, and methods named `Prefix`, `Postfix`, `Transpiler` or `Finalizer` (`mods/bitshifter/src/Bitshifter/Patches.cs`).\n- Game state arrives through Harmony parameters: `__instance`, `__result`, `___field`. Fields read repeatedly use `AccessTools.FieldRefAccess` kept in a `static readonly` field (`mods/detect-any-element/src/DetectAnyElement/Patches.cs`).\n- A prefix returns `true` to let the game's method run and `false` only when it replaces the method (`mods/dont-count-eggs-on-rails`, `mods/bitshifter` `UpdateVisuals`).\n- A patch that depends on an option implements `Prepare()` (`mods/jumper-bridges/src/JumperBridges/Patches.cs`); a patch with several targets implements `TargetMethods()`.\n- `UserMod2.OnLoad` calls `base.OnLoad(harmony)`, which applies every patch in the assembly, then registers libraries and logs the version. A mod that must patch after all others applies its patches from `OnAllModsLoaded` instead (`mods/bitshifter/src/Bitshifter/Mod.cs`).\n- Transpilers search for the instruction they change and report when it is not found; see [error handling](error-handling.md).\n\n## Game Components\n**Id:** blk-6da88cee9129\n\n- A component extends `KMonoBehaviour`, overrides `OnPrefabInit`, `OnSpawn` and `OnCleanUp` and calls `base` from each. Sibling components come in through `[MyCmpGet]` or `[MyCmpReq]` (`mods/no-magic-fridges/src/NoMagicFridges/FridgeThermostat.cs`).\n- Saved state uses `[Serialize]` fields with `[SerializationConfig(MemberSerialization.OptIn)]` on the class (`mods/sweep-zones/src/SweepZones/ZoneStore.cs`).\n- Components are added to prefabs from a `DoPostConfigureComplete` postfix with `go.AddOrGet<T>()`.\n\n## Project-Specific Rules\n**Id:** blk-ed4d88eb38f6\n\n- Mod options are a PLib `POptions` class marked `[JsonObject(MemberSerialization.OptIn)]` and `[ConfigFile(SharedConfigLocation: true)]`, read through a static `Load()` (`mods/vent-freeze-fix/src/VentFreezeFix/Options.cs`) or through `SingletonOptions<Options>` (`mods/storage-pod-redux`). Option titles are string-table keys, so the translation follows the language.\n- Every mod logs one line at load: `[<Name>] Loaded version <assembly version>`.\n- Tests live in a separate `<Name>.Tests` project and are written as `[OniTest]` coroutines against the real game.\n\n### Don't Count Eggs on Rails specifics\n**Id:** blk-d3ccac80ebf9\n\n- The whole mod is one file, `src/DontCountEggsOnRails/Mod.cs`: the `UserMod2` class and one public static patch class, `OvercrowdingMonitor_UpdateRegion_Patch`, with a public `Prefix`.\n- No PLib, no translations, no options.\n- The patch's XML summary carries the explanation of the game mechanics; keep it in step with any change.\n\n## Related\n**Id:** blk-db2f21bdfcaf\n\n- See also: [naming conventions](naming-conventions.md)\n- See also: [error handling](error-handling.md)\n",
+   "sections": [
+    {
+     "id": "standards/code-style.md#formatting",
+     "title": "Formatting",
+     "text": "## Formatting\n**Id:** blk-f61f2288e82e\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#formatting/indentation",
+     "title": "Indentation",
+     "text": "### Indentation\n**Id:** blk-a3e384879caa\n\n- Tabs, one per level, in every `.cs` file (`mods/bitshifter/src/Bitshifter/Mod.cs`).\n- Project files (`.csproj`, `common/oni-mod.props`, `common/oni-mod.targets`) use two spaces.\n- Files are committed with LF line endings; Windows checkouts convert them to CRLF (`core.autocrlf` is true), so do not hand-normalise line endings.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#formatting/line-length",
+     "title": "Line Length",
+     "text": "### Line Length\n**Id:** blk-527ddcf84ecb\n\n- No limit is configured and the repository has no `.editorconfig`.\n- Wrap long calls and string concatenations after an argument or before a `+`, and indent the continuation one tab. The start-up log call in `mods/jumper-bridges/src/JumperBridges/Mod.cs` is the pattern.\n- TODO(owner): decide whether to add an `.editorconfig` recording tabs and brace placement so editors enforce what the code already does.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#formatting/braces",
+     "title": "Braces",
+     "text": "### Braces\n**Id:** blk-8bb005c4e96e\n\n- Opening brace on its own line (Allman) for namespaces, types, members and multi-line control blocks.\n- A body of one short statement goes on the next line without braces:\n\n```csharp\nforeach (Mod mod in mods)\n{\n\tif (!mod.IsEnabledForActiveDlc())\n\t\tcontinue;\n\t...\n}\n```\n\n- Multi-line initialisers and enums end with a trailing comma (`YieldToWorkshopIds` in `mods/bitshifter/src/Bitshifter/Mod.cs`, `CoolPodMode` in `mods/storage-pod-redux/src/StoragePodRedux/Options.cs`).\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#language-and-toolchain",
+     "title": "Language and Toolchain",
+     "text": "## Language and Toolchain\n**Id:** blk-ad40ad142018\n\n- C# 9 on .NET Framework 4.8 (`LangVersion` 9.0 and `TargetFramework` net48 in `common/oni-mod.props`). Namespace blocks, not file-scoped namespaces; no nullable reference types.\n- Mods compile against the game's own assemblies (`common/oni-mod.targets`): `Assembly-CSharp`, `Assembly-CSharp-firstpass`, `0Harmony` and Unity modules. The game's .NET Framework lacks some newer APIs (`ConditionalWeakTable.AddOrUpdate` is missing, see `mods/detect-any-element/src/DetectAnyElement/Patches.cs`).\n- Optional references are switched on in the mod csproj before the targets import: `ReferenceUnityUI`, `ReferenceImageConversion`, `UsePLib` (PLib is ILRepack-merged into the mod DLL) and `UseTranslations` (compiles `common/src/Translations.cs` in).\n- One namespace per mod, equal to its `RootNamespace`. Subfolders organise files and do not add namespaces (`mods/upgrade-planner/src/UpgradePlanner/Plan`, `Rules`, `Tool`, `UI` all declare `namespace UpgradePlanner`).\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#imports-includes",
+     "title": "Imports/Includes",
+     "text": "## Imports/Includes\n**Id:** blk-bac1fa61cd8a\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#imports-includes/organization",
+     "title": "Organization",
+     "text": "### Organization\n**Id:** blk-527b18e7c558\n\n`using` directives sit above the namespace, in one block with no blank lines, sorted alphabetically with `System.*` first. Aliases for `ModStrings` branches come last.\n\n1. `System.*`\n2. Everything else alphabetically: `HarmonyLib`, `Isochronous`, `KMod`, `Newtonsoft.Json`, `PeterHan.PLib.*`, `ProcGenGame`, `UnityEngine`\n3. Aliases (`using TOOL = SweepZones.ModStrings.UI.TOOLS.SWEEPZONES;`)\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#imports-includes/example",
+     "title": "Example",
+     "text": "### Example\n**Id:** blk-b243414742bb\n\n```csharp\nusing System.Collections.Generic;\nusing System.Reflection;\nusing HarmonyLib;\nusing Isochronous;\nusing Klei;\nusing KMod;\nusing STRINGS;\nusing UnityEngine;\n```\n(`mods/salty-surf/src/SaltySurf/Mod.cs`)\n\n`Debug.Log` resolves either to `UnityEngine.Debug` or to the game's own global `Debug` class, so several `Mod.cs` files omit `using UnityEngine`. When a file imports `System.Diagnostics`, qualify the call as `UnityEngine.Debug.Log` (`mods/just-fall-already/src/JustFallAlready/FallPoke.cs`).\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#comments",
+     "title": "Comments",
+     "text": "## Comments\n**Id:** blk-922fd4a4d120\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#comments/when-to-comment",
+     "title": "When to Comment",
+     "text": "### When to Comment\n**Id:** blk-9dbadebf4997\n\n- On every non-trivial class, an XML `<summary>` that says what the game does and what the patch changes, so a reader can check the patch against the game code. The long summary on `OvercrowdingMonitor_UpdateRegion_Patch` in `mods/dont-count-eggs-on-rails/src/DontCountEggsOnRails/Mod.cs` is the model.\n- Where a game quirk forces an odd line: `// The game's .NET Framework has no AddOrUpdate on this table.`\n- Where another mod is involved, name it and its Workshop id (`mods/bitshifter/src/Bitshifter/Mod.cs`, `mods/smart-weight-plate/src/SmartWeightPlate/Mod.cs`).\n- Escape angle brackets in XML comments as `&lt;` and `&gt;`.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#comments/when-not-to-comment",
+     "title": "When NOT to Comment",
+     "text": "### When NOT to Comment\n**Id:** blk-838f08430525\n\n- Code that reads clearly from its names.\n- Commented-out code; delete it.\n- Restating what a line does.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#comments/format",
+     "title": "Format",
+     "text": "### Format\n**Id:** blk-e528b6f5c462\n\n```csharp\n/// <summary>\n/// The \"Any\" choice. It is a tag like the elements a sensor's Filterable holds, so it rides\n/// in the same saved field and copies with the building's settings.\n/// </summary>\npublic static class AnyElement\n\n// Single-line note for a quirk or a reason.\n```\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#control-structures",
+     "title": "Control Structures",
+     "text": "## Control Structures\n**Id:** blk-42d32a037e13\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#control-structures/conditionals",
+     "title": "Conditionals",
+     "text": "### Conditionals\n**Id:** blk-e4043aca66fc\n\nGuard clauses and early `return` or `continue` keep nesting shallow (`SettleSimBackwalls.UpdateFromSim` in `mods/natural-backwalls-everywhere/src/NaturalBackwalls/SettleSimPatch.cs`):\n\n```csharp\nif (!Grid.IsValidCell(cell))\n\tcontinue;\nushort idx = data->backwallElement[cell];\nif (idx == ushort.MaxValue || idx >= elements.Count)\n\tcontinue;\n```\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#control-structures/loops",
+     "title": "Loops",
+     "text": "### Loops\n**Id:** blk-8f46b5b1e7a3\n\n- Plain `for` and `foreach`. Code that runs every sim tick or frame avoids LINQ and allocations; reuse scratch lists (`scratch` in `mods/just-fall-already/src/JustFallAlready/FallPoke.cs`).\n- Local types are written out (`Tech tech = ...`). `var` appears mainly in `mods/upgrade-planner`, `mods/natural-backwalls-everywhere` and the test projects; follow the surrounding file.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#control-structures/strings",
+     "title": "Strings",
+     "text": "### Strings\n**Id:** blk-a2e97c0e50fa\n\n- Log and UI text is built with `+` concatenation, or `string.Format` on a `LocString`. String interpolation is not used in mod code.\n- Player-visible text is a `LocString` field in `ModStrings`, never a literal at the call site (see [naming conventions](naming-conventions.md)).\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#harmony-patches",
+     "title": "Harmony Patches",
+     "text": "## Harmony Patches\n**Id:** blk-d536a96e7ec3\n\n- A patch is a static class with `[HarmonyPatch(typeof(Type), nameof(Type.Method))]`, or `[HarmonyPatch(typeof(Type), \"PrivateMethod\")]` for a non-public method, and methods named `Prefix`, `Postfix`, `Transpiler` or `Finalizer` (`mods/bitshifter/src/Bitshifter/Patches.cs`).\n- Game state arrives through Harmony parameters: `__instance`, `__result`, `___field`. Fields read repeatedly use `AccessTools.FieldRefAccess` kept in a `static readonly` field (`mods/detect-any-element/src/DetectAnyElement/Patches.cs`).\n- A prefix returns `true` to let the game's method run and `false` only when it replaces the method (`mods/dont-count-eggs-on-rails`, `mods/bitshifter` `UpdateVisuals`).\n- A patch that depends on an option implements `Prepare()` (`mods/jumper-bridges/src/JumperBridges/Patches.cs`); a patch with several targets implements `TargetMethods()`.\n- `UserMod2.OnLoad` calls `base.OnLoad(harmony)`, which applies every patch in the assembly, then registers libraries and logs the version. A mod that must patch after all others applies its patches from `OnAllModsLoaded` instead (`mods/bitshifter/src/Bitshifter/Mod.cs`).\n- Transpilers search for the instruction they change and report when it is not found; see [error handling](error-handling.md).\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#game-components",
+     "title": "Game Components",
+     "text": "## Game Components\n**Id:** blk-6da88cee9129\n\n- A component extends `KMonoBehaviour`, overrides `OnPrefabInit`, `OnSpawn` and `OnCleanUp` and calls `base` from each. Sibling components come in through `[MyCmpGet]` or `[MyCmpReq]` (`mods/no-magic-fridges/src/NoMagicFridges/FridgeThermostat.cs`).\n- Saved state uses `[Serialize]` fields with `[SerializationConfig(MemberSerialization.OptIn)]` on the class (`mods/sweep-zones/src/SweepZones/ZoneStore.cs`).\n- Components are added to prefabs from a `DoPostConfigureComplete` postfix with `go.AddOrGet<T>()`.\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#project-specific-rules",
+     "title": "Project-Specific Rules",
+     "text": "## Project-Specific Rules\n**Id:** blk-ed4d88eb38f6\n\n- Mod options are a PLib `POptions` class marked `[JsonObject(MemberSerialization.OptIn)]` and `[ConfigFile(SharedConfigLocation: true)]`, read through a static `Load()` (`mods/vent-freeze-fix/src/VentFreezeFix/Options.cs`) or through `SingletonOptions<Options>` (`mods/storage-pod-redux`). Option titles are string-table keys, so the translation follows the language.\n- Every mod logs one line at load: `[<Name>] Loaded version <assembly version>`.\n- Tests live in a separate `<Name>.Tests` project and are written as `[OniTest]` coroutines against the real game.\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#project-specific-rules/don-t-count-eggs-on-rails-specifics",
+     "title": "Don't Count Eggs on Rails specifics",
+     "text": "### Don't Count Eggs on Rails specifics\n**Id:** blk-d3ccac80ebf9\n\n- The whole mod is one file, `src/DontCountEggsOnRails/Mod.cs`: the `UserMod2` class and one public static patch class, `OvercrowdingMonitor_UpdateRegion_Patch`, with a public `Prefix`.\n- No PLib, no translations, no options.\n- The patch's XML summary carries the explanation of the game mechanics; keep it in step with any change.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#related",
+     "title": "Related",
+     "text": "## Related\n**Id:** blk-db2f21bdfcaf\n\n- See also: [naming conventions](naming-conventions.md)\n- See also: [error handling](error-handling.md)\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  }
+ ]
+}

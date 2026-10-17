@@ -1,4 +1,5 @@
 ---
+tags: weight-sensing, signal-threshold
 doc_id: doc-7bf71d74cafa
 description: Index of the Smart Weight Plate domains folder, linking the entities document on the building, its two-threshold latch and the wiring patches and the glossary of game and mod terms
 ---

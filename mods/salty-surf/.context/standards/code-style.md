@@ -53,7 +53,8 @@ foreach (Mod mod in mods)
 **Id:** blk-1d487f353650
 
 ### Organization
-**Id:** blk-acbb3fac0613
+**Id:** blk-acbb3fac0613  
+**Tags:** mod-strings
 
 `using` directives sit above the namespace, in one block with no blank lines, sorted alphabetically with `System.*` first. Aliases for `ModStrings` branches come last.
 
@@ -82,7 +83,8 @@ using UnityEngine;
 **Id:** blk-cc3ce3eaa91f
 
 ### When to Comment
-**Id:** blk-812bb51869b0
+**Id:** blk-812bb51869b0  
+**Tags:** harmony-patching
 
 - On every non-trivial class, an XML `<summary>` that says what the game does and what the patch changes, so a reader can check the patch against the game code. The long summary on `OvercrowdingMonitor_UpdateRegion_Patch` in `mods/dont-count-eggs-on-rails/src/DontCountEggsOnRails/Mod.cs` is the model.
 - Where a game quirk forces an odd line: `// The game's .NET Framework has no AddOrUpdate on this table.`
@@ -132,13 +134,15 @@ if (idx == ushort.MaxValue || idx >= elements.Count)
 - Local types are written out (`Tech tech = ...`). `var` appears mainly in `mods/upgrade-planner`, `mods/natural-backwalls-everywhere` and the test projects; follow the surrounding file.
 
 ### Strings
-**Id:** blk-8e28256f3f0e
+**Id:** blk-8e28256f3f0e  
+**Tags:** mod-strings, logging
 
 - Log and UI text is built with `+` concatenation, or `string.Format` on a `LocString`. String interpolation is not used in mod code.
 - Player-visible text is a `LocString` field in `ModStrings`, never a literal at the call site (see [naming conventions](naming-conventions.md)).
 
 ## Harmony Patches
-**Id:** blk-6d43d7004a79
+**Id:** blk-6d43d7004a79  
+**Tags:** harmony-patching, reflection, mod-entry-point
 
 - A patch is a static class with `[HarmonyPatch(typeof(Type), nameof(Type.Method))]`, or `[HarmonyPatch(typeof(Type), "PrivateMethod")]` for a non-public method, and methods named `Prefix`, `Postfix`, `Transpiler` or `Finalizer` (`mods/bitshifter/src/Bitshifter/Patches.cs`).
 - Game state arrives through Harmony parameters: `__instance`, `__result`, `___field`. Fields read repeatedly use `AccessTools.FieldRefAccess` kept in a `static readonly` field (`mods/detect-any-element/src/DetectAnyElement/Patches.cs`).
@@ -155,14 +159,16 @@ if (idx == ushort.MaxValue || idx >= elements.Count)
 - Components are added to prefabs from a `DoPostConfigureComplete` postfix with `go.AddOrGet<T>()`.
 
 ## Project-Specific Rules
-**Id:** blk-df727bd6b290
+**Id:** blk-df727bd6b290  
+**Tags:** logging, in-game-testing, mod-strings
 
 - Mod options are a PLib `POptions` class marked `[JsonObject(MemberSerialization.OptIn)]` and `[ConfigFile(SharedConfigLocation: true)]`, read through a static `Load()` (`mods/vent-freeze-fix/src/VentFreezeFix/Options.cs`) or through `SingletonOptions<Options>` (`mods/storage-pod-redux`). Option titles are string-table keys, so the translation follows the language.
 - Every mod logs one line at load: `[<Name>] Loaded version <assembly version>`.
 - Tests live in a separate `<Name>.Tests` project and are written as `[OniTest]` coroutines against the real game.
 
 ### Salty Surf specifics
-**Id:** blk-1669d9f26a50
+**Id:** blk-1669d9f26a50  
+**Tags:** reflection, harmony-patching, mechanical-surfboard
 
 - `UseTranslations` only. The patches follow the mod class in `Mod.cs`; there is no `Patches.cs`. `SurfWater` is the shared static class (`Tag`, `Elements`, `Names()`).
 - The file uses `using STRINGS;` so `BUILDINGS.PREFABS.MECHANICALSURFBOARD...` resolves to the game's strings.

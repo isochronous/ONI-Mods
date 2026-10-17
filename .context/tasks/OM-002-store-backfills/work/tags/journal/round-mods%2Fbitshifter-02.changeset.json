@@ -1,0 +1,68 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/bitshifter — round 2",
+  "node": "C:\\dev\\ONI-Mods\\mods\\bitshifter",
+  "base": {
+    "domains/entities.md": "sha256:78245ea7e18f0cbf496922ccbf908774efeafa44c592dc0ff86cd8a3b2cbd131",
+    "domains/glossary.md": "sha256:98f91c42b38f1b1a7b8e24df2b43e11f0a3f252e1604c002c81378e5d546a564",
+    "overview.md": "sha256:0d2c943b5ef414978ae3450f986f3eda10809b2e8538df0ad2f2ded1049295c0",
+    "standards/error-handling.md": "sha256:37fbf0587bee91984d6fff7605a4d4721c9b433d0e50e54ff359452af3f63c6e",
+    "standards/code-style.md": "sha256:29e062ef04ea3aa17d610e14058292d121222fd8118b997f6392e7010a4aa97b",
+    "standards/naming-conventions.md": "sha256:d364953d7396c90d2b37e4cf0bebf075f13e20749a8af1f8e5c41e0f8d3f9e46"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "bit-depth",
+        "saved-state"
+      ],
+      "section": "key-entities/reader-and-writer-bit-depth"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "bit-depth",
+        "saved-state"
+      ],
+      "section": "terms-to-avoid"
+    },
+    {
+      "target": "overview.md",
+      "mode": "tag",
+      "add": [
+        "mod-entry-point",
+        "kanim-art",
+        "in-game-testing"
+      ],
+      "section": "where-things-are"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching"
+      ],
+      "section": "guarding-patches/missing-member-warn-leave-vanilla"
+    },
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "logging",
+        "in-game-testing"
+      ],
+      "section": "project-specific-rules"
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching"
+      ],
+      "section": "code-naming/classes-types-interfaces"
+    }
+  ]
+}

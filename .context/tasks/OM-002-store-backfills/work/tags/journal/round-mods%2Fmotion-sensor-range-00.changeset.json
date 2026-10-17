@@ -1,0 +1,75 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/motion-sensor-range — round 0",
+  "node": "C:\\dev\\ONI-Mods\\mods\\motion-sensor-range",
+  "base": {
+    "domains/README.md": "sha256:cd0adce495a2d149924e94a7caa5f4b06ac5639507ff431caa4094fedf703dcd",
+    "domains/entities.md": "sha256:ab2a141efdd1e1486d8cacb6261a2ecf72e313fc628b6e1bfd23b30ac7be996d",
+    "domains/glossary.md": "sha256:bd97e2d55524460c056f427692bf15a2116062d1f39a511cde907c0fb12a617d",
+    "overview.md": "sha256:9bc07d5c2b13353db32c6df8be0f5e1bdf9bd04a715edeedf9f04e5fc1cda620",
+    "standards/code-style.md": "sha256:456dba9b02bc2417e38df1879db673d48150cd0b3be025584bb2d929530f85b2",
+    "standards/error-handling.md": "sha256:55868f236f6c750a2daa9a90787a3e4f00bdf9326f70a613db818d1ec3884c20",
+    "standards/naming-conventions.md": "sha256:3a645ff0c69d170e6b7cd94318ba401cb7a6cd363fad2322b9b9ee981264e540"
+  },
+  "ops": [
+    {
+      "target": "domains/README.md",
+      "mode": "tag",
+      "add": [
+        "detection-range"
+      ]
+    },
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "detection-range"
+      ]
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "detection-range"
+      ]
+    },
+    {
+      "target": "overview.md",
+      "mode": "tag",
+      "add": [
+        "detection-range"
+      ]
+    },
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "mod-strings",
+        "logging"
+      ],
+      "section": "control-structures/strings"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "vanilla-fallback",
+        "logging",
+        "reflection",
+        "harmony-patching"
+      ],
+      "section": "principles"
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "tag",
+      "add": [
+        "mod-entry-point",
+        "harmony-patching",
+        "side-screen",
+        "mod-strings"
+      ],
+      "section": "files-and-directories/examples-by-type"
+    }
+  ]
+}

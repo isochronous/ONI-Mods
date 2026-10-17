@@ -1,0 +1,39 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/just-fall-already — round 6",
+  "node": "C:\\dev\\ONI-Mods\\mods\\just-fall-already",
+  "base": {
+    "domains/glossary.md": "sha256:2ffa8a59608d4a12f8f1d24e70bea6df1542d1f3f8b0281d9691fbb3cdfbd218",
+    "standards/error-handling.md": "sha256:7a37fd46b4bf02d356ccfa0edd03d73d743259619799f3415baa1169f6634476",
+    "standards/code-style.md": "sha256:b32b8fd28505c96e5d8ae46decb31085d0e7317cfddb16d05d2145f3319c1f7f"
+  },
+  "ops": [
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "mod-compatibility",
+        "performance"
+      ],
+      "section": "cross-domain-terms/fast-track"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "logging",
+        "performance"
+      ],
+      "section": "guarding-patches/warn-once"
+    },
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching",
+        "navigation-grid"
+      ],
+      "section": "project-specific-rules/just-fall-already-specifics"
+    }
+  ]
+}

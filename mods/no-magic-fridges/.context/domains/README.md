@@ -1,4 +1,5 @@
 ---
+tags: refrigerator
 doc_id: doc-07328383cd3e
 description: Index of the No Magic Fridges domains folder, linking the entities document on the FridgeThermostat component and sim patches and the glossary of ONI and mod terms
 ---

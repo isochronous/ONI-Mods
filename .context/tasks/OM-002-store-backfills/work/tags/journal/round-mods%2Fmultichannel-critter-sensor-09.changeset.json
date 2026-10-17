@@ -1,0 +1,20 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/multichannel-critter-sensor — round 9",
+  "node": "C:\\dev\\ONI-Mods\\mods\\multichannel-critter-sensor",
+  "base": {
+    "domains/entities.md": "sha256:762f925cf7a6486e77430f71ada92eadfba9bcca4297f497ac672b00e7967f45"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "game-component",
+        "side-screen",
+        "in-game-testing"
+      ],
+      "section": "key-code-paths"
+    }
+  ]
+}

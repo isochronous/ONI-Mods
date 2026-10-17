@@ -1,0 +1,13 @@
+term               count  gloss
+developer-tooling      0  A record earns this term when it is about debug and developer features a mod includes for its author rather than for players.
+game-component         0  A record earns this term when it is about a KMonoBehaviour component that a mod adds to game objects and the work it does there.
+harmony-patching       0  A record earns this term when it is about writing or applying the Harmony patches through which a mod changes game methods.
+in-game-testing        0  A record earns this term when it is about testing a mod inside the running game with TestRunner and its [OniTest] coroutines.
+liquid-freezing        0  A record earns this term when it is about how super-cooled liquid freezes into a tile and the game's mass rule for that.
+liquid-vent            0  A record earns this term when it is about the liquid vent and the packets of liquid it stores and emits.
+logging                0  A record earns this term when it is about what a mod writes to the game log and at which level.
+mod-entry-point        0  A record earns this term when it is about a mod's UserMod2 class and what it does when the game loads the mod.
+mod-options            0  A record earns this term when it is about the player-facing settings a mod exposes on its options screen and how the mod reads them.
+mod-strings            0  A record earns this term when it is about the player-visible text a mod defines in ModStrings and the translations of that text.
+saved-state            0  A record earns this term when it is about what a mod stores in a save file and how that data is restored when the save loads.
+tile-repair            0  A record earns this term when it is about digging out a tile that should not have formed and returning its mass as debris.

@@ -1,0 +1,19 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/natural-backwalls-everywhere — round 15",
+  "node": "C:\\dev\\ONI-Mods\\mods\\natural-backwalls-everywhere",
+  "base": {
+    "standards/error-handling.md": "sha256:a9442e2084c49ccb671c1459ab16d22129358d1aeafab3f5263a3fc176577ec7"
+  },
+  "ops": [
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "logging",
+        "vanilla-fallback"
+      ],
+      "section": "anti-patterns-to-avoid/silent-degradation"
+    }
+  ]
+}

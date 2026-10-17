@@ -19,7 +19,8 @@ applies_to:
 - Release tags are `<mod-folder>-v<version>` (repository README).
 
 ### Examples by Type
-**Id:** blk-c963897629f3
+**Id:** blk-c963897629f3  
+**Tags:** harmony-patching, mod-entry-point
 
 | Type | Convention | Example |
 |------|------------|---------|
@@ -54,14 +55,16 @@ private static readonly Dictionary<int, float> armed = new Dictionary<int, float
 (`mods/just-fall-already/src/JustFallAlready/FallPoke.cs`)
 
 ### Functions/Methods
-**Id:** blk-f2eb35a7a254
+**Id:** blk-f2eb35a7a254  
+**Tags:** harmony-patching
 
 - PascalCase, starting with a verb: `Apply`, `Decide`, `SwapTable`, `CopyRangeFrom`, `ApplyRange`.
 - Game callbacks keep the game's names (`OnSpawn`, `OnPrefabInit`, `OnCleanUp`, `Sim1000ms`).
 - Harmony methods are named for their kind: `Prefix`, `Postfix`, `Transpiler`, `Finalizer`, plus `Prepare`, `TargetMethod`, `TargetMethods`.
 
 ### Classes/Types/Interfaces
-**Id:** blk-04a530477b1f
+**Id:** blk-04a530477b1f  
+**Tags:** harmony-patching
 
 - PascalCase nouns. Interfaces take an `I` prefix (`IPlanTab` and `ITabView` in `mods/upgrade-planner`, and the game's own).
 - Harmony patch classes: `<PatchedType>_<PatchedMethod>_Patch` (`LogicRibbonReader_GetBitDepth_Patch`, `Db_Initialize_Patch`, `GeneratedBuildings_LoadGeneratedBuildings_Patch`). A patch for a type with one concern may use `<Type>_Patch` (`LiquidVentConfig_Patch`). Patches nested in a holder class may drop the suffix (`Constructable_OnSpawn` in `ReachTablePatches`).
@@ -93,7 +96,8 @@ private static readonly Dictionary<int, float> armed = new Dictionary<int, float
 **Id:** blk-62dc31bf6800
 
 ### Corner Build Anything specifics
-**Id:** blk-8ab8f88f3345
+**Id:** blk-8ab8f88f3345  
+**Tags:** harmony-patching, transpiler, logging
 
 - Nested patch classes are named for the patched type and method without the `_Patch` suffix: `Constructable_OnSpawn`, `Deconstructable_OnSpawn`.
 - The two `FieldInfo` lookups are PascalCase `static readonly` fields (`Standard`, `WithCorners`).

@@ -1,4 +1,5 @@
 ---
+tags: automation-ribbon
 doc_id: doc-508116624070
 description: "Index of the domain documents in the Bitshifter node: the entities and glossary files covering the Ribbon Reader and Writer bit selection, display and NOT gate patches"
 ---

@@ -1,0 +1,37 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/refined-building — round 2",
+  "node": "C:\\dev\\ONI-Mods\\mods\\refined-building",
+  "base": {
+    "domains/entities.md": "sha256:48228fb6336d4371235279002a86d1b4f14580daf8657ed255639877658e82cd",
+    "standards/code-style.md": "sha256:a75c996697e8ceafa843ab9d30558294f2899790c2f75f77bfb3fff1e4d18a36",
+    "standards/naming-conventions.md": "sha256:ebe9d380dafe8f29ed215e0edbfeb0fa7d4de5da800a84edc56bd3d8c0d1d73e"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "mod-entry-point",
+        "logging"
+      ],
+      "section": "key-entities/mod-entry"
+    },
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching"
+      ],
+      "section": "project-specific-rules/refined-building-specifics"
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching"
+      ],
+      "section": "code-naming/classes-types-interfaces"
+    }
+  ]
+}

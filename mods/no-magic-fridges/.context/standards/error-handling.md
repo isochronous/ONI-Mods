@@ -1,4 +1,5 @@
 ---
+tags: vanilla-fallback, logging
 doc_id: doc-aea927ed3ec9
 description: "Error handling rules for No Magic Fridges: guarding Harmony patches and transpilers, try/catch, logging levels and anti-patterns, plus how its reservoir prefix and protected-method lookup fall back to vanilla"
 applies_to:
@@ -8,7 +9,8 @@ applies_to:
 # Error Handling Conventions
 
 ## Principles
-**Id:** blk-dca3e40e96f1
+**Id:** blk-dca3e40e96f1  
+**Tags:** harmony-patching, reflection
 
 1. **Never break the game for a mod's sake.** A patch that cannot do its job leaves the vanilla behaviour in place and says so in the log. It does not throw into the game's update loop.
 2. **Check what you patch.** Game updates rename fields and move code. Every reflection lookup, transpiler match and prefab or tech lookup is checked for a miss.
@@ -19,10 +21,12 @@ applies_to:
 There is no custom exception hierarchy. Mods are small patches over game code, so errors are handled where they occur.
 
 ## Guarding Patches
-**Id:** blk-6c1ccfcd2872
+**Id:** blk-6c1ccfcd2872  
+**Tags:** harmony-patching
 
 ### Missing member: warn, leave vanilla
-**Id:** blk-b63008570ba1
+**Id:** blk-b63008570ba1  
+**Tags:** reflection
 
 A reflection lookup that returns null is checked before use. The patch then does nothing, or returns `true` from a prefix so the game's method runs.
 
@@ -81,7 +85,8 @@ Work that repeats every frame or tick warns once behind a flag (`warnedMissingIn
 The message form is `"[<Name>] <what was skipped>: " + e.Message`. Use `e.GetBaseException().Message` when the exception may be a reflection wrapper, and the full `e` when the stack trace is needed.
 
 ### Finalizer for a thread with no handler
-**Id:** blk-561d6f59d166
+**Id:** blk-561d6f59d166  
+**Tags:** harmony-patching
 
 `Cluster.BeginGeneration` is the worldgen thread body and has none; an exception ends the thread and the loading screen waits forever. A finalizer reports the failure through the game's own error path and logs the exception (`Cluster_BeginGeneration_Patch` in `mods/natural-backwalls-everywhere/src/NaturalBackwalls/WorldgenThreadPatch.cs`).
 
@@ -123,12 +128,14 @@ PLib's `PUtil.Log*` helpers are not used; all mods log through `Debug`.
 An empty `catch` hides a broken patch. The one `catch` that returns a fallback without a log is `GuessLanguageCode` in `common/src/Translations.cs`, because a missing language preference is the normal case before the game has started.
 
 ### Throwing from a patch
-**Id:** blk-6ca5951ac246
+**Id:** blk-6ca5951ac246  
+**Tags:** harmony-patching
 
 An exception in a prefix or postfix on a per-frame or sim method repeats every frame. Guard, log once, return.
 
 ### Assuming the game's internals
-**Id:** blk-37cbf49b0752
+**Id:** blk-37cbf49b0752  
+**Tags:** reflection
 
 Reading a private field by name without a null check on the `FieldInfo`, or replacing an instruction without confirming it was found, breaks on the next game update.
 
@@ -146,7 +153,8 @@ A warning inside an update method fires thousands of times. Use a once-flag.
 **Id:** blk-02aae3cd2120
 
 ### No Magic Fridges specifics
-**Id:** blk-79ad1c265438
+**Id:** blk-79ad1c265438  
+**Tags:** refrigerator, harmony-patching, reflection
 
 - `SimulatedTemperatureAdjuster_OnItemSimRegistered_Patch.Prefix` returns `true` (vanilla) for a null `stt`, an invalid sim handle, missing fields, an inactive adjuster and any storage without a `FridgeThermostat`. It returns `false` only for fridge storage.
 - `SimTransferMethod` warns once at load when a protected `SimTemperatureTransfer` method is gone and returns null; the thermostat then does nothing and fridge contents keep vanilla behaviour.

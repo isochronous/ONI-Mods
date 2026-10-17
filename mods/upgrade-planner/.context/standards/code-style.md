@@ -1,4 +1,5 @@
 ---
+tags: harmony-patching
 doc_id: doc-af668e9256d1
 description: "C# code style for the Upgrade Planner mod: formatting, imports, comments, Harmony patch and game component conventions, plus a section on its vendored PLib build, subfolder layout, internals access and use of var"
 applies_to:
@@ -126,19 +127,22 @@ if (idx == ushort.MaxValue || idx >= elements.Count)
 ```
 
 ### Loops
-**Id:** blk-ca4a91a387a7
+**Id:** blk-ca4a91a387a7  
+**Tags:** performance
 
 - Plain `for` and `foreach`. Code that runs every sim tick or frame avoids LINQ and allocations; reuse scratch lists (`scratch` in `mods/just-fall-already/src/JustFallAlready/FallPoke.cs`).
 - Local types are written out (`Tech tech = ...`). `var` appears mainly in `mods/upgrade-planner`, `mods/natural-backwalls-everywhere` and the test projects; follow the surrounding file.
 
 ### Strings
-**Id:** blk-01963724bcfa
+**Id:** blk-01963724bcfa  
+**Tags:** mod-strings, logging
 
 - Log and UI text is built with `+` concatenation, or `string.Format` on a `LocString`. String interpolation is not used in mod code.
 - Player-visible text is a `LocString` field in `ModStrings`, never a literal at the call site (see [naming conventions](naming-conventions.md)).
 
 ## Harmony Patches
-**Id:** blk-fc6578139fc1
+**Id:** blk-fc6578139fc1  
+**Tags:** mod-entry-point
 
 - A patch is a static class with `[HarmonyPatch(typeof(Type), nameof(Type.Method))]`, or `[HarmonyPatch(typeof(Type), "PrivateMethod")]` for a non-public method, and methods named `Prefix`, `Postfix`, `Transpiler` or `Finalizer` (`mods/bitshifter/src/Bitshifter/Patches.cs`).
 - Game state arrives through Harmony parameters: `__instance`, `__result`, `___field`. Fields read repeatedly use `AccessTools.FieldRefAccess` kept in a `static readonly` field (`mods/detect-any-element/src/DetectAnyElement/Patches.cs`).
@@ -155,14 +159,16 @@ if (idx == ushort.MaxValue || idx >= elements.Count)
 - Components are added to prefabs from a `DoPostConfigureComplete` postfix with `go.AddOrGet<T>()`.
 
 ## Project-Specific Rules
-**Id:** blk-0c7eed225774
+**Id:** blk-0c7eed225774  
+**Tags:** logging, in-game-testing
 
 - Mod options are a PLib `POptions` class marked `[JsonObject(MemberSerialization.OptIn)]` and `[ConfigFile(SharedConfigLocation: true)]`, read through a static `Load()` (`mods/vent-freeze-fix/src/VentFreezeFix/Options.cs`) or through `SingletonOptions<Options>` (`mods/storage-pod-redux`). Option titles are string-table keys, so the translation follows the language.
 - Every mod logs one line at load: `[<Name>] Loaded version <assembly version>`.
 - Tests live in a separate `<Name>.Tests` project and are written as `[OniTest]` coroutines against the real game.
 
 ### Upgrade Planner specifics
-**Id:** blk-f5da873da87c
+**Id:** blk-f5da873da87c  
+**Tags:** mod-entry-point, reflection, mod-compatibility
 
 - `UsePLib`, `UseTranslations` and `ReferenceUnityUI`. It builds against the vendored PLib in `lib/PLib/PLib.dll` (`PLibDll`, `PLibDraggable` in `src/UpgradePlanner/UpgradePlanner.csproj`); `-p:PLibDraggable=false` builds against the NuGet PLib instead.
 - Files sit in subfolders `Compat`, `Plan`, `Rules`, `Tool`, `UI`; all declare `namespace UpgradePlanner`.

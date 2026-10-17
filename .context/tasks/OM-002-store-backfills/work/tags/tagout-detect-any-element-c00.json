@@ -1,0 +1,362 @@
+{
+ "documents": [
+  {
+   "id": "domains/README.md",
+   "tags": [
+    "element-sensor"
+   ]
+  },
+  {
+   "id": "domains/entities.md",
+   "tags": [
+    "element-sensor"
+   ]
+  },
+  {
+   "id": "domains/glossary.md",
+   "tags": [
+    "element-sensor"
+   ]
+  },
+  {
+   "id": "overview.md",
+   "tags": [
+    "element-sensor"
+   ]
+  },
+  {
+   "id": "standards/README.md",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "repository coding conventions for the mods"
+  },
+  {
+   "id": "standards/code-style.md",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "C# code style conventions"
+  }
+ ],
+ "sections": [
+  {
+   "id": "domains/README.md#domains",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/entities.md#overview",
+   "tags": [
+    "side-screen",
+    "game-tag",
+    "saved-state"
+   ]
+  },
+  {
+   "id": "domains/entities.md#key-entities",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/entities.md#key-entities/anyelement",
+   "tags": [
+    "game-tag",
+    "saved-state"
+   ]
+  },
+  {
+   "id": "domains/entities.md#key-entities/modstrings",
+   "tags": [
+    "mod-strings"
+   ]
+  },
+  {
+   "id": "domains/entities.md#key-entities/filtersidescreen-settarget-patch",
+   "tags": [
+    "side-screen",
+    "harmony-patching"
+   ]
+  },
+  {
+   "id": "domains/entities.md#key-entities/conduitelementsensor-conduitupdate-patch",
+   "tags": [
+    "harmony-patching"
+   ]
+  },
+  {
+   "id": "domains/entities.md#key-entities/logicelementsensor-sim200ms-patch",
+   "tags": [
+    "harmony-patching"
+   ]
+  },
+  {
+   "id": "domains/entities.md#key-entities/logicelementsensor-onelementselected-patch",
+   "tags": [
+    "harmony-patching",
+    "side-screen"
+   ]
+  },
+  {
+   "id": "domains/entities.md#key-entities/anyglyph",
+   "tags": [
+    "game-component",
+    "kanim-art"
+   ]
+  },
+  {
+   "id": "domains/entities.md#key-entities/sensorconfigs-dopostconfigurecomplete-patch",
+   "tags": [
+    "harmony-patching",
+    "game-component"
+   ]
+  },
+  {
+   "id": "domains/entities.md#key-entities/switches",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "delegate to a protected game method"
+  },
+  {
+   "id": "domains/entities.md#business-rules",
+   "tags": [
+    "side-screen",
+    "saved-state"
+   ]
+  },
+  {
+   "id": "domains/entities.md#key-code-paths",
+   "tags": [
+    "harmony-patching",
+    "kanim-art",
+    "in-game-testing"
+   ]
+  },
+  {
+   "id": "domains/entities.md#related",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/glossary.md#abbreviations-and-acronyms",
+   "tags": [
+    "kanim-art",
+    "mod-strings"
+   ]
+  },
+  {
+   "id": "domains/glossary.md#terms-to-avoid",
+   "tags": [
+    "side-screen",
+    "game-tag"
+   ]
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/any",
+   "tags": [
+    "side-screen",
+    "game-tag"
+   ]
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/element-sensor",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/filterable",
+   "tags": [
+    "saved-state",
+    "game-component",
+    "game-tag"
+   ]
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/tag",
+   "tags": [
+    "game-tag",
+    "mod-strings"
+   ]
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/filtersidescreen",
+   "tags": [
+    "side-screen"
+   ]
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/conduit",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/steadiness-window",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "sensor sample window that stops flicker"
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/symbol-override",
+   "tags": [
+    "kanim-art"
+   ]
+  },
+  {
+   "id": "domains/glossary.md#related",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "overview.md#what-this-is",
+   "tags": [
+    "kanim-art",
+    "mod-strings"
+   ]
+  },
+  {
+   "id": "overview.md#where-things-are",
+   "tags": [
+    "mod-entry-point",
+    "mod-strings",
+    "kanim-art",
+    "in-game-testing"
+   ]
+  },
+  {
+   "id": "standards/README.md#standards",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/code-style.md#formatting",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/code-style.md#formatting/indentation",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "source code formatting layout"
+  },
+  {
+   "id": "standards/code-style.md#formatting/line-length",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "source code formatting layout"
+  },
+  {
+   "id": "standards/code-style.md#formatting/braces",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "source code formatting layout"
+  },
+  {
+   "id": "standards/code-style.md#language-and-toolchain",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "language version and build toolchain"
+  },
+  {
+   "id": "standards/code-style.md#imports-includes",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/code-style.md#imports-includes/organization",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "using directive ordering"
+  },
+  {
+   "id": "standards/code-style.md#imports-includes/example",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "using directive ordering"
+  },
+  {
+   "id": "standards/code-style.md#comments",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/code-style.md#comments/when-to-comment",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "code comment conventions"
+  },
+  {
+   "id": "standards/code-style.md#comments/when-not-to-comment",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "code comment conventions"
+  },
+  {
+   "id": "standards/code-style.md#comments/format",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "code comment conventions"
+  },
+  {
+   "id": "standards/code-style.md#control-structures",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/code-style.md#control-structures/conditionals",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "control flow style"
+  },
+  {
+   "id": "standards/code-style.md#control-structures/loops",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "control flow style"
+  },
+  {
+   "id": "standards/code-style.md#control-structures/strings",
+   "tags": [
+    "mod-strings"
+   ]
+  },
+  {
+   "id": "standards/code-style.md#harmony-patches",
+   "tags": [
+    "harmony-patching",
+    "mod-entry-point",
+    "vanilla-fallback"
+   ]
+  },
+  {
+   "id": "standards/code-style.md#game-components",
+   "tags": [
+    "game-component",
+    "saved-state"
+   ]
+  },
+  {
+   "id": "standards/code-style.md#project-specific-rules",
+   "tags": [
+    "in-game-testing",
+    "logging"
+   ]
+  },
+  {
+   "id": "standards/code-style.md#project-specific-rules/detect-any-element-specifics",
+   "tags": [
+    "mod-entry-point",
+    "mod-strings",
+    "game-tag",
+    "harmony-patching"
+   ]
+  },
+  {
+   "id": "standards/code-style.md#related",
+   "tags": [],
+   "reason": "inherits"
+  }
+ ]
+}

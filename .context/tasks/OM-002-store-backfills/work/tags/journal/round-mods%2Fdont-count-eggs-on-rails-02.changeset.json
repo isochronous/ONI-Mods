@@ -1,0 +1,46 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/dont-count-eggs-on-rails — round 2",
+  "node": "C:\\dev\\ONI-Mods\\mods\\dont-count-eggs-on-rails",
+  "base": {
+    "domains/entities.md": "sha256:ba4ead54b4e50a4ce49072085b0599d1c9cc7acb635f7bb60321eff007e519a0",
+    "domains/glossary.md": "sha256:fa2031854bc4761102b1f2acf3f1dd1883d9dc8f13077a78d582ea4d7bf69ba6",
+    "standards/code-style.md": "sha256:75e6f0b908e2084b29a1ecc5dbf5d469b569d1d767e424e0d8b5dea8164c3a31",
+    "standards/naming-conventions.md": "sha256:5747f485aeb5703180c70cb42398228d8760d84fb9f05148330a7af10bd147ab"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "mod-entry-point"
+      ],
+      "section": "key-entities/dontcounteggsonrailsmod"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "game-tag"
+      ],
+      "section": "cross-domain-terms/stored-tag"
+    },
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching",
+        "mod-entry-point"
+      ],
+      "section": "project-specific-rules/don-t-count-eggs-on-rails-specifics"
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching"
+      ],
+      "section": "code-naming/classes-types-interfaces"
+    }
+  ]
+}

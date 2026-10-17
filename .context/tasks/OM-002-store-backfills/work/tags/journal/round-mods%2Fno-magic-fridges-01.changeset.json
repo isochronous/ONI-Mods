@@ -1,0 +1,66 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/no-magic-fridges — round 1",
+  "node": "C:\\dev\\ONI-Mods\\mods\\no-magic-fridges",
+  "base": {
+    "domains/entities.md": "sha256:f798f82151146af60f880b578d292401d51b2ef233c47ad8b920dfb2eda65f1d",
+    "domains/glossary.md": "sha256:1bbc9a9d1bc883e007f3fbe34e1ae1444f50be4a7964b80ba687cfbe0b6fdc06",
+    "overview.md": "sha256:429951ce5d6d4b179eed896fade9b7ecce53e74af82c0428a7c8ccee0c2dc1b2",
+    "standards/error-handling.md": "sha256:ca08a74149ef0ca5e39cbe85c058ebd0234cc43262539f79f395a34783c1dbb9",
+    "standards/code-style.md": "sha256:774e8720f90a820a8e9d5ce7b7239ceaffa3eb9f902f5ca625a9d87747db351b",
+    "standards/naming-conventions.md": "sha256:a0705af50c8de779e438a4fb8dedb9554ec8d12ae3e4ad05672aabaa004d3721"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "game-component"
+      ],
+      "section": "key-entities/fridgethermostat"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "game-component"
+      ],
+      "section": "cross-domain-terms/simtemperaturetransfer"
+    },
+    {
+      "target": "overview.md",
+      "mode": "tag",
+      "add": [
+        "mod-entry-point",
+        "harmony-patching",
+        "in-game-testing"
+      ],
+      "section": "where-things-are"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching",
+        "reflection"
+      ],
+      "section": "principles"
+    },
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "game-component"
+      ],
+      "section": "game-components"
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching"
+      ],
+      "section": "code-naming/functions-methods"
+    }
+  ]
+}

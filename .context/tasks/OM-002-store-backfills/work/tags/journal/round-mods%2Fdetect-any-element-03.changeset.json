@@ -1,0 +1,57 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/detect-any-element — round 3",
+  "node": "C:\\dev\\ONI-Mods\\mods\\detect-any-element",
+  "base": {
+    "domains/entities.md": "sha256:12100671b28d86bc28b504870a543f7c8262c7975b09911af47dc06388f9cf0e",
+    "domains/glossary.md": "sha256:c0262b7eda920ea9fe87c6414ce8c0c6ee5748b602644aae51801df8159b38d4",
+    "standards/error-handling.md": "sha256:6f8717f0dcaf8b3e4c27b8b2fd1eefa880fb5d5301b2d61485523b0ff8fbc512",
+    "standards/code-style.md": "sha256:0cd50d5348957fca14ec1a8d4dc8592dace630af04675a107b888c1f7e22559b",
+    "standards/naming-conventions.md": "sha256:76e819af08e8361c79374f2067fc0a2d8aae8ece9378e52d44e61a4ab92835bd"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "mod-strings"
+      ],
+      "section": "key-entities/modstrings"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "side-screen",
+        "game-tag"
+      ],
+      "section": "cross-domain-terms/any"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "harmony-patching",
+        "logging"
+      ],
+      "section": "guarding-patches/transpiler-count-the-match"
+    },
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "in-game-testing",
+        "logging"
+      ],
+      "section": "project-specific-rules"
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "tag",
+      "add": [
+        "mod-strings"
+      ],
+      "section": "code-naming/strings-modstrings"
+    }
+  ]
+}

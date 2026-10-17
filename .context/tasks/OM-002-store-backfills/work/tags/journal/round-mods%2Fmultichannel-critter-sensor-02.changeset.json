@@ -1,0 +1,67 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/multichannel-critter-sensor — round 2",
+  "node": "C:\\dev\\ONI-Mods\\mods\\multichannel-critter-sensor",
+  "base": {
+    "domains/entities.md": "sha256:cbe058da9d892ecbe224796c7acde7e43f0af06b724569f337f5d69fc0896a7a",
+    "domains/glossary.md": "sha256:c010655eb8739a8eda732f053763a45ca254df57726bebdd60b5c63d82a09878",
+    "overview.md": "sha256:7faba138beb15b1fc84d632e6f32a1d70d68b9ed880227e5d62785e177361c6c",
+    "standards/error-handling.md": "sha256:497dfa99938b4b2a447f54276be4effba228e522149c12615e1f88cfc143ce01",
+    "standards/code-style.md": "sha256:314bd1745a80923f3fcf747736edef1e96e3ae2c273bbf97f04444c487bdf856",
+    "standards/naming-conventions.md": "sha256:403597c62ab07a5704a97f6af2249561fd8be3cefbf31a3fd74b4508bdf0b7c8"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "building-config"
+      ],
+      "section": "key-entities/multichannelcrittersensorconfig"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "signal-threshold"
+      ],
+      "section": "terms-to-avoid"
+    },
+    {
+      "target": "overview.md",
+      "mode": "tag",
+      "add": [
+        "building-config",
+        "side-screen",
+        "kanim-art",
+        "in-game-testing"
+      ],
+      "section": "where-things-are"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "building-unlock"
+      ],
+      "section": "guarding-patches/missing-data-warn-continue"
+    },
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "game-component",
+        "saved-state"
+      ],
+      "section": "game-components"
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "tag",
+      "add": [
+        "mod-strings"
+      ],
+      "section": "code-naming/strings-modstrings"
+    }
+  ]
+}

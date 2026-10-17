@@ -1,0 +1,19 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/salty-surf — round 10",
+  "node": "C:\\dev\\ONI-Mods\\mods\\salty-surf",
+  "base": {
+    "standards/error-handling.md": "sha256:63109e4ef57dc870a0cc42cf647c7900e5320fd9b0454121fc5525c4c481cfc5"
+  },
+  "ops": [
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "vanilla-fallback",
+        "logging"
+      ],
+      "section": "anti-patterns-to-avoid"
+    }
+  ]
+}

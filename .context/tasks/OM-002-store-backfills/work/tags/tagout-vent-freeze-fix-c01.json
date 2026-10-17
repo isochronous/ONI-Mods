@@ -1,0 +1,44 @@
+{
+ "documents": [
+  {"id": "standards/error-handling.md", "tags": [], "reason": "no-good-match", "suggestion": "error handling conventions"},
+  {"id": "standards/naming-conventions.md", "tags": [], "reason": "no-good-match", "suggestion": "naming conventions"}
+ ],
+ "sections": [
+  {"id": "standards/error-handling.md#principles", "tags": ["harmony-patching", "logging"]},
+  {"id": "standards/error-handling.md#guarding-patches", "tags": ["harmony-patching"]},
+  {"id": "standards/error-handling.md#guarding-patches/missing-member-warn-leave-vanilla", "tags": ["harmony-patching", "logging"]},
+  {"id": "standards/error-handling.md#guarding-patches/transpiler-count-the-match", "tags": ["harmony-patching", "logging"]},
+  {"id": "standards/error-handling.md#guarding-patches/missing-data-warn-continue", "tags": ["logging"]},
+  {"id": "standards/error-handling.md#guarding-patches/null-checks-on-game-objects", "tags": ["harmony-patching"]},
+  {"id": "standards/error-handling.md#guarding-patches/warn-once", "tags": ["logging"]},
+  {"id": "standards/error-handling.md#try-catch", "tags": ["logging"]},
+  {"id": "standards/error-handling.md#try-catch/finalizer-for-a-thread-with-no-handler", "tags": ["harmony-patching"]},
+  {"id": "standards/error-handling.md#yielding-to-other-mods", "tags": ["harmony-patching", "logging"]},
+  {"id": "standards/error-handling.md#logging", "tags": ["logging"]},
+  {"id": "standards/error-handling.md#logging/log-levels", "tags": ["logging"]},
+  {"id": "standards/error-handling.md#logging/what-to-include", "tags": ["logging", "developer-tooling"]},
+  {"id": "standards/error-handling.md#anti-patterns-to-avoid", "tags": [], "reason": "no-good-match", "suggestion": "error handling anti-patterns"},
+  {"id": "standards/error-handling.md#anti-patterns-to-avoid/swallowing-exceptions", "tags": ["logging"]},
+  {"id": "standards/error-handling.md#anti-patterns-to-avoid/throwing-from-a-patch", "tags": ["harmony-patching", "logging"]},
+  {"id": "standards/error-handling.md#anti-patterns-to-avoid/assuming-the-game-s-internals", "tags": ["harmony-patching"]},
+  {"id": "standards/error-handling.md#anti-patterns-to-avoid/silent-degradation", "tags": ["logging"]},
+  {"id": "standards/error-handling.md#anti-patterns-to-avoid/spamming-the-log", "tags": ["logging"]},
+  {"id": "standards/error-handling.md#project-specific-patterns", "tags": [], "reason": "no-good-match", "suggestion": "this mod's own error handling rules"},
+  {"id": "standards/error-handling.md#project-specific-patterns/vent-freeze-fix-specifics", "tags": ["logging", "developer-tooling", "tile-repair"]},
+  {"id": "standards/error-handling.md#related", "tags": [], "reason": "inherits"},
+
+  {"id": "standards/naming-conventions.md#files-and-directories", "tags": [], "reason": "no-good-match", "suggestion": "file and folder naming"},
+  {"id": "standards/naming-conventions.md#files-and-directories/general-rules", "tags": [], "reason": "no-good-match", "suggestion": "file and folder naming"},
+  {"id": "standards/naming-conventions.md#files-and-directories/examples-by-type", "tags": ["mod-entry-point", "mod-options", "mod-strings", "in-game-testing"]},
+  {"id": "standards/naming-conventions.md#code-naming", "tags": [], "reason": "no-good-match", "suggestion": "code identifier naming"},
+  {"id": "standards/naming-conventions.md#code-naming/variables", "tags": [], "reason": "no-good-match", "suggestion": "code identifier naming"},
+  {"id": "standards/naming-conventions.md#code-naming/functions-methods", "tags": ["harmony-patching"]},
+  {"id": "standards/naming-conventions.md#code-naming/classes-types-interfaces", "tags": ["harmony-patching"]},
+  {"id": "standards/naming-conventions.md#code-naming/booleans", "tags": [], "reason": "no-good-match", "suggestion": "code identifier naming"},
+  {"id": "standards/naming-conventions.md#code-naming/strings-modstrings", "tags": ["mod-strings", "mod-options"]},
+  {"id": "standards/naming-conventions.md#code-naming/ids-and-tags", "tags": ["in-game-testing"]},
+  {"id": "standards/naming-conventions.md#project-specific-conventions", "tags": [], "reason": "no-good-match", "suggestion": "this mod's own naming rules"},
+  {"id": "standards/naming-conventions.md#project-specific-conventions/vent-freeze-fix-specifics", "tags": ["mod-strings", "mod-options", "in-game-testing", "logging"]},
+  {"id": "standards/naming-conventions.md#related", "tags": [], "reason": "inherits"}
+ ]
+}

@@ -1,0 +1,56 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/just-fall-already — round 3",
+  "node": "C:\\dev\\ONI-Mods\\mods\\just-fall-already",
+  "base": {
+    "domains/entities.md": "sha256:682a63eaee45550094b9373fda3f3aa626c605b15e4de3018e57d3ec57a4c423",
+    "domains/glossary.md": "sha256:a8d0b5fe6ef177ac9b954d64bd7b7b61d576cb8a54a2a63334f788cfa7c881be",
+    "standards/error-handling.md": "sha256:e771c3a756b87828896481613702d2de281241586cf9b3e1203a27859fd62da0",
+    "standards/code-style.md": "sha256:72ec171ea7421f48f4872ee3c5d47ea8b4d49ce03e055f98285ea9adfb6c2b2d",
+    "standards/naming-conventions.md": "sha256:654c8d81e9190a159a6572851daeddf26dcf0982c6bc859c0793619025ef273f"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "mod-entry-point",
+        "logging"
+      ],
+      "section": "key-entities/justfallalreadymod"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "navigation-grid"
+      ],
+      "section": "cross-domain-terms/brain-and-brain-scheduler"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "logging"
+      ],
+      "section": "guarding-patches/missing-member-warn-leave-vanilla"
+    },
+    {
+      "target": "standards/code-style.md",
+      "mode": "tag",
+      "add": [
+        "logging"
+      ],
+      "section": "control-structures/strings"
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "tag",
+      "add": [
+        "mod-compatibility",
+        "in-game-testing"
+      ],
+      "section": "code-naming/ids-and-tags"
+    }
+  ]
+}

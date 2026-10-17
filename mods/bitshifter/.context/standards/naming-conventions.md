@@ -19,7 +19,8 @@ applies_to:
 - Release tags are `<mod-folder>-v<version>` (repository README).
 
 ### Examples by Type
-**Id:** blk-dfc2718274e5
+**Id:** blk-dfc2718274e5  
+**Tags:** mod-entry-point, side-screen, kanim-art, harmony-patching
 
 | Type | Convention | Example |
 |------|------------|---------|
@@ -54,14 +55,16 @@ private static readonly Dictionary<int, float> armed = new Dictionary<int, float
 (`mods/just-fall-already/src/JustFallAlready/FallPoke.cs`)
 
 ### Functions/Methods
-**Id:** blk-180ca76feb4d
+**Id:** blk-180ca76feb4d  
+**Tags:** harmony-patching
 
 - PascalCase, starting with a verb: `Apply`, `Decide`, `SwapTable`, `CopyRangeFrom`, `ApplyRange`.
 - Game callbacks keep the game's names (`OnSpawn`, `OnPrefabInit`, `OnCleanUp`, `Sim1000ms`).
 - Harmony methods are named for their kind: `Prefix`, `Postfix`, `Transpiler`, `Finalizer`, plus `Prepare`, `TargetMethod`, `TargetMethods`.
 
 ### Classes/Types/Interfaces
-**Id:** blk-3e57e6b713fd
+**Id:** blk-3e57e6b713fd  
+**Tags:** harmony-patching
 
 - PascalCase nouns. Interfaces take an `I` prefix (`IPlanTab` and `ITabView` in `mods/upgrade-planner`, and the game's own).
 - Harmony patch classes: `<PatchedType>_<PatchedMethod>_Patch` (`LogicRibbonReader_GetBitDepth_Patch`, `Db_Initialize_Patch`, `GeneratedBuildings_LoadGeneratedBuildings_Patch`). A patch for a type with one concern may use `<Type>_Patch` (`LiquidVentConfig_Patch`). Patches nested in a holder class may drop the suffix (`Constructable_OnSpawn` in `ReachTablePatches`).
@@ -82,7 +85,8 @@ private static readonly Dictionary<int, float> armed = new Dictionary<int, float
 - Long branches are shortened with an alias at the top of the file (`using OPTIONS = NaturalBackwalls.ModStrings.NATURALBACKWALLS.OPTIONS;`).
 
 ### Ids and Tags
-**Id:** blk-9e8a58496cc9
+**Id:** blk-9e8a58496cc9  
+**Tags:** in-game-testing
 
 - Building ids are PascalCase and match the config class (`SmartWeightPlate`); a mod that replaces another mod's buildings reuses that mod's ids (`StoragePodConfig`, `CoolPodConfig` in `mods/storage-pod-redux`).
 - Tags and PAction ids carry a mod prefix: `DetectAnyElement_Any`, `Isochronous.SweepZones.Tool`.
@@ -93,7 +97,8 @@ private static readonly Dictionary<int, float> armed = new Dictionary<int, float
 **Id:** blk-d7f1354ce00e
 
 ### Bitshifter specifics
-**Id:** blk-3e9cd9430502
+**Id:** blk-3e9cd9430502  
+**Tags:** harmony-patching, bit-depth, kanim-art, logging
 
 - Patch classes: `LogicRibbonReader_GetBitDepth_Patch`, `LogicGate_UpdateState_Patch`, and so on, all `<Type>_<Method>_Patch`.
 - `BitshifterMod.Bits` is the one constant for the bit count (31); the kanims are `bitshifter_ribbon_reader_kanim` and `bitshifter_ribbon_writer_kanim` (`Display.ReaderAnim`, `Display.WriterAnim`).

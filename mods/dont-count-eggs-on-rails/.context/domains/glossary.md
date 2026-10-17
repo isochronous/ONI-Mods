@@ -1,4 +1,5 @@
 ---
+tags: critter-sensor, conveyor-rail
 witness_digest: "sha256:3def3e9e12d6f3c6606d6c6558901f245679b4e000b973436070a67748ac0a6d"
 witness: loose
 applies_to:
@@ -21,7 +22,8 @@ Terms used in the Don't Count Eggs on Rails mod (`mods/dont-count-eggs-on-rails`
 | SMI | State machine instance | `OvercrowdingMonitor.Instance smi`, the patch's argument |
 
 ## Terms to Avoid
-**Id:** blk-fa9a4522cadc
+**Id:** blk-fa9a4522cadc  
+**Tags:** game-tag
 
 | Avoid | Use Instead | Reason |
 |-------|-------------|--------|
@@ -57,6 +59,7 @@ Terms used in the Don't Count Eggs on Rails mod (`mods/dont-count-eggs-on-rails`
 
 ### Stored tag
 **Id:** blk-85612028f708  
+**Tags:** game-tag  
 **Definition**: `GameTags.Stored`, set on an item inside a storage, and set by a rail on its packet's item without any storage behind it.  
 **Used in**: `OnRail`
 

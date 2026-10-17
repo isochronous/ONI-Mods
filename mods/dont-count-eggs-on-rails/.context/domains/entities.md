@@ -1,4 +1,5 @@
 ---
+tags: harmony-patching, critter-sensor, conveyor-rail
 witness_digest: "sha256:3def3e9e12d6f3c6606d6c6558901f245679b4e000b973436070a67748ac0a6d"
 witness: loose
 applies_to:
@@ -19,6 +20,7 @@ Don't Count Eggs on Rails keeps critter sensors from counting eggs that are ridi
 
 ### OvercrowdingMonitor.UpdateRegion patch
 **Id:** blk-e83dca4a52f5  
+**Tags:** vanilla-fallback, game-tag  
 **Description**: A prefix on `OvercrowdingMonitor.UpdateRegion`, the once-a-second step in which an egg lists itself in the room its position falls in. For an egg on a rail it removes the egg from the room it was in and skips the original; for everything else it returns true and the game runs as usual.  
 **Location**: `mods/dont-count-eggs-on-rails/src/DontCountEggsOnRails/Mod.cs` (`OvercrowdingMonitor_UpdateRegion_Patch`)
 
@@ -31,11 +33,13 @@ Don't Count Eggs on Rails keeps critter sensors from counting eggs that are ridi
 
 ### DontCountEggsOnRailsMod
 **Id:** blk-549ca7135900  
+**Tags:** mod-entry-point  
 **Description**: The `UserMod2` entry point. Calls `base.OnLoad` (which applies the patch) and logs the version.  
 **Location**: `mods/dont-count-eggs-on-rails/src/DontCountEggsOnRails/Mod.cs`
 
 ## Business Rules
-**Id:** blk-6376f81fca35
+**Id:** blk-6376f81fca35  
+**Tags:** game-tag, vanilla-fallback
 
 - An egg on a conveyor rail is not counted by any critter sensor.
 - A rail marks the item it carries as stored without giving it a storage (it fires the store event with a plain true). Nothing else does: an egg in an incubator or in a duplicant's hands has a real storage, and an egg on the floor is not stored. That combination is how the mod recognizes a rail egg.
@@ -43,7 +47,8 @@ Don't Count Eggs on Rails keeps critter sensors from counting eggs that are ridi
 - When an egg leaves the rail the game's own update lists it again within a second; the mod keeps no state.
 
 ## Key Code Paths
-**Id:** blk-ee826a4ccee7
+**Id:** blk-ee826a4ccee7  
+**Tags:** in-game-testing
 
 - **Unlisting a rail egg**: `Prefix` then `OnRail` — see `mods/dont-count-eggs-on-rails/src/DontCountEggsOnRails/Mod.cs`
 - **Tests**: `mods/dont-count-eggs-on-rails/src/DontCountEggsOnRails.Tests/Eggs.cs` covers a floor egg (counted), a rail egg (not counted, whether counted before or never, counted again off the rail) and an incubator egg (counted)

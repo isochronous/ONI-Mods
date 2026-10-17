@@ -19,7 +19,8 @@ applies_to:
 - Release tags are `<mod-folder>-v<version>` (repository README).
 
 ### Examples by Type
-**Id:** blk-5157bbf172ab
+**Id:** blk-5157bbf172ab  
+**Tags:** building-config, harmony-patching, mod-entry-point
 
 | Type | Convention | Example |
 |------|------------|---------|
@@ -54,14 +55,16 @@ private static readonly Dictionary<int, float> armed = new Dictionary<int, float
 (`mods/just-fall-already/src/JustFallAlready/FallPoke.cs`)
 
 ### Functions/Methods
-**Id:** blk-411690c6e6ba
+**Id:** blk-411690c6e6ba  
+**Tags:** harmony-patching
 
 - PascalCase, starting with a verb: `Apply`, `Decide`, `SwapTable`, `CopyRangeFrom`, `ApplyRange`.
 - Game callbacks keep the game's names (`OnSpawn`, `OnPrefabInit`, `OnCleanUp`, `Sim1000ms`).
 - Harmony methods are named for their kind: `Prefix`, `Postfix`, `Transpiler`, `Finalizer`, plus `Prepare`, `TargetMethod`, `TargetMethods`.
 
 ### Classes/Types/Interfaces
-**Id:** blk-750673de753e
+**Id:** blk-750673de753e  
+**Tags:** harmony-patching
 
 - PascalCase nouns. Interfaces take an `I` prefix (`IPlanTab` and `ITabView` in `mods/upgrade-planner`, and the game's own).
 - Harmony patch classes: `<PatchedType>_<PatchedMethod>_Patch` (`LogicRibbonReader_GetBitDepth_Patch`, `Db_Initialize_Patch`, `GeneratedBuildings_LoadGeneratedBuildings_Patch`). A patch for a type with one concern may use `<Type>_Patch` (`LiquidVentConfig_Patch`). Patches nested in a holder class may drop the suffix (`Constructable_OnSpawn` in `ReachTablePatches`).
@@ -74,7 +77,8 @@ private static readonly Dictionary<int, float> armed = new Dictionary<int, float
 - Prefix with `Is`, `Has`, `Can`, `Should` or name the state: `IsEnabled`, `OriginalActive`, `isSpawned`, `warnedMissingInternals`.
 
 ### Strings (`ModStrings`)
-**Id:** blk-35314822ebba
+**Id:** blk-35314822ebba  
+**Tags:** mod-strings, mod-options
 
 - `ModStrings` mirrors the game's `STRINGS` tree: nested static classes and `LocString` fields in UPPER_SNAKE_CASE. `ModStrings.BUILDINGS.PREFABS.<BUILDINGID>.NAME` is registered as `STRINGS.BUILDINGS.PREFABS.<BUILDINGID>.NAME`, the key the game looks a building name up by (`mods/smart-weight-plate/src/SmartWeightPlate/ModStrings.cs`).
 - Mod-private text goes under a branch named for the mod in capitals (`ModStrings.SALTYSURF.ELEMENT_LIST`, `ModStrings.JUMPERBRIDGES.OPTIONS`).
@@ -82,7 +86,8 @@ private static readonly Dictionary<int, float> armed = new Dictionary<int, float
 - Long branches are shortened with an alias at the top of the file (`using OPTIONS = NaturalBackwalls.ModStrings.NATURALBACKWALLS.OPTIONS;`).
 
 ### Ids and Tags
-**Id:** blk-1f4b827f8389
+**Id:** blk-1f4b827f8389  
+**Tags:** building-config, in-game-testing
 
 - Building ids are PascalCase and match the config class (`SmartWeightPlate`); a mod that replaces another mod's buildings reuses that mod's ids (`StoragePodConfig`, `CoolPodConfig` in `mods/storage-pod-redux`).
 - Tags and PAction ids carry a mod prefix: `DetectAnyElement_Any`, `Isochronous.SweepZones.Tool`.
@@ -93,7 +98,8 @@ private static readonly Dictionary<int, float> armed = new Dictionary<int, float
 **Id:** blk-d9b8fbbb0b74
 
 ### Storage Pod Redux specifics
-**Id:** blk-e06de07a6336
+**Id:** blk-e06de07a6336  
+**Tags:** mod-strings, mod-options, in-game-testing, logging
 
 - Option keys: `STRINGS.STORAGEPODREDUX.OPTIONS.<OPTION>.NAME` and `.TOOLTIP`, categories `STRINGS.STORAGEPODREDUX.OPTIONS.CATEGORY.STORAGE_POD` and `COOL_POD`.
 - `ModStrings` branches: `BUILDINGS.PREFABS.STORAGEPODCONFIG`, `BUILDINGS.PREFABS.COOLPODCONFIG`, `STORAGEPODREDUX.OPTIONS`.

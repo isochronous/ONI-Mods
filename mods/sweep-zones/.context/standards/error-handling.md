@@ -1,4 +1,5 @@
 ---
+tags: vanilla-fallback, logging
 doc_id: doc-f012c219c2e0
 description: "Error handling and logging rules for the Sweep Zones Redux mod: guarding patches, try/catch use, yielding to other mods, log levels, anti-patterns, plus how its drag tool, icon loader and zone store degrade"
 applies_to:
@@ -8,7 +9,8 @@ applies_to:
 # Error Handling Conventions
 
 ## Principles
-**Id:** blk-158971e58660
+**Id:** blk-158971e58660  
+**Tags:** reflection, harmony-patching
 
 1. **Never break the game for a mod's sake.** A patch that cannot do its job leaves the vanilla behaviour in place and says so in the log. It does not throw into the game's update loop.
 2. **Check what you patch.** Game updates rename fields and move code. Every reflection lookup, transpiler match and prefab or tech lookup is checked for a miss.
@@ -19,10 +21,12 @@ applies_to:
 There is no custom exception hierarchy. Mods are small patches over game code, so errors are handled where they occur.
 
 ## Guarding Patches
-**Id:** blk-b3c2ea7c4004
+**Id:** blk-b3c2ea7c4004  
+**Tags:** harmony-patching
 
 ### Missing member: warn, leave vanilla
-**Id:** blk-8f52e2f92d48
+**Id:** blk-8f52e2f92d48  
+**Tags:** reflection
 
 A reflection lookup that returns null is checked before use. The patch then does nothing, or returns `true` from a prefix so the game's method runs.
 
@@ -69,7 +73,8 @@ Components and arguments that can be absent are tested before use: `if (stt == n
 Work that repeats every frame or tick warns once behind a flag (`warnedMissingInternals` in `RangeSlider.cs`).
 
 ## try/catch
-**Id:** blk-ee3d8ea21939
+**Id:** blk-ee3d8ea21939  
+**Tags:** harmony-patching, reflection
 
 `try`/`catch (Exception e)` is used in four situations and nowhere else:
 
@@ -86,7 +91,8 @@ The message form is `"[<Name>] <what was skipped>: " + e.Message`. Use `e.GetBas
 `Cluster.BeginGeneration` is the worldgen thread body and has none; an exception ends the thread and the loading screen waits forever. A finalizer reports the failure through the game's own error path and logs the exception (`Cluster_BeginGeneration_Patch` in `mods/natural-backwalls-everywhere/src/NaturalBackwalls/WorldgenThreadPatch.cs`).
 
 ## Yielding to Other Mods
-**Id:** blk-b6b09cef65e5
+**Id:** blk-b6b09cef65e5  
+**Tags:** harmony-patching, mod-entry-point
 
 When another mod already does the job or shares an id, the mod steps aside and logs why:
 - Bitshifter disables itself when Digital CPU is enabled or the contested methods already have Harmony owners (`WhyYield` in `mods/bitshifter/src/Bitshifter/Mod.cs`).
@@ -123,12 +129,14 @@ PLib's `PUtil.Log*` helpers are not used; all mods log through `Debug`.
 An empty `catch` hides a broken patch. The one `catch` that returns a fallback without a log is `GuessLanguageCode` in `common/src/Translations.cs`, because a missing language preference is the normal case before the game has started.
 
 ### Throwing from a patch
-**Id:** blk-f25e14309104
+**Id:** blk-f25e14309104  
+**Tags:** harmony-patching
 
 An exception in a prefix or postfix on a per-frame or sim method repeats every frame. Guard, log once, return.
 
 ### Assuming the game's internals
-**Id:** blk-51e319966868
+**Id:** blk-51e319966868  
+**Tags:** reflection, harmony-patching
 
 Reading a private field by name without a null check on the `FieldInfo`, or replacing an instruction without confirming it was found, breaks on the next game update.
 
@@ -146,7 +154,8 @@ A warning inside an update method fires thousands of times. Use a once-flag.
 **Id:** blk-6ab37a379d80
 
 ### Sweep Zones Redux specifics
-**Id:** blk-5e96eee2377c
+**Id:** blk-5e96eee2377c  
+**Tags:** reflection, toolbar-tool
 
 - `SweepZoneTool.CopyField` tolerates a renamed donor field: it warns `A donor tool field is missing; cursor/visualizer may look wrong.` and the tool degrades cosmetically.
 - `ToolIcon` loads its embedded icon inside `try`/`catch`, warns and returns null, and the tool uses a fallback icon.

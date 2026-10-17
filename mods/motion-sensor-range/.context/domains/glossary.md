@@ -1,4 +1,5 @@
 ---
+tags: detection-range
 witness_digest: "sha256:435a2c77cb357228132a18543ba88fd6ddc7de0e9386ad9c3366962153ac94c4"
 witness: loose
 applies_to:
@@ -58,21 +59,25 @@ Terms for the Motion Sensor Range mod. For the code behind them, see [entities](
 
 ### IIntSliderControl
 **Id:** blk-444be195218b  
+**Tags:** side-screen  
 **Definition**: The game's current interface for a building that wants an integer slider in its side screen. An older slider interface (`ISliderControl`) changed shape and broke the earlier mod this one replaces.  
 **Used in**: `RangeSlider`
 
 ### Copy settings
 **Id:** blk-129a4f1ab384  
+**Tags:** copy-settings  
 **Definition**: The vanilla tool (mirror button, drag tool) that copies a building's settings to others of its kind, via the `CopySettings` game event and a `CopyBuildingSettings` component.  
 **Used in**: `RangeSlider.OnCopySettings`
 
 ### Under-construction building
 **Id:** blk-7f02101a4db9  
+**Tags:** under-construction-building  
 **Definition**: The placeholder object (`BuildingUnderConstruction`) a building is while Duplicants build it; `Constructable.FinishConstruction` replaces it with the finished building.  
 **Used in**: `Patches.cs`
 
 ### KSerialization
 **Id:** blk-7a1f7be29747  
+**Tags:** saved-state  
 **Definition**: The game's save serializer; `[Serialize]` fields on a `[SerializationConfig(MemberSerialization.OptIn)]` component are saved with the building.  
 **Used in**: `RangeSlider.range`
 

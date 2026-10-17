@@ -1,0 +1,48 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node mods/jumper-bridges — round 5",
+  "node": "C:\\dev\\ONI-Mods\\mods\\jumper-bridges",
+  "base": {
+    "domains/entities.md": "sha256:03390268b1224cff4ad991b34a55ab77e823d2b0d9da59eda2da13fad70324c2",
+    "domains/glossary.md": "sha256:b244c0bb7495516be07c48522ddded8145a4f7f0da1ef9ca37c20d37be539b38",
+    "standards/error-handling.md": "sha256:0b4532d37f7d85c41644a1d1146b0d0b192c3d7c83119b30aa260561cee41029",
+    "standards/naming-conventions.md": "sha256:5dcd77f3cb18e8b32a6c5347f563f0e2361cf4532ba88de7cd9c5c6736d6f3d2"
+  },
+  "ops": [
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "game-component"
+      ],
+      "section": "key-entities/jumperbridge"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "utility-network"
+      ],
+      "section": "cross-domain-terms/link-and-link-ring"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "vanilla-fallback"
+      ],
+      "section": "guarding-patches/null-checks-on-game-objects"
+    },
+    {
+      "target": "standards/naming-conventions.md",
+      "mode": "tag",
+      "add": [
+        "mod-options",
+        "mod-strings",
+        "harmony-patching",
+        "logging"
+      ],
+      "section": "project-specific-conventions/jumper-bridges-specifics"
+    }
+  ]
+}
