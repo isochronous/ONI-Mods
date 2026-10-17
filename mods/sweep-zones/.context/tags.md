@@ -28,11 +28,6 @@ A record earns this term when it is about what a mod stores in a save file and h
 
 A record earns this term when it is about testing a mod inside the running game with TestRunner and its [OniTest] coroutines.
 
-## mod-entry-point
-**Id:** blk-4d7904ef36c1
-
-A record earns this term when it is about a mod's UserMod2 class and what it does when the game loads the mod.
-
 ## mod-strings
 **Id:** blk-8a9753d53340
 

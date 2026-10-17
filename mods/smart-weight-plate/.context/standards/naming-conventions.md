@@ -21,7 +21,6 @@ applies_to:
 
 ### Examples by Type
 **Id:** blk-0b089ce1d390  
-**Tags:** building-config, mod-entry-point, mod-strings, in-game-testing
 
 | Type | Convention | Example |
 |------|------------|---------|
@@ -57,7 +56,7 @@ private static readonly Dictionary<int, float> armed = new Dictionary<int, float
 
 ### Functions/Methods
 **Id:** blk-a0199590b8f6  
-**Tags:** harmony-patching, game-component
+**Tags:** harmony-patching
 
 - PascalCase, starting with a verb: `Apply`, `Decide`, `SwapTable`, `CopyRangeFrom`, `ApplyRange`.
 - Game callbacks keep the game's names (`OnSpawn`, `OnPrefabInit`, `OnCleanUp`, `Sim1000ms`).
@@ -88,7 +87,6 @@ private static readonly Dictionary<int, float> armed = new Dictionary<int, float
 
 ### Ids and Tags
 **Id:** blk-c656753b98c6  
-**Tags:** building-config, mod-entry-point, in-game-testing
 
 - Building ids are PascalCase and match the config class (`SmartWeightPlate`); a mod that replaces another mod's buildings reuses that mod's ids (`StoragePodConfig`, `CoolPodConfig` in `mods/storage-pod-redux`).
 - Tags and PAction ids carry a mod prefix: `DetectAnyElement_Any`, `Isochronous.SweepZones.Tool`.

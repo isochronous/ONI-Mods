@@ -1,0 +1,13 @@
+{
+ "task": "OM-002",
+ "why": "unit 12 review fixes: one tag set per shared standards section across the mods, no subject tags on folder maps and index sections, misplaced terms removed, mod_info.yaml named in the overviews, the developer-tooling gloss without its boundary clause",
+ "node": "mods/vent-freeze-fix",
+ "ops": [
+  {
+   "mode": "section",
+   "target": "tags.md",
+   "section": "developer-tooling",
+   "body": "A record earns this term when it is about debug and developer features a mod includes for its author."
+  }
+ ]
+}

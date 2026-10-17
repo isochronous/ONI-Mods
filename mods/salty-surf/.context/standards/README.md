@@ -1,5 +1,5 @@
 ---
-tags: code-style, logging, vanilla-fallback
+tags: code-style
 doc_id: doc-0f4478336c58
 description: Index of the Salty Surf standards folder, linking its code style, error handling and naming conventions documents with a line on what each covers
 ---

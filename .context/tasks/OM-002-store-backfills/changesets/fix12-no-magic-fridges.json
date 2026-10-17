@@ -1,0 +1,88 @@
+{
+ "task": "OM-002",
+ "why": "unit 12 review fixes: one tag set per shared standards section across the mods, no subject tags on folder maps and index sections, misplaced terms removed, mod_info.yaml named in the overviews, the developer-tooling gloss without its boundary clause",
+ "node": "mods/no-magic-fridges",
+ "ops": [
+  {
+   "mode": "tag",
+   "target": "standards/error-handling.md",
+   "section": "principles",
+   "remove": [
+    "harmony-patching",
+    "reflection"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/error-handling.md",
+   "section": "try-catch",
+   "remove": [
+    "reflection"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/error-handling.md",
+   "section": "yielding-to-other-mods",
+   "remove": [
+    "harmony-patching",
+    "mod-entry-point"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/error-handling.md",
+   "section": "anti-patterns-to-avoid/assuming-the-game-s-internals",
+   "add": [
+    "harmony-patching"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/code-style.md",
+   "section": "harmony-patches",
+   "remove": [
+    "mod-entry-point",
+    "reflection"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/code-style.md",
+   "section": "comments/when-to-comment",
+   "remove": [
+    "harmony-patching"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/naming-conventions.md",
+   "section": "files-and-directories/examples-by-type",
+   "remove": [
+    "mod-entry-point",
+    "harmony-patching"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "overview.md",
+   "section": "where-things-are",
+   "remove": [
+    "mod-entry-point",
+    "harmony-patching",
+    "in-game-testing"
+   ]
+  },
+  {
+   "mode": "section",
+   "target": "overview.md",
+   "section": "What this is",
+   "body": "No Magic Fridges is an Oxygen Not Included mod that makes a powered fridge behave like an insulated box with a thermostat. Vanilla attaches a simulated 1 degC heat reservoir to every stored item, which cools warm food but also warms deep-frozen food back up to 1 degC. With this mod a powered fridge only ever cools what is warmer than 1 degC, never heats what is colder, lets its contents share heat with each other, and insulates cold food from the room. An unpowered fridge is exactly vanilla. Version 0.2.2 is on the Steam Workshop (id 3805326379); `mod_info.yaml` sets `supportedContent: ALL` and `minimumSupportedBuild: 744825`."
+  },
+  {
+   "mode": "describe",
+   "target": "standards/naming-conventions.md",
+   "description": "Naming conventions for No Magic Fridges: files, variables, methods, types, ids and tags, plus its nested patch class names, FridgeThermostat fields, test class and log prefix"
+  }
+ ]
+}

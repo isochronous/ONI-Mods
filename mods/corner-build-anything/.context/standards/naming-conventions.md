@@ -21,7 +21,6 @@ applies_to:
 
 ### Examples by Type
 **Id:** blk-c963897629f3  
-**Tags:** harmony-patching, mod-entry-point
 
 | Type | Convention | Example |
 |------|------------|---------|

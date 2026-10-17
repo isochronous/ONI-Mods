@@ -1,5 +1,4 @@
 ---
-tags: vanilla-fallback
 doc_id: doc-f2b5d177565f
 description: "Error handling conventions for Just Fall Already!: guarding patches, try/catch cases, logging levels and anti-patterns, plus its early returns, armed cell expiry, poke telemetry and optional mod detection"
 applies_to:
@@ -10,7 +9,7 @@ applies_to:
 
 ## Principles
 **Id:** blk-f75b46be2845  
-**Tags:** logging
+**Tags:** logging, vanilla-fallback
 
 1. **Never break the game for a mod's sake.** A patch that cannot do its job leaves the vanilla behaviour in place and says so in the log. It does not throw into the game's update loop.
 2. **Check what you patch.** Game updates rename fields and move code. Every reflection lookup, transpiler match and prefab or tech lookup is checked for a miss.
@@ -26,7 +25,7 @@ There is no custom exception hierarchy. Mods are small patches over game code, s
 
 ### Missing member: warn, leave vanilla
 **Id:** blk-249b3eb5bb20  
-**Tags:** logging
+**Tags:** vanilla-fallback
 
 A reflection lookup that returns null is checked before use. The patch then does nothing, or returns `true` from a prefix so the game's method runs.
 
@@ -38,7 +37,7 @@ if (ActiveField == null || StorageField == null)
 
 ### Transpiler: count the match
 **Id:** blk-5dac2e3d8156  
-**Tags:** logging
+**Tags:** vanilla-fallback
 
 A transpiler counts the instructions it replaced. Zero (or more than expected) logs a warning and returns the original code, so a game update disables the change instead of breaking the method.
 
@@ -50,7 +49,7 @@ if (swapped == 0)
 
 ### Missing data: warn, continue
 **Id:** blk-c5d951f306e9  
-**Tags:** logging
+**Tags:** logging, vanilla-fallback
 
 A build-menu, tech or asset lookup that finds nothing warns and keeps the mod working:
 
@@ -65,19 +64,20 @@ if (tech == null)
 (`mods/smart-weight-plate/src/SmartWeightPlate/Patches.cs`; also `mods/multichannel-critter-sensor`, `mods/storage-pod-redux`.) Missing art or a missing vanilla prefab degrades the same way (`Display.UseAnim` in `mods/bitshifter/src/Bitshifter/Patches.cs`, `mods/multichannel-critter-sensor/src/MultichannelCritterSensor/MultichannelCritterSensorSideScreen.cs`).
 
 ### Null checks on game objects
-**Id:** blk-e3e6ea0506fe
+**Id:** blk-e3e6ea0506fe  
+**Tags:** vanilla-fallback
 
 Components and arguments that can be absent are tested before use: `if (stt == null || !Sim.IsValidHandle(stt.SimHandle)) return true;`, `if (sensor == null || GameScenePartitioner.Instance == null) return;` (`mods/motion-sensor-range/src/MotionSensorRange/RangeSlider.cs`).
 
 ### Warn once
 **Id:** blk-80b18fb142e0  
-**Tags:** logging, performance
+**Tags:** logging
 
 Work that repeats every frame or tick warns once behind a flag (`warnedMissingInternals` in `RangeSlider.cs`).
 
 ## try/catch
 **Id:** blk-5938243ee768  
-**Tags:** mod-compatibility, logging
+**Tags:** logging
 
 `try`/`catch (Exception e)` is used in four situations and nowhere else:
 
@@ -96,7 +96,7 @@ The message form is `"[<Name>] <what was skipped>: " + e.Message`. Use `e.GetBas
 
 ## Yielding to Other Mods
 **Id:** blk-b684bb2fb3e0  
-**Tags:** mod-compatibility, harmony-patching, logging
+**Tags:** mod-compatibility
 
 When another mod already does the job or shares an id, the mod steps aside and logs why:
 - Bitshifter disables itself when Digital CPU is enabled or the contested methods already have Harmony owners (`WhyYield` in `mods/bitshifter/src/Bitshifter/Mod.cs`).
@@ -117,7 +117,6 @@ When another mod already does the job or shares an id, the mod steps aside and l
 
 ### What to Include
 **Id:** blk-6f0e4eb3b7b2  
-**Tags:** performance
 
 - The `[<ModName>] ` prefix on every line; `JumperBridgesMod.LogPrefix` holds it for that mod.
 - What was expected, what was found, and what the mod does instead.
@@ -131,13 +130,12 @@ PLib's `PUtil.Log*` helpers are not used; all mods log through `Debug`.
 
 ### Swallowing exceptions
 **Id:** blk-e55e040a6492  
-**Tags:** logging
 
 An empty `catch` hides a broken patch. The one `catch` that returns a fallback without a log is `GuessLanguageCode` in `common/src/Translations.cs`, because a missing language preference is the normal case before the game has started.
 
 ### Throwing from a patch
 **Id:** blk-ca29ac4a9ee9  
-**Tags:** harmony-patching, performance
+**Tags:** harmony-patching
 
 An exception in a prefix or postfix on a per-frame or sim method repeats every frame. Guard, log once, return.
 
@@ -155,7 +153,7 @@ Doing nothing without a log line leaves a player and the author guessing. Every 
 
 ### Spamming the log
 **Id:** blk-5da044268754  
-**Tags:** logging, performance
+**Tags:** logging
 
 A warning inside an update method fires thousands of times. Use a once-flag.
 

@@ -84,7 +84,6 @@ using UnityEngine;
 
 ### When to Comment
 **Id:** blk-9dbadebf4997  
-**Tags:** harmony-patching
 
 - On every non-trivial class, an XML `<summary>` that says what the game does and what the patch changes, so a reader can check the patch against the game code. The long summary on `OvercrowdingMonitor_UpdateRegion_Patch` in `mods/dont-count-eggs-on-rails/src/DontCountEggsOnRails/Mod.cs` is the model.
 - Where a game quirk forces an odd line: `// The game's .NET Framework has no AddOrUpdate on this table.`
@@ -141,7 +140,7 @@ if (idx == ushort.MaxValue || idx >= elements.Count)
 
 ## Harmony Patches
 **Id:** blk-d536a96e7ec3  
-**Tags:** harmony-patching, mod-entry-point
+**Tags:** harmony-patching
 
 - A patch is a static class with `[HarmonyPatch(typeof(Type), nameof(Type.Method))]`, or `[HarmonyPatch(typeof(Type), "PrivateMethod")]` for a non-public method, and methods named `Prefix`, `Postfix`, `Transpiler` or `Finalizer` (`mods/bitshifter/src/Bitshifter/Patches.cs`).
 - Game state arrives through Harmony parameters: `__instance`, `__result`, `___field`. Fields read repeatedly use `AccessTools.FieldRefAccess` kept in a `static readonly` field (`mods/detect-any-element/src/DetectAnyElement/Patches.cs`).

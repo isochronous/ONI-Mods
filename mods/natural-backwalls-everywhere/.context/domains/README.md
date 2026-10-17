@@ -8,7 +8,6 @@ description: Index of the Natural Backwalls Everywhere domains folder, linking t
 
 ## Domains
 **Id:** blk-bae867c75e8e  
-**Tags:** biome-group, noise-pattern, mod-options, harmony-patching
 
 - [entities](entities.md): what the mod adds to worldgen (biome groups, patterns, options, the patches that place backwalls), with file locations, the placement rules and key code paths.
 - [glossary](glossary.md): ONI and mod-specific terms used by Natural Backwalls Everywhere.

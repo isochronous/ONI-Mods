@@ -1,5 +1,5 @@
 ---
-tags: harmony-patching, exception-handling, logging
+tags: code-style
 doc_id: doc-c4afa748d082
 description: Index of the Upgrade Planner standards documents, linking the code-style, error-handling and naming-conventions guides with a line on each
 ---

@@ -13,7 +13,6 @@ Smart Weight Plate is an Oxygen Not Included mod that adds one building, a weigh
 
 ## Where things are
 **Id:** blk-fb799be8fbf0  
-**Tags:** kanim-art, in-game-testing, mod-strings, mod-entry-point
 
 - `README.md`, `CHANGELOG.md`: player-facing description and release notes.
 - `src/SmartWeightPlate/`: the mod. `Mod.cs` (entry point), `SmartWeightPlateConfig.cs` (building definition), `SmartWeightPlate.cs` (the two-threshold latch component), `SmartWeightPlateSideScreen.cs` (the panel), `Patches.cs` (Harmony patches), `ModStrings.cs` (UI strings), `mod.yaml` and `mod_info.yaml` (mod manifests).

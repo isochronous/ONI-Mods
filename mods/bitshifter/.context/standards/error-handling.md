@@ -1,5 +1,4 @@
 ---
-tags: vanilla-fallback, logging
 doc_id: doc-072f1d1bd309
 description: "Error handling conventions for the Bitshifter mod: guarding Harmony patches and transpilers, try/catch, logging levels, plus Bitshifter's yield rules for Digital CPU, the NOT gate mask check and missing-kanim fallback"
 applies_to:
@@ -10,7 +9,7 @@ applies_to:
 
 ## Principles
 **Id:** blk-0bb5eb7f778f  
-**Tags:** harmony-patching
+**Tags:** vanilla-fallback, logging
 
 1. **Never break the game for a mod's sake.** A patch that cannot do its job leaves the vanilla behaviour in place and says so in the log. It does not throw into the game's update loop.
 2. **Check what you patch.** Game updates rename fields and move code. Every reflection lookup, transpiler match and prefab or tech lookup is checked for a miss.
@@ -21,11 +20,12 @@ applies_to:
 There is no custom exception hierarchy. Mods are small patches over game code, so errors are handled where they occur.
 
 ## Guarding Patches
-**Id:** blk-f58ec17fc16f
+**Id:** blk-f58ec17fc16f  
+**Tags:** harmony-patching
 
 ### Missing member: warn, leave vanilla
 **Id:** blk-f6d1dcb29771  
-**Tags:** harmony-patching
+**Tags:** vanilla-fallback
 
 A reflection lookup that returns null is checked before use. The patch then does nothing, or returns `true` from a prefix so the game's method runs.
 
@@ -37,7 +37,7 @@ if (ActiveField == null || StorageField == null)
 
 ### Transpiler: count the match
 **Id:** blk-4c8d79f7826c  
-**Tags:** transpiler, harmony-patching
+**Tags:** transpiler, vanilla-fallback
 
 A transpiler counts the instructions it replaced. Zero (or more than expected) logs a warning and returns the original code, so a game update disables the change instead of breaking the method.
 
@@ -48,7 +48,8 @@ if (swapped == 0)
 (`mods/corner-build-anything/src/CornerBuildAnything/ReachTablePatches.cs`; same pattern in `mods/bitshifter/src/Bitshifter/Patches.cs` and `mods/natural-backwalls-everywhere/src/NaturalBackwalls/SettleSimPatch.cs`.)
 
 ### Missing data: warn, continue
-**Id:** blk-101c18a7fdbd
+**Id:** blk-101c18a7fdbd  
+**Tags:** vanilla-fallback, logging
 
 A build-menu, tech or asset lookup that finds nothing warns and keeps the mod working:
 
@@ -64,18 +65,19 @@ if (tech == null)
 
 ### Null checks on game objects
 **Id:** blk-414d69d4cbc7  
-**Tags:** harmony-patching
+**Tags:** vanilla-fallback
 
 Components and arguments that can be absent are tested before use: `if (stt == null || !Sim.IsValidHandle(stt.SimHandle)) return true;`, `if (sensor == null || GameScenePartitioner.Instance == null) return;` (`mods/motion-sensor-range/src/MotionSensorRange/RangeSlider.cs`).
 
 ### Warn once
-**Id:** blk-c82c23f2d522
+**Id:** blk-c82c23f2d522  
+**Tags:** logging
 
 Work that repeats every frame or tick warns once behind a flag (`warnedMissingInternals` in `RangeSlider.cs`).
 
 ## try/catch
 **Id:** blk-6a2fff2949c6  
-**Tags:** mod-compatibility
+**Tags:** logging
 
 `try`/`catch (Exception e)` is used in four situations and nowhere else:
 
@@ -101,7 +103,8 @@ When another mod already does the job or shares an id, the mod steps aside and l
 - Storage Pod Redux does not register its buildings while the original Storage Pod is enabled, and logs a warning telling the player to disable one (`mods/storage-pod-redux/src/StoragePodRedux/Mod.cs`).
 
 ## Logging
-**Id:** blk-4d5a8b5ca2d3
+**Id:** blk-4d5a8b5ca2d3  
+**Tags:** logging
 
 ### Log Levels
 **Id:** blk-ac719050ae36
@@ -143,12 +146,14 @@ An exception in a prefix or postfix on a per-frame or sim method repeats every f
 Reading a private field by name without a null check on the `FieldInfo`, or replacing an instruction without confirming it was found, breaks on the next game update.
 
 ### Silent degradation
-**Id:** blk-808efb5834b2
+**Id:** blk-808efb5834b2  
+**Tags:** logging
 
 Doing nothing without a log line leaves a player and the author guessing. Every skipped path logs.
 
 ### Spamming the log
-**Id:** blk-ce98740db45a
+**Id:** blk-ce98740db45a  
+**Tags:** logging
 
 A warning inside an update method fires thousands of times. Use a once-flag.
 

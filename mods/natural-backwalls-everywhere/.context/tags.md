@@ -56,7 +56,7 @@ A record earns this term when it is about the player-visible text a mod defines 
 ## developer-tooling
 **Id:** blk-05b973051415
 
-A record earns this term when it is about debug and developer features a mod includes for its author rather than for players.
+A record earns this term when it is about debug and developer features a mod includes for its author.
 
 ## worldgen
 **Id:** blk-f7e4c6a542bc

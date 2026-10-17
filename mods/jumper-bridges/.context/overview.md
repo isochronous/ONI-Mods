@@ -13,7 +13,6 @@ Jumper Bridges is an Oxygen Not Included mod: an Automation Wire Bridge, Automat
 
 ## Where things are
 **Id:** blk-7a7996b980da  
-**Tags:** harmony-patching, mod-options, in-game-testing
 
 Top-level folders and key files:
 

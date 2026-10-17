@@ -28,11 +28,6 @@ A record earns this term when it is about what a mod stores in a save file and h
 
 A record earns this term when it is about testing a mod inside the running game with TestRunner and its [OniTest] coroutines.
 
-## mod-entry-point
-**Id:** blk-0ede851d41db
-
-A record earns this term when it is about a mod's UserMod2 class and what it does when the game loads the mod.
-
 ## mod-strings
 **Id:** blk-0ead12b946d3
 
@@ -46,7 +41,7 @@ A record earns this term when it is about a KMonoBehaviour component that a mod 
 ## developer-tooling
 **Id:** blk-3b73dd4898b2
 
-A record earns this term when it is about debug and developer features a mod includes for its author rather than for players.
+A record earns this term when it is about debug and developer features a mod includes for its author.
 
 ## liquid-vent
 **Id:** blk-eb21c7cacead

@@ -1,0 +1,181 @@
+{
+ "task": "OM-002",
+ "why": "unit 12 review fixes: one tag set per shared standards section across the mods, no subject tags on folder maps and index sections, misplaced terms removed, mod_info.yaml named in the overviews, the developer-tooling gloss without its boundary clause",
+ "node": "mods/smart-weight-plate",
+ "ops": [
+  {
+   "mode": "tag",
+   "target": "standards/error-handling.md",
+   "section": "principles",
+   "remove": [
+    "harmony-patching"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/error-handling.md",
+   "section": "guarding-patches",
+   "add": [
+    "harmony-patching"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/error-handling.md",
+   "section": "try-catch",
+   "remove": [
+    "mod-compatibility"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/error-handling.md",
+   "section": "yielding-to-other-mods",
+   "remove": [
+    "logging"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/error-handling.md",
+   "section": "logging",
+   "add": [
+    "logging"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/error-handling.md",
+   "section": "guarding-patches/missing-member-warn-leave-vanilla",
+   "remove": [
+    "harmony-patching"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/error-handling.md",
+   "section": "guarding-patches/transpiler-count-the-match",
+   "remove": [
+    "harmony-patching",
+    "logging"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/error-handling.md",
+   "section": "guarding-patches/missing-data-warn-continue",
+   "remove": [
+    "building-unlock"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/error-handling.md",
+   "section": "guarding-patches/null-checks-on-game-objects",
+   "remove": [
+    "harmony-patching"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/error-handling.md",
+   "section": "logging/log-levels",
+   "remove": [
+    "logging"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/error-handling.md",
+   "section": "logging/what-to-include",
+   "remove": [
+    "logging"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/error-handling.md",
+   "section": "anti-patterns-to-avoid/swallowing-exceptions",
+   "remove": [
+    "logging"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/code-style.md",
+   "section": "harmony-patches",
+   "remove": [
+    "mod-entry-point",
+    "vanilla-fallback"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/code-style.md",
+   "section": "project-specific-rules",
+   "remove": [
+    "mod-strings"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/naming-conventions.md",
+   "section": "files-and-directories/examples-by-type",
+   "remove": [
+    "building-config",
+    "mod-entry-point",
+    "mod-strings",
+    "in-game-testing"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/naming-conventions.md",
+   "section": "code-naming/functions-methods",
+   "remove": [
+    "game-component"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/naming-conventions.md",
+   "section": "code-naming/ids-and-tags",
+   "remove": [
+    "building-config",
+    "mod-entry-point",
+    "in-game-testing"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/README.md",
+   "section": "standards",
+   "remove": [
+    "code-style",
+    "logging"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/README.md",
+   "add": [
+    "code-style"
+   ],
+   "remove": [
+    "harmony-patching",
+    "vanilla-fallback"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "overview.md",
+   "section": "where-things-are",
+   "remove": [
+    "kanim-art",
+    "in-game-testing",
+    "mod-strings",
+    "mod-entry-point"
+   ]
+  }
+ ]
+}

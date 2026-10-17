@@ -1,5 +1,4 @@
 ---
-tags: exception-handling, logging, vanilla-fallback
 doc_id: doc-ec7a8d0f341f
 description: "Error handling and logging rules for the Upgrade Planner mod: guarding patches, try/catch use, yielding to other mods, log levels, anti-patterns, plus how its Blueprints link, presets, variants and placement queue fail"
 applies_to:
@@ -10,7 +9,7 @@ applies_to:
 
 ## Principles
 **Id:** blk-e04e91cfb788  
-**Tags:** harmony-patching, reflection
+**Tags:** vanilla-fallback, logging, exception-handling
 
 1. **Never break the game for a mod's sake.** A patch that cannot do its job leaves the vanilla behaviour in place and says so in the log. It does not throw into the game's update loop.
 2. **Check what you patch.** Game updates rename fields and move code. Every reflection lookup, transpiler match and prefab or tech lookup is checked for a miss.
@@ -26,7 +25,7 @@ There is no custom exception hierarchy. Mods are small patches over game code, s
 
 ### Missing member: warn, leave vanilla
 **Id:** blk-4c5784f27e28  
-**Tags:** reflection
+**Tags:** reflection, vanilla-fallback
 
 A reflection lookup that returns null is checked before use. The patch then does nothing, or returns `true` from a prefix so the game's method runs.
 
@@ -37,7 +36,8 @@ if (ActiveField == null || StorageField == null)
 (`mods/no-magic-fridges/src/NoMagicFridges/Patches.cs`; the warning is logged once at load by `SimTransferMethod` in `FridgeThermostat.cs`.)
 
 ### Transpiler: count the match
-**Id:** blk-8bf05515feca
+**Id:** blk-8bf05515feca  
+**Tags:** vanilla-fallback
 
 A transpiler counts the instructions it replaced. Zero (or more than expected) logs a warning and returns the original code, so a game update disables the change instead of breaking the method.
 
@@ -48,7 +48,8 @@ if (swapped == 0)
 (`mods/corner-build-anything/src/CornerBuildAnything/ReachTablePatches.cs`; same pattern in `mods/bitshifter/src/Bitshifter/Patches.cs` and `mods/natural-backwalls-everywhere/src/NaturalBackwalls/SettleSimPatch.cs`.)
 
 ### Missing data: warn, continue
-**Id:** blk-9a05a76074e8
+**Id:** blk-9a05a76074e8  
+**Tags:** vanilla-fallback, logging
 
 A build-menu, tech or asset lookup that finds nothing warns and keeps the mod working:
 
@@ -63,19 +64,20 @@ if (tech == null)
 (`mods/smart-weight-plate/src/SmartWeightPlate/Patches.cs`; also `mods/multichannel-critter-sensor`, `mods/storage-pod-redux`.) Missing art or a missing vanilla prefab degrades the same way (`Display.UseAnim` in `mods/bitshifter/src/Bitshifter/Patches.cs`, `mods/multichannel-critter-sensor/src/MultichannelCritterSensor/MultichannelCritterSensorSideScreen.cs`).
 
 ### Null checks on game objects
-**Id:** blk-08ab5b72b198
+**Id:** blk-08ab5b72b198  
+**Tags:** vanilla-fallback
 
 Components and arguments that can be absent are tested before use: `if (stt == null || !Sim.IsValidHandle(stt.SimHandle)) return true;`, `if (sensor == null || GameScenePartitioner.Instance == null) return;` (`mods/motion-sensor-range/src/MotionSensorRange/RangeSlider.cs`).
 
 ### Warn once
 **Id:** blk-102610fa711e  
-**Tags:** performance
+**Tags:** logging
 
 Work that repeats every frame or tick warns once behind a flag (`warnedMissingInternals` in `RangeSlider.cs`).
 
 ## try/catch
 **Id:** blk-dcc0a4ff3762  
-**Tags:** mod-compatibility
+**Tags:** exception-handling, logging
 
 `try`/`catch (Exception e)` is used in four situations and nowhere else:
 
@@ -101,7 +103,8 @@ When another mod already does the job or shares an id, the mod steps aside and l
 - Storage Pod Redux does not register its buildings while the original Storage Pod is enabled, and logs a warning telling the player to disable one (`mods/storage-pod-redux/src/StoragePodRedux/Mod.cs`).
 
 ## Logging
-**Id:** blk-2bc51bf35a83
+**Id:** blk-2bc51bf35a83  
+**Tags:** logging
 
 ### Log Levels
 **Id:** blk-e3fc753da293
@@ -114,7 +117,6 @@ When another mod already does the job or shares an id, the mod steps aside and l
 
 ### What to Include
 **Id:** blk-491326ff88e4  
-**Tags:** performance
 
 - The `[<ModName>] ` prefix on every line; `JumperBridgesMod.LogPrefix` holds it for that mod.
 - What was expected, what was found, and what the mod does instead.
@@ -127,13 +129,14 @@ PLib's `PUtil.Log*` helpers are not used; all mods log through `Debug`.
 **Id:** blk-e4325c74d374
 
 ### Swallowing exceptions
-**Id:** blk-707db46802de
+**Id:** blk-707db46802de  
+**Tags:** exception-handling
 
 An empty `catch` hides a broken patch. The one `catch` that returns a fallback without a log is `GuessLanguageCode` in `common/src/Translations.cs`, because a missing language preference is the normal case before the game has started.
 
 ### Throwing from a patch
 **Id:** blk-a79c1180fc5c  
-**Tags:** harmony-patching, performance
+**Tags:** harmony-patching
 
 An exception in a prefix or postfix on a per-frame or sim method repeats every frame. Guard, log once, return.
 
@@ -144,13 +147,14 @@ An exception in a prefix or postfix on a per-frame or sim method repeats every f
 Reading a private field by name without a null check on the `FieldInfo`, or replacing an instruction without confirming it was found, breaks on the next game update.
 
 ### Silent degradation
-**Id:** blk-3983b476e44f
+**Id:** blk-3983b476e44f  
+**Tags:** logging
 
 Doing nothing without a log line leaves a player and the author guessing. Every skipped path logs.
 
 ### Spamming the log
 **Id:** blk-5f9246cf1510  
-**Tags:** performance
+**Tags:** logging
 
 A warning inside an update method fires thousands of times. Use a once-flag.
 

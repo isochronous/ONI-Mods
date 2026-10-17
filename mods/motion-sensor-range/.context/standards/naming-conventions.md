@@ -21,7 +21,6 @@ applies_to:
 
 ### Examples by Type
 **Id:** blk-01b48de8fa57  
-**Tags:** mod-entry-point, harmony-patching, side-screen, mod-strings
 
 | Type | Convention | Example |
 |------|------------|---------|
@@ -88,7 +87,6 @@ private static readonly Dictionary<int, float> armed = new Dictionary<int, float
 
 ### Ids and Tags
 **Id:** blk-e8a34f4dbe20  
-**Tags:** in-game-testing
 
 - Building ids are PascalCase and match the config class (`SmartWeightPlate`); a mod that replaces another mod's buildings reuses that mod's ids (`StoragePodConfig`, `CoolPodConfig` in `mods/storage-pod-redux`).
 - Tags and PAction ids carry a mod prefix: `DetectAnyElement_Any`, `Isochronous.SweepZones.Tool`.

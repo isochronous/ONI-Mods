@@ -21,7 +21,6 @@ applies_to:
 
 ### Examples by Type
 **Id:** blk-bce469611e0a  
-**Tags:** mod-entry-point, harmony-patching, mod-strings, mod-options
 
 | Type | Convention | Example |
 |------|------------|---------|
@@ -79,7 +78,7 @@ private static readonly Dictionary<int, float> armed = new Dictionary<int, float
 
 ### Strings (`ModStrings`)
 **Id:** blk-94c2b674b091  
-**Tags:** mod-strings, mod-options
+**Tags:** mod-strings
 
 - `ModStrings` mirrors the game's `STRINGS` tree: nested static classes and `LocString` fields in UPPER_SNAKE_CASE. `ModStrings.BUILDINGS.PREFABS.<BUILDINGID>.NAME` is registered as `STRINGS.BUILDINGS.PREFABS.<BUILDINGID>.NAME`, the key the game looks a building name up by (`mods/smart-weight-plate/src/SmartWeightPlate/ModStrings.cs`).
 - Mod-private text goes under a branch named for the mod in capitals (`ModStrings.SALTYSURF.ELEMENT_LIST`, `ModStrings.JUMPERBRIDGES.OPTIONS`).
@@ -88,7 +87,6 @@ private static readonly Dictionary<int, float> armed = new Dictionary<int, float
 
 ### Ids and Tags
 **Id:** blk-75fc5b18d34d  
-**Tags:** in-game-testing
 
 - Building ids are PascalCase and match the config class (`SmartWeightPlate`); a mod that replaces another mod's buildings reuses that mod's ids (`StoragePodConfig`, `CoolPodConfig` in `mods/storage-pod-redux`).
 - Tags and PAction ids carry a mod prefix: `DetectAnyElement_Any`, `Isochronous.SweepZones.Tool`.

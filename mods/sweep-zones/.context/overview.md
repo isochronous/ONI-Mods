@@ -12,7 +12,6 @@ Sweep Zones Redux is an Oxygen Not Included mod that adds a Sweep Zones tool to 
 
 ## Where things are
 **Id:** blk-7ba496c215ac  
-**Tags:** mod-entry-point, harmony-patching, mod-strings, in-game-testing
 
 - `README.md`, `CHANGELOG.md`: player-facing description and release notes.
 - `src/SweepZones/`: the mod. `Mod.cs` (entry point), `SweepZoneTool.cs` (the paint tool), `ZoneStore.cs` (the saved zone store), `ToolIcon.cs` (toolbar icons), `Patches.cs` (Harmony patches), `ModStrings.cs` (UI strings), `mod.yaml` and `mod_info.yaml` (manifests).

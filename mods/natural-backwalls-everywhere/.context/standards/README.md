@@ -8,7 +8,6 @@ description: Index of the Natural Backwalls Everywhere standards folder, linking
 
 ## Standards
 **Id:** blk-edabb7fbb2a6  
-**Tags:** harmony-patching, exception-handling, logging, mod-strings
 
 - [code-style](code-style.md): C# formatting, imports, comments, Harmony patch and component conventions, with this mod's own layout.
 - [error-handling](error-handling.md): how Natural Backwalls Everywhere guards its Harmony patches, reflection lookups and file reads, and what it logs when something is missing.

@@ -27,7 +27,7 @@ description: "The architecture phase of an ONI-Mods task plan: entry and exit st
 
 ## Phase Exit / Handoff (run LAST, at the phase boundary)
 **Id:** blk-332ec12bedd2  
-**Tags:** commit-messages, phase-handoff
+**Tags:** phase-handoff
 
 > Every boundary ends with a commit. Uncommitted work at a boundary is an
 > incomplete handoff and the next phase fails closed.

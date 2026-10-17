@@ -9,7 +9,7 @@ applies_to:
 
 ## Principles
 **Id:** blk-b6f16b6cf1a9  
-**Tags:** harmony-patching, logging
+**Tags:** logging
 
 1. **Never break the game for a mod's sake.** A patch that cannot do its job leaves the vanilla behaviour in place and says so in the log. It does not throw into the game's update loop.
 2. **Check what you patch.** Game updates rename fields and move code. Every reflection lookup, transpiler match and prefab or tech lookup is checked for a miss.
@@ -25,7 +25,6 @@ There is no custom exception hierarchy. Mods are small patches over game code, s
 
 ### Missing member: warn, leave vanilla
 **Id:** blk-ca37f1585a91  
-**Tags:** logging
 
 A reflection lookup that returns null is checked before use. The patch then does nothing, or returns `true` from a prefix so the game's method runs.
 
@@ -37,7 +36,6 @@ if (ActiveField == null || StorageField == null)
 
 ### Transpiler: count the match
 **Id:** blk-4a6995b5e81f  
-**Tags:** logging
 
 A transpiler counts the instructions it replaced. Zero (or more than expected) logs a warning and returns the original code, so a game update disables the change instead of breaking the method.
 
@@ -95,7 +93,6 @@ The message form is `"[<Name>] <what was skipped>: " + e.Message`. Use `e.GetBas
 
 ## Yielding to Other Mods
 **Id:** blk-38682c142e7f  
-**Tags:** harmony-patching, logging
 
 When another mod already does the job or shares an id, the mod steps aside and logs why:
 - Bitshifter disables itself when Digital CPU is enabled or the contested methods already have Harmony owners (`WhyYield` in `mods/bitshifter/src/Bitshifter/Mod.cs`).
@@ -116,7 +113,6 @@ When another mod already does the job or shares an id, the mod steps aside and l
 
 ### What to Include
 **Id:** blk-e9a1da8dc9c7  
-**Tags:** developer-tooling
 
 - The `[<ModName>] ` prefix on every line; `JumperBridgesMod.LogPrefix` holds it for that mod.
 - What was expected, what was found, and what the mod does instead.
@@ -130,13 +126,12 @@ PLib's `PUtil.Log*` helpers are not used; all mods log through `Debug`.
 
 ### Swallowing exceptions
 **Id:** blk-2b62de665b7e  
-**Tags:** logging
 
 An empty `catch` hides a broken patch. The one `catch` that returns a fallback without a log is `GuessLanguageCode` in `common/src/Translations.cs`, because a missing language preference is the normal case before the game has started.
 
 ### Throwing from a patch
 **Id:** blk-c9f319ee94b9  
-**Tags:** harmony-patching, logging
+**Tags:** harmony-patching
 
 An exception in a prefix or postfix on a per-frame or sim method repeats every frame. Guard, log once, return.
 

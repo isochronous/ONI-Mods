@@ -64,7 +64,6 @@ foreach (Mod mod in mods)
 
 ### Example
 **Id:** blk-5b62e7507604  
-**Tags:** logging
 
 ```csharp
 using System.Collections.Generic;
@@ -85,7 +84,6 @@ using UnityEngine;
 
 ### When to Comment
 **Id:** blk-00af2e4182a4  
-**Tags:** harmony-patching, mod-compatibility
 
 - On every non-trivial class, an XML `<summary>` that says what the game does and what the patch changes, so a reader can check the patch against the game code. The long summary on `OvercrowdingMonitor_UpdateRegion_Patch` in `mods/dont-count-eggs-on-rails/src/DontCountEggsOnRails/Mod.cs` is the model.
 - Where a game quirk forces an odd line: `// The game's .NET Framework has no AddOrUpdate on this table.`
@@ -137,7 +135,6 @@ if (idx == ushort.MaxValue || idx >= elements.Count)
 
 ### Strings
 **Id:** blk-786743155fe7  
-**Tags:** logging
 
 - Log and UI text is built with `+` concatenation, or `string.Format` on a `LocString`. String interpolation is not used in mod code.
 - Player-visible text is a `LocString` field in `ModStrings`, never a literal at the call site (see [naming conventions](naming-conventions.md)).

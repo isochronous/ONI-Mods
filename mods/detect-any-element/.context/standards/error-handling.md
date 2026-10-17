@@ -1,5 +1,4 @@
 ---
-tags: vanilla-fallback
 doc_id: doc-536d0bdee6af
 description: "Error handling conventions for the Detect Any Element mod: guarding patches, logging levels, plus its missing-glyph-symbol fallback, early returns in patches and the Any tag's saved Filterable field"
 applies_to:
@@ -10,7 +9,7 @@ applies_to:
 
 ## Principles
 **Id:** blk-1c12fcb172de  
-**Tags:** logging, harmony-patching
+**Tags:** logging, vanilla-fallback
 
 1. **Never break the game for a mod's sake.** A patch that cannot do its job leaves the vanilla behaviour in place and says so in the log. It does not throw into the game's update loop.
 2. **Check what you patch.** Game updates rename fields and move code. Every reflection lookup, transpiler match and prefab or tech lookup is checked for a miss.
@@ -21,11 +20,12 @@ applies_to:
 There is no custom exception hierarchy. Mods are small patches over game code, so errors are handled where they occur.
 
 ## Guarding Patches
-**Id:** blk-4ef3aa08558c
+**Id:** blk-4ef3aa08558c  
+**Tags:** harmony-patching
 
 ### Missing member: warn, leave vanilla
 **Id:** blk-49d91e817362  
-**Tags:** harmony-patching
+**Tags:** reflection, vanilla-fallback
 
 A reflection lookup that returns null is checked before use. The patch then does nothing, or returns `true` from a prefix so the game's method runs.
 
@@ -37,7 +37,7 @@ if (ActiveField == null || StorageField == null)
 
 ### Transpiler: count the match
 **Id:** blk-4300a4469703  
-**Tags:** harmony-patching, logging
+**Tags:** vanilla-fallback
 
 A transpiler counts the instructions it replaced. Zero (or more than expected) logs a warning and returns the original code, so a game update disables the change instead of breaking the method.
 
@@ -49,7 +49,7 @@ if (swapped == 0)
 
 ### Missing data: warn, continue
 **Id:** blk-bfbab614ef56  
-**Tags:** logging
+**Tags:** logging, vanilla-fallback
 
 A build-menu, tech or asset lookup that finds nothing warns and keeps the mod working:
 
@@ -65,7 +65,7 @@ if (tech == null)
 
 ### Null checks on game objects
 **Id:** blk-1a260b7c2cae  
-**Tags:** harmony-patching
+**Tags:** vanilla-fallback
 
 Components and arguments that can be absent are tested before use: `if (stt == null || !Sim.IsValidHandle(stt.SimHandle)) return true;`, `if (sensor == null || GameScenePartitioner.Instance == null) return;` (`mods/motion-sensor-range/src/MotionSensorRange/RangeSlider.cs`).
 
@@ -96,18 +96,17 @@ The message form is `"[<Name>] <what was skipped>: " + e.Message`. Use `e.GetBas
 
 ## Yielding to Other Mods
 **Id:** blk-e1cb0e62cd50  
-**Tags:** logging
 
 When another mod already does the job or shares an id, the mod steps aside and logs why:
 - Bitshifter disables itself when Digital CPU is enabled or the contested methods already have Harmony owners (`WhyYield` in `mods/bitshifter/src/Bitshifter/Mod.cs`).
 - Storage Pod Redux does not register its buildings while the original Storage Pod is enabled, and logs a warning telling the player to disable one (`mods/storage-pod-redux/src/StoragePodRedux/Mod.cs`).
 
 ## Logging
-**Id:** blk-1a532a50d7f2
+**Id:** blk-1a532a50d7f2  
+**Tags:** logging
 
 ### Log Levels
 **Id:** blk-91679b3cf2ae  
-**Tags:** logging
 
 | Level | Use For | Example |
 |-------|---------|---------|
@@ -117,7 +116,6 @@ When another mod already does the job or shares an id, the mod steps aside and l
 
 ### What to Include
 **Id:** blk-6b7945999d4e  
-**Tags:** logging
 
 - The `[<ModName>] ` prefix on every line; `JumperBridgesMod.LogPrefix` holds it for that mod.
 - What was expected, what was found, and what the mod does instead.
@@ -131,7 +129,6 @@ PLib's `PUtil.Log*` helpers are not used; all mods log through `Debug`.
 
 ### Swallowing exceptions
 **Id:** blk-2e7d41dad80c  
-**Tags:** logging
 
 An empty `catch` hides a broken patch. The one `catch` that returns a fallback without a log is `GuessLanguageCode` in `common/src/Translations.cs`, because a missing language preference is the normal case before the game has started.
 
@@ -143,7 +140,7 @@ An exception in a prefix or postfix on a per-frame or sim method repeats every f
 
 ### Assuming the game's internals
 **Id:** blk-0e85bde9ea93  
-**Tags:** harmony-patching
+**Tags:** harmony-patching, reflection
 
 Reading a private field by name without a null check on the `FieldInfo`, or replacing an instruction without confirming it was found, breaks on the next game update.
 

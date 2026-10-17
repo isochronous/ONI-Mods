@@ -55,7 +55,6 @@ foreach (Mod mod in mods)
 
 ### Organization
 **Id:** blk-c912752fe0ac  
-**Tags:** mod-strings
 
 `using` directives sit above the namespace, in one block with no blank lines, sorted alphabetically with `System.*` first. Aliases for `ModStrings` branches come last.
 
@@ -135,14 +134,14 @@ if (idx == ushort.MaxValue || idx >= elements.Count)
 
 ### Strings
 **Id:** blk-417ad5f3c6ec  
-**Tags:** mod-strings, logging
+**Tags:** mod-strings
 
 - Log and UI text is built with `+` concatenation, or `string.Format` on a `LocString`. String interpolation is not used in mod code.
 - Player-visible text is a `LocString` field in `ModStrings`, never a literal at the call site (see [naming conventions](naming-conventions.md)).
 
 ## Harmony Patches
 **Id:** blk-e0fdf1ca5ef2  
-**Tags:** harmony-patching, reflection, mod-entry-point
+**Tags:** harmony-patching
 
 - A patch is a static class with `[HarmonyPatch(typeof(Type), nameof(Type.Method))]`, or `[HarmonyPatch(typeof(Type), "PrivateMethod")]` for a non-public method, and methods named `Prefix`, `Postfix`, `Transpiler` or `Finalizer` (`mods/bitshifter/src/Bitshifter/Patches.cs`).
 - Game state arrives through Harmony parameters: `__instance`, `__result`, `___field`. Fields read repeatedly use `AccessTools.FieldRefAccess` kept in a `static readonly` field (`mods/detect-any-element/src/DetectAnyElement/Patches.cs`).
@@ -161,7 +160,7 @@ if (idx == ushort.MaxValue || idx >= elements.Count)
 
 ## Project-Specific Rules
 **Id:** blk-9543e106622d  
-**Tags:** logging, in-game-testing, mod-strings
+**Tags:** logging, in-game-testing
 
 - Mod options are a PLib `POptions` class marked `[JsonObject(MemberSerialization.OptIn)]` and `[ConfigFile(SharedConfigLocation: true)]`, read through a static `Load()` (`mods/vent-freeze-fix/src/VentFreezeFix/Options.cs`) or through `SingletonOptions<Options>` (`mods/storage-pod-redux`). Option titles are string-table keys, so the translation follows the language.
 - Every mod logs one line at load: `[<Name>] Loaded version <assembly version>`.
@@ -169,7 +168,7 @@ if (idx == ushort.MaxValue || idx >= elements.Count)
 
 ### Sweep Zones Redux specifics
 **Id:** blk-e3db311484c0  
-**Tags:** hotkey, saved-state, reflection
+**Tags:** hotkey, saved-state, reflection, mod-strings
 
 - `UsePLib`, `UseTranslations` and `ReferenceUnityUI`. The rebindable hotkey is a PLib action created in `OnLoad`; `SweepZonesMod.ToolAction` holds `PAction.MaxAction` until then (`src/SweepZones/Mod.cs`).
 - `ZoneStore` is a `KMonoBehaviour, ISim1000ms` with `[SerializationConfig(MemberSerialization.OptIn)]` and `[Serialize]` dictionaries; it is attached to the `SaveGame` object so the zones save with the game. The static `Instance` is set in `OnPrefabInit` and cleared in `OnCleanUp` only when `Instance == this`.

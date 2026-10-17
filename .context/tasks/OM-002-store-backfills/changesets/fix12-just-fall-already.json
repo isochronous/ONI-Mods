@@ -1,0 +1,158 @@
+{
+ "task": "OM-002",
+ "why": "unit 12 review fixes: one tag set per shared standards section across the mods, no subject tags on folder maps and index sections, misplaced terms removed, mod_info.yaml named in the overviews, the developer-tooling gloss without its boundary clause",
+ "node": "mods/just-fall-already",
+ "ops": [
+  {
+   "mode": "tag",
+   "target": "standards/error-handling.md",
+   "section": "try-catch",
+   "remove": [
+    "mod-compatibility"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/error-handling.md",
+   "section": "yielding-to-other-mods",
+   "remove": [
+    "harmony-patching",
+    "logging"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/error-handling.md",
+   "section": "guarding-patches/missing-member-warn-leave-vanilla",
+   "remove": [
+    "logging"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/error-handling.md",
+   "section": "guarding-patches/transpiler-count-the-match",
+   "remove": [
+    "logging"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/error-handling.md",
+   "section": "guarding-patches/warn-once",
+   "remove": [
+    "performance"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/error-handling.md",
+   "section": "logging/what-to-include",
+   "remove": [
+    "performance"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/error-handling.md",
+   "section": "anti-patterns-to-avoid/swallowing-exceptions",
+   "remove": [
+    "logging"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/error-handling.md",
+   "section": "anti-patterns-to-avoid/throwing-from-a-patch",
+   "remove": [
+    "performance"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/error-handling.md",
+   "section": "anti-patterns-to-avoid/spamming-the-log",
+   "remove": [
+    "performance"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/code-style.md",
+   "section": "imports-includes/example",
+   "remove": [
+    "logging"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/code-style.md",
+   "section": "comments/when-to-comment",
+   "remove": [
+    "harmony-patching",
+    "mod-compatibility"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/code-style.md",
+   "section": "control-structures/strings",
+   "remove": [
+    "logging"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/naming-conventions.md",
+   "section": "files-and-directories/examples-by-type",
+   "remove": [
+    "mod-entry-point",
+    "harmony-patching",
+    "in-game-testing"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/naming-conventions.md",
+   "section": "code-naming/classes-types-interfaces",
+   "remove": [
+    "mod-entry-point"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/naming-conventions.md",
+   "section": "code-naming/ids-and-tags",
+   "remove": [
+    "mod-compatibility",
+    "in-game-testing"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/README.md",
+   "add": [
+    "code-style"
+   ],
+   "remove": [
+    "harmony-patching",
+    "logging",
+    "vanilla-fallback"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "overview.md",
+   "section": "where-things-are",
+   "remove": [
+    "mod-entry-point",
+    "in-game-testing"
+   ]
+  },
+  {
+   "mode": "describe",
+   "target": "standards/naming-conventions.md",
+   "description": "Naming conventions for Just Fall Already!: files, namespaces, variables, methods, patch classes and ids, plus its `FallPoke` patch names, `Doors` test class, log prefix and `staticID`"
+  }
+ ]
+}

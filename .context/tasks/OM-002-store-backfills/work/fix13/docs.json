@@ -1,0 +1,3375 @@
+{
+  "store_root": "C:/dev/ONI-Mods",
+  "filter": {
+    "node": null,
+    "scope": null,
+    "kind": null,
+    "status": null,
+    "applies_to": null,
+    "format": "narrative",
+    "document": null
+  },
+  "counts": {
+    "records": 168,
+    "total": 1971,
+    "decision": 0,
+    "reference": 168,
+    "lesson": 0,
+    "nodes": 19,
+    "files_read": 281
+  },
+  "records": [
+    {
+      "map_id": "domains/tooling-friction.md",
+      "id": "domains/tooling-friction.md",
+      "doc_id": "doc-62bc27b793da",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Dated entries recording friction met with ICON's ks engine, skills and hooks in the ONI-Mods re…",
+      "node": ".",
+      "node_scope": "root",
+      "path": ".context/domains/tooling-friction.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "08b5a7ce1afea66c830965e23a319c12b49a9875",
+      "tags": [
+        "knowledge-store"
+      ],
+      "text_digest": "sha256:44230f707e706e3cc3e93284cd30b339ffcbec93bdb9fecb4c7adb388acc727e"
+    },
+    {
+      "map_id": "overview.md",
+      "id": "overview.md",
+      "doc_id": null,
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Overview of the ONI-Mods monorepo: its 17 mods under mods/, the shared common/ build kit submod…",
+      "node": ".",
+      "node_scope": "root",
+      "path": ".context/overview.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "08096d8d7859e9d0a8e27949d85f5b089ba63d3f",
+      "tags": [
+        "mod-build",
+        "release-process",
+        "steam-workshop",
+        "common-submodule"
+      ],
+      "text_digest": "sha256:054a6c6e1ea819b3a0942dc1e3f171e92096512085915c088684d679e67ee516"
+    },
+    {
+      "map_id": "tags.md",
+      "id": "tags.md",
+      "doc_id": null,
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "The root node tag dictionary: each term that records here may carry, with the one sentence sayi…",
+      "node": ".",
+      "node_scope": "root",
+      "path": ".context/tags.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "c9ebdc4eb94dc28e03c0fce84ab5e5462866fc57",
+      "tags": [],
+      "text_digest": "sha256:e1ab08d9aa29260c57b65cf95817f0e8f792854fc46b8b27a08daaa0a47703c2"
+    },
+    {
+      "map_id": "testing/integration-testing.md",
+      "id": "testing/integration-testing.md",
+      "doc_id": "doc-b7d4de4db710",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "How ONI-Mods tests a mod inside the whole running game: the TestRunner launcher options, input-…",
+      "node": ".",
+      "node_scope": "root",
+      "path": ".context/testing/integration-testing.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "d16303f8cceca223ae88b0e34805123de906c2bd",
+      "tags": [
+        "in-game-testing"
+      ],
+      "text_digest": "sha256:3b8b3d2a50fc0f677bd049b2ce2afd39a845450dbedbc7fd31a41eddfb3af4da"
+    },
+    {
+      "map_id": "testing/unit-testing.md",
+      "id": "testing/unit-testing.md",
+      "doc_id": "doc-797b7d024719",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "How ONI-Mods writes [OniTest] coroutines run in the real game by TestRunner: tool list, test pr…",
+      "node": ".",
+      "node_scope": "root",
+      "path": ".context/testing/unit-testing.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "8e4d6cf1f794acbe920581696c7e58707fae6996",
+      "tags": [
+        "in-game-testing"
+      ],
+      "text_digest": "sha256:c14f0396c19a50af98c3eb19c063f43b00ba6d1a646a575fd8eef054a285b6a1"
+    },
+    {
+      "map_id": "workflows/branching.md",
+      "id": "workflows/branching.md",
+      "doc_id": "doc-dac1c8fb1a00",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Branching in ONI-Mods: the single main branch, ICON task branches named OM-NNN, per-mod release…",
+      "node": ".",
+      "node_scope": "root",
+      "path": ".context/workflows/branching.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "24815eb611da5d7e5db41b0aa511b3b160dc9754",
+      "tags": [
+        "git-branches"
+      ],
+      "text_digest": "sha256:8bc54f4470933f0b8daafa3299f47ccc39725d78dcc909a7f500350a00ef0ebd"
+    },
+    {
+      "map_id": "workflows/ci-cd.md",
+      "id": "workflows/ci-cd.md",
+      "doc_id": "doc-141d002b7975",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "The ONI-Mods build, test and release pipeline, all run locally: dotnet build, in-game tests, Mo…",
+      "node": ".",
+      "node_scope": "root",
+      "path": ".context/workflows/ci-cd.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "b230e13ca171779a5b84811bf6090f00450af4e7",
+      "tags": [
+        "mod-build",
+        "machine-setup"
+      ],
+      "text_digest": "sha256:c3ac4c4d467f1e18038819cb7566bfbec35b8b8d72dd8c87f3f1cb319ccf10b7"
+    },
+    {
+      "map_id": "workflows/commit-conventions.md",
+      "id": "workflows/commit-conventions.md",
+      "doc_id": "doc-44a9d22a52a0",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Commit message style in ONI-Mods: the mod-name prefix with one terse line, shared-tooling and r…",
+      "node": ".",
+      "node_scope": "root",
+      "path": ".context/workflows/commit-conventions.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "25504b8c5592905910f84fd53a858048b1ce152a",
+      "tags": [
+        "commit-messages"
+      ],
+      "text_digest": "sha256:9037ef58811385be9b3a4e1f2b4cf0c3fe4c3342c8cf2dff95978011f6c0eed8"
+    },
+    {
+      "map_id": "workflows/task-plan/base.md",
+      "id": "workflows/task-plan/base.md",
+      "doc_id": "doc-2dcfc935aaf7",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "The plan.md template for ONI-Mods tasks: required sections, Phase State and Phase Handoff Log f…",
+      "node": ".",
+      "node_scope": "root",
+      "path": ".context/workflows/task-plan/base.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "835f484312c4360242aa0442bc688efcdd13c96e",
+      "tags": [
+        "task-plan"
+      ],
+      "text_digest": "sha256:a2a2e17d075c060586e29c521b9a39e4892abe553e1704fa6beec071eca90fe0"
+    },
+    {
+      "map_id": "workflows/task-plan/phase-architecture.md",
+      "id": "workflows/task-plan/phase-architecture.md",
+      "doc_id": "doc-04c65bf246dc",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "The architecture phase of an ONI-Mods task plan: entry and exit steps, extra review triggers fo…",
+      "node": ".",
+      "node_scope": "root",
+      "path": ".context/workflows/task-plan/phase-architecture.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "87a5ae3231b08552d0561a260372eeed7b2419c9",
+      "tags": [
+        "task-plan"
+      ],
+      "text_digest": "sha256:fef9524db8d1fcf0d96a897c83b0f3201552bb3deb7128d7b31826e2556b3ecb"
+    },
+    {
+      "map_id": "workflows/task-plan/phase-completion.md",
+      "id": "workflows/task-plan/phase-completion.md",
+      "doc_id": "doc-e199103eadac",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "The completion phase of an ONI-Mods task plan: entry and exit steps, plan.md reconciliation, th…",
+      "node": ".",
+      "node_scope": "root",
+      "path": ".context/workflows/task-plan/phase-completion.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "e8d19057a1050fa36d80e60c0a95e3b2a46e7700",
+      "tags": [
+        "task-plan"
+      ],
+      "text_digest": "sha256:099cf9ba5801ee241143c872886064350cc3d66ca206d98d93a7ffb9af520c79"
+    },
+    {
+      "map_id": "workflows/task-plan/phase-implementation.md",
+      "id": "workflows/task-plan/phase-implementation.md",
+      "doc_id": "doc-9f1190992016",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "The implementation phase of an ONI-Mods task plan: entry and exit steps, the implement unit spe…",
+      "node": ".",
+      "node_scope": "root",
+      "path": ".context/workflows/task-plan/phase-implementation.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "6601fbe3fe4283fb1afe4201020d90fb95069b05",
+      "tags": [
+        "task-plan"
+      ],
+      "text_digest": "sha256:6d3712a4147ac323a7cdee142b5ef44d303b73b4585245c8c5959ace08dc04c9"
+    },
+    {
+      "map_id": "workflows/task-plan/phase-investigation.md",
+      "id": "workflows/task-plan/phase-investigation.md",
+      "doc_id": "doc-8417724fdc1d",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "The investigation phase of an ONI-Mods task plan: entry and exit steps, extra context files to…",
+      "node": ".",
+      "node_scope": "root",
+      "path": ".context/workflows/task-plan/phase-investigation.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "b12dffd94d86470b7835255b44fb48a8ec1e3fec",
+      "tags": [
+        "task-plan"
+      ],
+      "text_digest": "sha256:d23b8a3b3aec687e614ba4e7a6c72ba1f2a25b11c0404c76ce6bb1862344e085"
+    },
+    {
+      "map_id": "workflows/task-plan/phase-testing.md",
+      "id": "workflows/task-plan/phase-testing.md",
+      "doc_id": "doc-e6b3d80d1534",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "The testing phase of an ONI-Mods task plan: entry and exit steps, the test unit spec template a…",
+      "node": ".",
+      "node_scope": "root",
+      "path": ".context/workflows/task-plan/phase-testing.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "abfa304276fc6a64f8f2cbb2270f2ac1b2a01f27",
+      "tags": [
+        "task-plan"
+      ],
+      "text_digest": "sha256:70401972712ca0e24ed7290361e32f482de1171efb155a1a3a4c6bad6bbd5c7d"
+    },
+    {
+      "map_id": "mods:overview.md",
+      "id": "overview.md",
+      "doc_id": null,
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Overview of the mods/ folder of ONI-Mods: the shared per-mod folder layout (src, tests, publish…",
+      "node": "mods",
+      "node_scope": "aggregator",
+      "path": "mods/.context/overview.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "a80daffa20848bb40765db48bdf0a9e98135ec10",
+      "tags": [],
+      "text_digest": "sha256:8d55a4c9adcea27d2507351fd0b4565bbc08f8693d604a5238ae18a2f6872a1f"
+    },
+    {
+      "map_id": "mods/bitshifter:domains/README.md",
+      "id": "domains/README.md",
+      "doc_id": "doc-508116624070",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Index of the domain documents in the Bitshifter node: the entities and glossary files covering…",
+      "node": "mods/bitshifter",
+      "node_scope": "aggregator",
+      "path": "mods/bitshifter/.context/domains/README.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "e0813d575fd1b8d977f79c20aa2c5e3047bcb0b8",
+      "tags": [
+        "automation-ribbon"
+      ],
+      "text_digest": "sha256:aa894d96611e3e91037193ba42f978d43d42ec393f554b778f4b01c37341654a"
+    },
+    {
+      "map_id": "mods/bitshifter:domains/entities.md",
+      "id": "domains/entities.md",
+      "doc_id": "doc-01b787080f8e",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "The classes and Harmony patches of the Bitshifter mod (src/Bitshifter): entry point and compati…",
+      "node": "mods/bitshifter",
+      "node_scope": "aggregator",
+      "path": "mods/bitshifter/.context/domains/entities.md",
+      "applies_to": [
+        "src/Bitshifter/**"
+      ],
+      "also_at": [],
+      "oid": "9fd92a6a4f4171bdc56cd686e415fe24cf6f93ce",
+      "tags": [
+        "automation-ribbon",
+        "harmony-patching"
+      ],
+      "text_digest": "sha256:16761fdd9412fab08ca50ea1bad04e60d4d60209d89a05a09136ed0857baede6"
+    },
+    {
+      "map_id": "mods/bitshifter:domains/glossary.md",
+      "id": "domains/glossary.md",
+      "doc_id": "doc-2605b1cfcd73",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Glossary for the Bitshifter mod: abbreviations such as BAO and ONICPU, terms to avoid like Bit…",
+      "node": "mods/bitshifter",
+      "node_scope": "aggregator",
+      "path": "mods/bitshifter/.context/domains/glossary.md",
+      "applies_to": [
+        "src/Bitshifter/**"
+      ],
+      "also_at": [],
+      "oid": "5ce041e953fce02cd9131d0f893c36e2f15c8ce1",
+      "tags": [
+        "automation-ribbon"
+      ],
+      "text_digest": "sha256:ed20cca6f4ca5823bc0e86f7ebb32332d424471c80f3a471aa823e812bb390d2"
+    },
+    {
+      "map_id": "mods/bitshifter:overview.md",
+      "id": "overview.md",
+      "doc_id": null,
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "What the Bitshifter mod does (31-bit selection on the Ribbon Reader and Writer, amber display,…",
+      "node": "mods/bitshifter",
+      "node_scope": "aggregator",
+      "path": "mods/bitshifter/.context/overview.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "d83e3e3961f83cee9ea21ff98df550ce68027de5",
+      "tags": [
+        "automation-ribbon"
+      ],
+      "text_digest": "sha256:654a5801b2d78bdd55e316beb56e86ff10a1f2d42ed2d4d534a799dc5f5da987"
+    },
+    {
+      "map_id": "mods/bitshifter:standards/README.md",
+      "id": "standards/README.md",
+      "doc_id": "doc-815a606305e5",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Index of the standards documents in the Bitshifter node: code style, error handling and naming…",
+      "node": "mods/bitshifter",
+      "node_scope": "aggregator",
+      "path": "mods/bitshifter/.context/standards/README.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "fe47ed18c260558d4b7e87cc918a1202a2b28e7c",
+      "tags": [
+        "code-style"
+      ],
+      "text_digest": "sha256:05301868cdefcbd796471bb47a35d5334300119fa1d0cdb0f204aedec2b491bd"
+    },
+    {
+      "map_id": "mods/bitshifter:standards/code-style.md",
+      "id": "standards/code-style.md",
+      "doc_id": "doc-c9711fdcdf52",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "C# code style for the Bitshifter mod: formatting, toolchain, imports, comments, Harmony patch a…",
+      "node": "mods/bitshifter",
+      "node_scope": "aggregator",
+      "path": "mods/bitshifter/.context/standards/code-style.md",
+      "applies_to": [
+        "src/**"
+      ],
+      "also_at": [],
+      "oid": "5341e11d6d90da5df4cb4e2f2ddf859e0c6faa53",
+      "tags": [
+        "code-style"
+      ],
+      "text_digest": "sha256:0fdc2ff7faa8cb9a7379dfe715605d973a5d65996df17a745398a87220b74f91"
+    },
+    {
+      "map_id": "mods/bitshifter:standards/error-handling.md",
+      "id": "standards/error-handling.md",
+      "doc_id": "doc-072f1d1bd309",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Error handling conventions for the Bitshifter mod: guarding Harmony patches and transpilers, tr…",
+      "node": "mods/bitshifter",
+      "node_scope": "aggregator",
+      "path": "mods/bitshifter/.context/standards/error-handling.md",
+      "applies_to": [
+        "src/**"
+      ],
+      "also_at": [],
+      "oid": "711694ffd133942f306a70ce56f72abc41f16124",
+      "tags": [],
+      "text_digest": "sha256:0cc0862efc5b0d13a0a9b00e9049a41352267697804890a01b8d815ce35e7097"
+    },
+    {
+      "map_id": "mods/bitshifter:standards/naming-conventions.md",
+      "id": "standards/naming-conventions.md",
+      "doc_id": "doc-8c98aaf846df",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Naming conventions for the Bitshifter mod: files, namespaces, variables, methods, strings and i…",
+      "node": "mods/bitshifter",
+      "node_scope": "aggregator",
+      "path": "mods/bitshifter/.context/standards/naming-conventions.md",
+      "applies_to": [
+        "src/**"
+      ],
+      "also_at": [],
+      "oid": "8666b4eafa955d274c8fc0662e4f6b4517ca4df8",
+      "tags": [
+        "code-style"
+      ],
+      "text_digest": "sha256:df9dda067d9609e01ddcb01d221100672c0e45c7316e472257081537bd8a5f19"
+    },
+    {
+      "map_id": "mods/bitshifter:tags.md",
+      "id": "tags.md",
+      "doc_id": null,
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "The bitshifter node tag dictionary: each term that records here may carry, with the one sentenc…",
+      "node": "mods/bitshifter",
+      "node_scope": "aggregator",
+      "path": "mods/bitshifter/.context/tags.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "90321336b79fe2438a820e17f0291e40783ca913",
+      "tags": [],
+      "text_digest": "sha256:32ab783f881a4a2bb966bb5490861dcf7aa9ef356b7b933b5a93afff67eb8f39"
+    },
+    {
+      "map_id": "mods/corner-build-anything:domains/README.md",
+      "id": "domains/README.md",
+      "doc_id": "doc-9d9eb5d3254b",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Index of the domain documents in the Corner Build Anything node: the entities and glossary file…",
+      "node": "mods/corner-build-anything",
+      "node_scope": "aggregator",
+      "path": "mods/corner-build-anything/.context/domains/README.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "50b1af088b7e5e87f98c6e97f9fa4ea38b7dc3a2",
+      "tags": [
+        "reach-table"
+      ],
+      "text_digest": "sha256:c9d37d258b0e607a134a88514cc8975d99199d4585692fdf2f168a3a153ba75f"
+    },
+    {
+      "map_id": "mods/corner-build-anything:domains/entities.md",
+      "id": "domains/entities.md",
+      "doc_id": "doc-5047cbea51fc",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "The game tables and Harmony transpilers of the Corner Build Anything mod (src/CornerBuildAnythi…",
+      "node": "mods/corner-build-anything",
+      "node_scope": "aggregator",
+      "path": "mods/corner-build-anything/.context/domains/entities.md",
+      "applies_to": [
+        "src/CornerBuildAnything/**"
+      ],
+      "also_at": [],
+      "oid": "5ac5b0d94254c215ad9cc1f33a22fee5b0117b06",
+      "tags": [
+        "reach-table",
+        "transpiler"
+      ],
+      "text_digest": "sha256:e991961eff5d75bfc6872156062cbeeef3bf38e4cfbd29ec31ea89b08c9de9be"
+    },
+    {
+      "map_id": "mods/corner-build-anything:domains/glossary.md",
+      "id": "domains/glossary.md",
+      "doc_id": "doc-d3898b8e3b24",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Glossary for the Corner Build Anything mod: ONI and OnSpawn abbreviations, the term to avoid (c…",
+      "node": "mods/corner-build-anything",
+      "node_scope": "aggregator",
+      "path": "mods/corner-build-anything/.context/domains/glossary.md",
+      "applies_to": [
+        "src/CornerBuildAnything/**"
+      ],
+      "also_at": [],
+      "oid": "6db65e94b61c3790a2e8fd2f3c8826cfedb4fb94",
+      "tags": [
+        "reach-table"
+      ],
+      "text_digest": "sha256:5ec6dcbcb63c458d706f8abb7754ac13a1f165e5a5558d0b7d22499f0725641b"
+    },
+    {
+      "map_id": "mods/corner-build-anything:overview.md",
+      "id": "overview.md",
+      "doc_id": null,
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "What the Corner Build Anything mod does (building and deconstructing through diagonal gaps, bri…",
+      "node": "mods/corner-build-anything",
+      "node_scope": "aggregator",
+      "path": "mods/corner-build-anything/.context/overview.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "858890e0214edf49dd6b6f806c50734587606709",
+      "tags": [
+        "reach-table"
+      ],
+      "text_digest": "sha256:5f21959852c7d544473c40b3e4576803717df99cdc2f7ed96d8b9b40f9b023c7"
+    },
+    {
+      "map_id": "mods/corner-build-anything:standards/README.md",
+      "id": "standards/README.md",
+      "doc_id": "doc-ec3351cfc2fb",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Index of the standards documents in the Corner Build Anything node: code style, error handling…",
+      "node": "mods/corner-build-anything",
+      "node_scope": "aggregator",
+      "path": "mods/corner-build-anything/.context/standards/README.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "bcca7258c1c3cafff0380efa95230a19ee024bba",
+      "tags": [
+        "code-style"
+      ],
+      "text_digest": "sha256:4f02ec5eb82b3c49dc237533378dff8ff9850391bc753faf25bfe2335da46b92"
+    },
+    {
+      "map_id": "mods/corner-build-anything:standards/code-style.md",
+      "id": "standards/code-style.md",
+      "doc_id": "doc-5d79dd719a71",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "C# code style for the Corner Build Anything mod: formatting, toolchain, imports, comments, Harm…",
+      "node": "mods/corner-build-anything",
+      "node_scope": "aggregator",
+      "path": "mods/corner-build-anything/.context/standards/code-style.md",
+      "applies_to": [
+        "src/**"
+      ],
+      "also_at": [],
+      "oid": "311e8bab4239d3b1166be6fb1f461dfdaba40935",
+      "tags": [
+        "code-style"
+      ],
+      "text_digest": "sha256:4089326df9b89cb76e813f04e96a602d947d45b79dab64e3a44ddfb2730030b8"
+    },
+    {
+      "map_id": "mods/corner-build-anything:standards/error-handling.md",
+      "id": "standards/error-handling.md",
+      "doc_id": "doc-bec2d98ee48a",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Error handling conventions for the Corner Build Anything mod: guarding patches and transpilers,…",
+      "node": "mods/corner-build-anything",
+      "node_scope": "aggregator",
+      "path": "mods/corner-build-anything/.context/standards/error-handling.md",
+      "applies_to": [
+        "src/**"
+      ],
+      "also_at": [],
+      "oid": "4d5374315119d286662ae6ff4c33f2d76ab3ec6e",
+      "tags": [],
+      "text_digest": "sha256:dd72a6a18d6ca438f19f364ccec6ccfde40dac18b0b3266138f83eba80696e5f"
+    },
+    {
+      "map_id": "mods/corner-build-anything:standards/naming-conventions.md",
+      "id": "standards/naming-conventions.md",
+      "doc_id": "doc-45341a356366",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Naming conventions for the Corner Build Anything mod: files, namespaces, variables, methods, st…",
+      "node": "mods/corner-build-anything",
+      "node_scope": "aggregator",
+      "path": "mods/corner-build-anything/.context/standards/naming-conventions.md",
+      "applies_to": [
+        "src/**"
+      ],
+      "also_at": [],
+      "oid": "20841844ace3dba12b8b474b32f3bd19575f958b",
+      "tags": [
+        "code-style"
+      ],
+      "text_digest": "sha256:38b5bf32f0fe8d2fd3975e1221ec9f99f60a88cc78852d06a455cbf6c9878327"
+    },
+    {
+      "map_id": "mods/corner-build-anything:tags.md",
+      "id": "tags.md",
+      "doc_id": null,
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "The corner-build-anything node tag dictionary: each term that records here may carry, with the…",
+      "node": "mods/corner-build-anything",
+      "node_scope": "aggregator",
+      "path": "mods/corner-build-anything/.context/tags.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "b41182494cdc0f743a79d1fd83b955511fbf1eaa",
+      "tags": [],
+      "text_digest": "sha256:793bbb5ee525ac4045513aa8ad25d0e5560180971681c4880aa18fc2d0d5ccc4"
+    },
+    {
+      "map_id": "mods/detect-any-element:domains/README.md",
+      "id": "domains/README.md",
+      "doc_id": "doc-ab4317b0087d",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Index of the domain documents in the Detect Any Element node: the entities and glossary files c…",
+      "node": "mods/detect-any-element",
+      "node_scope": "aggregator",
+      "path": "mods/detect-any-element/.context/domains/README.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "b847c278aef34a204a8be820c58a80908328c3de",
+      "tags": [
+        "element-sensor"
+      ],
+      "text_digest": "sha256:fff0c5f2bbf9bb8b6d705efba6a99f61cb54992f019900b9ec68b55a606e2195"
+    },
+    {
+      "map_id": "mods/detect-any-element:domains/entities.md",
+      "id": "domains/entities.md",
+      "doc_id": "doc-25efc9f67a81",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "The tag, strings and Harmony patches of the Detect Any Element mod (src/DetectAnyElement): the…",
+      "node": "mods/detect-any-element",
+      "node_scope": "aggregator",
+      "path": "mods/detect-any-element/.context/domains/entities.md",
+      "applies_to": [
+        "src/DetectAnyElement/**"
+      ],
+      "also_at": [],
+      "oid": "2ca4225d0e53a185ee947a487ba93130d6856725",
+      "tags": [
+        "element-sensor"
+      ],
+      "text_digest": "sha256:f16e94c946d12b7f5db3c0fe66151e3dedf359eddf188b4b32287ad655f15dc8"
+    },
+    {
+      "map_id": "mods/detect-any-element:domains/glossary.md",
+      "id": "domains/glossary.md",
+      "doc_id": "doc-9501e487a27b",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Glossary for the Detect Any Element mod: abbreviations such as kanim and .po, terms to avoid li…",
+      "node": "mods/detect-any-element",
+      "node_scope": "aggregator",
+      "path": "mods/detect-any-element/.context/domains/glossary.md",
+      "applies_to": [
+        "src/DetectAnyElement/**"
+      ],
+      "also_at": [],
+      "oid": "eb640b28e618b02cf37d6c2767c6be5f50dbbee5",
+      "tags": [
+        "element-sensor"
+      ],
+      "text_digest": "sha256:075ab9361664558e2a97bfad6a394946bbac9948dc8e1ca031a875d70f24be75"
+    },
+    {
+      "map_id": "mods/detect-any-element:overview.md",
+      "id": "overview.md",
+      "doc_id": null,
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "What the Detect Any Element mod does (an Any choice on five element sensors, drawn with an aste…",
+      "node": "mods/detect-any-element",
+      "node_scope": "aggregator",
+      "path": "mods/detect-any-element/.context/overview.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "218dd6a88890b9dec8ac9572a7dcc044d199cf73",
+      "tags": [
+        "element-sensor"
+      ],
+      "text_digest": "sha256:2123a89d72af153fe158d9f8fcdcc40c830394be29b97ca824f90fa9639e876c"
+    },
+    {
+      "map_id": "mods/detect-any-element:standards/README.md",
+      "id": "standards/README.md",
+      "doc_id": "doc-9a01bd0fa316",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Index of the standards documents in the Detect Any Element node: code style, error handling and…",
+      "node": "mods/detect-any-element",
+      "node_scope": "aggregator",
+      "path": "mods/detect-any-element/.context/standards/README.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "63f9994ac97560c8db628454489d07abdbfb0323",
+      "tags": [
+        "code-style"
+      ],
+      "text_digest": "sha256:c3e6236bfa6a230c47155c7089002cb3b0bd925c34734373a51b4e72a74626df"
+    },
+    {
+      "map_id": "mods/detect-any-element:standards/code-style.md",
+      "id": "standards/code-style.md",
+      "doc_id": "doc-57f3985fd9e2",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "C# code style for the Detect Any Element mod: formatting, toolchain, imports, comments, Harmony…",
+      "node": "mods/detect-any-element",
+      "node_scope": "aggregator",
+      "path": "mods/detect-any-element/.context/standards/code-style.md",
+      "applies_to": [
+        "src/**"
+      ],
+      "also_at": [],
+      "oid": "9ea4904327775f50fda9e10a91ad7ef27795266f",
+      "tags": [
+        "code-style"
+      ],
+      "text_digest": "sha256:ceabc22d17641cd3ed3d008bb7b4c9079dd45448c4e3025f1d8c8401da95f83f"
+    },
+    {
+      "map_id": "mods/detect-any-element:standards/error-handling.md",
+      "id": "standards/error-handling.md",
+      "doc_id": "doc-536d0bdee6af",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Error handling conventions for the Detect Any Element mod: guarding patches, logging levels, pl…",
+      "node": "mods/detect-any-element",
+      "node_scope": "aggregator",
+      "path": "mods/detect-any-element/.context/standards/error-handling.md",
+      "applies_to": [
+        "src/**"
+      ],
+      "also_at": [],
+      "oid": "362521db9f8be39dbcc42bec2537350ab5659711",
+      "tags": [],
+      "text_digest": "sha256:c7588ff629a19b6d04e6a3c2be482783b83a5dd5b02136364e15ea8630f4cba5"
+    },
+    {
+      "map_id": "mods/detect-any-element:standards/naming-conventions.md",
+      "id": "standards/naming-conventions.md",
+      "doc_id": "doc-97035e1a7776",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Naming conventions for the Detect Any Element mod: files, namespaces, variables, methods, strin…",
+      "node": "mods/detect-any-element",
+      "node_scope": "aggregator",
+      "path": "mods/detect-any-element/.context/standards/naming-conventions.md",
+      "applies_to": [
+        "src/**"
+      ],
+      "also_at": [],
+      "oid": "783d5d6319fcf3586419c1089bdc970eebffbc6d",
+      "tags": [
+        "code-style"
+      ],
+      "text_digest": "sha256:827627ec0e40fee59929ef35370d17cba012cbadd2f88e91ae2d00924f6b855a"
+    },
+    {
+      "map_id": "mods/detect-any-element:tags.md",
+      "id": "tags.md",
+      "doc_id": null,
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "The detect-any-element node tag dictionary: each term that records here may carry, with the one…",
+      "node": "mods/detect-any-element",
+      "node_scope": "aggregator",
+      "path": "mods/detect-any-element/.context/tags.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "988a41730b5b810cbf67a3116a9ed382dfcbd30e",
+      "tags": [],
+      "text_digest": "sha256:77f46cf714fe9f9a19ab8da3388001846e09442701c412305f2bf956ea9a3865"
+    },
+    {
+      "map_id": "mods/dont-count-eggs-on-rails:domains/README.md",
+      "id": "domains/README.md",
+      "doc_id": "doc-23c8d67c6ade",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Index of the two domain documents of Don't Count Eggs on Rails, the entities and the glossary,…",
+      "node": "mods/dont-count-eggs-on-rails",
+      "node_scope": "aggregator",
+      "path": "mods/dont-count-eggs-on-rails/.context/domains/README.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "0b4daf14601b917180649bf3e9755ad25a9293e4",
+      "tags": [
+        "critter-sensor",
+        "conveyor-rail"
+      ],
+      "text_digest": "sha256:c341b76ea287260ffdf48b93d191b2aa7e1b966133e5a0710d986ede2b7fca0b"
+    },
+    {
+      "map_id": "mods/dont-count-eggs-on-rails:domains/entities.md",
+      "id": "domains/entities.md",
+      "doc_id": "doc-3255e485bb79",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "The one Harmony prefix on `OvercrowdingMonitor.UpdateRegion` in Don't Count Eggs on Rails, with…",
+      "node": "mods/dont-count-eggs-on-rails",
+      "node_scope": "aggregator",
+      "path": "mods/dont-count-eggs-on-rails/.context/domains/entities.md",
+      "applies_to": [
+        "src/DontCountEggsOnRails/**"
+      ],
+      "also_at": [],
+      "oid": "6d2e32318f2385ccde581d645a0f52c0a465cd2c",
+      "tags": [
+        "harmony-patching",
+        "critter-sensor",
+        "conveyor-rail"
+      ],
+      "text_digest": "sha256:9b0cb371ae872e5b10c61c30120ce92fb907e736e44b9414885d232794d5fd1f"
+    },
+    {
+      "map_id": "mods/dont-count-eggs-on-rails:domains/glossary.md",
+      "id": "domains/glossary.md",
+      "doc_id": "doc-55731fdf28b0",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Glossary for Don't Count Eggs on Rails: abbreviations, a term to avoid, and definitions of crit…",
+      "node": "mods/dont-count-eggs-on-rails",
+      "node_scope": "aggregator",
+      "path": "mods/dont-count-eggs-on-rails/.context/domains/glossary.md",
+      "applies_to": [
+        "src/DontCountEggsOnRails/**"
+      ],
+      "also_at": [],
+      "oid": "50d50b772e2d269cc809f1778e78f6ab49f96041",
+      "tags": [
+        "critter-sensor",
+        "conveyor-rail"
+      ],
+      "text_digest": "sha256:bf7501577c88d1dfed89eaaf03435c868368cab8df7899ed0c2b8db66930f787"
+    },
+    {
+      "map_id": "mods/dont-count-eggs-on-rails:overview.md",
+      "id": "overview.md",
+      "doc_id": null,
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Overview of the Don't Count Eggs on Rails mod: what it does for critter sensors, its version an…",
+      "node": "mods/dont-count-eggs-on-rails",
+      "node_scope": "aggregator",
+      "path": "mods/dont-count-eggs-on-rails/.context/overview.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "1e4870b13b33234c69c3a834b3689d8e45461d86",
+      "tags": [
+        "critter-sensor",
+        "conveyor-rail"
+      ],
+      "text_digest": "sha256:639b8767c23b228b1862dfb5ba31d000a4acd769aae7afc5f1b6cd3385b657bb"
+    },
+    {
+      "map_id": "mods/dont-count-eggs-on-rails:standards/README.md",
+      "id": "standards/README.md",
+      "doc_id": "doc-543e449e57d3",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Index of the three standards documents of Don't Count Eggs on Rails (code style, error handling…",
+      "node": "mods/dont-count-eggs-on-rails",
+      "node_scope": "aggregator",
+      "path": "mods/dont-count-eggs-on-rails/.context/standards/README.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "34bedf514d6ff52000ffcc969d959a1952c5cfde",
+      "tags": [
+        "code-style"
+      ],
+      "text_digest": "sha256:396d7fab3d688b468bac42e7d5fbebd1e63de2864ca5107bb1aefc81118f4066"
+    },
+    {
+      "map_id": "mods/dont-count-eggs-on-rails:standards/code-style.md",
+      "id": "standards/code-style.md",
+      "doc_id": "doc-e0ba6af997a6",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Code style guide for Don't Count Eggs on Rails: C# formatting, imports, comments, control struc…",
+      "node": "mods/dont-count-eggs-on-rails",
+      "node_scope": "aggregator",
+      "path": "mods/dont-count-eggs-on-rails/.context/standards/code-style.md",
+      "applies_to": [
+        "src/**"
+      ],
+      "also_at": [],
+      "oid": "68bb793da4b0329e9b105d3e0e85c806920d3c3d",
+      "tags": [
+        "code-style"
+      ],
+      "text_digest": "sha256:b564c39d04380b84bff0a36cf11add49eef05fd554d0969a9a7ab04038454096"
+    },
+    {
+      "map_id": "mods/dont-count-eggs-on-rails:standards/error-handling.md",
+      "id": "standards/error-handling.md",
+      "doc_id": "doc-8a10d48f5a47",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Error handling conventions for Don't Count Eggs on Rails: guarding patches, try/catch cases, lo…",
+      "node": "mods/dont-count-eggs-on-rails",
+      "node_scope": "aggregator",
+      "path": "mods/dont-count-eggs-on-rails/.context/standards/error-handling.md",
+      "applies_to": [
+        "src/**"
+      ],
+      "also_at": [],
+      "oid": "172813a1b6fd4ce13d97ae9d07ea148f3b429521",
+      "tags": [],
+      "text_digest": "sha256:0154eca711f18d3d4cd541cd5d027324c3cd8dca996ba3724c0769c4f605abe2"
+    },
+    {
+      "map_id": "mods/dont-count-eggs-on-rails:standards/naming-conventions.md",
+      "id": "standards/naming-conventions.md",
+      "doc_id": "doc-4e7e5a23b6de",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Naming conventions for Don't Count Eggs on Rails: files, namespaces, variables, methods, patch…",
+      "node": "mods/dont-count-eggs-on-rails",
+      "node_scope": "aggregator",
+      "path": "mods/dont-count-eggs-on-rails/.context/standards/naming-conventions.md",
+      "applies_to": [
+        "src/**"
+      ],
+      "also_at": [],
+      "oid": "38962c22dc65f3597fccfb6f4e7016649a0c3b91",
+      "tags": [
+        "code-style"
+      ],
+      "text_digest": "sha256:fbe064ce9661287f686826fb3bbf1f7b66394a0652a79a8ccfef791cd02ab3ad"
+    },
+    {
+      "map_id": "mods/dont-count-eggs-on-rails:tags.md",
+      "id": "tags.md",
+      "doc_id": null,
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "The dont-count-eggs-on-rails node tag dictionary: each term that records here may carry, with t…",
+      "node": "mods/dont-count-eggs-on-rails",
+      "node_scope": "aggregator",
+      "path": "mods/dont-count-eggs-on-rails/.context/tags.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "fb0ce206936ecd787f67257c1ddcf6eb684af4a0",
+      "tags": [],
+      "text_digest": "sha256:5c51e653bd484d51e96b54d1866ea1b67c9f70940bdbe108fc8da2ccaa650874"
+    },
+    {
+      "map_id": "mods/jumper-bridges:domains/README.md",
+      "id": "domains/README.md",
+      "doc_id": "doc-0dbbd6348d44",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Index of the two domain documents of Jumper Bridges, the entities and the glossary, each with a…",
+      "node": "mods/jumper-bridges",
+      "node_scope": "aggregator",
+      "path": "mods/jumper-bridges/.context/domains/README.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "5f1fcccdc61459422c1c18a79fe78f841648f451",
+      "tags": [
+        "bridge-end"
+      ],
+      "text_digest": "sha256:30013acf34b25d1473d46954c7ce0948f4a9e7a2d6e8f5866d73ea7268163dc7"
+    },
+    {
+      "map_id": "mods/jumper-bridges:domains/entities.md",
+      "id": "domains/entities.md",
+      "doc_id": "doc-dfca545db3a4",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "The classes, options, Harmony patches and saved state of Jumper Bridges (`JumperBridge`, `Bridg…",
+      "node": "mods/jumper-bridges",
+      "node_scope": "aggregator",
+      "path": "mods/jumper-bridges/.context/domains/entities.md",
+      "applies_to": [
+        "src/JumperBridges/**"
+      ],
+      "also_at": [],
+      "oid": "10ec2da18ba6f2d43927755c13c7f40b6aaf2d6d",
+      "tags": [
+        "bridge-end"
+      ],
+      "text_digest": "sha256:4652ca4bd0dc42758671eff6c38e22966dd107926420afafeb0e90b4b06be4a2"
+    },
+    {
+      "map_id": "mods/jumper-bridges:domains/glossary.md",
+      "id": "domains/glossary.md",
+      "doc_id": "doc-59647738de3c",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Glossary for Jumper Bridges: abbreviations, terms to avoid, and definitions of bridge end and e…",
+      "node": "mods/jumper-bridges",
+      "node_scope": "aggregator",
+      "path": "mods/jumper-bridges/.context/domains/glossary.md",
+      "applies_to": [
+        "src/JumperBridges/**"
+      ],
+      "also_at": [],
+      "oid": "9ab068a1a7edd0f08592fb185d2ddd8039b6578a",
+      "tags": [
+        "bridge-end"
+      ],
+      "text_digest": "sha256:852796ca57eb0dfc5a91f04674538339f2bb47b775eb8efb1197fb3706a26673"
+    },
+    {
+      "map_id": "mods/jumper-bridges:overview.md",
+      "id": "overview.md",
+      "doc_id": null,
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Overview of the Jumper Bridges mod: what direct bridge ends on ports do for automation and powe…",
+      "node": "mods/jumper-bridges",
+      "node_scope": "aggregator",
+      "path": "mods/jumper-bridges/.context/overview.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "5eb0fb3d341a29947858ebdaa9145a9027d67941",
+      "tags": [
+        "bridge-end"
+      ],
+      "text_digest": "sha256:4e9caef4623414d98ee454315025a5ce7fc44ea1d4b3001f6209548007689a07"
+    },
+    {
+      "map_id": "mods/jumper-bridges:standards/README.md",
+      "id": "standards/README.md",
+      "doc_id": "doc-fcd305f17ee1",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Index of the three standards documents of Jumper Bridges (code style, error handling, naming co…",
+      "node": "mods/jumper-bridges",
+      "node_scope": "aggregator",
+      "path": "mods/jumper-bridges/.context/standards/README.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "0d07ff6018d0baf7ff28ce7edce3c3eff274e503",
+      "tags": [
+        "code-style"
+      ],
+      "text_digest": "sha256:17527b6f428f095319ed2675af3d685f3da97627b06b01e6021c2c7f9e2395de"
+    },
+    {
+      "map_id": "mods/jumper-bridges:standards/code-style.md",
+      "id": "standards/code-style.md",
+      "doc_id": "doc-8674b988870a",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Code style guide for Jumper Bridges: C# formatting, imports, comments, control structures, Harm…",
+      "node": "mods/jumper-bridges",
+      "node_scope": "aggregator",
+      "path": "mods/jumper-bridges/.context/standards/code-style.md",
+      "applies_to": [
+        "src/**"
+      ],
+      "also_at": [],
+      "oid": "2eeb368c5f6002227f9f57ea8f2d813bb566863d",
+      "tags": [
+        "code-style"
+      ],
+      "text_digest": "sha256:01e6abe66689bb63ff314900d0f2e0b880f301a5b69277ab6f2cf1d879365cbd"
+    },
+    {
+      "map_id": "mods/jumper-bridges:standards/error-handling.md",
+      "id": "standards/error-handling.md",
+      "doc_id": "doc-ed8f141fa40f",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Error handling conventions for Jumper Bridges: guarding patches, try/catch cases, logging level…",
+      "node": "mods/jumper-bridges",
+      "node_scope": "aggregator",
+      "path": "mods/jumper-bridges/.context/standards/error-handling.md",
+      "applies_to": [
+        "src/**"
+      ],
+      "also_at": [],
+      "oid": "06b566d991de0523a2217a9741dc2f6ad014563b",
+      "tags": [],
+      "text_digest": "sha256:1c5686cb7d33cea79ad113b060f4693177038cfb578837431fe8084e38e987fe"
+    },
+    {
+      "map_id": "mods/jumper-bridges:standards/naming-conventions.md",
+      "id": "standards/naming-conventions.md",
+      "doc_id": "doc-436d434261c6",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Naming conventions for Jumper Bridges: files, namespaces, variables, methods, patch classes, `M…",
+      "node": "mods/jumper-bridges",
+      "node_scope": "aggregator",
+      "path": "mods/jumper-bridges/.context/standards/naming-conventions.md",
+      "applies_to": [
+        "src/**"
+      ],
+      "also_at": [],
+      "oid": "2b601a57cf80935d5a0be83ffb39694980b1e1a8",
+      "tags": [
+        "code-style"
+      ],
+      "text_digest": "sha256:ff8ad995653ce0d77021a87c82a17cc28e7ddd9aacfaddeeb91da5ec2f689c75"
+    },
+    {
+      "map_id": "mods/jumper-bridges:tags.md",
+      "id": "tags.md",
+      "doc_id": null,
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "The jumper-bridges node tag dictionary: each term that records here may carry, with the one sen…",
+      "node": "mods/jumper-bridges",
+      "node_scope": "aggregator",
+      "path": "mods/jumper-bridges/.context/tags.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "a2c035ee4a97e4ca97fa0e75d5976586b3cbac35",
+      "tags": [],
+      "text_digest": "sha256:45553c9bbff47aa0abad3f0bbd4ac88e6d4678195b3f57010de58f8865ef65f7"
+    },
+    {
+      "map_id": "mods/just-fall-already:domains/README.md",
+      "id": "domains/README.md",
+      "doc_id": "doc-31d38b083118",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Index of the two domain documents of Just Fall Already!, the entities and the glossary, each wi…",
+      "node": "mods/just-fall-already",
+      "node_scope": "aggregator",
+      "path": "mods/just-fall-already/.context/domains/README.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "463db0b9fdb48eef61ea4b59071600ba9c56aa4a",
+      "tags": [
+        "critter-falling"
+      ],
+      "text_digest": "sha256:ab4d573c8b54482214f52fb0c58b596ee48a3fe846ed6dcbb6e52a414cc4cbb9"
+    },
+    {
+      "map_id": "mods/just-fall-already:domains/entities.md",
+      "id": "domains/entities.md",
+      "doc_id": "doc-2b60540b470b",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "The `FallPoke` class, the `Door.SetWorldState` patch and the entry point of Just Fall Already!,…",
+      "node": "mods/just-fall-already",
+      "node_scope": "aggregator",
+      "path": "mods/just-fall-already/.context/domains/entities.md",
+      "applies_to": [
+        "src/JustFallAlready/**"
+      ],
+      "also_at": [],
+      "oid": "3dd7aeb15add3facfdda9ae505bb41de07a01957",
+      "tags": [
+        "critter-falling"
+      ],
+      "text_digest": "sha256:cfe9b35b5354e1b98714710b52a6fe0bc8bd66e14a0493cd726007d5cce56a00"
+    },
+    {
+      "map_id": "mods/just-fall-already:domains/glossary.md",
+      "id": "domains/glossary.md",
+      "doc_id": "doc-ebdf75035929",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Glossary for Just Fall Already!: abbreviations, a term to avoid, and definitions of pez dropper…",
+      "node": "mods/just-fall-already",
+      "node_scope": "aggregator",
+      "path": "mods/just-fall-already/.context/domains/glossary.md",
+      "applies_to": [
+        "src/JustFallAlready/**"
+      ],
+      "also_at": [],
+      "oid": "e1bc6d379db3276937ae2768c22ecedab319469b",
+      "tags": [
+        "critter-falling"
+      ],
+      "text_digest": "sha256:377fcd8e2c8ccf0c5afc8c6bc13af57273b0fcc6c1be3a6618539d6e932fc8fe"
+    },
+    {
+      "map_id": "mods/just-fall-already:overview.md",
+      "id": "overview.md",
+      "doc_id": null,
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Overview of the Just Fall Already! mod: how a door change makes critters fall at once, its vers…",
+      "node": "mods/just-fall-already",
+      "node_scope": "aggregator",
+      "path": "mods/just-fall-already/.context/overview.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "a90ece6f2808ca73f5363ff616e5f8c69444a781",
+      "tags": [
+        "critter-falling"
+      ],
+      "text_digest": "sha256:ea1c334ecdf89abe2252c957936b094b98d663c1a0134ac2dd95adcdf00fa669"
+    },
+    {
+      "map_id": "mods/just-fall-already:standards/README.md",
+      "id": "standards/README.md",
+      "doc_id": "doc-9abc9f833d91",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Index of the three standards documents of Just Fall Already! (code style, error handling, namin…",
+      "node": "mods/just-fall-already",
+      "node_scope": "aggregator",
+      "path": "mods/just-fall-already/.context/standards/README.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "1e34256dd8161d3f551cb0be644b3472eac5c01c",
+      "tags": [
+        "code-style"
+      ],
+      "text_digest": "sha256:d0dfef354e1620584e63fde56a3425927dca45855ffb442053ed157e16bc4b5b"
+    },
+    {
+      "map_id": "mods/just-fall-already:standards/code-style.md",
+      "id": "standards/code-style.md",
+      "doc_id": "doc-04bb7f7fdd3b",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Code style guide for Just Fall Already!: C# formatting, imports, comments, control structures,…",
+      "node": "mods/just-fall-already",
+      "node_scope": "aggregator",
+      "path": "mods/just-fall-already/.context/standards/code-style.md",
+      "applies_to": [
+        "src/**"
+      ],
+      "also_at": [],
+      "oid": "de572163cbe0c04100d9d78e054b0fb6c21f88b4",
+      "tags": [
+        "code-style"
+      ],
+      "text_digest": "sha256:18cc97d1f150d329d2dcea7423dc41dd9698c5e15e447b0fe2c1e5b1c40b3f93"
+    },
+    {
+      "map_id": "mods/just-fall-already:standards/error-handling.md",
+      "id": "standards/error-handling.md",
+      "doc_id": "doc-f2b5d177565f",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Error handling conventions for Just Fall Already!: guarding patches, try/catch cases, logging l…",
+      "node": "mods/just-fall-already",
+      "node_scope": "aggregator",
+      "path": "mods/just-fall-already/.context/standards/error-handling.md",
+      "applies_to": [
+        "src/**"
+      ],
+      "also_at": [],
+      "oid": "f6b8baa6cb4265b317341d4313a4df699c93dd8e",
+      "tags": [],
+      "text_digest": "sha256:57c373d801747eef2d5ecb21a7361d697e74a381160420a3b84c2e651328931e"
+    },
+    {
+      "map_id": "mods/just-fall-already:standards/naming-conventions.md",
+      "id": "standards/naming-conventions.md",
+      "doc_id": "doc-2d228f2c8f5b",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Naming conventions for Just Fall Already!: files, namespaces, variables, methods, patch classes…",
+      "node": "mods/just-fall-already",
+      "node_scope": "aggregator",
+      "path": "mods/just-fall-already/.context/standards/naming-conventions.md",
+      "applies_to": [
+        "src/**"
+      ],
+      "also_at": [],
+      "oid": "c310748a25ee92a0094da4111b8fdbbd2e59376f",
+      "tags": [
+        "code-style"
+      ],
+      "text_digest": "sha256:bb3b9f0275542b0dd1d3cbe09df6fbc2066e0224c78f4cc62e815205c7026582"
+    },
+    {
+      "map_id": "mods/just-fall-already:tags.md",
+      "id": "tags.md",
+      "doc_id": null,
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "The just-fall-already node tag dictionary: each term that records here may carry, with the one…",
+      "node": "mods/just-fall-already",
+      "node_scope": "aggregator",
+      "path": "mods/just-fall-already/.context/tags.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "542435173c36f71057e5e6e89609338b67f296fe",
+      "tags": [],
+      "text_digest": "sha256:f1f8ccbda441dbc36d68b9f80a5480a961809bbf8f3e42211b5172ff35937cb1"
+    },
+    {
+      "map_id": "mods/motion-sensor-range:domains/README.md",
+      "id": "domains/README.md",
+      "doc_id": "doc-5c8eee6d9d3f",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Index of the two domain documents of Motion Sensor Range, the entities and the glossary, each w…",
+      "node": "mods/motion-sensor-range",
+      "node_scope": "aggregator",
+      "path": "mods/motion-sensor-range/.context/domains/README.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "d22dd3b7f8b8db115447ece1e7bd622a92b42e2b",
+      "tags": [
+        "detection-range"
+      ],
+      "text_digest": "sha256:41167d1f3906f80adef495f30d524a43016bc8f9fe89713228b1585ac53e335e"
+    },
+    {
+      "map_id": "mods/motion-sensor-range:domains/entities.md",
+      "id": "domains/entities.md",
+      "doc_id": "doc-160512696e47",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "The `RangeSlider` component, Harmony patches, strings and saved range of Motion Sensor Range, w…",
+      "node": "mods/motion-sensor-range",
+      "node_scope": "aggregator",
+      "path": "mods/motion-sensor-range/.context/domains/entities.md",
+      "applies_to": [
+        "src/MotionSensorRange/**"
+      ],
+      "also_at": [],
+      "oid": "eefd46ef17d66656a73cddd470adea42f67a4148",
+      "tags": [
+        "detection-range"
+      ],
+      "text_digest": "sha256:140dbcc94f8b275a2331272b8b509a6a9f6d7519d6293a0af3d2c242c1ef9531"
+    },
+    {
+      "map_id": "mods/motion-sensor-range:domains/glossary.md",
+      "id": "domains/glossary.md",
+      "doc_id": "doc-78ff1518516c",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Glossary for Motion Sensor Range: abbreviations, terms to avoid, and definitions of the Duplica…",
+      "node": "mods/motion-sensor-range",
+      "node_scope": "aggregator",
+      "path": "mods/motion-sensor-range/.context/domains/glossary.md",
+      "applies_to": [
+        "src/MotionSensorRange/**"
+      ],
+      "also_at": [],
+      "oid": "57e7fb278daa7dd0ac0b032dc31c1162913d3f54",
+      "tags": [
+        "detection-range"
+      ],
+      "text_digest": "sha256:1814a8ae7d709b0fa5ad522c1391ad79c0776a4f068e043df4a7c09f3c8b52a0"
+    },
+    {
+      "map_id": "mods/motion-sensor-range:overview.md",
+      "id": "overview.md",
+      "doc_id": null,
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Overview of the Motion Sensor Range mod: the range slider it adds to the Duplicant Motion Senso…",
+      "node": "mods/motion-sensor-range",
+      "node_scope": "aggregator",
+      "path": "mods/motion-sensor-range/.context/overview.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "ca5b46e6fc97b4cc8c0928989afda2810b1d1301",
+      "tags": [
+        "detection-range"
+      ],
+      "text_digest": "sha256:cf3ef38662ed81721841c932a80498f24e3a7d746719278e83f2d57eecaf72e5"
+    },
+    {
+      "map_id": "mods/motion-sensor-range:standards/README.md",
+      "id": "standards/README.md",
+      "doc_id": "doc-549cf82752da",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Index of the three standards documents of Motion Sensor Range (code style, error handling, nami…",
+      "node": "mods/motion-sensor-range",
+      "node_scope": "aggregator",
+      "path": "mods/motion-sensor-range/.context/standards/README.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "7133a6bdbedb7a25c342d29d26e01bf9fb98430a",
+      "tags": [
+        "code-style"
+      ],
+      "text_digest": "sha256:9b7eb5147ca5dba781e4648956b1a262174b78143cbc2d1e57b163bb545ab5ba"
+    },
+    {
+      "map_id": "mods/motion-sensor-range:standards/code-style.md",
+      "id": "standards/code-style.md",
+      "doc_id": "doc-00fd213f60e3",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Code style guide for Motion Sensor Range: C# formatting, imports, comments, control structures,…",
+      "node": "mods/motion-sensor-range",
+      "node_scope": "aggregator",
+      "path": "mods/motion-sensor-range/.context/standards/code-style.md",
+      "applies_to": [
+        "src/**"
+      ],
+      "also_at": [],
+      "oid": "0effceba29541f5feca721d4a1b09ed762a4d95b",
+      "tags": [
+        "code-style"
+      ],
+      "text_digest": "sha256:620fec6e193b41d0539eb79f5103e944b31f7b6efeaf99fad7225bc9c2393c74"
+    },
+    {
+      "map_id": "mods/motion-sensor-range:standards/error-handling.md",
+      "id": "standards/error-handling.md",
+      "doc_id": "doc-fa8916defd23",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Error handling conventions for Motion Sensor Range: guarding patches, try/catch cases, logging…",
+      "node": "mods/motion-sensor-range",
+      "node_scope": "aggregator",
+      "path": "mods/motion-sensor-range/.context/standards/error-handling.md",
+      "applies_to": [
+        "src/**"
+      ],
+      "also_at": [],
+      "oid": "6f36ee54fa928cb3ca35b03e0320b8d2e3c90d2e",
+      "tags": [],
+      "text_digest": "sha256:65a4deb1d03e363d08d09ad5bd2cf5f1bb409703f001a93643cc1e9320f51efb"
+    },
+    {
+      "map_id": "mods/motion-sensor-range:standards/naming-conventions.md",
+      "id": "standards/naming-conventions.md",
+      "doc_id": "doc-6d1db2ae5a52",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Naming conventions for Motion Sensor Range: files, namespaces, variables, methods, patch classe…",
+      "node": "mods/motion-sensor-range",
+      "node_scope": "aggregator",
+      "path": "mods/motion-sensor-range/.context/standards/naming-conventions.md",
+      "applies_to": [
+        "src/**"
+      ],
+      "also_at": [],
+      "oid": "131204f3ee731845c3388d7cde87b8404fab0b93",
+      "tags": [
+        "code-style"
+      ],
+      "text_digest": "sha256:3fe87131a1c56cf1ab25ab435abeb3e4a9c9ba94a1d7a1fa73efe86f6f307764"
+    },
+    {
+      "map_id": "mods/motion-sensor-range:tags.md",
+      "id": "tags.md",
+      "doc_id": null,
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "The motion-sensor-range node tag dictionary: each term that records here may carry, with the on…",
+      "node": "mods/motion-sensor-range",
+      "node_scope": "aggregator",
+      "path": "mods/motion-sensor-range/.context/tags.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "af20b05bd60ff9af49afe2ff37a900b85191e1bb",
+      "tags": [],
+      "text_digest": "sha256:868fc66d4026ff98a77a9e81040912488d396d21e9e1f801c94da9535febdb02"
+    },
+    {
+      "map_id": "mods/multichannel-critter-sensor:domains/README.md",
+      "id": "domains/README.md",
+      "doc_id": "doc-8aa085125b3d",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Index of the two domain documents of Multichannel Critter Sensor, the entities and the glossary…",
+      "node": "mods/multichannel-critter-sensor",
+      "node_scope": "aggregator",
+      "path": "mods/multichannel-critter-sensor/.context/domains/README.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "93baa54424d4047f339050a2f84319d4174664e7",
+      "tags": [
+        "critter-sensor",
+        "automation-ribbon"
+      ],
+      "text_digest": "sha256:262da7fa11c849fe25eb96f638668b177150e902da12f6583287d037366ed981"
+    },
+    {
+      "map_id": "mods/multichannel-critter-sensor:domains/entities.md",
+      "id": "domains/entities.md",
+      "doc_id": "doc-73dc9bf76df3",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "The building config, counting component, side screen, `ThresholdAdapter` and patches of Multich…",
+      "node": "mods/multichannel-critter-sensor",
+      "node_scope": "aggregator",
+      "path": "mods/multichannel-critter-sensor/.context/domains/entities.md",
+      "applies_to": [
+        "src/MultichannelCritterSensor/**"
+      ],
+      "also_at": [],
+      "oid": "61749aa22dbad3ec039e0e75df12c78aac5ffab3",
+      "tags": [
+        "critter-sensor",
+        "automation-ribbon"
+      ],
+      "text_digest": "sha256:af135710f2fce43205a3e7a8f40cb741c1bbb33636c54006d5940cccae40d9f2"
+    },
+    {
+      "map_id": "mods/multichannel-critter-sensor:domains/glossary.md",
+      "id": "domains/glossary.md",
+      "doc_id": "doc-cb45b2283a1a",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Glossary for Multichannel Critter Sensor: abbreviations, terms to avoid, and definitions of cri…",
+      "node": "mods/multichannel-critter-sensor",
+      "node_scope": "aggregator",
+      "path": "mods/multichannel-critter-sensor/.context/domains/glossary.md",
+      "applies_to": [
+        "src/MultichannelCritterSensor/**"
+      ],
+      "also_at": [],
+      "oid": "1e2d381c798cacafea2be14ac7310f2d24df5c1f",
+      "tags": [
+        "critter-sensor",
+        "automation-ribbon"
+      ],
+      "text_digest": "sha256:bc63972b4203c2b761ed21f30c6dec91b3f73517dd56ea3f67ff75496182d82c"
+    },
+    {
+      "map_id": "mods/multichannel-critter-sensor:overview.md",
+      "id": "overview.md",
+      "doc_id": null,
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Overview of the Multichannel Critter Sensor mod: the ribbon-output critter and egg counter it a…",
+      "node": "mods/multichannel-critter-sensor",
+      "node_scope": "aggregator",
+      "path": "mods/multichannel-critter-sensor/.context/overview.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "b873d96a1fbad1d4e9be682705c23f526d6df16d",
+      "tags": [
+        "critter-sensor",
+        "automation-ribbon"
+      ],
+      "text_digest": "sha256:4cfc69a6489cb1eaeff8b0f677893467eba0b95672807c7760c56654ef0c5a7c"
+    },
+    {
+      "map_id": "mods/multichannel-critter-sensor:standards/README.md",
+      "id": "standards/README.md",
+      "doc_id": "doc-f224f1c371d4",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Index of the three standards documents of Multichannel Critter Sensor (code style, error handli…",
+      "node": "mods/multichannel-critter-sensor",
+      "node_scope": "aggregator",
+      "path": "mods/multichannel-critter-sensor/.context/standards/README.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "160d0cc9fdf2f4869616c8f72c9530910a0fc725",
+      "tags": [
+        "code-style"
+      ],
+      "text_digest": "sha256:37290e8d052c0a5a4585d1f9561ff0d2c486482ff0aef569fc0cfc4404164876"
+    },
+    {
+      "map_id": "mods/multichannel-critter-sensor:standards/code-style.md",
+      "id": "standards/code-style.md",
+      "doc_id": "doc-ca6a5de7abe9",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Code style guide for Multichannel Critter Sensor: C# formatting, imports, comments, control str…",
+      "node": "mods/multichannel-critter-sensor",
+      "node_scope": "aggregator",
+      "path": "mods/multichannel-critter-sensor/.context/standards/code-style.md",
+      "applies_to": [
+        "src/**"
+      ],
+      "also_at": [],
+      "oid": "5071646b3c938234382dbd45e3191bbbd63021b2",
+      "tags": [
+        "code-style"
+      ],
+      "text_digest": "sha256:7e8555344b30f3e5376ae742cd989993b0e715ce839a35b5bfd8742cf5c9f443"
+    },
+    {
+      "map_id": "mods/multichannel-critter-sensor:standards/error-handling.md",
+      "id": "standards/error-handling.md",
+      "doc_id": "doc-fd60fdc16864",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Error handling conventions for Multichannel Critter Sensor: guarding patches, try/catch cases,…",
+      "node": "mods/multichannel-critter-sensor",
+      "node_scope": "aggregator",
+      "path": "mods/multichannel-critter-sensor/.context/standards/error-handling.md",
+      "applies_to": [
+        "src/**"
+      ],
+      "also_at": [],
+      "oid": "b5f6dde1e39283bb24034138767fe992a8525321",
+      "tags": [],
+      "text_digest": "sha256:95620d2f551971d2ec467aac99aded750781744cce710dbbde7fbf49a3c02a67"
+    },
+    {
+      "map_id": "mods/multichannel-critter-sensor:standards/naming-conventions.md",
+      "id": "standards/naming-conventions.md",
+      "doc_id": "doc-5ae0a923f609",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Naming conventions for Multichannel Critter Sensor: files, namespaces, variables, methods, patc…",
+      "node": "mods/multichannel-critter-sensor",
+      "node_scope": "aggregator",
+      "path": "mods/multichannel-critter-sensor/.context/standards/naming-conventions.md",
+      "applies_to": [
+        "src/**"
+      ],
+      "also_at": [],
+      "oid": "05c0ed615f515599d6430550f02c73cbf5983238",
+      "tags": [
+        "code-style"
+      ],
+      "text_digest": "sha256:331e71c7dd5f98aecba83b209c09ddd05b9b01fbaee0fe8a64701c134c43b028"
+    },
+    {
+      "map_id": "mods/multichannel-critter-sensor:tags.md",
+      "id": "tags.md",
+      "doc_id": null,
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "The multichannel-critter-sensor node tag dictionary: each term that records here may carry, wit…",
+      "node": "mods/multichannel-critter-sensor",
+      "node_scope": "aggregator",
+      "path": "mods/multichannel-critter-sensor/.context/tags.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "6434324a5fb9d00702a74d6367ab0618b2d61b4f",
+      "tags": [],
+      "text_digest": "sha256:35c521fbd5cd8b7560761d7311219ac8ab90dde1d9b38c1659d09575540579fd"
+    },
+    {
+      "map_id": "mods/natural-backwalls-everywhere:domains/README.md",
+      "id": "domains/README.md",
+      "doc_id": "doc-39f6ffbdfe73",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Index of the Natural Backwalls Everywhere domains folder, linking the entities document on the…",
+      "node": "mods/natural-backwalls-everywhere",
+      "node_scope": "aggregator",
+      "path": "mods/natural-backwalls-everywhere/.context/domains/README.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "ceaeb0b989f4de807ead8f4f3af872939137c5b2",
+      "tags": [
+        "worldgen"
+      ],
+      "text_digest": "sha256:08f5d1e90b24574f98f4ad658039b4fcd2d08cb3ee4e0ce008fa6a0244cbf972"
+    },
+    {
+      "map_id": "mods/natural-backwalls-everywhere:domains/entities.md",
+      "id": "domains/entities.md",
+      "doc_id": "doc-5d8e44113c75",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "The worldgen patches, options, biome groups, noise patterns, export overlay and BiomePreview to…",
+      "node": "mods/natural-backwalls-everywhere",
+      "node_scope": "aggregator",
+      "path": "mods/natural-backwalls-everywhere/.context/domains/entities.md",
+      "applies_to": [
+        "src/NaturalBackwalls/**"
+      ],
+      "also_at": [],
+      "oid": "efc69ec283d6dca0a10c95d4b26a4ec1e5f1d388",
+      "tags": [
+        "worldgen"
+      ],
+      "text_digest": "sha256:4dccc7acd022cba4f651a96adb0519cff1df8dce5fe9acef80f4ca962c25e66a"
+    },
+    {
+      "map_id": "mods/natural-backwalls-everywhere:domains/glossary.md",
+      "id": "domains/glossary.md",
+      "doc_id": "doc-afc6c48467c3",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Glossary for Natural Backwalls Everywhere: abbreviations, terms to avoid, and definitions of ba…",
+      "node": "mods/natural-backwalls-everywhere",
+      "node_scope": "aggregator",
+      "path": "mods/natural-backwalls-everywhere/.context/domains/glossary.md",
+      "applies_to": [
+        "src/NaturalBackwalls/**"
+      ],
+      "also_at": [],
+      "oid": "f5a436be87a9ec949207ce64fca94354689b7314",
+      "tags": [
+        "worldgen"
+      ],
+      "text_digest": "sha256:2be4a0ee475422865a0c6a662cd219538fd56f7e7f63f60736db7f53dd46fda9"
+    },
+    {
+      "map_id": "mods/natural-backwalls-everywhere:overview.md",
+      "id": "overview.md",
+      "doc_id": null,
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Overview of the Natural Backwalls Everywhere mod: what it does to worldgen, its Workshop versio…",
+      "node": "mods/natural-backwalls-everywhere",
+      "node_scope": "aggregator",
+      "path": "mods/natural-backwalls-everywhere/.context/overview.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "8c7c02f2be02146a0e8910cf5ecc26d38b59f4af",
+      "tags": [
+        "worldgen"
+      ],
+      "text_digest": "sha256:6a6a73f50adde7f0491b976559c9f59c03cb70a375415b39190e8bd9dd55c8bd"
+    },
+    {
+      "map_id": "mods/natural-backwalls-everywhere:standards/README.md",
+      "id": "standards/README.md",
+      "doc_id": "doc-44beb9ff1d4a",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Index of the Natural Backwalls Everywhere standards folder, linking its code style, error handl…",
+      "node": "mods/natural-backwalls-everywhere",
+      "node_scope": "aggregator",
+      "path": "mods/natural-backwalls-everywhere/.context/standards/README.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "18710b90937bd3d380f4025e81b30f334e89a4d1",
+      "tags": [
+        "code-style"
+      ],
+      "text_digest": "sha256:27b14305b6ea240cbebcf0e06c49dd1160db58214a1dbb05fb7017adb29b986a"
+    },
+    {
+      "map_id": "mods/natural-backwalls-everywhere:standards/code-style.md",
+      "id": "standards/code-style.md",
+      "doc_id": "doc-999fea2863cc",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "C# code style for Natural Backwalls Everywhere: indentation, braces, imports, comments, control…",
+      "node": "mods/natural-backwalls-everywhere",
+      "node_scope": "aggregator",
+      "path": "mods/natural-backwalls-everywhere/.context/standards/code-style.md",
+      "applies_to": [
+        "src/**"
+      ],
+      "also_at": [],
+      "oid": "0c5993041bd98e5e364573d7816452a0a510f923",
+      "tags": [
+        "code-style"
+      ],
+      "text_digest": "sha256:d89186c5f726b9b5da8bbb8f79ee5c02cb1ed075d06115ba14b40624b0856e72"
+    },
+    {
+      "map_id": "mods/natural-backwalls-everywhere:standards/error-handling.md",
+      "id": "standards/error-handling.md",
+      "doc_id": "doc-0ad8dccd6659",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Error handling rules for Natural Backwalls Everywhere: guarding Harmony patches and transpilers…",
+      "node": "mods/natural-backwalls-everywhere",
+      "node_scope": "aggregator",
+      "path": "mods/natural-backwalls-everywhere/.context/standards/error-handling.md",
+      "applies_to": [
+        "src/**"
+      ],
+      "also_at": [],
+      "oid": "3f54bc029aa2c4b32665d5e7ca241ecf117bdd7c",
+      "tags": [],
+      "text_digest": "sha256:b9fd3bd39841577c4f36369352e56b3a6083032c15918c0a9ec4251647917890"
+    },
+    {
+      "map_id": "mods/natural-backwalls-everywhere:standards/naming-conventions.md",
+      "id": "standards/naming-conventions.md",
+      "doc_id": "doc-84c05e729b11",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Naming conventions for Natural Backwalls Everywhere: files, variables, methods, types, ModStrin…",
+      "node": "mods/natural-backwalls-everywhere",
+      "node_scope": "aggregator",
+      "path": "mods/natural-backwalls-everywhere/.context/standards/naming-conventions.md",
+      "applies_to": [
+        "src/**"
+      ],
+      "also_at": [],
+      "oid": "8284e7b8c7fc11470631517cf7ee4964bfc1b1bb",
+      "tags": [
+        "code-style"
+      ],
+      "text_digest": "sha256:3643e0f62d3fcbfa5b320792e348361fd5ce7560146df80512ac42bb06f08a7d"
+    },
+    {
+      "map_id": "mods/natural-backwalls-everywhere:tags.md",
+      "id": "tags.md",
+      "doc_id": null,
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "The natural-backwalls-everywhere node tag dictionary: each term that records here may carry, wi…",
+      "node": "mods/natural-backwalls-everywhere",
+      "node_scope": "aggregator",
+      "path": "mods/natural-backwalls-everywhere/.context/tags.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "342256e4330e3295aa7ad2528dd9bf07c4dc22f8",
+      "tags": [],
+      "text_digest": "sha256:e23f146545db21594e60fb88ad0b704b3f24047c3d9a4737d2dfb008c0d3f65e"
+    },
+    {
+      "map_id": "mods/no-magic-fridges:domains/README.md",
+      "id": "domains/README.md",
+      "doc_id": "doc-07328383cd3e",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Index of the No Magic Fridges domains folder, linking the entities document on the FridgeThermo…",
+      "node": "mods/no-magic-fridges",
+      "node_scope": "aggregator",
+      "path": "mods/no-magic-fridges/.context/domains/README.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "a6b1cd4f34294139e4dcb914470b92fa5c31add6",
+      "tags": [
+        "refrigerator"
+      ],
+      "text_digest": "sha256:2395b1e756b57dfba16284d5c7f883dbb947c520399d67970c170c69b7c6c61e"
+    },
+    {
+      "map_id": "mods/no-magic-fridges:domains/entities.md",
+      "id": "domains/entities.md",
+      "doc_id": "doc-dfa34259ff9b",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "The FridgeThermostat component, Harmony patches and mod entry of No Magic Fridges in src/NoMagi…",
+      "node": "mods/no-magic-fridges",
+      "node_scope": "aggregator",
+      "path": "mods/no-magic-fridges/.context/domains/entities.md",
+      "applies_to": [
+        "src/NoMagicFridges/**"
+      ],
+      "also_at": [],
+      "oid": "3d612656b4c29bb345bdc6e28894100704ded08c",
+      "tags": [
+        "refrigerator",
+        "heat-exchange"
+      ],
+      "text_digest": "sha256:c7cc0c42beecc0801559ac9a0fa04d46fedc777856c1b73c4b0126bb22602cd3"
+    },
+    {
+      "map_id": "mods/no-magic-fridges:domains/glossary.md",
+      "id": "domains/glossary.md",
+      "doc_id": "doc-cf415c96c76b",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Glossary for No Magic Fridges: abbreviations such as DTU, terms to avoid, and definitions of th…",
+      "node": "mods/no-magic-fridges",
+      "node_scope": "aggregator",
+      "path": "mods/no-magic-fridges/.context/domains/glossary.md",
+      "applies_to": [
+        "src/NoMagicFridges/**"
+      ],
+      "also_at": [],
+      "oid": "ddf7b98fcfcd45c89b9a30db9fa23b2bde72e25a",
+      "tags": [
+        "refrigerator",
+        "heat-exchange"
+      ],
+      "text_digest": "sha256:b19e8ad7247e9198f2b7e3c3312e49243f0bdfa88d21731b6c43a01ca77cc109"
+    },
+    {
+      "map_id": "mods/no-magic-fridges:overview.md",
+      "id": "overview.md",
+      "doc_id": null,
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Overview of the No Magic Fridges mod: how powered fridges behave as a thermostat-controlled ins…",
+      "node": "mods/no-magic-fridges",
+      "node_scope": "aggregator",
+      "path": "mods/no-magic-fridges/.context/overview.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "f6cb9ba48e1d8d99e2fe2d9c40346eb70e6b0970",
+      "tags": [
+        "refrigerator"
+      ],
+      "text_digest": "sha256:e2b08b4e3febfb019b93a3e0c135f0042cf95704d974339f452326c303bbeef9"
+    },
+    {
+      "map_id": "mods/no-magic-fridges:standards/README.md",
+      "id": "standards/README.md",
+      "doc_id": "doc-790efff9d109",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Index of the No Magic Fridges standards folder, linking its code style, error handling and nami…",
+      "node": "mods/no-magic-fridges",
+      "node_scope": "aggregator",
+      "path": "mods/no-magic-fridges/.context/standards/README.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "c0864efb6b6550b6b81a30a7ed254aef0df04f52",
+      "tags": [
+        "code-style"
+      ],
+      "text_digest": "sha256:7c421405932e50ebcd74f9bc497f1adbb5b4712daf9de9199823d26512898c4c"
+    },
+    {
+      "map_id": "mods/no-magic-fridges:standards/code-style.md",
+      "id": "standards/code-style.md",
+      "doc_id": "doc-46f4375d60c5",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "C# code style for No Magic Fridges: indentation, braces, imports, comments, control structures,…",
+      "node": "mods/no-magic-fridges",
+      "node_scope": "aggregator",
+      "path": "mods/no-magic-fridges/.context/standards/code-style.md",
+      "applies_to": [
+        "src/**"
+      ],
+      "also_at": [],
+      "oid": "14cbde215f83a93910a9f8d46f55ebfdde32118a",
+      "tags": [
+        "code-style"
+      ],
+      "text_digest": "sha256:f8ead4f603383b8a018787e063448d59a64b163a7db4a02a31155508959df104"
+    },
+    {
+      "map_id": "mods/no-magic-fridges:standards/error-handling.md",
+      "id": "standards/error-handling.md",
+      "doc_id": "doc-aea927ed3ec9",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Error handling rules for No Magic Fridges: guarding Harmony patches and transpilers, try/catch,…",
+      "node": "mods/no-magic-fridges",
+      "node_scope": "aggregator",
+      "path": "mods/no-magic-fridges/.context/standards/error-handling.md",
+      "applies_to": [
+        "src/**"
+      ],
+      "also_at": [],
+      "oid": "ba42d59de213d0b48cb870702ecfc35efa6e24b8",
+      "tags": [],
+      "text_digest": "sha256:421fa0a052d84bbb1802454c82369b4f10794e5c3a6fe877de80c07c8db9d5f8"
+    },
+    {
+      "map_id": "mods/no-magic-fridges:standards/naming-conventions.md",
+      "id": "standards/naming-conventions.md",
+      "doc_id": "doc-9f3021f06f42",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Naming conventions for No Magic Fridges: files, variables, methods, types, ids and tags, plus i…",
+      "node": "mods/no-magic-fridges",
+      "node_scope": "aggregator",
+      "path": "mods/no-magic-fridges/.context/standards/naming-conventions.md",
+      "applies_to": [
+        "src/**"
+      ],
+      "also_at": [],
+      "oid": "c24725bcaeac587c35dde609d5bf23e30858d5f2",
+      "tags": [
+        "code-style"
+      ],
+      "text_digest": "sha256:e7f79d43d114202b217a7f98a3c59337124be6e4721290002c476dfb283f9e90"
+    },
+    {
+      "map_id": "mods/no-magic-fridges:tags.md",
+      "id": "tags.md",
+      "doc_id": null,
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "The no-magic-fridges node tag dictionary: each term that records here may carry, with the one s…",
+      "node": "mods/no-magic-fridges",
+      "node_scope": "aggregator",
+      "path": "mods/no-magic-fridges/.context/tags.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "a3a13e910b152c8daf10bd2c50a2bd9f10f4247c",
+      "tags": [],
+      "text_digest": "sha256:84251639352b2c8c6ead6ad5dd900117b86844a5b3d9b8f669bc880861cbd9ad"
+    },
+    {
+      "map_id": "mods/refined-building:domains/README.md",
+      "id": "domains/README.md",
+      "doc_id": "doc-850f06967f35",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Index of the Refined Building domains folder, linking the entities document on the element-tabl…",
+      "node": "mods/refined-building",
+      "node_scope": "aggregator",
+      "path": "mods/refined-building/.context/domains/README.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "51e0a80523e57a5462907d21b9c6e00a3653605f",
+      "tags": [
+        "building-materials",
+        "game-tag"
+      ],
+      "text_digest": "sha256:95dcf9c86bb1b7cc129547456b12745bfe854328e51247596c903e3101c2e9ed"
+    },
+    {
+      "map_id": "mods/refined-building:domains/entities.md",
+      "id": "domains/entities.md",
+      "doc_id": "doc-88e47a3aca23",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "The ElementLoader.Load patch and mod entry of Refined Building in src/RefinedBuilding that tag…",
+      "node": "mods/refined-building",
+      "node_scope": "aggregator",
+      "path": "mods/refined-building/.context/domains/entities.md",
+      "applies_to": [
+        "src/RefinedBuilding/**"
+      ],
+      "also_at": [],
+      "oid": "8ed3b621a3963f4f7c15e50b5272fb3193e296bd",
+      "tags": [
+        "building-materials",
+        "game-tag",
+        "harmony-patching"
+      ],
+      "text_digest": "sha256:247a97a8e4028110f610070e86e6da4fa571541bc7a2c693b46e199ef6a683da"
+    },
+    {
+      "map_id": "mods/refined-building:domains/glossary.md",
+      "id": "domains/glossary.md",
+      "doc_id": "doc-a642a3738d44",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Glossary for Refined Building: abbreviations, terms to avoid, and definitions of the Metal and…",
+      "node": "mods/refined-building",
+      "node_scope": "aggregator",
+      "path": "mods/refined-building/.context/domains/glossary.md",
+      "applies_to": [
+        "src/RefinedBuilding/**"
+      ],
+      "also_at": [],
+      "oid": "0fac1d8e20d164522dea2f4ab300dc0ed2304083",
+      "tags": [
+        "game-tag",
+        "building-materials"
+      ],
+      "text_digest": "sha256:55428bb1c3063404c2aecb066d142f2b6ae7012fdaf46d61c02fc6844402fe4b"
+    },
+    {
+      "map_id": "mods/refined-building:overview.md",
+      "id": "overview.md",
+      "doc_id": null,
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Overview of the Refined Building mod: how refined metals are made usable wherever a building as…",
+      "node": "mods/refined-building",
+      "node_scope": "aggregator",
+      "path": "mods/refined-building/.context/overview.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "8d65e6259ddc16b34b5a7ab16ef326c99620d43b",
+      "tags": [
+        "building-materials",
+        "game-tag"
+      ],
+      "text_digest": "sha256:af0cd6d119b9f375cff73b85f748d4552fe11a8b16f6c391ad1821a1595aabcb"
+    },
+    {
+      "map_id": "mods/refined-building:standards/README.md",
+      "id": "standards/README.md",
+      "doc_id": "doc-8a8a166dd81b",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Index of the Refined Building standards folder, linking its code style, error handling and nami…",
+      "node": "mods/refined-building",
+      "node_scope": "aggregator",
+      "path": "mods/refined-building/.context/standards/README.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "dd43407ccff0b09d3ea3cd3e8077197e7f281524",
+      "tags": [
+        "code-style"
+      ],
+      "text_digest": "sha256:1bead8df2b37664fe3a5ee257ccfaaef7a058007614736e09d6708ec3929feed"
+    },
+    {
+      "map_id": "mods/refined-building:standards/code-style.md",
+      "id": "standards/code-style.md",
+      "doc_id": "doc-c26260a752d7",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "C# code style for Refined Building: indentation, braces, imports, comments, control structures,…",
+      "node": "mods/refined-building",
+      "node_scope": "aggregator",
+      "path": "mods/refined-building/.context/standards/code-style.md",
+      "applies_to": [
+        "src/**"
+      ],
+      "also_at": [],
+      "oid": "5383a03ef1a1c84fe66e30cebf0d6afa3840b5b5",
+      "tags": [
+        "code-style"
+      ],
+      "text_digest": "sha256:aaedb8de77a0e22e672c9a82c551700deb23e94e17b61bb90956d47c812c6085"
+    },
+    {
+      "map_id": "mods/refined-building:standards/error-handling.md",
+      "id": "standards/error-handling.md",
+      "doc_id": "doc-2600cab43ce9",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Error handling rules for Refined Building: guarding Harmony patches and transpilers, try/catch,…",
+      "node": "mods/refined-building",
+      "node_scope": "aggregator",
+      "path": "mods/refined-building/.context/standards/error-handling.md",
+      "applies_to": [
+        "src/**"
+      ],
+      "also_at": [],
+      "oid": "43ab3a76ea6b3bd377e9985ff16e062a06eb703a",
+      "tags": [],
+      "text_digest": "sha256:99c68ea97964def534592f397cce9e6e419acf49884434d7c2ed62ae696ac760"
+    },
+    {
+      "map_id": "mods/refined-building:standards/naming-conventions.md",
+      "id": "standards/naming-conventions.md",
+      "doc_id": "doc-0fb73d165b3f",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Naming conventions for Refined Building: files, variables, methods, types, ids and tags, plus i…",
+      "node": "mods/refined-building",
+      "node_scope": "aggregator",
+      "path": "mods/refined-building/.context/standards/naming-conventions.md",
+      "applies_to": [
+        "src/**"
+      ],
+      "also_at": [],
+      "oid": "dfb8551cd614f5b061791e1a1570c8ae7e5faa0b",
+      "tags": [
+        "code-style"
+      ],
+      "text_digest": "sha256:8dc7aeb5d42f9e9d4d71f9ae1bacd8ac3c6d77d78e759174c3896e0ee602f33c"
+    },
+    {
+      "map_id": "mods/refined-building:tags.md",
+      "id": "tags.md",
+      "doc_id": null,
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "The refined-building node tag dictionary: each term that records here may carry, with the one s…",
+      "node": "mods/refined-building",
+      "node_scope": "aggregator",
+      "path": "mods/refined-building/.context/tags.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "bd429038e885cdee39dab26bd83e2013ed760f40",
+      "tags": [],
+      "text_digest": "sha256:69c55da301f01a3ecc1bdcd9dd668151a9b9751332e3f1b93a913254473351fb"
+    },
+    {
+      "map_id": "mods/salty-surf:domains/README.md",
+      "id": "domains/README.md",
+      "doc_id": "doc-a3e2d3b6cf8a",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Index of the Salty Surf domains folder, linking the entities document on the Mechanical Surfboa…",
+      "node": "mods/salty-surf",
+      "node_scope": "aggregator",
+      "path": "mods/salty-surf/.context/domains/README.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "d88c8941eb0bcec8457aa46c9e9c04f55840721d",
+      "tags": [
+        "mechanical-surfboard"
+      ],
+      "text_digest": "sha256:20b1b334fb870ab440e81d86640c7f03feacf5bd87c7b71a82cf63e77788a82c"
+    },
+    {
+      "map_id": "mods/salty-surf:domains/entities.md",
+      "id": "domains/entities.md",
+      "doc_id": "doc-4e6a503ac17c",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "The SurfWater tag helper, Harmony patches, mod strings and translations of Salty Surf in src/Sa…",
+      "node": "mods/salty-surf",
+      "node_scope": "aggregator",
+      "path": "mods/salty-surf/.context/domains/entities.md",
+      "applies_to": [
+        "src/SaltySurf/**"
+      ],
+      "also_at": [],
+      "oid": "7a4c197ef44481e8b5bdbb417ec2029974c23f87",
+      "tags": [
+        "mechanical-surfboard"
+      ],
+      "text_digest": "sha256:d4fa85451e8585510148b31da11327982206165778b46761dd22790862e0aec9"
+    },
+    {
+      "map_id": "mods/salty-surf:domains/glossary.md",
+      "id": "domains/glossary.md",
+      "doc_id": "doc-8bc9e6c6b6ef",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Glossary for Salty Surf: abbreviations, terms to avoid, and definitions of the Mechanical Surfb…",
+      "node": "mods/salty-surf",
+      "node_scope": "aggregator",
+      "path": "mods/salty-surf/.context/domains/glossary.md",
+      "applies_to": [
+        "src/SaltySurf/**"
+      ],
+      "also_at": [],
+      "oid": "2ab4878b304b0903bb18c04514d4e57573b64d5e",
+      "tags": [
+        "mechanical-surfboard"
+      ],
+      "text_digest": "sha256:c69b5fe9544194ba7f9e4a43e89868e35cdec2bc9c16ac16ce2f1d7e5af248f5"
+    },
+    {
+      "map_id": "mods/salty-surf:overview.md",
+      "id": "overview.md",
+      "doc_id": null,
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Overview of the Salty Surf mod: how the Mechanical Surfboard accepts Salt Water as well as Wate…",
+      "node": "mods/salty-surf",
+      "node_scope": "aggregator",
+      "path": "mods/salty-surf/.context/overview.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "0c4f7fad256581d070415b261c6f7bf0fe4ee465",
+      "tags": [
+        "mechanical-surfboard"
+      ],
+      "text_digest": "sha256:7c7a378d12298b30a7316ab99558ffdec7aa4d865c22e51d9419a8752bf554ec"
+    },
+    {
+      "map_id": "mods/salty-surf:standards/README.md",
+      "id": "standards/README.md",
+      "doc_id": "doc-0f4478336c58",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Index of the Salty Surf standards folder, linking its code style, error handling and naming con…",
+      "node": "mods/salty-surf",
+      "node_scope": "aggregator",
+      "path": "mods/salty-surf/.context/standards/README.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "16b96efb30b232afe853c2e94cb1c3281e7ef0ea",
+      "tags": [
+        "code-style"
+      ],
+      "text_digest": "sha256:69e0e9df4dc4e14e67feba9e7ee95163ed953139a9ee9329c0dfe48f79e381a5"
+    },
+    {
+      "map_id": "mods/salty-surf:standards/code-style.md",
+      "id": "standards/code-style.md",
+      "doc_id": "doc-208fd39f8eae",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "C# code style for Salty Surf: indentation, braces, imports, comments, control structures, Harmo…",
+      "node": "mods/salty-surf",
+      "node_scope": "aggregator",
+      "path": "mods/salty-surf/.context/standards/code-style.md",
+      "applies_to": [
+        "src/**"
+      ],
+      "also_at": [],
+      "oid": "6a052316531d9ae24a73960b10582e99404b61c0",
+      "tags": [
+        "code-style"
+      ],
+      "text_digest": "sha256:355b0347e1cf2047f0161b2a6fa41d20a17a1f35f74ed42ee44ddfcfbc1aacf8"
+    },
+    {
+      "map_id": "mods/salty-surf:standards/error-handling.md",
+      "id": "standards/error-handling.md",
+      "doc_id": "doc-fa5d6e35629d",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Error handling rules for Salty Surf: guarding Harmony patches and transpilers, try/catch, loggi…",
+      "node": "mods/salty-surf",
+      "node_scope": "aggregator",
+      "path": "mods/salty-surf/.context/standards/error-handling.md",
+      "applies_to": [
+        "src/**"
+      ],
+      "also_at": [],
+      "oid": "17db8ac5de3e710fff9f7b88b699f3933a92e933",
+      "tags": [],
+      "text_digest": "sha256:10c4756e98f4e9b7c53edc2cfdfff5c9a764b724949fc2bd32dad66e2a757579"
+    },
+    {
+      "map_id": "mods/salty-surf:standards/naming-conventions.md",
+      "id": "standards/naming-conventions.md",
+      "doc_id": "doc-e8559324cf55",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Naming conventions for Salty Surf: files, variables, methods, types, ModStrings keys, ids and t…",
+      "node": "mods/salty-surf",
+      "node_scope": "aggregator",
+      "path": "mods/salty-surf/.context/standards/naming-conventions.md",
+      "applies_to": [
+        "src/**"
+      ],
+      "also_at": [],
+      "oid": "1fa26c92bd94e4fe77fe2f9203f133e9870aa777",
+      "tags": [
+        "code-style"
+      ],
+      "text_digest": "sha256:4f1136c101460f98201f59f52e5e2fff5c7472df1a54be06bfae00cfed50de9c"
+    },
+    {
+      "map_id": "mods/salty-surf:tags.md",
+      "id": "tags.md",
+      "doc_id": null,
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "The salty-surf node tag dictionary: each term that records here may carry, with the one sentenc…",
+      "node": "mods/salty-surf",
+      "node_scope": "aggregator",
+      "path": "mods/salty-surf/.context/tags.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "043008f407f4d99e5bc30e97e6d7175000bf64a1",
+      "tags": [],
+      "text_digest": "sha256:5cf67318f6fe3558fdec27316d4c12000b987c71e3060918915fb732b60cd712"
+    },
+    {
+      "map_id": "mods/smart-weight-plate:domains/README.md",
+      "id": "domains/README.md",
+      "doc_id": "doc-7bf71d74cafa",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Index of the Smart Weight Plate domains folder, linking the entities document on the building,…",
+      "node": "mods/smart-weight-plate",
+      "node_scope": "aggregator",
+      "path": "mods/smart-weight-plate/.context/domains/README.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "811330b3f15add917ab48f7eb8ae670c9f3b735e",
+      "tags": [
+        "weight-sensing",
+        "signal-threshold"
+      ],
+      "text_digest": "sha256:7c2df7634ed6b35499d1332257a1453c9355f644bfa54fe1f3807242aef92c5d"
+    },
+    {
+      "map_id": "mods/smart-weight-plate:domains/entities.md",
+      "id": "domains/entities.md",
+      "doc_id": "doc-79fd71f85e3b",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "The Smart Weight Plate building, its two-threshold latch component, side screen and Harmony pat…",
+      "node": "mods/smart-weight-plate",
+      "node_scope": "aggregator",
+      "path": "mods/smart-weight-plate/.context/domains/entities.md",
+      "applies_to": [
+        "src/SmartWeightPlate/**"
+      ],
+      "also_at": [],
+      "oid": "ad26024acef588ee5eaa4093146b5cd1eeff47c6",
+      "tags": [
+        "weight-sensing",
+        "signal-threshold"
+      ],
+      "text_digest": "sha256:60543c347ea4e6033e5d1cadcd844431c1d089a4ee0215001ec9e49dd828c4a7"
+    },
+    {
+      "map_id": "mods/smart-weight-plate:domains/glossary.md",
+      "id": "domains/glossary.md",
+      "doc_id": "doc-3b2699889607",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Glossary for Smart Weight Plate: abbreviations such as kanim and BAO, terms to avoid, and defin…",
+      "node": "mods/smart-weight-plate",
+      "node_scope": "aggregator",
+      "path": "mods/smart-weight-plate/.context/domains/glossary.md",
+      "applies_to": [
+        "src/SmartWeightPlate/**"
+      ],
+      "also_at": [],
+      "oid": "aee9230f78e0e7dfda9ae1141f426b6ca2101062",
+      "tags": [
+        "weight-sensing",
+        "signal-threshold"
+      ],
+      "text_digest": "sha256:320aaa947401491923d58573c2ea69fc917809b97762ac22418b22939acde710"
+    },
+    {
+      "map_id": "mods/smart-weight-plate:overview.md",
+      "id": "overview.md",
+      "doc_id": null,
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Overview of the Smart Weight Plate mod: the two-threshold weight plate building and its signal…",
+      "node": "mods/smart-weight-plate",
+      "node_scope": "aggregator",
+      "path": "mods/smart-weight-plate/.context/overview.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "bb4659063bb7602492b7e8afe23f2a1841508267",
+      "tags": [
+        "weight-sensing",
+        "signal-threshold"
+      ],
+      "text_digest": "sha256:8cdd5785e973369c59f468cbe71c1f34b1b6a82b3290e7ec38a206819f4002ee"
+    },
+    {
+      "map_id": "mods/smart-weight-plate:standards/README.md",
+      "id": "standards/README.md",
+      "doc_id": "doc-26f456c540ff",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Index of the Smart Weight Plate standards folder, linking its code style, error handling and na…",
+      "node": "mods/smart-weight-plate",
+      "node_scope": "aggregator",
+      "path": "mods/smart-weight-plate/.context/standards/README.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "8ca27dd180e9d559db90c3c51d0cb69f0d0342af",
+      "tags": [
+        "code-style"
+      ],
+      "text_digest": "sha256:c99dd6e373a1eb7bcafcd09f076a57fc68811f16000cbdf604c40372e2330e18"
+    },
+    {
+      "map_id": "mods/smart-weight-plate:standards/code-style.md",
+      "id": "standards/code-style.md",
+      "doc_id": "doc-1c6db88f21e2",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "C# code style for Smart Weight Plate: indentation, braces, imports, comments, control structure…",
+      "node": "mods/smart-weight-plate",
+      "node_scope": "aggregator",
+      "path": "mods/smart-weight-plate/.context/standards/code-style.md",
+      "applies_to": [
+        "src/**"
+      ],
+      "also_at": [],
+      "oid": "24eb45051ed8ff9aa4b3aee43d2284ab46e2b097",
+      "tags": [
+        "code-style"
+      ],
+      "text_digest": "sha256:4ed5d632ff529c1063485433108f0544953f3aac71fec67fc73050b67ccece80"
+    },
+    {
+      "map_id": "mods/smart-weight-plate:standards/error-handling.md",
+      "id": "standards/error-handling.md",
+      "doc_id": "doc-bbf17921a8ae",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Error handling rules for Smart Weight Plate: guarding Harmony patches and transpilers, try/catc…",
+      "node": "mods/smart-weight-plate",
+      "node_scope": "aggregator",
+      "path": "mods/smart-weight-plate/.context/standards/error-handling.md",
+      "applies_to": [
+        "src/**"
+      ],
+      "also_at": [],
+      "oid": "16cb9e804d61338f016642a631b708e766ce5b59",
+      "tags": [],
+      "text_digest": "sha256:f4402674aa9a3119cc8f78df2969987fad8a3a7123aa538a7b657cdd2f5d7f5e"
+    },
+    {
+      "map_id": "mods/smart-weight-plate:standards/naming-conventions.md",
+      "id": "standards/naming-conventions.md",
+      "doc_id": "doc-b2eb0f826a7b",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Naming conventions for Smart Weight Plate: files, variables, methods, types, ModStrings keys, i…",
+      "node": "mods/smart-weight-plate",
+      "node_scope": "aggregator",
+      "path": "mods/smart-weight-plate/.context/standards/naming-conventions.md",
+      "applies_to": [
+        "src/**"
+      ],
+      "also_at": [],
+      "oid": "65bc45d817f8e99233a50d5419a152b5ee41b493",
+      "tags": [
+        "code-style"
+      ],
+      "text_digest": "sha256:1d80c6d1d5511ca54731f852734beef6ab79fa052ea5ac365781d3dec16d5f6c"
+    },
+    {
+      "map_id": "mods/smart-weight-plate:tags.md",
+      "id": "tags.md",
+      "doc_id": null,
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "The smart-weight-plate node tag dictionary: each term that records here may carry, with the one…",
+      "node": "mods/smart-weight-plate",
+      "node_scope": "aggregator",
+      "path": "mods/smart-weight-plate/.context/tags.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "0469757281d31df8670aa4dd0186862924580311",
+      "tags": [],
+      "text_digest": "sha256:2b81d18c9554097318c03d187655af6f3396dd1809b8355975a59a5d203cb1f5"
+    },
+    {
+      "map_id": "mods/storage-pod-redux:domains/README.md",
+      "id": "domains/README.md",
+      "doc_id": "doc-b691ccbfeb36",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Index of the domain documents for the Storage Pod Redux mod, linking its entities file (pod bui…",
+      "node": "mods/storage-pod-redux",
+      "node_scope": "aggregator",
+      "path": "mods/storage-pod-redux/.context/domains/README.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "a98eea140b8fb9edb9bdec7a8957fd8ac3ba7b86",
+      "tags": [
+        "storage-building"
+      ],
+      "text_digest": "sha256:b10e8fe14496d32ac572add9b77952b5f267352a387db2bd4db03f10a4454d90"
+    },
+    {
+      "map_id": "mods/storage-pod-redux:domains/entities.md",
+      "id": "domains/entities.md",
+      "doc_id": "doc-4b5791f2e9a8",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "The Storage Pod and Cool Pod buildings of Storage Pod Redux, with their property tables, option…",
+      "node": "mods/storage-pod-redux",
+      "node_scope": "aggregator",
+      "path": "mods/storage-pod-redux/.context/domains/entities.md",
+      "applies_to": [
+        "src/StoragePodRedux/**"
+      ],
+      "also_at": [],
+      "oid": "c50f02d12f9adcdf1d4ba55932ee1db2381bed1c",
+      "tags": [
+        "storage-building",
+        "building-registration"
+      ],
+      "text_digest": "sha256:e1c491ad88091c4b3c6b60e2933cd11483ed1d7f8f93fcd003137f857a2fc7fa"
+    },
+    {
+      "map_id": "mods/storage-pod-redux:domains/glossary.md",
+      "id": "domains/glossary.md",
+      "doc_id": "doc-7eb761dcb233",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Glossary for Storage Pod Redux: abbreviations (kanim, PLib), terms to avoid such as Fridge Pod,…",
+      "node": "mods/storage-pod-redux",
+      "node_scope": "aggregator",
+      "path": "mods/storage-pod-redux/.context/domains/glossary.md",
+      "applies_to": [
+        "src/StoragePodRedux/**"
+      ],
+      "also_at": [],
+      "oid": "873b6f26fed9359a821df04b74c7a35741178129",
+      "tags": [
+        "storage-building"
+      ],
+      "text_digest": "sha256:cefdc5a51f83c86a0e171a0afe8dbb592eb7b22df686ed2db7388455db17a4e8"
+    },
+    {
+      "map_id": "mods/storage-pod-redux:overview.md",
+      "id": "overview.md",
+      "doc_id": null,
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Overview of the Storage Pod Redux mod: what the Storage Pod and Cool Pod do, their capacity, co…",
+      "node": "mods/storage-pod-redux",
+      "node_scope": "aggregator",
+      "path": "mods/storage-pod-redux/.context/overview.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "21920d30d033daa283397a5d2a664fe704e50a8a",
+      "tags": [
+        "storage-building"
+      ],
+      "text_digest": "sha256:ed65e3abace777220879fc314d7f473ccb7facedcfc59e7ae0b135fe4ddaafd6"
+    },
+    {
+      "map_id": "mods/storage-pod-redux:standards/README.md",
+      "id": "standards/README.md",
+      "doc_id": "doc-bd9a3bd51203",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Index of the Storage Pod Redux standards documents, linking the code-style, error-handling and…",
+      "node": "mods/storage-pod-redux",
+      "node_scope": "aggregator",
+      "path": "mods/storage-pod-redux/.context/standards/README.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "67954a97db637d7867a45a699d4b5b6e208cafd8",
+      "tags": [
+        "code-style"
+      ],
+      "text_digest": "sha256:26aae5eb75616789b1b17557883d139ac03cc1bb8e03c4003fdb9a00a0fc08c8"
+    },
+    {
+      "map_id": "mods/storage-pod-redux:standards/code-style.md",
+      "id": "standards/code-style.md",
+      "doc_id": "doc-3f8274c8e738",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "C# code style for the Storage Pod Redux mod: formatting, imports, comments, Harmony patch and g…",
+      "node": "mods/storage-pod-redux",
+      "node_scope": "aggregator",
+      "path": "mods/storage-pod-redux/.context/standards/code-style.md",
+      "applies_to": [
+        "src/**"
+      ],
+      "also_at": [],
+      "oid": "f57229050b424c45a9e211c3cd929883e69914db",
+      "tags": [
+        "code-style"
+      ],
+      "text_digest": "sha256:939f2afc7841f2ebca0db856322f29b16075acaaa2647a9dbc2bdbd88a836793"
+    },
+    {
+      "map_id": "mods/storage-pod-redux:standards/error-handling.md",
+      "id": "standards/error-handling.md",
+      "doc_id": "doc-a551ee35a37c",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Error handling and logging rules for the Storage Pod Redux mod: guarding patches, try/catch use…",
+      "node": "mods/storage-pod-redux",
+      "node_scope": "aggregator",
+      "path": "mods/storage-pod-redux/.context/standards/error-handling.md",
+      "applies_to": [
+        "src/**"
+      ],
+      "also_at": [],
+      "oid": "a6888a13cbd2c50ca04e3e3ce43cfaa59a59ae70",
+      "tags": [],
+      "text_digest": "sha256:a3fbcb3777d462509345715bf1a1ce404ab0f42f44bfe3f569406e6fd22e548a"
+    },
+    {
+      "map_id": "mods/storage-pod-redux:standards/naming-conventions.md",
+      "id": "standards/naming-conventions.md",
+      "doc_id": "doc-c7340fd78545",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Naming rules for the Storage Pod Redux mod: files, namespaces, patch classes, variables, ModStr…",
+      "node": "mods/storage-pod-redux",
+      "node_scope": "aggregator",
+      "path": "mods/storage-pod-redux/.context/standards/naming-conventions.md",
+      "applies_to": [
+        "src/**"
+      ],
+      "also_at": [],
+      "oid": "034c4a15e0fa2e47aaea4e7ba549a4ec27d8144d",
+      "tags": [
+        "code-style"
+      ],
+      "text_digest": "sha256:663f15f0d1c26ffe39b4b31c3baed8d8eb07c76e7f051584d57c15b6ea3e28b6"
+    },
+    {
+      "map_id": "mods/storage-pod-redux:tags.md",
+      "id": "tags.md",
+      "doc_id": null,
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "The storage-pod-redux node tag dictionary: each term that records here may carry, with the one…",
+      "node": "mods/storage-pod-redux",
+      "node_scope": "aggregator",
+      "path": "mods/storage-pod-redux/.context/tags.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "c6e54cbba512ae667c821b917ceef79cb0c8d577",
+      "tags": [],
+      "text_digest": "sha256:1c873ebf917d47887df77a3ba1879066e844021107349a65cc4c20510fad8def"
+    },
+    {
+      "map_id": "mods/sweep-zones:domains/README.md",
+      "id": "domains/README.md",
+      "doc_id": "doc-3aeb5f2729be",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Index of the domain documents for the Sweep Zones Redux mod, linking its entities file (zone st…",
+      "node": "mods/sweep-zones",
+      "node_scope": "aggregator",
+      "path": "mods/sweep-zones/.context/domains/README.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "14b4cbf4addbf3a06ed4ea5e4fd72d102fa2c570",
+      "tags": [
+        "toolbar-tool",
+        "saved-state",
+        "cleaning-errands"
+      ],
+      "text_digest": "sha256:f727dfa483e71545d79991d4044399ca41c06f251fff34724c7f0d51f57a5583"
+    },
+    {
+      "map_id": "mods/sweep-zones:domains/entities.md",
+      "id": "domains/entities.md",
+      "doc_id": "doc-f39997b0359c",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "The zone store, paint tool, toolbar icons, hotkey and Harmony patches of Sweep Zones Redux, wit…",
+      "node": "mods/sweep-zones",
+      "node_scope": "aggregator",
+      "path": "mods/sweep-zones/.context/domains/entities.md",
+      "applies_to": [
+        "src/SweepZones/**"
+      ],
+      "also_at": [],
+      "oid": "66f6d14252bb1a8855dd36b10cd1ab940462c7af",
+      "tags": [
+        "toolbar-tool",
+        "saved-state",
+        "cleaning-errands"
+      ],
+      "text_digest": "sha256:ba9f78142084605f417ea96e640c42e0898c69f5a1d7455fa12d2ab31283fd78"
+    },
+    {
+      "map_id": "mods/sweep-zones:domains/glossary.md",
+      "id": "domains/glossary.md",
+      "doc_id": "doc-1e206f66663b",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Glossary for Sweep Zones Redux: abbreviations (U59, PLib, DLC), terms to avoid such as overlay…",
+      "node": "mods/sweep-zones",
+      "node_scope": "aggregator",
+      "path": "mods/sweep-zones/.context/domains/glossary.md",
+      "applies_to": [
+        "src/SweepZones/**"
+      ],
+      "also_at": [],
+      "oid": "942fe8ad55b9c6773750d0e5a1e9c1190ef11f9d",
+      "tags": [
+        "cleaning-errands",
+        "toolbar-tool"
+      ],
+      "text_digest": "sha256:776c8356023673a8cdb7d1a93f219e4dd8c25e54632ee2593561a00c68173693"
+    },
+    {
+      "map_id": "mods/sweep-zones:overview.md",
+      "id": "overview.md",
+      "doc_id": null,
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Overview of the Sweep Zones Redux mod: the toolbar paint tool with four drag modes, per-cell pr…",
+      "node": "mods/sweep-zones",
+      "node_scope": "aggregator",
+      "path": "mods/sweep-zones/.context/overview.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "d0c2a8f2003a0c6e06ffbd07002c511bb17af47d",
+      "tags": [
+        "toolbar-tool",
+        "cleaning-errands",
+        "saved-state"
+      ],
+      "text_digest": "sha256:5adec746d2ea64830e5f349489dd7aaf7cd7ce66b0c7e40bfced157954f92967"
+    },
+    {
+      "map_id": "mods/sweep-zones:standards/README.md",
+      "id": "standards/README.md",
+      "doc_id": "doc-fb2d7079ec1f",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Index of the Sweep Zones Redux standards documents, linking the code-style, error-handling and…",
+      "node": "mods/sweep-zones",
+      "node_scope": "aggregator",
+      "path": "mods/sweep-zones/.context/standards/README.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "ff988ac54ca68373606c390e0e76759a0dab979f",
+      "tags": [
+        "code-style"
+      ],
+      "text_digest": "sha256:608f2dde915cc4c39469f4a49a395acff458c4887547cea3ec9d88d2ba3f447c"
+    },
+    {
+      "map_id": "mods/sweep-zones:standards/code-style.md",
+      "id": "standards/code-style.md",
+      "doc_id": "doc-b35b5c30a8f8",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "C# code style for the Sweep Zones Redux mod: formatting, imports, comments, Harmony patch and g…",
+      "node": "mods/sweep-zones",
+      "node_scope": "aggregator",
+      "path": "mods/sweep-zones/.context/standards/code-style.md",
+      "applies_to": [
+        "src/**"
+      ],
+      "also_at": [],
+      "oid": "adcb0e1c2cdef18a4b8bc428c36e4e619fdede15",
+      "tags": [
+        "code-style"
+      ],
+      "text_digest": "sha256:248baf224ce6cbeb1e35985af8a523f0b6aa19dcfd5411f755d0c1fae58a2abd"
+    },
+    {
+      "map_id": "mods/sweep-zones:standards/error-handling.md",
+      "id": "standards/error-handling.md",
+      "doc_id": "doc-f012c219c2e0",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Error handling and logging rules for the Sweep Zones Redux mod: guarding patches, try/catch use…",
+      "node": "mods/sweep-zones",
+      "node_scope": "aggregator",
+      "path": "mods/sweep-zones/.context/standards/error-handling.md",
+      "applies_to": [
+        "src/**"
+      ],
+      "also_at": [],
+      "oid": "d6321c3cda70ac750e86b5b9ce78cfea1f3a2776",
+      "tags": [],
+      "text_digest": "sha256:4f08f3c000a0d365ebf49a2a4d5a627bfe28aec6b16c5ed67e8e21eb3a041170"
+    },
+    {
+      "map_id": "mods/sweep-zones:standards/naming-conventions.md",
+      "id": "standards/naming-conventions.md",
+      "doc_id": "doc-aad7252813ba",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Naming rules for the Sweep Zones Redux mod: files, namespaces, patch classes, variables, ModStr…",
+      "node": "mods/sweep-zones",
+      "node_scope": "aggregator",
+      "path": "mods/sweep-zones/.context/standards/naming-conventions.md",
+      "applies_to": [
+        "src/**"
+      ],
+      "also_at": [],
+      "oid": "3d2e6c2164b8c3f05f4680e7b3c6bd9ef59a7ae7",
+      "tags": [
+        "code-style"
+      ],
+      "text_digest": "sha256:5f8f786c99b003c5e30da2edcd7314181557b3556e8083287cef3db8b51564ca"
+    },
+    {
+      "map_id": "mods/sweep-zones:tags.md",
+      "id": "tags.md",
+      "doc_id": null,
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "The sweep-zones node tag dictionary: each term that records here may carry, with the one senten…",
+      "node": "mods/sweep-zones",
+      "node_scope": "aggregator",
+      "path": "mods/sweep-zones/.context/tags.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "f009c8b9bf307fc752a334fc3ccb7b408ff4f3e0",
+      "tags": [],
+      "text_digest": "sha256:f83523f31065f2027ce2729a175f18ff1c3374677a130c803cccd79e7f9cfb51"
+    },
+    {
+      "map_id": "mods/upgrade-planner:domains/README.md",
+      "id": "domains/README.md",
+      "doc_id": "doc-1578ba6b48ea",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Index of the domain documents for the Upgrade Planner mod, linking its entities file (planner t…",
+      "node": "mods/upgrade-planner",
+      "node_scope": "aggregator",
+      "path": "mods/upgrade-planner/.context/domains/README.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "b380ca83f4878e93b3d8eec9d05bc09e2896cdc7",
+      "tags": [
+        "toolbar-tool",
+        "building-replacement"
+      ],
+      "text_digest": "sha256:882e52eacaa1d0678df53aecfbb5a4f4d78775f865e62c390ae95c8a64f14955"
+    },
+    {
+      "map_id": "mods/upgrade-planner:domains/entities.md",
+      "id": "domains/entities.md",
+      "doc_id": "doc-5e37d1980952",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "The planner tool, plan classes, replacement rules, order queue, presets, dialog, Blueprints Exp…",
+      "node": "mods/upgrade-planner",
+      "node_scope": "aggregator",
+      "path": "mods/upgrade-planner/.context/domains/entities.md",
+      "applies_to": [
+        "src/UpgradePlanner/**"
+      ],
+      "also_at": [],
+      "oid": "038eb51206a7818815802e02ac1ea9b41a51af92",
+      "tags": [
+        "toolbar-tool",
+        "building-replacement",
+        "building-materials",
+        "plan-presets",
+        "mod-compatibility"
+      ],
+      "text_digest": "sha256:a3b0e02f987e28a356bea0957053c8ca407bae3b6475bd32b5aa5b159c1e5065"
+    },
+    {
+      "map_id": "mods/upgrade-planner:domains/glossary.md",
+      "id": "domains/glossary.md",
+      "doc_id": "doc-ff4db6770074",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Glossary for Upgrade Planner: abbreviations (BE, ABM, PLib, def), terms to avoid such as upgrad…",
+      "node": "mods/upgrade-planner",
+      "node_scope": "aggregator",
+      "path": "mods/upgrade-planner/.context/domains/glossary.md",
+      "applies_to": [
+        "src/UpgradePlanner/**"
+      ],
+      "also_at": [],
+      "oid": "294f40d6fc6461b2bcdfcf1bbfc46d3270b23ac4",
+      "tags": [
+        "building-replacement",
+        "building-materials"
+      ],
+      "text_digest": "sha256:594e1fc2e80039c46d071ebc7d9e1bf645b2e465cef630692088bcb59a3f2124"
+    },
+    {
+      "map_id": "mods/upgrade-planner:overview.md",
+      "id": "overview.md",
+      "doc_id": null,
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Overview of the Upgrade Planner mod: the box-drag tool that changes building materials or repla…",
+      "node": "mods/upgrade-planner",
+      "node_scope": "aggregator",
+      "path": "mods/upgrade-planner/.context/overview.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "cab90fb4e7259157fb3e0036a1ff35be974101a7",
+      "tags": [
+        "toolbar-tool",
+        "building-replacement",
+        "building-materials",
+        "plan-presets",
+        "mod-compatibility"
+      ],
+      "text_digest": "sha256:f56069c2f10dd42822dd327eb520f8a64be3b9bc9aaa395d70b2e22a6455745c"
+    },
+    {
+      "map_id": "mods/upgrade-planner:standards/README.md",
+      "id": "standards/README.md",
+      "doc_id": "doc-c4afa748d082",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Index of the Upgrade Planner standards documents, linking the code-style, error-handling and na…",
+      "node": "mods/upgrade-planner",
+      "node_scope": "aggregator",
+      "path": "mods/upgrade-planner/.context/standards/README.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "9f15df8e209888df580c39a890c69f847d90958b",
+      "tags": [
+        "code-style"
+      ],
+      "text_digest": "sha256:d320d1800c94fb03905c4d196f09ed2683b2500622813dcaba6601ce55e21d5c"
+    },
+    {
+      "map_id": "mods/upgrade-planner:standards/code-style.md",
+      "id": "standards/code-style.md",
+      "doc_id": "doc-af668e9256d1",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "C# code style for the Upgrade Planner mod: formatting, imports, comments, Harmony patch and gam…",
+      "node": "mods/upgrade-planner",
+      "node_scope": "aggregator",
+      "path": "mods/upgrade-planner/.context/standards/code-style.md",
+      "applies_to": [
+        "src/**"
+      ],
+      "also_at": [],
+      "oid": "993c8965a1799ac44d399998f3c763e7542ea1da",
+      "tags": [
+        "code-style"
+      ],
+      "text_digest": "sha256:46822c1f2b4015714fc63d89e36ad81dad21ad7dfd2f3d07d9e883a6abefe477"
+    },
+    {
+      "map_id": "mods/upgrade-planner:standards/error-handling.md",
+      "id": "standards/error-handling.md",
+      "doc_id": "doc-ec7a8d0f341f",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Error handling and logging rules for the Upgrade Planner mod: guarding patches, try/catch use,…",
+      "node": "mods/upgrade-planner",
+      "node_scope": "aggregator",
+      "path": "mods/upgrade-planner/.context/standards/error-handling.md",
+      "applies_to": [
+        "src/**"
+      ],
+      "also_at": [],
+      "oid": "f9a5685c968ac0e10631765578af194338187bdd",
+      "tags": [],
+      "text_digest": "sha256:366d014bb0f8fead1baf10b731ee2685a6b9609f091f7cdf2a8d725c1aba553a"
+    },
+    {
+      "map_id": "mods/upgrade-planner:standards/naming-conventions.md",
+      "id": "standards/naming-conventions.md",
+      "doc_id": "doc-5393f7a6ddfb",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Naming rules for the Upgrade Planner mod: files, namespaces, patch classes, variables, ModStrin…",
+      "node": "mods/upgrade-planner",
+      "node_scope": "aggregator",
+      "path": "mods/upgrade-planner/.context/standards/naming-conventions.md",
+      "applies_to": [
+        "src/**"
+      ],
+      "also_at": [],
+      "oid": "13a961f6b6649effcf95a40d11759b4a0aa8a03c",
+      "tags": [
+        "code-style"
+      ],
+      "text_digest": "sha256:d1256aea66eccdbd35c47914614a7aeaa9cae8b6a925e2670ff65003563ee9c6"
+    },
+    {
+      "map_id": "mods/upgrade-planner:tags.md",
+      "id": "tags.md",
+      "doc_id": null,
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "The upgrade-planner node tag dictionary: each term that records here may carry, with the one se…",
+      "node": "mods/upgrade-planner",
+      "node_scope": "aggregator",
+      "path": "mods/upgrade-planner/.context/tags.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "2dad9fee43c7ab8fc64e15c7a11e02ec13005b39",
+      "tags": [],
+      "text_digest": "sha256:71ef415365226b65d622f6e606e1bbb4ba01484fe0dc2ea44d54172ed451b641"
+    },
+    {
+      "map_id": "mods/vent-freeze-fix:domains/README.md",
+      "id": "domains/README.md",
+      "doc_id": "doc-93cf049e83b0",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Index of the domain documents for the Vent Freeze Fix mod, linking its entities file (vent stor…",
+      "node": "mods/vent-freeze-fix",
+      "node_scope": "aggregator",
+      "path": "mods/vent-freeze-fix/.context/domains/README.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "1599ac125f47faeca23e5afb14ef2efe62061ac8",
+      "tags": [
+        "liquid-vent",
+        "liquid-freezing",
+        "tile-repair"
+      ],
+      "text_digest": "sha256:413645cf0ee8ef9adbc9059aeafa4f891ed0cb9a9ab20816ae679a6c4351125c"
+    },
+    {
+      "map_id": "mods/vent-freeze-fix:domains/entities.md",
+      "id": "domains/entities.md",
+      "doc_id": "doc-46d7dbd5e039",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "The insulated liquid vent storage patch, post-load repair watcher, dig requests, options, debug…",
+      "node": "mods/vent-freeze-fix",
+      "node_scope": "aggregator",
+      "path": "mods/vent-freeze-fix/.context/domains/entities.md",
+      "applies_to": [
+        "src/VentFreezeFix/**"
+      ],
+      "also_at": [],
+      "oid": "eae98b1d966c3f022b215f2848b40a69bdd4d5ad",
+      "tags": [
+        "liquid-vent",
+        "liquid-freezing",
+        "tile-repair"
+      ],
+      "text_digest": "sha256:2f602cf4c942944cc4fd170c78f87564a8d01bbe23c6b03cfe387eb878484128"
+    },
+    {
+      "map_id": "mods/vent-freeze-fix:domains/glossary.md",
+      "id": "domains/glossary.md",
+      "doc_id": "doc-c11388d0a842",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Glossary for Vent Freeze Fix: abbreviations (sim, 200 ms tick, repro), the term to avoid (fix v…",
+      "node": "mods/vent-freeze-fix",
+      "node_scope": "aggregator",
+      "path": "mods/vent-freeze-fix/.context/domains/glossary.md",
+      "applies_to": [
+        "src/VentFreezeFix/**"
+      ],
+      "also_at": [],
+      "oid": "56a369ea9d062b9f05d393efa5ff1e52d5a63b94",
+      "tags": [
+        "liquid-vent",
+        "liquid-freezing",
+        "tile-repair"
+      ],
+      "text_digest": "sha256:0cbc7620074f02e0fef4a69b543d39bed179b1a5a2e552685994e30e52643f1c"
+    },
+    {
+      "map_id": "mods/vent-freeze-fix:overview.md",
+      "id": "overview.md",
+      "doc_id": null,
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Overview of the Vent Freeze Fix mod: the save/load liquid vent bug it addresses, its two option…",
+      "node": "mods/vent-freeze-fix",
+      "node_scope": "aggregator",
+      "path": "mods/vent-freeze-fix/.context/overview.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "06accf63e7611ff295632b8c76e026d3dfde47e2",
+      "tags": [
+        "liquid-vent",
+        "liquid-freezing",
+        "tile-repair"
+      ],
+      "text_digest": "sha256:f5d292d34715034b0d1bc524bc133e602e6f5f0c56cfde45849e9b727399cd06"
+    },
+    {
+      "map_id": "mods/vent-freeze-fix:standards/README.md",
+      "id": "standards/README.md",
+      "doc_id": "doc-d61f06975cad",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Index of the Vent Freeze Fix standards documents, linking the code-style, error-handling and na…",
+      "node": "mods/vent-freeze-fix",
+      "node_scope": "aggregator",
+      "path": "mods/vent-freeze-fix/.context/standards/README.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "1a53d4fce88f1043fdbd1629d663bf1b94b27991",
+      "tags": [
+        "code-style"
+      ],
+      "text_digest": "sha256:351e5cdc76346d25101fa2353f42a1d45360bf6d08a50d72817ee273ef72dbbe"
+    },
+    {
+      "map_id": "mods/vent-freeze-fix:standards/code-style.md",
+      "id": "standards/code-style.md",
+      "doc_id": "doc-4a99769328fa",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "C# code style for the Vent Freeze Fix mod: formatting, imports, comments, Harmony patch and gam…",
+      "node": "mods/vent-freeze-fix",
+      "node_scope": "aggregator",
+      "path": "mods/vent-freeze-fix/.context/standards/code-style.md",
+      "applies_to": [
+        "src/**"
+      ],
+      "also_at": [],
+      "oid": "d0032d2f06ccda8caaf380d9c279a028449c13c0",
+      "tags": [
+        "code-style"
+      ],
+      "text_digest": "sha256:9a68f14aa02531d8e6e5f261869ebbda22a8396f5fb1fad961a7a0c0a330dfe6"
+    },
+    {
+      "map_id": "mods/vent-freeze-fix:standards/error-handling.md",
+      "id": "standards/error-handling.md",
+      "doc_id": "doc-e72f8f8b010b",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Error handling and logging rules for the Vent Freeze Fix mod: guarding patches, try/catch use,…",
+      "node": "mods/vent-freeze-fix",
+      "node_scope": "aggregator",
+      "path": "mods/vent-freeze-fix/.context/standards/error-handling.md",
+      "applies_to": [
+        "src/**"
+      ],
+      "also_at": [],
+      "oid": "1c38e883f401f6c5a2df80e6ec7dd782bc51d356",
+      "tags": [],
+      "text_digest": "sha256:e627845ba73c3c9e91625ee03d40fefea8e796524d7eb92ee543ee9ef15bc96a"
+    },
+    {
+      "map_id": "mods/vent-freeze-fix:standards/naming-conventions.md",
+      "id": "standards/naming-conventions.md",
+      "doc_id": "doc-95f7b77404ee",
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "Naming rules for the Vent Freeze Fix mod: files, namespaces, patch classes, variables, ModStrin…",
+      "node": "mods/vent-freeze-fix",
+      "node_scope": "aggregator",
+      "path": "mods/vent-freeze-fix/.context/standards/naming-conventions.md",
+      "applies_to": [
+        "src/**"
+      ],
+      "also_at": [],
+      "oid": "db655eab74610271f6bcbbb70a20edf41ce9aa5a",
+      "tags": [
+        "code-style"
+      ],
+      "text_digest": "sha256:9549ae44fb9304ade6b9d411fb395e113ec0b258f49d27002329a84bae72bc25"
+    },
+    {
+      "map_id": "mods/vent-freeze-fix:tags.md",
+      "id": "tags.md",
+      "doc_id": null,
+      "kind": "reference",
+      "format": "narrative",
+      "status": null,
+      "description": "The vent-freeze-fix node tag dictionary: each term that records here may carry, with the one se…",
+      "node": "mods/vent-freeze-fix",
+      "node_scope": "aggregator",
+      "path": "mods/vent-freeze-fix/.context/tags.md",
+      "applies_to": [],
+      "also_at": [],
+      "oid": "d031cd26ff697b4a15810eba70600f88d855723a",
+      "tags": [],
+      "text_digest": "sha256:341feeba445665df3375535480302d823805f87e2b566046935dd0ac675cf901"
+    }
+  ],
+  "aliases": [],
+  "excluded": [
+    ".context/.ks/**",
+    ".context/tasks/**",
+    "file scan — no path here is declared vendored or generated (checked against linguist-vendored, linguist-generated, gitlab-generated)",
+    "node discovery — no path here is declared vendored or generated (checked against linguist-vendored, linguist-generated, gitlab-generated)"
+  ],
+  "sparse": {
+    "sparse": false
+  }
+}
