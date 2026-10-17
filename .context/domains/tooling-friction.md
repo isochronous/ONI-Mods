@@ -44,3 +44,8 @@ The tag-backfill skill describes a seven-step run and ships `lib/backfill/*.mjs`
 **Id:** blk-a378f3fb67b5
 
 `coverage.mjs survey` exited 0 at all 19 nodes: 45 undeclared documents, every one no candidate (root workflow and testing documents: spread or one target only; README indexes: no resolved token). The door declares `witness: none` only when a proposal is rejected on question 2 or 3, so a practice document that never gets a proposal stays undeclared, and every sweep keeps listing it as uncovered. Hand-declaring `witness: none` would work, but no write-path mode removes a witness, so it can only be undone through git. Expected: a way to record "considered, covers no place" for a no-candidate document through the door. Done instead: left the 45 documents undeclared.
+
+## 2026-10-17 resolve: a submodule inside the repository becomes its own store, outside the root's node graph
+**Id:** blk-535873fcc26c
+
+`common/` is a git submodule (oni-mods-common) inside this repository, and the root's `projects.md` lists it as a member. `ks resolve common --json` still reports `store_root C:/dev/ONI-Mods/common` with its own checkout key and a chain that stops at `common/` itself, and `ks map`, `ks check --all` and `ks sweep` at the root cover 19 nodes without it. Nothing in `iconrc.json` or any verb's options lets the parent store adopt a nested checkout. OM-001 and OM-002 therefore left `common/` out of populate-context and of every backfill. Expected: a directory inside the repository is a node of the repository's store, a submodule included, with writes there committed in the submodule and the pointer bumped in the root. Done instead: nothing yet; including `common/` needs a resolver change in ICON's engine.
