@@ -1,0 +1,28 @@
+msgid ""
+msgstr ""
+"Application: Oxygen Not Included\n"
+"POT Version: 2.0\n"
+"Language: ko_KR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. STRINGS.JUMPERBRIDGES.OPTIONS.AUTOMATION.NAME
+msgctxt "STRINGS.JUMPERBRIDGES.OPTIONS.AUTOMATION.NAME"
+msgid "Direct automation bridges"
+msgstr "자동화 다리 직접 연결"
+
+#. STRINGS.JUMPERBRIDGES.OPTIONS.AUTOMATION.TOOLTIP
+msgctxt "STRINGS.JUMPERBRIDGES.OPTIONS.AUTOMATION.TOOLTIP"
+msgid "An Automation Wire Bridge or Automation Ribbon Bridge can be placed with either end directly on an automation port or another bridge's end, and that port is connected. Needs a restart."
+msgstr "자동화 전선 다리나 자동화 리본 다리의 양쪽 끝을 자동화 포트나 다른 다리의 끝에 바로 놓을 수 있으며, 그 포트는 연결됩니다. 재시작이 필요합니다."
+
+#. STRINGS.JUMPERBRIDGES.OPTIONS.POWER.NAME
+msgctxt "STRINGS.JUMPERBRIDGES.OPTIONS.POWER.NAME"
+msgid "Direct power bridges"
+msgstr "전선 다리 직접 연결"
+
+#. STRINGS.JUMPERBRIDGES.OPTIONS.POWER.TOOLTIP
+msgctxt "STRINGS.JUMPERBRIDGES.OPTIONS.POWER.TOOLTIP"
+msgid "A Wire Bridge, Conductive Wire Bridge or Insulated Wire Bridge can be placed with either end directly on a power port or another bridge's end, and that port is connected. Heavy-watt joint plates are unchanged. Needs a restart."
+msgstr "전선 다리, 전도성 전선 다리 또는 절연 전선 다리의 양쪽 끝을 전력 포트나 다른 다리의 끝에 바로 놓을 수 있으며, 그 포트는 연결됩니다. 고와트 접합판은 바뀌지 않습니다. 재시작이 필요합니다."

@@ -1,5 +1,14 @@
 # Changelog
 
+## Unreleased
+
+- Renamed to Jumper Bridges, since it now covers power bridges too.
+- Power bridges too: a Wire Bridge, Conductive Wire Bridge or Insulated Wire Bridge end can sit directly on a power port or another bridge's end. Heavy-watt joint plates are unchanged.
+- Options to turn automation bridges and power bridges on or off separately.
+- The deconstruct, cancel and prioritize tools reach a bridge by its ends only, as in the base game.
+- The disconnect tool's filter now applies to bridge ends.
+- A bridge end joined to a neighbour no longer shows a white band behind its wire piece.
+
 ## 0.1.1 - 2026-10-15
 
 - A bridge built while the game is paused now connects its ends right away, instead of only once the game is unpaused.

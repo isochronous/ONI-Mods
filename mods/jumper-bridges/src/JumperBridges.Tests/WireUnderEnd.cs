@@ -2,7 +2,7 @@ using System.Collections;
 using Isochronous.TestKit;
 using UnityEngine;
 
-namespace DirectAutomationBridges.Tests
+namespace JumperBridges.Tests
 {
 	/// <summary>
 	/// A bridge end that lands on a real wire is the vanilla case: no node, the wire carries the
@@ -11,7 +11,7 @@ namespace DirectAutomationBridges.Tests
 	/// </summary>
 	public static class WireUnderEnd
 	{
-		[OniTest("DAB: a wire under a bridge end that melts leaves a node with the wire's connections", Timeout = 40), Layer(1)]
+		[OniTest("Jumper Bridges: a wire under a bridge end that melts leaves a node with the wire's connections", Timeout = 40), Layer(1)]
 		public static IEnumerator WireLeavesConnectionsBehind(TestContext t)
 		{
 			CellRect r = t.Rect(7, 1);
@@ -27,8 +27,8 @@ namespace DirectAutomationBridges.Tests
 			yield return t.Frames(2);
 			GameObject machine = t.World.Build("LogicAlarm", machineCell);
 			t.World.Build("LogicWireBridge", middle);
-			yield return t.WaitUntil(() => BridgeEndNode.TryGet(machineCell, out _), 3, "the node on the machine's port");
-			t.Assert.False(BridgeEndNode.TryGet(endCell, out _), "no node under the end that sits on a wire");
+			yield return t.WaitUntil(() => BridgeEndNode.TryGet(BridgeKind.Logic, machineCell, out _), 3, "the node on the machine's port");
+			t.Assert.False(BridgeEndNode.TryGet(BridgeKind.Logic, endCell, out _), "no node under the end that sits on a wire");
 			yield return t.WaitGameSeconds(0.5);
 
 			LogicSwitch logicSwitch = sensor.GetComponent<LogicSwitch>();
@@ -39,7 +39,7 @@ namespace DirectAutomationBridges.Tests
 			GameObject wireUnderEnd = t.World.At(endCell, ObjectLayer.LogicWire);
 			t.Assert.NotNull(wireUnderEnd, "the wire under the end");
 			t.World.Destroy(wireUnderEnd);
-			yield return t.WaitUntil(() => BridgeEndNode.TryGet(endCell, out BridgeEndNode n) && n != null, 3, "a node where the wire was");
+			yield return t.WaitUntil(() => BridgeEndNode.TryGet(BridgeKind.Logic, endCell, out BridgeEndNode n) && n != null, 3, "a node where the wire was");
 			yield return t.WaitGameSeconds(0.5);
 			t.Assert.Has(UtilityConnections.Left, t.World.LogicConnections(endCell), "the node kept the wire's connection to the left");
 			t.Assert.Has(UtilityConnections.Right, t.World.LogicConnections(r.Cell(2, 0)), "the wire to the left still draws into the end");

@@ -2,12 +2,12 @@ using System.Collections;
 using Isochronous.TestKit;
 using UnityEngine;
 
-namespace DirectAutomationBridges.Tests
+namespace JumperBridges.Tests
 {
 	/// <summary>Signals across a bridge whose ends sit directly on ports, with no wire anywhere: network logic, so the API layer is enough.</summary>
 	public static class Signals
 	{
-		[OniTest("DAB: sensor to bridge to machine carries the signal with no wire", Timeout = 30), Layer(0)]
+		[OniTest("Jumper Bridges: sensor to bridge to machine carries the signal with no wire", Timeout = 30), Layer(0)]
 		public static IEnumerator SensorBridgeMachine(TestContext t)
 		{
 			CellRect r = t.Rect(5, 1);
@@ -17,7 +17,7 @@ namespace DirectAutomationBridges.Tests
 			GameObject sensor = t.World.Build("LogicSwitch", sensorCell);
 			GameObject machine = t.World.Build("LogicAlarm", machineCell);
 			t.World.Build("LogicWireBridge", middle);
-			yield return t.WaitUntil(() => BridgeEndNode.TryGet(sensorCell, out _) && BridgeEndNode.TryGet(machineCell, out _), 3, "end nodes on both ports");
+			yield return t.WaitUntil(() => BridgeEndNode.TryGet(BridgeKind.Logic, sensorCell, out _) && BridgeEndNode.TryGet(BridgeKind.Logic, machineCell, out _), 3, "end nodes on both ports");
 			yield return t.WaitGameSeconds(0.5);
 
 			LogicSwitch logicSwitch = sensor.GetComponent<LogicSwitch>();

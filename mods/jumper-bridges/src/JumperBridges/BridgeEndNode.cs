@@ -1,54 +1,40 @@
 using System.Collections.Generic;
-using System.Reflection;
-using HarmonyLib;
 using UnityEngine;
 
-namespace DirectAutomationBridges
+namespace JumperBridges
 {
 	/// <summary>
-	/// The stand-in for a wire under a bridge end. The automation network only asks three things
-	/// of a cell before it carries a signal across it: something on the LogicWireTile layer
+	/// The stand-in for a wire under a bridge end. The network only asks three things of a cell
+	/// before it carries a signal or a current across it: something on the wire tile layer
 	/// (UtilityNetworkManager.QueueCellForVisit), a physical node with connection bits
 	/// (SetConnections), and an item at the cell (AddToNetworks) so the port there is told it is
-	/// connected. A wire building answers all three through its KAnimGraphTileVisualizer and
-	/// LogicWire; this node answers them with no building at all, so there is no cost, no yield,
-	/// nothing to deconstruct and nothing to save. It plays the wire kanim through the inherited
-	/// Refresh(), which is how a real wire picks its "L", "LR", "LRU"... art, so a wire dragged up
-	/// to a bridge end gets the matching segment drawn back at it.
+	/// connected. A wire building answers all three through its KAnimGraphTileVisualizer and its
+	/// LogicWire or Wire; this node answers them with no building at all, so there is no cost, no
+	/// yield, nothing to deconstruct and nothing to save. It plays the wire kanim through the
+	/// inherited Refresh(), which is how a real wire picks its "L", "LR", "LRU"... art, so a wire
+	/// dragged up to a bridge end gets the matching segment drawn back at it. Automation and power
+	/// work the same way; the kind says which manager, layers and art.
 	///
 	/// The rule: a bridge end behaves exactly like a wire cell. It connects only to cells a wire
 	/// drag explicitly joined it to, never because a wire merely sits next to it. The node has
 	/// no connections of its own; it mirrors the bits its neighbours point at it, and a neighbour
 	/// only points at a cell because a drag paired the two (ApplyPathToConduitSystem), because its
 	/// saved connections did, or because the manager's Reconnect echoed a bit the other side had.
+	///
+	/// On a power network the node is not a Wire, so ElectricalUtilityNetwork.AddItem leaves it out
+	/// of the wattage groups: the circuit's limit is the bridge's own rating, as it is for a bridge
+	/// whose end sits on a wire.
 	/// </summary>
 	public sealed class BridgeEndNode : KAnimGraphTileVisualizer
 	{
-		public const int TileLayer = (int)ObjectLayer.LogicWireTile;
-
-		private const string WireAnim = "logic_wires_kanim";
-		private const string RibbonAnim = "logic_ribbon_kanim";
-
-		/// <summary>Live, registered nodes by cell; at most one per cell because the manager keeps one item per cell.</summary>
-		private static readonly Dictionary<int, BridgeEndNode> byCell = new Dictionary<int, BridgeEndNode>();
-
-		/// <summary>
-		/// The manager's item table is private and has no getter. A node must only unregister
-		/// its own item: when a real wire has already taken the cell (LogicWire.OnSpawn stomps
-		/// the item first), removing "the item at this cell" would remove the wire's. Read by
-		/// FieldInfo rather than FieldRefAccess: it is a cold path, and a FieldRef's dynamic
-		/// method cannot be built on the CoreCLR host that ModCheck runs on.
-		/// </summary>
-		private static readonly FieldInfo ItemsField =
-			AccessTools.Field(typeof(UtilityNetworkManager<LogicCircuitNetwork, LogicWire>), "items");
-
 		/// <summary>
 		/// The bridges whose end is this cell. Two bridge ends may share a cell; the cell gets one
 		/// node (the manager keeps one item per cell), the later bridge adopts it, and the node
 		/// goes when the last owner does.
 		/// </summary>
-		private readonly List<DirectBridge> owners = new List<DirectBridge>();
+		private readonly List<JumperBridge> owners = new List<JumperBridge>();
 
+		public BridgeKind Kind { get; private set; }
 		public int Cell { get; private set; }
 		public bool Ribbon { get; private set; }
 
@@ -56,26 +42,28 @@ namespace DirectAutomationBridges
 		private bool registered;
 		private bool released;
 
-		public static IEnumerable<BridgeEndNode> All => byCell.Values;
+		private int TileLayer => (int)Kind.TileLayer;
 
-		public static int Count => byCell.Count;
+		public static IEnumerable<BridgeEndNode> All(BridgeKind kind) => kind.Nodes.Values;
 
-		public static bool TryGet(int cell, out BridgeEndNode node) => byCell.TryGetValue(cell, out node);
+		public static int Count(BridgeKind kind) => kind.Nodes.Count;
+
+		public static bool TryGet(BridgeKind kind, int cell, out BridgeEndNode node) => kind.Nodes.TryGetValue(cell, out node);
 
 		/// <summary>
-		/// A standalone GameObject at the cell, on the wire scene layer so the bridge art (LogicGates,
-		/// one layer up) draws over it, built the way the game builds its own runtime controllers
+		/// A standalone GameObject at the cell, on the kind's wire scene layer so the bridge art (one
+		/// layer up) draws over it, built the way the game builds its own runtime controllers
 		/// (AutoMiner's arm): inactive, controller configured, then activated.
 		/// </summary>
-		public static BridgeEndNode Create(DirectBridge bridge, int cell, bool ribbon)
+		public static BridgeEndNode Create(JumperBridge bridge, BridgeKind kind, int cell)
 		{
-			GameObject go = new GameObject("DirectBridgeEnd");
+			GameObject go = new GameObject("JumperBridgeEnd");
 			go.SetActive(false);
-			go.transform.SetPosition(Grid.CellToPosCBC(cell, Grid.SceneLayer.LogicWires));
+			go.transform.SetPosition(Grid.CellToPosCBC(cell, kind.SceneLayer));
 			KBatchedAnimController controller = go.AddComponent<KBatchedAnimController>();
-			controller.AnimFiles = new KAnimFile[] { Assets.GetAnim(ribbon ? RibbonAnim : WireAnim) };
+			controller.AnimFiles = new KAnimFile[] { Assets.GetAnim(kind.NodeAnim(bridge.gameObject)) };
 			controller.initialAnim = "None";
-			controller.sceneLayer = Grid.SceneLayer.LogicWires;
+			controller.sceneLayer = kind.SceneLayer;
 			controller.isMovable = false;
 			// The wire tool's BuildPath, with instant build off, reads the element of whatever sits on
 			// the wire tile layer at each cell of the drag to decide whether an order replaces it
@@ -87,15 +75,17 @@ namespace DirectAutomationBridges
 			element.ElementID = bridgeElement != null ? bridgeElement.ElementID : SimHashes.Copper;
 			BridgeEndNode node = go.AddComponent<BridgeEndNode>();
 			node.owners.Add(bridge);
+			node.Kind = kind;
 			node.Cell = cell;
-			node.Ribbon = ribbon;
-			node.connectionSource = ConnectionSource.Logic;
+			LogicUtilityNetworkLink logicLink = bridge.GetComponent<LogicUtilityNetworkLink>();
+			node.Ribbon = logicLink != null && logicLink.bitDepth == LogicWire.BitDepth.FourBit;
+			node.connectionSource = kind.Source;
 			node.isPhysicalBuilding = true;
 			// In the registry from the start, not from OnSpawn (which runs at the next Start phase):
 			// two bridges sharing this cell create in the same scheduler tick, and the second must
 			// find and adopt this node rather than make its own. Everything that reads the
 			// registry checks that the node is registered with the manager before acting on it.
-			byCell[cell] = node;
+			kind.Nodes[cell] = node;
 			go.SetActive(true);
 			return node;
 		}
@@ -104,12 +94,16 @@ namespace DirectAutomationBridges
 		/// Not the base OnSpawn: that one ends in TileVisualizer.RefreshCell through
 		/// GetComponent&lt;Building&gt;().Def, and the node has no Building. The three
 		/// registrations are the ones a wire makes (BuildingDef.Build marks the tile layer,
-		/// KAnimGraphTileVisualizer.OnSpawn sets the node, LogicWire.OnSpawn adds the item).
+		/// KAnimGraphTileVisualizer.OnSpawn sets the node, LogicWire.OnSpawn or Wire.OnSpawn adds
+		/// the item).
 		/// </summary>
 		protected override void OnSpawn()
 		{
 			connectionManager = ConnectionManager;
 			controller = GetComponent<KBatchedAnimController>();
+			// The wire art has an "outline" symbol, a white band behind any segment, which a real
+			// wire hides as it spawns (Wire.OnSpawn, LogicWire.OnSpawn); same name in both.
+			controller.SetSymbolVisiblity(Wire.OutlineSymbol, is_visible: false);
 			if (Grid.Objects[Cell, TileLayer] != null)
 			{
 				// Something took the cell between the bridge's check and this frame's Start.
@@ -118,10 +112,10 @@ namespace DirectAutomationBridges
 				return;
 			}
 			Grid.Objects[Cell, TileLayer] = gameObject;
-			Game.Instance.logicCircuitSystem.AddToNetworks(Cell, this, is_endpoint: false);
+			Kind.Manager.AddToNetworks(Cell, this, is_endpoint: false);
 			registered = true;
 			RefreshFromNeighbours();
-			UtilityConnections inherited = DirectBridge.TakeInherited(Cell);
+			UtilityConnections inherited = JumperBridge.TakeInherited(Kind, Cell);
 			if (inherited != 0)
 				InheritFromWire(inherited);
 		}
@@ -144,15 +138,15 @@ namespace DirectAutomationBridges
 				if (!Grid.IsValidCell(neighbour))
 					continue;
 				KAnimGraphTileVisualizer other = null;
-				if (byCell.TryGetValue(neighbour, out BridgeEndNode node) && node != null && node.registered)
+				if (Kind.Nodes.TryGetValue(neighbour, out BridgeEndNode node) && node != null && node.registered)
 					other = node;
-				else if (Grid.Objects[neighbour, (int)ObjectLayer.LogicWire] != null)
-					other = Grid.Objects[neighbour, (int)ObjectLayer.LogicWire].GetComponent<KAnimGraphTileVisualizer>();
+				else if (Grid.Objects[neighbour, (int)Kind.WireLayer] != null)
+					other = Grid.Objects[neighbour, (int)Kind.WireLayer].GetComponent<KAnimGraphTileVisualizer>();
 				if (other != null && (other.Connections & direction.InverseDirection()) != 0)
 					other.UpdateConnections(other.Connections);
 			}
 			SetBits(connections);
-			Debug.Log(DirectAutomationBridgesMod.LogPrefix + "end node at " + Cell + " inherited " + connections + " from the wire that left");
+			Debug.Log(JumperBridgesMod.LogPrefix + Kind + " end node at " + Cell + " inherited " + connections + " from the wire that left");
 		}
 
 		/// <summary>Not the base OnCleanUp either (same Building dereference); Release is idempotent.</summary>
@@ -171,9 +165,9 @@ namespace DirectAutomationBridges
 			if (released)
 				return;
 			released = true;
-			if (byCell.TryGetValue(Cell, out BridgeEndNode current) && current == this)
-				byCell.Remove(Cell);
-			foreach (DirectBridge owner in owners.ToArray())
+			if (Kind.Nodes.TryGetValue(Cell, out BridgeEndNode current) && current == this)
+				Kind.Nodes.Remove(Cell);
+			foreach (JumperBridge owner in owners.ToArray())
 				if (owner != null)
 					owner.Forget(this);
 			owners.Clear();
@@ -181,9 +175,8 @@ namespace DirectAutomationBridges
 				return;
 			if (Grid.Objects[Cell, TileLayer] == gameObject)
 				Grid.Objects[Cell, TileLayer] = null;
-			UtilityNetworkManager<LogicCircuitNetwork, LogicWire> system = Game.Instance.logicCircuitSystem;
-			Dictionary<int, object> items = (Dictionary<int, object>)ItemsField.GetValue(system);
-			if (items.TryGetValue(Cell, out object item) && ReferenceEquals(item, this))
+			IUtilityNetworkMgr system = Kind.Manager;
+			if (Kind.Items.TryGetValue(Cell, out object item) && ReferenceEquals(item, this))
 			{
 				// RemoveFromNetworks sends the port at this cell its disconnect, as a wire's removal does.
 				system.RemoveFromNetworks(Cell, this, is_endpoint: false);
@@ -193,19 +186,19 @@ namespace DirectAutomationBridges
 			// stored Connections; a wire's removal fixes that through this call, which has every
 			// neighbour Refresh() from the grid. Without it the stale bit would be saved, and would
 			// reconnect a node recreated here on the next load without any drag.
-			TileVisualizer.RefreshCell(Cell, ObjectLayer.LogicWireTile, ObjectLayer.ReplacementLogicWire);
-			RefreshNeighbours(Cell);
+			TileVisualizer.RefreshCell(Cell, Kind.TileLayer, Kind.ReplacementLayer);
+			RefreshNeighbours(Kind, Cell);
 		}
 
 		/// <summary>A second bridge with an end on this cell shares the node.</summary>
-		public void AddOwner(DirectBridge bridge)
+		public void AddOwner(JumperBridge bridge)
 		{
 			if (!owners.Contains(bridge))
 				owners.Add(bridge);
 		}
 
 		/// <summary>An owner is going; the node stays for the others and leaves with the last.</summary>
-		public void Disown(DirectBridge bridge)
+		public void Disown(JumperBridge bridge)
 		{
 			owners.Remove(bridge);
 			if (owners.Count > 0 || released)
@@ -219,7 +212,7 @@ namespace DirectAutomationBridges
 		{
 			if (released || !registered)
 				return;
-			Game.Instance.logicCircuitSystem.SetConnections(bits, Cell, is_physical_building: true);
+			Kind.Manager.SetConnections(bits, Cell, is_physical_building: true);
 			RedrawWithNeighbours();
 		}
 
@@ -232,7 +225,7 @@ namespace DirectAutomationBridges
 		private void RedrawWithNeighbours()
 		{
 			Refresh();
-			TileVisualizer.RefreshCell(Cell, ObjectLayer.LogicWireTile, ObjectLayer.ReplacementLogicWire);
+			TileVisualizer.RefreshCell(Cell, Kind.TileLayer, Kind.ReplacementLayer);
 		}
 
 		/// <summary>
@@ -246,13 +239,13 @@ namespace DirectAutomationBridges
 		{
 			if (released || !registered || remove == 0)
 				return;
-			UtilityNetworkManager<LogicCircuitNetwork, LogicWire> system = Game.Instance.logicCircuitSystem;
+			IUtilityNetworkMgr system = Kind.Manager;
 			foreach (UtilityConnections direction in Directions)
 			{
 				if ((remove & direction) == 0)
 					continue;
 				int neighbour = direction.CellInDirection(Cell);
-				if (Grid.IsValidCell(neighbour) && byCell.TryGetValue(neighbour, out BridgeEndNode other) && other != null)
+				if (Grid.IsValidCell(neighbour) && Kind.Nodes.TryGetValue(neighbour, out BridgeEndNode other) && other != null)
 					other.SetBits(system.GetConnections(neighbour, is_physical_building: false) & ~direction.InverseDirection());
 			}
 			SetBits(system.GetConnections(Cell, is_physical_building: false) & ~remove);
@@ -274,7 +267,7 @@ namespace DirectAutomationBridges
 		{
 			if (released || !registered)
 				return;
-			UtilityNetworkManager<LogicCircuitNetwork, LogicWire> system = Game.Instance.logicCircuitSystem;
+			IUtilityNetworkMgr system = Kind.Manager;
 			UtilityConnections bits = 0;
 			Vector2I xy = Grid.CellToXY(Cell);
 			if (xy.x > 0 && (system.GetDisplayConnections(Grid.CellLeft(Cell)) & UtilityConnections.Right) != 0)
@@ -290,39 +283,39 @@ namespace DirectAutomationBridges
 		}
 
 		/// <summary>Recomputes the nodes in the four cells around a cell whose wire just changed.</summary>
-		public static void RefreshNeighbours(int cell)
+		public static void RefreshNeighbours(BridgeKind kind, int cell)
 		{
 			Vector2I xy = Grid.CellToXY(cell);
 			if (xy.x > 0)
-				RefreshAt(Grid.CellLeft(cell));
+				RefreshAt(kind, Grid.CellLeft(cell));
 			if (xy.x < Grid.WidthInCells - 1)
-				RefreshAt(Grid.CellRight(cell));
+				RefreshAt(kind, Grid.CellRight(cell));
 			if (xy.y > 0)
-				RefreshAt(Grid.CellBelow(cell));
+				RefreshAt(kind, Grid.CellBelow(cell));
 			if (xy.y < Grid.HeightInCells - 1)
-				RefreshAt(Grid.CellAbove(cell));
+				RefreshAt(kind, Grid.CellAbove(cell));
 		}
 
-		private static void RefreshAt(int cell)
+		private static void RefreshAt(BridgeKind kind, int cell)
 		{
-			if (byCell.TryGetValue(cell, out BridgeEndNode node) && node != null)
+			if (kind.Nodes.TryGetValue(cell, out BridgeEndNode node) && node != null)
 				node.RefreshFromNeighbours();
 		}
 
 		/// <summary>After a wire drag: the drag writes display bits into node cells it passed through.</summary>
-		public static void RefreshAll()
+		public static void RefreshAll(BridgeKind kind)
 		{
-			if (byCell.Count == 0)
+			if (kind.Nodes.Count == 0)
 				return;
-			foreach (BridgeEndNode node in new List<BridgeEndNode>(byCell.Values))
+			foreach (BridgeEndNode node in new List<BridgeEndNode>(kind.Nodes.Values))
 				if (node != null)
 					node.RefreshFromNeighbours();
 		}
 
 		/// <summary>A real wire is spawning on the cell: the node steps aside before the wire registers.</summary>
-		public static void Evict(int cell)
+		public static void Evict(BridgeKind kind, int cell)
 		{
-			if (!byCell.TryGetValue(cell, out BridgeEndNode node) || node == null)
+			if (!kind.Nodes.TryGetValue(cell, out BridgeEndNode node) || node == null)
 				return;
 			node.Release();
 			Util.KDestroyGameObject(node.gameObject);
@@ -333,7 +326,7 @@ namespace DirectAutomationBridges
 		/// masked camera layer; it finds them through their SaveLoadRoot and prefab tag, which the
 		/// node has neither of, so the same colouring is applied here from the overlay's Update.
 		/// </summary>
-		public void ApplyOverlay(int layer, Color32 on, Color32 off, HashSet<UtilityNetwork> highlighted, float highlightScale)
+		public void ApplyLogicOverlay(int layer, Color32 on, Color32 off, HashSet<UtilityNetwork> highlighted, float highlightScale)
 		{
 			if (controller == null)
 				return;
@@ -354,12 +347,23 @@ namespace DirectAutomationBridges
 		private static Color32 Tint(LogicCircuitNetwork network, int bit, Color32 on, Color32 off, bool scale, float highlightScale)
 		{
 			Color32 tint = network != null && network.IsBitActive(bit) ? on : off;
-			if (scale)
-			{
-				tint.r = (byte)(tint.r * highlightScale);
-				tint.g = (byte)(tint.g * highlightScale);
-				tint.b = (byte)(tint.b * highlightScale);
-			}
+			return scale ? Scaled(tint, highlightScale) : tint;
+		}
+
+		/// <summary>The power overlay's colouring, worked out by the caller from the circuit at this cell.</summary>
+		public void ApplyPowerOverlay(int layer, Color32 tint)
+		{
+			if (controller == null)
+				return;
+			controller.SetLayer(layer);
+			controller.TintColour = tint;
+		}
+
+		public static Color32 Scaled(Color32 tint, float scale)
+		{
+			tint.r = (byte)(tint.r * scale);
+			tint.g = (byte)(tint.g * scale);
+			tint.b = (byte)(tint.b * scale);
 			return tint;
 		}
 

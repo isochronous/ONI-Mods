@@ -3,14 +3,14 @@
   <Import Project="$(OniCommon)oni-mod.props" />
 
   <PropertyGroup>
-    <AssemblyName>DirectAutomationBridges.Tests</AssemblyName>
-    <RootNamespace>DirectAutomationBridges.Tests</RootNamespace>
+    <AssemblyName>JumperBridges.Tests</AssemblyName>
+    <RootNamespace>JumperBridges.Tests</RootNamespace>
     <!-- Never deployed as a mod; the TestRunner launcher copies the DLL into its run folder. -->
     <ModDeployFolder>none</ModDeployFolder>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DirectAutomationBridges\DirectAutomationBridges.csproj" Private="false" />
+    <ProjectReference Include="..\JumperBridges\JumperBridges.csproj" Private="false" />
     <ProjectReference Include="$(OniCommon)tools\TestRunner\TestRunner.csproj" Private="false" />
   </ItemGroup>
 

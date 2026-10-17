@@ -15,11 +15,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "detect-any-element", "detec
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DetectAnyElement", "mods\detect-any-element\src\DetectAnyElement\DetectAnyElement.csproj", "{9DDBBE6E-D7EE-4868-BD38-9BBFA4519321}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "direct-automation-bridges", "direct-automation-bridges", "{CAB2A95D-A516-4BEC-8A91-72684FD10E51}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "jumper-bridges", "jumper-bridges", "{CAB2A95D-A516-4BEC-8A91-72684FD10E51}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DirectAutomationBridges.Tests", "mods\direct-automation-bridges\src\DirectAutomationBridges.Tests\DirectAutomationBridges.Tests.csproj", "{11B43F5D-9AA5-48A4-867C-395ACEE49554}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JumperBridges.Tests", "mods\jumper-bridges\src\JumperBridges.Tests\JumperBridges.Tests.csproj", "{11B43F5D-9AA5-48A4-867C-395ACEE49554}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DirectAutomationBridges", "mods\direct-automation-bridges\src\DirectAutomationBridges\DirectAutomationBridges.csproj", "{53FE9A71-CA28-4E1A-919A-8B4060EBEC90}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JumperBridges", "mods\jumper-bridges\src\JumperBridges\JumperBridges.csproj", "{53FE9A71-CA28-4E1A-919A-8B4060EBEC90}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dont-count-eggs-on-rails", "dont-count-eggs-on-rails", "{DB35A6E0-A4AE-45CC-829E-99C81D5D193D}"
 EndProject

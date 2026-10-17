@@ -2,7 +2,7 @@ using System.Collections;
 using Isochronous.TestKit;
 using UnityEngine;
 
-namespace DirectAutomationBridges.Tests
+namespace JumperBridges.Tests
 {
 	/// <summary>
 	/// Wires meeting bridge ends, driven through the real wire tool: the bug this guards lives
@@ -11,7 +11,7 @@ namespace DirectAutomationBridges.Tests
 	/// </summary>
 	public static class WireDrags
 	{
-		[OniTest("DAB: wire dragged from a bridge end to its neighbour draws both ways", Timeout = 30), Layer(1)]
+		[OniTest("Jumper Bridges: wire dragged from a bridge end to its neighbour draws both ways", Timeout = 30), Layer(1)]
 		public static IEnumerator DragFromEnd(TestContext t)
 		{
 			CellRect r = t.Rect(6, 1);
@@ -19,7 +19,7 @@ namespace DirectAutomationBridges.Tests
 			int end = r.Cell(2, 0);
 			int middle = r.Cell(3, 0);
 			t.World.Build("LogicWireBridge", middle);
-			yield return t.WaitUntil(() => BridgeEndNode.TryGet(end, out _), 3, "the bridge's end node at " + Cells.Describe(end));
+			yield return t.WaitUntil(() => BridgeEndNode.TryGet(BridgeKind.Logic, end, out _), 3, "the bridge's end node at " + Cells.Describe(end));
 			t.Assert.Eq((UtilityConnections)0, t.World.LogicConnections(end), "the fresh end has no connections");
 
 			UtilityDragSession wire = t.Tools.UtilityTool("LogicWire");
@@ -33,7 +33,7 @@ namespace DirectAutomationBridges.Tests
 			t.Assert.NotNull(t.World.At(neighbour, ObjectLayer.LogicWire), "a wire on the neighbour cell");
 			t.Assert.Has(UtilityConnections.Right, t.World.LogicConnections(neighbour), "the wire draws into the end");
 			t.Assert.Has(UtilityConnections.Left, t.World.LogicConnections(end), "the end draws back to the wire");
-			t.Assert.True(BridgeEndNode.TryGet(end, out BridgeEndNode node) && node != null, "the end node is still there");
+			t.Assert.True(BridgeEndNode.TryGet(BridgeKind.Logic, end, out BridgeEndNode node) && node != null, "the end node is still there");
 
 			yield return t.WaitGameSeconds(0.3);
 			LogicCircuitNetwork network = t.World.LogicNetwork(neighbour);
@@ -66,7 +66,7 @@ namespace DirectAutomationBridges.Tests
 		/// the queued wire is the mod's doing alone (the end mirrors its neighbours' display bits
 		/// after the drag), which is what makes this the regression test for the tool-path patches.
 		/// </summary>
-		[OniTest("DAB: wire dragged from a bridge end to its neighbour, as an order, draws the end's segment at once", Timeout = 30), Layer(1)]
+		[OniTest("Jumper Bridges: wire dragged from a bridge end to its neighbour, as an order, draws the end's segment at once", Timeout = 30), Layer(1)]
 		public static IEnumerator DragFromEndQueued(TestContext t)
 		{
 			CellRect r = t.Rect(6, 1);
@@ -74,7 +74,7 @@ namespace DirectAutomationBridges.Tests
 			int end = r.Cell(2, 0);
 			int middle = r.Cell(3, 0);
 			t.World.Build("LogicWireBridge", middle);
-			yield return t.WaitUntil(() => BridgeEndNode.TryGet(end, out _), 3, "the bridge's end node at " + Cells.Describe(end));
+			yield return t.WaitUntil(() => BridgeEndNode.TryGet(BridgeKind.Logic, end, out _), 3, "the bridge's end node at " + Cells.Describe(end));
 			t.InstantBuild(false);
 
 			UtilityDragSession wire = t.Tools.UtilityTool("LogicWire");
@@ -93,7 +93,7 @@ namespace DirectAutomationBridges.Tests
 			// for wires as for ends), so toward a queued order the segment lives in the display grid,
 			// which is what the wire art is drawn from.
 			t.Assert.Has(UtilityConnections.Left, Game.Instance.logicCircuitSystem.GetDisplayConnections(end), "the end draws back toward the queued wire");
-			t.Assert.True(BridgeEndNode.TryGet(end, out BridgeEndNode node) && node != null, "the end node is still there");
+			t.Assert.True(BridgeEndNode.TryGet(BridgeKind.Logic, end, out BridgeEndNode node) && node != null, "the end node is still there");
 		}
 	}
 }

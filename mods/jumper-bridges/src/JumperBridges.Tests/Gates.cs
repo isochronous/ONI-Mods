@@ -2,7 +2,7 @@ using System.Collections;
 using Isochronous.TestKit;
 using UnityEngine;
 
-namespace DirectAutomationBridges.Tests
+namespace JumperBridges.Tests
 {
 	/// <summary>
 	/// A bridge from a wire to a logic gate's input port. Reported in game: a bridge built from a
@@ -10,7 +10,7 @@ namespace DirectAutomationBridges.Tests
 	/// </summary>
 	public static class Gates
 	{
-		[OniTest("DAB: bridge from a red wire to a gate's input puts the input on the wire's network", Timeout = 40), Layer(1)]
+		[OniTest("Jumper Bridges: bridge from a red wire to a gate's input puts the input on the wire's network", Timeout = 40), Layer(1)]
 		public static IEnumerator RedWireToGateInput(TestContext t)
 		{
 			CellRect r = t.Rect(8, 1);
@@ -31,12 +31,12 @@ namespace DirectAutomationBridges.Tests
 			t.Assert.Null(t.World.LogicNetwork(gateInput), "the gate's input is on no network before the bridge");
 
 			t.World.Build("LogicWireBridge", middle);
-			yield return t.WaitUntil(() => BridgeEndNode.TryGet(gateInput, out _), 3, "the node on the gate's input");
+			yield return t.WaitUntil(() => BridgeEndNode.TryGet(BridgeKind.Logic, gateInput, out _), 3, "the node on the gate's input");
 			yield return t.WaitGameSeconds(0.5);
 
 			LogicCircuitNetwork wire = t.World.LogicNetwork(endCell);
 			LogicCircuitNetwork input = t.World.LogicNetwork(gateInput);
-			Debug.Log("[DAB test] wire network " + (wire != null ? wire.id.ToString() : "none") + ", gate input network " + (input != null ? input.id.ToString() : "none")
+			Debug.Log("[Jumper Bridges test] wire network " + (wire != null ? wire.id.ToString() : "none") + ", gate input network " + (input != null ? input.id.ToString() : "none")
 				+ ", node connections " + t.World.LogicConnections(gateInput) + ", end connections " + t.World.LogicConnections(endCell));
 			t.Assert.NotNull(input, "the gate's input is on a network");
 			t.Assert.True(ReferenceEquals(wire, input), "the gate's input is on the wire's network");
@@ -47,7 +47,7 @@ namespace DirectAutomationBridges.Tests
 		/// The same, built while the game is paused, as the report was: the input must join the
 		/// wire's network without the game running.
 		/// </summary>
-		[OniTest("DAB: bridge built while paused connects a gate's input at once", Timeout = 40), Layer(1)]
+		[OniTest("Jumper Bridges: bridge built while paused connects a gate's input at once", Timeout = 40), Layer(1)]
 		public static IEnumerator BuiltWhilePaused(TestContext t)
 		{
 			CellRect r = t.Rect(8, 1);
@@ -76,7 +76,7 @@ namespace DirectAutomationBridges.Tests
 			t.World.Build("LogicWireBridge", r.Cell(4, 0));
 			yield return t.WaitRealSeconds(1);
 			t.Assert.True(speed.IsPaused, "the game is still paused");
-			t.Assert.True(BridgeEndNode.TryGet(gateInput, out _), "the node on the gate's input, while paused");
+			t.Assert.True(BridgeEndNode.TryGet(BridgeKind.Logic, gateInput, out _), "the node on the gate's input, while paused");
 			LogicCircuitNetwork input = t.World.LogicNetwork(gateInput);
 			t.Assert.NotNull(input, "the gate's input is on a network while paused");
 			t.Assert.True(ReferenceEquals(t.World.LogicNetwork(endCell), input), "the gate's input is on the wire's network while paused");
@@ -113,7 +113,7 @@ namespace DirectAutomationBridges.Tests
 			drag.Dispose();
 			yield return t.WaitGameSeconds(0.5);
 			t.World.Build("LogicWireBridge", r.Cell(4, 2));
-			yield return t.WaitUntil(() => BridgeEndNode.TryGet(r.Cell(5, 2), out _), 3, "the node on the upper gate's input");
+			yield return t.WaitUntil(() => BridgeEndNode.TryGet(BridgeKind.Logic, r.Cell(5, 2), out _), 3, "the node on the upper gate's input");
 			yield return t.WaitGameSeconds(1);
 			CameraController.Instance.SnapTo(Grid.CellToPosCCC(r.Cell(4, 1), Grid.SceneLayer.Building), 5f);
 			yield return t.WaitRealSeconds(1);

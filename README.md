@@ -7,8 +7,8 @@
 | Bitshifter | [mods/bitshifter](mods/bitshifter) |
 | Corner Build Anything | [mods/corner-build-anything](mods/corner-build-anything) |
 | Detect Any Element | [mods/detect-any-element](mods/detect-any-element) |
-| Direct Automation Bridges | [mods/direct-automation-bridges](mods/direct-automation-bridges) |
 | Don't Count Eggs on Rails | [mods/dont-count-eggs-on-rails](mods/dont-count-eggs-on-rails) |
+| Jumper Bridges | [mods/jumper-bridges](mods/jumper-bridges) |
 | Just Fall Already! | [mods/just-fall-already](mods/just-fall-already) |
 | Motion Sensor Range | [mods/motion-sensor-range](mods/motion-sensor-range) |
 | Multichannel Critter Sensor | [mods/multichannel-critter-sensor](mods/multichannel-critter-sensor) |

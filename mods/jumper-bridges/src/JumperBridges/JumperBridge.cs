@@ -4,29 +4,30 @@ using System.Reflection;
 using HarmonyLib;
 using UnityEngine;
 
-namespace DirectAutomationBridges
+namespace JumperBridges
 {
 	/// <summary>
-	/// On every complete automation bridge. Gives each end that has no wire under it a
+	/// On every complete bridge of an enabled kind. Gives each end that has no wire under it a
 	/// BridgeEndNode, so the bridge conducts into whatever port is at that cell, and takes the
 	/// nodes away when the bridge goes, breaks, or a real wire arrives. Creation is deferred a
 	/// frame so that on load every saved wire has marked its cell before the bridge looks.
 	/// </summary>
-	public sealed class DirectBridge : KMonoBehaviour
+	public sealed class JumperBridge : KMonoBehaviour
 	{
 		/// <summary>UtilityNetworkLink.connected is private; a broken bridge has no link and gets no nodes.</summary>
 		private static readonly FieldInfo ConnectedField = AccessTools.Field(typeof(UtilityNetworkLink), "connected");
 
-		[MyCmpReq] private LogicUtilityNetworkLink link;
+		[MyCmpReq] private UtilityNetworkLink link;
 
 		private readonly BridgeEndNode[] nodes = new BridgeEndNode[2];
 		private SchedulerHandle pending;
 
-		private bool Ribbon => link.bitDepth == LogicWire.BitDepth.FourBit;
+		public BridgeKind Kind { get; private set; }
 
 		protected override void OnSpawn()
 		{
 			base.OnSpawn();
+			Kind = BridgeKind.OfBridge(gameObject);
 			Subscribe((int)GameHashes.BuildingBroken, OnBroken);
 			Subscribe((int)GameHashes.BuildingFullyRepaired, OnRepaired);
 			ScheduleCreate();
@@ -52,20 +53,20 @@ namespace DirectAutomationBridges
 		/// takes its place (see KAnimGraphTileVisualizer_OnCleanUp_Patch); consumed by the
 		/// node when it spawns.
 		/// </summary>
-		private static readonly Dictionary<int, UtilityConnections> inherited = new Dictionary<int, UtilityConnections>();
+		private static readonly Dictionary<(BridgeKind, int), UtilityConnections> inherited = new Dictionary<(BridgeKind, int), UtilityConnections>();
 
-		public static void Inherit(int cell, UtilityConnections connections)
+		public static void Inherit(BridgeKind kind, int cell, UtilityConnections connections)
 		{
 			if (connections != 0)
-				inherited[cell] = connections;
+				inherited[(kind, cell)] = connections;
 		}
 
 		/// <summary>What a node at the cell inherits, once; nothing when no wire just left it.</summary>
-		public static UtilityConnections TakeInherited(int cell)
+		public static UtilityConnections TakeInherited(BridgeKind kind, int cell)
 		{
-			if (!inherited.TryGetValue(cell, out UtilityConnections connections))
+			if (!inherited.TryGetValue((kind, cell), out UtilityConnections connections))
 				return 0;
-			inherited.Remove(cell);
+			inherited.Remove((kind, cell));
 			return connections;
 		}
 
@@ -79,18 +80,18 @@ namespace DirectAutomationBridges
 		{
 			if (pending.IsValid)
 				return;
-			pending = UIScheduler.Instance.ScheduleNextFrame("DirectBridge.CreateNodes", CreateNodes);
+			pending = UIScheduler.Instance.ScheduleNextFrame("JumperBridge.CreateNodes", CreateNodes);
 		}
 
 		private void CreateNodes(object data)
 		{
 			pending = default;
-			if (this == null || link == null || !(bool)ConnectedField.GetValue(link))
+			if (this == null || link == null || Kind == null || !(bool)ConnectedField.GetValue(link))
 				return;
 			link.GetCells(out int cell1, out int cell2);
 			bool created = EnsureNode(0, cell1) | EnsureNode(1, cell2);
 			if (created)
-				Debug.Log(DirectAutomationBridgesMod.LogPrefix + name + " at " + Grid.PosToCell(this) + ": end nodes at " + Describe(0) + " and " + Describe(1));
+				Debug.Log(JumperBridgesMod.LogPrefix + name + " at " + Grid.PosToCell(this) + ": end nodes at " + Describe(0) + " and " + Describe(1));
 		}
 
 		/// <summary>
@@ -101,28 +102,28 @@ namespace DirectAutomationBridges
 		{
 			if (nodes[index] != null || !Grid.IsValidCell(cell))
 				return false;
-			if (BridgeEndNode.TryGet(cell, out BridgeEndNode shared) && shared != null)
+			if (BridgeEndNode.TryGet(Kind, cell, out BridgeEndNode shared) && shared != null)
 			{
 				shared.AddOwner(this);
 				nodes[index] = shared;
 				return true;
 			}
-			if (Grid.Objects[cell, BridgeEndNode.TileLayer] != null)
+			if (Grid.Objects[cell, (int)Kind.TileLayer] != null)
 				return false;
-			nodes[index] = BridgeEndNode.Create(this, cell, Ribbon);
+			nodes[index] = BridgeEndNode.Create(this, Kind, cell);
 			return true;
 		}
 
 		private string Describe(int index) => nodes[index] != null ? nodes[index].Cell.ToString() : "(wire)";
 
-		/// <summary>Every complete bridge with an end or its middle on the cell.</summary>
-		public static List<DirectBridge> At(int cell)
+		/// <summary>Every complete bridge of the kind with an end or its middle on the cell.</summary>
+		public static List<JumperBridge> At(BridgeKind kind, int cell)
 		{
-			List<DirectBridge> result = new List<DirectBridge>();
+			List<JumperBridge> result = new List<JumperBridge>();
 			foreach (GameObject go in BridgeFootprint.At(cell))
 			{
-				DirectBridge bridge = go.GetComponent<DirectBridge>();
-				if (bridge != null)
+				JumperBridge bridge = go.GetComponent<JumperBridge>();
+				if (bridge != null && bridge.Kind == kind)
 					result.Add(bridge);
 			}
 			return result;
@@ -149,7 +150,7 @@ namespace DirectAutomationBridges
 				removed = true;
 			}
 			if (removed)
-				Debug.Log(DirectAutomationBridgesMod.LogPrefix + name + " at " + Grid.PosToCell(this) + ": end nodes removed");
+				Debug.Log(JumperBridgesMod.LogPrefix + name + " at " + Grid.PosToCell(this) + ": end nodes removed");
 		}
 	}
 }

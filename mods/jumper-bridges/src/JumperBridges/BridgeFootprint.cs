@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace DirectAutomationBridges
+namespace JumperBridges
 {
 	/// <summary>
 	/// Where every bridge is, by cell, for the tools that sweep Grid.Objects. The game only puts a
-	/// bridge on the LogicGate layer at its two end cells, and this mod stops a bridge from taking
-	/// that layer slot away from a gate or an earlier bridge (BuildingDef.MarkArea prefix), so a
-	/// bridge whose end cells are both taken is on no layer at all. The deconstruct, cancel and
+	/// bridge on its kind's end layer (LogicGate, WireConnectors) at its two end cells, and this mod
+	/// stops a bridge from taking that layer slot away from a port or an earlier bridge
+	/// (BuildingDef.MarkArea prefix), so a bridge whose end cells are both taken is on no layer at all. The deconstruct, cancel and
 	/// prioritize tools then find it here instead, by its end cells. On the under-construction
 	/// and the complete prefab.
 	/// </summary>
@@ -16,10 +16,14 @@ namespace DirectAutomationBridges
 	{
 		private static readonly Dictionary<int, List<BridgeFootprint>> byCell = new Dictionary<int, List<BridgeFootprint>>();
 
-		[MyCmpReq] private LogicUtilityNetworkLink link;
+		[MyCmpReq] private UtilityNetworkLink link;
 
 		private readonly List<int> cells = new List<int>(3);
 		private int end1 = Grid.InvalidCell, end2 = Grid.InvalidCell;
+
+		public BridgeKind Kind { get; private set; }
+
+		public bool IsEnd(int cell) => cell == end1 || cell == end2;
 
 		/// <summary>The bridges with an end on the cell; a fresh list.</summary>
 		public static List<GameObject> EndsAt(int cell)
@@ -27,7 +31,7 @@ namespace DirectAutomationBridges
 			List<GameObject> result = new List<GameObject>();
 			if (byCell.TryGetValue(cell, out List<BridgeFootprint> list))
 				foreach (BridgeFootprint footprint in list)
-					if (footprint != null && (footprint.end1 == cell || footprint.end2 == cell))
+					if (footprint != null && footprint.IsEnd(cell))
 						result.Add(footprint.gameObject);
 			return result;
 		}
@@ -46,6 +50,7 @@ namespace DirectAutomationBridges
 		protected override void OnSpawn()
 		{
 			base.OnSpawn();
+			Kind = BridgeKind.OfBridge(gameObject);
 			link.GetCells(out end1, out end2);
 			Add(end1);
 			Add(Grid.PosToCell(this));

@@ -1,6 +1,6 @@
-# Direct Automation Bridges
+# Jumper Bridges
 
-An [Oxygen Not Included](https://www.klei.com/games/oxygen-not-included) mod: an Automation Wire Bridge or Automation Ribbon Bridge can be placed with either end directly on any automation port cell, and that port counts as connected.
+An [Oxygen Not Included](https://www.klei.com/games/oxygen-not-included) mod: an Automation Wire Bridge or Automation Ribbon Bridge can be placed with either end directly on any automation port cell, and that port counts as connected. The same goes for power: a Wire Bridge, Conductive Wire Bridge or Insulated Wire Bridge can be placed with either end directly on a power port.
 
 ## What it does
 
@@ -14,40 +14,48 @@ An [Oxygen Not Included](https://www.klei.com/games/oxygen-not-included) mod: an
 
 The bridges' own end ports no longer show in the automation overlay; the bridge art shows its ends.
 
+## Power bridges
+
+A Wire Bridge, Conductive Wire Bridge or Insulated Wire Bridge works the same way on a power network: an end may sit on any building's power input or output, or on another power bridge's end, and draws as a piece of the wire the bridge is the bridge of (plain, conductive or insulated), coloured by its circuit in the power overlay. A building may also be placed with its power port on an existing bridge end. The end piece is not a wire, so the circuit's wattage limit is the bridge's own, as for a bridge whose end sits on a wire. Heavy-watt joint plates are unchanged, and a power bridge end may not sit on a joint plate's end.
+
+## Options
+
+Automation bridges and power bridges can each be turned off in the mod's options (a restart applies the change). A kind that is off is left entirely to the base game.
+
 ## How it works
 
-The automation network is a flood fill over cells that hold a conductor. Each bridge end that has no wire under it gets a bridge end node: a GameObject with no building that makes the three registrations a wire makes (the wire tile layer, a physical network node, a network item), so the game's own rules carry the signal into the port at that cell. The node plays the wire kanim through the game's own `KAnimGraphTileVisualizer`, reading its connection bits from the wires pointing at it; a cell shared by several bridge ends has one node that all of them own. The bridges' two input ports are kept as geometry (the game finds a bridge's end cells through them) but stopped from ever registering as ports, which also removes the base game's silent port displacement when two ports share a cell. Bridges that share end cells have their network links rewritten as a ring over the group's cells, because the network manager keeps one link partner per cell. A bridge never takes the LogicGate layer slot away from a gate or an earlier bridge; the tools that sweep layers find it through the mod's own cell registry instead. The design and the code evidence behind it are in the ONI-Mods workspace's incubator notes, `incubator/direct-automation-bridges/INVESTIGATION.md`, section 6 (sections 1 to 5 are the decompiled evidence it rests on).
+The automation and power networks are both the game's generic utility network: a flood fill over cells that hold a conductor. Everything below applies to both kinds; `BridgeKind` holds the layers, network manager and wire art that differ. Each bridge end that has no wire under it gets a bridge end node: a GameObject with no building that makes the three registrations a wire makes (the wire tile layer, a physical network node, a network item), so the game's own rules carry the signal into the port at that cell. The node plays the wire kanim through the game's own `KAnimGraphTileVisualizer`, reading its connection bits from the wires pointing at it; a cell shared by several bridge ends has one node that all of them own. The bridges' two input ports are kept as geometry (the game finds a bridge's end cells through them) but stopped from ever registering as ports, which also removes the base game's silent port displacement when two ports share a cell. Bridges that share end cells have their network links rewritten as a ring over the group's cells, because the network manager keeps one link partner per cell. A bridge never takes the LogicGate layer slot away from a gate or an earlier bridge; the tools that sweep layers find it through the mod's own cell registry instead. The design and the code evidence behind it are in the ONI-Mods workspace's incubator notes, `incubator/direct-automation-bridges/INVESTIGATION.md`, section 6 (sections 1 to 5 are the decompiled evidence it rests on).
 
-Patches: `LogicPorts.CreatePhysicalPorts`, `DestroyPhysicalPorts` and `CreateVisualizers` (skipped for bridges); `BuildingDef.AreLogicPortsInValidPositions` (no port conflict for bridges) and `MarkArea` (bridges mark only free LogicGate-layer cells and never tag); `LogicWireBridgeConfig` and `LogicRibbonBridgeConfig.DoPostConfigureComplete` and `DoPostConfigureUnderConstruction` (adds `DirectBridge` and `BridgeFootprint`); `LogicUtilityNetworkLink.OnConnect` and `OnDisconnect` (link rings for bridge groups); `KAnimGraphTileVisualizer.OnSpawn`, `UpdateConnections` and `OnCleanUp` (nodes step aside for wires and follow their neighbours); `BaseUtilityBuildTool.BuildPath` (nodes read a drag's bits); `DisconnectTool.OnDragComplete` and `OnMouseMove` (cuts and cut markers at node cells); `DeconstructTool.DeconstructCell`, `CancelTool.OnDragTool` and `PrioritizeTool.OnDragTool` (bridges on no layer); `OverlayModes.Logic.Update` and `Disable` (overlay colouring of nodes).
+Patches: `LogicPorts.CreatePhysicalPorts`, `DestroyPhysicalPorts` and `CreateVisualizers` (skipped for bridges); `BuildingDef.AreLogicPortsInValidPositions` (no port conflict for bridges) and `MarkArea` (bridges mark only free LogicGate-layer cells and never tag); `LogicWireBridgeConfig` and `LogicRibbonBridgeConfig.DoPostConfigureComplete` and `DoPostConfigureUnderConstruction` (adds `JumperBridge` and `BridgeFootprint`); `LogicUtilityNetworkLink.OnConnect` and `OnDisconnect` (link rings for bridge groups); `KAnimGraphTileVisualizer.OnSpawn`, `UpdateConnections` and `OnCleanUp` (nodes step aside for wires and follow their neighbours); `BaseUtilityBuildTool.BuildPath` (nodes read a drag's bits); `DisconnectTool.OnDragComplete` and `OnMouseMove` (cuts and cut markers at node cells); `DeconstructTool.DeconstructCell`, `CancelTool.OnDragTool` and `PrioritizeTool.OnDragTool` (bridges on no layer); `OverlayModes.Logic.Update` and `Disable`, `OverlayModes.Power.Update` and `Disable` (overlay colouring of nodes). Power only: `WireBridgeConfig.DoPostConfigureComplete` and `DoPostConfigureUnderConstruction`; `WireUtilityNetworkLink.OnConnect` and `OnDisconnect`; `BuildingDef.IsValidWireBridgeLocation` (ends on ports and bridge ends allowed, joint plate ends refused), `IsValidHighWattBridgeLocation` (a joint plate end may not land on a bridge end), `ArePowerPortsInValidPositions` (a power port may land on a bridge end) and `MarkOverlappingPorts` (a power bridge is never tagged as overlapping).
 
 ## Installing
 
 As a local mod:
 
-1. Download `DirectAutomationBridges-<version>.zip` from the [latest release](https://github.com/isochronous/direct-automation-bridges/releases/latest).
-2. Extract it into a new folder named `DirectAutomationBridges` inside the game's local mods folder, so that `mod.yaml` ends up directly inside it (create `local` if it does not exist):
-   - Windows: `Documents\Klei\OxygenNotIncluded\mods\local\DirectAutomationBridges`
-   - Linux: `~/.config/unity3d/Klei/Oxygen Not Included/mods/local/DirectAutomationBridges`
+1. Download `JumperBridges-<version>.zip` from the [releases page](https://github.com/isochronous/ONI-Mods/releases?q=jumper-bridges).
+2. Extract it into a new folder named `JumperBridges` inside the game's local mods folder, so that `mod.yaml` ends up directly inside it (create `local` if it does not exist):
+   - Windows: `Documents\Klei\OxygenNotIncluded\mods\local\JumperBridges`
+   - Linux: `~/.config/unity3d/Klei/Oxygen Not Included/mods/local/JumperBridges`
 3. Enable it in the game's Mods menu and restart.
 
 ## Building
 
 ```
-git clone --recurse-submodules https://github.com/isochronous/direct-automation-bridges.git
-dotnet build direct-automation-bridges/src/DirectAutomationBridges -c Release
+git clone https://github.com/isochronous/ONI-Mods.git
+dotnet build ONI-Mods/mods/jumper-bridges/src/JumperBridges -c Release
 ```
 
 The build deploys the mod into the game's local mods folder. See `common/README.md` for the shared build and release tooling.
 
 ## Testing
 
-Automated in-game tests live in `src/DirectAutomationBridges.Tests` and run through the harness in `common/tools/TestRunner` (see its README): the game loads a fixture save, the tests build in a cleared area and drive the real wire tool, and the results land in a run folder.
+Automated in-game tests live in `src/JumperBridges.Tests` and run through the harness in `common/tools/TestRunner` (see its README): the game loads a fixture save, the tests build in a cleared area and drive the real wire tool, and the results land in a run folder.
 
 ```
-pwsh common/tools/TestRunner/Invoke-OniTests.ps1 -Mods DirectAutomationBridges
+pwsh common/tools/TestRunner/Invoke-OniTests.ps1 -Mods JumperBridges
 ```
 
-So far: the sensor-bridge-machine signal check (API layer) and the "wire dragged from a bridge end to its neighbour" check (tool layer). The rest of the checklist below is still done by hand.
+So far: the sensor-bridge-machine signal check, wire drags from a bridge end, gates, wires leaving from under an end, deconstruct by ends, and for power the battery-bridge-lamp circuit, a lamp placed onto a bridge end, a wire drag from an end and deconstruct between two ports. The rest of the checklist below is still done by hand.
 
 In-game checks, from the investigation's sections 5 and 6. Run them in sandbox mode with the automation overlay open; each line is one check.
 

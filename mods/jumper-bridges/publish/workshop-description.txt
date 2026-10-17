@@ -1,0 +1,13 @@
+Wire bridges are just bent wires.
+
+An automation or power bridge can be placed with either end directly on a building's port, and that port counts as connected: the bridge end acts as its own piece of wire, drawn like one, with nothing to build, deconstruct or pay for. Bridges can be daisy-chained, end on end. A wire dragged up to a bridge end joins it as it would join a wire. Bridges whose ends sit on real wires work exactly as before.
+
+[h2]Options[/h2]
+Automation bridges and power bridges can each be turned off in the mod's options. A restart applies the change.
+
+[h2]Compatibility[/h2]
+Works with the base game and all DLCs, on build 744825 (U59) or newer. No dependencies. A new game is not required, and removing the mod leaves plain bridges that need wires under their ends again.
+
+Developed by a professional software developer with assistance from Claude Code. Comes with a no slop guarantee.
+
+Source and issue tracker: https://github.com/isochronous/ONI-Mods
