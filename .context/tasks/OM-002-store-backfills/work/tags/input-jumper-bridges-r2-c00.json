@@ -1,0 +1,366 @@
+{
+ "documents": [
+  {
+   "id": "domains/README.md",
+   "title": "Domains",
+   "description": "Index of the two domain documents of Jumper Bridges, the entities and the glossary, each with a one-line summary of the bridge end subject it covers",
+   "document_tags": [
+    "bridge-end"
+   ],
+   "text": "---\ntags: bridge-end\ndoc_id: doc-0dbbd6348d44\ndescription: Index of the two domain documents of Jumper Bridges, the entities and the glossary, each with a one-line summary of the bridge end subject it covers\n---\n\n# Domains\n\n## Domains\n**Id:** blk-5aefca7333a9\n\nDocuments in this folder:\n\n- [entities](entities.md): Bridge ends on ports, end nodes and link rings, with the key code paths.\n- [glossary](glossary.md): Bridge end nodes, link rings, patches and options.\n",
+   "sections": [
+    {
+     "id": "domains/README.md#domains",
+     "title": "Domains",
+     "text": "## Domains\n**Id:** blk-5aefca7333a9\n\nDocuments in this folder:\n\n- [entities](entities.md): Bridge ends on ports, end nodes and link rings, with the key code paths.\n- [glossary](glossary.md): Bridge end nodes, link rings, patches and options.\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "domains/entities.md",
+   "title": "Jumper Bridges domain",
+   "description": "The classes, options, Harmony patches and saved state of Jumper Bridges (`JumperBridge`, `BridgeEndNode`, `BridgeKind`, `BridgeLinks`, `BridgeFootprint`), with the bridge end rules, key code paths and tests",
+   "document_tags": [
+    "bridge-end"
+   ],
+   "text": "---\ntags: bridge-end\nwitness_digest: \"sha256:ef46729018139a2309bdcd5cdc1cb45c601d5d52cc19e58efd8b43fca4df915d\"\nwitness: loose\napplies_to:\n  - \"src/JumperBridges/**\"\ndoc_id: doc-dfca545db3a4\ndescription: \"The classes, options, Harmony patches and saved state of Jumper Bridges (`JumperBridge`, `BridgeEndNode`, `BridgeKind`, `BridgeLinks`, `BridgeFootprint`), with the bridge end rules, key code paths and tests\"\n---\n\n# Jumper Bridges domain\n\n## Overview\n**Id:** blk-934528d428c9  \n**Tags:** utility-network\n\nJumper Bridges lets an Automation Wire Bridge or Automation Ribbon Bridge, and a Wire Bridge, Conductive Wire Bridge or Insulated Wire Bridge, be placed with either end directly on a port cell, with that port counting as connected. It adds no buildings. A bridge end with no wire under it gets a stand-in node that makes the game's own network rules carry the signal or current into the port. Source is in `mods/jumper-bridges/src/JumperBridges/`.\n\n## Key Entities\n**Id:** blk-dbb08ca2d7f3\n\n### JumperBridgesMod\n**Id:** blk-45611b9a4ffc  \n**Tags:** mod-entry-point, mod-options, mod-strings  \n**Description**: The `UserMod2` entry point. Loads `Options` before `base.OnLoad` (which applies the patches) and sets each `BridgeKind.Enabled`, so a kind that is off has its patches skipped through `Prepare()`. Then initializes PLib, registers `ModStrings` with `Isochronous.Translations` and registers the options screen.  \n**Location**: `mods/jumper-bridges/src/JumperBridges/Mod.cs`\n\n### Options\n**Id:** blk-f92ca7ddeb23  \n**Tags:** mod-options, mod-strings  \n**Description**: PLib options saved in the shared config location, both restart-required.  \n**Location**: `mods/jumper-bridges/src/JumperBridges/Options.cs`\n\n| Property | Type | Description |\n|----------|------|-------------|\n| AutomationBridges | bool (default true) | Direct automation bridges; off leaves automation bridges to the base game |\n| PowerBridges | bool (default true) | Direct power bridges; off leaves power bridges to the base game |\n\n**Relationships**: option names and tooltips are string keys under `STRINGS.JUMPERBRIDGES.OPTIONS` defined in `ModStrings.cs`; translations load from `translations/<locale>.po`.\n\n### BridgeKind\n**Id:** blk-e978d080073f  \n**Tags:** utility-network  \n**Description**: What differs between automation and power: the network manager, layers and wire art. Two instances, `Logic` and `Power`, in `BridgeKind.All`. Each keeps its own live node table, so an automation and a power bridge end on one cell are on two separate networks. `Of(BuildingDef)` maps `BuildLocationRule.LogicBridge` to Logic and `BuildLocationRule.WireBridge` to Power; the heavy-watt joint plates have their own rule and are left alone.  \n**Location**: `mods/jumper-bridges/src/JumperBridges/BridgeKind.cs`\n\n| Property | Type | Description |\n|----------|------|-------------|\n| Source | ConnectionSource | `Logic` or `Electrical` |\n| TileLayer / WireLayer / ReplacementLayer / EndLayer | ObjectLayer | Logic: LogicWireTile, LogicWire, ReplacementLogicWire, LogicGate. Power: WireTile, Wire, ReplacementWire, WireConnectors |\n| SceneLayer | Grid.SceneLayer | LogicWires or Wires |\n| Enabled | bool | Set from the options at load |\n| Nodes | Dictionary<int, BridgeEndNode> | Live nodes by cell, one per cell |\n| Manager, Items, Links | game network manager and its private `items` and `links` tables | Read by reflection on cold paths |\n\n**Relationships**: `NodeAnim` picks the wire kanim a node plays: `logic_wires_kanim` or `logic_ribbon_kanim` (by the link's bit depth), and for power `utilities_electric_kanim`, `utilities_electric_conduct_kanim` or `utilities_electric_rubber_kanim`.\n\n### JumperBridge\n**Id:** blk-c5d470758241  \n**Tags:** game-component  \n**Description**: `KMonoBehaviour` on every complete bridge of an enabled kind. Gives each end that has no wire under it a `BridgeEndNode` (creation deferred a frame so a loaded save's wires have marked their cells first), removes the nodes when the bridge is deconstructed or broken (`BuildingBroken`) and recreates them on repair (`BuildingFullyRepaired`).  \n**Location**: `mods/jumper-bridges/src/JumperBridges/JumperBridge.cs`\n\n**Relationships**: requires `UtilityNetworkLink`; owns up to two `BridgeEndNode`s; `Inherit` passes a leaving wire's connections to the node that replaces it.\n\n### BridgeEndNode\n**Id:** blk-a0f2a41a1467  \n**Tags:** game-component, utility-network  \n**Description**: A `KAnimGraphTileVisualizer` on a standalone GameObject (no building) that stands in for a wire under a bridge end. It makes the three registrations a wire makes: the wire tile layer, a physical network node with connection bits and a network item at the cell, so the port there is told it is connected. It plays the wire kanim and mirrors the connection bits its neighbours point at it. Several bridge ends on one cell share one node, which goes with its last owner. It costs nothing, yields nothing, has no deconstruct order and is not saved. On a power network it is not a `Wire`, so the circuit's wattage limit is the bridge's own.  \n**Location**: `mods/jumper-bridges/src/JumperBridges/BridgeEndNode.cs`\n\n**Relationships**: owned by one or more `JumperBridge`s; registered in `BridgeKind.Nodes`.\n\n### BridgeFootprint\n**Id:** blk-f00f2e956606  \n**Tags:** game-component, wire-tools  \n**Description**: Registry of where every bridge is, by cell, on the complete and the under-construction prefab. The game puts a bridge on its end layer only at its two end cells and this mod stops a bridge taking that slot from a port or earlier bridge, so a bridge with both ends taken is on no layer. The deconstruct, cancel and prioritize tools find it here by its end cells.  \n**Location**: `mods/jumper-bridges/src/JumperBridges/BridgeFootprint.cs`\n\n### BridgeLinks\n**Id:** blk-67d61b61d321  \n**Tags:** utility-network  \n**Description**: Owns the network manager's link table for groups of bridges that share end cells. The manager keeps one link partner per cell, so after any bridge connects or disconnects, the distinct cells of its group are rewritten as a directed ring (c0 to c1 to ... to c0), sorted so the write is idempotent, then the networks are rebuilt.  \n**Location**: `mods/jumper-bridges/src/JumperBridges/BridgeLinks.cs`\n\n### Harmony patches\n**Id:** blk-a88b0d39bc11  \n**Tags:** harmony-patching, wire-tools  \n**Description**: The game classes and methods patched, grouped by purpose, all in `mods/jumper-bridges/src/JumperBridges/Patches.cs`. A group is skipped when its kind is off.\n- Bridge setup (automation): `LogicWireBridgeConfig` and `LogicRibbonBridgeConfig` `DoPostConfigureComplete` and `DoPostConfigureUnderConstruction` add `JumperBridge` and `BridgeFootprint`.\n- Bridge setup (power): `WireBridgeConfig` `DoPostConfigureComplete` and `DoPostConfigureUnderConstruction`.\n- Placement: `BuildingDef.MarkArea`, `AreLogicPortsInValidPositions`, `IsValidWireBridgeLocation`, `IsValidHighWattBridgeLocation`, `ArePowerPortsInValidPositions`, `MarkOverlappingPorts`.\n- Ports: `LogicPorts.CreatePhysicalPorts`, `DestroyPhysicalPorts`, `CreateVisualizers` (skipped for bridges).\n- Links: `LogicUtilityNetworkLink` and `WireUtilityNetworkLink` `OnConnect` and `OnDisconnect` call `BridgeLinks`.\n- Wire art and drags: `KAnimGraphTileVisualizer.OnSpawn`, `UpdateConnections`, `OnCleanUp`; `BaseUtilityBuildTool.BuildPath`.\n- Tools: `DisconnectTool.OnDragComplete` and `OnMouseMove`; `DeconstructTool.DeconstructCell`; `CancelTool.OnDragTool`; `PrioritizeTool.OnDragTool`.\n- Overlays: `OverlayModes.Logic` and `OverlayModes.Power` `Update` and `Disable`.\n\n## Business Rules\n**Id:** blk-4bb5a42c53b7  \n**Tags:** wire-tools, vanilla-fallback, mod-options\n\n- A bridge end may sit on any port cell (a machine's input or output, a gate's port, another bridge's end) and the port is on the bridge's network with no wire laid first. Chains work, and several bridges may meet at one cell.\n- A bridge end behaves like a wire cell: it connects only to cells a wire drag explicitly joined it to, never because a wire sits next to it.\n- A bridge end on a real wire works as in the base game and gets no node.\n- A bridge end on a gate does not put the gate out of order.\n- Deconstructing the bridge removes the node; wires that led into the end redraw as dead ends at once.\n- Overload is unchanged: a wire bridge carrying a ribbon signal is damaged as in the base game, and a broken bridge's ends stop conducting until repaired.\n- A power bridge end may not sit on a heavy-watt joint plate's end, and joint plates are unchanged. A building may be placed with its power port on an existing bridge end.\n- Each kind can be turned off in the options (restart required); a kind that is off is left to the base game.\n- The bridges' own two end ports are kept as geometry but never register as ports, which also removes the base game's silent port displacement when two ports share a cell. They no longer show in the automation overlay.\n\n## Key Code Paths\n**Id:** blk-852815eed994  \n**Tags:** harmony-patching, wire-tools, in-game-testing\n\n- **Startup**: options read, kinds enabled, patches applied (with `Prepare` skipping disabled kinds) — see `mods/jumper-bridges/src/JumperBridges/Mod.cs`\n- **Bridge spawns**: `JumperBridge.OnSpawn` schedules node creation, `BridgeEndNode.Create` builds the node, `BridgeLinks.OnConnect` rewrites the ring — see `JumperBridge.cs`, `BridgeEndNode.cs`, `BridgeLinks.cs`\n- **Wire drag onto a bridge end**: `BaseUtilityBuildTool.BuildPath` patch reads the drag's bits into the node — see `Patches.cs`\n- **Deconstruct by ends**: `DeconstructTool.DeconstructCell` and `BridgeFootprint.EndsAt` — see `Patches.cs`, `BridgeFootprint.cs`\n- **Design record**: the investigation notes (section 6 covers the design) are kept outside this repository\n- **Tests**: in-game tests in `mods/jumper-bridges/src/JumperBridges.Tests/` (`Signals.cs`, `Gates.cs`, `WireDrags.cs`, `WireUnderEnd.cs`, `Deconstruct.cs`, `Power.cs`, plus explicit `Preview.cs`); `README.md` carries the manual in-game checklist for what is not yet automated\n\n## Related\n**Id:** blk-02f47981e0e0\n\n- See also: [glossary](glossary.md)\n",
+   "sections": [
+    {
+     "id": "domains/entities.md#key-entities",
+     "title": "Key Entities",
+     "text": "## Key Entities\n**Id:** blk-dbb08ca2d7f3\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/entities.md#related",
+     "title": "Related",
+     "text": "## Related\n**Id:** blk-02f47981e0e0\n\n- See also: [glossary](glossary.md)\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "domains/glossary.md",
+   "title": "Domain Glossary",
+   "description": "Glossary for Jumper Bridges: abbreviations, terms to avoid, and definitions of bridge end and end node, port, ribbon, utility network, link ring, object layer, joint plate, wire drag, overload and overlay",
+   "document_tags": [
+    "bridge-end"
+   ],
+   "text": "---\ntags: bridge-end\nwitness_digest: \"sha256:ef46729018139a2309bdcd5cdc1cb45c601d5d52cc19e58efd8b43fca4df915d\"\nwitness: loose\napplies_to:\n  - \"src/JumperBridges/**\"\ndoc_id: doc-59647738de3c\ndescription: \"Glossary for Jumper Bridges: abbreviations, terms to avoid, and definitions of bridge end and end node, port, ribbon, utility network, link ring, object layer, joint plate, wire drag, overload and overlay\"\n---\n\n# Domain Glossary\n\nTerms used in the Jumper Bridges mod (`mods/jumper-bridges`). For the classes and patches behind them, see the entities document.\n\n## Abbreviations and Acronyms\n**Id:** blk-331987027e34\n\n| Abbreviation | Full Term | Context |\n|--------------|-----------|---------|\n| ONI | Oxygen Not Included | The game this mod is for |\n| kanim | Klei animation | The wire art a node plays, for example `logic_wires_kanim` |\n| PLib | Peter Han's Library | Options screen and library init in `Mod.cs` and `Options.cs` |\n| Logic | Automation (code name) | `BridgeKind.Logic`, `LogicPorts`, `LogicWire`: the game's code says \"logic\" for automation |\n| Power / Electrical | Power network | `BridgeKind.Power`; `ConnectionSource.Electrical` |\n\n## Terms to Avoid\n**Id:** blk-b1e1a23dc016  \n**Tags:** mod-strings\n\n| Avoid | Use Instead | Reason |\n|-------|-------------|--------|\n| Invisible wire, hidden wire | Bridge end node | The node is not a wire building; it has no cost, yield or deconstruct order |\n| Logic bridge (in player text) | Automation bridge | The game and the README call the buildings Automation Wire Bridge and Automation Ribbon Bridge |\n| Wire under the end (for the node) | Bridge end node | A real wire under an end means no node is made |\n\n## Cross-Domain Terms\n**Id:** blk-48cc95762b31\n\n### Bridge end\n**Id:** blk-fa52bd2fd391  \n**Definition**: One of a bridge's two end cells, which the game finds through the bridge's input ports.  \n**Used in**: all files\n\n### Bridge end node\n**Id:** blk-2b5366f53fe2  \n**Definition**: The stand-in for a wire under a bridge end: a building-less GameObject that registers the wire tile layer, a physical node and a network item so the port at that cell is connected.  \n**Used in**: `BridgeEndNode`, `JumperBridge`\n\n### Port\n**Id:** blk-a6f1b2b01703  \n**Tags:** utility-network  \n**Definition**: A building's automation input or output, or a power input or output, at a cell. A port counts as connected when its cell is on a network.  \n**Used in**: placement patches, `LogicPorts` patches\n\n### Automation, ribbon, bit depth\n**Id:** blk-a466b94b963a  \n**Tags:** automation-ribbon  \n**Definition**: Automation is the game's logic wiring. A ribbon carries four signals on one wire (`LogicWire.BitDepth.FourBit`); the ribbon bridge's node plays `logic_ribbon_kanim`.  \n**Used in**: `BridgeKind.NodeAnim`\n\n### Utility network\n**Id:** blk-8f0976689c96  \n**Tags:** utility-network  \n**Definition**: The game's generic flood-filled network over cells that hold a conductor (`UtilityNetworkManager`); both automation and power networks are one. Bridges join two cells through the manager's link table.  \n**Used in**: `BridgeKind`, `BridgeLinks`\n\n### Link and link ring\n**Id:** blk-b6960c2ccb0d  \n**Tags:** utility-network  \n**Definition**: The manager keeps one link partner per cell. For bridges that share cells, the mod writes a directed ring over the group's cells so the fill reaches all of them.  \n**Used in**: `BridgeLinks`\n\n### Object layer\n**Id:** blk-251bdb713081  \n**Tags:** utility-network  \n**Definition**: `ObjectLayer`, the game's per-cell slot lists. A wire tile layer cell is what a network flood fill requires; an end layer (LogicGate, WireConnectors) is where the game marks a bridge's end cells.  \n**Used in**: `BridgeKind`, `BridgeFootprint`\n\n### Joint plate (heavy-watt)\n**Id:** blk-279f9dc39e51  \n**Tags:** utility-network  \n**Definition**: The heavy-watt joint plate, a power connector with its own placement rule. The mod leaves it alone and refuses a power bridge end on its end.  \n**Used in**: `IsValidHighWattBridgeLocation` patch\n\n### Wire drag\n**Id:** blk-d0010eca3d9e  \n**Tags:** wire-tools  \n**Definition**: Dragging the wire tool across cells; it joins consecutive cells by connection bits. A bridge end connects to a neighbour only through a drag.  \n**Used in**: `BaseUtilityBuildTool.BuildPath` patch, `WireDrags.cs` tests\n\n### Disconnect tool\n**Id:** blk-8e5c50d5554a  \n**Tags:** wire-tools  \n**Definition**: The tool that cuts connections between adjacent wire cells; the mod makes it cut at bridge ends too.  \n**Used in**: `DisconnectTool` patches\n\n### Overload\n**Id:** blk-6b907dab8e6f  \n**Tags:** automation-ribbon  \n**Definition**: A wire bridge carrying a ribbon signal is damaged as in the base game and breaks, which disconnects its link until repaired.  \n**Used in**: `JumperBridge.OnBroken`, `OnRepaired`\n\n### Overlay\n**Id:** blk-3955244df226  \n**Definition**: The automation or power view that colours wires by network; the mod colours node pieces the same way.  \n**Used in**: `OverlayModes` patches\n\n## Related\n**Id:** blk-3f15e924a8f5\n\n- See also: [entities](entities.md)\n",
+   "sections": [
+    {
+     "id": "domains/glossary.md#abbreviations-and-acronyms",
+     "title": "Abbreviations and Acronyms",
+     "text": "## Abbreviations and Acronyms\n**Id:** blk-331987027e34\n\n| Abbreviation | Full Term | Context |\n|--------------|-----------|---------|\n| ONI | Oxygen Not Included | The game this mod is for |\n| kanim | Klei animation | The wire art a node plays, for example `logic_wires_kanim` |\n| PLib | Peter Han's Library | Options screen and library init in `Mod.cs` and `Options.cs` |\n| Logic | Automation (code name) | `BridgeKind.Logic`, `LogicPorts`, `LogicWire`: the game's code says \"logic\" for automation |\n| Power / Electrical | Power network | `BridgeKind.Power`; `ConnectionSource.Electrical` |\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms",
+     "title": "Cross-Domain Terms",
+     "text": "## Cross-Domain Terms\n**Id:** blk-48cc95762b31\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/bridge-end",
+     "title": "Bridge end",
+     "text": "### Bridge end\n**Id:** blk-fa52bd2fd391  \n**Definition**: One of a bridge's two end cells, which the game finds through the bridge's input ports.  \n**Used in**: all files\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/bridge-end-node",
+     "title": "Bridge end node",
+     "text": "### Bridge end node\n**Id:** blk-2b5366f53fe2  \n**Definition**: The stand-in for a wire under a bridge end: a building-less GameObject that registers the wire tile layer, a physical node and a network item so the port at that cell is connected.  \n**Used in**: `BridgeEndNode`, `JumperBridge`\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/overlay",
+     "title": "Overlay",
+     "text": "### Overlay\n**Id:** blk-3955244df226  \n**Definition**: The automation or power view that colours wires by network; the mod colours node pieces the same way.  \n**Used in**: `OverlayModes` patches\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#related",
+     "title": "Related",
+     "text": "## Related\n**Id:** blk-3f15e924a8f5\n\n- See also: [entities](entities.md)\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "standards/README.md",
+   "title": "Standards",
+   "description": "Index of the three standards documents of Jumper Bridges (code style, error handling, naming conventions), each with a one-line summary of what it covers",
+   "document_tags": [],
+   "text": "---\ndoc_id: doc-fcd305f17ee1\ndescription: Index of the three standards documents of Jumper Bridges (code style, error handling, naming conventions), each with a one-line summary of what it covers\n---\n\n# Standards\n\n## Standards\n**Id:** blk-6f68324f783e\n\nDocuments in this folder:\n\n- [code-style](code-style.md): C# formatting, imports, comments, Harmony patch and component conventions, with this mod's own layout.\n- [error-handling](error-handling.md): How the mod guards its Harmony patches, reflection lookups and file reads, and what it logs when something is missing.\n- [naming-conventions](naming-conventions.md): File, namespace, patch class, string key and id naming.\n",
+   "sections": [
+    {
+     "id": "standards/README.md#standards",
+     "title": "Standards",
+     "text": "## Standards\n**Id:** blk-6f68324f783e\n\nDocuments in this folder:\n\n- [code-style](code-style.md): C# formatting, imports, comments, Harmony patch and component conventions, with this mod's own layout.\n- [error-handling](error-handling.md): How the mod guards its Harmony patches, reflection lookups and file reads, and what it logs when something is missing.\n- [naming-conventions](naming-conventions.md): File, namespace, patch class, string key and id naming.\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "standards/code-style.md",
+   "title": "Code Style Guide",
+   "description": "Code style guide for Jumper Bridges: C# formatting, imports, comments, control structures, Harmony patch and game component conventions, plus its `LogPrefix`, `OnLoad` order and `BridgeKind` layout",
+   "document_tags": [],
+   "text": "---\ndoc_id: doc-8674b988870a\ndescription: \"Code style guide for Jumper Bridges: C# formatting, imports, comments, control structures, Harmony patch and game component conventions, plus its `LogPrefix`, `OnLoad` order and `BridgeKind` layout\"\napplies_to:\n  - \"src/**\"\n---\n\n# Code Style Guide\n\n## Formatting\n**Id:** blk-098c307a67e7\n\n### Indentation\n**Id:** blk-62b9e07bc5d7\n\n- Tabs, one per level, in every `.cs` file (`mods/bitshifter/src/Bitshifter/Mod.cs`).\n- Project files (`.csproj`, `common/oni-mod.props`, `common/oni-mod.targets`) use two spaces.\n- Files are committed with LF line endings; Windows checkouts convert them to CRLF (`core.autocrlf` is true), so do not hand-normalise line endings.\n\n### Line Length\n**Id:** blk-7cc833c742eb\n\n- No limit is configured and the repository has no `.editorconfig`.\n- Wrap long calls and string concatenations after an argument or before a `+`, and indent the continuation one tab. The start-up log call in `mods/jumper-bridges/src/JumperBridges/Mod.cs` is the pattern.\n- TODO(owner): decide whether to add an `.editorconfig` recording tabs and brace placement so editors enforce what the code already does.\n\n### Braces\n**Id:** blk-87d51c25ed66\n\n- Opening brace on its own line (Allman) for namespaces, types, members and multi-line control blocks.\n- A body of one short statement goes on the next line without braces:\n\n```csharp\nforeach (Mod mod in mods)\n{\n\tif (!mod.IsEnabledForActiveDlc())\n\t\tcontinue;\n\t...\n}\n```\n\n- Multi-line initialisers and enums end with a trailing comma (`YieldToWorkshopIds` in `mods/bitshifter/src/Bitshifter/Mod.cs`, `CoolPodMode` in `mods/storage-pod-redux/src/StoragePodRedux/Options.cs`).\n\n## Language and Toolchain\n**Id:** blk-63da0040add9\n\n- C# 9 on .NET Framework 4.8 (`LangVersion` 9.0 and `TargetFramework` net48 in `common/oni-mod.props`). Namespace blocks, not file-scoped namespaces; no nullable reference types.\n- Mods compile against the game's own assemblies (`common/oni-mod.targets`): `Assembly-CSharp`, `Assembly-CSharp-firstpass`, `0Harmony` and Unity modules. The game's .NET Framework lacks some newer APIs (`ConditionalWeakTable.AddOrUpdate` is missing, see `mods/detect-any-element/src/DetectAnyElement/Patches.cs`).\n- Optional references are switched on in the mod csproj before the targets import: `ReferenceUnityUI`, `ReferenceImageConversion`, `UsePLib` (PLib is ILRepack-merged into the mod DLL) and `UseTranslations` (compiles `common/src/Translations.cs` in).\n- One namespace per mod, equal to its `RootNamespace`. Subfolders organise files and do not add namespaces (`mods/upgrade-planner/src/UpgradePlanner/Plan`, `Rules`, `Tool`, `UI` all declare `namespace UpgradePlanner`).\n\n## Imports/Includes\n**Id:** blk-9fc50e5b585e\n\n### Organization\n**Id:** blk-584f098bdff5\n\n`using` directives sit above the namespace, in one block with no blank lines, sorted alphabetically with `System.*` first. Aliases for `ModStrings` branches come last.\n\n1. `System.*`\n2. Everything else alphabetically: `HarmonyLib`, `Isochronous`, `KMod`, `Newtonsoft.Json`, `PeterHan.PLib.*`, `ProcGenGame`, `UnityEngine`\n3. Aliases (`using TOOL = SweepZones.ModStrings.UI.TOOLS.SWEEPZONES;`)\n\n### Example\n**Id:** blk-f3f1f9eab24b\n\n```csharp\nusing System.Collections.Generic;\nusing System.Reflection;\nusing HarmonyLib;\nusing Isochronous;\nusing Klei;\nusing KMod;\nusing STRINGS;\nusing UnityEngine;\n```\n(`mods/salty-surf/src/SaltySurf/Mod.cs`)\n\n`Debug.Log` resolves either to `UnityEngine.Debug` or to the game's own global `Debug` class, so several `Mod.cs` files omit `using UnityEngine`. When a file imports `System.Diagnostics`, qualify the call as `UnityEngine.Debug.Log` (`mods/just-fall-already/src/JustFallAlready/FallPoke.cs`).\n\n## Comments\n**Id:** blk-daffabe9affb\n\n### When to Comment\n**Id:** blk-f3272b570c51\n\n- On every non-trivial class, an XML `<summary>` that says what the game does and what the patch changes, so a reader can check the patch against the game code. The long summary on `OvercrowdingMonitor_UpdateRegion_Patch` in `mods/dont-count-eggs-on-rails/src/DontCountEggsOnRails/Mod.cs` is the model.\n- Where a game quirk forces an odd line: `// The game's .NET Framework has no AddOrUpdate on this table.`\n- Where another mod is involved, name it and its Workshop id (`mods/bitshifter/src/Bitshifter/Mod.cs`, `mods/smart-weight-plate/src/SmartWeightPlate/Mod.cs`).\n- Escape angle brackets in XML comments as `&lt;` and `&gt;`.\n\n### When NOT to Comment\n**Id:** blk-50b0fdfd8b98\n\n- Code that reads clearly from its names.\n- Commented-out code; delete it.\n- Restating what a line does.\n\n### Format\n**Id:** blk-32d8939ee261\n\n```csharp\n/// <summary>\n/// The \"Any\" choice. It is a tag like the elements a sensor's Filterable holds, so it rides\n/// in the same saved field and copies with the building's settings.\n/// </summary>\npublic static class AnyElement\n\n// Single-line note for a quirk or a reason.\n```\n\n## Control Structures\n**Id:** blk-c25d3881b7d6\n\n### Conditionals\n**Id:** blk-6b2f8832d039\n\nGuard clauses and early `return` or `continue` keep nesting shallow (`SettleSimBackwalls.UpdateFromSim` in `mods/natural-backwalls-everywhere/src/NaturalBackwalls/SettleSimPatch.cs`):\n\n```csharp\nif (!Grid.IsValidCell(cell))\n\tcontinue;\nushort idx = data->backwallElement[cell];\nif (idx == ushort.MaxValue || idx >= elements.Count)\n\tcontinue;\n```\n\n### Loops\n**Id:** blk-d5ef39d406e3\n\n- Plain `for` and `foreach`. Code that runs every sim tick or frame avoids LINQ and allocations; reuse scratch lists (`scratch` in `mods/just-fall-already/src/JustFallAlready/FallPoke.cs`).\n- Local types are written out (`Tech tech = ...`). `var` appears mainly in `mods/upgrade-planner`, `mods/natural-backwalls-everywhere` and the test projects; follow the surrounding file.\n\n### Strings\n**Id:** blk-e4168dc216f0  \n**Tags:** mod-strings, logging\n\n- Log and UI text is built with `+` concatenation, or `string.Format` on a `LocString`. String interpolation is not used in mod code.\n- Player-visible text is a `LocString` field in `ModStrings`, never a literal at the call site (see [naming conventions](naming-conventions.md)).\n\n## Harmony Patches\n**Id:** blk-27d655025249  \n**Tags:** harmony-patching, reflection, mod-options\n\n- A patch is a static class with `[HarmonyPatch(typeof(Type), nameof(Type.Method))]`, or `[HarmonyPatch(typeof(Type), \"PrivateMethod\")]` for a non-public method, and methods named `Prefix`, `Postfix`, `Transpiler` or `Finalizer` (`mods/bitshifter/src/Bitshifter/Patches.cs`).\n- Game state arrives through Harmony parameters: `__instance`, `__result`, `___field`. Fields read repeatedly use `AccessTools.FieldRefAccess` kept in a `static readonly` field (`mods/detect-any-element/src/DetectAnyElement/Patches.cs`).\n- A prefix returns `true` to let the game's method run and `false` only when it replaces the method (`mods/dont-count-eggs-on-rails`, `mods/bitshifter` `UpdateVisuals`).\n- A patch that depends on an option implements `Prepare()` (`mods/jumper-bridges/src/JumperBridges/Patches.cs`); a patch with several targets implements `TargetMethods()`.\n- `UserMod2.OnLoad` calls `base.OnLoad(harmony)`, which applies every patch in the assembly, then registers libraries and logs the version. A mod that must patch after all others applies its patches from `OnAllModsLoaded` instead (`mods/bitshifter/src/Bitshifter/Mod.cs`).\n- Transpilers search for the instruction they change and report when it is not found; see [error handling](error-handling.md).\n\n## Game Components\n**Id:** blk-86e1c7e9ad24  \n**Tags:** game-component\n\n- A component extends `KMonoBehaviour`, overrides `OnPrefabInit`, `OnSpawn` and `OnCleanUp` and calls `base` from each. Sibling components come in through `[MyCmpGet]` or `[MyCmpReq]` (`mods/no-magic-fridges/src/NoMagicFridges/FridgeThermostat.cs`).\n- Saved state uses `[Serialize]` fields with `[SerializationConfig(MemberSerialization.OptIn)]` on the class (`mods/sweep-zones/src/SweepZones/ZoneStore.cs`).\n- Components are added to prefabs from a `DoPostConfigureComplete` postfix with `go.AddOrGet<T>()`.\n\n## Project-Specific Rules\n**Id:** blk-966ebe0cbf67  \n**Tags:** mod-options, logging, in-game-testing, mod-strings\n\n- Mod options are a PLib `POptions` class marked `[JsonObject(MemberSerialization.OptIn)]` and `[ConfigFile(SharedConfigLocation: true)]`, read through a static `Load()` (`mods/vent-freeze-fix/src/VentFreezeFix/Options.cs`) or through `SingletonOptions<Options>` (`mods/storage-pod-redux`). Option titles are string-table keys, so the translation follows the language.\n- Every mod logs one line at load: `[<Name>] Loaded version <assembly version>`.\n- Tests live in a separate `<Name>.Tests` project and are written as `[OniTest]` coroutines against the real game.\n\n### Jumper Bridges specifics\n**Id:** blk-d5fba21e032c  \n**Tags:** mod-entry-point, game-component, bridge-end\n\n- `UsePLib`, `UseTranslations` and `ReferenceUnityUI`. `JumperBridgesMod.LogPrefix` (`\"[JumperBridges] \"`) is the one log-prefix constant in the repository and every log call uses it.\n- `OnLoad` order matters: `Options.Load()` and the `BridgeKind.Logic.Enabled` and `BridgeKind.Power.Enabled` flags come before `base.OnLoad`, because patch classes read those flags in `Prepare()` to decide whether to apply (`src/JumperBridges/Mod.cs`, `Patches.cs`).\n- `BridgeKind` holds everything that differs between the automation and power kinds (layers, manager, art); the rest of the mod reads from it.\n- `JumperBridge`, `BridgeEndNode` and `BridgeFootprint` are the components; `tools/make_preview.py` builds the Workshop preview from the preview tests.\n\n## Related\n**Id:** blk-70baa20e27d1\n\n- See also: [naming conventions](naming-conventions.md)\n- See also: [error handling](error-handling.md)\n",
+   "sections": [
+    {
+     "id": "standards/code-style.md#formatting",
+     "title": "Formatting",
+     "text": "## Formatting\n**Id:** blk-098c307a67e7\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#formatting/indentation",
+     "title": "Indentation",
+     "text": "### Indentation\n**Id:** blk-62b9e07bc5d7\n\n- Tabs, one per level, in every `.cs` file (`mods/bitshifter/src/Bitshifter/Mod.cs`).\n- Project files (`.csproj`, `common/oni-mod.props`, `common/oni-mod.targets`) use two spaces.\n- Files are committed with LF line endings; Windows checkouts convert them to CRLF (`core.autocrlf` is true), so do not hand-normalise line endings.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#formatting/line-length",
+     "title": "Line Length",
+     "text": "### Line Length\n**Id:** blk-7cc833c742eb\n\n- No limit is configured and the repository has no `.editorconfig`.\n- Wrap long calls and string concatenations after an argument or before a `+`, and indent the continuation one tab. The start-up log call in `mods/jumper-bridges/src/JumperBridges/Mod.cs` is the pattern.\n- TODO(owner): decide whether to add an `.editorconfig` recording tabs and brace placement so editors enforce what the code already does.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#formatting/braces",
+     "title": "Braces",
+     "text": "### Braces\n**Id:** blk-87d51c25ed66\n\n- Opening brace on its own line (Allman) for namespaces, types, members and multi-line control blocks.\n- A body of one short statement goes on the next line without braces:\n\n```csharp\nforeach (Mod mod in mods)\n{\n\tif (!mod.IsEnabledForActiveDlc())\n\t\tcontinue;\n\t...\n}\n```\n\n- Multi-line initialisers and enums end with a trailing comma (`YieldToWorkshopIds` in `mods/bitshifter/src/Bitshifter/Mod.cs`, `CoolPodMode` in `mods/storage-pod-redux/src/StoragePodRedux/Options.cs`).\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#language-and-toolchain",
+     "title": "Language and Toolchain",
+     "text": "## Language and Toolchain\n**Id:** blk-63da0040add9\n\n- C# 9 on .NET Framework 4.8 (`LangVersion` 9.0 and `TargetFramework` net48 in `common/oni-mod.props`). Namespace blocks, not file-scoped namespaces; no nullable reference types.\n- Mods compile against the game's own assemblies (`common/oni-mod.targets`): `Assembly-CSharp`, `Assembly-CSharp-firstpass`, `0Harmony` and Unity modules. The game's .NET Framework lacks some newer APIs (`ConditionalWeakTable.AddOrUpdate` is missing, see `mods/detect-any-element/src/DetectAnyElement/Patches.cs`).\n- Optional references are switched on in the mod csproj before the targets import: `ReferenceUnityUI`, `ReferenceImageConversion`, `UsePLib` (PLib is ILRepack-merged into the mod DLL) and `UseTranslations` (compiles `common/src/Translations.cs` in).\n- One namespace per mod, equal to its `RootNamespace`. Subfolders organise files and do not add namespaces (`mods/upgrade-planner/src/UpgradePlanner/Plan`, `Rules`, `Tool`, `UI` all declare `namespace UpgradePlanner`).\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#imports-includes",
+     "title": "Imports/Includes",
+     "text": "## Imports/Includes\n**Id:** blk-9fc50e5b585e\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#imports-includes/organization",
+     "title": "Organization",
+     "text": "### Organization\n**Id:** blk-584f098bdff5\n\n`using` directives sit above the namespace, in one block with no blank lines, sorted alphabetically with `System.*` first. Aliases for `ModStrings` branches come last.\n\n1. `System.*`\n2. Everything else alphabetically: `HarmonyLib`, `Isochronous`, `KMod`, `Newtonsoft.Json`, `PeterHan.PLib.*`, `ProcGenGame`, `UnityEngine`\n3. Aliases (`using TOOL = SweepZones.ModStrings.UI.TOOLS.SWEEPZONES;`)\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#imports-includes/example",
+     "title": "Example",
+     "text": "### Example\n**Id:** blk-f3f1f9eab24b\n\n```csharp\nusing System.Collections.Generic;\nusing System.Reflection;\nusing HarmonyLib;\nusing Isochronous;\nusing Klei;\nusing KMod;\nusing STRINGS;\nusing UnityEngine;\n```\n(`mods/salty-surf/src/SaltySurf/Mod.cs`)\n\n`Debug.Log` resolves either to `UnityEngine.Debug` or to the game's own global `Debug` class, so several `Mod.cs` files omit `using UnityEngine`. When a file imports `System.Diagnostics`, qualify the call as `UnityEngine.Debug.Log` (`mods/just-fall-already/src/JustFallAlready/FallPoke.cs`).\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#comments",
+     "title": "Comments",
+     "text": "## Comments\n**Id:** blk-daffabe9affb\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#comments/when-to-comment",
+     "title": "When to Comment",
+     "text": "### When to Comment\n**Id:** blk-f3272b570c51\n\n- On every non-trivial class, an XML `<summary>` that says what the game does and what the patch changes, so a reader can check the patch against the game code. The long summary on `OvercrowdingMonitor_UpdateRegion_Patch` in `mods/dont-count-eggs-on-rails/src/DontCountEggsOnRails/Mod.cs` is the model.\n- Where a game quirk forces an odd line: `// The game's .NET Framework has no AddOrUpdate on this table.`\n- Where another mod is involved, name it and its Workshop id (`mods/bitshifter/src/Bitshifter/Mod.cs`, `mods/smart-weight-plate/src/SmartWeightPlate/Mod.cs`).\n- Escape angle brackets in XML comments as `&lt;` and `&gt;`.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#comments/when-not-to-comment",
+     "title": "When NOT to Comment",
+     "text": "### When NOT to Comment\n**Id:** blk-50b0fdfd8b98\n\n- Code that reads clearly from its names.\n- Commented-out code; delete it.\n- Restating what a line does.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#comments/format",
+     "title": "Format",
+     "text": "### Format\n**Id:** blk-32d8939ee261\n\n```csharp\n/// <summary>\n/// The \"Any\" choice. It is a tag like the elements a sensor's Filterable holds, so it rides\n/// in the same saved field and copies with the building's settings.\n/// </summary>\npublic static class AnyElement\n\n// Single-line note for a quirk or a reason.\n```\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#control-structures",
+     "title": "Control Structures",
+     "text": "## Control Structures\n**Id:** blk-c25d3881b7d6\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#control-structures/conditionals",
+     "title": "Conditionals",
+     "text": "### Conditionals\n**Id:** blk-6b2f8832d039\n\nGuard clauses and early `return` or `continue` keep nesting shallow (`SettleSimBackwalls.UpdateFromSim` in `mods/natural-backwalls-everywhere/src/NaturalBackwalls/SettleSimPatch.cs`):\n\n```csharp\nif (!Grid.IsValidCell(cell))\n\tcontinue;\nushort idx = data->backwallElement[cell];\nif (idx == ushort.MaxValue || idx >= elements.Count)\n\tcontinue;\n```\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#control-structures/loops",
+     "title": "Loops",
+     "text": "### Loops\n**Id:** blk-d5ef39d406e3\n\n- Plain `for` and `foreach`. Code that runs every sim tick or frame avoids LINQ and allocations; reuse scratch lists (`scratch` in `mods/just-fall-already/src/JustFallAlready/FallPoke.cs`).\n- Local types are written out (`Tech tech = ...`). `var` appears mainly in `mods/upgrade-planner`, `mods/natural-backwalls-everywhere` and the test projects; follow the surrounding file.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#related",
+     "title": "Related",
+     "text": "## Related\n**Id:** blk-70baa20e27d1\n\n- See also: [naming conventions](naming-conventions.md)\n- See also: [error handling](error-handling.md)\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "standards/error-handling.md",
+   "title": "Error Handling Conventions",
+   "description": "Error handling conventions for Jumper Bridges: guarding patches, try/catch cases, logging levels and anti-patterns, plus its `Prepare()` skipping, end node log lines and option defaults",
+   "document_tags": [],
+   "text": "---\ndoc_id: doc-ed8f141fa40f\ndescription: \"Error handling conventions for Jumper Bridges: guarding patches, try/catch cases, logging levels and anti-patterns, plus its `Prepare()` skipping, end node log lines and option defaults\"\napplies_to:\n  - \"src/**\"\n---\n\n# Error Handling Conventions\n\n## Principles\n**Id:** blk-3e72d1f8445a  \n**Tags:** vanilla-fallback, logging, harmony-patching\n\n1. **Never break the game for a mod's sake.** A patch that cannot do its job leaves the vanilla behaviour in place and says so in the log. It does not throw into the game's update loop.\n2. **Check what you patch.** Game updates rename fields and move code. Every reflection lookup, transpiler match and prefab or tech lookup is checked for a miss.\n3. **Say what degraded.** A warning names the thing that was not found and the consequence, so a bug report with `Player.log` is enough to diagnose.\n4. **Don't swallow.** A `catch` logs and either returns a safe default or continues; it is never empty.\n5. **Log at the right level.** `Debug.Log` for start-up and summaries, `Debug.LogWarning` for degraded behaviour, `Debug.LogError` for a failed player action.\n\nThere is no custom exception hierarchy. Mods are small patches over game code, so errors are handled where they occur.\n\n## Guarding Patches\n**Id:** blk-8cce769adb91  \n**Tags:** harmony-patching\n\n### Missing member: warn, leave vanilla\n**Id:** blk-154cbec92734  \n**Tags:** vanilla-fallback, reflection\n\nA reflection lookup that returns null is checked before use. The patch then does nothing, or returns `true` from a prefix so the game's method runs.\n\n```csharp\nif (ActiveField == null || StorageField == null)\n\treturn true; // the game renamed its fields: leave vanilla alone rather than throw\n```\n(`mods/no-magic-fridges/src/NoMagicFridges/Patches.cs`; the warning is logged once at load by `SimTransferMethod` in `FridgeThermostat.cs`.)\n\n### Transpiler: count the match\n**Id:** blk-21e2796e605b  \n**Tags:** vanilla-fallback, logging\n\nA transpiler counts the instructions it replaced. Zero (or more than expected) logs a warning and returns the original code, so a game update disables the change instead of breaking the method.\n\n```csharp\nif (swapped == 0)\n\tDebug.LogWarning(\"[CornerBuildAnything] \" + where + \" does not load OffsetGroups.InvertedStandardTable; corner reach not applied there\");\n```\n(`mods/corner-build-anything/src/CornerBuildAnything/ReachTablePatches.cs`; same pattern in `mods/bitshifter/src/Bitshifter/Patches.cs` and `mods/natural-backwalls-everywhere/src/NaturalBackwalls/SettleSimPatch.cs`.)\n\n### Missing data: warn, continue\n**Id:** blk-af94c6ab1d6f  \n**Tags:** vanilla-fallback, logging\n\nA build-menu, tech or asset lookup that finds nothing warns and keeps the mod working:\n\n```csharp\nTech tech = Db.Get().Techs.TryGet(TechId);\nif (tech == null)\n{\n\tDebug.LogWarning(\"[SmartWeightPlate] Tech '\" + TechId + \"' not found; building will be unlocked from the start\");\n\treturn;\n}\n```\n(`mods/smart-weight-plate/src/SmartWeightPlate/Patches.cs`; also `mods/multichannel-critter-sensor`, `mods/storage-pod-redux`.) Missing art or a missing vanilla prefab degrades the same way (`Display.UseAnim` in `mods/bitshifter/src/Bitshifter/Patches.cs`, `mods/multichannel-critter-sensor/src/MultichannelCritterSensor/MultichannelCritterSensorSideScreen.cs`).\n\n### Null checks on game objects\n**Id:** blk-ae3db55a76d7  \n**Tags:** vanilla-fallback\n\nComponents and arguments that can be absent are tested before use: `if (stt == null || !Sim.IsValidHandle(stt.SimHandle)) return true;`, `if (sensor == null || GameScenePartitioner.Instance == null) return;` (`mods/motion-sensor-range/src/MotionSensorRange/RangeSlider.cs`).\n\n### Warn once\n**Id:** blk-eb7ce3da4fcd  \n**Tags:** logging\n\nWork that repeats every frame or tick warns once behind a flag (`warnedMissingInternals` in `RangeSlider.cs`).\n\n## try/catch\n**Id:** blk-f2a71236c859  \n**Tags:** logging, vanilla-fallback, reflection\n\n`try`/`catch (Exception e)` is used in four situations and nowhere else:\n\n1. **Optional integration with another mod.** Patching or reading another mod's types may fail for any reason. Log the message and skip the integration (`BetterAutomationOverlayCompat.Apply` in `mods/smart-weight-plate/src/SmartWeightPlate/Mod.cs`; `mods/upgrade-planner/src/UpgradePlanner/Compat/BlueprintsCompat.cs`).\n2. **File and JSON reads and writes.** Return an empty or null result (`mods/upgrade-planner/src/UpgradePlanner/Plan/Presets.cs`, `mods/storage-pod-redux/src/StoragePodRedux/ModDetection.cs`, `mods/sweep-zones/src/SweepZones/ToolIcon.cs`).\n3. **Patches that run inside worldgen or per-cell work**, where an escaping exception kills a thread or a whole pass (`mods/natural-backwalls-everywhere/src/NaturalBackwalls/FeaturePatch.cs`, `PlanetoidPatch.cs`, `Patches.cs`, `Census.cs`).\n4. **Per-job work in a queue**, so one failure does not stop the rest (`mods/upgrade-planner/src/UpgradePlanner/Tool/PlacementQueue.cs`, logged with `Debug.LogError`).\n\nThe message form is `\"[<Name>] <what was skipped>: \" + e.Message`. Use `e.GetBaseException().Message` when the exception may be a reflection wrapper, and the full `e` when the stack trace is needed.\n\n### Finalizer for a thread with no handler\n**Id:** blk-a143d6d4dfb0  \n**Tags:** harmony-patching\n\n`Cluster.BeginGeneration` is the worldgen thread body and has none; an exception ends the thread and the loading screen waits forever. A finalizer reports the failure through the game's own error path and logs the exception (`Cluster_BeginGeneration_Patch` in `mods/natural-backwalls-everywhere/src/NaturalBackwalls/WorldgenThreadPatch.cs`).\n\n## Yielding to Other Mods\n**Id:** blk-175c1c6cba09  \n**Tags:** vanilla-fallback, logging\n\nWhen another mod already does the job or shares an id, the mod steps aside and logs why:\n- Bitshifter disables itself when Digital CPU is enabled or the contested methods already have Harmony owners (`WhyYield` in `mods/bitshifter/src/Bitshifter/Mod.cs`).\n- Storage Pod Redux does not register its buildings while the original Storage Pod is enabled, and logs a warning telling the player to disable one (`mods/storage-pod-redux/src/StoragePodRedux/Mod.cs`).\n\n## Logging\n**Id:** blk-f299b55b73e5  \n**Tags:** logging\n\n### Log Levels\n**Id:** blk-abacb0846eff\n\n| Level | Use For | Example |\n|-------|---------|---------|\n| `Debug.LogError` | A player action failed and was abandoned | `PlacementQueue` in `mods/upgrade-planner` |\n| `Debug.LogWarning` | Degraded or skipped behaviour | the examples above |\n| `Debug.Log` | Load line, a one-line summary of what a pass changed | `Tagged N refined metal(s)` in `mods/refined-building` |\n\n### What to Include\n**Id:** blk-5432cf67405b\n\n- The `[<ModName>] ` prefix on every line; `JumperBridgesMod.LogPrefix` holds it for that mod.\n- What was expected, what was found, and what the mod does instead.\n- Cell numbers, building names and element ids when they identify the case (`mods/vent-freeze-fix`).\n- Per-tick or per-frame telemetry only behind a debug option (`VentFreezeWatcher.Verbose`, `DebugSave.Enabled`) or capped (`DetailLines` in `SettleSimPatch.cs`).\n\nPLib's `PUtil.Log*` helpers are not used; all mods log through `Debug`.\n\n## Anti-Patterns to Avoid\n**Id:** blk-3183c3b01cb2  \n**Tags:** logging, vanilla-fallback\n\n### Swallowing exceptions\n**Id:** blk-40e99f92e0e7\n\nAn empty `catch` hides a broken patch. The one `catch` that returns a fallback without a log is `GuessLanguageCode` in `common/src/Translations.cs`, because a missing language preference is the normal case before the game has started.\n\n### Throwing from a patch\n**Id:** blk-17e534ec80a2  \n**Tags:** harmony-patching\n\nAn exception in a prefix or postfix on a per-frame or sim method repeats every frame. Guard, log once, return.\n\n### Assuming the game's internals\n**Id:** blk-577d1db0861f  \n**Tags:** reflection, harmony-patching\n\nReading a private field by name without a null check on the `FieldInfo`, or replacing an instruction without confirming it was found, breaks on the next game update.\n\n### Silent degradation\n**Id:** blk-14a5563d3314\n\nDoing nothing without a log line leaves a player and the author guessing. Every skipped path logs.\n\n### Spamming the log\n**Id:** blk-ad0a0a8968d8\n\nA warning inside an update method fires thousands of times. Use a once-flag.\n\n## Project-Specific Patterns\n**Id:** blk-7cd28489c4ab\n\n### Jumper Bridges specifics\n**Id:** blk-1864f08493d6  \n**Tags:** harmony-patching, logging, mod-options, bridge-end\n\n- A kind that is switched off has its patches skipped through `Prepare()`, so there is nothing to guard at run time.\n- Log lines describe cells and end nodes (`end nodes at <a> and <b>`, `end nodes removed`) to make player reports traceable (`src/JumperBridges/JumperBridge.cs`, `BridgeEndNode.cs`).\n- Options are read with `POptions.ReadSettings<Options>() ?? new Options()`, so a missing or unreadable config file gives defaults.\n\n## Related\n**Id:** blk-78f779eac3d5\n\n- See also: [code style](code-style.md)\n- See also: [naming conventions](naming-conventions.md)\n",
+   "sections": [
+    {
+     "id": "standards/error-handling.md#logging/log-levels",
+     "title": "Log Levels",
+     "text": "### Log Levels\n**Id:** blk-abacb0846eff\n\n| Level | Use For | Example |\n|-------|---------|---------|\n| `Debug.LogError` | A player action failed and was abandoned | `PlacementQueue` in `mods/upgrade-planner` |\n| `Debug.LogWarning` | Degraded or skipped behaviour | the examples above |\n| `Debug.Log` | Load line, a one-line summary of what a pass changed | `Tagged N refined metal(s)` in `mods/refined-building` |\n",
+     "level": 3,
+     "enclosing_tags": [
+      "logging"
+     ]
+    },
+    {
+     "id": "standards/error-handling.md#logging/what-to-include",
+     "title": "What to Include",
+     "text": "### What to Include\n**Id:** blk-5432cf67405b\n\n- The `[<ModName>] ` prefix on every line; `JumperBridgesMod.LogPrefix` holds it for that mod.\n- What was expected, what was found, and what the mod does instead.\n- Cell numbers, building names and element ids when they identify the case (`mods/vent-freeze-fix`).\n- Per-tick or per-frame telemetry only behind a debug option (`VentFreezeWatcher.Verbose`, `DebugSave.Enabled`) or capped (`DetailLines` in `SettleSimPatch.cs`).\n\nPLib's `PUtil.Log*` helpers are not used; all mods log through `Debug`.\n",
+     "level": 3,
+     "enclosing_tags": [
+      "logging"
+     ]
+    },
+    {
+     "id": "standards/error-handling.md#anti-patterns-to-avoid/swallowing-exceptions",
+     "title": "Swallowing exceptions",
+     "text": "### Swallowing exceptions\n**Id:** blk-40e99f92e0e7\n\nAn empty `catch` hides a broken patch. The one `catch` that returns a fallback without a log is `GuessLanguageCode` in `common/src/Translations.cs`, because a missing language preference is the normal case before the game has started.\n",
+     "level": 3,
+     "enclosing_tags": [
+      "vanilla-fallback",
+      "logging"
+     ]
+    },
+    {
+     "id": "standards/error-handling.md#anti-patterns-to-avoid/silent-degradation",
+     "title": "Silent degradation",
+     "text": "### Silent degradation\n**Id:** blk-14a5563d3314\n\nDoing nothing without a log line leaves a player and the author guessing. Every skipped path logs.\n",
+     "level": 3,
+     "enclosing_tags": [
+      "vanilla-fallback",
+      "logging"
+     ]
+    },
+    {
+     "id": "standards/error-handling.md#anti-patterns-to-avoid/spamming-the-log",
+     "title": "Spamming the log",
+     "text": "### Spamming the log\n**Id:** blk-ad0a0a8968d8\n\nA warning inside an update method fires thousands of times. Use a once-flag.\n",
+     "level": 3,
+     "enclosing_tags": [
+      "vanilla-fallback",
+      "logging"
+     ]
+    },
+    {
+     "id": "standards/error-handling.md#project-specific-patterns",
+     "title": "Project-Specific Patterns",
+     "text": "## Project-Specific Patterns\n**Id:** blk-7cd28489c4ab\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/error-handling.md#related",
+     "title": "Related",
+     "text": "## Related\n**Id:** blk-78f779eac3d5\n\n- See also: [code style](code-style.md)\n- See also: [naming conventions](naming-conventions.md)\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "standards/naming-conventions.md",
+   "title": "Naming Conventions",
+   "description": "Naming conventions for Jumper Bridges: files, namespaces, variables, methods, patch classes, `ModStrings` keys and ids, plus its `OPTIONS` keys, `BridgeKind` instances, log prefix and `staticID`",
+   "document_tags": [],
+   "text": "---\ndoc_id: doc-436d434261c6\ndescription: \"Naming conventions for Jumper Bridges: files, namespaces, variables, methods, patch classes, `ModStrings` keys and ids, plus its `OPTIONS` keys, `BridgeKind` instances, log prefix and `staticID`\"\napplies_to:\n  - \"src/**\"\n---\n\n# Naming Conventions\n\n## Files and Directories\n**Id:** blk-28d70a70b6b6\n\n### General Rules\n**Id:** blk-f97a9739b6bc\n\n- A mod lives in `mods/<kebab-case-name>/` (`natural-backwalls-everywhere`, `just-fall-already`).\n- Its code is under `mods/<name>/src/<PascalName>/` with a matching `src/<PascalName>.Tests/` project. `AssemblyName`, `RootNamespace` and the project folder share one PascalCase name (`DontCountEggsOnRails`).\n- C# files are PascalCase and named for the main type they hold. One concept per file; small related types may share a file (`Display` in `mods/bitshifter/src/Bitshifter/Patches.cs`).\n- Release tags are `<mod-folder>-v<version>` (repository README).\n\n### Examples by Type\n**Id:** blk-bce469611e0a  \n**Tags:** mod-entry-point, harmony-patching, mod-strings, mod-options\n\n| Type | Convention | Example |\n|------|------------|---------|\n| Mod entry class | `Mod.cs`, class `<Name>Mod : UserMod2` | `BitshifterMod` in `Mod.cs` |\n| Harmony patches | `Patches.cs`, or a file named for what is patched | `PlanetoidPatch.cs`, `SettleSimPatch.cs` |\n| Building config | `<Building>Config.cs`, class `<Building>Config : IBuildingConfig` with `public const string ID` | `SmartWeightPlateConfig.cs` |\n| Side screen | `<Building>SideScreen.cs` | `SmartWeightPlateSideScreen.cs` |\n| Components | `<Thing>.cs` named for the component | `FridgeThermostat.cs`, `ZoneStore.cs` |\n| Strings | `ModStrings.cs` | `mods/salty-surf/src/SaltySurf/ModStrings.cs` |\n| Options | `Options.cs`, class `Options` | `mods/vent-freeze-fix/src/VentFreezeFix/Options.cs` |\n| Tests | `<Topic>.cs` in `<Name>.Tests`, one static class per topic | `Reach.cs`, `Gates.cs`, `Persistence.cs`; `Kit.cs` for shared helpers |\n| Mod metadata | `mod.yaml`, `mod_info.yaml` in the project folder | `staticID: \"Isochronous.<PascalName>\"` |\n| Translations | `translations/<locale>.po`, template `<Name>.pot` | `mods/detect-any-element/src/DetectAnyElement/translations` |\n| Art | `anim/` (kanim files), `assets/` | `bitshifter_ribbon_reader_kanim` |\n| Release material | `mods/<name>/publish/`, `CHANGELOG.md`, `README.md` | |\n\n## Code Naming\n**Id:** blk-10faf7f4fcda\n\n### Variables\n**Id:** blk-a6588337dcaa\n\n- camelCase for locals, parameters and private instance fields; no underscore prefix.\n- PascalCase for constants (`ArmSeconds`, `Bits`, `TechId`) and for `static readonly` values that act as constants or lookups (`Standard`, `YieldToWorkshopIds`, `Contested`).\n- camelCase for private static mutable state and caches (`armed`, `scratch`, `lastGrid`, `symbols`, `anyRows`).\n- Descriptive names; single letters only for loop indexes and the `e` of a catch.\n\n```csharp\nprivate const float ArmSeconds = 2f;\nprivate static readonly Dictionary<int, float> armed = new Dictionary<int, float>();\n```\n(`mods/just-fall-already/src/JustFallAlready/FallPoke.cs`)\n\n### Functions/Methods\n**Id:** blk-4509e45ca566  \n**Tags:** harmony-patching\n\n- PascalCase, starting with a verb: `Apply`, `Decide`, `SwapTable`, `CopyRangeFrom`, `ApplyRange`.\n- Game callbacks keep the game's names (`OnSpawn`, `OnPrefabInit`, `OnCleanUp`, `Sim1000ms`).\n- Harmony methods are named for their kind: `Prefix`, `Postfix`, `Transpiler`, `Finalizer`, plus `Prepare`, `TargetMethod`, `TargetMethods`.\n\n### Classes/Types/Interfaces\n**Id:** blk-5a743eb4229f  \n**Tags:** harmony-patching\n\n- PascalCase nouns. Interfaces take an `I` prefix (`IPlanTab` and `ITabView` in `mods/upgrade-planner`, and the game's own).\n- Harmony patch classes: `<PatchedType>_<PatchedMethod>_Patch` (`LogicRibbonReader_GetBitDepth_Patch`, `Db_Initialize_Patch`, `GeneratedBuildings_LoadGeneratedBuildings_Patch`). A patch for a type with one concern may use `<Type>_Patch` (`LiquidVentConfig_Patch`). Patches nested in a holder class may drop the suffix (`Constructable_OnSpawn` in `ReachTablePatches`).\n- Classes are `sealed` unless built for inheritance. The mod class is `public sealed`. Types the game does not reach are `internal`.\n- Option enums and nested helper types are PascalCase (`CoolPodMode`, `BridgeKind`).\n\n### Booleans\n**Id:** blk-d2c1e0cb703a\n\n- Prefix with `Is`, `Has`, `Can`, `Should` or name the state: `IsEnabled`, `OriginalActive`, `isSpawned`, `warnedMissingInternals`.\n\n### Strings (`ModStrings`)\n**Id:** blk-94c2b674b091  \n**Tags:** mod-strings, mod-options\n\n- `ModStrings` mirrors the game's `STRINGS` tree: nested static classes and `LocString` fields in UPPER_SNAKE_CASE. `ModStrings.BUILDINGS.PREFABS.<BUILDINGID>.NAME` is registered as `STRINGS.BUILDINGS.PREFABS.<BUILDINGID>.NAME`, the key the game looks a building name up by (`mods/smart-weight-plate/src/SmartWeightPlate/ModStrings.cs`).\n- Mod-private text goes under a branch named for the mod in capitals (`ModStrings.SALTYSURF.ELEMENT_LIST`, `ModStrings.JUMPERBRIDGES.OPTIONS`).\n- Option keys are written out as `STRINGS.<MOD>.OPTIONS.<OPTION>.NAME` and `.TOOLTIP`; categories as `STRINGS.<MOD>.OPTIONS.CATEGORY.<NAME>`.\n- Long branches are shortened with an alias at the top of the file (`using OPTIONS = NaturalBackwalls.ModStrings.NATURALBACKWALLS.OPTIONS;`).\n\n### Ids and Tags\n**Id:** blk-75fc5b18d34d  \n**Tags:** in-game-testing\n\n- Building ids are PascalCase and match the config class (`SmartWeightPlate`); a mod that replaces another mod's buildings reuses that mod's ids (`StoragePodConfig`, `CoolPodConfig` in `mods/storage-pod-redux`).\n- Tags and PAction ids carry a mod prefix: `DetectAnyElement_Any`, `Isochronous.SweepZones.Tool`.\n- The `staticID` in `mod.yaml` is `Isochronous.<PascalName>`.\n- Test names start with the mod's name or an abbreviation of it: `[OniTest(\"Bitshifter: a NOT gate on a ribbon inverts every bit\")]`, `VFF:` for Vent Freeze Fix.\n\n## Project-Specific Conventions\n**Id:** blk-39047899efd7\n\n### Jumper Bridges specifics\n**Id:** blk-35d2d918a6cd  \n**Tags:** mod-options, mod-strings, harmony-patching, logging\n\n- `Options` keys: `STRINGS.JUMPERBRIDGES.OPTIONS.AUTOMATION.*` and `STRINGS.JUMPERBRIDGES.OPTIONS.POWER.*` (`ModStrings.JUMPERBRIDGES`).\n- Patch classes follow `<Type>_<Method>_Patch` (`BuildingDef_MarkArea_Patch`, `DisconnectTool_OnMouseMove_Patch`).\n- Kinds are the static instances `BridgeKind.Logic` and `BridgeKind.Power`; `BridgeKind.All` lists them.\n- Log prefix `[JumperBridges]`; `staticID` `Isochronous.JumperBridges`.\n\n## Related\n**Id:** blk-eddf1b67ea8f\n\n- See also: [code style](code-style.md)\n- See also: [error handling](error-handling.md)\n",
+   "sections": [
+    {
+     "id": "standards/naming-conventions.md#files-and-directories",
+     "title": "Files and Directories",
+     "text": "## Files and Directories\n**Id:** blk-28d70a70b6b6\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/naming-conventions.md#files-and-directories/general-rules",
+     "title": "General Rules",
+     "text": "### General Rules\n**Id:** blk-f97a9739b6bc\n\n- A mod lives in `mods/<kebab-case-name>/` (`natural-backwalls-everywhere`, `just-fall-already`).\n- Its code is under `mods/<name>/src/<PascalName>/` with a matching `src/<PascalName>.Tests/` project. `AssemblyName`, `RootNamespace` and the project folder share one PascalCase name (`DontCountEggsOnRails`).\n- C# files are PascalCase and named for the main type they hold. One concept per file; small related types may share a file (`Display` in `mods/bitshifter/src/Bitshifter/Patches.cs`).\n- Release tags are `<mod-folder>-v<version>` (repository README).\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/naming-conventions.md#code-naming",
+     "title": "Code Naming",
+     "text": "## Code Naming\n**Id:** blk-10faf7f4fcda\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/naming-conventions.md#code-naming/variables",
+     "title": "Variables",
+     "text": "### Variables\n**Id:** blk-a6588337dcaa\n\n- camelCase for locals, parameters and private instance fields; no underscore prefix.\n- PascalCase for constants (`ArmSeconds`, `Bits`, `TechId`) and for `static readonly` values that act as constants or lookups (`Standard`, `YieldToWorkshopIds`, `Contested`).\n- camelCase for private static mutable state and caches (`armed`, `scratch`, `lastGrid`, `symbols`, `anyRows`).\n- Descriptive names; single letters only for loop indexes and the `e` of a catch.\n\n```csharp\nprivate const float ArmSeconds = 2f;\nprivate static readonly Dictionary<int, float> armed = new Dictionary<int, float>();\n```\n(`mods/just-fall-already/src/JustFallAlready/FallPoke.cs`)\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/naming-conventions.md#code-naming/booleans",
+     "title": "Booleans",
+     "text": "### Booleans\n**Id:** blk-d2c1e0cb703a\n\n- Prefix with `Is`, `Has`, `Can`, `Should` or name the state: `IsEnabled`, `OriginalActive`, `isSpawned`, `warnedMissingInternals`.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/naming-conventions.md#project-specific-conventions",
+     "title": "Project-Specific Conventions",
+     "text": "## Project-Specific Conventions\n**Id:** blk-39047899efd7\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/naming-conventions.md#related",
+     "title": "Related",
+     "text": "## Related\n**Id:** blk-eddf1b67ea8f\n\n- See also: [code style](code-style.md)\n- See also: [error handling](error-handling.md)\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  }
+ ]
+}

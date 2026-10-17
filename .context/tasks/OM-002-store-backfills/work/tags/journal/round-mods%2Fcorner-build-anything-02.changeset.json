@@ -1,36 +1,19 @@
 {
   "task": "OM-002",
-  "why": "tag backfill r1 for node mods/corner-build-anything — round 2",
+  "why": "tag backfill r2 for node mods/corner-build-anything — round 2",
   "node": "C:\\dev\\ONI-Mods\\mods\\corner-build-anything",
   "base": {
-    "domains/entities.md": "sha256:ed32916c850a0e34b4d0e0981a2f9197e3b8c3e987b51e1aa23ce087d6204174",
-    "standards/error-handling.md": "sha256:64eeb131be32c4da38abf190505dc130b0f388a15693ca5e060ecd61d36c4284",
-    "standards/naming-conventions.md": "sha256:d6b451a9b17a9e322c6a1c1b7c0d4bf6308fa4d9fe33768143735e63e217e7fa"
+    "standards/code-style.md": "sha256:3377fb04e72b530f835240b16085ed72ff2ea79ee61c72611038476b419181ef"
   },
   "ops": [
     {
-      "target": "domains/entities.md",
+      "target": "standards/code-style.md",
       "mode": "tag",
       "add": [
-        "harmony-patching"
+        "logging",
+        "in-game-testing"
       ],
-      "section": "key-entities/deconstructable-onspawn-patch"
-    },
-    {
-      "target": "standards/error-handling.md",
-      "mode": "tag",
-      "add": [
-        "transpiler"
-      ],
-      "section": "guarding-patches/transpiler-count-the-match"
-    },
-    {
-      "target": "standards/naming-conventions.md",
-      "mode": "tag",
-      "add": [
-        "harmony-patching"
-      ],
-      "section": "code-naming/classes-types-interfaces"
+      "section": "project-specific-rules"
     }
   ]
 }

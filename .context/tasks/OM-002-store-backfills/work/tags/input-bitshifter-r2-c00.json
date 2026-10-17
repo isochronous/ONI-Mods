@@ -1,0 +1,399 @@
+{
+ "documents": [
+  {
+   "id": "domains/README.md",
+   "title": "Domains",
+   "description": "Index of the domain documents in the Bitshifter node: the entities and glossary files covering the Ribbon Reader and Writer bit selection, display and NOT gate patches",
+   "document_tags": [
+    "automation-ribbon"
+   ],
+   "text": "---\ntags: automation-ribbon\ndoc_id: doc-508116624070\ndescription: \"Index of the domain documents in the Bitshifter node: the entities and glossary files covering the Ribbon Reader and Writer bit selection, display and NOT gate patches\"\n---\n\n# Domains\n\n## Domains\n**Id:** blk-ed2d207b4dbd\n\nDocuments in this folder:\n\n- [entities](entities.md): Ribbon Reader and Writer bit selection, display and NOT gate patches, with the key code paths.\n- [glossary](glossary.md): What the mod patches, its rules and its terms.\n",
+   "sections": [
+    {
+     "id": "domains/README.md#domains",
+     "title": "Domains",
+     "text": "## Domains\n**Id:** blk-ed2d207b4dbd\n\nDocuments in this folder:\n\n- [entities](entities.md): Ribbon Reader and Writer bit selection, display and NOT gate patches, with the key code paths.\n- [glossary](glossary.md): What the mod patches, its rules and its terms.\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "domains/entities.md",
+   "title": "Bitshifter domain",
+   "description": "The classes and Harmony patches of the Bitshifter mod (src/Bitshifter): entry point and compatibility checks, 31-bit depth, display, side screen, NOT gate and overlay label guard, with locations and rules",
+   "document_tags": [
+    "automation-ribbon",
+    "harmony-patching"
+   ],
+   "text": "---\ntags: automation-ribbon, harmony-patching\nwitness_digest: \"sha256:382ad09629bed52ad2d65446588a629c6e203b36897fb157b4b1ad576692db06\"\nwitness: loose\napplies_to:\n  - \"src/Bitshifter/**\"\ndoc_id: doc-01b787080f8e\ndescription: \"The classes and Harmony patches of the Bitshifter mod (src/Bitshifter): entry point and compatibility checks, 31-bit depth, display, side screen, NOT gate and overlay label guard, with locations and rules\"\n---\n\n# Bitshifter domain\n\n## Overview\n**Id:** blk-88f758ea7235\n\nBitshifter lets the Automation Ribbon Reader and Ribbon Writer select any of bits 1 to 31 instead of 1 to 4, and draws the selected bit on the buildings. It adds no buildings of its own: every entity below is a vanilla game class the mod patches, or a mod class that does the patching. Source is in `mods/bitshifter/src/Bitshifter/`.\n\n## Key Entities\n**Id:** blk-0fc6620ccba9\n\n### BitshifterMod\n**Id:** blk-976bcafad5d2  \n**Tags:** mod-entry-point, mod-compatibility  \n**Description**: The `UserMod2` entry point. Applies the patches in `OnAllModsLoaded` (not `OnLoad`) so the compatibility check sees every other mod's patches, and stands down when another mod already widens the reader or writer.  \n**Location**: `mods/bitshifter/src/Bitshifter/Mod.cs`\n\n| Member | Type | Description |\n|--------|------|-------------|\n| Bits | const int (31) | Highest selectable bit. Bit 32 is the int's sign bit and the game tests bits with `> 0`, so it never reads as on |\n| YieldToWorkshopIds / YieldToStaticIds | string[] | Digital CPU: Workshop 3244925649, staticID `OniSmallCpu` |\n| Contested | MethodBase[] | `GetBitDepth` and `OnSpawn` on `LogicRibbonReader` and `LogicRibbonWriter`; an existing Harmony owner on any of them makes the mod stand down |\n\n**Relationships**: calls `OverlayLabelGuard.Apply` first (always), then `WhyYield`; if that returns a reason it logs \"Disabled: ...\" and returns, otherwise `harmony.PatchAll` over the mod assembly.\n\n### Reader and Writer bit depth\n**Id:** blk-d5c2d70c3f11  \n**Tags:** bit-depth, saved-state  \n**Description**: `LogicRibbonReader.GetBitDepth` and `LogicRibbonWriter.GetBitDepth` are postfixed to return `Bits`. The bit selector side screen builds one row per `GetBitDepth()`, and both buildings already shift by the selected bit with no upper bound, so this is the whole functional change.  \n**Location**: `mods/bitshifter/src/Bitshifter/Patches.cs` (`LogicRibbonReader_GetBitDepth_Patch`, `LogicRibbonWriter_GetBitDepth_Patch`)\n\n**Relationships**: the selected bit is the game's own saved `selectedBit` field, so it is saved with the building and copied by copy-settings with no mod code.\n\n### Display\n**Id:** blk-cd081718a091  \n**Tags:** kanim-art  \n**Description**: Shared draw code for both buildings. Replaces the vanilla four bit lights with a two-digit seven-segment display of the selected bit (1-based) and one light for that bit's state.  \n**Location**: `mods/bitshifter/src/Bitshifter/Patches.cs` (`Display`)\n\n| Member | Type | Description |\n|--------|------|-------------|\n| ReaderAnim / WriterAnim | string | `bitshifter_ribbon_reader_kanim`, `bitshifter_ribbon_writer_kanim`, built by `tools/make_art.py` into `src/Bitshifter/anim/assets` |\n| Signal, OutputLight, InputLight | KAnimHashedString | Symbols `signal_bloom`, `output_light_bloom`, `input_light_bloom` tinted with the building's on and off colours |\n| Segments | KAnimHashedString[2,7] | Symbols `seg_a_1` to `seg_g_2`, shown or hidden per digit |\n| WriterUpsideDown / ReaderUpsideDown | Orientation | R270 for the writer, R90 for the reader; at those orientations the digits trade places and each segment trades with its opposite |\n\n**Relationships**: `LogicRibbonReaderConfig` and `LogicRibbonWriterConfig` `CreateBuildingDef` postfixes swap in the mod's kanims through `Display.UseAnim` (the vanilla art is kept with a warning if the kanim is missing). `LogicRibbonReader.UpdateVisuals` and `LogicRibbonWriter.UpdateVisuals` are replaced by prefixes that return false and call `Display.Update`.\n\n### LogicBitSelectorSideScreen scroll view\n**Id:** blk-3546b9b4bcd4  \n**Tags:** side-screen  \n**Description**: A postfix on `LogicBitSelectorSideScreen.SetTarget` wraps the rows' container in a `KScrollRect` (with `RectMask2D`, `LayoutElement` and `ContentSizeFitter`) the first time the screen is shown. The viewport is 1.5 times the height of the vanilla four rows, with a permanent scrollbar cloned from a vanilla side screen (a flat-colour bar is the fallback). The same postfix clamps layout widths to the details panel header (280 px against the vanilla 316 px ask).  \n**Location**: `mods/bitshifter/src/Bitshifter/SideScreen.cs`\n\n**Relationships**: `IsWrapped` checks the row list's direct parent so reopening the screen does not nest a second scroll view.\n\n### NOT gate mask\n**Id:** blk-5f2b3567543d  \n**Tags:** not-gate, transpiler, vanilla-fallback  \n**Description**: A transpiler on `LogicGate.UpdateState` replaces the single `& 15` (four-bit mask) with `Mask` = `(1 << 31) - 1`, so a NOT gate with a ribbon input inverts all 31 bits. If the method has no such mask or more than one, it is left alone and a warning is logged.  \n**Location**: `mods/bitshifter/src/Bitshifter/Patches.cs` (`LogicGate_UpdateState_Patch`)\n\n### OverlayLabelGuard\n**Id:** blk-4919a4967bb1  \n**Tags:** mod-compatibility  \n**Description**: When Better Automation Overlay (Workshop 1878896484) is enabled, prefixes every `GetSetting` on its `LogicLabelSetting` labels so a label that has not spawned yet returns blank text instead of throwing a NullReferenceException every frame. Applies even when the rest of the mod stands down.  \n**Location**: `mods/bitshifter/src/Bitshifter/OverlayLabelGuard.cs`\n\n## Business Rules\n**Id:** blk-de8c66751b82  \n**Tags:** bit-depth, not-gate, mod-compatibility\n\n- The reader and writer offer bits 1 to 31 and no more.\n- A reader set to a high bit outputs that bit on a 1-bit wire, or the value shifted down by that many bits on a ribbon; a writer shifts its input up by the selected bit. This is the game's own shifting; the mod changes no arithmetic.\n- The NOT gate inverts 31 bits. Other gates already work on every bit; Buffer and Filter output a single bit, as in the base game.\n- The mod stands down and logs the reason when Digital CPU is enabled, or when any other mod has Harmony-patched `GetBitDepth` or `OnSpawn` on the reader or writer by the time all mods have loaded.\n- Removing the mod leaves a building set above bit 4 working; the vanilla side screen shows no selection for it until a bit is picked again.\n- No PLib, no options, no strings.\n\n## Key Code Paths\n**Id:** blk-2fe104dbf053  \n**Tags:** mod-entry-point, side-screen, kanim-art, in-game-testing\n\n- **Startup and yield check**: `OnAllModsLoaded` runs the guard, `WhyYield`, then `PatchAll` — see `mods/bitshifter/src/Bitshifter/Mod.cs`\n- **Drawing the selected bit**: `UpdateVisuals` prefix, `Display.Update`, `SetDigit` — see `mods/bitshifter/src/Bitshifter/Patches.cs`\n- **Scrolling bit list**: `SetTarget` postfix, `Wrap`, `FitUnderHeader` — see `mods/bitshifter/src/Bitshifter/SideScreen.cs`\n- **Overlay crash guard**: `OverlayLabelGuard.Apply` — see `mods/bitshifter/src/Bitshifter/OverlayLabelGuard.cs`\n- **Art build**: `tools/make_art.py` writes the two kanims from the game's own reader and writer kanims; `--check` fails when committed kanims differ from a fresh build\n- **Tests**: in-game tests in `mods/bitshifter/src/Bitshifter.Tests/` (`Compatibility.cs`, `Gates.cs`, `Readout.cs`, `Settings.cs`, `SideScreen.cs`, `Signals.cs`)\n\n## Related\n**Id:** blk-d6aecc1ac010\n\n- See also: [glossary](glossary.md)\n",
+   "sections": [
+    {
+     "id": "domains/entities.md#overview",
+     "title": "Overview",
+     "text": "## Overview\n**Id:** blk-88f758ea7235\n\nBitshifter lets the Automation Ribbon Reader and Ribbon Writer select any of bits 1 to 31 instead of 1 to 4, and draws the selected bit on the buildings. It adds no buildings of its own: every entity below is a vanilla game class the mod patches, or a mod class that does the patching. Source is in `mods/bitshifter/src/Bitshifter/`.\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/entities.md#key-entities",
+     "title": "Key Entities",
+     "text": "## Key Entities\n**Id:** blk-0fc6620ccba9\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/entities.md#related",
+     "title": "Related",
+     "text": "## Related\n**Id:** blk-d6aecc1ac010\n\n- See also: [glossary](glossary.md)\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "domains/glossary.md",
+   "title": "Domain Glossary",
+   "description": "Glossary for the Bitshifter mod: abbreviations such as BAO and ONICPU, terms to avoid like Bit 32 and Bit 0, and definitions of ribbon, Reader, Writer, bit depth and the bit selector side screen",
+   "document_tags": [
+    "automation-ribbon"
+   ],
+   "text": "---\ntags: automation-ribbon\nwitness_digest: \"sha256:382ad09629bed52ad2d65446588a629c6e203b36897fb157b4b1ad576692db06\"\nwitness: loose\napplies_to:\n  - \"src/Bitshifter/**\"\ndoc_id: doc-2605b1cfcd73\ndescription: \"Glossary for the Bitshifter mod: abbreviations such as BAO and ONICPU, terms to avoid like Bit 32 and Bit 0, and definitions of ribbon, Reader, Writer, bit depth and the bit selector side screen\"\n---\n\n# Domain Glossary\n\nTerms used in the Bitshifter mod (`mods/bitshifter`). For the classes and patches behind them, see the entities document.\n\n## Abbreviations and Acronyms\n**Id:** blk-c32654e0f564  \n**Tags:** kanim-art, mod-compatibility\n\n| Abbreviation | Full Term | Context |\n|--------------|-----------|---------|\n| ONI | Oxygen Not Included | The game this mod is for |\n| kanim | Klei animation | The game's sprite-animation asset (`*_kanim`); the mod ships its own for the reader and writer |\n| ONICPU | Digital CPU (staticID `OniSmallCpu`, Workshop 3244925649) | A mod that already widens ribbons to 32 bits; Bitshifter yields to it |\n| BAO | Better Automation Overlay (Workshop 1878896484) | Mod whose overlay labels `OverlayLabelGuard` protects |\n\n## Terms to Avoid\n**Id:** blk-cf5e7783d48c  \n**Tags:** bit-depth, saved-state\n\n| Avoid | Use Instead | Reason |\n|-------|-------------|--------|\n| Bit 32 | Bits 1-31 | Bit 32 is the int's sign bit; the game tests bits with `> 0`, so it never reads as on and the mod leaves it out |\n| Bit 0 | Bit 1 | The side screen and the display number bits from 1; the stored `selectedBit` is 0-based, so the display shows `selectedBit + 1` |\n\n## Cross-Domain Terms\n**Id:** blk-e56acb84a125\n\n### Ribbon\n**Id:** blk-21a5cd486094  \n**Tags:** bit-depth  \n**Definition**: An automation wire that carries a 32-bit integer signal; the game exposes the low four bits. A ribbon carries up to 31 independent signals with this mod.  \n**Used in**: Reader, Writer, NOT gate mask\n\n### Automation Ribbon Reader\n**Id:** blk-e56d7b368a41  \n**Tags:** bit-depth  \n**Definition**: Building (`LogicRibbonReader`) that picks one bit from a ribbon, or shifts the value down by that many bits onto a ribbon output.  \n**Used in**: bit depth patch, `UpdateVisuals` patch, side screen\n\n### Ribbon Writer\n**Id:** blk-0353e0e524cb  \n**Tags:** bit-depth  \n**Definition**: Building (`LogicRibbonWriter`) that shifts a 1-bit or ribbon input up by the selected bit onto a ribbon.  \n**Used in**: bit depth patch, `UpdateVisuals` patch, side screen\n\n### Bit depth\n**Id:** blk-317285d31e79  \n**Tags:** bit-depth  \n**Definition**: What `GetBitDepth()` returns: how many bits the selector side screen lists. Vanilla returns 4; the mod returns 31.  \n**Used in**: `Patches.cs`, `Mod.cs` (`Bits`)\n\n### Bit selector side screen\n**Id:** blk-64dad4f78a5e  \n**Tags:** side-screen, bit-depth  \n**Definition**: The details-panel screen (`LogicBitSelectorSideScreen`) with one row per bit. The mod puts its rows in a scroll view.  \n**Used in**: `SideScreen.cs`\n\n### Selected bit\n**Id:** blk-a6c85b35c760  \n**Tags:** saved-state, bit-depth  \n**Definition**: The building's saved bit choice (`selectedBit`, 0-based internally, shown 1-based). Saved with the building and copied by copy-settings.  \n**Used in**: `Display.Update`, tests in `Settings.cs`\n\n### Port lights\n**Id:** blk-b5a06fba0850  \n**Definition**: The input and output lights on a logic building that show whether a wire is connected and its state; the mod keeps them and tints them with the building's on and off colours.  \n**Used in**: `Display`\n\n### Stand down\n**Id:** blk-ce9d17157555  \n**Tags:** mod-compatibility, vanilla-fallback, logging  \n**Definition**: The mod applies no patches (apart from the overlay guard) and logs why, because another mod already handles the widening.  \n**Used in**: `Mod.cs` (`WhyYield`)\n\n## Related\n**Id:** blk-e9bc1a155ba9\n\n- See also: [entities](entities.md)\n",
+   "sections": [
+    {
+     "id": "domains/glossary.md#cross-domain-terms",
+     "title": "Cross-Domain Terms",
+     "text": "## Cross-Domain Terms\n**Id:** blk-e56acb84a125\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/port-lights",
+     "title": "Port lights",
+     "text": "### Port lights\n**Id:** blk-b5a06fba0850  \n**Definition**: The input and output lights on a logic building that show whether a wire is connected and its state; the mod keeps them and tints them with the building's on and off colours.  \n**Used in**: `Display`\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#related",
+     "title": "Related",
+     "text": "## Related\n**Id:** blk-e9bc1a155ba9\n\n- See also: [entities](entities.md)\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "standards/README.md",
+   "title": "Standards",
+   "description": "Index of the standards documents in the Bitshifter node: code style, error handling and naming conventions",
+   "document_tags": [],
+   "text": "---\ndoc_id: doc-815a606305e5\ndescription: \"Index of the standards documents in the Bitshifter node: code style, error handling and naming conventions\"\n---\n\n# Standards\n\n## Standards\n**Id:** blk-296f0de044ab\n\nDocuments in this folder:\n\n- [code-style](code-style.md): C# formatting, imports, comments, Harmony patch and component conventions, with this mod's own layout.\n- [error-handling](error-handling.md): How the mod guards its Harmony patches, reflection lookups and file reads, and what it logs when something is missing.\n- [naming-conventions](naming-conventions.md): File, namespace, patch class, string key and id naming.\n",
+   "sections": [
+    {
+     "id": "standards/README.md#standards",
+     "title": "Standards",
+     "text": "## Standards\n**Id:** blk-296f0de044ab\n\nDocuments in this folder:\n\n- [code-style](code-style.md): C# formatting, imports, comments, Harmony patch and component conventions, with this mod's own layout.\n- [error-handling](error-handling.md): How the mod guards its Harmony patches, reflection lookups and file reads, and what it logs when something is missing.\n- [naming-conventions](naming-conventions.md): File, namespace, patch class, string key and id naming.\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "standards/code-style.md",
+   "title": "Code Style Guide",
+   "description": "C# code style for the Bitshifter mod: formatting, toolchain, imports, comments, Harmony patch and component conventions, plus Bitshifter's own layout in src/Bitshifter such as Patches.cs and the Display helper",
+   "document_tags": [],
+   "text": "---\ndoc_id: doc-c9711fdcdf52\ndescription: \"C# code style for the Bitshifter mod: formatting, toolchain, imports, comments, Harmony patch and component conventions, plus Bitshifter's own layout in src/Bitshifter such as Patches.cs and the Display helper\"\napplies_to:\n  - \"src/**\"\n---\n\n# Code Style Guide\n\n## Formatting\n**Id:** blk-560325a10a42\n\n### Indentation\n**Id:** blk-4fdb0f5fa329\n\n- Tabs, one per level, in every `.cs` file (`mods/bitshifter/src/Bitshifter/Mod.cs`).\n- Project files (`.csproj`, `common/oni-mod.props`, `common/oni-mod.targets`) use two spaces.\n- Files are committed with LF line endings; Windows checkouts convert them to CRLF (`core.autocrlf` is true), so do not hand-normalise line endings.\n\n### Line Length\n**Id:** blk-f9bb4b2c4543\n\n- No limit is configured and the repository has no `.editorconfig`.\n- Wrap long calls and string concatenations after an argument or before a `+`, and indent the continuation one tab. The start-up log call in `mods/jumper-bridges/src/JumperBridges/Mod.cs` is the pattern.\n- TODO(owner): decide whether to add an `.editorconfig` recording tabs and brace placement so editors enforce what the code already does.\n\n### Braces\n**Id:** blk-eae90ee208f9\n\n- Opening brace on its own line (Allman) for namespaces, types, members and multi-line control blocks.\n- A body of one short statement goes on the next line without braces:\n\n```csharp\nforeach (Mod mod in mods)\n{\n\tif (!mod.IsEnabledForActiveDlc())\n\t\tcontinue;\n\t...\n}\n```\n\n- Multi-line initialisers and enums end with a trailing comma (`YieldToWorkshopIds` in `mods/bitshifter/src/Bitshifter/Mod.cs`, `CoolPodMode` in `mods/storage-pod-redux/src/StoragePodRedux/Options.cs`).\n\n## Language and Toolchain\n**Id:** blk-cf9a03ea8a94\n\n- C# 9 on .NET Framework 4.8 (`LangVersion` 9.0 and `TargetFramework` net48 in `common/oni-mod.props`). Namespace blocks, not file-scoped namespaces; no nullable reference types.\n- Mods compile against the game's own assemblies (`common/oni-mod.targets`): `Assembly-CSharp`, `Assembly-CSharp-firstpass`, `0Harmony` and Unity modules. The game's .NET Framework lacks some newer APIs (`ConditionalWeakTable.AddOrUpdate` is missing, see `mods/detect-any-element/src/DetectAnyElement/Patches.cs`).\n- Optional references are switched on in the mod csproj before the targets import: `ReferenceUnityUI`, `ReferenceImageConversion`, `UsePLib` (PLib is ILRepack-merged into the mod DLL) and `UseTranslations` (compiles `common/src/Translations.cs` in).\n- One namespace per mod, equal to its `RootNamespace`. Subfolders organise files and do not add namespaces (`mods/upgrade-planner/src/UpgradePlanner/Plan`, `Rules`, `Tool`, `UI` all declare `namespace UpgradePlanner`).\n\n## Imports/Includes\n**Id:** blk-a655f79fe2d4\n\n### Organization\n**Id:** blk-fc2efcca0eed\n\n`using` directives sit above the namespace, in one block with no blank lines, sorted alphabetically with `System.*` first. Aliases for `ModStrings` branches come last.\n\n1. `System.*`\n2. Everything else alphabetically: `HarmonyLib`, `Isochronous`, `KMod`, `Newtonsoft.Json`, `PeterHan.PLib.*`, `ProcGenGame`, `UnityEngine`\n3. Aliases (`using TOOL = SweepZones.ModStrings.UI.TOOLS.SWEEPZONES;`)\n\n### Example\n**Id:** blk-32ae0ce82848\n\n```csharp\nusing System.Collections.Generic;\nusing System.Reflection;\nusing HarmonyLib;\nusing Isochronous;\nusing Klei;\nusing KMod;\nusing STRINGS;\nusing UnityEngine;\n```\n(`mods/salty-surf/src/SaltySurf/Mod.cs`)\n\n`Debug.Log` resolves either to `UnityEngine.Debug` or to the game's own global `Debug` class, so several `Mod.cs` files omit `using UnityEngine`. When a file imports `System.Diagnostics`, qualify the call as `UnityEngine.Debug.Log` (`mods/just-fall-already/src/JustFallAlready/FallPoke.cs`).\n\n## Comments\n**Id:** blk-aa5709424e26\n\n### When to Comment\n**Id:** blk-764a3de83887\n\n- On every non-trivial class, an XML `<summary>` that says what the game does and what the patch changes, so a reader can check the patch against the game code. The long summary on `OvercrowdingMonitor_UpdateRegion_Patch` in `mods/dont-count-eggs-on-rails/src/DontCountEggsOnRails/Mod.cs` is the model.\n- Where a game quirk forces an odd line: `// The game's .NET Framework has no AddOrUpdate on this table.`\n- Where another mod is involved, name it and its Workshop id (`mods/bitshifter/src/Bitshifter/Mod.cs`, `mods/smart-weight-plate/src/SmartWeightPlate/Mod.cs`).\n- Escape angle brackets in XML comments as `&lt;` and `&gt;`.\n\n### When NOT to Comment\n**Id:** blk-783d01891abf\n\n- Code that reads clearly from its names.\n- Commented-out code; delete it.\n- Restating what a line does.\n\n### Format\n**Id:** blk-da6960b7a77e\n\n```csharp\n/// <summary>\n/// The \"Any\" choice. It is a tag like the elements a sensor's Filterable holds, so it rides\n/// in the same saved field and copies with the building's settings.\n/// </summary>\npublic static class AnyElement\n\n// Single-line note for a quirk or a reason.\n```\n\n## Control Structures\n**Id:** blk-492ab9ff4ab1\n\n### Conditionals\n**Id:** blk-24f0ce307136\n\nGuard clauses and early `return` or `continue` keep nesting shallow (`SettleSimBackwalls.UpdateFromSim` in `mods/natural-backwalls-everywhere/src/NaturalBackwalls/SettleSimPatch.cs`):\n\n```csharp\nif (!Grid.IsValidCell(cell))\n\tcontinue;\nushort idx = data->backwallElement[cell];\nif (idx == ushort.MaxValue || idx >= elements.Count)\n\tcontinue;\n```\n\n### Loops\n**Id:** blk-eb6b4b01a219\n\n- Plain `for` and `foreach`. Code that runs every sim tick or frame avoids LINQ and allocations; reuse scratch lists (`scratch` in `mods/just-fall-already/src/JustFallAlready/FallPoke.cs`).\n- Local types are written out (`Tech tech = ...`). `var` appears mainly in `mods/upgrade-planner`, `mods/natural-backwalls-everywhere` and the test projects; follow the surrounding file.\n\n### Strings\n**Id:** blk-7777e7f3c39a\n\n- Log and UI text is built with `+` concatenation, or `string.Format` on a `LocString`. String interpolation is not used in mod code.\n- Player-visible text is a `LocString` field in `ModStrings`, never a literal at the call site (see [naming conventions](naming-conventions.md)).\n\n## Harmony Patches\n**Id:** blk-c3e49ad21d32  \n**Tags:** harmony-patching, transpiler, mod-entry-point\n\n- A patch is a static class with `[HarmonyPatch(typeof(Type), nameof(Type.Method))]`, or `[HarmonyPatch(typeof(Type), \"PrivateMethod\")]` for a non-public method, and methods named `Prefix`, `Postfix`, `Transpiler` or `Finalizer` (`mods/bitshifter/src/Bitshifter/Patches.cs`).\n- Game state arrives through Harmony parameters: `__instance`, `__result`, `___field`. Fields read repeatedly use `AccessTools.FieldRefAccess` kept in a `static readonly` field (`mods/detect-any-element/src/DetectAnyElement/Patches.cs`).\n- A prefix returns `true` to let the game's method run and `false` only when it replaces the method (`mods/dont-count-eggs-on-rails`, `mods/bitshifter` `UpdateVisuals`).\n- A patch that depends on an option implements `Prepare()` (`mods/jumper-bridges/src/JumperBridges/Patches.cs`); a patch with several targets implements `TargetMethods()`.\n- `UserMod2.OnLoad` calls `base.OnLoad(harmony)`, which applies every patch in the assembly, then registers libraries and logs the version. A mod that must patch after all others applies its patches from `OnAllModsLoaded` instead (`mods/bitshifter/src/Bitshifter/Mod.cs`).\n- Transpilers search for the instruction they change and report when it is not found; see [error handling](error-handling.md).\n\n## Game Components\n**Id:** blk-9703c0ddcb30  \n**Tags:** saved-state\n\n- A component extends `KMonoBehaviour`, overrides `OnPrefabInit`, `OnSpawn` and `OnCleanUp` and calls `base` from each. Sibling components come in through `[MyCmpGet]` or `[MyCmpReq]` (`mods/no-magic-fridges/src/NoMagicFridges/FridgeThermostat.cs`).\n- Saved state uses `[Serialize]` fields with `[SerializationConfig(MemberSerialization.OptIn)]` on the class (`mods/sweep-zones/src/SweepZones/ZoneStore.cs`).\n- Components are added to prefabs from a `DoPostConfigureComplete` postfix with `go.AddOrGet<T>()`.\n\n## Project-Specific Rules\n**Id:** blk-e8781e877267  \n**Tags:** logging, in-game-testing\n\n- Mod options are a PLib `POptions` class marked `[JsonObject(MemberSerialization.OptIn)]` and `[ConfigFile(SharedConfigLocation: true)]`, read through a static `Load()` (`mods/vent-freeze-fix/src/VentFreezeFix/Options.cs`) or through `SingletonOptions<Options>` (`mods/storage-pod-redux`). Option titles are string-table keys, so the translation follows the language.\n- Every mod logs one line at load: `[<Name>] Loaded version <assembly version>`.\n- Tests live in a separate `<Name>.Tests` project and are written as `[OniTest]` coroutines against the real game.\n\n### Bitshifter specifics\n**Id:** blk-7a89bf1fb99c  \n**Tags:** mod-entry-point, harmony-patching, side-screen, kanim-art\n\n- Patches are applied from `OnAllModsLoaded` with `harmony.PatchAll(typeof(BitshifterMod).Assembly)`, not from `base.OnLoad`, so every other mod patches first. `OnLoad` only logs (`src/Bitshifter/Mod.cs`).\n- Patch classes are `internal static` and live in `src/Bitshifter/Patches.cs`; the drawing code they share is the internal static class `Display` in the same file.\n- Uses `ReferenceUnityUI` only: no PLib, no translations. The side screen is built by hand (`src/Bitshifter/SideScreen.cs`).\n- Art is in `src/Bitshifter/anim`; `tools/make_art.py` generates it.\n\n## Related\n**Id:** blk-9864e2e99ea5\n\n- See also: [naming conventions](naming-conventions.md)\n- See also: [error handling](error-handling.md)\n",
+   "sections": [
+    {
+     "id": "standards/code-style.md#formatting",
+     "title": "Formatting",
+     "text": "## Formatting\n**Id:** blk-560325a10a42\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#formatting/indentation",
+     "title": "Indentation",
+     "text": "### Indentation\n**Id:** blk-4fdb0f5fa329\n\n- Tabs, one per level, in every `.cs` file (`mods/bitshifter/src/Bitshifter/Mod.cs`).\n- Project files (`.csproj`, `common/oni-mod.props`, `common/oni-mod.targets`) use two spaces.\n- Files are committed with LF line endings; Windows checkouts convert them to CRLF (`core.autocrlf` is true), so do not hand-normalise line endings.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#formatting/line-length",
+     "title": "Line Length",
+     "text": "### Line Length\n**Id:** blk-f9bb4b2c4543\n\n- No limit is configured and the repository has no `.editorconfig`.\n- Wrap long calls and string concatenations after an argument or before a `+`, and indent the continuation one tab. The start-up log call in `mods/jumper-bridges/src/JumperBridges/Mod.cs` is the pattern.\n- TODO(owner): decide whether to add an `.editorconfig` recording tabs and brace placement so editors enforce what the code already does.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#formatting/braces",
+     "title": "Braces",
+     "text": "### Braces\n**Id:** blk-eae90ee208f9\n\n- Opening brace on its own line (Allman) for namespaces, types, members and multi-line control blocks.\n- A body of one short statement goes on the next line without braces:\n\n```csharp\nforeach (Mod mod in mods)\n{\n\tif (!mod.IsEnabledForActiveDlc())\n\t\tcontinue;\n\t...\n}\n```\n\n- Multi-line initialisers and enums end with a trailing comma (`YieldToWorkshopIds` in `mods/bitshifter/src/Bitshifter/Mod.cs`, `CoolPodMode` in `mods/storage-pod-redux/src/StoragePodRedux/Options.cs`).\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#language-and-toolchain",
+     "title": "Language and Toolchain",
+     "text": "## Language and Toolchain\n**Id:** blk-cf9a03ea8a94\n\n- C# 9 on .NET Framework 4.8 (`LangVersion` 9.0 and `TargetFramework` net48 in `common/oni-mod.props`). Namespace blocks, not file-scoped namespaces; no nullable reference types.\n- Mods compile against the game's own assemblies (`common/oni-mod.targets`): `Assembly-CSharp`, `Assembly-CSharp-firstpass`, `0Harmony` and Unity modules. The game's .NET Framework lacks some newer APIs (`ConditionalWeakTable.AddOrUpdate` is missing, see `mods/detect-any-element/src/DetectAnyElement/Patches.cs`).\n- Optional references are switched on in the mod csproj before the targets import: `ReferenceUnityUI`, `ReferenceImageConversion`, `UsePLib` (PLib is ILRepack-merged into the mod DLL) and `UseTranslations` (compiles `common/src/Translations.cs` in).\n- One namespace per mod, equal to its `RootNamespace`. Subfolders organise files and do not add namespaces (`mods/upgrade-planner/src/UpgradePlanner/Plan`, `Rules`, `Tool`, `UI` all declare `namespace UpgradePlanner`).\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#imports-includes",
+     "title": "Imports/Includes",
+     "text": "## Imports/Includes\n**Id:** blk-a655f79fe2d4\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#imports-includes/organization",
+     "title": "Organization",
+     "text": "### Organization\n**Id:** blk-fc2efcca0eed\n\n`using` directives sit above the namespace, in one block with no blank lines, sorted alphabetically with `System.*` first. Aliases for `ModStrings` branches come last.\n\n1. `System.*`\n2. Everything else alphabetically: `HarmonyLib`, `Isochronous`, `KMod`, `Newtonsoft.Json`, `PeterHan.PLib.*`, `ProcGenGame`, `UnityEngine`\n3. Aliases (`using TOOL = SweepZones.ModStrings.UI.TOOLS.SWEEPZONES;`)\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#imports-includes/example",
+     "title": "Example",
+     "text": "### Example\n**Id:** blk-32ae0ce82848\n\n```csharp\nusing System.Collections.Generic;\nusing System.Reflection;\nusing HarmonyLib;\nusing Isochronous;\nusing Klei;\nusing KMod;\nusing STRINGS;\nusing UnityEngine;\n```\n(`mods/salty-surf/src/SaltySurf/Mod.cs`)\n\n`Debug.Log` resolves either to `UnityEngine.Debug` or to the game's own global `Debug` class, so several `Mod.cs` files omit `using UnityEngine`. When a file imports `System.Diagnostics`, qualify the call as `UnityEngine.Debug.Log` (`mods/just-fall-already/src/JustFallAlready/FallPoke.cs`).\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#comments",
+     "title": "Comments",
+     "text": "## Comments\n**Id:** blk-aa5709424e26\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#comments/when-to-comment",
+     "title": "When to Comment",
+     "text": "### When to Comment\n**Id:** blk-764a3de83887\n\n- On every non-trivial class, an XML `<summary>` that says what the game does and what the patch changes, so a reader can check the patch against the game code. The long summary on `OvercrowdingMonitor_UpdateRegion_Patch` in `mods/dont-count-eggs-on-rails/src/DontCountEggsOnRails/Mod.cs` is the model.\n- Where a game quirk forces an odd line: `// The game's .NET Framework has no AddOrUpdate on this table.`\n- Where another mod is involved, name it and its Workshop id (`mods/bitshifter/src/Bitshifter/Mod.cs`, `mods/smart-weight-plate/src/SmartWeightPlate/Mod.cs`).\n- Escape angle brackets in XML comments as `&lt;` and `&gt;`.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#comments/when-not-to-comment",
+     "title": "When NOT to Comment",
+     "text": "### When NOT to Comment\n**Id:** blk-783d01891abf\n\n- Code that reads clearly from its names.\n- Commented-out code; delete it.\n- Restating what a line does.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#comments/format",
+     "title": "Format",
+     "text": "### Format\n**Id:** blk-da6960b7a77e\n\n```csharp\n/// <summary>\n/// The \"Any\" choice. It is a tag like the elements a sensor's Filterable holds, so it rides\n/// in the same saved field and copies with the building's settings.\n/// </summary>\npublic static class AnyElement\n\n// Single-line note for a quirk or a reason.\n```\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#control-structures",
+     "title": "Control Structures",
+     "text": "## Control Structures\n**Id:** blk-492ab9ff4ab1\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#control-structures/conditionals",
+     "title": "Conditionals",
+     "text": "### Conditionals\n**Id:** blk-24f0ce307136\n\nGuard clauses and early `return` or `continue` keep nesting shallow (`SettleSimBackwalls.UpdateFromSim` in `mods/natural-backwalls-everywhere/src/NaturalBackwalls/SettleSimPatch.cs`):\n\n```csharp\nif (!Grid.IsValidCell(cell))\n\tcontinue;\nushort idx = data->backwallElement[cell];\nif (idx == ushort.MaxValue || idx >= elements.Count)\n\tcontinue;\n```\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#control-structures/loops",
+     "title": "Loops",
+     "text": "### Loops\n**Id:** blk-eb6b4b01a219\n\n- Plain `for` and `foreach`. Code that runs every sim tick or frame avoids LINQ and allocations; reuse scratch lists (`scratch` in `mods/just-fall-already/src/JustFallAlready/FallPoke.cs`).\n- Local types are written out (`Tech tech = ...`). `var` appears mainly in `mods/upgrade-planner`, `mods/natural-backwalls-everywhere` and the test projects; follow the surrounding file.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#control-structures/strings",
+     "title": "Strings",
+     "text": "### Strings\n**Id:** blk-7777e7f3c39a\n\n- Log and UI text is built with `+` concatenation, or `string.Format` on a `LocString`. String interpolation is not used in mod code.\n- Player-visible text is a `LocString` field in `ModStrings`, never a literal at the call site (see [naming conventions](naming-conventions.md)).\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#related",
+     "title": "Related",
+     "text": "## Related\n**Id:** blk-9864e2e99ea5\n\n- See also: [naming conventions](naming-conventions.md)\n- See also: [error handling](error-handling.md)\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "standards/error-handling.md",
+   "title": "Error Handling Conventions",
+   "description": "Error handling conventions for the Bitshifter mod: guarding Harmony patches and transpilers, try/catch, logging levels, plus Bitshifter's yield rules for Digital CPU, the NOT gate mask check and missing-kanim fallback",
+   "document_tags": [
+    "vanilla-fallback",
+    "logging"
+   ],
+   "text": "---\ntags: vanilla-fallback, logging\ndoc_id: doc-072f1d1bd309\ndescription: \"Error handling conventions for the Bitshifter mod: guarding Harmony patches and transpilers, try/catch, logging levels, plus Bitshifter's yield rules for Digital CPU, the NOT gate mask check and missing-kanim fallback\"\napplies_to:\n  - \"src/**\"\n---\n\n# Error Handling Conventions\n\n## Principles\n**Id:** blk-0bb5eb7f778f  \n**Tags:** harmony-patching\n\n1. **Never break the game for a mod's sake.** A patch that cannot do its job leaves the vanilla behaviour in place and says so in the log. It does not throw into the game's update loop.\n2. **Check what you patch.** Game updates rename fields and move code. Every reflection lookup, transpiler match and prefab or tech lookup is checked for a miss.\n3. **Say what degraded.** A warning names the thing that was not found and the consequence, so a bug report with `Player.log` is enough to diagnose.\n4. **Don't swallow.** A `catch` logs and either returns a safe default or continues; it is never empty.\n5. **Log at the right level.** `Debug.Log` for start-up and summaries, `Debug.LogWarning` for degraded behaviour, `Debug.LogError` for a failed player action.\n\nThere is no custom exception hierarchy. Mods are small patches over game code, so errors are handled where they occur.\n\n## Guarding Patches\n**Id:** blk-f58ec17fc16f\n\n### Missing member: warn, leave vanilla\n**Id:** blk-f6d1dcb29771  \n**Tags:** harmony-patching\n\nA reflection lookup that returns null is checked before use. The patch then does nothing, or returns `true` from a prefix so the game's method runs.\n\n```csharp\nif (ActiveField == null || StorageField == null)\n\treturn true; // the game renamed its fields: leave vanilla alone rather than throw\n```\n(`mods/no-magic-fridges/src/NoMagicFridges/Patches.cs`; the warning is logged once at load by `SimTransferMethod` in `FridgeThermostat.cs`.)\n\n### Transpiler: count the match\n**Id:** blk-4c8d79f7826c  \n**Tags:** transpiler, harmony-patching\n\nA transpiler counts the instructions it replaced. Zero (or more than expected) logs a warning and returns the original code, so a game update disables the change instead of breaking the method.\n\n```csharp\nif (swapped == 0)\n\tDebug.LogWarning(\"[CornerBuildAnything] \" + where + \" does not load OffsetGroups.InvertedStandardTable; corner reach not applied there\");\n```\n(`mods/corner-build-anything/src/CornerBuildAnything/ReachTablePatches.cs`; same pattern in `mods/bitshifter/src/Bitshifter/Patches.cs` and `mods/natural-backwalls-everywhere/src/NaturalBackwalls/SettleSimPatch.cs`.)\n\n### Missing data: warn, continue\n**Id:** blk-101c18a7fdbd\n\nA build-menu, tech or asset lookup that finds nothing warns and keeps the mod working:\n\n```csharp\nTech tech = Db.Get().Techs.TryGet(TechId);\nif (tech == null)\n{\n\tDebug.LogWarning(\"[SmartWeightPlate] Tech '\" + TechId + \"' not found; building will be unlocked from the start\");\n\treturn;\n}\n```\n(`mods/smart-weight-plate/src/SmartWeightPlate/Patches.cs`; also `mods/multichannel-critter-sensor`, `mods/storage-pod-redux`.) Missing art or a missing vanilla prefab degrades the same way (`Display.UseAnim` in `mods/bitshifter/src/Bitshifter/Patches.cs`, `mods/multichannel-critter-sensor/src/MultichannelCritterSensor/MultichannelCritterSensorSideScreen.cs`).\n\n### Null checks on game objects\n**Id:** blk-414d69d4cbc7\n\nComponents and arguments that can be absent are tested before use: `if (stt == null || !Sim.IsValidHandle(stt.SimHandle)) return true;`, `if (sensor == null || GameScenePartitioner.Instance == null) return;` (`mods/motion-sensor-range/src/MotionSensorRange/RangeSlider.cs`).\n\n### Warn once\n**Id:** blk-c82c23f2d522\n\nWork that repeats every frame or tick warns once behind a flag (`warnedMissingInternals` in `RangeSlider.cs`).\n\n## try/catch\n**Id:** blk-6a2fff2949c6  \n**Tags:** mod-compatibility\n\n`try`/`catch (Exception e)` is used in four situations and nowhere else:\n\n1. **Optional integration with another mod.** Patching or reading another mod's types may fail for any reason. Log the message and skip the integration (`BetterAutomationOverlayCompat.Apply` in `mods/smart-weight-plate/src/SmartWeightPlate/Mod.cs`; `mods/upgrade-planner/src/UpgradePlanner/Compat/BlueprintsCompat.cs`).\n2. **File and JSON reads and writes.** Return an empty or null result (`mods/upgrade-planner/src/UpgradePlanner/Plan/Presets.cs`, `mods/storage-pod-redux/src/StoragePodRedux/ModDetection.cs`, `mods/sweep-zones/src/SweepZones/ToolIcon.cs`).\n3. **Patches that run inside worldgen or per-cell work**, where an escaping exception kills a thread or a whole pass (`mods/natural-backwalls-everywhere/src/NaturalBackwalls/FeaturePatch.cs`, `PlanetoidPatch.cs`, `Patches.cs`, `Census.cs`).\n4. **Per-job work in a queue**, so one failure does not stop the rest (`mods/upgrade-planner/src/UpgradePlanner/Tool/PlacementQueue.cs`, logged with `Debug.LogError`).\n\nThe message form is `\"[<Name>] <what was skipped>: \" + e.Message`. Use `e.GetBaseException().Message` when the exception may be a reflection wrapper, and the full `e` when the stack trace is needed.\n\n### Finalizer for a thread with no handler\n**Id:** blk-5ee735ed820d  \n**Tags:** harmony-patching\n\n`Cluster.BeginGeneration` is the worldgen thread body and has none; an exception ends the thread and the loading screen waits forever. A finalizer reports the failure through the game's own error path and logs the exception (`Cluster_BeginGeneration_Patch` in `mods/natural-backwalls-everywhere/src/NaturalBackwalls/WorldgenThreadPatch.cs`).\n\n## Yielding to Other Mods\n**Id:** blk-a00c59375f90  \n**Tags:** mod-compatibility\n\nWhen another mod already does the job or shares an id, the mod steps aside and logs why:\n- Bitshifter disables itself when Digital CPU is enabled or the contested methods already have Harmony owners (`WhyYield` in `mods/bitshifter/src/Bitshifter/Mod.cs`).\n- Storage Pod Redux does not register its buildings while the original Storage Pod is enabled, and logs a warning telling the player to disable one (`mods/storage-pod-redux/src/StoragePodRedux/Mod.cs`).\n\n## Logging\n**Id:** blk-4d5a8b5ca2d3\n\n### Log Levels\n**Id:** blk-ac719050ae36\n\n| Level | Use For | Example |\n|-------|---------|---------|\n| `Debug.LogError` | A player action failed and was abandoned | `PlacementQueue` in `mods/upgrade-planner` |\n| `Debug.LogWarning` | Degraded or skipped behaviour | the examples above |\n| `Debug.Log` | Load line, a one-line summary of what a pass changed | `Tagged N refined metal(s)` in `mods/refined-building` |\n\n### What to Include\n**Id:** blk-b9db9eb013ce\n\n- The `[<ModName>] ` prefix on every line; `JumperBridgesMod.LogPrefix` holds it for that mod.\n- What was expected, what was found, and what the mod does instead.\n- Cell numbers, building names and element ids when they identify the case (`mods/vent-freeze-fix`).\n- Per-tick or per-frame telemetry only behind a debug option (`VentFreezeWatcher.Verbose`, `DebugSave.Enabled`) or capped (`DetailLines` in `SettleSimPatch.cs`).\n\nPLib's `PUtil.Log*` helpers are not used; all mods log through `Debug`.\n\n## Anti-Patterns to Avoid\n**Id:** blk-6b6c2c499c77\n\n### Swallowing exceptions\n**Id:** blk-a47a6871cf99\n\nAn empty `catch` hides a broken patch. The one `catch` that returns a fallback without a log is `GuessLanguageCode` in `common/src/Translations.cs`, because a missing language preference is the normal case before the game has started.\n\n### Throwing from a patch\n**Id:** blk-8e4df099120b  \n**Tags:** harmony-patching\n\nAn exception in a prefix or postfix on a per-frame or sim method repeats every frame. Guard, log once, return.\n\n### Assuming the game's internals\n**Id:** blk-eeb5a4c82b08  \n**Tags:** harmony-patching, transpiler\n\nReading a private field by name without a null check on the `FieldInfo`, or replacing an instruction without confirming it was found, breaks on the next game update.\n\n### Silent degradation\n**Id:** blk-808efb5834b2\n\nDoing nothing without a log line leaves a player and the author guessing. Every skipped path logs.\n\n### Spamming the log\n**Id:** blk-ce98740db45a\n\nA warning inside an update method fires thousands of times. Use a once-flag.\n\n## Project-Specific Patterns\n**Id:** blk-8eee65100c09\n\n### Bitshifter specifics\n**Id:** blk-61aafbf82371  \n**Tags:** mod-compatibility, not-gate, transpiler, kanim-art\n\n- `BitshifterMod.WhyYield` returns the reason the mod steps aside (Digital CPU enabled by Workshop id or `staticID`, or a contested method already patched by another Harmony owner). `OnAllModsLoaded` logs `Disabled: <reason>` and skips `PatchAll`.\n- `OverlayLabelGuard.Apply` runs even when the mod yields, and only when Better Automation Overlay is present (`AccessTools.TypeByName` returns null otherwise).\n- `LogicGate_UpdateState_Patch` expects exactly one four-bit mask; any other count logs a warning and leaves the NOT gate unchanged.\n- `Display.UseAnim` warns and keeps the vanilla art when its kanim is missing.\n\n## Related\n**Id:** blk-b886a0e7283a\n\n- See also: [code style](code-style.md)\n- See also: [naming conventions](naming-conventions.md)\n",
+   "sections": [
+    {
+     "id": "standards/error-handling.md#guarding-patches",
+     "title": "Guarding Patches",
+     "text": "## Guarding Patches\n**Id:** blk-f58ec17fc16f\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/error-handling.md#guarding-patches/missing-data-warn-continue",
+     "title": "Missing data: warn, continue",
+     "text": "### Missing data: warn, continue\n**Id:** blk-101c18a7fdbd\n\nA build-menu, tech or asset lookup that finds nothing warns and keeps the mod working:\n\n```csharp\nTech tech = Db.Get().Techs.TryGet(TechId);\nif (tech == null)\n{\n\tDebug.LogWarning(\"[SmartWeightPlate] Tech '\" + TechId + \"' not found; building will be unlocked from the start\");\n\treturn;\n}\n```\n(`mods/smart-weight-plate/src/SmartWeightPlate/Patches.cs`; also `mods/multichannel-critter-sensor`, `mods/storage-pod-redux`.) Missing art or a missing vanilla prefab degrades the same way (`Display.UseAnim` in `mods/bitshifter/src/Bitshifter/Patches.cs`, `mods/multichannel-critter-sensor/src/MultichannelCritterSensor/MultichannelCritterSensorSideScreen.cs`).\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/error-handling.md#guarding-patches/null-checks-on-game-objects",
+     "title": "Null checks on game objects",
+     "text": "### Null checks on game objects\n**Id:** blk-414d69d4cbc7\n\nComponents and arguments that can be absent are tested before use: `if (stt == null || !Sim.IsValidHandle(stt.SimHandle)) return true;`, `if (sensor == null || GameScenePartitioner.Instance == null) return;` (`mods/motion-sensor-range/src/MotionSensorRange/RangeSlider.cs`).\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/error-handling.md#guarding-patches/warn-once",
+     "title": "Warn once",
+     "text": "### Warn once\n**Id:** blk-c82c23f2d522\n\nWork that repeats every frame or tick warns once behind a flag (`warnedMissingInternals` in `RangeSlider.cs`).\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/error-handling.md#logging",
+     "title": "Logging",
+     "text": "## Logging\n**Id:** blk-4d5a8b5ca2d3\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/error-handling.md#logging/log-levels",
+     "title": "Log Levels",
+     "text": "### Log Levels\n**Id:** blk-ac719050ae36\n\n| Level | Use For | Example |\n|-------|---------|---------|\n| `Debug.LogError` | A player action failed and was abandoned | `PlacementQueue` in `mods/upgrade-planner` |\n| `Debug.LogWarning` | Degraded or skipped behaviour | the examples above |\n| `Debug.Log` | Load line, a one-line summary of what a pass changed | `Tagged N refined metal(s)` in `mods/refined-building` |\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/error-handling.md#logging/what-to-include",
+     "title": "What to Include",
+     "text": "### What to Include\n**Id:** blk-b9db9eb013ce\n\n- The `[<ModName>] ` prefix on every line; `JumperBridgesMod.LogPrefix` holds it for that mod.\n- What was expected, what was found, and what the mod does instead.\n- Cell numbers, building names and element ids when they identify the case (`mods/vent-freeze-fix`).\n- Per-tick or per-frame telemetry only behind a debug option (`VentFreezeWatcher.Verbose`, `DebugSave.Enabled`) or capped (`DetailLines` in `SettleSimPatch.cs`).\n\nPLib's `PUtil.Log*` helpers are not used; all mods log through `Debug`.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/error-handling.md#anti-patterns-to-avoid",
+     "title": "Anti-Patterns to Avoid",
+     "text": "## Anti-Patterns to Avoid\n**Id:** blk-6b6c2c499c77\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/error-handling.md#anti-patterns-to-avoid/swallowing-exceptions",
+     "title": "Swallowing exceptions",
+     "text": "### Swallowing exceptions\n**Id:** blk-a47a6871cf99\n\nAn empty `catch` hides a broken patch. The one `catch` that returns a fallback without a log is `GuessLanguageCode` in `common/src/Translations.cs`, because a missing language preference is the normal case before the game has started.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/error-handling.md#anti-patterns-to-avoid/silent-degradation",
+     "title": "Silent degradation",
+     "text": "### Silent degradation\n**Id:** blk-808efb5834b2\n\nDoing nothing without a log line leaves a player and the author guessing. Every skipped path logs.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/error-handling.md#anti-patterns-to-avoid/spamming-the-log",
+     "title": "Spamming the log",
+     "text": "### Spamming the log\n**Id:** blk-ce98740db45a\n\nA warning inside an update method fires thousands of times. Use a once-flag.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/error-handling.md#project-specific-patterns",
+     "title": "Project-Specific Patterns",
+     "text": "## Project-Specific Patterns\n**Id:** blk-8eee65100c09\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/error-handling.md#related",
+     "title": "Related",
+     "text": "## Related\n**Id:** blk-b886a0e7283a\n\n- See also: [code style](code-style.md)\n- See also: [naming conventions](naming-conventions.md)\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "standards/naming-conventions.md",
+   "title": "Naming Conventions",
+   "description": "Naming conventions for the Bitshifter mod: files, namespaces, variables, methods, strings and ids, plus its <Type>_<Method>_Patch classes, the Bits constant, kanim names and log prefix",
+   "document_tags": [],
+   "text": "---\ndoc_id: doc-8c98aaf846df\ndescription: \"Naming conventions for the Bitshifter mod: files, namespaces, variables, methods, strings and ids, plus its <Type>_<Method>_Patch classes, the Bits constant, kanim names and log prefix\"\napplies_to:\n  - \"src/**\"\n---\n\n# Naming Conventions\n\n## Files and Directories\n**Id:** blk-9ddf389e7bd5\n\n### General Rules\n**Id:** blk-f7f89d69f1fd\n\n- A mod lives in `mods/<kebab-case-name>/` (`natural-backwalls-everywhere`, `just-fall-already`).\n- Its code is under `mods/<name>/src/<PascalName>/` with a matching `src/<PascalName>.Tests/` project. `AssemblyName`, `RootNamespace` and the project folder share one PascalCase name (`DontCountEggsOnRails`).\n- C# files are PascalCase and named for the main type they hold. One concept per file; small related types may share a file (`Display` in `mods/bitshifter/src/Bitshifter/Patches.cs`).\n- Release tags are `<mod-folder>-v<version>` (repository README).\n\n### Examples by Type\n**Id:** blk-dfc2718274e5  \n**Tags:** mod-entry-point, side-screen, kanim-art, harmony-patching\n\n| Type | Convention | Example |\n|------|------------|---------|\n| Mod entry class | `Mod.cs`, class `<Name>Mod : UserMod2` | `BitshifterMod` in `Mod.cs` |\n| Harmony patches | `Patches.cs`, or a file named for what is patched | `PlanetoidPatch.cs`, `SettleSimPatch.cs` |\n| Building config | `<Building>Config.cs`, class `<Building>Config : IBuildingConfig` with `public const string ID` | `SmartWeightPlateConfig.cs` |\n| Side screen | `<Building>SideScreen.cs` | `SmartWeightPlateSideScreen.cs` |\n| Components | `<Thing>.cs` named for the component | `FridgeThermostat.cs`, `ZoneStore.cs` |\n| Strings | `ModStrings.cs` | `mods/salty-surf/src/SaltySurf/ModStrings.cs` |\n| Options | `Options.cs`, class `Options` | `mods/vent-freeze-fix/src/VentFreezeFix/Options.cs` |\n| Tests | `<Topic>.cs` in `<Name>.Tests`, one static class per topic | `Reach.cs`, `Gates.cs`, `Persistence.cs`; `Kit.cs` for shared helpers |\n| Mod metadata | `mod.yaml`, `mod_info.yaml` in the project folder | `staticID: \"Isochronous.<PascalName>\"` |\n| Translations | `translations/<locale>.po`, template `<Name>.pot` | `mods/detect-any-element/src/DetectAnyElement/translations` |\n| Art | `anim/` (kanim files), `assets/` | `bitshifter_ribbon_reader_kanim` |\n| Release material | `mods/<name>/publish/`, `CHANGELOG.md`, `README.md` | |\n\n## Code Naming\n**Id:** blk-e9a0e27902f2\n\n### Variables\n**Id:** blk-9bc5907f3229\n\n- camelCase for locals, parameters and private instance fields; no underscore prefix.\n- PascalCase for constants (`ArmSeconds`, `Bits`, `TechId`) and for `static readonly` values that act as constants or lookups (`Standard`, `YieldToWorkshopIds`, `Contested`).\n- camelCase for private static mutable state and caches (`armed`, `scratch`, `lastGrid`, `symbols`, `anyRows`).\n- Descriptive names; single letters only for loop indexes and the `e` of a catch.\n\n```csharp\nprivate const float ArmSeconds = 2f;\nprivate static readonly Dictionary<int, float> armed = new Dictionary<int, float>();\n```\n(`mods/just-fall-already/src/JustFallAlready/FallPoke.cs`)\n\n### Functions/Methods\n**Id:** blk-180ca76feb4d  \n**Tags:** harmony-patching\n\n- PascalCase, starting with a verb: `Apply`, `Decide`, `SwapTable`, `CopyRangeFrom`, `ApplyRange`.\n- Game callbacks keep the game's names (`OnSpawn`, `OnPrefabInit`, `OnCleanUp`, `Sim1000ms`).\n- Harmony methods are named for their kind: `Prefix`, `Postfix`, `Transpiler`, `Finalizer`, plus `Prepare`, `TargetMethod`, `TargetMethods`.\n\n### Classes/Types/Interfaces\n**Id:** blk-3e57e6b713fd  \n**Tags:** harmony-patching\n\n- PascalCase nouns. Interfaces take an `I` prefix (`IPlanTab` and `ITabView` in `mods/upgrade-planner`, and the game's own).\n- Harmony patch classes: `<PatchedType>_<PatchedMethod>_Patch` (`LogicRibbonReader_GetBitDepth_Patch`, `Db_Initialize_Patch`, `GeneratedBuildings_LoadGeneratedBuildings_Patch`). A patch for a type with one concern may use `<Type>_Patch` (`LiquidVentConfig_Patch`). Patches nested in a holder class may drop the suffix (`Constructable_OnSpawn` in `ReachTablePatches`).\n- Classes are `sealed` unless built for inheritance. The mod class is `public sealed`. Types the game does not reach are `internal`.\n- Option enums and nested helper types are PascalCase (`CoolPodMode`, `BridgeKind`).\n\n### Booleans\n**Id:** blk-da8548cd28fd\n\n- Prefix with `Is`, `Has`, `Can`, `Should` or name the state: `IsEnabled`, `OriginalActive`, `isSpawned`, `warnedMissingInternals`.\n\n### Strings (`ModStrings`)\n**Id:** blk-ade5b1028345\n\n- `ModStrings` mirrors the game's `STRINGS` tree: nested static classes and `LocString` fields in UPPER_SNAKE_CASE. `ModStrings.BUILDINGS.PREFABS.<BUILDINGID>.NAME` is registered as `STRINGS.BUILDINGS.PREFABS.<BUILDINGID>.NAME`, the key the game looks a building name up by (`mods/smart-weight-plate/src/SmartWeightPlate/ModStrings.cs`).\n- Mod-private text goes under a branch named for the mod in capitals (`ModStrings.SALTYSURF.ELEMENT_LIST`, `ModStrings.JUMPERBRIDGES.OPTIONS`).\n- Option keys are written out as `STRINGS.<MOD>.OPTIONS.<OPTION>.NAME` and `.TOOLTIP`; categories as `STRINGS.<MOD>.OPTIONS.CATEGORY.<NAME>`.\n- Long branches are shortened with an alias at the top of the file (`using OPTIONS = NaturalBackwalls.ModStrings.NATURALBACKWALLS.OPTIONS;`).\n\n### Ids and Tags\n**Id:** blk-9e8a58496cc9  \n**Tags:** in-game-testing\n\n- Building ids are PascalCase and match the config class (`SmartWeightPlate`); a mod that replaces another mod's buildings reuses that mod's ids (`StoragePodConfig`, `CoolPodConfig` in `mods/storage-pod-redux`).\n- Tags and PAction ids carry a mod prefix: `DetectAnyElement_Any`, `Isochronous.SweepZones.Tool`.\n- The `staticID` in `mod.yaml` is `Isochronous.<PascalName>`.\n- Test names start with the mod's name or an abbreviation of it: `[OniTest(\"Bitshifter: a NOT gate on a ribbon inverts every bit\")]`, `VFF:` for Vent Freeze Fix.\n\n## Project-Specific Conventions\n**Id:** blk-d7f1354ce00e\n\n### Bitshifter specifics\n**Id:** blk-3e9cd9430502  \n**Tags:** harmony-patching, bit-depth, kanim-art, logging\n\n- Patch classes: `LogicRibbonReader_GetBitDepth_Patch`, `LogicGate_UpdateState_Patch`, and so on, all `<Type>_<Method>_Patch`.\n- `BitshifterMod.Bits` is the one constant for the bit count (31); the kanims are `bitshifter_ribbon_reader_kanim` and `bitshifter_ribbon_writer_kanim` (`Display.ReaderAnim`, `Display.WriterAnim`).\n- Log prefix `[Bitshifter]`; `staticID` `Isochronous.Bitshifter`.\n\n## Related\n**Id:** blk-9e0cf6b41f53\n\n- See also: [code style](code-style.md)\n- See also: [error handling](error-handling.md)\n",
+   "sections": [
+    {
+     "id": "standards/naming-conventions.md#files-and-directories",
+     "title": "Files and Directories",
+     "text": "## Files and Directories\n**Id:** blk-9ddf389e7bd5\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/naming-conventions.md#files-and-directories/general-rules",
+     "title": "General Rules",
+     "text": "### General Rules\n**Id:** blk-f7f89d69f1fd\n\n- A mod lives in `mods/<kebab-case-name>/` (`natural-backwalls-everywhere`, `just-fall-already`).\n- Its code is under `mods/<name>/src/<PascalName>/` with a matching `src/<PascalName>.Tests/` project. `AssemblyName`, `RootNamespace` and the project folder share one PascalCase name (`DontCountEggsOnRails`).\n- C# files are PascalCase and named for the main type they hold. One concept per file; small related types may share a file (`Display` in `mods/bitshifter/src/Bitshifter/Patches.cs`).\n- Release tags are `<mod-folder>-v<version>` (repository README).\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/naming-conventions.md#code-naming",
+     "title": "Code Naming",
+     "text": "## Code Naming\n**Id:** blk-e9a0e27902f2\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/naming-conventions.md#code-naming/variables",
+     "title": "Variables",
+     "text": "### Variables\n**Id:** blk-9bc5907f3229\n\n- camelCase for locals, parameters and private instance fields; no underscore prefix.\n- PascalCase for constants (`ArmSeconds`, `Bits`, `TechId`) and for `static readonly` values that act as constants or lookups (`Standard`, `YieldToWorkshopIds`, `Contested`).\n- camelCase for private static mutable state and caches (`armed`, `scratch`, `lastGrid`, `symbols`, `anyRows`).\n- Descriptive names; single letters only for loop indexes and the `e` of a catch.\n\n```csharp\nprivate const float ArmSeconds = 2f;\nprivate static readonly Dictionary<int, float> armed = new Dictionary<int, float>();\n```\n(`mods/just-fall-already/src/JustFallAlready/FallPoke.cs`)\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/naming-conventions.md#code-naming/booleans",
+     "title": "Booleans",
+     "text": "### Booleans\n**Id:** blk-da8548cd28fd\n\n- Prefix with `Is`, `Has`, `Can`, `Should` or name the state: `IsEnabled`, `OriginalActive`, `isSpawned`, `warnedMissingInternals`.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/naming-conventions.md#code-naming/strings-modstrings",
+     "title": "Strings (`ModStrings`)",
+     "text": "### Strings (`ModStrings`)\n**Id:** blk-ade5b1028345\n\n- `ModStrings` mirrors the game's `STRINGS` tree: nested static classes and `LocString` fields in UPPER_SNAKE_CASE. `ModStrings.BUILDINGS.PREFABS.<BUILDINGID>.NAME` is registered as `STRINGS.BUILDINGS.PREFABS.<BUILDINGID>.NAME`, the key the game looks a building name up by (`mods/smart-weight-plate/src/SmartWeightPlate/ModStrings.cs`).\n- Mod-private text goes under a branch named for the mod in capitals (`ModStrings.SALTYSURF.ELEMENT_LIST`, `ModStrings.JUMPERBRIDGES.OPTIONS`).\n- Option keys are written out as `STRINGS.<MOD>.OPTIONS.<OPTION>.NAME` and `.TOOLTIP`; categories as `STRINGS.<MOD>.OPTIONS.CATEGORY.<NAME>`.\n- Long branches are shortened with an alias at the top of the file (`using OPTIONS = NaturalBackwalls.ModStrings.NATURALBACKWALLS.OPTIONS;`).\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/naming-conventions.md#project-specific-conventions",
+     "title": "Project-Specific Conventions",
+     "text": "## Project-Specific Conventions\n**Id:** blk-d7f1354ce00e\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/naming-conventions.md#related",
+     "title": "Related",
+     "text": "## Related\n**Id:** blk-9e0cf6b41f53\n\n- See also: [code style](code-style.md)\n- See also: [error handling](error-handling.md)\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  }
+ ]
+}

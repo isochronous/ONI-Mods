@@ -47,3 +47,8 @@ A record earns this term when it is about the game's refrigerators and how they 
 **Id:** blk-22c55ef18761
 
 A record earns this term when it is about how heat moves between stored items, a fridge's interior and the room around it.
+
+## code-style
+**Id:** blk-49de4a854703
+
+A record earns this term when it is about the house style in which a mod's C# source code is written.

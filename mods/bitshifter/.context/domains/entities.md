@@ -11,7 +11,8 @@ description: "The classes and Harmony patches of the Bitshifter mod (src/Bitshif
 # Bitshifter domain
 
 ## Overview
-**Id:** blk-88f758ea7235
+**Id:** blk-88f758ea7235  
+**Tags:** bit-depth
 
 Bitshifter lets the Automation Ribbon Reader and Ribbon Writer select any of bits 1 to 31 instead of 1 to 4, and draws the selected bit on the buildings. It adds no buildings of its own: every entity below is a vanilla game class the mod patches, or a mod class that does the patching. Source is in `mods/bitshifter/src/Bitshifter/`.
 

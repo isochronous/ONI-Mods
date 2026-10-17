@@ -1,4 +1,5 @@
 ---
+tags: code-style
 doc_id: doc-e8559324cf55
 description: "Naming conventions for Salty Surf: files, variables, methods, types, ModStrings keys, ids and tags, plus its SALTYSURF string branch, patch class names, SaltySurfWater tag, test classes and log prefix"
 applies_to:
@@ -55,7 +56,8 @@ private static readonly Dictionary<int, float> armed = new Dictionary<int, float
 (`mods/just-fall-already/src/JustFallAlready/FallPoke.cs`)
 
 ### Functions/Methods
-**Id:** blk-6231f404990b
+**Id:** blk-6231f404990b  
+**Tags:** harmony-patching
 
 - PascalCase, starting with a verb: `Apply`, `Decide`, `SwapTable`, `CopyRangeFrom`, `ApplyRange`.
 - Game callbacks keep the game's names (`OnSpawn`, `OnPrefabInit`, `OnCleanUp`, `Sim1000ms`).

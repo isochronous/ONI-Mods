@@ -1,0 +1,172 @@
+{
+ "documents": [
+  {
+   "id": "standards/naming-conventions.md",
+   "tags": [
+    "code-style"
+   ]
+  }
+ ],
+ "sections": [
+  {
+   "id": "standards/error-handling.md#principles",
+   "tags": [
+    "vanilla-fallback"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#guarding-patches",
+   "tags": [
+    "vanilla-fallback"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#guarding-patches/missing-member-warn-leave-vanilla",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#guarding-patches/transpiler-count-the-match",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#guarding-patches/missing-data-warn-continue",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#guarding-patches/null-checks-on-game-objects",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#guarding-patches/warn-once",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#try-catch",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "exception handling with try/catch"
+  },
+  {
+   "id": "standards/error-handling.md#try-catch/finalizer-for-a-thread-with-no-handler",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#yielding-to-other-mods",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "yielding to other mods that do the same job"
+  },
+  {
+   "id": "standards/error-handling.md#logging",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#logging/log-levels",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#logging/what-to-include",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#anti-patterns-to-avoid",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#anti-patterns-to-avoid/swallowing-exceptions",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#anti-patterns-to-avoid/throwing-from-a-patch",
+   "tags": [
+    "vanilla-fallback"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#anti-patterns-to-avoid/assuming-the-game-s-internals",
+   "tags": [
+    "vanilla-fallback"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#anti-patterns-to-avoid/silent-degradation",
+   "tags": [
+    "vanilla-fallback"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#anti-patterns-to-avoid/spamming-the-log",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#project-specific-patterns",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#project-specific-patterns/refined-building-specifics",
+   "tags": [
+    "building-materials",
+    "game-tag"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#related",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/naming-conventions.md#files-and-directories",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/naming-conventions.md#files-and-directories/general-rules",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/naming-conventions.md#code-naming",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/naming-conventions.md#code-naming/variables",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/naming-conventions.md#code-naming/booleans",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/naming-conventions.md#code-naming/strings-modstrings",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "localisation string tree naming"
+  },
+  {
+   "id": "standards/naming-conventions.md#project-specific-conventions",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/naming-conventions.md#related",
+   "tags": [],
+   "reason": "inherits"
+  }
+ ]
+}

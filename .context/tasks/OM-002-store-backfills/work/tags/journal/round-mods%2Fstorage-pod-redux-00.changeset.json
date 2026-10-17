@@ -1,72 +1,51 @@
 {
   "task": "OM-002",
-  "why": "tag backfill r1 for node mods/storage-pod-redux — round 0",
+  "why": "tag backfill r2 for node mods/storage-pod-redux — round 0",
   "node": "C:\\dev\\ONI-Mods\\mods\\storage-pod-redux",
   "base": {
-    "domains/README.md": "sha256:fd38d1d55dcd9e5ff4d85c777ad83ab6a0149f8af733cdcadea5bb10db13f7c4",
-    "domains/entities.md": "sha256:bfba575db90bf582d031638ca7f617f7116880ecf35f767f0374f0a37f5496cb",
-    "domains/glossary.md": "sha256:e1cfa1a031fcfc126b3f47a7255d63aaf58f9e8a3d1f71905b3191d5b4b239a1",
-    "overview.md": "sha256:bb817811e3bc55904ebc5b47dd2f279599ee4d2cc9f642855f8d6b93a43321d6",
-    "standards/error-handling.md": "sha256:593b0aad374f074c825e070892083335b8f45b966b25f3684b5f3a20b16d7538",
-    "standards/code-style.md": "sha256:e05712b3d6d4d27fa5d55795b5c9736b998d2cab82b79890985afbb03b7e50f3",
-    "standards/naming-conventions.md": "sha256:818f1f543f61cb5a83cd88f598bcd339c8ad07f437c3a8c964aa3baedaeedcc0"
+    "standards/README.md": "sha256:404e12f310bb54515520001463557ec6955eba9acd842bd3b860f0786fdc3c52",
+    "standards/code-style.md": "sha256:8ce5ee13ddbe7aac0dec54ecdec7ac7771352e63b38e17faf026e854358fd0ba",
+    "standards/naming-conventions.md": "sha256:de92f9f896f3871b0cff4703878ac89ae60e83967df90cda4756d8452b6980e4",
+    "domains/entities.md": "sha256:85986cbd7076f70bbf47cf772e20a1e8acf52ea47aeff15005632504efd49714",
+    "domains/glossary.md": "sha256:66b29320354eed87436cec3330e72da40a03f45539cc0f569b0f8ebe5e37c763"
   },
   "ops": [
     {
-      "target": "domains/README.md",
+      "target": "standards/README.md",
       "mode": "tag",
       "add": [
-        "storage-building"
-      ]
-    },
-    {
-      "target": "domains/entities.md",
-      "mode": "tag",
-      "add": [
-        "storage-building",
-        "building-registration"
-      ]
-    },
-    {
-      "target": "domains/glossary.md",
-      "mode": "tag",
-      "add": [
-        "storage-building"
-      ]
-    },
-    {
-      "target": "overview.md",
-      "mode": "tag",
-      "add": [
-        "storage-building"
-      ]
-    },
-    {
-      "target": "standards/error-handling.md",
-      "mode": "tag",
-      "add": [
-        "vanilla-fallback",
-        "logging"
+        "code-style"
       ]
     },
     {
       "target": "standards/code-style.md",
       "mode": "tag",
       "add": [
-        "mod-strings",
-        "logging"
-      ],
-      "section": "control-structures/strings"
+        "code-style"
+      ]
     },
     {
       "target": "standards/naming-conventions.md",
       "mode": "tag",
       "add": [
-        "building-config",
-        "harmony-patching",
-        "mod-entry-point"
+        "code-style"
+      ]
+    },
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "mod-compatibility"
       ],
-      "section": "files-and-directories/examples-by-type"
+      "section": "overview"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "building-config"
+      ],
+      "section": "cross-domain-terms/storage-pod"
     }
   ]
 }

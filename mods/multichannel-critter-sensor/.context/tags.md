@@ -82,3 +82,13 @@ A record earns this term when it is about the game's critter sensor and how it c
 **Id:** blk-edf02ef5d871
 
 A record earns this term when it is about the threshold values an automation sensor compares against to decide its output signal.
+
+## code-style
+**Id:** blk-9f98db3c41dd
+
+A record earns this term when it is about the house style in which a mod's C# source code is written.
+
+## pulse-output
+**Id:** blk-bbcee8859c8f
+
+A record earns this term when it is about the one-tick pulses the sensor sends when its counted total rises or falls.

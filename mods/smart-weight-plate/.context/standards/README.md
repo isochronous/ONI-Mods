@@ -7,7 +7,8 @@ description: Index of the Smart Weight Plate standards folder, linking its code 
 # Standards
 
 ## Standards
-**Id:** blk-d68ef6e5892c
+**Id:** blk-d68ef6e5892c  
+**Tags:** code-style, logging
 
 - [code-style](code-style.md): C# formatting, imports, comments, Harmony patch and component conventions, with this mod's own layout.
 - [error-handling](error-handling.md): how the mod guards its Harmony patches, reflection lookups and file reads, and what it logs when something is missing.

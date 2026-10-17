@@ -1,0 +1,21 @@
+{
+ "task": "OM-002",
+ "why": "gap round: mint code-style, vanilla-fallback in refined-building, normalised from round-one no-good-match suggestions",
+ "node": "mods/refined-building",
+ "ops": [
+  {
+   "mode": "section",
+   "target": "tags.md",
+   "section": "code-style",
+   "create_section": true,
+   "body": "A record earns this term when it is about the house style in which a mod's C# source code is written."
+  },
+  {
+   "mode": "section",
+   "target": "tags.md",
+   "section": "vanilla-fallback",
+   "create_section": true,
+   "body": "A record earns this term when it is about how a mod keeps the game's own behaviour when something it depends on is missing or has changed."
+  }
+ ]
+}

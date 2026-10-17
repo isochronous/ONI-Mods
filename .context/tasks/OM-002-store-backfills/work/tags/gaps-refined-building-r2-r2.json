@@ -1,0 +1,44 @@
+[
+ {
+  "id": "domains/glossary.md#abbreviations-and-acronyms",
+  "reason": "no-good-match",
+  "suggestion": "abbreviation definitions",
+  "kept": []
+ },
+ {
+  "id": "domains/glossary.md#terms-to-avoid",
+  "reason": "no-good-match",
+  "suggestion": "terminology to avoid",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#language-and-toolchain",
+  "reason": "no-good-match",
+  "suggestion": "build toolchain and project references",
+  "kept": []
+ },
+ {
+  "id": "standards/code-style.md#game-components",
+  "reason": "no-good-match",
+  "suggestion": "game component lifecycle and saved state",
+  "kept": []
+ },
+ {
+  "id": "standards/error-handling.md#try-catch",
+  "reason": "no-good-match",
+  "suggestion": "exception handling with try/catch",
+  "kept": []
+ },
+ {
+  "id": "standards/error-handling.md#yielding-to-other-mods",
+  "reason": "no-good-match",
+  "suggestion": "yielding to other mods that do the same job",
+  "kept": []
+ },
+ {
+  "id": "standards/naming-conventions.md#code-naming/strings-modstrings",
+  "reason": "no-good-match",
+  "suggestion": "localisation string tree naming",
+  "kept": []
+ }
+]

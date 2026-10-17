@@ -9,7 +9,8 @@ applies_to:
 # Motion Sensor Range domain
 
 ## Overview
-**Id:** blk-59db01f0a30a
+**Id:** blk-59db01f0a30a  
+**Tags:** side-screen, game-component
 
 Motion Sensor Range makes the detection range of the vanilla Duplicant Motion Sensor (`LogicDuplicantSensorConfig`) adjustable from a slider in the building's side screen. It adds no building of its own: it bolts one component onto the vanilla prefab and rewrites the sensor's detection area at runtime. The range runs from 2 to 16 tiles in steps of 2, with 4 as the vanilla default.
 

@@ -1,74 +1,51 @@
 {
   "task": "OM-002",
-  "why": "tag backfill r1 for node mods/jumper-bridges — round 0",
+  "why": "tag backfill r2 for node mods/jumper-bridges — round 0",
   "node": "C:\\dev\\ONI-Mods\\mods\\jumper-bridges",
   "base": {
-    "domains/README.md": "sha256:a191da69ad82894cb145ab744fad0fe6c560440afce946ceeb30c6ca5f047160",
-    "domains/entities.md": "sha256:de7fe6b6b89614ef050fd67acecc668098654891897552593518a643bed642a2",
-    "domains/glossary.md": "sha256:c939e7054141b12b47a9e48887fd1495fbc17bcc86046969374c0ead420b9035",
-    "overview.md": "sha256:5bde7ce153c8ecbca46d241e7b8bc64329344309afc02a118f20b98ba49f1832",
-    "standards/code-style.md": "sha256:e7f1177f6c275562fad779fd7ec07a675fd3d5474f1924b4f5d7a7db08552622",
-    "standards/error-handling.md": "sha256:493fdc3bfd6c09b52958ebd5ca678ffc1d81a72c4d68f278ff068769799e4240",
-    "standards/naming-conventions.md": "sha256:3f0bff36b52f610b824d12d062e443936246e51a4191a142b7b507c8ee73779c"
+    "standards/README.md": "sha256:22c94d15103f7d56436a093918f62cae1564eb4e7c523799ab06bdec76ff8e9c",
+    "standards/code-style.md": "sha256:b6898790e388b94da2a481137026a64e8ca969386a81f5fae3d26385c5b6b907",
+    "standards/error-handling.md": "sha256:af2f0def3aa3f210f28e7d8e93d6ad155cdf668a5132b85a72b84bd6144b1051",
+    "standards/naming-conventions.md": "sha256:8b1f21ad2d1b8e2fb1c07463b7e961f7d03c002cb9b51a87b4ab8c290327dc9c",
+    "domains/glossary.md": "sha256:e2331aae7c368a9e9271cc975730148130760ee87e49373fddccf2dd6a9fd301"
   },
   "ops": [
     {
-      "target": "domains/README.md",
+      "target": "standards/README.md",
       "mode": "tag",
       "add": [
-        "bridge-end"
-      ]
-    },
-    {
-      "target": "domains/entities.md",
-      "mode": "tag",
-      "add": [
-        "bridge-end"
-      ]
-    },
-    {
-      "target": "domains/glossary.md",
-      "mode": "tag",
-      "add": [
-        "bridge-end"
-      ]
-    },
-    {
-      "target": "overview.md",
-      "mode": "tag",
-      "add": [
-        "bridge-end"
+        "code-style"
       ]
     },
     {
       "target": "standards/code-style.md",
       "mode": "tag",
       "add": [
-        "mod-strings",
-        "logging"
-      ],
-      "section": "control-structures/strings"
+        "code-style"
+      ]
     },
     {
       "target": "standards/error-handling.md",
       "mode": "tag",
       "add": [
-        "vanilla-fallback",
         "logging",
-        "harmony-patching"
-      ],
-      "section": "principles"
+        "vanilla-fallback"
+      ]
     },
     {
       "target": "standards/naming-conventions.md",
       "mode": "tag",
       "add": [
-        "mod-entry-point",
-        "harmony-patching",
-        "mod-strings",
-        "mod-options"
+        "code-style"
+      ]
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
+        "utility-network"
       ],
-      "section": "files-and-directories/examples-by-type"
+      "section": "cross-domain-terms/bridge-end"
     }
   ]
 }

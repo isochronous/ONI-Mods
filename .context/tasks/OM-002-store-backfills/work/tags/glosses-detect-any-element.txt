@@ -1,13 +1,15 @@
 term              count  gloss
-element-sensor        0  A record earns this term when it is about the element sensors and how they decide that an element is present.
-game-component        0  A record earns this term when it is about a KMonoBehaviour component that a mod adds to game objects and the work it does there.
-game-tag              0  A record earns this term when it is about a game Tag that a mod creates, adds to things or reads to recognise them.
-harmony-patching      0  A record earns this term when it is about writing or applying the Harmony patches through which a mod changes game methods.
-in-game-testing       0  A record earns this term when it is about testing a mod inside the running game with TestRunner and its [OniTest] coroutines.
-kanim-art             0  A record earns this term when it is about the kanim animation art a mod ships or swaps onto a building and how that art is made.
-logging               0  A record earns this term when it is about what a mod writes to the game log and at which level.
-mod-entry-point       0  A record earns this term when it is about a mod's UserMod2 class and what it does when the game loads the mod.
-mod-strings           0  A record earns this term when it is about the player-visible text a mod defines in ModStrings and the translations of that text.
-saved-state           0  A record earns this term when it is about what a mod stores in a save file and how that data is restored when the save loads.
-side-screen           0  A record earns this term when it is about a building's details-panel side screen that a mod adds or changes.
-vanilla-fallback      0  A record earns this term when it is about how a mod keeps the game's own behaviour when something it depends on is missing or has changed.
+code-style            0  A record earns this term when it is about the house style in which a mod's C# source code is written.
+element-sensor       33  A record earns this term when it is about the element sensors and how they decide that an element is present.
+game-component       16  A record earns this term when it is about a KMonoBehaviour component that a mod adds to game objects and the work it does there.
+game-tag             16  A record earns this term when it is about a game Tag that a mod creates, adds to things or reads to recognise them.
+harmony-patching     17  A record earns this term when it is about writing or applying the Harmony patches through which a mod changes game methods.
+in-game-testing      16  A record earns this term when it is about testing a mod inside the running game with TestRunner and its [OniTest] coroutines.
+kanim-art             7  A record earns this term when it is about the kanim animation art a mod ships or swaps onto a building and how that art is made.
+logging              16  A record earns this term when it is about what a mod writes to the game log and at which level.
+mod-entry-point      11  A record earns this term when it is about a mod's UserMod2 class and what it does when the game loads the mod.
+mod-strings          11  A record earns this term when it is about the player-visible text a mod defines in ModStrings and the translations of that text.
+reflection            0  A record earns this term when it is about reaching non-public members of the game or of another mod through reflection.
+saved-state           6  A record earns this term when it is about what a mod stores in a save file and how that data is restored when the save loads.
+side-screen           9  A record earns this term when it is about a building's details-panel side screen that a mod adds or changes.
+vanilla-fallback     24  A record earns this term when it is about how a mod keeps the game's own behaviour when something it depends on is missing or has changed.

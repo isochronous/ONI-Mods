@@ -1,0 +1,14 @@
+[
+ {
+  "id": "domains/entities.md#key-entities/window",
+  "reason": "no-good-match",
+  "suggestion": "tool dialog window and its UI widgets",
+  "kept": []
+ },
+ {
+  "id": "domains/glossary.md#cross-domain-terms/instant-build",
+  "reason": "no-good-match",
+  "suggestion": "debug and sandbox instant build behaviour",
+  "kept": []
+ }
+]

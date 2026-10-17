@@ -1,4 +1,5 @@
 ---
+tags: code-style
 doc_id: doc-8674b988870a
 description: "Code style guide for Jumper Bridges: C# formatting, imports, comments, control structures, Harmony patch and game component conventions, plus its `LogPrefix`, `OnLoad` order and `BridgeKind` layout"
 applies_to:
@@ -82,7 +83,8 @@ using UnityEngine;
 **Id:** blk-daffabe9affb
 
 ### When to Comment
-**Id:** blk-f3272b570c51
+**Id:** blk-f3272b570c51  
+**Tags:** harmony-patching
 
 - On every non-trivial class, an XML `<summary>` that says what the game does and what the patch changes, so a reader can check the patch against the game code. The long summary on `OvercrowdingMonitor_UpdateRegion_Patch` in `mods/dont-count-eggs-on-rails/src/DontCountEggsOnRails/Mod.cs` is the model.
 - Where a game quirk forces an odd line: `// The game's .NET Framework has no AddOrUpdate on this table.`

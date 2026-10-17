@@ -1,4 +1,5 @@
 ---
+tags: code-style, vanilla-fallback, logging
 doc_id: doc-f224f1c371d4
 description: Index of the three standards documents of Multichannel Critter Sensor (code style, error handling, naming conventions), each with a one-line summary of what it covers
 ---

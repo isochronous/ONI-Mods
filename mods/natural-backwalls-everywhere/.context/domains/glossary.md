@@ -13,7 +13,8 @@ description: "Glossary for Natural Backwalls Everywhere: abbreviations, terms to
 Terms for the Natural Backwalls Everywhere mod. For the code behind them, see [entities](entities.md).
 
 ## Abbreviations and Acronyms
-**Id:** blk-54f649d0bc79
+**Id:** blk-54f649d0bc79  
+**Tags:** biome-group, noise-pattern
 
 | Abbreviation | Full Term | Context |
 |--------------|-----------|---------|
@@ -40,6 +41,7 @@ Terms for the Natural Backwalls Everywhere mod. For the code behind them, see [e
 
 ### Backwall
 **Id:** blk-b8fb7d2bb919  
+**Tags:** settle-sim  
 **Definition**: A natural background tile behind the open space of a cell, written only in world generation. The game writes one only where the sampled element is a solid.  
 **Used in**: `Patches.cs`, `FeaturePatch.cs`, `SettleSimPatch.cs`
 
@@ -75,6 +77,7 @@ Terms for the Natural Backwalls Everywhere mod. For the code behind them, see [e
 
 ### Band table
 **Id:** blk-8b548e0e81c3  
+**Tags:** noise-pattern  
 **Definition**: `ElementBandConfiguration`: an ordered list of element gradients with band sizes. The noise value picks the element by band; for backwalls, a Vacuum band means no backwall.  
 **Used in**: `CloneInToNewWorld_Patch.Build`
 
@@ -92,6 +95,7 @@ Terms for the Natural Backwalls Everywhere mod. For the code behind them, see [e
 
 ### Feature room
 **Id:** blk-9c0189c6ee53  
+**Tags:** harmony-patching, biome-group  
 **Definition**: A cave, lake or geode a subworld carves after claiming its cells (the slime biome's TallRoom and BlobRoom). The base backwall pass skips them; the mod's postfix covers them.  
 **Used in**: `FeaturePatch.cs`
 

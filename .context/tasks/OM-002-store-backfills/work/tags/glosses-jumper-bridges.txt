@@ -1,14 +1,15 @@
 term               count  gloss
-automation-ribbon      0  A record earns this term when it is about the Automation Ribbon and the multi-bit signals it carries.
-bridge-end             0  A record earns this term when it is about a wire or automation bridge end placed on a port cell and the stand-in node that connects it.
-game-component         0  A record earns this term when it is about a KMonoBehaviour component that a mod adds to game objects and the work it does there.
-harmony-patching       0  A record earns this term when it is about writing or applying the Harmony patches through which a mod changes game methods.
-in-game-testing        0  A record earns this term when it is about testing a mod inside the running game with TestRunner and its [OniTest] coroutines.
-logging                0  A record earns this term when it is about what a mod writes to the game log and at which level.
-mod-entry-point        0  A record earns this term when it is about a mod's UserMod2 class and what it does when the game loads the mod.
-mod-options            0  A record earns this term when it is about the player-facing settings a mod exposes on its options screen and how the mod reads them.
-mod-strings            0  A record earns this term when it is about the player-visible text a mod defines in ModStrings and the translations of that text.
-reflection             0  A record earns this term when it is about reaching non-public members of the game or of another mod through reflection.
-utility-network        0  A record earns this term when it is about the game's automation and power networks and how cells are linked into them.
-vanilla-fallback       0  A record earns this term when it is about how a mod keeps the game's own behaviour when something it depends on is missing or has changed.
-wire-tools             0  A record earns this term when it is about how the game's wire drag and building tools act on bridge ends.
+automation-ribbon      2  A record earns this term when it is about the Automation Ribbon and the multi-bit signals it carries.
+bridge-end            38  A record earns this term when it is about a wire or automation bridge end placed on a port cell and the stand-in node that connects it.
+code-style             0  A record earns this term when it is about the house style in which a mod's C# source code is written.
+game-component         9  A record earns this term when it is about a KMonoBehaviour component that a mod adds to game objects and the work it does there.
+harmony-patching      19  A record earns this term when it is about writing or applying the Harmony patches through which a mod changes game methods.
+in-game-testing        9  A record earns this term when it is about testing a mod inside the running game with TestRunner and its [OniTest] coroutines.
+logging               21  A record earns this term when it is about what a mod writes to the game log and at which level.
+mod-entry-point       14  A record earns this term when it is about a mod's UserMod2 class and what it does when the game loads the mod.
+mod-options           14  A record earns this term when it is about the player-facing settings a mod exposes on its options screen and how the mod reads them.
+mod-strings           14  A record earns this term when it is about the player-visible text a mod defines in ModStrings and the translations of that text.
+reflection             5  A record earns this term when it is about reaching non-public members of the game or of another mod through reflection.
+utility-network        9  A record earns this term when it is about the game's automation and power networks and how cells are linked into them.
+vanilla-fallback      15  A record earns this term when it is about how a mod keeps the game's own behaviour when something it depends on is missing or has changed.
+wire-tools             6  A record earns this term when it is about how the game's wire drag and building tools act on bridge ends.

@@ -77,3 +77,8 @@ A record earns this term when it is about the threshold values an automation sen
 **Id:** blk-499b087b5d2a
 
 A record earns this term when it is about how a weight plate measures the mass resting on the cell above it.
+
+## code-style
+**Id:** blk-8c030f518436
+
+A record earns this term when it is about the house style in which a mod's C# source code is written.

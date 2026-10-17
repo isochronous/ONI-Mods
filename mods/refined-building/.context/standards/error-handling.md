@@ -9,7 +9,8 @@ applies_to:
 # Error Handling Conventions
 
 ## Principles
-**Id:** blk-f63338fe6158
+**Id:** blk-f63338fe6158  
+**Tags:** vanilla-fallback
 
 1. **Never break the game for a mod's sake.** A patch that cannot do its job leaves the vanilla behaviour in place and says so in the log. It does not throw into the game's update loop.
 2. **Check what you patch.** Game updates rename fields and move code. Every reflection lookup, transpiler match and prefab or tech lookup is checked for a miss.
@@ -20,7 +21,8 @@ applies_to:
 There is no custom exception hierarchy. Mods are small patches over game code, so errors are handled where they occur.
 
 ## Guarding Patches
-**Id:** blk-e7dec4a6cf45
+**Id:** blk-e7dec4a6cf45  
+**Tags:** vanilla-fallback
 
 ### Missing member: warn, leave vanilla
 **Id:** blk-2fe59699dd8e
@@ -124,17 +126,20 @@ PLib's `PUtil.Log*` helpers are not used; all mods log through `Debug`.
 An empty `catch` hides a broken patch. The one `catch` that returns a fallback without a log is `GuessLanguageCode` in `common/src/Translations.cs`, because a missing language preference is the normal case before the game has started.
 
 ### Throwing from a patch
-**Id:** blk-fc2862131c67
+**Id:** blk-fc2862131c67  
+**Tags:** vanilla-fallback
 
 An exception in a prefix or postfix on a per-frame or sim method repeats every frame. Guard, log once, return.
 
 ### Assuming the game's internals
-**Id:** blk-d77fd0f5ca2e
+**Id:** blk-d77fd0f5ca2e  
+**Tags:** vanilla-fallback
 
 Reading a private field by name without a null check on the `FieldInfo`, or replacing an instruction without confirming it was found, breaks on the next game update.
 
 ### Silent degradation
-**Id:** blk-6300248d4ab1
+**Id:** blk-6300248d4ab1  
+**Tags:** vanilla-fallback
 
 Doing nothing without a log line leaves a player and the author guessing. Every skipped path logs.
 
@@ -147,7 +152,8 @@ A warning inside an update method fires thousands of times. Use a once-flag.
 **Id:** blk-e8aea02be7e9
 
 ### Refined Building specifics
-**Id:** blk-11c814061f9e
+**Id:** blk-11c814061f9e  
+**Tags:** building-materials, game-tag
 
 - The postfix skips null elements, non-solids, elements without `RefinedMetal` and elements that already carry `Metal`; so running it twice changes nothing.
 - It logs one summary line listing the elements it tagged.

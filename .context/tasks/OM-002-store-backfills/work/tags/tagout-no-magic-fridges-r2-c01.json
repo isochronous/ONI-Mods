@@ -1,0 +1,59 @@
+{
+ "documents": [
+  {
+   "id": "standards/naming-conventions.md",
+   "tags": [
+    "code-style"
+   ]
+  }
+ ],
+ "sections": [
+  {
+   "id": "standards/naming-conventions.md#files-and-directories",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/naming-conventions.md#files-and-directories/general-rules",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/naming-conventions.md#code-naming",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/naming-conventions.md#code-naming/variables",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/naming-conventions.md#code-naming/booleans",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/naming-conventions.md#code-naming/strings-modstrings",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "ModStrings string tables and LocString keys"
+  },
+  {
+   "id": "standards/naming-conventions.md#code-naming/ids-and-tags",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "building, tag and mod identifiers"
+  },
+  {
+   "id": "standards/naming-conventions.md#project-specific-conventions",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/naming-conventions.md#related",
+   "tags": [],
+   "reason": "inherits"
+  }
+ ]
+}

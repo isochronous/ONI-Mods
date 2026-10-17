@@ -9,12 +9,13 @@ applies_to:
 # Smart Weight Plate domain
 
 ## Overview
-**Id:** blk-15ebeec6c4c1
+**Id:** blk-15ebeec6c4c1  
+**Tags:** building-config
 
 Smart Weight Plate adds one building, a weight plate with a low and a high threshold. Its output behaves like a Liquid or Gas Reservoir's signal: it turns on at the high threshold and stays on until the weight falls to the low threshold, instead of flipping around a single cut-off. The mod is `mods/smart-weight-plate`, static ID `Isochronous.SmartWeightPlate`, source in `src/SmartWeightPlate/`.
 
 ## Key Entities
-**Id:** blk-4bd1cc9344e4
+**Id:** blk-4bd1cc9344e4  
 
 ### Smart Weight Plate (building)
 **Id:** blk-ca89bb6d9d7b  

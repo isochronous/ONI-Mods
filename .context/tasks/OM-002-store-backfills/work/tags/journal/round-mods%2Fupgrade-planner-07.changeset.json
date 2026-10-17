@@ -1,29 +1,18 @@
 {
   "task": "OM-002",
-  "why": "tag backfill r1 for node mods/upgrade-planner — round 7",
+  "why": "tag backfill r2 for node mods/upgrade-planner — round 7",
   "node": "C:\\dev\\ONI-Mods\\mods\\upgrade-planner",
   "base": {
-    "domains/entities.md": "sha256:a0a627cb7c5d395d633771a0a6b45c2ff92165ceabc472b7c79293ef779c3330",
-    "standards/error-handling.md": "sha256:ec115e63e48beee78f8bd965410a6eb04aed1714136f425bf4ce2e150993d492"
+    "standards/code-style.md": "sha256:39efe7683029342441c3428a4f3d9db41c900b2f855c0b15c3457cf5aae29ef8"
   },
   "ops": [
     {
-      "target": "domains/entities.md",
+      "target": "standards/code-style.md",
       "mode": "tag",
       "add": [
-        "hotkey",
-        "mod-entry-point",
-        "in-game-testing"
+        "code-style"
       ],
-      "section": "key-code-paths"
-    },
-    {
-      "target": "standards/error-handling.md",
-      "mode": "tag",
-      "add": [
-        "mod-compatibility"
-      ],
-      "section": "yielding-to-other-mods"
+      "section": "comments/when-not-to-comment"
     }
   ]
 }

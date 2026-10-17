@@ -67,3 +67,8 @@ A record earns this term when it is about the area the Duplicant Motion Sensor w
 **Id:** blk-4b034b591ea8
 
 A record earns this term when it is about a building while it is still under construction and what carries over when it completes.
+
+## code-style
+**Id:** blk-eae07d3ee045
+
+A record earns this term when it is about the house style in which a mod's C# source code is written.

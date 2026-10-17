@@ -9,7 +9,8 @@ applies_to:
 # Storage Pod Redux domain
 
 ## Overview
-**Id:** blk-157f709a0f36
+**Id:** blk-157f709a0f36  
+**Tags:** mod-compatibility
 
 Storage Pod Redux adds two compact 1x1 storage buildings that can be built anywhere, rockets included: the Storage Pod (solids) and the Cool Pod (a powered fridge). It is a code rewrite of Skyrunner's Storage Pod, keeping that mod's prefab IDs and art. The mod is `mods/storage-pod-redux`, static ID `Isochronous.StoragePodRedux`, source in `src/StoragePodRedux/`.
 

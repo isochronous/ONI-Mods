@@ -53,11 +53,13 @@ Terms for the Multichannel Critter Sensor mod. For the code behind them, see [en
 
 ### Logic tick
 **Id:** blk-4e6873004416  
+**Tags:** pulse-output  
 **Definition**: The fixed 100 ms step at which the circuit manager samples every sender's value. A pulse bit lasts exactly one logic tick.  
 **Used in**: `MultichannelCritterSensor.OnLogicTick`
 
 ### Sim200ms
 **Id:** blk-28e2f9fd0cb1  
+**Tags:** pulse-output  
 **Definition**: The game's `ISim200ms` callback, called every 200 ms of game time. The sensor scans on it, so a pulse fires once per scan in which the total changed.  
 **Used in**: `MultichannelCritterSensor.Sim200ms`
 
@@ -75,6 +77,7 @@ Terms for the Multichannel Critter Sensor mod. For the code behind them, see [en
 
 ### Tracked total
 **Id:** blk-029731d32878  
+**Tags:** pulse-output  
 **Definition**: The critter count plus the egg count, each included only if its kind is ticked. Rises and falls of this value drive the pulse bits.  
 **Used in**: `MultichannelCritterSensor.TrackedTotal`
 

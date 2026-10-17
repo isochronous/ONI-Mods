@@ -9,7 +9,8 @@ applies_to:
 # Error Handling Conventions
 
 ## Principles
-**Id:** blk-ff2bf3b4f17f
+**Id:** blk-ff2bf3b4f17f  
+**Tags:** harmony-patching
 
 1. **Never break the game for a mod's sake.** A patch that cannot do its job leaves the vanilla behaviour in place and says so in the log. It does not throw into the game's update loop.
 2. **Check what you patch.** Game updates rename fields and move code. Every reflection lookup, transpiler match and prefab or tech lookup is checked for a miss.

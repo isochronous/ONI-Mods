@@ -62,3 +62,8 @@ A record earns this term when it is about how super-cooled liquid freezes into a
 **Id:** blk-1334c2fd62bb
 
 A record earns this term when it is about digging out a tile that should not have formed and returning its mass as debris.
+
+## code-style
+**Id:** blk-b43eb1be183e
+
+A record earns this term when it is about the house style in which a mod's C# source code is written.

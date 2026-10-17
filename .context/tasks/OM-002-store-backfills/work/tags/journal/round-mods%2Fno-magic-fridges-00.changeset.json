@@ -1,73 +1,63 @@
 {
   "task": "OM-002",
-  "why": "tag backfill r1 for node mods/no-magic-fridges — round 0",
+  "why": "tag backfill r2 for node mods/no-magic-fridges — round 0",
   "node": "C:\\dev\\ONI-Mods\\mods\\no-magic-fridges",
   "base": {
-    "domains/README.md": "sha256:274e50b6ee0161d4e0e00aa9bb92c1112781847a2ff1cb1c42ea45ca07f37dba",
-    "domains/entities.md": "sha256:2331bb54d5587a9d5205783706046c9ae87b0460c47a83256eb5e87b2dc7aff0",
-    "domains/glossary.md": "sha256:34f8d36b63184fa9518f0e50c22985ed7059fc439b161fd71552ac31ba7d814b",
-    "overview.md": "sha256:64321fbf74b2148f067e630139f06fea90fb4fefe554664e2a2880378dbf03ae",
-    "standards/error-handling.md": "sha256:8fd716cd5e1e79c6c5a414ee0500df6ed0f8f9d7fca46f7f861894db128235d2",
-    "standards/code-style.md": "sha256:895048d506bf9b35452cd73b86c7fc0815d550a27d3d821274385aa745c4fbe3",
-    "standards/naming-conventions.md": "sha256:a9019a04c6fe0e44f70570b812ac436efbbff9d4a96fa4088d003bd994d341e7"
+    "standards/README.md": "sha256:3d6f356ed10625fcafee89bd34a859f41cf8398702412fd4a580abe781ea3a6a",
+    "standards/code-style.md": "sha256:2ef3454c7152046360592b6e52b0e73d42451a8cc020f797763e0bed202360ae",
+    "standards/naming-conventions.md": "sha256:15b82326d26819d646fd5d2943ac8f751dc03810562049c728167db467d02cd2",
+    "domains/entities.md": "sha256:a96334423adecaf13d459bfd9e27a0858b7b165e617cc7ead6d4ee4ee39bddc2",
+    "domains/glossary.md": "sha256:007110ba83d3d1e5a6f843ffc768bb29d98e3ec29336b8e53df3b6627ac33528",
+    "standards/error-handling.md": "sha256:f8d0f08d31cddbfc1ff477c0b654ff64bcafb90a47a0bb8528899c47dfd1de9f"
   },
   "ops": [
     {
-      "target": "domains/README.md",
+      "target": "standards/README.md",
       "mode": "tag",
       "add": [
-        "refrigerator"
-      ]
-    },
-    {
-      "target": "domains/entities.md",
-      "mode": "tag",
-      "add": [
-        "refrigerator",
-        "heat-exchange"
-      ]
-    },
-    {
-      "target": "domains/glossary.md",
-      "mode": "tag",
-      "add": [
-        "refrigerator",
-        "heat-exchange"
-      ]
-    },
-    {
-      "target": "overview.md",
-      "mode": "tag",
-      "add": [
-        "refrigerator"
-      ]
-    },
-    {
-      "target": "standards/error-handling.md",
-      "mode": "tag",
-      "add": [
-        "vanilla-fallback",
-        "logging"
+        "code-style"
       ]
     },
     {
       "target": "standards/code-style.md",
       "mode": "tag",
       "add": [
-        "harmony-patching",
-        "mod-entry-point",
-        "reflection"
-      ],
-      "section": "harmony-patches"
+        "code-style"
+      ]
     },
     {
       "target": "standards/naming-conventions.md",
       "mode": "tag",
       "add": [
-        "mod-entry-point",
+        "code-style"
+      ]
+    },
+    {
+      "target": "domains/entities.md",
+      "mode": "tag",
+      "add": [
+        "game-component",
+        "harmony-patching",
+        "in-game-testing"
+      ],
+      "section": "key-code-paths"
+    },
+    {
+      "target": "domains/glossary.md",
+      "mode": "tag",
+      "add": [
         "harmony-patching"
       ],
-      "section": "files-and-directories/examples-by-type"
+      "section": "cross-domain-terms/reservoir-simulated-temperature-adjuster"
+    },
+    {
+      "target": "standards/error-handling.md",
+      "mode": "tag",
+      "add": [
+        "reflection",
+        "harmony-patching"
+      ],
+      "section": "try-catch"
     }
   ]
 }

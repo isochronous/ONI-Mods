@@ -1,4 +1,5 @@
 ---
+tags: code-style
 doc_id: doc-999fea2863cc
 description: "C# code style for Natural Backwalls Everywhere: indentation, braces, imports, comments, control structures, Harmony patch and game component conventions, plus the NaturalBackwalls project layout, patch files and options screen"
 applies_to:
@@ -82,7 +83,8 @@ using UnityEngine;
 **Id:** blk-da159b997542
 
 ### When to Comment
-**Id:** blk-93242b225403
+**Id:** blk-93242b225403  
+**Tags:** mod-compatibility
 
 - On every non-trivial class, an XML `<summary>` that says what the game does and what the patch changes, so a reader can check the patch against the game code. The long summary on `OvercrowdingMonitor_UpdateRegion_Patch` in `mods/dont-count-eggs-on-rails/src/DontCountEggsOnRails/Mod.cs` is the model.
 - Where a game quirk forces an odd line: `// The game's .NET Framework has no AddOrUpdate on this table.`
@@ -150,7 +152,8 @@ if (idx == ushort.MaxValue || idx >= elements.Count)
 - Transpilers search for the instruction they change and report when it is not found; see [error handling](error-handling.md).
 
 ## Game Components
-**Id:** blk-fd0855e66b70
+**Id:** blk-fd0855e66b70  
+**Tags:** harmony-patching
 
 - A component extends `KMonoBehaviour`, overrides `OnPrefabInit`, `OnSpawn` and `OnCleanUp` and calls `base` from each. Sibling components come in through `[MyCmpGet]` or `[MyCmpReq]` (`mods/no-magic-fridges/src/NoMagicFridges/FridgeThermostat.cs`).
 - Saved state uses `[Serialize]` fields with `[SerializationConfig(MemberSerialization.OptIn)]` on the class (`mods/sweep-zones/src/SweepZones/ZoneStore.cs`).

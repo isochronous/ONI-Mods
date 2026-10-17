@@ -147,7 +147,8 @@ A warning inside an update method fires thousands of times. Use a once-flag.
 **Id:** blk-49b5b5ef421e
 
 ### Don't Count Eggs on Rails specifics
-**Id:** blk-eb96ea719f12
+**Id:** blk-eb96ea719f12  
+**Tags:** room-tracking
 
 - The prefix returns `true` (vanilla runs) for anything that is not an egg on a rail: `!smi.IsEgg || !OnRail(smi)`.
 - `OnRail` null-checks the `Pickupable` before reading `storage`.

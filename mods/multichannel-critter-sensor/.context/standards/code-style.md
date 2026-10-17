@@ -1,4 +1,5 @@
 ---
+tags: code-style
 doc_id: doc-ca6a5de7abe9
 description: "Code style guide for Multichannel Critter Sensor: C# formatting, imports, comments, control structures, Harmony patch and game component conventions, plus its PLib side screen, `Patches` class and `ThresholdAdapter`"
 applies_to:

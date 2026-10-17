@@ -1,19 +1,18 @@
 {
   "task": "OM-002",
-  "why": "tag backfill r1 for node mods/refined-building — round 4",
+  "why": "tag backfill r2 for node mods/refined-building — round 4",
   "node": "C:\\dev\\ONI-Mods\\mods\\refined-building",
   "base": {
-    "standards/naming-conventions.md": "sha256:0a14e5db99070d504a790a2074362f2b5fe260c09653d906d619e413b3f18dc8"
+    "standards/error-handling.md": "sha256:4a61ad95352aa73c149451d69ceb8c68957d0b1c3cc4dc0e1ec5cbef336a6514"
   },
   "ops": [
     {
-      "target": "standards/naming-conventions.md",
+      "target": "standards/error-handling.md",
       "mode": "tag",
       "add": [
-        "logging",
-        "in-game-testing"
+        "vanilla-fallback"
       ],
-      "section": "project-specific-conventions/refined-building-specifics"
+      "section": "anti-patterns-to-avoid/silent-degradation"
     }
   ]
 }

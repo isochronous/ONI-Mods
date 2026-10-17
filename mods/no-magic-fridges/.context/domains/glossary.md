@@ -37,6 +37,7 @@ Terms for the No Magic Fridges mod. For the code behind them, see [entities](ent
 
 ### Reservoir (simulated temperature adjuster)
 **Id:** blk-f3e230c14424  
+**Tags:** harmony-patching  
 **Definition**: Vanilla's `SimulatedTemperatureAdjuster` attaches a sim heat reservoir at the fridge's `simulatedInternalTemperature` (1 degree C) to each stored item through `ModifyElementChunkTemperatureAdjuster`. It exchanges heat both ways, which is why vanilla warms frozen food.  
 **Used in**: `Patches.cs`
 
@@ -62,6 +63,7 @@ Terms for the No Magic Fridges mod. For the code behind them, see [entities](ent
 
 ### RefrigeratorController
 **Id:** blk-5645b8195c9e  
+**Tags:** harmony-patching  
 **Definition**: The vanilla state machine (`RefrigeratorController.Def`) on the Refrigerator and Mini Fridge. Any building with this def gets a thermostat, including modded fridges.  
 **Used in**: `Patches.cs`
 
@@ -90,6 +92,7 @@ Terms for the No Magic Fridges mod. For the code behind them, see [entities](ent
 
 ### Sim1000ms
 **Id:** blk-0efeb721f740  
+**Tags:** game-component  
 **Definition**: The game's `ISim1000ms` callback, once per second of game time; the thermostat's tick.  
 **Used in**: `FridgeThermostat`
 

@@ -1,22 +1,20 @@
 {
   "task": "OM-002",
-  "why": "tag backfill r1 for node mods/no-magic-fridges — round 2",
+  "why": "tag backfill r2 for node mods/no-magic-fridges — round 2",
   "node": "C:\\dev\\ONI-Mods\\mods\\no-magic-fridges",
   "base": {
-    "domains/entities.md": "sha256:2360d90f75ffdd270ee7cc9a65add4a84339c9d079a2ff5250e2b315d0679d13",
-    "domains/glossary.md": "sha256:6e776fe21de8c3504059a50c7027cc8d7ef38391f3b4a954e0fe3d2837693474",
-    "standards/error-handling.md": "sha256:04ba4af4de30bf33c4331c0c1a9202d07f8f21268b262385f6fa9268ae2ae580",
-    "standards/code-style.md": "sha256:a78f5a427ae5245acecbf70eb5dcdd439ec10730d819948cb02e34145961b68c",
-    "standards/naming-conventions.md": "sha256:a5709fc4991afcb1d61456a57d3bdffba7d31b4f31ae7387dfd39c73412da2b8"
+    "standards/code-style.md": "sha256:c59eac8db007f88633e5a08e66ea6c3cb6ab574f5da9d08d64ad5ce18fe2dead",
+    "domains/glossary.md": "sha256:8016548ee098c1c31668b03c7b9eb25bfa89682a0bca8ee39fb8150f8eb8ea78"
   },
   "ops": [
     {
-      "target": "domains/entities.md",
+      "target": "standards/code-style.md",
       "mode": "tag",
       "add": [
-        "harmony-patching"
+        "logging",
+        "in-game-testing"
       ],
-      "section": "key-entities/harmony-patches"
+      "section": "project-specific-rules"
     },
     {
       "target": "domains/glossary.md",
@@ -24,34 +22,7 @@
       "add": [
         "game-component"
       ],
-      "section": "cross-domain-terms/primaryelement"
-    },
-    {
-      "target": "standards/error-handling.md",
-      "mode": "tag",
-      "add": [
-        "harmony-patching"
-      ],
-      "section": "guarding-patches"
-    },
-    {
-      "target": "standards/code-style.md",
-      "mode": "tag",
-      "add": [
-        "refrigerator",
-        "harmony-patching",
-        "game-component",
-        "reflection"
-      ],
-      "section": "project-specific-rules/no-magic-fridges-specifics"
-    },
-    {
-      "target": "standards/naming-conventions.md",
-      "mode": "tag",
-      "add": [
-        "harmony-patching"
-      ],
-      "section": "code-naming/classes-types-interfaces"
+      "section": "cross-domain-terms/sim1000ms"
     }
   ]
 }

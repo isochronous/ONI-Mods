@@ -14,6 +14,7 @@ const STORE = 'C:/dev/ONI-Mods';
 const DIR = path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, '$1'));
 const slug = (node) => (node === '.' ? 'root' : node.replace(/^mods\//, '').replace(/^mods$/, 'mods-agg'));
 const [cmd, a1, a2] = process.argv.slice(2);
+const RSUF = process.env.ROUND ? `-${process.env.ROUND}` : '';
 
 const S = await imp('survey.mjs');
 const I = await imp('intake.mjs');
@@ -38,7 +39,7 @@ if (cmd === 'survey') {
   // chunks <node>: freeze this node's survey and write one tagging input per chunk
   const full = S.surveyStore(STORE);
   const sv = nodeSurvey(full, a1);
-  const sl = slug(a1);
+  const sl = slug(a1) + RSUF;
   fs.writeFileSync(path.join(DIR, `survey-${sl}.json`), JSON.stringify(sv, null, 1));
   const { chunks, problems } = S.chunkDocuments(sv);
   if (problems.length) console.log('PROBLEMS', problems);
@@ -70,7 +71,7 @@ if (cmd === 'survey') {
   // write|dry <node> [round-tag]: merge the node's finished chunk outputs, verify, generate, run rounds
   const G = await imp('generate.mjs');
   const RUN = await imp('run.mjs');
-  const sl = slug(a1);
+  const sl = slug(a1) + RSUF;
   const tag = a2 ?? 'r1';
   const frozen = JSON.parse(fs.readFileSync(path.join(DIR, `survey-${sl}.json`), 'utf8'));
   const now = nodeSurvey(S.surveyStore(STORE), a1);

@@ -1,4 +1,5 @@
 ---
+tags: code-style
 doc_id: doc-208fd39f8eae
 description: "C# code style for Salty Surf: indentation, braces, imports, comments, control structures, Harmony patch and game component conventions, plus its patches living in Mod.cs, the shared SurfWater class and descriptor reflection"
 applies_to:
@@ -63,7 +64,8 @@ foreach (Mod mod in mods)
 3. Aliases (`using TOOL = SweepZones.ModStrings.UI.TOOLS.SWEEPZONES;`)
 
 ### Example
-**Id:** blk-e155218a57bf
+**Id:** blk-e155218a57bf  
+**Tags:** logging
 
 ```csharp
 using System.Collections.Generic;
@@ -152,7 +154,8 @@ if (idx == ushort.MaxValue || idx >= elements.Count)
 - Transpilers search for the instruction they change and report when it is not found; see [error handling](error-handling.md).
 
 ## Game Components
-**Id:** blk-cad0cc439cdc
+**Id:** blk-cad0cc439cdc  
+**Tags:** harmony-patching
 
 - A component extends `KMonoBehaviour`, overrides `OnPrefabInit`, `OnSpawn` and `OnCleanUp` and calls `base` from each. Sibling components come in through `[MyCmpGet]` or `[MyCmpReq]` (`mods/no-magic-fridges/src/NoMagicFridges/FridgeThermostat.cs`).
 - Saved state uses `[Serialize]` fields with `[SerializationConfig(MemberSerialization.OptIn)]` on the class (`mods/sweep-zones/src/SweepZones/ZoneStore.cs`).

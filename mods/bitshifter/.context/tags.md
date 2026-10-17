@@ -67,3 +67,8 @@ A record earns this term when it is about how many ribbon bits the Ribbon Reader
 **Id:** blk-ed42d3a953c2
 
 A record earns this term when it is about how the NOT gate inverts the bits of a ribbon signal.
+
+## code-style
+**Id:** blk-8c0bf34d14ba
+
+A record earns this term when it is about the house style in which a mod's C# source code is written.

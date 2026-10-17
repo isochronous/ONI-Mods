@@ -1,0 +1,341 @@
+{
+ "documents": [
+  {
+   "id": "domains/README.md",
+   "title": "Domains",
+   "description": "Index of the domain documents in the Detect Any Element node: the entities and glossary files covering the Any choice for the five element sensors",
+   "document_tags": [
+    "element-sensor"
+   ],
+   "text": "---\ntags: element-sensor\ndoc_id: doc-ab4317b0087d\ndescription: \"Index of the domain documents in the Detect Any Element node: the entities and glossary files covering the Any choice for the five element sensors\"\n---\n\n# Domains\n\n## Domains\n**Id:** blk-2dd4705dc889\n\nDocuments in this folder:\n\n- [entities](entities.md): The Any choice for the five element sensors, with the key code paths.\n- [glossary](glossary.md): The Any choice, the sensors it patches and the asterisk art.\n",
+   "sections": [
+    {
+     "id": "domains/README.md#domains",
+     "title": "Domains",
+     "text": "## Domains\n**Id:** blk-2dd4705dc889\n\nDocuments in this folder:\n\n- [entities](entities.md): The Any choice for the five element sensors, with the key code paths.\n- [glossary](glossary.md): The Any choice, the sensors it patches and the asterisk art.\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "domains/entities.md",
+   "title": "Detect Any Element domain",
+   "description": "The tag, strings and Harmony patches of the Detect Any Element mod (src/DetectAnyElement): the Any tag, ModStrings, side screen row, pipe, rail and world sensor patches and the asterisk glyph, with locations",
+   "document_tags": [
+    "element-sensor"
+   ],
+   "text": "---\ntags: element-sensor\nwitness_digest: \"sha256:9688b74ec6e9cba440970a13381f458489d3ef2313d82d57c9e72a7b1d5a4ab8\"\nwitness: loose\napplies_to:\n  - \"src/DetectAnyElement/**\"\ndoc_id: doc-25efc9f67a81\ndescription: \"The tag, strings and Harmony patches of the Detect Any Element mod (src/DetectAnyElement): the Any tag, ModStrings, side screen row, pipe, rail and world sensor patches and the asterisk glyph, with locations\"\n---\n\n# Detect Any Element domain\n\n## Overview\n**Id:** blk-3e95a3354643  \n**Tags:** side-screen, game-tag, saved-state\n\nDetect Any Element adds an Any choice, directly under None, to the side screen of the five element sensors. On Any a sensor is on while anything at all is present, and its screen flashes an asterisk. The choice is a tag in the sensor's `Filterable`, so it is saved and copied like an element. Source is in `mods/detect-any-element/src/DetectAnyElement/`.\n\n## Key Entities\n**Id:** blk-eae9be288da3\n\n### AnyElement\n**Id:** blk-e4bdbace6e5b  \n**Tags:** game-tag, saved-state  \n**Description**: The Any choice. A `Tag` named `DetectAnyElement_Any`, created with the English name \"Any\" through `TagManager.Create`. It rides in the same saved `Filterable` field as element tags, so it is saved with the building and copied by copy-settings. Without the mod, a sensor saved on Any keeps the tag and matches nothing.  \n**Location**: `mods/detect-any-element/src/DetectAnyElement/Mod.cs`\n\n| Member | Type | Description |\n|--------|------|-------------|\n| TagName | const string | `DetectAnyElement_Any` |\n| Tag | Tag | The created tag |\n| Is(tag) | bool | Whether a tag is Any |\n\n**Relationships**: `DetectAnyElementMod.OnLoad` registers `ModStrings` with `Isochronous.Translations` and re-creates the tag with the translated name after every language pass, because the game keeps its own copy of a tag's proper name.\n\n### ModStrings\n**Id:** blk-f7cd1a1120d9  \n**Tags:** mod-strings  \n**Description**: The mod's one string, `ModStrings.MISC.TAGS.DETECTANYELEMENT_ANY` (\"Any\"), registered under the game's `STRINGS.MISC.TAGS` and replaced from `translations/<locale>.po`. Chinese (Simplified), Korean and Russian ship; the template is `translations/DetectAnyElement.pot`.  \n**Location**: `mods/detect-any-element/src/DetectAnyElement/ModStrings.cs`\n\n### FilterSideScreen.SetTarget patch\n**Id:** blk-ee58ba77ae0e  \n**Tags:** side-screen, harmony-patching  \n**Description**: Postfix that adds an Any row second in the list, under None, on screens with `isLogicFilter` (the pipe and rail element sensors and the in-world sensors; the conveyor and pipe filters keep only None). The row has its icon hidden, like None. The row is kept per screen in a `ConditionalWeakTable`, and selected when the target is already on Any.  \n**Location**: `mods/detect-any-element/src/DetectAnyElement/Patches.cs` (`FilterSideScreen_SetTarget_Patch`)\n\n### ConduitElementSensor.ConduitUpdate patch\n**Id:** blk-2c3758b48106  \n**Tags:** harmony-patching  \n**Description**: Prefix for the Liquid Pipe, Gas Pipe and Conveyor Rail Element Sensors. On Any the sensor is on while the conduit at its cell holds mass above zero (any packet, whatever the element or item); it toggles the switch to match and skips the game's element test.  \n**Location**: `mods/detect-any-element/src/DetectAnyElement/Patches.cs` (`ConduitElementSensor_ConduitUpdate_Patch`)\n\n### LogicElementSensor.Sim200ms patch\n**Id:** blk-1687ce1b77e2  \n**Tags:** harmony-patching  \n**Description**: Prefix for the in-world Gas and Liquid Element Sensors. On Any the sensor is on while its cell holds any element of its desired state (any gas, or any liquid; vacuum counts as nothing). It keeps the game's eight-sample steadiness window (`samples`, `sampleIdx`) and drops only the element test.  \n**Location**: `mods/detect-any-element/src/DetectAnyElement/Patches.cs` (`LogicElementSensor_Sim200ms_Patch`)\n\n### LogicElementSensor.OnElementSelected patch\n**Id:** blk-8499447d8b7f  \n**Tags:** harmony-patching, side-screen  \n**Description**: Postfix that clears the \"no element selected\" status item when the choice is Any, since Any is a choice and not a lack of one.  \n**Location**: `mods/detect-any-element/src/DetectAnyElement/Patches.cs` (`LogicElementSensor_OnElementSelected_Patch`)\n\n### AnyGlyph\n**Id:** blk-e07d0d8f7399  \n**Tags:** game-component, kanim-art  \n**Description**: `KMonoBehaviour` added to each of the five sensors. While the sensor is on Any it overrides the symbol `elements` (the icon the screen flashes when on) with an asterisk symbol from the mod's `detect_any_asterisk_kanim`, named `asterisk_<sensor kanim>`; each is in that icon's colour and offset to land mid-screen. Off or another choice removes the override. If the symbol is missing it logs a warning and the sensor keeps the vanilla icon.  \n**Location**: `mods/detect-any-element/src/DetectAnyElement/AnyGlyph.cs`\n\n**Relationships**: needs `Filterable`, `SymbolOverrideController` and `KBatchedAnimController` on the same object; subscribes to `Filterable.onFilterChanged`.\n\n### SensorConfigs_DoPostConfigureComplete_Patch\n**Id:** blk-dd68a64821ad  \n**Tags:** harmony-patching, game-component  \n**Description**: Postfix on `DoPostConfigureComplete` of `LiquidConduitElementSensorConfig`, `GasConduitElementSensorConfig`, `SolidConduitElementSensorConfig`, `LogicElementSensorGasConfig` and `LogicElementSensorLiquidConfig`. Adds a `SymbolOverrideController` to the prefab when missing (it must exist before the anim controller is instantiated) and adds `AnyGlyph`.  \n**Location**: `mods/detect-any-element/src/DetectAnyElement/AnyGlyph.cs`\n\n### Switches\n**Id:** blk-014063748fa2  \n**Description**: Delegate for the protected `Switch.Toggle`, which the sensors flip through.  \n**Location**: `mods/detect-any-element/src/DetectAnyElement/Patches.cs`\n\n## Business Rules\n**Id:** blk-1a05232af13b  \n**Tags:** side-screen, saved-state\n\n- Any appears right under None for the five element sensors only.\n- A pipe or rail sensor on Any is green while any packet at all passes through it.\n- An in-world Gas sensor on Any is green while its cell holds any gas; the Liquid sensor, any liquid. Vacuum counts as nothing.\n- Picking an element switches Any off and picking Any switches the element off: a sensor has one choice at a time.\n- The Any choice is saved with the building and copied with its settings.\n- When a sensor on Any is on, its screen flashes an asterisk; when off, the screen looks as it always does.\n- Everything else, including the eight-sample window, is the game's own logic with the element test removed.\n\n## Key Code Paths\n**Id:** blk-752306474b78  \n**Tags:** harmony-patching, kanim-art, in-game-testing\n\n- **Choosing Any**: `FilterSideScreen.SetTarget` postfix adds the row; the filter change updates the `Filterable` tag and `AnyGlyph.OnFilterChanged` — see `mods/detect-any-element/src/DetectAnyElement/Patches.cs` and `AnyGlyph.cs`\n- **Pipe and rail detection**: `ConduitElementSensor.ConduitUpdate` prefix — see `Patches.cs`\n- **World detection**: `LogicElementSensor.Sim200ms` prefix — see `Patches.cs`\n- **Asterisk art**: `tools/make_art.py` writes `src/DetectAnyElement/anim/assets/detect_any_asterisk/` using the Liberation Sans Bold asterisk (SIL Open Font License; font and licence are in `tools/`)\n- **Tests**: `mods/detect-any-element/src/DetectAnyElement.Tests/` (`Glyph.cs`, `Kit.cs`, `Persistence.cs`, `PipeSensors.cs`, `SideScreen.cs`, `WorldSensors.cs`)\n\n## Related\n**Id:** blk-b067b1ae2cbb\n\n- See also: [glossary](glossary.md)\n",
+   "sections": [
+    {
+     "id": "domains/entities.md#key-entities",
+     "title": "Key Entities",
+     "text": "## Key Entities\n**Id:** blk-eae9be288da3\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/entities.md#key-entities/switches",
+     "title": "Switches",
+     "text": "### Switches\n**Id:** blk-014063748fa2  \n**Description**: Delegate for the protected `Switch.Toggle`, which the sensors flip through.  \n**Location**: `mods/detect-any-element/src/DetectAnyElement/Patches.cs`\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/entities.md#related",
+     "title": "Related",
+     "text": "## Related\n**Id:** blk-b067b1ae2cbb\n\n- See also: [glossary](glossary.md)\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "domains/glossary.md",
+   "title": "Domain Glossary",
+   "description": "Glossary for the Detect Any Element mod: abbreviations such as kanim and .po, terms to avoid like Wildcard, and definitions of Any, element sensor, Filterable, Tag and FilterSideScreen",
+   "document_tags": [
+    "element-sensor"
+   ],
+   "text": "---\ntags: element-sensor\nwitness_digest: \"sha256:9688b74ec6e9cba440970a13381f458489d3ef2313d82d57c9e72a7b1d5a4ab8\"\nwitness: loose\napplies_to:\n  - \"src/DetectAnyElement/**\"\ndoc_id: doc-9501e487a27b\ndescription: \"Glossary for the Detect Any Element mod: abbreviations such as kanim and .po, terms to avoid like Wildcard, and definitions of Any, element sensor, Filterable, Tag and FilterSideScreen\"\n---\n\n# Domain Glossary\n\nTerms used in the Detect Any Element mod (`mods/detect-any-element`). For the classes and patches behind them, see the entities document.\n\n## Abbreviations and Acronyms\n**Id:** blk-dd341ecb4ff1  \n**Tags:** kanim-art, mod-strings\n\n| Abbreviation | Full Term | Context |\n|--------------|-----------|---------|\n| ONI | Oxygen Not Included | The game this mod is for |\n| kanim | Klei animation | The game's sprite-animation asset; the mod ships `detect_any_asterisk_kanim` |\n| .po / .pot | Gettext translation file / template | `translations/<locale>.po` and `DetectAnyElement.pot` |\n\n## Terms to Avoid\n**Id:** blk-567dd4463017  \n**Tags:** side-screen, game-tag\n\n| Avoid | Use Instead | Reason |\n|-------|-------------|--------|\n| Wildcard, All | Any | The side screen row, the tag and the README all say Any |\n| Element (for the Any choice) | Choice | Any is a tag in the filter, not an element; \"no element selected\" must not show for it |\n\n## Cross-Domain Terms\n**Id:** blk-872dc2eafe6c\n\n### Any\n**Id:** blk-c8ba999de59d  \n**Tags:** side-screen, game-tag  \n**Definition**: The extra choice under None in an element sensor's side screen; the sensor is on while anything is present.  \n**Used in**: `AnyElement`, `FilterSideScreen_SetTarget_Patch`\n\n### Element sensor\n**Id:** blk-e193fc931720  \n**Definition**: One of five automation sensors that switch on when a chosen element is present: Liquid Pipe, Gas Pipe and Conveyor Rail Element Sensors (`ConduitElementSensor`), and the in-world Gas and Liquid Element Sensors (`LogicElementSensor`).  \n**Used in**: all patches\n\n### Filterable\n**Id:** blk-ba979d320f69  \n**Tags:** saved-state, game-component, game-tag  \n**Definition**: The component that holds a building's chosen tag (`SelectedTag`) and saves it. The Any tag is stored here like an element tag.  \n**Used in**: `AnyElement`, `AnyGlyph`, the sensor patches\n\n### Tag\n**Id:** blk-4a8dea407a48  \n**Tags:** game-tag, mod-strings  \n**Definition**: The game's `Tag` identifier, used for elements, categories and filter choices. `DetectAnyElement_Any` is the mod's tag, with a proper name \"Any\".  \n**Used in**: `AnyElement`, `ModStrings`\n\n### FilterSideScreen\n**Id:** blk-d8ac2b48b1c5  \n**Tags:** side-screen  \n**Definition**: The details-panel screen listing None and element categories for a filtering building. `isLogicFilter` is true for the sensors; the conveyor and pipe filters keep only None.  \n**Used in**: `FilterSideScreen_SetTarget_Patch`\n\n### Conduit\n**Id:** blk-691ec378450d  \n**Definition**: A pipe or rail cell that carries a packet; the pipe sensors read the contents at their own cell.  \n**Used in**: `ConduitElementSensor_ConduitUpdate_Patch`\n\n### Steadiness window\n**Id:** blk-ada7d73ad87a  \n**Definition**: The in-world sensors' eight samples (every 200 ms) that must all agree before the switch changes, which stops flicker. Kept on Any.  \n**Used in**: `LogicElementSensor_Sim200ms_Patch`\n\n### Symbol override\n**Id:** blk-8b1e59874671  \n**Tags:** kanim-art  \n**Definition**: Replacing one named symbol of an animation at runtime (`SymbolOverrideController`). The sensor's `elements` symbol, the flashing icon, is replaced by the asterisk.  \n**Used in**: `AnyGlyph`\n\n## Related\n**Id:** blk-aa8fba331ade\n\n- See also: [entities](entities.md)\n",
+   "sections": [
+    {
+     "id": "domains/glossary.md#cross-domain-terms",
+     "title": "Cross-Domain Terms",
+     "text": "## Cross-Domain Terms\n**Id:** blk-872dc2eafe6c\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/element-sensor",
+     "title": "Element sensor",
+     "text": "### Element sensor\n**Id:** blk-e193fc931720  \n**Definition**: One of five automation sensors that switch on when a chosen element is present: Liquid Pipe, Gas Pipe and Conveyor Rail Element Sensors (`ConduitElementSensor`), and the in-world Gas and Liquid Element Sensors (`LogicElementSensor`).  \n**Used in**: all patches\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/conduit",
+     "title": "Conduit",
+     "text": "### Conduit\n**Id:** blk-691ec378450d  \n**Definition**: A pipe or rail cell that carries a packet; the pipe sensors read the contents at their own cell.  \n**Used in**: `ConduitElementSensor_ConduitUpdate_Patch`\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/steadiness-window",
+     "title": "Steadiness window",
+     "text": "### Steadiness window\n**Id:** blk-ada7d73ad87a  \n**Definition**: The in-world sensors' eight samples (every 200 ms) that must all agree before the switch changes, which stops flicker. Kept on Any.  \n**Used in**: `LogicElementSensor_Sim200ms_Patch`\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#related",
+     "title": "Related",
+     "text": "## Related\n**Id:** blk-aa8fba331ade\n\n- See also: [entities](entities.md)\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "standards/README.md",
+   "title": "Standards",
+   "description": "Index of the standards documents in the Detect Any Element node: code style, error handling and naming conventions",
+   "document_tags": [],
+   "text": "---\ndoc_id: doc-9a01bd0fa316\ndescription: \"Index of the standards documents in the Detect Any Element node: code style, error handling and naming conventions\"\n---\n\n# Standards\n\n## Standards\n**Id:** blk-6a0e88d0bbf0\n\nDocuments in this folder:\n\n- [code-style](code-style.md): C# formatting, imports, comments, Harmony patch and component conventions, with this mod's own layout.\n- [error-handling](error-handling.md): How the mod guards its Harmony patches, reflection lookups and file reads, and what it logs when something is missing.\n- [naming-conventions](naming-conventions.md): File, namespace, patch class, string key and id naming.\n",
+   "sections": [
+    {
+     "id": "standards/README.md#standards",
+     "title": "Standards",
+     "text": "## Standards\n**Id:** blk-6a0e88d0bbf0\n\nDocuments in this folder:\n\n- [code-style](code-style.md): C# formatting, imports, comments, Harmony patch and component conventions, with this mod's own layout.\n- [error-handling](error-handling.md): How the mod guards its Harmony patches, reflection lookups and file reads, and what it logs when something is missing.\n- [naming-conventions](naming-conventions.md): File, namespace, patch class, string key and id naming.\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "standards/code-style.md",
+   "title": "Code Style Guide",
+   "description": "C# code style for the Detect Any Element mod: formatting, toolchain, imports, comments, Harmony conventions, plus its translations setup, AnyElement class and sensor patches in src/DetectAnyElement",
+   "document_tags": [],
+   "text": "---\ndoc_id: doc-57f3985fd9e2\ndescription: \"C# code style for the Detect Any Element mod: formatting, toolchain, imports, comments, Harmony conventions, plus its translations setup, AnyElement class and sensor patches in src/DetectAnyElement\"\napplies_to:\n  - \"src/**\"\n---\n\n# Code Style Guide\n\n## Formatting\n**Id:** blk-c6a72ffc816e\n\n### Indentation\n**Id:** blk-1d2cc304e9de\n\n- Tabs, one per level, in every `.cs` file (`mods/bitshifter/src/Bitshifter/Mod.cs`).\n- Project files (`.csproj`, `common/oni-mod.props`, `common/oni-mod.targets`) use two spaces.\n- Files are committed with LF line endings; Windows checkouts convert them to CRLF (`core.autocrlf` is true), so do not hand-normalise line endings.\n\n### Line Length\n**Id:** blk-10505badb72b\n\n- No limit is configured and the repository has no `.editorconfig`.\n- Wrap long calls and string concatenations after an argument or before a `+`, and indent the continuation one tab. The start-up log call in `mods/jumper-bridges/src/JumperBridges/Mod.cs` is the pattern.\n- TODO(owner): decide whether to add an `.editorconfig` recording tabs and brace placement so editors enforce what the code already does.\n\n### Braces\n**Id:** blk-5658a6640d6f\n\n- Opening brace on its own line (Allman) for namespaces, types, members and multi-line control blocks.\n- A body of one short statement goes on the next line without braces:\n\n```csharp\nforeach (Mod mod in mods)\n{\n\tif (!mod.IsEnabledForActiveDlc())\n\t\tcontinue;\n\t...\n}\n```\n\n- Multi-line initialisers and enums end with a trailing comma (`YieldToWorkshopIds` in `mods/bitshifter/src/Bitshifter/Mod.cs`, `CoolPodMode` in `mods/storage-pod-redux/src/StoragePodRedux/Options.cs`).\n\n## Language and Toolchain\n**Id:** blk-568c3162f3c6\n\n- C# 9 on .NET Framework 4.8 (`LangVersion` 9.0 and `TargetFramework` net48 in `common/oni-mod.props`). Namespace blocks, not file-scoped namespaces; no nullable reference types.\n- Mods compile against the game's own assemblies (`common/oni-mod.targets`): `Assembly-CSharp`, `Assembly-CSharp-firstpass`, `0Harmony` and Unity modules. The game's .NET Framework lacks some newer APIs (`ConditionalWeakTable.AddOrUpdate` is missing, see `mods/detect-any-element/src/DetectAnyElement/Patches.cs`).\n- Optional references are switched on in the mod csproj before the targets import: `ReferenceUnityUI`, `ReferenceImageConversion`, `UsePLib` (PLib is ILRepack-merged into the mod DLL) and `UseTranslations` (compiles `common/src/Translations.cs` in).\n- One namespace per mod, equal to its `RootNamespace`. Subfolders organise files and do not add namespaces (`mods/upgrade-planner/src/UpgradePlanner/Plan`, `Rules`, `Tool`, `UI` all declare `namespace UpgradePlanner`).\n\n## Imports/Includes\n**Id:** blk-7a0b494a2a9e\n\n### Organization\n**Id:** blk-a3ab7baa9b9b\n\n`using` directives sit above the namespace, in one block with no blank lines, sorted alphabetically with `System.*` first. Aliases for `ModStrings` branches come last.\n\n1. `System.*`\n2. Everything else alphabetically: `HarmonyLib`, `Isochronous`, `KMod`, `Newtonsoft.Json`, `PeterHan.PLib.*`, `ProcGenGame`, `UnityEngine`\n3. Aliases (`using TOOL = SweepZones.ModStrings.UI.TOOLS.SWEEPZONES;`)\n\n### Example\n**Id:** blk-6a8bea597750\n\n```csharp\nusing System.Collections.Generic;\nusing System.Reflection;\nusing HarmonyLib;\nusing Isochronous;\nusing Klei;\nusing KMod;\nusing STRINGS;\nusing UnityEngine;\n```\n(`mods/salty-surf/src/SaltySurf/Mod.cs`)\n\n`Debug.Log` resolves either to `UnityEngine.Debug` or to the game's own global `Debug` class, so several `Mod.cs` files omit `using UnityEngine`. When a file imports `System.Diagnostics`, qualify the call as `UnityEngine.Debug.Log` (`mods/just-fall-already/src/JustFallAlready/FallPoke.cs`).\n\n## Comments\n**Id:** blk-3309b637ae29\n\n### When to Comment\n**Id:** blk-6e6c7ccc6bba\n\n- On every non-trivial class, an XML `<summary>` that says what the game does and what the patch changes, so a reader can check the patch against the game code. The long summary on `OvercrowdingMonitor_UpdateRegion_Patch` in `mods/dont-count-eggs-on-rails/src/DontCountEggsOnRails/Mod.cs` is the model.\n- Where a game quirk forces an odd line: `// The game's .NET Framework has no AddOrUpdate on this table.`\n- Where another mod is involved, name it and its Workshop id (`mods/bitshifter/src/Bitshifter/Mod.cs`, `mods/smart-weight-plate/src/SmartWeightPlate/Mod.cs`).\n- Escape angle brackets in XML comments as `&lt;` and `&gt;`.\n\n### When NOT to Comment\n**Id:** blk-1ac432e22516\n\n- Code that reads clearly from its names.\n- Commented-out code; delete it.\n- Restating what a line does.\n\n### Format\n**Id:** blk-6d1f7ad40920\n\n```csharp\n/// <summary>\n/// The \"Any\" choice. It is a tag like the elements a sensor's Filterable holds, so it rides\n/// in the same saved field and copies with the building's settings.\n/// </summary>\npublic static class AnyElement\n\n// Single-line note for a quirk or a reason.\n```\n\n## Control Structures\n**Id:** blk-49ddba822c4b\n\n### Conditionals\n**Id:** blk-71a3fd333369\n\nGuard clauses and early `return` or `continue` keep nesting shallow (`SettleSimBackwalls.UpdateFromSim` in `mods/natural-backwalls-everywhere/src/NaturalBackwalls/SettleSimPatch.cs`):\n\n```csharp\nif (!Grid.IsValidCell(cell))\n\tcontinue;\nushort idx = data->backwallElement[cell];\nif (idx == ushort.MaxValue || idx >= elements.Count)\n\tcontinue;\n```\n\n### Loops\n**Id:** blk-a138faf04479\n\n- Plain `for` and `foreach`. Code that runs every sim tick or frame avoids LINQ and allocations; reuse scratch lists (`scratch` in `mods/just-fall-already/src/JustFallAlready/FallPoke.cs`).\n- Local types are written out (`Tech tech = ...`). `var` appears mainly in `mods/upgrade-planner`, `mods/natural-backwalls-everywhere` and the test projects; follow the surrounding file.\n\n### Strings\n**Id:** blk-c279f0f84eb1  \n**Tags:** mod-strings\n\n- Log and UI text is built with `+` concatenation, or `string.Format` on a `LocString`. String interpolation is not used in mod code.\n- Player-visible text is a `LocString` field in `ModStrings`, never a literal at the call site (see [naming conventions](naming-conventions.md)).\n\n## Harmony Patches\n**Id:** blk-568d224900b6  \n**Tags:** harmony-patching, mod-entry-point, vanilla-fallback\n\n- A patch is a static class with `[HarmonyPatch(typeof(Type), nameof(Type.Method))]`, or `[HarmonyPatch(typeof(Type), \"PrivateMethod\")]` for a non-public method, and methods named `Prefix`, `Postfix`, `Transpiler` or `Finalizer` (`mods/bitshifter/src/Bitshifter/Patches.cs`).\n- Game state arrives through Harmony parameters: `__instance`, `__result`, `___field`. Fields read repeatedly use `AccessTools.FieldRefAccess` kept in a `static readonly` field (`mods/detect-any-element/src/DetectAnyElement/Patches.cs`).\n- A prefix returns `true` to let the game's method run and `false` only when it replaces the method (`mods/dont-count-eggs-on-rails`, `mods/bitshifter` `UpdateVisuals`).\n- A patch that depends on an option implements `Prepare()` (`mods/jumper-bridges/src/JumperBridges/Patches.cs`); a patch with several targets implements `TargetMethods()`.\n- `UserMod2.OnLoad` calls `base.OnLoad(harmony)`, which applies every patch in the assembly, then registers libraries and logs the version. A mod that must patch after all others applies its patches from `OnAllModsLoaded` instead (`mods/bitshifter/src/Bitshifter/Mod.cs`).\n- Transpilers search for the instruction they change and report when it is not found; see [error handling](error-handling.md).\n\n## Game Components\n**Id:** blk-c8c4aaafedc9  \n**Tags:** game-component, saved-state\n\n- A component extends `KMonoBehaviour`, overrides `OnPrefabInit`, `OnSpawn` and `OnCleanUp` and calls `base` from each. Sibling components come in through `[MyCmpGet]` or `[MyCmpReq]` (`mods/no-magic-fridges/src/NoMagicFridges/FridgeThermostat.cs`).\n- Saved state uses `[Serialize]` fields with `[SerializationConfig(MemberSerialization.OptIn)]` on the class (`mods/sweep-zones/src/SweepZones/ZoneStore.cs`).\n- Components are added to prefabs from a `DoPostConfigureComplete` postfix with `go.AddOrGet<T>()`.\n\n## Project-Specific Rules\n**Id:** blk-d691a716fef2  \n**Tags:** in-game-testing, logging\n\n- Mod options are a PLib `POptions` class marked `[JsonObject(MemberSerialization.OptIn)]` and `[ConfigFile(SharedConfigLocation: true)]`, read through a static `Load()` (`mods/vent-freeze-fix/src/VentFreezeFix/Options.cs`) or through `SingletonOptions<Options>` (`mods/storage-pod-redux`). Option titles are string-table keys, so the translation follows the language.\n- Every mod logs one line at load: `[<Name>] Loaded version <assembly version>`.\n- Tests live in a separate `<Name>.Tests` project and are written as `[OniTest]` coroutines against the real game.\n\n### Detect Any Element specifics\n**Id:** blk-75650a2c420e  \n**Tags:** mod-entry-point, mod-strings, game-tag, harmony-patching\n\n- Uses `UseTranslations` and `ReferenceUnityUI`; no PLib. `Mod.cs` registers `ModStrings` and passes an `afterApply` callback that re-sets the \"Any\" tag's proper name after every language pass (`src/DetectAnyElement/Mod.cs`).\n- `AnyElement` is a public static class in `Mod.cs`: the tag, its name and `Is(Tag)`.\n- `Patches.cs` holds the side-screen and sensor patches (`FilterSideScreen_SetTarget_Patch`, `ConduitElementSensor_ConduitUpdate_Patch`, `LogicElementSensor_Sim200ms_Patch`, `LogicElementSensor_OnElementSelected_Patch`) plus the small internal helper `Switches`. `AnyGlyph.cs` holds the glyph component and `SensorConfigs_DoPostConfigureComplete_Patch`, a multi-target patch with `TargetMethods()` that yields the five sensor configs.\n- `ConditionalWeakTable` is the per-screen cache (`anyRows`); the game's .NET Framework has no `AddOrUpdate`, so the code removes and adds.\n\n## Related\n**Id:** blk-1578bbc82bf2\n\n- See also: [naming conventions](naming-conventions.md)\n- See also: [error handling](error-handling.md)\n",
+   "sections": [
+    {
+     "id": "standards/code-style.md#formatting",
+     "title": "Formatting",
+     "text": "## Formatting\n**Id:** blk-c6a72ffc816e\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#formatting/indentation",
+     "title": "Indentation",
+     "text": "### Indentation\n**Id:** blk-1d2cc304e9de\n\n- Tabs, one per level, in every `.cs` file (`mods/bitshifter/src/Bitshifter/Mod.cs`).\n- Project files (`.csproj`, `common/oni-mod.props`, `common/oni-mod.targets`) use two spaces.\n- Files are committed with LF line endings; Windows checkouts convert them to CRLF (`core.autocrlf` is true), so do not hand-normalise line endings.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#formatting/line-length",
+     "title": "Line Length",
+     "text": "### Line Length\n**Id:** blk-10505badb72b\n\n- No limit is configured and the repository has no `.editorconfig`.\n- Wrap long calls and string concatenations after an argument or before a `+`, and indent the continuation one tab. The start-up log call in `mods/jumper-bridges/src/JumperBridges/Mod.cs` is the pattern.\n- TODO(owner): decide whether to add an `.editorconfig` recording tabs and brace placement so editors enforce what the code already does.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#formatting/braces",
+     "title": "Braces",
+     "text": "### Braces\n**Id:** blk-5658a6640d6f\n\n- Opening brace on its own line (Allman) for namespaces, types, members and multi-line control blocks.\n- A body of one short statement goes on the next line without braces:\n\n```csharp\nforeach (Mod mod in mods)\n{\n\tif (!mod.IsEnabledForActiveDlc())\n\t\tcontinue;\n\t...\n}\n```\n\n- Multi-line initialisers and enums end with a trailing comma (`YieldToWorkshopIds` in `mods/bitshifter/src/Bitshifter/Mod.cs`, `CoolPodMode` in `mods/storage-pod-redux/src/StoragePodRedux/Options.cs`).\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#language-and-toolchain",
+     "title": "Language and Toolchain",
+     "text": "## Language and Toolchain\n**Id:** blk-568c3162f3c6\n\n- C# 9 on .NET Framework 4.8 (`LangVersion` 9.0 and `TargetFramework` net48 in `common/oni-mod.props`). Namespace blocks, not file-scoped namespaces; no nullable reference types.\n- Mods compile against the game's own assemblies (`common/oni-mod.targets`): `Assembly-CSharp`, `Assembly-CSharp-firstpass`, `0Harmony` and Unity modules. The game's .NET Framework lacks some newer APIs (`ConditionalWeakTable.AddOrUpdate` is missing, see `mods/detect-any-element/src/DetectAnyElement/Patches.cs`).\n- Optional references are switched on in the mod csproj before the targets import: `ReferenceUnityUI`, `ReferenceImageConversion`, `UsePLib` (PLib is ILRepack-merged into the mod DLL) and `UseTranslations` (compiles `common/src/Translations.cs` in).\n- One namespace per mod, equal to its `RootNamespace`. Subfolders organise files and do not add namespaces (`mods/upgrade-planner/src/UpgradePlanner/Plan`, `Rules`, `Tool`, `UI` all declare `namespace UpgradePlanner`).\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#imports-includes",
+     "title": "Imports/Includes",
+     "text": "## Imports/Includes\n**Id:** blk-7a0b494a2a9e\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#imports-includes/organization",
+     "title": "Organization",
+     "text": "### Organization\n**Id:** blk-a3ab7baa9b9b\n\n`using` directives sit above the namespace, in one block with no blank lines, sorted alphabetically with `System.*` first. Aliases for `ModStrings` branches come last.\n\n1. `System.*`\n2. Everything else alphabetically: `HarmonyLib`, `Isochronous`, `KMod`, `Newtonsoft.Json`, `PeterHan.PLib.*`, `ProcGenGame`, `UnityEngine`\n3. Aliases (`using TOOL = SweepZones.ModStrings.UI.TOOLS.SWEEPZONES;`)\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#imports-includes/example",
+     "title": "Example",
+     "text": "### Example\n**Id:** blk-6a8bea597750\n\n```csharp\nusing System.Collections.Generic;\nusing System.Reflection;\nusing HarmonyLib;\nusing Isochronous;\nusing Klei;\nusing KMod;\nusing STRINGS;\nusing UnityEngine;\n```\n(`mods/salty-surf/src/SaltySurf/Mod.cs`)\n\n`Debug.Log` resolves either to `UnityEngine.Debug` or to the game's own global `Debug` class, so several `Mod.cs` files omit `using UnityEngine`. When a file imports `System.Diagnostics`, qualify the call as `UnityEngine.Debug.Log` (`mods/just-fall-already/src/JustFallAlready/FallPoke.cs`).\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#comments",
+     "title": "Comments",
+     "text": "## Comments\n**Id:** blk-3309b637ae29\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#comments/when-to-comment",
+     "title": "When to Comment",
+     "text": "### When to Comment\n**Id:** blk-6e6c7ccc6bba\n\n- On every non-trivial class, an XML `<summary>` that says what the game does and what the patch changes, so a reader can check the patch against the game code. The long summary on `OvercrowdingMonitor_UpdateRegion_Patch` in `mods/dont-count-eggs-on-rails/src/DontCountEggsOnRails/Mod.cs` is the model.\n- Where a game quirk forces an odd line: `// The game's .NET Framework has no AddOrUpdate on this table.`\n- Where another mod is involved, name it and its Workshop id (`mods/bitshifter/src/Bitshifter/Mod.cs`, `mods/smart-weight-plate/src/SmartWeightPlate/Mod.cs`).\n- Escape angle brackets in XML comments as `&lt;` and `&gt;`.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#comments/when-not-to-comment",
+     "title": "When NOT to Comment",
+     "text": "### When NOT to Comment\n**Id:** blk-1ac432e22516\n\n- Code that reads clearly from its names.\n- Commented-out code; delete it.\n- Restating what a line does.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#comments/format",
+     "title": "Format",
+     "text": "### Format\n**Id:** blk-6d1f7ad40920\n\n```csharp\n/// <summary>\n/// The \"Any\" choice. It is a tag like the elements a sensor's Filterable holds, so it rides\n/// in the same saved field and copies with the building's settings.\n/// </summary>\npublic static class AnyElement\n\n// Single-line note for a quirk or a reason.\n```\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#control-structures",
+     "title": "Control Structures",
+     "text": "## Control Structures\n**Id:** blk-49ddba822c4b\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#control-structures/conditionals",
+     "title": "Conditionals",
+     "text": "### Conditionals\n**Id:** blk-71a3fd333369\n\nGuard clauses and early `return` or `continue` keep nesting shallow (`SettleSimBackwalls.UpdateFromSim` in `mods/natural-backwalls-everywhere/src/NaturalBackwalls/SettleSimPatch.cs`):\n\n```csharp\nif (!Grid.IsValidCell(cell))\n\tcontinue;\nushort idx = data->backwallElement[cell];\nif (idx == ushort.MaxValue || idx >= elements.Count)\n\tcontinue;\n```\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#control-structures/loops",
+     "title": "Loops",
+     "text": "### Loops\n**Id:** blk-a138faf04479\n\n- Plain `for` and `foreach`. Code that runs every sim tick or frame avoids LINQ and allocations; reuse scratch lists (`scratch` in `mods/just-fall-already/src/JustFallAlready/FallPoke.cs`).\n- Local types are written out (`Tech tech = ...`). `var` appears mainly in `mods/upgrade-planner`, `mods/natural-backwalls-everywhere` and the test projects; follow the surrounding file.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#related",
+     "title": "Related",
+     "text": "## Related\n**Id:** blk-1578bbc82bf2\n\n- See also: [naming conventions](naming-conventions.md)\n- See also: [error handling](error-handling.md)\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "standards/error-handling.md",
+   "title": "Error Handling Conventions",
+   "description": "Error handling conventions for the Detect Any Element mod: guarding patches, logging levels, plus its missing-glyph-symbol fallback, early returns in patches and the Any tag's saved Filterable field",
+   "document_tags": [
+    "vanilla-fallback"
+   ],
+   "text": "---\ntags: vanilla-fallback\ndoc_id: doc-536d0bdee6af\ndescription: \"Error handling conventions for the Detect Any Element mod: guarding patches, logging levels, plus its missing-glyph-symbol fallback, early returns in patches and the Any tag's saved Filterable field\"\napplies_to:\n  - \"src/**\"\n---\n\n# Error Handling Conventions\n\n## Principles\n**Id:** blk-1c12fcb172de  \n**Tags:** logging, harmony-patching\n\n1. **Never break the game for a mod's sake.** A patch that cannot do its job leaves the vanilla behaviour in place and says so in the log. It does not throw into the game's update loop.\n2. **Check what you patch.** Game updates rename fields and move code. Every reflection lookup, transpiler match and prefab or tech lookup is checked for a miss.\n3. **Say what degraded.** A warning names the thing that was not found and the consequence, so a bug report with `Player.log` is enough to diagnose.\n4. **Don't swallow.** A `catch` logs and either returns a safe default or continues; it is never empty.\n5. **Log at the right level.** `Debug.Log` for start-up and summaries, `Debug.LogWarning` for degraded behaviour, `Debug.LogError` for a failed player action.\n\nThere is no custom exception hierarchy. Mods are small patches over game code, so errors are handled where they occur.\n\n## Guarding Patches\n**Id:** blk-4ef3aa08558c\n\n### Missing member: warn, leave vanilla\n**Id:** blk-49d91e817362  \n**Tags:** harmony-patching\n\nA reflection lookup that returns null is checked before use. The patch then does nothing, or returns `true` from a prefix so the game's method runs.\n\n```csharp\nif (ActiveField == null || StorageField == null)\n\treturn true; // the game renamed its fields: leave vanilla alone rather than throw\n```\n(`mods/no-magic-fridges/src/NoMagicFridges/Patches.cs`; the warning is logged once at load by `SimTransferMethod` in `FridgeThermostat.cs`.)\n\n### Transpiler: count the match\n**Id:** blk-4300a4469703  \n**Tags:** harmony-patching, logging\n\nA transpiler counts the instructions it replaced. Zero (or more than expected) logs a warning and returns the original code, so a game update disables the change instead of breaking the method.\n\n```csharp\nif (swapped == 0)\n\tDebug.LogWarning(\"[CornerBuildAnything] \" + where + \" does not load OffsetGroups.InvertedStandardTable; corner reach not applied there\");\n```\n(`mods/corner-build-anything/src/CornerBuildAnything/ReachTablePatches.cs`; same pattern in `mods/bitshifter/src/Bitshifter/Patches.cs` and `mods/natural-backwalls-everywhere/src/NaturalBackwalls/SettleSimPatch.cs`.)\n\n### Missing data: warn, continue\n**Id:** blk-bfbab614ef56  \n**Tags:** logging\n\nA build-menu, tech or asset lookup that finds nothing warns and keeps the mod working:\n\n```csharp\nTech tech = Db.Get().Techs.TryGet(TechId);\nif (tech == null)\n{\n\tDebug.LogWarning(\"[SmartWeightPlate] Tech '\" + TechId + \"' not found; building will be unlocked from the start\");\n\treturn;\n}\n```\n(`mods/smart-weight-plate/src/SmartWeightPlate/Patches.cs`; also `mods/multichannel-critter-sensor`, `mods/storage-pod-redux`.) Missing art or a missing vanilla prefab degrades the same way (`Display.UseAnim` in `mods/bitshifter/src/Bitshifter/Patches.cs`, `mods/multichannel-critter-sensor/src/MultichannelCritterSensor/MultichannelCritterSensorSideScreen.cs`).\n\n### Null checks on game objects\n**Id:** blk-1a260b7c2cae  \n**Tags:** harmony-patching\n\nComponents and arguments that can be absent are tested before use: `if (stt == null || !Sim.IsValidHandle(stt.SimHandle)) return true;`, `if (sensor == null || GameScenePartitioner.Instance == null) return;` (`mods/motion-sensor-range/src/MotionSensorRange/RangeSlider.cs`).\n\n### Warn once\n**Id:** blk-b4bf81744840  \n**Tags:** logging\n\nWork that repeats every frame or tick warns once behind a flag (`warnedMissingInternals` in `RangeSlider.cs`).\n\n## try/catch\n**Id:** blk-0a2a9b61cd78  \n**Tags:** logging\n\n`try`/`catch (Exception e)` is used in four situations and nowhere else:\n\n1. **Optional integration with another mod.** Patching or reading another mod's types may fail for any reason. Log the message and skip the integration (`BetterAutomationOverlayCompat.Apply` in `mods/smart-weight-plate/src/SmartWeightPlate/Mod.cs`; `mods/upgrade-planner/src/UpgradePlanner/Compat/BlueprintsCompat.cs`).\n2. **File and JSON reads and writes.** Return an empty or null result (`mods/upgrade-planner/src/UpgradePlanner/Plan/Presets.cs`, `mods/storage-pod-redux/src/StoragePodRedux/ModDetection.cs`, `mods/sweep-zones/src/SweepZones/ToolIcon.cs`).\n3. **Patches that run inside worldgen or per-cell work**, where an escaping exception kills a thread or a whole pass (`mods/natural-backwalls-everywhere/src/NaturalBackwalls/FeaturePatch.cs`, `PlanetoidPatch.cs`, `Patches.cs`, `Census.cs`).\n4. **Per-job work in a queue**, so one failure does not stop the rest (`mods/upgrade-planner/src/UpgradePlanner/Tool/PlacementQueue.cs`, logged with `Debug.LogError`).\n\nThe message form is `\"[<Name>] <what was skipped>: \" + e.Message`. Use `e.GetBaseException().Message` when the exception may be a reflection wrapper, and the full `e` when the stack trace is needed.\n\n### Finalizer for a thread with no handler\n**Id:** blk-4bc5e76bb03f  \n**Tags:** harmony-patching\n\n`Cluster.BeginGeneration` is the worldgen thread body and has none; an exception ends the thread and the loading screen waits forever. A finalizer reports the failure through the game's own error path and logs the exception (`Cluster_BeginGeneration_Patch` in `mods/natural-backwalls-everywhere/src/NaturalBackwalls/WorldgenThreadPatch.cs`).\n\n## Yielding to Other Mods\n**Id:** blk-e1cb0e62cd50  \n**Tags:** logging\n\nWhen another mod already does the job or shares an id, the mod steps aside and logs why:\n- Bitshifter disables itself when Digital CPU is enabled or the contested methods already have Harmony owners (`WhyYield` in `mods/bitshifter/src/Bitshifter/Mod.cs`).\n- Storage Pod Redux does not register its buildings while the original Storage Pod is enabled, and logs a warning telling the player to disable one (`mods/storage-pod-redux/src/StoragePodRedux/Mod.cs`).\n\n## Logging\n**Id:** blk-1a532a50d7f2\n\n### Log Levels\n**Id:** blk-91679b3cf2ae  \n**Tags:** logging\n\n| Level | Use For | Example |\n|-------|---------|---------|\n| `Debug.LogError` | A player action failed and was abandoned | `PlacementQueue` in `mods/upgrade-planner` |\n| `Debug.LogWarning` | Degraded or skipped behaviour | the examples above |\n| `Debug.Log` | Load line, a one-line summary of what a pass changed | `Tagged N refined metal(s)` in `mods/refined-building` |\n\n### What to Include\n**Id:** blk-6b7945999d4e  \n**Tags:** logging\n\n- The `[<ModName>] ` prefix on every line; `JumperBridgesMod.LogPrefix` holds it for that mod.\n- What was expected, what was found, and what the mod does instead.\n- Cell numbers, building names and element ids when they identify the case (`mods/vent-freeze-fix`).\n- Per-tick or per-frame telemetry only behind a debug option (`VentFreezeWatcher.Verbose`, `DebugSave.Enabled`) or capped (`DetailLines` in `SettleSimPatch.cs`).\n\nPLib's `PUtil.Log*` helpers are not used; all mods log through `Debug`.\n\n## Anti-Patterns to Avoid\n**Id:** blk-f9f7ea4db024\n\n### Swallowing exceptions\n**Id:** blk-2e7d41dad80c  \n**Tags:** logging\n\nAn empty `catch` hides a broken patch. The one `catch` that returns a fallback without a log is `GuessLanguageCode` in `common/src/Translations.cs`, because a missing language preference is the normal case before the game has started.\n\n### Throwing from a patch\n**Id:** blk-95922f65011e  \n**Tags:** harmony-patching\n\nAn exception in a prefix or postfix on a per-frame or sim method repeats every frame. Guard, log once, return.\n\n### Assuming the game's internals\n**Id:** blk-0e85bde9ea93  \n**Tags:** harmony-patching\n\nReading a private field by name without a null check on the `FieldInfo`, or replacing an instruction without confirming it was found, breaks on the next game update.\n\n### Silent degradation\n**Id:** blk-741ee95ad030  \n**Tags:** logging\n\nDoing nothing without a log line leaves a player and the author guessing. Every skipped path logs.\n\n### Spamming the log\n**Id:** blk-e1ff06290556  \n**Tags:** logging\n\nA warning inside an update method fires thousands of times. Use a once-flag.\n\n## Project-Specific Patterns\n**Id:** blk-cf2025fac0cc\n\n### Detect Any Element specifics\n**Id:** blk-683194568d75  \n**Tags:** kanim-art, side-screen, saved-state, logging\n\n- `AnyGlyph.Asterisk` looks a symbol up once, warns when the kanim has no such symbol, and returns null so the sensor keeps the vanilla icon (`src/DetectAnyElement/AnyGlyph.cs`).\n- Patches return early when the screen is not the in-world filter (`isLogicFilter`) or `Filterable` is null.\n- The `Any` tag rides in the sensor's saved `Filterable` field, so the mod's patches are the only code that gives it meaning (documented on `AnyElement`).\n\n## Related\n**Id:** blk-de9902f016fa\n\n- See also: [code style](code-style.md)\n- See also: [naming conventions](naming-conventions.md)\n",
+   "sections": [
+    {
+     "id": "standards/error-handling.md#guarding-patches",
+     "title": "Guarding Patches",
+     "text": "## Guarding Patches\n**Id:** blk-4ef3aa08558c\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/error-handling.md#logging",
+     "title": "Logging",
+     "text": "## Logging\n**Id:** blk-1a532a50d7f2\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/error-handling.md#anti-patterns-to-avoid",
+     "title": "Anti-Patterns to Avoid",
+     "text": "## Anti-Patterns to Avoid\n**Id:** blk-f9f7ea4db024\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/error-handling.md#project-specific-patterns",
+     "title": "Project-Specific Patterns",
+     "text": "## Project-Specific Patterns\n**Id:** blk-cf2025fac0cc\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/error-handling.md#related",
+     "title": "Related",
+     "text": "## Related\n**Id:** blk-de9902f016fa\n\n- See also: [code style](code-style.md)\n- See also: [naming conventions](naming-conventions.md)\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "standards/naming-conventions.md",
+   "title": "Naming Conventions",
+   "description": "Naming conventions for the Detect Any Element mod: files, namespaces, variables, methods, strings and ids, plus its ModStrings branch, DetectAnyElement_Any tag name, glyph symbol constants and log prefix",
+   "document_tags": [],
+   "text": "---\ndoc_id: doc-97035e1a7776\ndescription: \"Naming conventions for the Detect Any Element mod: files, namespaces, variables, methods, strings and ids, plus its ModStrings branch, DetectAnyElement_Any tag name, glyph symbol constants and log prefix\"\napplies_to:\n  - \"src/**\"\n---\n\n# Naming Conventions\n\n## Files and Directories\n**Id:** blk-539807619278\n\n### General Rules\n**Id:** blk-77f2097ac8ef\n\n- A mod lives in `mods/<kebab-case-name>/` (`natural-backwalls-everywhere`, `just-fall-already`).\n- Its code is under `mods/<name>/src/<PascalName>/` with a matching `src/<PascalName>.Tests/` project. `AssemblyName`, `RootNamespace` and the project folder share one PascalCase name (`DontCountEggsOnRails`).\n- C# files are PascalCase and named for the main type they hold. One concept per file; small related types may share a file (`Display` in `mods/bitshifter/src/Bitshifter/Patches.cs`).\n- Release tags are `<mod-folder>-v<version>` (repository README).\n\n### Examples by Type\n**Id:** blk-701ebf962f66  \n**Tags:** mod-entry-point, side-screen, game-component\n\n| Type | Convention | Example |\n|------|------------|---------|\n| Mod entry class | `Mod.cs`, class `<Name>Mod : UserMod2` | `BitshifterMod` in `Mod.cs` |\n| Harmony patches | `Patches.cs`, or a file named for what is patched | `PlanetoidPatch.cs`, `SettleSimPatch.cs` |\n| Building config | `<Building>Config.cs`, class `<Building>Config : IBuildingConfig` with `public const string ID` | `SmartWeightPlateConfig.cs` |\n| Side screen | `<Building>SideScreen.cs` | `SmartWeightPlateSideScreen.cs` |\n| Components | `<Thing>.cs` named for the component | `FridgeThermostat.cs`, `ZoneStore.cs` |\n| Strings | `ModStrings.cs` | `mods/salty-surf/src/SaltySurf/ModStrings.cs` |\n| Options | `Options.cs`, class `Options` | `mods/vent-freeze-fix/src/VentFreezeFix/Options.cs` |\n| Tests | `<Topic>.cs` in `<Name>.Tests`, one static class per topic | `Reach.cs`, `Gates.cs`, `Persistence.cs`; `Kit.cs` for shared helpers |\n| Mod metadata | `mod.yaml`, `mod_info.yaml` in the project folder | `staticID: \"Isochronous.<PascalName>\"` |\n| Translations | `translations/<locale>.po`, template `<Name>.pot` | `mods/detect-any-element/src/DetectAnyElement/translations` |\n| Art | `anim/` (kanim files), `assets/` | `bitshifter_ribbon_reader_kanim` |\n| Release material | `mods/<name>/publish/`, `CHANGELOG.md`, `README.md` | |\n\n## Code Naming\n**Id:** blk-65b1bbdec212\n\n### Variables\n**Id:** blk-b8840ab84c08\n\n- camelCase for locals, parameters and private instance fields; no underscore prefix.\n- PascalCase for constants (`ArmSeconds`, `Bits`, `TechId`) and for `static readonly` values that act as constants or lookups (`Standard`, `YieldToWorkshopIds`, `Contested`).\n- camelCase for private static mutable state and caches (`armed`, `scratch`, `lastGrid`, `symbols`, `anyRows`).\n- Descriptive names; single letters only for loop indexes and the `e` of a catch.\n\n```csharp\nprivate const float ArmSeconds = 2f;\nprivate static readonly Dictionary<int, float> armed = new Dictionary<int, float>();\n```\n(`mods/just-fall-already/src/JustFallAlready/FallPoke.cs`)\n\n### Functions/Methods\n**Id:** blk-dea9d87e5d99  \n**Tags:** harmony-patching\n\n- PascalCase, starting with a verb: `Apply`, `Decide`, `SwapTable`, `CopyRangeFrom`, `ApplyRange`.\n- Game callbacks keep the game's names (`OnSpawn`, `OnPrefabInit`, `OnCleanUp`, `Sim1000ms`).\n- Harmony methods are named for their kind: `Prefix`, `Postfix`, `Transpiler`, `Finalizer`, plus `Prepare`, `TargetMethod`, `TargetMethods`.\n\n### Classes/Types/Interfaces\n**Id:** blk-886931b6c2d7  \n**Tags:** harmony-patching\n\n- PascalCase nouns. Interfaces take an `I` prefix (`IPlanTab` and `ITabView` in `mods/upgrade-planner`, and the game's own).\n- Harmony patch classes: `<PatchedType>_<PatchedMethod>_Patch` (`LogicRibbonReader_GetBitDepth_Patch`, `Db_Initialize_Patch`, `GeneratedBuildings_LoadGeneratedBuildings_Patch`). A patch for a type with one concern may use `<Type>_Patch` (`LiquidVentConfig_Patch`). Patches nested in a holder class may drop the suffix (`Constructable_OnSpawn` in `ReachTablePatches`).\n- Classes are `sealed` unless built for inheritance. The mod class is `public sealed`. Types the game does not reach are `internal`.\n- Option enums and nested helper types are PascalCase (`CoolPodMode`, `BridgeKind`).\n\n### Booleans\n**Id:** blk-29fd80f3e3d7\n\n- Prefix with `Is`, `Has`, `Can`, `Should` or name the state: `IsEnabled`, `OriginalActive`, `isSpawned`, `warnedMissingInternals`.\n\n### Strings (`ModStrings`)\n**Id:** blk-fd1d164d62a1  \n**Tags:** mod-strings\n\n- `ModStrings` mirrors the game's `STRINGS` tree: nested static classes and `LocString` fields in UPPER_SNAKE_CASE. `ModStrings.BUILDINGS.PREFABS.<BUILDINGID>.NAME` is registered as `STRINGS.BUILDINGS.PREFABS.<BUILDINGID>.NAME`, the key the game looks a building name up by (`mods/smart-weight-plate/src/SmartWeightPlate/ModStrings.cs`).\n- Mod-private text goes under a branch named for the mod in capitals (`ModStrings.SALTYSURF.ELEMENT_LIST`, `ModStrings.JUMPERBRIDGES.OPTIONS`).\n- Option keys are written out as `STRINGS.<MOD>.OPTIONS.<OPTION>.NAME` and `.TOOLTIP`; categories as `STRINGS.<MOD>.OPTIONS.CATEGORY.<NAME>`.\n- Long branches are shortened with an alias at the top of the file (`using OPTIONS = NaturalBackwalls.ModStrings.NATURALBACKWALLS.OPTIONS;`).\n\n### Ids and Tags\n**Id:** blk-bb63ea5915af  \n**Tags:** game-tag, in-game-testing\n\n- Building ids are PascalCase and match the config class (`SmartWeightPlate`); a mod that replaces another mod's buildings reuses that mod's ids (`StoragePodConfig`, `CoolPodConfig` in `mods/storage-pod-redux`).\n- Tags and PAction ids carry a mod prefix: `DetectAnyElement_Any`, `Isochronous.SweepZones.Tool`.\n- The `staticID` in `mod.yaml` is `Isochronous.<PascalName>`.\n- Test names start with the mod's name or an abbreviation of it: `[OniTest(\"Bitshifter: a NOT gate on a ribbon inverts every bit\")]`, `VFF:` for Vent Freeze Fix.\n\n## Project-Specific Conventions\n**Id:** blk-6f4976df4bad\n\n### Detect Any Element specifics\n**Id:** blk-5c798c858255  \n**Tags:** mod-strings, game-tag, logging\n\n- `ModStrings` has one branch, `MISC.TAGS.DETECTANYELEMENT_ANY`, because the game keeps tag names under `STRINGS.MISC.TAGS`.\n- The tag name is `DetectAnyElement_Any` (`AnyElement.TagName`); the glyph symbols are prefixed by the `AnyGlyph` constants `SymbolPrefix` and `KanimSuffix`.\n- Log prefix `[DetectAnyElement]`; `staticID` `Isochronous.DetectAnyElement`.\n\n## Related\n**Id:** blk-879ba3cf8ae4\n\n- See also: [code style](code-style.md)\n- See also: [error handling](error-handling.md)\n",
+   "sections": [
+    {
+     "id": "standards/naming-conventions.md#files-and-directories",
+     "title": "Files and Directories",
+     "text": "## Files and Directories\n**Id:** blk-539807619278\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/naming-conventions.md#files-and-directories/general-rules",
+     "title": "General Rules",
+     "text": "### General Rules\n**Id:** blk-77f2097ac8ef\n\n- A mod lives in `mods/<kebab-case-name>/` (`natural-backwalls-everywhere`, `just-fall-already`).\n- Its code is under `mods/<name>/src/<PascalName>/` with a matching `src/<PascalName>.Tests/` project. `AssemblyName`, `RootNamespace` and the project folder share one PascalCase name (`DontCountEggsOnRails`).\n- C# files are PascalCase and named for the main type they hold. One concept per file; small related types may share a file (`Display` in `mods/bitshifter/src/Bitshifter/Patches.cs`).\n- Release tags are `<mod-folder>-v<version>` (repository README).\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/naming-conventions.md#code-naming",
+     "title": "Code Naming",
+     "text": "## Code Naming\n**Id:** blk-65b1bbdec212\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/naming-conventions.md#code-naming/variables",
+     "title": "Variables",
+     "text": "### Variables\n**Id:** blk-b8840ab84c08\n\n- camelCase for locals, parameters and private instance fields; no underscore prefix.\n- PascalCase for constants (`ArmSeconds`, `Bits`, `TechId`) and for `static readonly` values that act as constants or lookups (`Standard`, `YieldToWorkshopIds`, `Contested`).\n- camelCase for private static mutable state and caches (`armed`, `scratch`, `lastGrid`, `symbols`, `anyRows`).\n- Descriptive names; single letters only for loop indexes and the `e` of a catch.\n\n```csharp\nprivate const float ArmSeconds = 2f;\nprivate static readonly Dictionary<int, float> armed = new Dictionary<int, float>();\n```\n(`mods/just-fall-already/src/JustFallAlready/FallPoke.cs`)\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/naming-conventions.md#code-naming/booleans",
+     "title": "Booleans",
+     "text": "### Booleans\n**Id:** blk-29fd80f3e3d7\n\n- Prefix with `Is`, `Has`, `Can`, `Should` or name the state: `IsEnabled`, `OriginalActive`, `isSpawned`, `warnedMissingInternals`.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/naming-conventions.md#project-specific-conventions",
+     "title": "Project-Specific Conventions",
+     "text": "## Project-Specific Conventions\n**Id:** blk-6f4976df4bad\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/naming-conventions.md#related",
+     "title": "Related",
+     "text": "## Related\n**Id:** blk-879ba3cf8ae4\n\n- See also: [code style](code-style.md)\n- See also: [error handling](error-handling.md)\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  }
+ ]
+}

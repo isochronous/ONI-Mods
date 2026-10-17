@@ -24,9 +24,11 @@
 - [x] Phase B: 150 descriptions authored by units 05-08, merged into work/desc-answers.json, applied (status complete, 0 declined); strict check 0 block, missing-description finding 0, 150 distinct descriptions
 - [x] Phase C: coverage surveys at all 19 nodes exit 0, nothing owed: 0 proposed, 45 no candidate (root workflows/testing: spread or one target; mod README indexes: no resolved token), overviews not surveyed. Nothing written; left undeclared rather than hand-declaring witness: none, which only git can undo (work/cov/)
 - [x] Phase D root: 29-term dictionary minted; 3 chunks tagged (107 operations, 16 rounds); corrections: phase-handoff moved from phase-architecture's document to its entry/exit sections to match its siblings, commit-messages off unit-testing coverage, task-id off base.md's whole template; 10 gaps triaged to no new term (single-document or shape suggestions), converged. Committed 2b44d9f
-- [ ] Phase D mods: 17 dictionaries minted (56 distinct terms, shared core spelled identically); 36 chunks dispatched to 17 tagging agents; driver work/tags/tagwork.mjs closes passes, validates, dry-runs and writes ← IN PROGRESS
+- [x] Phase D mods: 17 dictionaries (56 terms), round one 36 chunks (~700 ops); gap round: unit 11 normalised 449 gaps into code-style (all 17) plus room-tracking, pulse-output, reflection/vanilla-fallback admissions (dropped bit-display, building-family, planner-window as one-bullet calls); round two 23 chunks; converged (remaining gaps single-document). Corrections: code-style moved to document level in smart-weight-plate and upgrade-planner; duplicated document and parent-heading tags removed in favour of the narrower section tags (tagfix3, tagfix4)
+- [x] Phase D result: ks check --all --strict 0 block, 9 advise (unlinked docs); coverage 99% of sections effective on both denominators (1539/1553 all, 1311/1318 with prose), 145/150 documents tagged (work/tags/coverage.txt)
+- [ ] Review unit over OM-002 store changes ← IN PROGRESS
 - mods/ aggregator: skipped (one document cannot meet the 2-document floor)
-- [ ] `ks check --all --strict`, `ks sweep`, review, retrospective, commit, PR
+- [ ] Retrospective, commit, PR
 
 ## Open Questions / Blockers
 - None yet.

@@ -1,66 +1,28 @@
 {
   "task": "OM-002",
-  "why": "tag backfill r1 for node mods/jumper-bridges — round 1",
+  "why": "tag backfill r2 for node mods/jumper-bridges — round 1",
   "node": "C:\\dev\\ONI-Mods\\mods\\jumper-bridges",
   "base": {
-    "domains/entities.md": "sha256:e327d7b43bd1b699fc5e8d8ece4518509da1481fd384206bd24f899c4480543a",
-    "domains/glossary.md": "sha256:2759f6984535b71ca8e02ca3885b5dfeeb10bd23f822563b30f6a965d3082381",
-    "overview.md": "sha256:f6c83600de7615986022e6f242825f5351d2bc464cebe45cf49ceaab42575bee",
-    "standards/code-style.md": "sha256:23692d217298573d9b553bbe71318222503ffd6a449b7ebf50c14d5720b35e00",
-    "standards/error-handling.md": "sha256:a31cc187d0e8c81a8a301f6b036930e5fd06a181e82765fd687277dfe87dbbd1",
-    "standards/naming-conventions.md": "sha256:7fb26b57e96d0e9fba447fea5a23d439ee36b345c866097663187cad78728179"
+    "standards/code-style.md": "sha256:f5714dc76868f61fc51b91e411d2212bd57b061f8c9d211d1f5dc4e0ca6ed846",
+    "domains/glossary.md": "sha256:625c5ab9d2e7cd518d8685de372e99e6872733fbe148cb9bdb7041211f73eeac"
   },
   "ops": [
     {
-      "target": "domains/entities.md",
+      "target": "standards/code-style.md",
       "mode": "tag",
       "add": [
-        "utility-network"
+        "harmony-patching"
       ],
-      "section": "overview"
+      "section": "comments/when-to-comment"
     },
     {
       "target": "domains/glossary.md",
       "mode": "tag",
       "add": [
-        "mod-strings"
+        "utility-network",
+        "game-component"
       ],
-      "section": "terms-to-avoid"
-    },
-    {
-      "target": "overview.md",
-      "mode": "tag",
-      "add": [
-        "mod-options",
-        "mod-strings"
-      ],
-      "section": "what-this-is"
-    },
-    {
-      "target": "standards/code-style.md",
-      "mode": "tag",
-      "add": [
-        "harmony-patching",
-        "reflection",
-        "mod-options"
-      ],
-      "section": "harmony-patches"
-    },
-    {
-      "target": "standards/error-handling.md",
-      "mode": "tag",
-      "add": [
-        "harmony-patching"
-      ],
-      "section": "guarding-patches"
-    },
-    {
-      "target": "standards/naming-conventions.md",
-      "mode": "tag",
-      "add": [
-        "harmony-patching"
-      ],
-      "section": "code-naming/functions-methods"
+      "section": "cross-domain-terms/bridge-end-node"
     }
   ]
 }

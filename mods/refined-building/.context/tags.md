@@ -32,3 +32,13 @@ A record earns this term when it is about a game Tag that a mod creates, adds to
 **Id:** blk-61f42fef7998
 
 A record earns this term when it is about which materials a building recipe accepts and how a building's material is chosen.
+
+## code-style
+**Id:** blk-b26787eef389
+
+A record earns this term when it is about the house style in which a mod's C# source code is written.
+
+## vanilla-fallback
+**Id:** blk-cfd1e0616c7f
+
+A record earns this term when it is about how a mod keeps the game's own behaviour when something it depends on is missing or has changed.

@@ -1,73 +1,44 @@
 {
   "task": "OM-002",
-  "why": "tag backfill r1 for node mods/salty-surf — round 0",
+  "why": "tag backfill r2 for node mods/salty-surf — round 0",
   "node": "C:\\dev\\ONI-Mods\\mods\\salty-surf",
   "base": {
-    "domains/README.md": "sha256:157dd9ecfb2c77458daee7cd3821cf6f366abc50396257cac608b4e8212da818",
-    "domains/entities.md": "sha256:71969930d54c79ce755f6d56e3b1b092b9775912df94cbd899312e5d4165e46a",
-    "domains/glossary.md": "sha256:3b1eb6bfaf5b5e12431de4508259a3fae461acba0c6bbf08284135f09a1faa48",
-    "overview.md": "sha256:e037f2f8730d0c2e982dc88fbaf1f395194c9aa4da065bd0102fc19bee1c9d37",
-    "standards/code-style.md": "sha256:a03f227c8103851fc442d07f440808dce09890c01a527b804f752931cf8b6c71",
-    "standards/error-handling.md": "sha256:bea2a3ea424be9bf90be94a750d8de7d4e25a4c49b47e7a4175cc195424d0339",
-    "standards/naming-conventions.md": "sha256:4aa72c26b2d59590ced254c2ca44a2258cc2e78304ab7deec4646938adf94b9c"
+    "standards/README.md": "sha256:5d442d77b4d6e7513e7957c32eea79d118b0a897838440244b828810feb04626",
+    "standards/code-style.md": "sha256:9f8648db75677bfdcad7a3b537487a461257bd0559964b4dbc02521d1b150bbd",
+    "standards/error-handling.md": "sha256:e313237eaf01c39408e900a556a963df0a6966203ff49025b88bfbebdad9d10c",
+    "standards/naming-conventions.md": "sha256:fb39a568550e516961303f4851c174266f5a96c780b2489688295dbe6ef792af"
   },
   "ops": [
     {
-      "target": "domains/README.md",
+      "target": "standards/README.md",
       "mode": "tag",
       "add": [
-        "mechanical-surfboard"
-      ]
-    },
-    {
-      "target": "domains/entities.md",
-      "mode": "tag",
-      "add": [
-        "mechanical-surfboard"
-      ]
-    },
-    {
-      "target": "domains/glossary.md",
-      "mode": "tag",
-      "add": [
-        "mechanical-surfboard"
-      ]
-    },
-    {
-      "target": "overview.md",
-      "mode": "tag",
-      "add": [
-        "mechanical-surfboard"
+        "code-style",
+        "logging",
+        "vanilla-fallback"
       ]
     },
     {
       "target": "standards/code-style.md",
       "mode": "tag",
       "add": [
-        "mod-strings"
-      ],
-      "section": "imports-includes/organization"
+        "code-style"
+      ]
     },
     {
       "target": "standards/error-handling.md",
       "mode": "tag",
       "add": [
         "vanilla-fallback",
-        "logging",
-        "reflection"
-      ],
-      "section": "principles"
+        "logging"
+      ]
     },
     {
       "target": "standards/naming-conventions.md",
       "mode": "tag",
       "add": [
-        "mod-entry-point",
-        "harmony-patching",
-        "mod-strings",
-        "in-game-testing"
-      ],
-      "section": "files-and-directories/examples-by-type"
+        "code-style"
+      ]
     }
   ]
 }

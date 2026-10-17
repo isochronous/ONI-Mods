@@ -77,3 +77,8 @@ A record earns this term when it is about building one building over another and
 **Id:** blk-45c2e435b1b2
 
 A record earns this term when it is about named plans a player saves and loads back in any colony.
+
+## code-style
+**Id:** blk-deb29bf15178
+
+A record earns this term when it is about the house style in which a mod's C# source code is written.

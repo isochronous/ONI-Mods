@@ -1,0 +1,21 @@
+node	docs tagged	sections own-tag	effective (all)	effective (with prose)
+.	13/13	94/126	100%	100%
+mods	0/1	0/2	0%	0%
+mods/bitshifter	8/8	40/83	100%	100%
+mods/corner-build-anything	8/8	22/81	100%	100%
+mods/detect-any-element	8/8	50/86	100%	100%
+mods/dont-count-eggs-on-rails	8/8	23/77	100%	100%
+mods/jumper-bridges	7/8	53/89	98%	99%
+mods/just-fall-already	8/8	42/80	100%	100%
+mods/motion-sensor-range	7/8	41/82	93%	97%
+mods/multichannel-critter-sensor	8/8	40/87	100%	100%
+mods/natural-backwalls-everywhere	8/8	64/95	100%	100%
+mods/no-magic-fridges	8/8	29/83	100%	100%
+mods/refined-building	8/8	21/78	100%	100%
+mods/salty-surf	7/8	46/81	99%	99%
+mods/smart-weight-plate	8/8	44/81	100%	100%
+mods/storage-pod-redux	8/8	43/84	100%	100%
+mods/sweep-zones	8/8	26/82	100%	100%
+mods/upgrade-planner	8/8	34/91	100%	100%
+mods/vent-freeze-fix	7/8	37/85	96%	99%
+TOTAL	145/150	749/1553	99% (1539/1553)	99% (1311/1318)

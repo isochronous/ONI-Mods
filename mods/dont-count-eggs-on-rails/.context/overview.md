@@ -6,7 +6,8 @@ description: "Overview of the Don't Count Eggs on Rails mod: what it does for cr
 # dont-count-eggs-on-rails
 
 ## What this is
-**Id:** blk-edbb0dfde74e
+**Id:** blk-edbb0dfde74e  
+**Tags:** harmony-patching
 
 Don't Count Eggs on Rails is an Oxygen Not Included mod: critter sensors no longer count eggs that are riding a conveyor rail through the room. Eggs on the floor, in incubators or carried by duplicants count as before. It patches `OvercrowdingMonitor.UpdateRegion`. Version 0.1.0 in `mod_info.yaml` (released 2026-10-09), minimum supported build 744825, published on the Steam Workshop.
 

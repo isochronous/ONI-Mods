@@ -67,3 +67,8 @@ A record earns this term when it is about the game's automation and power networ
 **Id:** blk-9df1c2e03839
 
 A record earns this term when it is about how the game's wire drag and building tools act on bridge ends.
+
+## code-style
+**Id:** blk-89827c3cfca2
+
+A record earns this term when it is about the house style in which a mod's C# source code is written.

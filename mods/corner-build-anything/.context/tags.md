@@ -37,3 +37,8 @@ A record earns this term when it is about a mod's UserMod2 class and what it doe
 **Id:** blk-25866bf89668
 
 A record earns this term when it is about the tables of offsets that decide where a duplicant may stand to build or deconstruct a building.
+
+## code-style
+**Id:** blk-ff89b302f072
+
+A record earns this term when it is about the house style in which a mod's C# source code is written.

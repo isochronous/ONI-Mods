@@ -1,0 +1,307 @@
+{
+ "documents": [
+  {
+   "id": "standards/README.md",
+   "tags": [
+    "code-style",
+    "vanilla-fallback",
+    "logging"
+   ]
+  },
+  {
+   "id": "standards/code-style.md",
+   "tags": [
+    "code-style"
+   ]
+  },
+  {
+   "id": "standards/naming-conventions.md",
+   "tags": [
+    "code-style"
+   ]
+  }
+ ],
+ "sections": [
+  {
+   "id": "domains/README.md#domains",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/entities.md#key-entities",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/entities.md#related",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/critter-sensor",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/room-and-cavity",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/automation-ribbon-ribbon-port",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/logic-tick",
+   "tags": [
+    "pulse-output"
+   ]
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/sim200ms",
+   "tags": [
+    "pulse-output"
+   ]
+  },
+  {
+   "id": "domains/glossary.md#cross-domain-terms/tracked-total",
+   "tags": [
+    "pulse-output"
+   ]
+  },
+  {
+   "id": "domains/glossary.md#related",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/README.md#standards",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/code-style.md#formatting",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/code-style.md#formatting/indentation",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "source indentation and line endings"
+  },
+  {
+   "id": "standards/code-style.md#formatting/line-length",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "line wrapping"
+  },
+  {
+   "id": "standards/code-style.md#formatting/braces",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "brace placement"
+  },
+  {
+   "id": "standards/code-style.md#language-and-toolchain",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "language version and build toolchain"
+  },
+  {
+   "id": "standards/code-style.md#imports-includes",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/code-style.md#imports-includes/organization",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "using directive ordering"
+  },
+  {
+   "id": "standards/code-style.md#imports-includes/example",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "using directive ordering"
+  },
+  {
+   "id": "standards/code-style.md#comments",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/code-style.md#comments/when-to-comment",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "code comment conventions"
+  },
+  {
+   "id": "standards/code-style.md#comments/when-not-to-comment",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "code comment conventions"
+  },
+  {
+   "id": "standards/code-style.md#comments/format",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "code comment conventions"
+  },
+  {
+   "id": "standards/code-style.md#control-structures",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/code-style.md#control-structures/conditionals",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "control-flow style"
+  },
+  {
+   "id": "standards/code-style.md#control-structures/loops",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "loop style and tick-time allocation"
+  },
+  {
+   "id": "standards/code-style.md#related",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#principles",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#guarding-patches/missing-member-warn-leave-vanilla",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#guarding-patches/transpiler-count-the-match",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#guarding-patches/null-checks-on-game-objects",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#guarding-patches/warn-once",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#try-catch",
+   "tags": [
+    "harmony-patching"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#yielding-to-other-mods",
+   "tags": [
+    "harmony-patching"
+   ]
+  },
+  {
+   "id": "standards/error-handling.md#logging",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#logging/log-levels",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#logging/what-to-include",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#anti-patterns-to-avoid",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#anti-patterns-to-avoid/swallowing-exceptions",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "exception handling"
+  },
+  {
+   "id": "standards/error-handling.md#anti-patterns-to-avoid/silent-degradation",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#anti-patterns-to-avoid/spamming-the-log",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#project-specific-patterns",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/error-handling.md#related",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/naming-conventions.md#files-and-directories",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/naming-conventions.md#files-and-directories/general-rules",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "file and project naming"
+  },
+  {
+   "id": "standards/naming-conventions.md#code-naming",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/naming-conventions.md#code-naming/variables",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "identifier naming"
+  },
+  {
+   "id": "standards/naming-conventions.md#code-naming/functions-methods",
+   "tags": [
+    "harmony-patching"
+   ]
+  },
+  {
+   "id": "standards/naming-conventions.md#code-naming/booleans",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "identifier naming"
+  },
+  {
+   "id": "standards/naming-conventions.md#project-specific-conventions",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "standards/naming-conventions.md#related",
+   "tags": [],
+   "reason": "inherits"
+  }
+ ]
+}

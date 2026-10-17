@@ -1,55 +1,27 @@
 {
   "task": "OM-002",
-  "why": "tag backfill r1 for node mods/upgrade-planner — round 2",
+  "why": "tag backfill r2 for node mods/upgrade-planner — round 2",
   "node": "C:\\dev\\ONI-Mods\\mods\\upgrade-planner",
   "base": {
-    "domains/entities.md": "sha256:c34ac7f9b6d024300179765482703a08b137a879bb77d7f93ac111876d186610",
-    "domains/glossary.md": "sha256:dd18ec7bbee7a029c9c9aa5f91af8cdd162b6d712c54ce44bb5e91b855ed52e0",
-    "standards/code-style.md": "sha256:86de4c9ed2e7a3cc20d096e5f2e2749a4bc5bd0657453f9c70afb8e9e0cc0191",
-    "standards/error-handling.md": "sha256:fe34ffe0ac92e5aa31dcd850913b9aa53451f4c9a2d5e7ed81183061784e3837",
-    "standards/naming-conventions.md": "sha256:cd07daae9892d611bac03c5f6f37a3b35427a447f85e80c1d45453a6a4fca793"
+    "standards/code-style.md": "sha256:108ca4406b9ecdec1c8b2f1b6c92c529f1b11dd8f581b36bb3ecfd9f56d1cc46",
+    "standards/naming-conventions.md": "sha256:e74478e45e9a64303ef7cf897019b5b2d609a47de6f80a973041fb0750e5097b"
   },
   "ops": [
-    {
-      "target": "domains/entities.md",
-      "mode": "tag",
-      "add": [
-        "performance"
-      ],
-      "section": "key-entities/orders-and-placementqueue"
-    },
-    {
-      "target": "domains/glossary.md",
-      "mode": "tag",
-      "add": [
-        "plan-presets"
-      ],
-      "section": "cross-domain-terms/material-element-tag"
-    },
     {
       "target": "standards/code-style.md",
       "mode": "tag",
       "add": [
-        "mod-strings",
-        "logging"
+        "code-style"
       ],
-      "section": "control-structures/strings"
-    },
-    {
-      "target": "standards/error-handling.md",
-      "mode": "tag",
-      "add": [
-        "harmony-patching"
-      ],
-      "section": "guarding-patches"
+      "section": "formatting/braces"
     },
     {
       "target": "standards/naming-conventions.md",
       "mode": "tag",
       "add": [
-        "mod-strings"
+        "code-style"
       ],
-      "section": "code-naming/strings-modstrings"
+      "section": "code-naming/functions-methods"
     }
   ]
 }

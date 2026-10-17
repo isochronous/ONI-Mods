@@ -1,4 +1,5 @@
 ---
+tags: code-style
 doc_id: doc-04bb7f7fdd3b
 description: "Code style guide for Just Fall Already!: C# formatting, imports, comments, control structures, Harmony patch and game component conventions, plus its `FallPoke` static class and state field naming"
 applies_to:

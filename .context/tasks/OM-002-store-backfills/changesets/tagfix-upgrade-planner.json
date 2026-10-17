@@ -1,0 +1,152 @@
+{
+ "task": "OM-002",
+ "why": "code-style belongs on the upgrade-planner convention documents themselves, as in the other mods, not on each of their sections",
+ "node": "mods/upgrade-planner",
+ "ops": [
+  {
+   "mode": "tag",
+   "target": "standards/code-style.md",
+   "add": [
+    "code-style"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/naming-conventions.md",
+   "add": [
+    "code-style"
+   ],
+   "remove": [
+    "harmony-patching"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/code-style.md",
+   "section": "formatting/indentation",
+   "remove": [
+    "code-style"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/code-style.md",
+   "section": "formatting/line-length",
+   "remove": [
+    "code-style"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/code-style.md",
+   "section": "formatting/braces",
+   "remove": [
+    "code-style"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/code-style.md",
+   "section": "imports-includes/organization",
+   "remove": [
+    "code-style"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/code-style.md",
+   "section": "imports-includes/example",
+   "remove": [
+    "code-style"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/code-style.md",
+   "section": "comments/when-not-to-comment",
+   "remove": [
+    "code-style"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/code-style.md",
+   "section": "comments/format",
+   "remove": [
+    "code-style"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/code-style.md",
+   "section": "control-structures/conditionals",
+   "remove": [
+    "code-style"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/code-style.md",
+   "section": "game-components",
+   "remove": [
+    "code-style"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/code-style.md",
+   "section": "language-and-toolchain",
+   "remove": [
+    "code-style"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/code-style.md",
+   "section": "comments/when-to-comment",
+   "remove": [
+    "code-style"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/naming-conventions.md",
+   "section": "files-and-directories/general-rules",
+   "remove": [
+    "code-style"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/naming-conventions.md",
+   "section": "code-naming/variables",
+   "remove": [
+    "code-style"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/naming-conventions.md",
+   "section": "code-naming/functions-methods",
+   "remove": [
+    "code-style"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/naming-conventions.md",
+   "section": "code-naming/classes-types-interfaces",
+   "remove": [
+    "code-style"
+   ]
+  },
+  {
+   "mode": "tag",
+   "target": "standards/naming-conventions.md",
+   "section": "code-naming/booleans",
+   "remove": [
+    "code-style"
+   ]
+  }
+ ]
+}

@@ -64,7 +64,8 @@ The prefix reads the adjuster's private `active` and `storage` fields by reflect
 - Power draw, the cooling and energy-saver states, storage, the full signal and spoilage rules are untouched.
 
 ## Key Code Paths
-**Id:** blk-0872d6109a15
+**Id:** blk-0872d6109a15  
+**Tags:** game-component, harmony-patching, in-game-testing
 
 - **Per-second step**: `Sim1000ms` samples items, decides insulation, then calls `Exchange` — see `src/NoMagicFridges/FridgeThermostat.cs`
 - **Heat exchange**: `Exchange(setpoint)` picks compressor-on or compressor-off interior temperature and writes `PrimaryElement.Temperature` — see `src/NoMagicFridges/FridgeThermostat.cs`

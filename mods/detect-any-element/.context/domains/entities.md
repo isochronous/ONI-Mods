@@ -79,6 +79,7 @@ Detect Any Element adds an Any choice, directly under None, to the side screen o
 
 ### Switches
 **Id:** blk-014063748fa2  
+**Tags:** reflection  
 **Description**: Delegate for the protected `Switch.Toggle`, which the sensors flip through.  
 **Location**: `mods/detect-any-element/src/DetectAnyElement/Patches.cs`
 

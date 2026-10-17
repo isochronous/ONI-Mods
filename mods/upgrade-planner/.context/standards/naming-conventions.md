@@ -1,5 +1,5 @@
 ---
-tags: harmony-patching
+tags: code-style
 doc_id: doc-5393f7a6ddfb
 description: "Naming rules for the Upgrade Planner mod: files, namespaces, patch classes, variables, ModStrings keys, ids and tests, plus its string branch, hotkey id, folder-per-layer names, interfaces, test classes and log prefix"
 applies_to:
@@ -12,7 +12,7 @@ applies_to:
 **Id:** blk-bc045c2ce116
 
 ### General Rules
-**Id:** blk-6736593daf6f
+**Id:** blk-6736593daf6f  
 
 - A mod lives in `mods/<kebab-case-name>/` (`natural-backwalls-everywhere`, `just-fall-already`).
 - Its code is under `mods/<name>/src/<PascalName>/` with a matching `src/<PascalName>.Tests/` project. `AssemblyName`, `RootNamespace` and the project folder share one PascalCase name (`DontCountEggsOnRails`).
@@ -42,7 +42,7 @@ applies_to:
 **Id:** blk-d8f1a44e778b
 
 ### Variables
-**Id:** blk-3a88acdbb150
+**Id:** blk-3a88acdbb150  
 
 - camelCase for locals, parameters and private instance fields; no underscore prefix.
 - PascalCase for constants (`ArmSeconds`, `Bits`, `TechId`) and for `static readonly` values that act as constants or lookups (`Standard`, `YieldToWorkshopIds`, `Contested`).
@@ -56,14 +56,14 @@ private static readonly Dictionary<int, float> armed = new Dictionary<int, float
 (`mods/just-fall-already/src/JustFallAlready/FallPoke.cs`)
 
 ### Functions/Methods
-**Id:** blk-d7e5b01b5242
+**Id:** blk-d7e5b01b5242  
 
 - PascalCase, starting with a verb: `Apply`, `Decide`, `SwapTable`, `CopyRangeFrom`, `ApplyRange`.
 - Game callbacks keep the game's names (`OnSpawn`, `OnPrefabInit`, `OnCleanUp`, `Sim1000ms`).
 - Harmony methods are named for their kind: `Prefix`, `Postfix`, `Transpiler`, `Finalizer`, plus `Prepare`, `TargetMethod`, `TargetMethods`.
 
 ### Classes/Types/Interfaces
-**Id:** blk-957640ac7700
+**Id:** blk-957640ac7700  
 
 - PascalCase nouns. Interfaces take an `I` prefix (`IPlanTab` and `ITabView` in `mods/upgrade-planner`, and the game's own).
 - Harmony patch classes: `<PatchedType>_<PatchedMethod>_Patch` (`LogicRibbonReader_GetBitDepth_Patch`, `Db_Initialize_Patch`, `GeneratedBuildings_LoadGeneratedBuildings_Patch`). A patch for a type with one concern may use `<Type>_Patch` (`LiquidVentConfig_Patch`). Patches nested in a holder class may drop the suffix (`Constructable_OnSpawn` in `ReachTablePatches`).
@@ -71,7 +71,7 @@ private static readonly Dictionary<int, float> armed = new Dictionary<int, float
 - Option enums and nested helper types are PascalCase (`CoolPodMode`, `BridgeKind`).
 
 ### Booleans
-**Id:** blk-58a83466de94
+**Id:** blk-58a83466de94  
 
 - Prefix with `Is`, `Has`, `Can`, `Should` or name the state: `IsEnabled`, `OriginalActive`, `isSpawned`, `warnedMissingInternals`.
 

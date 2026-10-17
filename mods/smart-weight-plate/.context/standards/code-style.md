@@ -1,5 +1,5 @@
 ---
-tags: harmony-patching
+tags: harmony-patching, code-style
 doc_id: doc-1c6db88f21e2
 description: "C# code style for Smart Weight Plate: indentation, braces, imports, comments, control structures, Harmony patch and game component conventions, plus its nested Patches class, PLib side screen and Better Automation Overlay compat"
 applies_to:
@@ -9,7 +9,7 @@ applies_to:
 # Code Style Guide
 
 ## Formatting
-**Id:** blk-81be39eb7cb8
+**Id:** blk-81be39eb7cb8  
 
 ### Indentation
 **Id:** blk-7ea41625d506
@@ -43,7 +43,7 @@ foreach (Mod mod in mods)
 - Multi-line initialisers and enums end with a trailing comma (`YieldToWorkshopIds` in `mods/bitshifter/src/Bitshifter/Mod.cs`, `CoolPodMode` in `mods/storage-pod-redux/src/StoragePodRedux/Options.cs`).
 
 ## Language and Toolchain
-**Id:** blk-fba4f06f617d
+**Id:** blk-fba4f06f617d  
 
 - C# 9 on .NET Framework 4.8 (`LangVersion` 9.0 and `TargetFramework` net48 in `common/oni-mod.props`). Namespace blocks, not file-scoped namespaces; no nullable reference types.
 - Mods compile against the game's own assemblies (`common/oni-mod.targets`): `Assembly-CSharp`, `Assembly-CSharp-firstpass`, `0Harmony` and Unity modules. The game's .NET Framework lacks some newer APIs (`ConditionalWeakTable.AddOrUpdate` is missing, see `mods/detect-any-element/src/DetectAnyElement/Patches.cs`).
@@ -51,7 +51,7 @@ foreach (Mod mod in mods)
 - One namespace per mod, equal to its `RootNamespace`. Subfolders organise files and do not add namespaces (`mods/upgrade-planner/src/UpgradePlanner/Plan`, `Rules`, `Tool`, `UI` all declare `namespace UpgradePlanner`).
 
 ## Imports/Includes
-**Id:** blk-c0c84b197489
+**Id:** blk-c0c84b197489  
 
 ### Organization
 **Id:** blk-722f1b85e4d2
@@ -80,7 +80,7 @@ using UnityEngine;
 `Debug.Log` resolves either to `UnityEngine.Debug` or to the game's own global `Debug` class, so several `Mod.cs` files omit `using UnityEngine`. When a file imports `System.Diagnostics`, qualify the call as `UnityEngine.Debug.Log` (`mods/just-fall-already/src/JustFallAlready/FallPoke.cs`).
 
 ## Comments
-**Id:** blk-f374ddbf2967
+**Id:** blk-f374ddbf2967  
 
 ### When to Comment
 **Id:** blk-5b85e9aaa8d8
@@ -111,7 +111,7 @@ public static class AnyElement
 ```
 
 ## Control Structures
-**Id:** blk-b20e121aab18
+**Id:** blk-b20e121aab18  
 
 ### Conditionals
 **Id:** blk-971f788f6770

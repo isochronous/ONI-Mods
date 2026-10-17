@@ -21,7 +21,7 @@ applies_to:
 There is no custom exception hierarchy. Mods are small patches over game code, so errors are handled where they occur.
 
 ## Guarding Patches
-**Id:** blk-9af82a2505d8
+**Id:** blk-9af82a2505d8  
 
 ### Missing member: warn, leave vanilla
 **Id:** blk-7e940ba69d8c  
@@ -103,7 +103,7 @@ When another mod already does the job or shares an id, the mod steps aside and l
 - Storage Pod Redux does not register its buildings while the original Storage Pod is enabled, and logs a warning telling the player to disable one (`mods/storage-pod-redux/src/StoragePodRedux/Mod.cs`).
 
 ## Logging
-**Id:** blk-49994eb07b13
+**Id:** blk-49994eb07b13  
 
 ### Log Levels
 **Id:** blk-ce92f5e0bec2  
@@ -127,7 +127,7 @@ When another mod already does the job or shares an id, the mod steps aside and l
 PLib's `PUtil.Log*` helpers are not used; all mods log through `Debug`.
 
 ## Anti-Patterns to Avoid
-**Id:** blk-c438a9df2911
+**Id:** blk-c438a9df2911  
 
 ### Swallowing exceptions
 **Id:** blk-c410bd8c96d3  
@@ -160,7 +160,7 @@ Doing nothing without a log line leaves a player and the author guessing. Every 
 A warning inside an update method fires thousands of times. Use a once-flag.
 
 ## Project-Specific Patterns
-**Id:** blk-84dfcde2f535
+**Id:** blk-84dfcde2f535  
 
 ### Smart Weight Plate specifics
 **Id:** blk-550294a8dfe3  

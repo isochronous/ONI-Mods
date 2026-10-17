@@ -1,4 +1,5 @@
 ---
+tags: code-style
 doc_id: doc-4a99769328fa
 description: "C# code style for the Vent Freeze Fix mod: formatting, imports, comments, Harmony patch and game component conventions, plus a section on its vent patches, watcher component, developer options and option loading"
 applies_to:

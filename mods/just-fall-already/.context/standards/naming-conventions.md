@@ -1,4 +1,5 @@
 ---
+tags: code-style
 doc_id: doc-2d228f2c8f5b
 description: "Naming conventions for Just Fall Already!: files, namespaces, variables, methods, patch classes, `ModStrings` keys and ids, plus its `FallPoke` patch names, `Doors` test class, log prefix and `staticID`"
 applies_to:

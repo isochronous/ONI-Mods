@@ -1,0 +1,17 @@
+[
+ {
+  "id": "storage-pod-redux-r2-c00",
+  "kind": "ordinary",
+  "documents": [
+   "domains/README.md",
+   "domains/entities.md",
+   "domains/glossary.md",
+   "standards/README.md",
+   "standards/code-style.md",
+   "standards/error-handling.md",
+   "standards/naming-conventions.md"
+  ],
+  "sections": 44,
+  "dependsOn": null
+ }
+]

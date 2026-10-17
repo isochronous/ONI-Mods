@@ -1,4 +1,5 @@
 ---
+tags: code-style
 doc_id: doc-5ae0a923f609
 description: "Naming conventions for Multichannel Critter Sensor: files, namespaces, variables, methods, patch classes, `ModStrings` keys and ids, plus its string branches, `ThresholdAdapter.NoUnits`, log prefix and `staticID`"
 applies_to:
@@ -55,7 +56,8 @@ private static readonly Dictionary<int, float> armed = new Dictionary<int, float
 (`mods/just-fall-already/src/JustFallAlready/FallPoke.cs`)
 
 ### Functions/Methods
-**Id:** blk-f387d109aa45
+**Id:** blk-f387d109aa45  
+**Tags:** harmony-patching
 
 - PascalCase, starting with a verb: `Apply`, `Decide`, `SwapTable`, `CopyRangeFrom`, `ApplyRange`.
 - Game callbacks keep the game's names (`OnSpawn`, `OnPrefabInit`, `OnCleanUp`, `Sim1000ms`).

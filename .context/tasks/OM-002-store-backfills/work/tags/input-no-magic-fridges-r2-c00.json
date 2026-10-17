@@ -1,0 +1,459 @@
+{
+ "documents": [
+  {
+   "id": "domains/README.md",
+   "title": "Domains",
+   "description": "Index of the No Magic Fridges domains folder, linking the entities document on the FridgeThermostat component and sim patches and the glossary of ONI and mod terms",
+   "document_tags": [
+    "refrigerator"
+   ],
+   "text": "---\ntags: refrigerator\ndoc_id: doc-07328383cd3e\ndescription: Index of the No Magic Fridges domains folder, linking the entities document on the FridgeThermostat component and sim patches and the glossary of ONI and mod terms\n---\n\n# Domains\n\n## Domains\n**Id:** blk-d5ea3740f259\n\n- [entities](entities.md): what the mod changes about powered fridges (the `FridgeThermostat` component and the sim patches), with file locations, the thermal rules and key code paths.\n- [glossary](glossary.md): ONI and mod-specific terms used by No Magic Fridges.\n",
+   "sections": [
+    {
+     "id": "domains/README.md#domains",
+     "title": "Domains",
+     "text": "## Domains\n**Id:** blk-d5ea3740f259\n\n- [entities](entities.md): what the mod changes about powered fridges (the `FridgeThermostat` component and the sim patches), with file locations, the thermal rules and key code paths.\n- [glossary](glossary.md): ONI and mod-specific terms used by No Magic Fridges.\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "domains/entities.md",
+   "title": "No Magic Fridges domain",
+   "description": "The FridgeThermostat component, Harmony patches and mod entry of No Magic Fridges in src/NoMagicFridges, with the heat-exchange, compressor and insulation rules, file locations, code paths and tests",
+   "document_tags": [
+    "refrigerator",
+    "heat-exchange"
+   ],
+   "text": "---\ntags: refrigerator, heat-exchange\ndoc_id: doc-dfa34259ff9b\ndescription: The FridgeThermostat component, Harmony patches and mod entry of No Magic Fridges in src/NoMagicFridges, with the heat-exchange, compressor and insulation rules, file locations, code paths and tests\napplies_to:\n  - \"src/NoMagicFridges/**\"\n---\n\n# No Magic Fridges domain\n\n## Overview\n**Id:** blk-341e7f0208d5\n\nNo Magic Fridges changes what a powered fridge does to its contents. Vanilla attaches a simulated 1 degree C heat reservoir (400 kJ/K, 1000 W/K) to every stored item, which cools warm food but also drags deep-frozen food up to 1 degree C. The mod switches that reservoir off for fridge contents and runs its own model once a second: the fridge is an insulated box with a thermostat that only ever cools. Unpowered fridges, and items outside a fridge, are vanilla. The mod adds no building, no options and no saved state.\n\n## Key Entities\n**Id:** blk-0d6d8f812e66\n\n### FridgeThermostat\n**Id:** blk-eb78596783d5  \n**Tags:** game-component  \n**Description**: The component that runs the thermal model on a fridge building. It samples every stored item each second, moves each toward one shared interior temperature, and insulates cold items from a warmer room.  \n**Location**: `src/NoMagicFridges/FridgeThermostat.cs`\n\n| Property | Type | Description |\n|----------|------|-------------|\n| InsulationFactor | const float 0.01 | Heat-exchange scale for an insulated item, the factor an Insulated Tile uses |\n| BaseHeatCapacity | const float 25 x 3.47 | The compressor's thermal mass in kDTU/K, about 25 kg of food; larger cools a full warm fridge faster |\n| InsulateBand / ReleaseBand | const float 0.25 | Kelvin hysteresis before an item is insulated or released |\n| MinimumStep | const float 0.0005 | Smaller temperature changes are not sent to the sim |\n| MinimumTemperature | const float 1 | Never drive an item below this many kelvin |\n| items | Dictionary<int, Tracked> | Per item (by instance id): whether it is insulated and its original `SurfaceArea` and `GroundTransferScale` |\n| def | `RefrigeratorController.Def` | Source of the setpoint (`simulatedInternalTemperature`) and conductivity (`simulatedThermalConductivity`) |\n\n**Relationships**: Implements `ISim1000ms`. Uses the building's `Storage` and `Operational` (`[MyCmpGet]`), each item's `PrimaryElement` and `SimTemperatureTransfer`, and subscribes to `GameHashes.OnStorageChange`. Calls the protected `SimTemperatureTransfer.SimRegister` / `SimUnregister` through cached delegates.\n\n### Harmony patches\n**Id:** blk-6075d509d0c8  \n**Tags:** harmony-patching  \n**Location**: `src/NoMagicFridges/Patches.cs`\n\n| Patch target | Kind | Purpose |\n|--------------|------|---------|\n| `SimulatedTemperatureAdjuster.OnItemSimRegistered` | Prefix | For an active adjuster whose storage has a `FridgeThermostat`, sends `ModifyElementChunkTemperatureAdjuster(handle, 0, 0, 0)` and skips vanilla, so the reservoir never attaches; any other user of the adjuster runs vanilla |\n| `GeneratedBuildings.LoadGeneratedBuildings` | Postfix | Adds `FridgeThermostat` to every building definition whose complete prefab has a `RefrigeratorController.Def` (Refrigerator, Mini Fridge, modded fridges) and logs the count |\n\nThe prefix reads the adjuster's private `active` and `storage` fields by reflection and falls back to vanilla if either is missing.\n\n### Mod entry\n**Id:** blk-e480792c47bc  \n**Tags:** mod-entry-point  \n**Location**: `src/NoMagicFridges/Mod.cs`\n`NoMagicFridgesMod` (a `UserMod2`) only logs the version. Harmony only, no PLib, no strings. Mod id `Isochronous.NoMagicFridges` (`mod.yaml`). Nothing is saved with the game; the mod can be added to or removed from an existing save.\n\n## Business Rules\n**Id:** blk-4b1cf2b79fa1\n\n- Everything applies only while the fridge is powered (`Operational.IsActive`). When it is not, insulation is restored on every item and nothing equalises.\n- Contents share heat in both directions: each item closes the fraction `1 - exp(-k*dt/C)` of its gap to the interior temperature, with `k` the def's conductivity read as W/K (1 kDTU/s/K at 1000) and `C` = mass x specific heat. Heat is conserved.\n- The compressor only cools. While the contents' mean is above the setpoint (1 degree C), interior = (BaseHeatCapacity x setpoint + sum of C x T) / (BaseHeatCapacity + sum of C), which lies between the setpoint and the mean. At or below the setpoint the compressor is off and the interior is the coupling-weighted mean, so nothing pulls food up.\n- A single warm item cools about as fast as in vanilla; a fridge crammed with warm food cools at roughly a fifth of the vanilla rate.\n- An item colder than its room by more than 0.25 K is insulated: its `SurfaceArea` and `GroundTransferScale` are scaled by 0.01 and its sim chunk re-registered. It is released once the room is 0.25 K colder than the item. An item warmer than the room keeps exchanging with it, so a fridge in a cold room still deep-freezes food.\n- Insulation is undone when the fridge loses power, the item leaves storage, or the fridge is removed.\n- Power draw, the cooling and energy-saver states, storage, the full signal and spoilage rules are untouched.\n\n## Key Code Paths\n**Id:** blk-0872d6109a15\n\n- **Per-second step**: `Sim1000ms` samples items, decides insulation, then calls `Exchange` — see `src/NoMagicFridges/FridgeThermostat.cs`\n- **Heat exchange**: `Exchange(setpoint)` picks compressor-on or compressor-off interior temperature and writes `PrimaryElement.Temperature` — see `src/NoMagicFridges/FridgeThermostat.cs`\n- **Insulation**: `Insulate`, `RestoreInsulation`, `Reregister` — see `src/NoMagicFridges/FridgeThermostat.cs`\n- **Reservoir suppression**: the `OnItemSimRegistered` prefix — see `src/NoMagicFridges/Patches.cs`\n- **Item leaves the fridge**: `OnStorageChange` restores its exchange immediately — see `src/NoMagicFridges/FridgeThermostat.cs`\n- **Tests**: in-game `[OniTest]` cases in `src/NoMagicFridges.Tests/Fridges.cs` (thermostat on every fridge and nothing else, frozen food not warmed, shared temperature with heat conserved, Mini Fridge setpoint, crammed fridge rate, unpowered fridge is vanilla, insulation and release, a non-fridge keeps the vanilla reservoir)\n\n## Related\n**Id:** blk-8be45c9d80c9\n\n- See also: [glossary](glossary.md)\n",
+   "sections": [
+    {
+     "id": "domains/entities.md#overview",
+     "title": "Overview",
+     "text": "## Overview\n**Id:** blk-341e7f0208d5\n\nNo Magic Fridges changes what a powered fridge does to its contents. Vanilla attaches a simulated 1 degree C heat reservoir (400 kJ/K, 1000 W/K) to every stored item, which cools warm food but also drags deep-frozen food up to 1 degree C. The mod switches that reservoir off for fridge contents and runs its own model once a second: the fridge is an insulated box with a thermostat that only ever cools. Unpowered fridges, and items outside a fridge, are vanilla. The mod adds no building, no options and no saved state.\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/entities.md#key-entities",
+     "title": "Key Entities",
+     "text": "## Key Entities\n**Id:** blk-0d6d8f812e66\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/entities.md#business-rules",
+     "title": "Business Rules",
+     "text": "## Business Rules\n**Id:** blk-4b1cf2b79fa1\n\n- Everything applies only while the fridge is powered (`Operational.IsActive`). When it is not, insulation is restored on every item and nothing equalises.\n- Contents share heat in both directions: each item closes the fraction `1 - exp(-k*dt/C)` of its gap to the interior temperature, with `k` the def's conductivity read as W/K (1 kDTU/s/K at 1000) and `C` = mass x specific heat. Heat is conserved.\n- The compressor only cools. While the contents' mean is above the setpoint (1 degree C), interior = (BaseHeatCapacity x setpoint + sum of C x T) / (BaseHeatCapacity + sum of C), which lies between the setpoint and the mean. At or below the setpoint the compressor is off and the interior is the coupling-weighted mean, so nothing pulls food up.\n- A single warm item cools about as fast as in vanilla; a fridge crammed with warm food cools at roughly a fifth of the vanilla rate.\n- An item colder than its room by more than 0.25 K is insulated: its `SurfaceArea` and `GroundTransferScale` are scaled by 0.01 and its sim chunk re-registered. It is released once the room is 0.25 K colder than the item. An item warmer than the room keeps exchanging with it, so a fridge in a cold room still deep-freezes food.\n- Insulation is undone when the fridge loses power, the item leaves storage, or the fridge is removed.\n- Power draw, the cooling and energy-saver states, storage, the full signal and spoilage rules are untouched.\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/entities.md#key-code-paths",
+     "title": "Key Code Paths",
+     "text": "## Key Code Paths\n**Id:** blk-0872d6109a15\n\n- **Per-second step**: `Sim1000ms` samples items, decides insulation, then calls `Exchange` — see `src/NoMagicFridges/FridgeThermostat.cs`\n- **Heat exchange**: `Exchange(setpoint)` picks compressor-on or compressor-off interior temperature and writes `PrimaryElement.Temperature` — see `src/NoMagicFridges/FridgeThermostat.cs`\n- **Insulation**: `Insulate`, `RestoreInsulation`, `Reregister` — see `src/NoMagicFridges/FridgeThermostat.cs`\n- **Reservoir suppression**: the `OnItemSimRegistered` prefix — see `src/NoMagicFridges/Patches.cs`\n- **Item leaves the fridge**: `OnStorageChange` restores its exchange immediately — see `src/NoMagicFridges/FridgeThermostat.cs`\n- **Tests**: in-game `[OniTest]` cases in `src/NoMagicFridges.Tests/Fridges.cs` (thermostat on every fridge and nothing else, frozen food not warmed, shared temperature with heat conserved, Mini Fridge setpoint, crammed fridge rate, unpowered fridge is vanilla, insulation and release, a non-fridge keeps the vanilla reservoir)\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/entities.md#related",
+     "title": "Related",
+     "text": "## Related\n**Id:** blk-8be45c9d80c9\n\n- See also: [glossary](glossary.md)\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "domains/glossary.md",
+   "title": "No Magic Fridges glossary",
+   "description": "Glossary for No Magic Fridges: abbreviations such as DTU, terms to avoid, and definitions of the vanilla reservoir, thermostat, setpoint, compressor, interior temperature and Insulated Tile factor, with the code using each",
+   "document_tags": [
+    "refrigerator",
+    "heat-exchange"
+   ],
+   "text": "---\ntags: refrigerator, heat-exchange\nwitness_digest: \"sha256:be1c3bfba2f3ba0bebbb432de154b8fb12c3f13303a0e342b572bcf2cb622932\"\nwitness: loose\napplies_to:\n  - \"src/NoMagicFridges/**\"\ndoc_id: doc-cf415c96c76b\ndescription: \"Glossary for No Magic Fridges: abbreviations such as DTU, terms to avoid, and definitions of the vanilla reservoir, thermostat, setpoint, compressor, interior temperature and Insulated Tile factor, with the code using each\"\n---\n\n# No Magic Fridges glossary\n\nTerms for the No Magic Fridges mod. For the code behind them, see [entities](entities.md).\n\n## Abbreviations and Acronyms\n**Id:** blk-3456ea7ca0c8\n\n| Abbreviation | Full Term | Context |\n|--------------|-----------|---------|\n| ONI | Oxygen Not Included | The game this mod targets |\n| NMF | No Magic Fridges | Prefix of the in-game test names in `src/NoMagicFridges.Tests/` |\n| DTU | Duplicant Thermal Unit | The game's heat unit; 1 kDTU = 1 kJ. Heat capacities in the code are kDTU/K |\n| kDTU/s/K | kilo-DTU per second per kelvin | Conductance; the def's 1000 (W/K) reads as 1 kDTU/s/K |\n| C | Heat capacity | In the model, an item's mass x specific heat; the comments also write C for degrees Celsius |\n\n## Terms to Avoid\n**Id:** blk-f014faf2eaeb\n\n| Avoid | Use Instead | Reason |\n|-------|-------------|--------|\n| Magic (cooling) | Reservoir | The vanilla behaviour the mod removes is a simulated 1 degree C reservoir on every item |\n| Freezer (for the building) | Refrigerator | The vanilla building is the Refrigerator; \"Freezer\" appears only in a code comment describing a -19 degree C cold box |\n| Insulite (for the item insulation) | Insulated Tile factor | The 0.01 scale slows exchange like an Insulated Tile; Insulite stops it |\n\n## Cross-Domain Terms\n**Id:** blk-5331b50664aa\n\n### Reservoir (simulated temperature adjuster)\n**Id:** blk-f3e230c14424  \n**Definition**: Vanilla's `SimulatedTemperatureAdjuster` attaches a sim heat reservoir at the fridge's `simulatedInternalTemperature` (1 degree C) to each stored item through `ModifyElementChunkTemperatureAdjuster`. It exchanges heat both ways, which is why vanilla warms frozen food.  \n**Used in**: `Patches.cs`\n\n### Thermostat\n**Id:** blk-4f0bf4991185  \n**Definition**: The mod's model of the fridge as an insulated box: a shared interior temperature, a compressor that only cools, and no heating.  \n**Used in**: `FridgeThermostat.cs`\n\n### Compressor on / off\n**Id:** blk-cd0fd04ff662  \n**Definition**: On while the mean temperature of the contents is above the setpoint; the fridge's own thermal mass (`BaseHeatCapacity`) at the setpoint is blended in and pulls the interior down. Off at or below the setpoint, when the contents only equalise among themselves.  \n**Used in**: `FridgeThermostat.Exchange`\n\n### Setpoint\n**Id:** blk-23cf70bad61b  \n**Definition**: The fridge's target temperature, `RefrigeratorController.Def.simulatedInternalTemperature`, 1 degree C in vanilla.  \n**Used in**: `FridgeThermostat.Sim1000ms`\n\n### Interior temperature\n**Id:** blk-c63ad1f95c65  \n**Definition**: The single temperature every sampled item moves toward in one step.  \n**Used in**: `FridgeThermostat.Exchange`\n\n### RefrigeratorController\n**Id:** blk-5645b8195c9e  \n**Definition**: The vanilla state machine (`RefrigeratorController.Def`) on the Refrigerator and Mini Fridge. Any building with this def gets a thermostat, including modded fridges.  \n**Used in**: `Patches.cs`\n\n### SimTemperatureTransfer\n**Id:** blk-c77fc14f105f  \n**Tags:** game-component  \n**Definition**: The component that links an item to the sim for heat exchange with the cell it sits in; `SurfaceArea` and `GroundTransferScale` set how fast.  \n**Used in**: `FridgeThermostat.Insulate`\n\n### PrimaryElement\n**Id:** blk-b54dd85bb2d1  \n**Tags:** game-component  \n**Definition**: The component holding an item's element, mass and temperature. Writing `Temperature` forwards to the sim chunk.  \n**Used in**: `FridgeThermostat.Exchange`\n\n### Insulated Tile factor\n**Id:** blk-83c568d5faca  \n**Definition**: 0.01, the thermal-conductivity scale of the Insulated Tile, applied to a cold item's exchange with a warmer room.  \n**Used in**: `FridgeThermostat.InsulationFactor`\n\n### Operational / powered\n**Id:** blk-98383b78254f  \n**Tags:** game-component  \n**Definition**: `Operational.IsActive` on the fridge; true while it has power. The mod's model runs only then.  \n**Used in**: `FridgeThermostat.Sim1000ms`\n\n### Sim1000ms\n**Id:** blk-0efeb721f740  \n**Definition**: The game's `ISim1000ms` callback, once per second of game time; the thermostat's tick.  \n**Used in**: `FridgeThermostat`\n\n## Related\n**Id:** blk-3a7256bf9c1b\n\n- See also: [entities](entities.md)\n",
+   "sections": [
+    {
+     "id": "domains/glossary.md#abbreviations-and-acronyms",
+     "title": "Abbreviations and Acronyms",
+     "text": "## Abbreviations and Acronyms\n**Id:** blk-3456ea7ca0c8\n\n| Abbreviation | Full Term | Context |\n|--------------|-----------|---------|\n| ONI | Oxygen Not Included | The game this mod targets |\n| NMF | No Magic Fridges | Prefix of the in-game test names in `src/NoMagicFridges.Tests/` |\n| DTU | Duplicant Thermal Unit | The game's heat unit; 1 kDTU = 1 kJ. Heat capacities in the code are kDTU/K |\n| kDTU/s/K | kilo-DTU per second per kelvin | Conductance; the def's 1000 (W/K) reads as 1 kDTU/s/K |\n| C | Heat capacity | In the model, an item's mass x specific heat; the comments also write C for degrees Celsius |\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#terms-to-avoid",
+     "title": "Terms to Avoid",
+     "text": "## Terms to Avoid\n**Id:** blk-f014faf2eaeb\n\n| Avoid | Use Instead | Reason |\n|-------|-------------|--------|\n| Magic (cooling) | Reservoir | The vanilla behaviour the mod removes is a simulated 1 degree C reservoir on every item |\n| Freezer (for the building) | Refrigerator | The vanilla building is the Refrigerator; \"Freezer\" appears only in a code comment describing a -19 degree C cold box |\n| Insulite (for the item insulation) | Insulated Tile factor | The 0.01 scale slows exchange like an Insulated Tile; Insulite stops it |\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms",
+     "title": "Cross-Domain Terms",
+     "text": "## Cross-Domain Terms\n**Id:** blk-5331b50664aa\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/reservoir-simulated-temperature-adjuster",
+     "title": "Reservoir (simulated temperature adjuster)",
+     "text": "### Reservoir (simulated temperature adjuster)\n**Id:** blk-f3e230c14424  \n**Definition**: Vanilla's `SimulatedTemperatureAdjuster` attaches a sim heat reservoir at the fridge's `simulatedInternalTemperature` (1 degree C) to each stored item through `ModifyElementChunkTemperatureAdjuster`. It exchanges heat both ways, which is why vanilla warms frozen food.  \n**Used in**: `Patches.cs`\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/thermostat",
+     "title": "Thermostat",
+     "text": "### Thermostat\n**Id:** blk-4f0bf4991185  \n**Definition**: The mod's model of the fridge as an insulated box: a shared interior temperature, a compressor that only cools, and no heating.  \n**Used in**: `FridgeThermostat.cs`\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/compressor-on-off",
+     "title": "Compressor on / off",
+     "text": "### Compressor on / off\n**Id:** blk-cd0fd04ff662  \n**Definition**: On while the mean temperature of the contents is above the setpoint; the fridge's own thermal mass (`BaseHeatCapacity`) at the setpoint is blended in and pulls the interior down. Off at or below the setpoint, when the contents only equalise among themselves.  \n**Used in**: `FridgeThermostat.Exchange`\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/setpoint",
+     "title": "Setpoint",
+     "text": "### Setpoint\n**Id:** blk-23cf70bad61b  \n**Definition**: The fridge's target temperature, `RefrigeratorController.Def.simulatedInternalTemperature`, 1 degree C in vanilla.  \n**Used in**: `FridgeThermostat.Sim1000ms`\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/interior-temperature",
+     "title": "Interior temperature",
+     "text": "### Interior temperature\n**Id:** blk-c63ad1f95c65  \n**Definition**: The single temperature every sampled item moves toward in one step.  \n**Used in**: `FridgeThermostat.Exchange`\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/refrigeratorcontroller",
+     "title": "RefrigeratorController",
+     "text": "### RefrigeratorController\n**Id:** blk-5645b8195c9e  \n**Definition**: The vanilla state machine (`RefrigeratorController.Def`) on the Refrigerator and Mini Fridge. Any building with this def gets a thermostat, including modded fridges.  \n**Used in**: `Patches.cs`\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/insulated-tile-factor",
+     "title": "Insulated Tile factor",
+     "text": "### Insulated Tile factor\n**Id:** blk-83c568d5faca  \n**Definition**: 0.01, the thermal-conductivity scale of the Insulated Tile, applied to a cold item's exchange with a warmer room.  \n**Used in**: `FridgeThermostat.InsulationFactor`\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/sim1000ms",
+     "title": "Sim1000ms",
+     "text": "### Sim1000ms\n**Id:** blk-0efeb721f740  \n**Definition**: The game's `ISim1000ms` callback, once per second of game time; the thermostat's tick.  \n**Used in**: `FridgeThermostat`\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "domains/glossary.md#related",
+     "title": "Related",
+     "text": "## Related\n**Id:** blk-3a7256bf9c1b\n\n- See also: [entities](entities.md)\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "overview.md",
+   "title": "no-magic-fridges",
+   "description": "Overview of the No Magic Fridges mod: how powered fridges behave as a thermostat-controlled insulated box, its Workshop version and supported content, and a map of its source, tests and publish folders",
+   "document_tags": [
+    "refrigerator"
+   ],
+   "text": "---\ntags: refrigerator\ndescription: \"Overview of the No Magic Fridges mod: how powered fridges behave as a thermostat-controlled insulated box, its Workshop version and supported content, and a map of its source, tests and publish folders\"\n---\n\n# no-magic-fridges\n\n## What this is\n**Id:** blk-9f37b243039c\n\nNo Magic Fridges is an Oxygen Not Included mod that makes a powered fridge behave like an insulated box with a thermostat. Vanilla attaches a simulated 1 degC heat reservoir to every stored item, which cools warm food but also warms deep-frozen food back up to 1 degC. With this mod a powered fridge only ever cools what is warmer than 1 degC, never heats what is colder, lets its contents share heat with each other, and insulates cold food from the room. An unpowered fridge is exactly vanilla. Version 0.2.2 is on the Steam Workshop (id 3805326379); `mod.yaml` sets `supportedContent: ALL` and `minimumSupportedBuild: 744825`.\n\n## Where things are\n**Id:** blk-5104096f454c  \n**Tags:** mod-entry-point, harmony-patching, in-game-testing\n\n- `src/NoMagicFridges/`: the mod. `Mod.cs` (entry point), `Patches.cs` (stops the vanilla reservoir being attached and adds the thermostat to the fridge prefabs), `FridgeThermostat.cs` (the thermal model, run once a second), `mod.yaml`, `mod_info.yaml`.\n- `src/NoMagicFridges.Tests/`: in-game tests of fridge behaviour (`Fridges.cs`).\n- `publish/`: Workshop material (`workshop-description.txt`, `workshop-id.txt`).\n- `README.md`, `CHANGELOG.md`: user-facing description and release history.\n- `.context/` holds `overview.md` (this file), `domains/` (entities and glossary), `standards/` (code style, error handling, naming conventions), `decisions/`, `retrospectives/`, `projects.md` and `META.md`.\n",
+   "sections": [
+    {
+     "id": "overview.md#what-this-is",
+     "title": "What this is",
+     "text": "## What this is\n**Id:** blk-9f37b243039c\n\nNo Magic Fridges is an Oxygen Not Included mod that makes a powered fridge behave like an insulated box with a thermostat. Vanilla attaches a simulated 1 degC heat reservoir to every stored item, which cools warm food but also warms deep-frozen food back up to 1 degC. With this mod a powered fridge only ever cools what is warmer than 1 degC, never heats what is colder, lets its contents share heat with each other, and insulates cold food from the room. An unpowered fridge is exactly vanilla. Version 0.2.2 is on the Steam Workshop (id 3805326379); `mod.yaml` sets `supportedContent: ALL` and `minimumSupportedBuild: 744825`.\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "standards/README.md",
+   "title": "Standards",
+   "description": "Index of the No Magic Fridges standards folder, linking its code style, error handling and naming conventions documents with a line on what each covers",
+   "document_tags": [],
+   "text": "---\ndoc_id: doc-790efff9d109\ndescription: Index of the No Magic Fridges standards folder, linking its code style, error handling and naming conventions documents with a line on what each covers\n---\n\n# Standards\n\n## Standards\n**Id:** blk-670bf5d5883d\n\n- [code-style](code-style.md): C# formatting, imports, comments, Harmony patch and component conventions, with this mod's own layout.\n- [error-handling](error-handling.md): how No Magic Fridges guards its Harmony patches, reflection lookups and file reads, and what it logs when something is missing.\n- [naming-conventions](naming-conventions.md): file, namespace, patch class, string key and id naming for project NoMagicFridges.\n",
+   "sections": [
+    {
+     "id": "standards/README.md#standards",
+     "title": "Standards",
+     "text": "## Standards\n**Id:** blk-670bf5d5883d\n\n- [code-style](code-style.md): C# formatting, imports, comments, Harmony patch and component conventions, with this mod's own layout.\n- [error-handling](error-handling.md): how No Magic Fridges guards its Harmony patches, reflection lookups and file reads, and what it logs when something is missing.\n- [naming-conventions](naming-conventions.md): file, namespace, patch class, string key and id naming for project NoMagicFridges.\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "standards/code-style.md",
+   "title": "Code Style Guide",
+   "description": "C# code style for No Magic Fridges: indentation, braces, imports, comments, control structures, Harmony patch and game component conventions, plus its nested Patches class, FridgeThermostat fields and reflection use",
+   "document_tags": [],
+   "text": "---\ndoc_id: doc-46f4375d60c5\ndescription: \"C# code style for No Magic Fridges: indentation, braces, imports, comments, control structures, Harmony patch and game component conventions, plus its nested Patches class, FridgeThermostat fields and reflection use\"\napplies_to:\n  - \"src/**\"\n---\n\n# Code Style Guide\n\n## Formatting\n**Id:** blk-14654fe843b2\n\n### Indentation\n**Id:** blk-345de95fe26c\n\n- Tabs, one per level, in every `.cs` file (`mods/bitshifter/src/Bitshifter/Mod.cs`).\n- Project files (`.csproj`, `common/oni-mod.props`, `common/oni-mod.targets`) use two spaces.\n- Files are committed with LF line endings; Windows checkouts convert them to CRLF (`core.autocrlf` is true), so do not hand-normalise line endings.\n\n### Line Length\n**Id:** blk-d4cd6738c9b6\n\n- No limit is configured and the repository has no `.editorconfig`.\n- Wrap long calls and string concatenations after an argument or before a `+`, and indent the continuation one tab. The start-up log call in `mods/jumper-bridges/src/JumperBridges/Mod.cs` is the pattern.\n- TODO(owner): decide whether to add an `.editorconfig` recording tabs and brace placement so editors enforce what the code already does.\n\n### Braces\n**Id:** blk-d9ce7c0820b3\n\n- Opening brace on its own line (Allman) for namespaces, types, members and multi-line control blocks.\n- A body of one short statement goes on the next line without braces:\n\n```csharp\nforeach (Mod mod in mods)\n{\n\tif (!mod.IsEnabledForActiveDlc())\n\t\tcontinue;\n\t...\n}\n```\n\n- Multi-line initialisers and enums end with a trailing comma (`YieldToWorkshopIds` in `mods/bitshifter/src/Bitshifter/Mod.cs`, `CoolPodMode` in `mods/storage-pod-redux/src/StoragePodRedux/Options.cs`).\n\n## Language and Toolchain\n**Id:** blk-ff07643b5942\n\n- C# 9 on .NET Framework 4.8 (`LangVersion` 9.0 and `TargetFramework` net48 in `common/oni-mod.props`). Namespace blocks, not file-scoped namespaces; no nullable reference types.\n- Mods compile against the game's own assemblies (`common/oni-mod.targets`): `Assembly-CSharp`, `Assembly-CSharp-firstpass`, `0Harmony` and Unity modules. The game's .NET Framework lacks some newer APIs (`ConditionalWeakTable.AddOrUpdate` is missing, see `mods/detect-any-element/src/DetectAnyElement/Patches.cs`).\n- Optional references are switched on in the mod csproj before the targets import: `ReferenceUnityUI`, `ReferenceImageConversion`, `UsePLib` (PLib is ILRepack-merged into the mod DLL) and `UseTranslations` (compiles `common/src/Translations.cs` in).\n- One namespace per mod, equal to its `RootNamespace`. Subfolders organise files and do not add namespaces (`mods/upgrade-planner/src/UpgradePlanner/Plan`, `Rules`, `Tool`, `UI` all declare `namespace UpgradePlanner`).\n\n## Imports/Includes\n**Id:** blk-cf37994c4c5b\n\n### Organization\n**Id:** blk-e6d1725a2493\n\n`using` directives sit above the namespace, in one block with no blank lines, sorted alphabetically with `System.*` first. Aliases for `ModStrings` branches come last.\n\n1. `System.*`\n2. Everything else alphabetically: `HarmonyLib`, `Isochronous`, `KMod`, `Newtonsoft.Json`, `PeterHan.PLib.*`, `ProcGenGame`, `UnityEngine`\n3. Aliases (`using TOOL = SweepZones.ModStrings.UI.TOOLS.SWEEPZONES;`)\n\n### Example\n**Id:** blk-cd84394283fa\n\n```csharp\nusing System.Collections.Generic;\nusing System.Reflection;\nusing HarmonyLib;\nusing Isochronous;\nusing Klei;\nusing KMod;\nusing STRINGS;\nusing UnityEngine;\n```\n(`mods/salty-surf/src/SaltySurf/Mod.cs`)\n\n`Debug.Log` resolves either to `UnityEngine.Debug` or to the game's own global `Debug` class, so several `Mod.cs` files omit `using UnityEngine`. When a file imports `System.Diagnostics`, qualify the call as `UnityEngine.Debug.Log` (`mods/just-fall-already/src/JustFallAlready/FallPoke.cs`).\n\n## Comments\n**Id:** blk-daafd1797aa8\n\n### When to Comment\n**Id:** blk-f989724353cb\n\n- On every non-trivial class, an XML `<summary>` that says what the game does and what the patch changes, so a reader can check the patch against the game code. The long summary on `OvercrowdingMonitor_UpdateRegion_Patch` in `mods/dont-count-eggs-on-rails/src/DontCountEggsOnRails/Mod.cs` is the model.\n- Where a game quirk forces an odd line: `// The game's .NET Framework has no AddOrUpdate on this table.`\n- Where another mod is involved, name it and its Workshop id (`mods/bitshifter/src/Bitshifter/Mod.cs`, `mods/smart-weight-plate/src/SmartWeightPlate/Mod.cs`).\n- Escape angle brackets in XML comments as `&lt;` and `&gt;`.\n\n### When NOT to Comment\n**Id:** blk-8704337db0af\n\n- Code that reads clearly from its names.\n- Commented-out code; delete it.\n- Restating what a line does.\n\n### Format\n**Id:** blk-bfd8c830f9b5\n\n```csharp\n/// <summary>\n/// The \"Any\" choice. It is a tag like the elements a sensor's Filterable holds, so it rides\n/// in the same saved field and copies with the building's settings.\n/// </summary>\npublic static class AnyElement\n\n// Single-line note for a quirk or a reason.\n```\n\n## Control Structures\n**Id:** blk-951963141f64\n\n### Conditionals\n**Id:** blk-3f366bdebdc6\n\nGuard clauses and early `return` or `continue` keep nesting shallow (`SettleSimBackwalls.UpdateFromSim` in `mods/natural-backwalls-everywhere/src/NaturalBackwalls/SettleSimPatch.cs`):\n\n```csharp\nif (!Grid.IsValidCell(cell))\n\tcontinue;\nushort idx = data->backwallElement[cell];\nif (idx == ushort.MaxValue || idx >= elements.Count)\n\tcontinue;\n```\n\n### Loops\n**Id:** blk-7e5838a4ab04\n\n- Plain `for` and `foreach`. Code that runs every sim tick or frame avoids LINQ and allocations; reuse scratch lists (`scratch` in `mods/just-fall-already/src/JustFallAlready/FallPoke.cs`).\n- Local types are written out (`Tech tech = ...`). `var` appears mainly in `mods/upgrade-planner`, `mods/natural-backwalls-everywhere` and the test projects; follow the surrounding file.\n\n### Strings\n**Id:** blk-0ad7bc6dca06\n\n- Log and UI text is built with `+` concatenation, or `string.Format` on a `LocString`. String interpolation is not used in mod code.\n- Player-visible text is a `LocString` field in `ModStrings`, never a literal at the call site (see [naming conventions](naming-conventions.md)).\n\n## Harmony Patches\n**Id:** blk-d44c4a153c1c  \n**Tags:** harmony-patching, mod-entry-point, reflection\n\n- A patch is a static class with `[HarmonyPatch(typeof(Type), nameof(Type.Method))]`, or `[HarmonyPatch(typeof(Type), \"PrivateMethod\")]` for a non-public method, and methods named `Prefix`, `Postfix`, `Transpiler` or `Finalizer` (`mods/bitshifter/src/Bitshifter/Patches.cs`).\n- Game state arrives through Harmony parameters: `__instance`, `__result`, `___field`. Fields read repeatedly use `AccessTools.FieldRefAccess` kept in a `static readonly` field (`mods/detect-any-element/src/DetectAnyElement/Patches.cs`).\n- A prefix returns `true` to let the game's method run and `false` only when it replaces the method (`mods/dont-count-eggs-on-rails`, `mods/bitshifter` `UpdateVisuals`).\n- A patch that depends on an option implements `Prepare()` (`mods/jumper-bridges/src/JumperBridges/Patches.cs`); a patch with several targets implements `TargetMethods()`.\n- `UserMod2.OnLoad` calls `base.OnLoad(harmony)`, which applies every patch in the assembly, then registers libraries and logs the version. A mod that must patch after all others applies its patches from `OnAllModsLoaded` instead (`mods/bitshifter/src/Bitshifter/Mod.cs`).\n- Transpilers search for the instruction they change and report when it is not found; see [error handling](error-handling.md).\n\n## Game Components\n**Id:** blk-d12bc1aff49d  \n**Tags:** game-component\n\n- A component extends `KMonoBehaviour`, overrides `OnPrefabInit`, `OnSpawn` and `OnCleanUp` and calls `base` from each. Sibling components come in through `[MyCmpGet]` or `[MyCmpReq]` (`mods/no-magic-fridges/src/NoMagicFridges/FridgeThermostat.cs`).\n- Saved state uses `[Serialize]` fields with `[SerializationConfig(MemberSerialization.OptIn)]` on the class (`mods/sweep-zones/src/SweepZones/ZoneStore.cs`).\n- Components are added to prefabs from a `DoPostConfigureComplete` postfix with `go.AddOrGet<T>()`.\n\n## Project-Specific Rules\n**Id:** blk-447262e58ac0\n\n- Mod options are a PLib `POptions` class marked `[JsonObject(MemberSerialization.OptIn)]` and `[ConfigFile(SharedConfigLocation: true)]`, read through a static `Load()` (`mods/vent-freeze-fix/src/VentFreezeFix/Options.cs`) or through `SingletonOptions<Options>` (`mods/storage-pod-redux`). Option titles are string-table keys, so the translation follows the language.\n- Every mod logs one line at load: `[<Name>] Loaded version <assembly version>`.\n- Tests live in a separate `<Name>.Tests` project and are written as `[OniTest]` coroutines against the real game.\n\n### No Magic Fridges specifics\n**Id:** blk-6a0e4de0eca7  \n**Tags:** refrigerator, harmony-patching, game-component, reflection\n\n- `Patches.cs` is a `public static class Patches` with nested patch classes. `FridgeThermostat` is a `KMonoBehaviour` with `[MyCmpGet]` fields and a static `EventSystem.IntraObjectHandler` named `OnStorageChangeDelegate` (`src/NoMagicFridges/FridgeThermostat.cs`).\n- Private game members are reached through `static readonly FieldInfo` fields (`ActiveField`, `StorageField`) and delegates built with `AccessTools.MethodDelegate`.\n- `Mod.cs` has no `using UnityEngine`; `Debug` is the game's global class.\n- No PLib, no translations, no options.\n\n## Related\n**Id:** blk-bd3ceaae837b\n\n- See also: [naming conventions](naming-conventions.md)\n- See also: [error handling](error-handling.md)\n",
+   "sections": [
+    {
+     "id": "standards/code-style.md#formatting",
+     "title": "Formatting",
+     "text": "## Formatting\n**Id:** blk-14654fe843b2\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#formatting/indentation",
+     "title": "Indentation",
+     "text": "### Indentation\n**Id:** blk-345de95fe26c\n\n- Tabs, one per level, in every `.cs` file (`mods/bitshifter/src/Bitshifter/Mod.cs`).\n- Project files (`.csproj`, `common/oni-mod.props`, `common/oni-mod.targets`) use two spaces.\n- Files are committed with LF line endings; Windows checkouts convert them to CRLF (`core.autocrlf` is true), so do not hand-normalise line endings.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#formatting/line-length",
+     "title": "Line Length",
+     "text": "### Line Length\n**Id:** blk-d4cd6738c9b6\n\n- No limit is configured and the repository has no `.editorconfig`.\n- Wrap long calls and string concatenations after an argument or before a `+`, and indent the continuation one tab. The start-up log call in `mods/jumper-bridges/src/JumperBridges/Mod.cs` is the pattern.\n- TODO(owner): decide whether to add an `.editorconfig` recording tabs and brace placement so editors enforce what the code already does.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#formatting/braces",
+     "title": "Braces",
+     "text": "### Braces\n**Id:** blk-d9ce7c0820b3\n\n- Opening brace on its own line (Allman) for namespaces, types, members and multi-line control blocks.\n- A body of one short statement goes on the next line without braces:\n\n```csharp\nforeach (Mod mod in mods)\n{\n\tif (!mod.IsEnabledForActiveDlc())\n\t\tcontinue;\n\t...\n}\n```\n\n- Multi-line initialisers and enums end with a trailing comma (`YieldToWorkshopIds` in `mods/bitshifter/src/Bitshifter/Mod.cs`, `CoolPodMode` in `mods/storage-pod-redux/src/StoragePodRedux/Options.cs`).\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#language-and-toolchain",
+     "title": "Language and Toolchain",
+     "text": "## Language and Toolchain\n**Id:** blk-ff07643b5942\n\n- C# 9 on .NET Framework 4.8 (`LangVersion` 9.0 and `TargetFramework` net48 in `common/oni-mod.props`). Namespace blocks, not file-scoped namespaces; no nullable reference types.\n- Mods compile against the game's own assemblies (`common/oni-mod.targets`): `Assembly-CSharp`, `Assembly-CSharp-firstpass`, `0Harmony` and Unity modules. The game's .NET Framework lacks some newer APIs (`ConditionalWeakTable.AddOrUpdate` is missing, see `mods/detect-any-element/src/DetectAnyElement/Patches.cs`).\n- Optional references are switched on in the mod csproj before the targets import: `ReferenceUnityUI`, `ReferenceImageConversion`, `UsePLib` (PLib is ILRepack-merged into the mod DLL) and `UseTranslations` (compiles `common/src/Translations.cs` in).\n- One namespace per mod, equal to its `RootNamespace`. Subfolders organise files and do not add namespaces (`mods/upgrade-planner/src/UpgradePlanner/Plan`, `Rules`, `Tool`, `UI` all declare `namespace UpgradePlanner`).\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#imports-includes",
+     "title": "Imports/Includes",
+     "text": "## Imports/Includes\n**Id:** blk-cf37994c4c5b\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#imports-includes/organization",
+     "title": "Organization",
+     "text": "### Organization\n**Id:** blk-e6d1725a2493\n\n`using` directives sit above the namespace, in one block with no blank lines, sorted alphabetically with `System.*` first. Aliases for `ModStrings` branches come last.\n\n1. `System.*`\n2. Everything else alphabetically: `HarmonyLib`, `Isochronous`, `KMod`, `Newtonsoft.Json`, `PeterHan.PLib.*`, `ProcGenGame`, `UnityEngine`\n3. Aliases (`using TOOL = SweepZones.ModStrings.UI.TOOLS.SWEEPZONES;`)\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#imports-includes/example",
+     "title": "Example",
+     "text": "### Example\n**Id:** blk-cd84394283fa\n\n```csharp\nusing System.Collections.Generic;\nusing System.Reflection;\nusing HarmonyLib;\nusing Isochronous;\nusing Klei;\nusing KMod;\nusing STRINGS;\nusing UnityEngine;\n```\n(`mods/salty-surf/src/SaltySurf/Mod.cs`)\n\n`Debug.Log` resolves either to `UnityEngine.Debug` or to the game's own global `Debug` class, so several `Mod.cs` files omit `using UnityEngine`. When a file imports `System.Diagnostics`, qualify the call as `UnityEngine.Debug.Log` (`mods/just-fall-already/src/JustFallAlready/FallPoke.cs`).\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#comments",
+     "title": "Comments",
+     "text": "## Comments\n**Id:** blk-daafd1797aa8\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#comments/when-to-comment",
+     "title": "When to Comment",
+     "text": "### When to Comment\n**Id:** blk-f989724353cb\n\n- On every non-trivial class, an XML `<summary>` that says what the game does and what the patch changes, so a reader can check the patch against the game code. The long summary on `OvercrowdingMonitor_UpdateRegion_Patch` in `mods/dont-count-eggs-on-rails/src/DontCountEggsOnRails/Mod.cs` is the model.\n- Where a game quirk forces an odd line: `// The game's .NET Framework has no AddOrUpdate on this table.`\n- Where another mod is involved, name it and its Workshop id (`mods/bitshifter/src/Bitshifter/Mod.cs`, `mods/smart-weight-plate/src/SmartWeightPlate/Mod.cs`).\n- Escape angle brackets in XML comments as `&lt;` and `&gt;`.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#comments/when-not-to-comment",
+     "title": "When NOT to Comment",
+     "text": "### When NOT to Comment\n**Id:** blk-8704337db0af\n\n- Code that reads clearly from its names.\n- Commented-out code; delete it.\n- Restating what a line does.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#comments/format",
+     "title": "Format",
+     "text": "### Format\n**Id:** blk-bfd8c830f9b5\n\n```csharp\n/// <summary>\n/// The \"Any\" choice. It is a tag like the elements a sensor's Filterable holds, so it rides\n/// in the same saved field and copies with the building's settings.\n/// </summary>\npublic static class AnyElement\n\n// Single-line note for a quirk or a reason.\n```\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#control-structures",
+     "title": "Control Structures",
+     "text": "## Control Structures\n**Id:** blk-951963141f64\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#control-structures/conditionals",
+     "title": "Conditionals",
+     "text": "### Conditionals\n**Id:** blk-3f366bdebdc6\n\nGuard clauses and early `return` or `continue` keep nesting shallow (`SettleSimBackwalls.UpdateFromSim` in `mods/natural-backwalls-everywhere/src/NaturalBackwalls/SettleSimPatch.cs`):\n\n```csharp\nif (!Grid.IsValidCell(cell))\n\tcontinue;\nushort idx = data->backwallElement[cell];\nif (idx == ushort.MaxValue || idx >= elements.Count)\n\tcontinue;\n```\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#control-structures/loops",
+     "title": "Loops",
+     "text": "### Loops\n**Id:** blk-7e5838a4ab04\n\n- Plain `for` and `foreach`. Code that runs every sim tick or frame avoids LINQ and allocations; reuse scratch lists (`scratch` in `mods/just-fall-already/src/JustFallAlready/FallPoke.cs`).\n- Local types are written out (`Tech tech = ...`). `var` appears mainly in `mods/upgrade-planner`, `mods/natural-backwalls-everywhere` and the test projects; follow the surrounding file.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#control-structures/strings",
+     "title": "Strings",
+     "text": "### Strings\n**Id:** blk-0ad7bc6dca06\n\n- Log and UI text is built with `+` concatenation, or `string.Format` on a `LocString`. String interpolation is not used in mod code.\n- Player-visible text is a `LocString` field in `ModStrings`, never a literal at the call site (see [naming conventions](naming-conventions.md)).\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#project-specific-rules",
+     "title": "Project-Specific Rules",
+     "text": "## Project-Specific Rules\n**Id:** blk-447262e58ac0\n\n- Mod options are a PLib `POptions` class marked `[JsonObject(MemberSerialization.OptIn)]` and `[ConfigFile(SharedConfigLocation: true)]`, read through a static `Load()` (`mods/vent-freeze-fix/src/VentFreezeFix/Options.cs`) or through `SingletonOptions<Options>` (`mods/storage-pod-redux`). Option titles are string-table keys, so the translation follows the language.\n- Every mod logs one line at load: `[<Name>] Loaded version <assembly version>`.\n- Tests live in a separate `<Name>.Tests` project and are written as `[OniTest]` coroutines against the real game.\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/code-style.md#related",
+     "title": "Related",
+     "text": "## Related\n**Id:** blk-bd3ceaae837b\n\n- See also: [naming conventions](naming-conventions.md)\n- See also: [error handling](error-handling.md)\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  },
+  {
+   "id": "standards/error-handling.md",
+   "title": "Error Handling Conventions",
+   "description": "Error handling rules for No Magic Fridges: guarding Harmony patches and transpilers, try/catch, logging levels and anti-patterns, plus how its reservoir prefix and protected-method lookup fall back to vanilla",
+   "document_tags": [
+    "vanilla-fallback",
+    "logging"
+   ],
+   "text": "---\ntags: vanilla-fallback, logging\ndoc_id: doc-aea927ed3ec9\ndescription: \"Error handling rules for No Magic Fridges: guarding Harmony patches and transpilers, try/catch, logging levels and anti-patterns, plus how its reservoir prefix and protected-method lookup fall back to vanilla\"\napplies_to:\n  - \"src/**\"\n---\n\n# Error Handling Conventions\n\n## Principles\n**Id:** blk-dca3e40e96f1  \n**Tags:** harmony-patching, reflection\n\n1. **Never break the game for a mod's sake.** A patch that cannot do its job leaves the vanilla behaviour in place and says so in the log. It does not throw into the game's update loop.\n2. **Check what you patch.** Game updates rename fields and move code. Every reflection lookup, transpiler match and prefab or tech lookup is checked for a miss.\n3. **Say what degraded.** A warning names the thing that was not found and the consequence, so a bug report with `Player.log` is enough to diagnose.\n4. **Don't swallow.** A `catch` logs and either returns a safe default or continues; it is never empty.\n5. **Log at the right level.** `Debug.Log` for start-up and summaries, `Debug.LogWarning` for degraded behaviour, `Debug.LogError` for a failed player action.\n\nThere is no custom exception hierarchy. Mods are small patches over game code, so errors are handled where they occur.\n\n## Guarding Patches\n**Id:** blk-6c1ccfcd2872  \n**Tags:** harmony-patching\n\n### Missing member: warn, leave vanilla\n**Id:** blk-b63008570ba1  \n**Tags:** reflection\n\nA reflection lookup that returns null is checked before use. The patch then does nothing, or returns `true` from a prefix so the game's method runs.\n\n```csharp\nif (ActiveField == null || StorageField == null)\n\treturn true; // the game renamed its fields: leave vanilla alone rather than throw\n```\n(`mods/no-magic-fridges/src/NoMagicFridges/Patches.cs`; the warning is logged once at load by `SimTransferMethod` in `FridgeThermostat.cs`.)\n\n### Transpiler: count the match\n**Id:** blk-1987e6421398\n\nA transpiler counts the instructions it replaced. Zero (or more than expected) logs a warning and returns the original code, so a game update disables the change instead of breaking the method.\n\n```csharp\nif (swapped == 0)\n\tDebug.LogWarning(\"[CornerBuildAnything] \" + where + \" does not load OffsetGroups.InvertedStandardTable; corner reach not applied there\");\n```\n(`mods/corner-build-anything/src/CornerBuildAnything/ReachTablePatches.cs`; same pattern in `mods/bitshifter/src/Bitshifter/Patches.cs` and `mods/natural-backwalls-everywhere/src/NaturalBackwalls/SettleSimPatch.cs`.)\n\n### Missing data: warn, continue\n**Id:** blk-2862c2be79f7\n\nA build-menu, tech or asset lookup that finds nothing warns and keeps the mod working:\n\n```csharp\nTech tech = Db.Get().Techs.TryGet(TechId);\nif (tech == null)\n{\n\tDebug.LogWarning(\"[SmartWeightPlate] Tech '\" + TechId + \"' not found; building will be unlocked from the start\");\n\treturn;\n}\n```\n(`mods/smart-weight-plate/src/SmartWeightPlate/Patches.cs`; also `mods/multichannel-critter-sensor`, `mods/storage-pod-redux`.) Missing art or a missing vanilla prefab degrades the same way (`Display.UseAnim` in `mods/bitshifter/src/Bitshifter/Patches.cs`, `mods/multichannel-critter-sensor/src/MultichannelCritterSensor/MultichannelCritterSensorSideScreen.cs`).\n\n### Null checks on game objects\n**Id:** blk-d6d515fe70fe\n\nComponents and arguments that can be absent are tested before use: `if (stt == null || !Sim.IsValidHandle(stt.SimHandle)) return true;`, `if (sensor == null || GameScenePartitioner.Instance == null) return;` (`mods/motion-sensor-range/src/MotionSensorRange/RangeSlider.cs`).\n\n### Warn once\n**Id:** blk-2f4fb43549c4\n\nWork that repeats every frame or tick warns once behind a flag (`warnedMissingInternals` in `RangeSlider.cs`).\n\n## try/catch\n**Id:** blk-0ed545257e4e\n\n`try`/`catch (Exception e)` is used in four situations and nowhere else:\n\n1. **Optional integration with another mod.** Patching or reading another mod's types may fail for any reason. Log the message and skip the integration (`BetterAutomationOverlayCompat.Apply` in `mods/smart-weight-plate/src/SmartWeightPlate/Mod.cs`; `mods/upgrade-planner/src/UpgradePlanner/Compat/BlueprintsCompat.cs`).\n2. **File and JSON reads and writes.** Return an empty or null result (`mods/upgrade-planner/src/UpgradePlanner/Plan/Presets.cs`, `mods/storage-pod-redux/src/StoragePodRedux/ModDetection.cs`, `mods/sweep-zones/src/SweepZones/ToolIcon.cs`).\n3. **Patches that run inside worldgen or per-cell work**, where an escaping exception kills a thread or a whole pass (`mods/natural-backwalls-everywhere/src/NaturalBackwalls/FeaturePatch.cs`, `PlanetoidPatch.cs`, `Patches.cs`, `Census.cs`).\n4. **Per-job work in a queue**, so one failure does not stop the rest (`mods/upgrade-planner/src/UpgradePlanner/Tool/PlacementQueue.cs`, logged with `Debug.LogError`).\n\nThe message form is `\"[<Name>] <what was skipped>: \" + e.Message`. Use `e.GetBaseException().Message` when the exception may be a reflection wrapper, and the full `e` when the stack trace is needed.\n\n### Finalizer for a thread with no handler\n**Id:** blk-561d6f59d166  \n**Tags:** harmony-patching\n\n`Cluster.BeginGeneration` is the worldgen thread body and has none; an exception ends the thread and the loading screen waits forever. A finalizer reports the failure through the game's own error path and logs the exception (`Cluster_BeginGeneration_Patch` in `mods/natural-backwalls-everywhere/src/NaturalBackwalls/WorldgenThreadPatch.cs`).\n\n## Yielding to Other Mods\n**Id:** blk-0eb8c73385d0\n\nWhen another mod already does the job or shares an id, the mod steps aside and logs why:\n- Bitshifter disables itself when Digital CPU is enabled or the contested methods already have Harmony owners (`WhyYield` in `mods/bitshifter/src/Bitshifter/Mod.cs`).\n- Storage Pod Redux does not register its buildings while the original Storage Pod is enabled, and logs a warning telling the player to disable one (`mods/storage-pod-redux/src/StoragePodRedux/Mod.cs`).\n\n## Logging\n**Id:** blk-61495414a8c6\n\n### Log Levels\n**Id:** blk-cfaac579624e\n\n| Level | Use For | Example |\n|-------|---------|---------|\n| `Debug.LogError` | A player action failed and was abandoned | `PlacementQueue` in `mods/upgrade-planner` |\n| `Debug.LogWarning` | Degraded or skipped behaviour | the examples above |\n| `Debug.Log` | Load line, a one-line summary of what a pass changed | `Tagged N refined metal(s)` in `mods/refined-building` |\n\n### What to Include\n**Id:** blk-740fc524f68b\n\n- The `[<ModName>] ` prefix on every line; `JumperBridgesMod.LogPrefix` holds it for that mod.\n- What was expected, what was found, and what the mod does instead.\n- Cell numbers, building names and element ids when they identify the case (`mods/vent-freeze-fix`).\n- Per-tick or per-frame telemetry only behind a debug option (`VentFreezeWatcher.Verbose`, `DebugSave.Enabled`) or capped (`DetailLines` in `SettleSimPatch.cs`).\n\nPLib's `PUtil.Log*` helpers are not used; all mods log through `Debug`.\n\n## Anti-Patterns to Avoid\n**Id:** blk-019dfcac4e1f\n\n### Swallowing exceptions\n**Id:** blk-0721293f3a50\n\nAn empty `catch` hides a broken patch. The one `catch` that returns a fallback without a log is `GuessLanguageCode` in `common/src/Translations.cs`, because a missing language preference is the normal case before the game has started.\n\n### Throwing from a patch\n**Id:** blk-6ca5951ac246  \n**Tags:** harmony-patching\n\nAn exception in a prefix or postfix on a per-frame or sim method repeats every frame. Guard, log once, return.\n\n### Assuming the game's internals\n**Id:** blk-37cbf49b0752  \n**Tags:** reflection\n\nReading a private field by name without a null check on the `FieldInfo`, or replacing an instruction without confirming it was found, breaks on the next game update.\n\n### Silent degradation\n**Id:** blk-18072cab8ffd\n\nDoing nothing without a log line leaves a player and the author guessing. Every skipped path logs.\n\n### Spamming the log\n**Id:** blk-ef06216f4f4e\n\nA warning inside an update method fires thousands of times. Use a once-flag.\n\n## Project-Specific Patterns\n**Id:** blk-02aae3cd2120\n\n### No Magic Fridges specifics\n**Id:** blk-79ad1c265438  \n**Tags:** refrigerator, harmony-patching, reflection\n\n- `SimulatedTemperatureAdjuster_OnItemSimRegistered_Patch.Prefix` returns `true` (vanilla) for a null `stt`, an invalid sim handle, missing fields, an inactive adjuster and any storage without a `FridgeThermostat`. It returns `false` only for fridge storage.\n- `SimTransferMethod` warns once at load when a protected `SimTemperatureTransfer` method is gone and returns null; the thermostat then does nothing and fridge contents keep vanilla behaviour.\n- `GeneratedBuildings_LoadGeneratedBuildings_Patch` logs one summary line with the number of fridges that got a thermostat.\n\n## Related\n**Id:** blk-c508df09c2a7\n\n- See also: [code style](code-style.md)\n- See also: [naming conventions](naming-conventions.md)\n",
+   "sections": [
+    {
+     "id": "standards/error-handling.md#guarding-patches/transpiler-count-the-match",
+     "title": "Transpiler: count the match",
+     "text": "### Transpiler: count the match\n**Id:** blk-1987e6421398\n\nA transpiler counts the instructions it replaced. Zero (or more than expected) logs a warning and returns the original code, so a game update disables the change instead of breaking the method.\n\n```csharp\nif (swapped == 0)\n\tDebug.LogWarning(\"[CornerBuildAnything] \" + where + \" does not load OffsetGroups.InvertedStandardTable; corner reach not applied there\");\n```\n(`mods/corner-build-anything/src/CornerBuildAnything/ReachTablePatches.cs`; same pattern in `mods/bitshifter/src/Bitshifter/Patches.cs` and `mods/natural-backwalls-everywhere/src/NaturalBackwalls/SettleSimPatch.cs`.)\n",
+     "level": 3,
+     "enclosing_tags": [
+      "harmony-patching"
+     ]
+    },
+    {
+     "id": "standards/error-handling.md#guarding-patches/missing-data-warn-continue",
+     "title": "Missing data: warn, continue",
+     "text": "### Missing data: warn, continue\n**Id:** blk-2862c2be79f7\n\nA build-menu, tech or asset lookup that finds nothing warns and keeps the mod working:\n\n```csharp\nTech tech = Db.Get().Techs.TryGet(TechId);\nif (tech == null)\n{\n\tDebug.LogWarning(\"[SmartWeightPlate] Tech '\" + TechId + \"' not found; building will be unlocked from the start\");\n\treturn;\n}\n```\n(`mods/smart-weight-plate/src/SmartWeightPlate/Patches.cs`; also `mods/multichannel-critter-sensor`, `mods/storage-pod-redux`.) Missing art or a missing vanilla prefab degrades the same way (`Display.UseAnim` in `mods/bitshifter/src/Bitshifter/Patches.cs`, `mods/multichannel-critter-sensor/src/MultichannelCritterSensor/MultichannelCritterSensorSideScreen.cs`).\n",
+     "level": 3,
+     "enclosing_tags": [
+      "harmony-patching"
+     ]
+    },
+    {
+     "id": "standards/error-handling.md#guarding-patches/null-checks-on-game-objects",
+     "title": "Null checks on game objects",
+     "text": "### Null checks on game objects\n**Id:** blk-d6d515fe70fe\n\nComponents and arguments that can be absent are tested before use: `if (stt == null || !Sim.IsValidHandle(stt.SimHandle)) return true;`, `if (sensor == null || GameScenePartitioner.Instance == null) return;` (`mods/motion-sensor-range/src/MotionSensorRange/RangeSlider.cs`).\n",
+     "level": 3,
+     "enclosing_tags": [
+      "harmony-patching"
+     ]
+    },
+    {
+     "id": "standards/error-handling.md#guarding-patches/warn-once",
+     "title": "Warn once",
+     "text": "### Warn once\n**Id:** blk-2f4fb43549c4\n\nWork that repeats every frame or tick warns once behind a flag (`warnedMissingInternals` in `RangeSlider.cs`).\n",
+     "level": 3,
+     "enclosing_tags": [
+      "harmony-patching"
+     ]
+    },
+    {
+     "id": "standards/error-handling.md#try-catch",
+     "title": "try/catch",
+     "text": "## try/catch\n**Id:** blk-0ed545257e4e\n\n`try`/`catch (Exception e)` is used in four situations and nowhere else:\n\n1. **Optional integration with another mod.** Patching or reading another mod's types may fail for any reason. Log the message and skip the integration (`BetterAutomationOverlayCompat.Apply` in `mods/smart-weight-plate/src/SmartWeightPlate/Mod.cs`; `mods/upgrade-planner/src/UpgradePlanner/Compat/BlueprintsCompat.cs`).\n2. **File and JSON reads and writes.** Return an empty or null result (`mods/upgrade-planner/src/UpgradePlanner/Plan/Presets.cs`, `mods/storage-pod-redux/src/StoragePodRedux/ModDetection.cs`, `mods/sweep-zones/src/SweepZones/ToolIcon.cs`).\n3. **Patches that run inside worldgen or per-cell work**, where an escaping exception kills a thread or a whole pass (`mods/natural-backwalls-everywhere/src/NaturalBackwalls/FeaturePatch.cs`, `PlanetoidPatch.cs`, `Patches.cs`, `Census.cs`).\n4. **Per-job work in a queue**, so one failure does not stop the rest (`mods/upgrade-planner/src/UpgradePlanner/Tool/PlacementQueue.cs`, logged with `Debug.LogError`).\n\nThe message form is `\"[<Name>] <what was skipped>: \" + e.Message`. Use `e.GetBaseException().Message` when the exception may be a reflection wrapper, and the full `e` when the stack trace is needed.\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/error-handling.md#yielding-to-other-mods",
+     "title": "Yielding to Other Mods",
+     "text": "## Yielding to Other Mods\n**Id:** blk-0eb8c73385d0\n\nWhen another mod already does the job or shares an id, the mod steps aside and logs why:\n- Bitshifter disables itself when Digital CPU is enabled or the contested methods already have Harmony owners (`WhyYield` in `mods/bitshifter/src/Bitshifter/Mod.cs`).\n- Storage Pod Redux does not register its buildings while the original Storage Pod is enabled, and logs a warning telling the player to disable one (`mods/storage-pod-redux/src/StoragePodRedux/Mod.cs`).\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/error-handling.md#logging",
+     "title": "Logging",
+     "text": "## Logging\n**Id:** blk-61495414a8c6\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/error-handling.md#logging/log-levels",
+     "title": "Log Levels",
+     "text": "### Log Levels\n**Id:** blk-cfaac579624e\n\n| Level | Use For | Example |\n|-------|---------|---------|\n| `Debug.LogError` | A player action failed and was abandoned | `PlacementQueue` in `mods/upgrade-planner` |\n| `Debug.LogWarning` | Degraded or skipped behaviour | the examples above |\n| `Debug.Log` | Load line, a one-line summary of what a pass changed | `Tagged N refined metal(s)` in `mods/refined-building` |\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/error-handling.md#logging/what-to-include",
+     "title": "What to Include",
+     "text": "### What to Include\n**Id:** blk-740fc524f68b\n\n- The `[<ModName>] ` prefix on every line; `JumperBridgesMod.LogPrefix` holds it for that mod.\n- What was expected, what was found, and what the mod does instead.\n- Cell numbers, building names and element ids when they identify the case (`mods/vent-freeze-fix`).\n- Per-tick or per-frame telemetry only behind a debug option (`VentFreezeWatcher.Verbose`, `DebugSave.Enabled`) or capped (`DetailLines` in `SettleSimPatch.cs`).\n\nPLib's `PUtil.Log*` helpers are not used; all mods log through `Debug`.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/error-handling.md#anti-patterns-to-avoid",
+     "title": "Anti-Patterns to Avoid",
+     "text": "## Anti-Patterns to Avoid\n**Id:** blk-019dfcac4e1f\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/error-handling.md#anti-patterns-to-avoid/swallowing-exceptions",
+     "title": "Swallowing exceptions",
+     "text": "### Swallowing exceptions\n**Id:** blk-0721293f3a50\n\nAn empty `catch` hides a broken patch. The one `catch` that returns a fallback without a log is `GuessLanguageCode` in `common/src/Translations.cs`, because a missing language preference is the normal case before the game has started.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/error-handling.md#anti-patterns-to-avoid/silent-degradation",
+     "title": "Silent degradation",
+     "text": "### Silent degradation\n**Id:** blk-18072cab8ffd\n\nDoing nothing without a log line leaves a player and the author guessing. Every skipped path logs.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/error-handling.md#anti-patterns-to-avoid/spamming-the-log",
+     "title": "Spamming the log",
+     "text": "### Spamming the log\n**Id:** blk-ef06216f4f4e\n\nA warning inside an update method fires thousands of times. Use a once-flag.\n",
+     "level": 3,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/error-handling.md#project-specific-patterns",
+     "title": "Project-Specific Patterns",
+     "text": "## Project-Specific Patterns\n**Id:** blk-02aae3cd2120\n",
+     "level": 2,
+     "enclosing_tags": []
+    },
+    {
+     "id": "standards/error-handling.md#related",
+     "title": "Related",
+     "text": "## Related\n**Id:** blk-c508df09c2a7\n\n- See also: [code style](code-style.md)\n- See also: [naming conventions](naming-conventions.md)\n",
+     "level": 2,
+     "enclosing_tags": []
+    }
+   ]
+  }
+ ]
+}

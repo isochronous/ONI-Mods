@@ -57,3 +57,8 @@ A record earns this term when it is about the rebindable key a mod registers to 
 **Id:** blk-596842ef5aa1
 
 A record earns this term when it is about the sweep and mop errands a mod creates and the priority they get.
+
+## code-style
+**Id:** blk-c0d5c00f7134
+
+A record earns this term when it is about the house style in which a mod's C# source code is written.

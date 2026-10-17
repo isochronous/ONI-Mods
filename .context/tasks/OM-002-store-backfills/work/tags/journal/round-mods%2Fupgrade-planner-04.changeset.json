@@ -1,49 +1,27 @@
 {
   "task": "OM-002",
-  "why": "tag backfill r1 for node mods/upgrade-planner — round 4",
+  "why": "tag backfill r2 for node mods/upgrade-planner — round 4",
   "node": "C:\\dev\\ONI-Mods\\mods\\upgrade-planner",
   "base": {
-    "domains/entities.md": "sha256:bda05cf84b1f277bde54a6a6031bb04af4c8b117157dde11ab549a7961646704",
-    "standards/code-style.md": "sha256:775b9496d020bb8f950e39339c1afe56e2f6f4f73ca2401108f2ed17a5168f72",
-    "standards/error-handling.md": "sha256:b9118c1b2a26ef3afee91a777e91b3170c27afce6a51e7f4a60ea5ca5a3add99",
-    "standards/naming-conventions.md": "sha256:4fd6a81ae2a73bfd250a0110aa91f6a07d9fe891c75860b367dcf40e33d0968b"
+    "standards/code-style.md": "sha256:45963b4c7648c43ea1ccf7b4bdf9b06449b67f93d03fb8dae97b0c686a60f04a",
+    "standards/naming-conventions.md": "sha256:c4e1ad89a4b77e621d8c3dce01fb1297cd4036aab899b5d52f3aac953a2e98b7"
   },
   "ops": [
-    {
-      "target": "domains/entities.md",
-      "mode": "tag",
-      "add": [
-        "hotkey"
-      ],
-      "section": "key-entities/hotkey"
-    },
     {
       "target": "standards/code-style.md",
       "mode": "tag",
       "add": [
-        "logging",
-        "in-game-testing"
+        "code-style"
       ],
-      "section": "project-specific-rules"
-    },
-    {
-      "target": "standards/error-handling.md",
-      "mode": "tag",
-      "add": [
-        "performance"
-      ],
-      "section": "guarding-patches/warn-once"
+      "section": "imports-includes/organization"
     },
     {
       "target": "standards/naming-conventions.md",
       "mode": "tag",
       "add": [
-        "mod-strings",
-        "hotkey",
-        "in-game-testing",
-        "logging"
+        "code-style"
       ],
-      "section": "project-specific-conventions/upgrade-planner-specifics"
+      "section": "code-naming/booleans"
     }
   ]
 }
