@@ -7,4 +7,7 @@ description: "TODO(owner): the subject knowledge corner-build-anything keeps her
 ## Domains
 **Id:** blk-c92ebef9d852
 
-TODO(owner): the subject knowledge of this node, one record per domain in this folder.
+Documents in this folder:
+
+- [entities](entities.md): The reach-table swap for construction and deconstruction, with the key code paths.
+- [glossary](glossary.md): How construction reach tables are swapped.

@@ -7,4 +7,5 @@ description: "TODO(owner): the subject knowledge salty-surf keeps here."
 ## Domains
 **Id:** blk-3a3f9cf183d7
 
-TODO(owner): the subject knowledge of this node, one record per domain in this folder.
+- [entities](entities.md): what the mod patches on the Mechanical Surfboard (accepted liquids, readiness, spill), with file locations, the liquid rules and key code paths.
+- [glossary](glossary.md): ONI and mod-specific terms used by Salty Surf.

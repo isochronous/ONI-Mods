@@ -7,4 +7,5 @@ description: "TODO(owner): the subject knowledge sweep-zones keeps here."
 ## Domains
 **Id:** blk-62bc3a596196
 
-TODO(owner): the subject knowledge of this node, one record per domain in this folder.
+- [entities](entities.md): the zone store, the paint tool and the rules that mark debris and place mop errands.
+- [glossary](glossary.md): game and mod terms, abbreviations and terms to avoid.

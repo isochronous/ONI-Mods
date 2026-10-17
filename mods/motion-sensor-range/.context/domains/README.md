@@ -7,4 +7,5 @@ description: "TODO(owner): the subject knowledge motion-sensor-range keeps here.
 ## Domains
 **Id:** blk-f6c83643ad1c
 
-TODO(owner): the subject knowledge of this node, one record per domain in this folder.
+- [entities](entities.md): what the mod adds to the vanilla Duplicant Motion Sensor (the `RangeSlider` component), with file locations, the range rules and key code paths.
+- [glossary](glossary.md): ONI and mod-specific terms used by Motion Sensor Range.

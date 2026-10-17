@@ -1,0 +1,31 @@
+{
+  "task": "OM-002",
+  "why": "replace the scaffold placeholders in salty-surf's overview and the domains and standards indexes with its real content",
+  "node": "mods/salty-surf",
+  "ops": [
+    {
+      "mode": "section",
+      "target": "overview.md",
+      "section": "What this is",
+      "body": "Salty Surf is an Oxygen Not Included mod that lets the Mechanical Surfboard run on Salt Water as well as Water. Either liquid fills the tank without damaging the building, the board is ready once the tank holds the usual 2 kg of either, and while a Duplicant surfs the board spills whatever it was fed. Every other liquid is treated as in the base game: it damages the building and is dumped. The building's info panel lists both accepted liquids. Version 0.2.0 is on the Steam Workshop (id 3816726470); `mod.yaml` sets `supportedContent: ALL` and `minimumSupportedBuild: 744825`. Available in English, Chinese (Simplified), Korean and Russian.\n"
+    },
+    {
+      "mode": "section",
+      "target": "overview.md",
+      "section": "Where things are",
+      "body": "- `src/SaltySurf/`: the mod. `Mod.cs` (entry point, the accepted-liquid helper and the Harmony patches on the element load and the surfboard config), `ModStrings.cs`, `mod.yaml`, `mod_info.yaml`, `translations/` (`.pot` template plus `ko.po`, `ru.po`, `zh.po`).\n- `src/SaltySurf.Tests/`: in-game tests (`Board.cs`, `Intake.cs`, `Persistence.cs`, `Spill.cs`, `Surfing.cs`).\n- `publish/`: Workshop material (`workshop-description.txt`, `workshop-id.txt`, `workshop-tags.txt`, `preview.jpg`); `preview/` holds the preview image.\n- `README.md`, `CHANGELOG.md`: user-facing description and release history.\n- `.context/` holds `overview.md` (this file), `domains/` (entities and glossary), `standards/` (code style, error handling, naming conventions), `decisions/`, `retrospectives/`, `projects.md` and `META.md`.\n"
+    },
+    {
+      "mode": "section",
+      "target": "domains/README.md",
+      "section": "Domains",
+      "body": "- [entities](entities.md): what the mod patches on the Mechanical Surfboard (accepted liquids, readiness, spill), with file locations, the liquid rules and key code paths.\n- [glossary](glossary.md): ONI and mod-specific terms used by Salty Surf.\n"
+    },
+    {
+      "mode": "section",
+      "target": "standards/README.md",
+      "section": "Standards",
+      "body": "- [code-style](code-style.md): C# formatting, imports, comments, Harmony patch and component conventions, with this mod's own layout.\n- [error-handling](error-handling.md): how Salty Surf guards its Harmony patches, reflection lookups and file reads, and what it logs when something is missing.\n- [naming-conventions](naming-conventions.md): file, namespace, patch class, string key and id naming for project SaltySurf.\n"
+    }
+  ]
+}

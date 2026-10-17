@@ -7,4 +7,5 @@ description: "TODO(owner): the subject knowledge storage-pod-redux keeps here."
 ## Domains
 **Id:** blk-78eb469ca4b3
 
-TODO(owner): the subject knowledge of this node, one record per domain in this folder.
+- [entities](entities.md): the Storage Pod and Cool Pod buildings, their options and the registration gate.
+- [glossary](glossary.md): game and mod terms, abbreviations and terms to avoid.

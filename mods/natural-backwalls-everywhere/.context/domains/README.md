@@ -7,4 +7,5 @@ description: "TODO(owner): the subject knowledge natural-backwalls-everywhere ke
 ## Domains
 **Id:** blk-bae867c75e8e
 
-TODO(owner): the subject knowledge of this node, one record per domain in this folder.
+- [entities](entities.md): what the mod adds to worldgen (biome groups, patterns, options, the patches that place backwalls), with file locations, the placement rules and key code paths.
+- [glossary](glossary.md): ONI and mod-specific terms used by Natural Backwalls Everywhere.

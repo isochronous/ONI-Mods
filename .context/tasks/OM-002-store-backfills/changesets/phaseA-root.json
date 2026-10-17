@@ -1,0 +1,19 @@
+{
+  "task": "OM-002",
+  "why": "Replace the scaffold placeholders in the root overview with what the monorepo is and where its parts live.",
+  "node": ".",
+  "ops": [
+    {
+      "mode": "section",
+      "target": "overview.md",
+      "section": "What this is",
+      "body": "ONI-Mods is the monorepo for isochronous's Oxygen Not Included mods: 17 mods, one folder each under `mods/`, built from one solution (`ONI-Mods.sln`) against a shared build kit. Players get the mods from the Steam Workshop and from this repo's GitHub Releases; the repo is also where issues are filed. Each mod is released on its own, tagged `<mod>-v<version>`. The mods were separate repositories until October 2026; each one's history was brought here with it.\n\nThe shared build, in-game test harness and release tools live in `common/`, a git submodule of [oni-mods-common](https://github.com/isochronous/oni-mods-common). `Directory.Build.props` points every project at it as `$(OniCommon)`. A mod build deploys the mod into the game's local mods folder."
+    },
+    {
+      "mode": "section",
+      "target": "overview.md",
+      "section": "Where things are",
+      "body": "- `mods/` — the 17 mods, one folder each (`src/`, `publish/`, README, CHANGELOG); the `mods` node covers them. Each mod is its own node under it.\n- `common/` — submodule oni-mods-common: `oni-mod.props` and `oni-mod.targets` (shared build and deploy), `ilrepack-plib.targets`, `src/Translations.cs`, and `tools/` (Release, WorkshopUpload, ModTest, TestRunner, SaveRunner, WorldgenDriver, Kanim, MakePreview, ModCheck, Translations). It is a node of its own.\n- `ONI-Mods.sln` — the solution holding every mod project and its tests.\n- `Directory.Build.props` — defines `$(OniCommon)`, the path to `common/`.\n- `README.md` — mod list, build instructions and how releases are tagged.\n- `.github/` — `workflows/label-mod.yml` (labels an issue with the mod named in the form's Mod answer) and `ISSUE_TEMPLATE/` (bug report and feature request forms).\n- `.claude/commands/release-mods.md` — the `/release-mods` command that runs `common/tools/Release/release_mods.py`.\n- `.gitmodules`, `.gitattributes`, `.gitignore` — repo plumbing.\n- `.context/` — this node's knowledge: [workflows](workflows/) (branching, commit conventions, CI/CD, task-plan phases), [testing](testing/) (unit and integration conventions), [decisions](decisions/), [retrospectives](retrospectives/), `domains/tooling-friction.md`, and `tasks/`. `projects.md` lists the child nodes (`common`, `mods`).\n\nThere is no top-level `tools/` or `scripts/` folder; shared tooling is under `common/tools/`."
+    }
+  ]
+}

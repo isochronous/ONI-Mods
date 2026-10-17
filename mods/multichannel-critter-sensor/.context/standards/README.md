@@ -7,4 +7,6 @@ description: "TODO(owner): the standards multichannel-critter-sensor holds itsel
 ## Standards
 **Id:** blk-388f1afd61fd
 
-TODO(owner): the standards this project holds itself to, one record per standard in this folder.
+- [code-style](code-style.md): C# formatting, imports, comments, Harmony patch and component conventions, with this mod's own layout.
+- [error-handling](error-handling.md): how Multichannel Critter Sensor guards its Harmony patches, reflection lookups and file reads, and what it logs when something is missing.
+- [naming-conventions](naming-conventions.md): file, namespace, patch class, string key and id naming for project MultichannelCritterSensor.

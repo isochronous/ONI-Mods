@@ -7,4 +7,7 @@ description: "TODO(owner): the subject knowledge jumper-bridges keeps here."
 ## Domains
 **Id:** blk-5aefca7333a9
 
-TODO(owner): the subject knowledge of this node, one record per domain in this folder.
+Documents in this folder:
+
+- [entities](entities.md): Bridge ends on ports, end nodes and link rings, with the key code paths.
+- [glossary](glossary.md): Bridge end nodes, link rings, patches and options.

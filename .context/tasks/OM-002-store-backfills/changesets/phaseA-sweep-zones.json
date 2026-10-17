@@ -1,0 +1,31 @@
+{
+  "task": "OM-002",
+  "why": "Phase A: replace the scaffold placeholders in sweep-zones overview, domains index and standards index with content from the repo.",
+  "node": "mods/sweep-zones",
+  "ops": [
+    {
+      "mode": "section",
+      "target": "overview.md",
+      "section": "What this is",
+      "body": "Sweep Zones Redux is an Oxygen Not Included mod that adds a Sweep Zones tool to the toolbar. Players paint persistent zones, and debris that lands in a sweep zone is marked for sweeping, and moppable puddles in a mop zone get mop errands, at the priority the zone was painted with, until the zone is erased. The tool has four box-drag modes (sweep zone, erase sweep zone, mop zone, erase mop zone), remembers priority per cell including yellow alert, and shows priority labels over each contiguous same-priority region. It is a ground-up rewrite of the feature set of Berkays/Rubacava's Sweep Zones and shares no code or assets with it. Version 1.6.0. Targets the current game (U59+) with all DLC content (minimumSupportedBuild 744825)."
+    },
+    {
+      "mode": "section",
+      "target": "overview.md",
+      "section": "Where things are",
+      "body": "- `README.md`, `CHANGELOG.md`: player-facing description and release notes.\n- `src/SweepZones/`: the mod. `Mod.cs` (entry point), `SweepZoneTool.cs` (the paint tool), `ZoneStore.cs` (the saved zone store), `ToolIcon.cs` (toolbar icons), `Patches.cs` (Harmony patches), `ModStrings.cs` (UI strings), `mod.yaml` and `mod_info.yaml` (manifests).\n- `src/SweepZones/assets/`: `tool_icon.png`.\n- `src/SweepZones/translations/`: `.pot` template and `ko`, `ru`, `zh` po files.\n- `src/SweepZones.Tests/`: in-game tests (zones, painting, marking, display, by-hand play).\n- `assets-src/IconGen/`: the program that generates the tool icons; `assets-src/captures/`: reference captures of the icons and zones.\n- `publish/`: Workshop description, preview image, workshop id and the old obsolete-mod description.\n- `.context/`: `overview.md`, `domains/` ([entities](domains/entities.md), [glossary](domains/glossary.md)), `standards/` ([code-style](standards/code-style.md), [error-handling](standards/error-handling.md), [naming-conventions](standards/naming-conventions.md)), `decisions/`, `retrospectives/`, `META.md`, `projects.md`."
+    },
+    {
+      "mode": "section",
+      "target": "domains/README.md",
+      "section": "Domains",
+      "body": "- [entities](entities.md): the zone store, the paint tool and the rules that mark debris and place mop errands.\n- [glossary](glossary.md): game and mod terms, abbreviations and terms to avoid."
+    },
+    {
+      "mode": "section",
+      "target": "standards/README.md",
+      "section": "Standards",
+      "body": "- [code-style](code-style.md): C# formatting, imports, comments, Harmony patch and component conventions, with this mod's own layout.\n- [error-handling](error-handling.md): how the mod guards its Harmony patches, reflection lookups and file reads, and what it logs when something is missing.\n- [naming-conventions](naming-conventions.md): file, namespace, patch class, string key and id naming."
+    }
+  ]
+}
