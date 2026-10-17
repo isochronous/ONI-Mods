@@ -1,0 +1,396 @@
+{
+ "documents": [
+  {
+   "id": "domains/README.md",
+   "title": "Domains",
+   "description": "Index of the domain documents for the Storage Pod Redux mod, linking its entities file (pod buildings, options, registration gate) and its glossary of terms",
+   "sections": [
+    {
+     "id": "domains/README.md#domains",
+     "title": "Domains"
+    }
+   ]
+  },
+  {
+   "id": "domains/entities.md",
+   "title": "Storage Pod Redux domain",
+   "description": "The Storage Pod and Cool Pod buildings of Storage Pod Redux, with their property tables, options, mod detection, registration gate, Harmony patches, business rules and the source file each lives in",
+   "sections": [
+    {
+     "id": "domains/entities.md#overview",
+     "title": "Overview"
+    },
+    {
+     "id": "domains/entities.md#key-entities",
+     "title": "Key Entities"
+    },
+    {
+     "id": "domains/entities.md#key-entities/storage-pod-building",
+     "title": "Storage Pod (building)"
+    },
+    {
+     "id": "domains/entities.md#key-entities/cool-pod-building",
+     "title": "Cool Pod (building)"
+    },
+    {
+     "id": "domains/entities.md#key-entities/options",
+     "title": "Options"
+    },
+    {
+     "id": "domains/entities.md#key-entities/buildings-decision-state",
+     "title": "Buildings (decision state)"
+    },
+    {
+     "id": "domains/entities.md#key-entities/mod-detection",
+     "title": "Mod detection"
+    },
+    {
+     "id": "domains/entities.md#key-entities/harmony-patches",
+     "title": "Harmony patches"
+    },
+    {
+     "id": "domains/entities.md#business-rules",
+     "title": "Business Rules"
+    },
+    {
+     "id": "domains/entities.md#domain-terminology",
+     "title": "Domain Terminology"
+    },
+    {
+     "id": "domains/entities.md#key-code-paths",
+     "title": "Key Code Paths"
+    },
+    {
+     "id": "domains/entities.md#related",
+     "title": "Related"
+    }
+   ]
+  },
+  {
+   "id": "domains/glossary.md",
+   "title": "Storage Pod Redux glossary",
+   "description": "Glossary for Storage Pod Redux: abbreviations (kanim, PLib), terms to avoid such as Fridge Pod, and definitions of pod, prefab ID and vanilla fridge terms with the files that use them",
+   "sections": [
+    {
+     "id": "domains/glossary.md#abbreviations-and-acronyms",
+     "title": "Abbreviations and Acronyms"
+    },
+    {
+     "id": "domains/glossary.md#terms-to-avoid",
+     "title": "Terms to Avoid"
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms",
+     "title": "Cross-Domain Terms"
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/storage-pod",
+     "title": "Storage Pod"
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/cool-pod",
+     "title": "Cool Pod"
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/mini-fridge",
+     "title": "Mini Fridge"
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/buildlocationrule-anywhere",
+     "title": "BuildLocationRule.Anywhere"
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/kitchen-refrigerator-tag",
+     "title": "Kitchen refrigerator tag"
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/full-output",
+     "title": "Full output"
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/prefab-id",
+     "title": "Prefab ID"
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/static-id",
+     "title": "Static ID"
+    },
+    {
+     "id": "domains/glossary.md#related",
+     "title": "Related"
+    }
+   ]
+  },
+  {
+   "id": "overview.md",
+   "title": "storage-pod-redux",
+   "description": "Overview of the Storage Pod Redux mod: what the Storage Pod and Cool Pod do, their capacity, cost and power figures, version, and a map of its source, art, translations, tests and publish folders",
+   "sections": [
+    {
+     "id": "overview.md#what-this-is",
+     "title": "What this is"
+    },
+    {
+     "id": "overview.md#where-things-are",
+     "title": "Where things are"
+    }
+   ]
+  },
+  {
+   "id": "standards/README.md",
+   "title": "Standards",
+   "description": "Index of the Storage Pod Redux standards documents, linking the code-style, error-handling and naming-conventions guides with a line on each",
+   "sections": [
+    {
+     "id": "standards/README.md#standards",
+     "title": "Standards"
+    }
+   ]
+  },
+  {
+   "id": "standards/code-style.md",
+   "title": "Code Style Guide",
+   "description": "C# code style for the Storage Pod Redux mod: formatting, imports, comments, Harmony patch and game component conventions, plus a section on its options class, original-mod detection and patch layout",
+   "sections": [
+    {
+     "id": "standards/code-style.md#formatting",
+     "title": "Formatting"
+    },
+    {
+     "id": "standards/code-style.md#formatting/indentation",
+     "title": "Indentation"
+    },
+    {
+     "id": "standards/code-style.md#formatting/line-length",
+     "title": "Line Length"
+    },
+    {
+     "id": "standards/code-style.md#formatting/braces",
+     "title": "Braces"
+    },
+    {
+     "id": "standards/code-style.md#language-and-toolchain",
+     "title": "Language and Toolchain"
+    },
+    {
+     "id": "standards/code-style.md#imports-includes",
+     "title": "Imports/Includes"
+    },
+    {
+     "id": "standards/code-style.md#imports-includes/organization",
+     "title": "Organization"
+    },
+    {
+     "id": "standards/code-style.md#imports-includes/example",
+     "title": "Example"
+    },
+    {
+     "id": "standards/code-style.md#comments",
+     "title": "Comments"
+    },
+    {
+     "id": "standards/code-style.md#comments/when-to-comment",
+     "title": "When to Comment"
+    },
+    {
+     "id": "standards/code-style.md#comments/when-not-to-comment",
+     "title": "When NOT to Comment"
+    },
+    {
+     "id": "standards/code-style.md#comments/format",
+     "title": "Format"
+    },
+    {
+     "id": "standards/code-style.md#control-structures",
+     "title": "Control Structures"
+    },
+    {
+     "id": "standards/code-style.md#control-structures/conditionals",
+     "title": "Conditionals"
+    },
+    {
+     "id": "standards/code-style.md#control-structures/loops",
+     "title": "Loops"
+    },
+    {
+     "id": "standards/code-style.md#control-structures/strings",
+     "title": "Strings"
+    },
+    {
+     "id": "standards/code-style.md#harmony-patches",
+     "title": "Harmony Patches"
+    },
+    {
+     "id": "standards/code-style.md#game-components",
+     "title": "Game Components"
+    },
+    {
+     "id": "standards/code-style.md#project-specific-rules",
+     "title": "Project-Specific Rules"
+    },
+    {
+     "id": "standards/code-style.md#project-specific-rules/storage-pod-redux-specifics",
+     "title": "Storage Pod Redux specifics"
+    },
+    {
+     "id": "standards/code-style.md#related",
+     "title": "Related"
+    }
+   ]
+  },
+  {
+   "id": "standards/error-handling.md",
+   "title": "Error Handling Conventions",
+   "description": "Error handling and logging rules for the Storage Pod Redux mod: guarding patches, try/catch use, yielding to other mods, log levels, anti-patterns, plus how its mod detection and tech unlock handle failures",
+   "sections": [
+    {
+     "id": "standards/error-handling.md#principles",
+     "title": "Principles"
+    },
+    {
+     "id": "standards/error-handling.md#guarding-patches",
+     "title": "Guarding Patches"
+    },
+    {
+     "id": "standards/error-handling.md#guarding-patches/missing-member-warn-leave-vanilla",
+     "title": "Missing member: warn, leave vanilla"
+    },
+    {
+     "id": "standards/error-handling.md#guarding-patches/transpiler-count-the-match",
+     "title": "Transpiler: count the match"
+    },
+    {
+     "id": "standards/error-handling.md#guarding-patches/missing-data-warn-continue",
+     "title": "Missing data: warn, continue"
+    },
+    {
+     "id": "standards/error-handling.md#guarding-patches/null-checks-on-game-objects",
+     "title": "Null checks on game objects"
+    },
+    {
+     "id": "standards/error-handling.md#guarding-patches/warn-once",
+     "title": "Warn once"
+    },
+    {
+     "id": "standards/error-handling.md#try-catch",
+     "title": "try/catch"
+    },
+    {
+     "id": "standards/error-handling.md#try-catch/finalizer-for-a-thread-with-no-handler",
+     "title": "Finalizer for a thread with no handler"
+    },
+    {
+     "id": "standards/error-handling.md#yielding-to-other-mods",
+     "title": "Yielding to Other Mods"
+    },
+    {
+     "id": "standards/error-handling.md#logging",
+     "title": "Logging"
+    },
+    {
+     "id": "standards/error-handling.md#logging/log-levels",
+     "title": "Log Levels"
+    },
+    {
+     "id": "standards/error-handling.md#logging/what-to-include",
+     "title": "What to Include"
+    },
+    {
+     "id": "standards/error-handling.md#anti-patterns-to-avoid",
+     "title": "Anti-Patterns to Avoid"
+    },
+    {
+     "id": "standards/error-handling.md#anti-patterns-to-avoid/swallowing-exceptions",
+     "title": "Swallowing exceptions"
+    },
+    {
+     "id": "standards/error-handling.md#anti-patterns-to-avoid/throwing-from-a-patch",
+     "title": "Throwing from a patch"
+    },
+    {
+     "id": "standards/error-handling.md#anti-patterns-to-avoid/assuming-the-game-s-internals",
+     "title": "Assuming the game's internals"
+    },
+    {
+     "id": "standards/error-handling.md#anti-patterns-to-avoid/silent-degradation",
+     "title": "Silent degradation"
+    },
+    {
+     "id": "standards/error-handling.md#anti-patterns-to-avoid/spamming-the-log",
+     "title": "Spamming the log"
+    },
+    {
+     "id": "standards/error-handling.md#project-specific-patterns",
+     "title": "Project-Specific Patterns"
+    },
+    {
+     "id": "standards/error-handling.md#project-specific-patterns/storage-pod-redux-specifics",
+     "title": "Storage Pod Redux specifics"
+    },
+    {
+     "id": "standards/error-handling.md#related",
+     "title": "Related"
+    }
+   ]
+  },
+  {
+   "id": "standards/naming-conventions.md",
+   "title": "Naming Conventions",
+   "description": "Naming rules for the Storage Pod Redux mod: files, namespaces, patch classes, variables, ModStrings keys, ids and tests, plus its option keys, string branches, test classes and log prefix",
+   "sections": [
+    {
+     "id": "standards/naming-conventions.md#files-and-directories",
+     "title": "Files and Directories"
+    },
+    {
+     "id": "standards/naming-conventions.md#files-and-directories/general-rules",
+     "title": "General Rules"
+    },
+    {
+     "id": "standards/naming-conventions.md#files-and-directories/examples-by-type",
+     "title": "Examples by Type"
+    },
+    {
+     "id": "standards/naming-conventions.md#code-naming",
+     "title": "Code Naming"
+    },
+    {
+     "id": "standards/naming-conventions.md#code-naming/variables",
+     "title": "Variables"
+    },
+    {
+     "id": "standards/naming-conventions.md#code-naming/functions-methods",
+     "title": "Functions/Methods"
+    },
+    {
+     "id": "standards/naming-conventions.md#code-naming/classes-types-interfaces",
+     "title": "Classes/Types/Interfaces"
+    },
+    {
+     "id": "standards/naming-conventions.md#code-naming/booleans",
+     "title": "Booleans"
+    },
+    {
+     "id": "standards/naming-conventions.md#code-naming/strings-modstrings",
+     "title": "Strings (`ModStrings`)"
+    },
+    {
+     "id": "standards/naming-conventions.md#code-naming/ids-and-tags",
+     "title": "Ids and Tags"
+    },
+    {
+     "id": "standards/naming-conventions.md#project-specific-conventions",
+     "title": "Project-Specific Conventions"
+    },
+    {
+     "id": "standards/naming-conventions.md#project-specific-conventions/storage-pod-redux-specifics",
+     "title": "Storage Pod Redux specifics"
+    },
+    {
+     "id": "standards/naming-conventions.md#related",
+     "title": "Related"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,46 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node . — round 9",
+  "node": "C:/dev/ONI-Mods",
+  "base": {
+    "testing/integration-testing.md": "sha256:745def14dd01e4d7eeb981b0e50864e7d67e7efb1c29497cd75a01f233dada15",
+    "testing/unit-testing.md": "sha256:55ca276bb456394baef012258553891560a47736cd1c78139e00c17587312fd4",
+    "workflows/branching.md": "sha256:9decd6a25b17fae08660843a8c17cdf3da427a5d5918c7db3a1ec89d585df623",
+    "workflows/ci-cd.md": "sha256:2cf83d8f58713d681cffbc805e6f26ee9b82ce90e0c3b6fbcd78e567820c0b6e"
+  },
+  "ops": [
+    {
+      "target": "testing/integration-testing.md",
+      "mode": "tag",
+      "add": [
+        "mod-loadout"
+      ],
+      "section": "isolated-manual-testing"
+    },
+    {
+      "target": "testing/unit-testing.md",
+      "mode": "tag",
+      "add": [
+        "generated-worlds",
+        "save-files"
+      ],
+      "section": "test-data/per-test-options-on-onitest"
+    },
+    {
+      "target": "workflows/branching.md",
+      "mode": "tag",
+      "add": [
+        "commit-messages"
+      ],
+      "section": "commit-messages"
+    },
+    {
+      "target": "workflows/ci-cd.md",
+      "mode": "tag",
+      "add": [
+        "release-process"
+      ],
+      "section": "notifications/success"
+    }
+  ]
+}

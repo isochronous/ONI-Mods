@@ -1,0 +1,387 @@
+{
+ "documents": [
+  {
+   "id": "workflows/branching.md",
+   "tags": [
+    "git-branches"
+   ]
+  },
+  {
+   "id": "workflows/ci-cd.md",
+   "tags": [
+    "mod-build",
+    "machine-setup"
+   ]
+  },
+  {
+   "id": "workflows/commit-conventions.md",
+   "tags": [
+    "commit-messages"
+   ]
+  },
+  {
+   "id": "workflows/task-plan/base.md",
+   "tags": [
+    "task-plan"
+   ]
+  },
+  {
+   "id": "workflows/task-plan/phase-architecture.md",
+   "tags": [
+    "task-plan",
+    "phase-handoff"
+   ]
+  }
+ ],
+ "sections": [
+  {
+   "id": "workflows/branching.md#branch-structure",
+   "tags": [
+    "common-submodule",
+    "release-process"
+   ]
+  },
+  {
+   "id": "workflows/branching.md#branch-types",
+   "tags": [
+    "task-id",
+    "release-process"
+   ]
+  },
+  {
+   "id": "workflows/branching.md#naming-conventions",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "workflows/branching.md#naming-conventions/task-branches",
+   "tags": [
+    "task-id"
+   ]
+  },
+  {
+   "id": "workflows/branching.md#naming-conventions/release-tags",
+   "tags": [
+    "release-process"
+   ]
+  },
+  {
+   "id": "workflows/branching.md#workflow",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "workflows/branching.md#workflow/task-work",
+   "tags": [
+    "commit-messages",
+    "task-id"
+   ]
+  },
+  {
+   "id": "workflows/branching.md#workflow/everyday-mod-work",
+   "tags": [
+    "commit-messages"
+   ]
+  },
+  {
+   "id": "workflows/branching.md#workflow/release-process",
+   "tags": [
+    "release-process",
+    "changelog",
+    "steam-workshop"
+   ]
+  },
+  {
+   "id": "workflows/branching.md#workflow/changing-common",
+   "tags": [
+    "common-submodule"
+   ]
+  },
+  {
+   "id": "workflows/branching.md#commit-messages",
+   "tags": [
+    "commit-messages"
+   ]
+  },
+  {
+   "id": "workflows/branching.md#pull-request-guidelines",
+   "tags": [
+    "assistant-attribution"
+   ]
+  },
+  {
+   "id": "workflows/branching.md#pull-request-guidelines/before-merging-a-task-branch",
+   "tags": [
+    "mod-build",
+    "in-game-testing",
+    "code-review",
+    "commit-messages"
+   ]
+  },
+  {
+   "id": "workflows/branching.md#protected-branches",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "commit signing and branch protection rules"
+  },
+  {
+   "id": "workflows/branching.md#git-configuration",
+   "tags": [
+    "common-submodule"
+   ]
+  },
+  {
+   "id": "workflows/ci-cd.md#overview",
+   "tags": [
+    "in-game-testing",
+    "release-process"
+   ]
+  },
+  {
+   "id": "workflows/ci-cd.md#stage-details",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "workflows/ci-cd.md#stage-details/1-build",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "workflows/ci-cd.md#stage-details/2-test",
+   "tags": [
+    "in-game-testing"
+   ]
+  },
+  {
+   "id": "workflows/ci-cd.md#stage-details/3-check",
+   "tags": [
+    "game-update-compatibility"
+   ]
+  },
+  {
+   "id": "workflows/ci-cd.md#stage-details/4-translations-check",
+   "tags": [
+    "translations"
+   ]
+  },
+  {
+   "id": "workflows/ci-cd.md#stage-details/5-release",
+   "tags": [
+    "release-process",
+    "steam-workshop"
+   ]
+  },
+  {
+   "id": "workflows/ci-cd.md#stage-details/6-issue-labelling-the-only-github-action",
+   "tags": [
+    "github-issues"
+   ]
+  },
+  {
+   "id": "workflows/ci-cd.md#environment-configuration",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "workflows/ci-cd.md#pipeline-configuration",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "workflows/ci-cd.md#pipeline-configuration/secrets-management",
+   "tags": [
+    "steam-workshop",
+    "release-process"
+   ]
+  },
+  {
+   "id": "workflows/ci-cd.md#branch-policies",
+   "tags": [
+    "git-branches",
+    "release-process",
+    "steam-workshop"
+   ]
+  },
+  {
+   "id": "workflows/ci-cd.md#notifications",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "workflows/ci-cd.md#notifications/success",
+   "tags": [
+    "release-process"
+   ]
+  },
+  {
+   "id": "workflows/ci-cd.md#notifications/failure",
+   "tags": [
+    "release-process"
+   ]
+  },
+  {
+   "id": "workflows/ci-cd.md#manual-actions",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "workflows/ci-cd.md#manual-actions/retry-a-workshop-update-after-a-successful-github-release",
+   "tags": [
+    "steam-workshop",
+    "release-process"
+   ]
+  },
+  {
+   "id": "workflows/ci-cd.md#manual-actions/first-workshop-upload-of-a-new-mod",
+   "tags": [
+    "steam-workshop"
+   ]
+  },
+  {
+   "id": "workflows/ci-cd.md#manual-actions/rollback",
+   "tags": [
+    "release-process",
+    "steam-workshop"
+   ]
+  },
+  {
+   "id": "workflows/ci-cd.md#troubleshooting",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "workflows/ci-cd.md#troubleshooting/common-failures",
+   "tags": [
+    "steam-workshop",
+    "in-game-testing",
+    "player-log",
+    "mod-loadout"
+   ]
+  },
+  {
+   "id": "workflows/ci-cd.md#troubleshooting/viewing-logs",
+   "tags": [
+    "player-log",
+    "in-game-testing"
+   ]
+  },
+  {
+   "id": "workflows/commit-conventions.md#format",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "workflows/commit-conventions.md#format/shared-tooling-and-housekeeping",
+   "tags": [
+    "common-submodule"
+   ]
+  },
+  {
+   "id": "workflows/commit-conventions.md#format/release-commits-written-by-the-release-scripts",
+   "tags": [
+    "release-process",
+    "changelog"
+   ]
+  },
+  {
+   "id": "workflows/commit-conventions.md#format/imported-history",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "importing a mod's history into the monorepo"
+  },
+  {
+   "id": "workflows/commit-conventions.md#format/active-task-work",
+   "tags": [
+    "task-id",
+    "phase-handoff"
+   ]
+  },
+  {
+   "id": "workflows/commit-conventions.md#task-id-generation",
+   "tags": [
+    "task-id",
+    "git-branches"
+   ]
+  },
+  {
+   "id": "workflows/commit-conventions.md#release-commits",
+   "tags": [
+    "release-process"
+   ]
+  },
+  {
+   "id": "workflows/commit-conventions.md#co-authorship",
+   "tags": [
+    "assistant-attribution"
+   ]
+  },
+  {
+   "id": "workflows/commit-conventions.md#well-formed-examples",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "workflows/commit-conventions.md#changelog-entries",
+   "tags": [
+    "changelog",
+    "release-process",
+    "steam-workshop"
+   ]
+  },
+  {
+   "id": "workflows/task-plan/base.md#template",
+   "tags": [
+    "phase-handoff",
+    "task-id"
+   ]
+  },
+  {
+   "id": "workflows/task-plan/base.md#section-guidance",
+   "tags": [
+    "phase-handoff"
+   ]
+  },
+  {
+   "id": "workflows/task-plan/base.md#repository-specifics",
+   "tags": [
+    "task-id",
+    "phase-handoff",
+    "mod-build",
+    "in-game-testing"
+   ]
+  },
+  {
+   "id": "workflows/task-plan/phase-architecture.md#phase-entry-run-first-before-any-phase-work",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "workflows/task-plan/phase-architecture.md#phase-exit-handoff-run-last-at-the-phase-boundary",
+   "tags": [
+    "commit-messages"
+   ]
+  },
+  {
+   "id": "workflows/task-plan/phase-architecture.md#additional-architecture-review-triggers",
+   "tags": [
+    "mod-build",
+    "translations",
+    "mod-compatibility",
+    "release-process"
+   ]
+  },
+  {
+   "id": "workflows/task-plan/phase-architecture.md#design-unit-spec-template",
+   "tags": [
+    "unit-spec"
+   ]
+  },
+  {
+   "id": "workflows/task-plan/phase-architecture.md#architecture-decision-capture",
+   "tags": [
+    "knowledge-store"
+   ]
+  }
+ ]
+}

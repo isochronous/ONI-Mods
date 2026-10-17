@@ -1,4 +1,5 @@
 ---
+tags: git-branches
 doc_id: doc-dac1c8fb1a00
 description: "Branching in ONI-Mods: the single main branch, ICON task branches named OM-NNN, per-mod release tags, the common submodule, and the steps for task work, mod work, releases and merging"
 ---
@@ -6,7 +7,8 @@ description: "Branching in ONI-Mods: the single main branch, ICON task branches 
 # Git Branching Strategy
 
 ## Branch Structure
-**Id:** blk-50d5e8ba9d8f
+**Id:** blk-50d5e8ba9d8f  
+**Tags:** common-submodule, release-process
 
 One long-lived branch, `main`. Every mod lives in the same repository under `mods/<name>`, and the owner commits to `main` directly: the history is linear except for the merge commits that brought each mod in with its history ("Bring in <mod> with its history"). Work that runs under an ICON task gets its own short-lived branch.
 
@@ -21,7 +23,8 @@ main
 `common/` is a git submodule of `https://github.com/isochronous/oni-mods-common.git` (see `.gitmodules`). It has its own history and its own `main`; the root repository records which commit of it is checked out.
 
 ## Branch Types
-**Id:** blk-2ea6729a037b
+**Id:** blk-2ea6729a037b  
+**Tags:** task-id, release-process
 
 | Branch Type | Pattern | Base Branch | Merge To |
 |-------------|---------|-------------|----------|
@@ -34,7 +37,8 @@ There are no `develop`, `release/*` or `hotfix/*` branches. A release is a commi
 **Id:** blk-9121026ea410
 
 ### Task Branches
-**Id:** blk-d41ad6d37e90
+**Id:** blk-d41ad6d37e90  
+**Tags:** task-id
 
 The task ID (prefix `OM`, from `local_task_id_prefix` in `.context/iconrc.json`) is the first part of the name, followed by the task folder's kebab-case description. The branch name equals the folder name under `.context/tasks/`.
 
@@ -45,7 +49,8 @@ OM-001-populate-context
 IDs are handed out by the manager when it creates the task folder; `commit-conventions.md` shows the generator.
 
 ### Release Tags
-**Id:** blk-b55cf2df318c
+**Id:** blk-b55cf2df318c  
+**Tags:** release-process
 
 Each mod is tagged `<mod folder name>-v<version>`, annotated at the release commit by `common/tools/Release/release.py`:
 
@@ -62,7 +67,8 @@ One legacy tag keeps a name from before a rename: `direct-automation-bridges-v0.
 **Id:** blk-b8c88ce010ce
 
 ### Task Work
-**Id:** blk-0e15a452ebc6
+**Id:** blk-0e15a452ebc6  
+**Tags:** commit-messages, task-id
 
 ```bash
 # 1. Branch from an up-to-date main
@@ -81,7 +87,8 @@ git push origin OM-001-populate-context
 How a finished task branch returns to `main` (pull request, or a local fast-forward merge): TODO(owner). No pull request has been opened on `isochronous/ONI-Mods` so far, and merge commits appear only where a mod's history was brought in.
 
 ### Everyday Mod Work
-**Id:** blk-18b48635f7e5
+**Id:** blk-18b48635f7e5  
+**Tags:** commit-messages
 
 The owner's own mod changes go straight to `main` with the mod's name as the subject prefix:
 
@@ -92,7 +99,8 @@ git push origin main
 ```
 
 ### Release Process
-**Id:** blk-c57953089377
+**Id:** blk-c57953089377  
+**Tags:** release-process, changelog, steam-workshop
 
 Releases are cut locally by `common/tools/Release/release_mods.py` (or the `/release-mods` command in `.claude/commands/release-mods.md`), never by hand and never by a branch. See `ci-cd.md` for what the script does. In short:
 
@@ -103,7 +111,8 @@ Releases are cut locally by `common/tools/Release/release_mods.py` (or the `/rel
 A mod with uncommitted changes, or whose repository has no remote, is skipped, never stashed.
 
 ### Changing common
-**Id:** blk-a9ac0b6cd3cb
+**Id:** blk-a9ac0b6cd3cb  
+**Tags:** common-submodule
 
 `common/` is its own repository. Commit and push inside `common/` first, then commit the new submodule pointer in the root:
 
@@ -118,17 +127,20 @@ git commit -m "common: pick up <what changed>"
 After a game update, fix the shared references in `common/` once, push, and bump the pointer here (`git submodule update --remote common`), then rebuild and test the mods.
 
 ## Commit Messages
-**Id:** blk-a9cad5493ade
+**Id:** blk-a9cad5493ade  
+**Tags:** commit-messages
 
 One terse subject line; new commits carry no explanatory body. The subject starts with the mod's name or `common`. See `commit-conventions.md`.
 
 ## Pull Request Guidelines
-**Id:** blk-c3ed876035fc
+**Id:** blk-c3ed876035fc  
+**Tags:** assistant-attribution
 
 TODO(owner): no pull-request template exists in `.github/` (only issue forms under `.github/ISSUE_TEMPLATE/`). When a task branch goes through a pull request, the description carries the assistant's attribution lines as described in `commit-conventions.md` and lists what changed per mod.
 
 ### Before Merging a Task Branch
-**Id:** blk-3c4f47a35d4f
+**Id:** blk-3c4f47a35d4f  
+**Tags:** mod-build, in-game-testing, code-review, commit-messages
 
 - [ ] `dotnet build ONI-Mods.sln -c Release -p:ModDeployFolder=none` succeeds
 - [ ] The in-game tests of every touched mod pass (`testing/unit-testing.md`)
@@ -141,7 +153,8 @@ TODO(owner): no pull-request template exists in `.github/` (only issue forms und
 No branch protection or required signing is documented in the repository, and `commit.gpgsign` is not set in the local git config. TODO(owner): record any GitHub ruleset on `main`.
 
 ## Git Configuration
-**Id:** blk-a059cb2ddfee
+**Id:** blk-a059cb2ddfee  
+**Tags:** common-submodule
 
 ```bash
 git clone --recurse-submodules https://github.com/isochronous/ONI-Mods.git

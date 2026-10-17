@@ -1,4 +1,5 @@
 ---
+tags: task-plan
 doc_id: doc-8417724fdc1d
 description: "The investigation phase of an ONI-Mods task plan: entry and exit steps, extra context files to read, and the research and plan unit spec templates"
 ---
@@ -12,7 +13,8 @@ description: "The investigation phase of an ONI-Mods task plan: entry and exit s
 > and the model tier, then read its report file.
 
 ## Phase Entry (run FIRST, before any phase work)
-**Id:** blk-b8d1a31cdc00
+**Id:** blk-b8d1a31cdc00  
+**Tags:** phase-handoff
 
 > Reconstruct-first: resume from the committed `plan.md`, not session memory.
 > **Fail closed** — never silently re-derive a missing input. Section names
@@ -28,7 +30,8 @@ description: "The investigation phase of an ONI-Mods task plan: entry and exit s
 **Entry contract — investigation requires:** only the task header + Objective. As the entry phase it usually has no preceding handoff or trailer (skip the trailer check when it is the first phase in the Phase plan).
 
 ## Phase Exit / Handoff (run LAST, at the phase boundary)
-**Id:** blk-10ab579d068e
+**Id:** blk-10ab579d068e  
+**Tags:** phase-handoff
 
 > Every boundary ends with a commit. Uncommitted work at a boundary is an
 > incomplete handoff and the next phase fails closed.
@@ -39,7 +42,8 @@ description: "The investigation phase of an ONI-Mods task plan: entry and exit s
 4. Commit `plan.md` + artifact deltas with the trailer `Phase-Handoff: investigation`.
 
 ## Additional Context Files
-**Id:** blk-65183ed59fb7
+**Id:** blk-65183ed59fb7  
+**Tags:** knowledge-store
 
 > Add project-specific paths whose governing records units should read during
 > investigation — pass them to `gather-context` / the packet's `--scope`, in
@@ -51,7 +55,8 @@ description: "The investigation phase of an ONI-Mods task plan: entry and exit s
 - `.context/testing/unit-testing.md`, `.context/workflows/ci-cd.md`: how a change is verified and released
 
 ## `research` Unit Spec Template
-**Id:** blk-79127cecea6a
+**Id:** blk-79127cecea6a  
+**Tags:** unit-spec
 
 ```
 Topic: [game system, game assembly API, Harmony, PLib or Steam API]
@@ -68,7 +73,8 @@ Model tier: basic | default | complex
 ```
 
 ## `plan` Unit Spec Template
-**Id:** blk-3e3e133a33ba
+**Id:** blk-3e3e133a33ba  
+**Tags:** unit-spec
 
 ```
 Task: [OM-NNN] — [brief title]

@@ -1,0 +1,41 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node . — round 14",
+  "node": "C:/dev/ONI-Mods",
+  "base": {
+    "testing/integration-testing.md": "sha256:aa168ddf727c7e473b1f5ece3b4751e778033f6719400a89519b494e431d98fe",
+    "testing/unit-testing.md": "sha256:01890a7ba043a43a294c6e2c6086d5663fc5e4638d1d4556eb9530c31c792167",
+    "workflows/ci-cd.md": "sha256:ccc537e9cd2107fcf03e3016cd754ae31c8f4e9924304fdb3c53a5f203df291d"
+  },
+  "ops": [
+    {
+      "target": "testing/integration-testing.md",
+      "mode": "tag",
+      "add": [
+        "screenshots",
+        "generated-worlds",
+        "steam-workshop"
+      ],
+      "section": "configuration/screenshots"
+    },
+    {
+      "target": "testing/unit-testing.md",
+      "mode": "tag",
+      "add": [
+        "test-assertions"
+      ],
+      "section": "anti-patterns-to-avoid/meaningless-assertions"
+    },
+    {
+      "target": "workflows/ci-cd.md",
+      "mode": "tag",
+      "add": [
+        "steam-workshop",
+        "in-game-testing",
+        "player-log",
+        "mod-loadout"
+      ],
+      "section": "troubleshooting/common-failures"
+    }
+  ]
+}

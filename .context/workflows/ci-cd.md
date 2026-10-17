@@ -1,4 +1,5 @@
 ---
+tags: mod-build, machine-setup
 doc_id: doc-141d002b7975
 description: "The ONI-Mods build, test and release pipeline, all run locally: dotnet build, in-game tests, ModCheck, translations check, release script with GitHub release, Workshop upload and Discord notice, the issue-labelling action, and retry and rollback steps"
 ---
@@ -6,7 +7,8 @@ description: "The ONI-Mods build, test and release pipeline, all run locally: do
 # CI/CD Pipeline
 
 ## Overview
-**Id:** blk-bb2818272047
+**Id:** blk-bb2818272047  
+**Tags:** in-game-testing, release-process
 
 There is no build or test pipeline on a CI server. The mods compile against the game's own assemblies (`Assembly-CSharp.dll`, `0Harmony.dll` and the rest of `OxygenNotIncluded_Data/Managed`), which cannot live on a GitHub runner, so builds, tests and releases all run on the owner's machine. The one GitHub Action in the repository labels issues.
 
@@ -34,6 +36,7 @@ Shared MSBuild configuration is in `common/oni-mod.props` and `common/oni-mod.ta
 
 ### 2. Test
 **Id:** blk-abee22d3745c  
+**Tags:** in-game-testing  
 **Trigger**: by hand, before committing a mod change and before a release  
 **Purpose**: run the mod's `[OniTest]` coroutines in the real game, nobody at the keyboard
 
@@ -45,6 +48,7 @@ The launcher builds `mods/<name>/src/<Mod>.Tests`, checks the test DLL, starts t
 
 ### 3. Check
 **Id:** blk-67a69f539b07  
+**Tags:** game-update-compatibility  
 **Trigger**: run by the test launcher on every test DLL; also by hand  
 **Purpose**: load a mod DLL against the real game assemblies without launching the game, catching type-load failures and missing members after a game update
 
@@ -56,6 +60,7 @@ dotnet run --project common/tools/ModCheck -- <game Managed dir> <mod dll>
 
 ### 4. Translations check
 **Id:** blk-e7a1010d79a4  
+**Tags:** translations  
 **Trigger**: after changing player-visible strings, before a release  
 **Purpose**: rewrite each translating mod's `.pot` and report missing, empty, stale, obsolete and refused `.po` entries
 
@@ -65,6 +70,7 @@ python common/tools/Translations/translations.py [mod-folder ...] [--build]
 
 ### 5. Release
 **Id:** blk-e23962568cff  
+**Tags:** release-process, steam-workshop  
 **Trigger**: by hand, from the owner's machine, through `/release-mods` (`.claude/commands/release-mods.md`) or directly  
 **Purpose**: version, package, tag and publish every mod that changed since its last tag
 
@@ -85,6 +91,7 @@ Mods with uncommitted changes are skipped, never stashed. `--dry-run` stops afte
 
 ### 6. Issue labelling (the only GitHub Action)
 **Id:** blk-386e66e27501  
+**Tags:** github-issues  
 **Trigger**: an issue is opened or edited  
 **Purpose**: set the issue's label to the mod chosen in the issue form's "Mod" dropdown
 
@@ -107,7 +114,8 @@ There is one environment: the owner's Windows machine with the game installed.
 **Id:** blk-84dfa3586d7e
 
 ### Secrets Management
-**Id:** blk-60f67ae78c1f
+**Id:** blk-60f67ae78c1f  
+**Tags:** steam-workshop, release-process
 
 | Secret | Used In | Description |
 |--------|---------|-------------|
@@ -117,7 +125,8 @@ There is one environment: the owner's Windows machine with the game installed.
 | `steam_api64.dll` (Steamworks SDK 1.60+) | `WorkshopUpload` | Placed next to the built exe; the game's own copy is too old |
 
 ## Branch Policies
-**Id:** blk-bbd635551450
+**Id:** blk-bbd635551450  
+**Tags:** git-branches, release-process, steam-workshop
 
 | Branch | Pipeline | Publishes To |
 |--------|----------|--------------|
@@ -128,12 +137,14 @@ There is one environment: the owner's Windows machine with the game installed.
 **Id:** blk-4e383b3abdff
 
 ### Success
-**Id:** blk-c292c1e2d291
+**Id:** blk-c292c1e2d291  
+**Tags:** release-process
 
 - Discord: `release.py` posts a release notice and prints "Discord release notice: HTTP 204" when it lands.
 
 ### Failure
-**Id:** blk-3ba2ba80d9c0
+**Id:** blk-3ba2ba80d9c0  
+**Tags:** release-process
 
 - None automatic. Each script prints its failure; the `/release-mods` command reports it back to the owner.
 
@@ -141,7 +152,8 @@ There is one environment: the owner's Windows machine with the game installed.
 **Id:** blk-5194c1c5cf71
 
 ### Retry a Workshop update after a successful GitHub release
-**Id:** blk-f9cf6f321689
+**Id:** blk-f9cf6f321689  
+**Tags:** steam-workshop, release-process
 
 ```bash
 common/tools/WorkshopUpload/bin/Release/<tfm>/WorkshopUpload update <id> publish/<Mod>.zip publish/content/preview.png
@@ -150,12 +162,14 @@ common/tools/WorkshopUpload/bin/Release/<tfm>/WorkshopUpload update <id> publish
 Build the tool first with `dotnet build common/tools/WorkshopUpload -c Release`. The exact output folder is the project's own; TODO(owner): record the path the owner runs it from.
 
 ### First Workshop upload of a new mod
-**Id:** blk-319d2b9dd5c7
+**Id:** blk-319d2b9dd5c7  
+**Tags:** steam-workshop
 
 A deliberate `WorkshopUpload publish <Mod>.zip <preview.png> --title "..."`, or Klei's own uploader. `release.py` never creates a new Workshop item; a mod with no item gets a GitHub release only.
 
 ### Rollback
-**Id:** blk-bcf4dc421871
+**Id:** blk-bcf4dc421871  
+**Tags:** release-process, steam-workshop
 
 A release is not rolled back by the scripts. TODO(owner): record the procedure (withdraw the Workshop update, delete the GitHub release and tag).
 
@@ -163,7 +177,8 @@ A release is not rolled back by the scripts. TODO(owner): record the procedure (
 **Id:** blk-9b5c8ba817a9
 
 ### Common Failures
-**Id:** blk-66b645c893e6
+**Id:** blk-66b645c893e6  
+**Tags:** steam-workshop, in-game-testing, player-log, mod-loadout
 
 | Error | Cause | Solution |
 |-------|-------|----------|
@@ -176,7 +191,8 @@ A release is not rolled back by the scripts. TODO(owner): record the procedure (
 | Runs "waiting for it to finish" | Another run holds the machine-wide lock | Wait; runs are queued one at a time |
 
 ### Viewing Logs
-**Id:** blk-d5054ba426af
+**Id:** blk-d5054ba426af  
+**Tags:** player-log, in-game-testing
 
 - Test runs: `common/tools/TestRunner/runs/<label>-<stamp>/` (`results.jsonl`, `summary.txt`, `Player.log`)
 - The game's own log: `%USERPROFILE%/AppData/LocalLow/Klei/Oxygen Not Included/Player.log`; copy it before any new launch after a crash

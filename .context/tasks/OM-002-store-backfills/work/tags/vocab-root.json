@@ -1,0 +1,404 @@
+{
+  "node": ".",
+  "terms": [
+    {
+      "term": "in-game-testing",
+      "gloss": "A record earns this term when it is about testing a mod inside the running game with TestRunner and its [OniTest] coroutines.",
+      "est_records": 55,
+      "est_documents": 7,
+      "evidence": [
+        "testing/unit-testing.md",
+        "testing/integration-testing.md",
+        "workflows/ci-cd.md#stage-details/2-test",
+        "workflows/ci-cd.md#branch-policies",
+        "workflows/task-plan/phase-testing.md",
+        "workflows/task-plan/base.md#repository-specifics",
+        "workflows/branching.md#pull-request-guidelines/before-merging-a-task-branch"
+      ]
+    },
+    {
+      "term": "test-pacing",
+      "gloss": "A record earns this term when it is about spacing a test's steps in game time so the game's simulation keeps up with them.",
+      "est_records": 4,
+      "est_documents": 2,
+      "evidence": [
+        "testing/unit-testing.md#assertion-patterns/waiting",
+        "testing/unit-testing.md#anti-patterns-to-avoid/frames-apart-build-change-and-destroy",
+        "testing/integration-testing.md#best-practices",
+        "testing/integration-testing.md#input-and-tool-testing"
+      ]
+    },
+    {
+      "term": "test-cleanup",
+      "gloss": "A record earns this term when it is about how a test's area and changes are cleared or restored so tests do not affect each other.",
+      "est_records": 6,
+      "est_documents": 2,
+      "evidence": [
+        "testing/integration-testing.md#test-environment/game-and-fixture",
+        "testing/integration-testing.md#test-structure/setup-and-teardown",
+        "testing/integration-testing.md#test-data-management/cleanup-strategies",
+        "testing/integration-testing.md#best-practices",
+        "testing/unit-testing.md#test-data/fixtures",
+        "testing/unit-testing.md#mocking-patterns/settings-and-environment"
+      ]
+    },
+    {
+      "term": "test-assertions",
+      "gloss": "A record earns this term when it is about what a test checks and how it states the expected result.",
+      "est_records": 5,
+      "est_documents": 2,
+      "evidence": [
+        "testing/unit-testing.md#assertion-patterns",
+        "testing/unit-testing.md#anti-patterns-to-avoid/meaningless-assertions",
+        "testing/unit-testing.md#anti-patterns-to-avoid/asserting-on-a-private-field-instead-of-the-behaviour",
+        "testing/unit-testing.md#test-structure/naming-conventions",
+        "testing/integration-testing.md#configuration/screenshots"
+      ]
+    },
+    {
+      "term": "simulated-input",
+      "gloss": "A record earns this term when it is about driving the game's real tools and screens with mouse and key input fed by a test.",
+      "est_records": 5,
+      "est_documents": 3,
+      "evidence": [
+        "testing/integration-testing.md#scope",
+        "testing/integration-testing.md#input-and-tool-testing",
+        "testing/integration-testing.md#test-structure/setup-and-teardown",
+        "testing/integration-testing.md#best-practices",
+        "workflows/task-plan/phase-testing.md#test-status-tracker"
+      ]
+    },
+    {
+      "term": "generated-worlds",
+      "gloss": "A record earns this term when it is about running the game's world generation from a coordinate to produce a fresh world.",
+      "est_records": 5,
+      "est_documents": 3,
+      "evidence": [
+        "testing/integration-testing.md#generated-worlds",
+        "testing/integration-testing.md#configuration/screenshots",
+        "testing/integration-testing.md#best-practices",
+        "testing/unit-testing.md#test-data/per-test-options-on-onitest",
+        "workflows/task-plan/phase-testing.md#test-status-tracker"
+      ]
+    },
+    {
+      "term": "save-files",
+      "gloss": "A record earns this term when it is about Oxygen Not Included save files and what is loaded from or written to them.",
+      "est_records": 7,
+      "est_documents": 3,
+      "evidence": [
+        "testing/integration-testing.md#test-environment/game-and-fixture",
+        "testing/integration-testing.md#database-integration",
+        "testing/integration-testing.md#reproducing-a-report-in-a-save",
+        "testing/integration-testing.md#test-data-management/cleanup-strategies",
+        "testing/unit-testing.md#test-data/fixtures",
+        "testing/unit-testing.md#test-data/per-test-options-on-onitest",
+        "workflows/task-plan/phase-architecture.md#additional-architecture-review-triggers"
+      ]
+    },
+    {
+      "term": "screenshots",
+      "gloss": "A record earns this term when it is about photographing the game from a test run to produce images to look at.",
+      "est_records": 3,
+      "est_documents": 2,
+      "evidence": [
+        "testing/integration-testing.md#configuration/screenshots",
+        "testing/integration-testing.md#running-integration-tests",
+        "testing/unit-testing.md#test-structure/naming-conventions"
+      ]
+    },
+    {
+      "term": "mod-compatibility",
+      "gloss": "A record earns this term when it is about a mod working correctly alongside other authors' mods installed in the same game.",
+      "est_records": 5,
+      "est_documents": 3,
+      "evidence": [
+        "testing/integration-testing.md#test-environment/other-mods",
+        "testing/integration-testing.md#best-practices",
+        "testing/unit-testing.md#running-tests",
+        "workflows/task-plan/phase-architecture.md#additional-architecture-review-triggers",
+        "testing/integration-testing.md#scope"
+      ]
+    },
+    {
+      "term": "mod-loadout",
+      "gloss": "A record earns this term when it is about which mods the game has enabled and putting the player's own mod list back afterwards.",
+      "est_records": 4,
+      "est_documents": 2,
+      "evidence": [
+        "testing/integration-testing.md#test-environment/game-and-fixture",
+        "testing/integration-testing.md#isolated-manual-testing",
+        "testing/integration-testing.md#reproducing-a-report-in-a-save",
+        "workflows/ci-cd.md#troubleshooting/common-failures"
+      ]
+    },
+    {
+      "term": "game-update-compatibility",
+      "gloss": "A record earns this term when it is about keeping mods and their tests working after a game update changes the game's own code.",
+      "est_records": 6,
+      "est_documents": 4,
+      "evidence": [
+        "workflows/ci-cd.md#stage-details/3-check",
+        "testing/unit-testing.md#framework-and-tools",
+        "testing/unit-testing.md#anti-patterns-to-avoid/asserting-on-a-private-field-instead-of-the-behaviour",
+        "testing/integration-testing.md#best-practices",
+        "workflows/branching.md#workflow/changing-common",
+        "workflows/task-plan/phase-architecture.md#additional-architecture-review-triggers"
+      ]
+    },
+    {
+      "term": "player-log",
+      "gloss": "A record earns this term when it is about reading the game's Player.log to find out what went wrong in a run.",
+      "est_records": 6,
+      "est_documents": 3,
+      "evidence": [
+        "testing/unit-testing.md#assertion-patterns/waiting",
+        "testing/unit-testing.md#running-tests",
+        "testing/unit-testing.md#anti-patterns-to-avoid/letting-an-expected-game-error-fail-unrelated-tests",
+        "testing/integration-testing.md#best-practices",
+        "workflows/ci-cd.md#troubleshooting/common-failures",
+        "workflows/ci-cd.md#troubleshooting/viewing-logs"
+      ]
+    },
+    {
+      "term": "machine-setup",
+      "gloss": "A record earns this term when it is about what the owner's machine must have installed, running or configured for builds and test runs to work.",
+      "est_records": 5,
+      "est_documents": 3,
+      "evidence": [
+        "testing/integration-testing.md#configuration/machine-requirements",
+        "testing/integration-testing.md#test-environment/game-and-fixture",
+        "testing/unit-testing.md#running-tests",
+        "workflows/ci-cd.md#environment-configuration",
+        "workflows/ci-cd.md#pipeline-configuration/secrets-management"
+      ]
+    },
+    {
+      "term": "mod-build",
+      "gloss": "A record earns this term when it is about compiling the mods with dotnet against the game's assemblies and deploying them into the game's mods folder.",
+      "est_records": 10,
+      "est_documents": 7,
+      "evidence": [
+        "workflows/ci-cd.md#stage-details/1-build",
+        "workflows/ci-cd.md#environment-configuration",
+        "overview.md#what-this-is",
+        "overview.md#where-things-are",
+        "testing/unit-testing.md#test-file-location",
+        "workflows/branching.md#pull-request-guidelines/before-merging-a-task-branch",
+        "workflows/task-plan/phase-implementation.md#implement-unit-spec-template",
+        "workflows/task-plan/base.md#repository-specifics",
+        "workflows/task-plan/phase-architecture.md#additional-architecture-review-triggers"
+      ]
+    },
+    {
+      "term": "common-submodule",
+      "gloss": "A record earns this term when it is about the common git submodule and keeping the root repository's pointer to it in step.",
+      "est_records": 7,
+      "est_documents": 5,
+      "evidence": [
+        "overview.md#what-this-is",
+        "workflows/branching.md#branch-structure",
+        "workflows/branching.md#workflow/changing-common",
+        "workflows/branching.md#git-configuration",
+        "workflows/task-plan/base.md#repository-specifics",
+        "domains/tooling-friction.md#2026-10-17-icon-init-exclude-does-not-drop-a-top-level-folder-from-the-node-set",
+        "workflows/commit-conventions.md#format/shared-tooling-and-housekeeping"
+      ]
+    },
+    {
+      "term": "translations",
+      "gloss": "A record earns this term when it is about translating a mod's player-visible strings and checking its translation files.",
+      "est_records": 5,
+      "est_documents": 5,
+      "evidence": [
+        "workflows/ci-cd.md#stage-details/4-translations-check",
+        "testing/unit-testing.md#framework-and-tools",
+        "workflows/task-plan/base.md#repository-specifics",
+        "workflows/task-plan/phase-architecture.md#additional-architecture-review-triggers",
+        "overview.md#where-things-are"
+      ]
+    },
+    {
+      "term": "release-process",
+      "gloss": "A record earns this term when it is about cutting a release of a mod, from version bump and tag to the published download.",
+      "est_records": 16,
+      "est_documents": 5,
+      "evidence": [
+        "workflows/ci-cd.md#stage-details/5-release",
+        "workflows/ci-cd.md#branch-policies",
+        "workflows/ci-cd.md#notifications/success",
+        "workflows/ci-cd.md#manual-actions/rollback",
+        "workflows/branching.md#naming-conventions/release-tags",
+        "workflows/branching.md#workflow/release-process",
+        "workflows/commit-conventions.md#format/release-commits-written-by-the-release-scripts",
+        "workflows/commit-conventions.md#release-commits",
+        "overview.md#what-this-is",
+        "workflows/task-plan/phase-architecture.md#additional-architecture-review-triggers"
+      ]
+    },
+    {
+      "term": "steam-workshop",
+      "gloss": "A record earns this term when it is about publishing a mod to its Steam Workshop item or updating that item.",
+      "est_records": 7,
+      "est_documents": 3,
+      "evidence": [
+        "workflows/ci-cd.md#stage-details/5-release",
+        "workflows/ci-cd.md#manual-actions/retry-a-workshop-update-after-a-successful-github-release",
+        "workflows/ci-cd.md#manual-actions/first-workshop-upload-of-a-new-mod",
+        "workflows/ci-cd.md#pipeline-configuration/secrets-management",
+        "workflows/ci-cd.md#troubleshooting/common-failures",
+        "overview.md#what-this-is",
+        "workflows/task-plan/phase-architecture.md#additional-architecture-review-triggers"
+      ]
+    },
+    {
+      "term": "changelog",
+      "gloss": "A record earns this term when it is about a mod's CHANGELOG.md and the player-facing release notes written in it.",
+      "est_records": 5,
+      "est_documents": 4,
+      "evidence": [
+        "workflows/commit-conventions.md#changelog-entries",
+        "workflows/branching.md#workflow/release-process",
+        "workflows/ci-cd.md#stage-details/5-release",
+        "workflows/ci-cd.md#troubleshooting/common-failures",
+        "workflows/task-plan/phase-investigation.md#additional-context-files"
+      ]
+    },
+    {
+      "term": "github-issues",
+      "gloss": "A record earns this term when it is about the issues players file on the GitHub repository and how those issues are labelled.",
+      "est_records": 5,
+      "est_documents": 4,
+      "evidence": [
+        "workflows/ci-cd.md#stage-details/6-issue-labelling-the-only-github-action",
+        "overview.md#what-this-is",
+        "overview.md#where-things-are",
+        "workflows/branching.md#pull-request-guidelines",
+        "workflows/task-plan/phase-architecture.md#additional-architecture-review-triggers"
+      ]
+    },
+    {
+      "term": "commit-messages",
+      "gloss": "A record earns this term when it is about how a commit's message is worded in this repository.",
+      "est_records": 17,
+      "est_documents": 4,
+      "evidence": [
+        "workflows/commit-conventions.md",
+        "workflows/branching.md#commit-messages",
+        "workflows/branching.md#workflow/task-work",
+        "workflows/branching.md#workflow/everyday-mod-work",
+        "workflows/branching.md#workflow/changing-common",
+        "workflows/task-plan/base.md#repository-specifics"
+      ]
+    },
+    {
+      "term": "assistant-attribution",
+      "gloss": "A record earns this term when it is about the trailer lines that credit an AI assistant on commits and pull requests.",
+      "est_records": 3,
+      "est_documents": 3,
+      "evidence": [
+        "workflows/commit-conventions.md#co-authorship",
+        "workflows/branching.md#pull-request-guidelines",
+        "workflows/task-plan/base.md#repository-specifics"
+      ]
+    },
+    {
+      "term": "git-branches",
+      "gloss": "A record earns this term when it is about the repository's git branches, how they are named and how work returns to main.",
+      "est_records": 18,
+      "est_documents": 4,
+      "evidence": [
+        "workflows/branching.md",
+        "workflows/ci-cd.md#branch-policies",
+        "workflows/commit-conventions.md#task-id-generation",
+        "workflows/task-plan/base.md#template"
+      ]
+    },
+    {
+      "term": "task-id",
+      "gloss": "A record earns this term when it is about the OM-NNN identifier given to an ICON task and where that identifier is used.",
+      "est_records": 5,
+      "est_documents": 3,
+      "evidence": [
+        "workflows/commit-conventions.md#task-id-generation",
+        "workflows/commit-conventions.md#format/active-task-work",
+        "workflows/branching.md#naming-conventions/task-branches",
+        "workflows/task-plan/base.md#repository-specifics",
+        "workflows/task-plan/base.md#template"
+      ]
+    },
+    {
+      "term": "task-plan",
+      "gloss": "A record earns this term when it is about the plan.md that carries an ICON task through its phases.",
+      "est_records": 40,
+      "est_documents": 7,
+      "evidence": [
+        "workflows/task-plan/base.md",
+        "workflows/task-plan/phase-investigation.md",
+        "workflows/task-plan/phase-architecture.md",
+        "workflows/task-plan/phase-implementation.md",
+        "workflows/task-plan/phase-testing.md",
+        "workflows/task-plan/phase-completion.md",
+        "workflows/commit-conventions.md#format/active-task-work"
+      ]
+    },
+    {
+      "term": "phase-handoff",
+      "gloss": "A record earns this term when it is about entering or leaving a task-plan phase and the handoff block and commit that mark the boundary.",
+      "est_records": 14,
+      "est_documents": 7,
+      "evidence": [
+        "workflows/task-plan/phase-investigation.md#phase-entry-run-first-before-any-phase-work",
+        "workflows/task-plan/phase-architecture.md#phase-exit-handoff-run-last-at-the-phase-boundary",
+        "workflows/task-plan/phase-implementation.md#phase-entry-run-first-before-any-phase-work",
+        "workflows/task-plan/phase-testing.md#phase-exit-handoff-run-last-at-the-phase-boundary",
+        "workflows/task-plan/phase-completion.md#phase-exit-handoff-run-last-at-the-phase-boundary",
+        "workflows/task-plan/base.md#section-guidance",
+        "workflows/commit-conventions.md#format/active-task-work"
+      ]
+    },
+    {
+      "term": "unit-spec",
+      "gloss": "A record earns this term when it is about the spec a manager writes for a delegated unit of work and how that unit is dispatched to a sub-agent.",
+      "est_records": 8,
+      "est_documents": 5,
+      "evidence": [
+        "workflows/task-plan/phase-investigation.md#research-unit-spec-template",
+        "workflows/task-plan/phase-investigation.md#plan-unit-spec-template",
+        "workflows/task-plan/phase-architecture.md#design-unit-spec-template",
+        "workflows/task-plan/phase-implementation.md#implement-unit-spec-template",
+        "workflows/task-plan/phase-testing.md#test-unit-spec-template",
+        "workflows/task-plan/phase-completion.md#review-unit-spec-template",
+        "workflows/task-plan/phase-implementation.md#pre-completion-review",
+        "workflows/task-plan/phase-investigation.md"
+      ]
+    },
+    {
+      "term": "code-review",
+      "gloss": "A record earns this term when it is about reviewing a change's diff before the work is reported done or merged.",
+      "est_records": 5,
+      "est_documents": 4,
+      "evidence": [
+        "workflows/task-plan/phase-completion.md#review-unit-spec-template",
+        "workflows/task-plan/phase-completion.md#phase-entry-run-first-before-any-phase-work",
+        "workflows/task-plan/phase-implementation.md#pre-completion-review",
+        "workflows/task-plan/phase-testing.md#phase-entry-run-first-before-any-phase-work",
+        "workflows/branching.md#pull-request-guidelines/before-merging-a-task-branch"
+      ]
+    },
+    {
+      "term": "knowledge-store",
+      "gloss": "A record earns this term when it is about the .context knowledge store and how records in it are written and read with ICON's ks engine.",
+      "est_records": 10,
+      "est_documents": 3,
+      "evidence": [
+        "domains/tooling-friction.md",
+        "workflows/task-plan/phase-completion.md#context-update-checklist",
+        "workflows/task-plan/phase-completion.md#two-stage-retrospective",
+        "workflows/task-plan/phase-completion.md#retrospective-template",
+        "workflows/task-plan/phase-architecture.md#architecture-decision-capture",
+        "overview.md#where-things-are"
+      ]
+    }
+  ]
+}

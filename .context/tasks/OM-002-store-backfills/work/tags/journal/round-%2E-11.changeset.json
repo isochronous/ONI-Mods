@@ -1,0 +1,49 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node . — round 11",
+  "node": "C:/dev/ONI-Mods",
+  "base": {
+    "testing/integration-testing.md": "sha256:b15427c026603f7e3c0778ed85789098f2a7fe743961b7de081c059308231f4f",
+    "testing/unit-testing.md": "sha256:f0b976ae7ce5f7fec481ef3d90856429300ffc197e02c7747b0b50df6d3766d1",
+    "workflows/branching.md": "sha256:2f1a886daa7697b4f2f1a28115f06889d61e7813224b554c8ebfc61607b1c249",
+    "workflows/ci-cd.md": "sha256:822384d0e8bb41df86d7c313c7a6e233f53f489245ad94989f418d1df075f836"
+  },
+  "ops": [
+    {
+      "target": "testing/integration-testing.md",
+      "mode": "tag",
+      "add": [
+        "screenshots"
+      ],
+      "section": "running-integration-tests"
+    },
+    {
+      "target": "testing/unit-testing.md",
+      "mode": "tag",
+      "add": [
+        "commit-messages"
+      ],
+      "section": "coverage-requirements"
+    },
+    {
+      "target": "workflows/branching.md",
+      "mode": "tag",
+      "add": [
+        "mod-build",
+        "in-game-testing",
+        "code-review",
+        "commit-messages"
+      ],
+      "section": "pull-request-guidelines/before-merging-a-task-branch"
+    },
+    {
+      "target": "workflows/ci-cd.md",
+      "mode": "tag",
+      "add": [
+        "steam-workshop",
+        "release-process"
+      ],
+      "section": "manual-actions/retry-a-workshop-update-after-a-successful-github-release"
+    }
+  ]
+}

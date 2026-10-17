@@ -1,0 +1,416 @@
+{
+ "documents": [
+  {
+   "id": "domains/README.md",
+   "title": "Domains",
+   "description": "Index of the two domain documents of Jumper Bridges, the entities and the glossary, each with a one-line summary of the bridge end subject it covers",
+   "sections": [
+    {
+     "id": "domains/README.md#domains",
+     "title": "Domains"
+    }
+   ]
+  },
+  {
+   "id": "domains/entities.md",
+   "title": "Jumper Bridges domain",
+   "description": "The classes, options, Harmony patches and saved state of Jumper Bridges (`JumperBridge`, `BridgeEndNode`, `BridgeKind`, `BridgeLinks`, `BridgeFootprint`), with the bridge end rules, key code paths and tests",
+   "sections": [
+    {
+     "id": "domains/entities.md#overview",
+     "title": "Overview"
+    },
+    {
+     "id": "domains/entities.md#key-entities",
+     "title": "Key Entities"
+    },
+    {
+     "id": "domains/entities.md#key-entities/jumperbridgesmod",
+     "title": "JumperBridgesMod"
+    },
+    {
+     "id": "domains/entities.md#key-entities/options",
+     "title": "Options"
+    },
+    {
+     "id": "domains/entities.md#key-entities/bridgekind",
+     "title": "BridgeKind"
+    },
+    {
+     "id": "domains/entities.md#key-entities/jumperbridge",
+     "title": "JumperBridge"
+    },
+    {
+     "id": "domains/entities.md#key-entities/bridgeendnode",
+     "title": "BridgeEndNode"
+    },
+    {
+     "id": "domains/entities.md#key-entities/bridgefootprint",
+     "title": "BridgeFootprint"
+    },
+    {
+     "id": "domains/entities.md#key-entities/bridgelinks",
+     "title": "BridgeLinks"
+    },
+    {
+     "id": "domains/entities.md#key-entities/harmony-patches",
+     "title": "Harmony patches"
+    },
+    {
+     "id": "domains/entities.md#business-rules",
+     "title": "Business Rules"
+    },
+    {
+     "id": "domains/entities.md#key-code-paths",
+     "title": "Key Code Paths"
+    },
+    {
+     "id": "domains/entities.md#related",
+     "title": "Related"
+    }
+   ]
+  },
+  {
+   "id": "domains/glossary.md",
+   "title": "Domain Glossary",
+   "description": "Glossary for Jumper Bridges: abbreviations, terms to avoid, and definitions of bridge end and end node, port, ribbon, utility network, link ring, object layer, joint plate, wire drag, overload and overlay",
+   "sections": [
+    {
+     "id": "domains/glossary.md#abbreviations-and-acronyms",
+     "title": "Abbreviations and Acronyms"
+    },
+    {
+     "id": "domains/glossary.md#terms-to-avoid",
+     "title": "Terms to Avoid"
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms",
+     "title": "Cross-Domain Terms"
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/bridge-end",
+     "title": "Bridge end"
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/bridge-end-node",
+     "title": "Bridge end node"
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/port",
+     "title": "Port"
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/automation-ribbon-bit-depth",
+     "title": "Automation, ribbon, bit depth"
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/utility-network",
+     "title": "Utility network"
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/link-and-link-ring",
+     "title": "Link and link ring"
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/object-layer",
+     "title": "Object layer"
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/joint-plate-heavy-watt",
+     "title": "Joint plate (heavy-watt)"
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/wire-drag",
+     "title": "Wire drag"
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/disconnect-tool",
+     "title": "Disconnect tool"
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/overload",
+     "title": "Overload"
+    },
+    {
+     "id": "domains/glossary.md#cross-domain-terms/overlay",
+     "title": "Overlay"
+    },
+    {
+     "id": "domains/glossary.md#related",
+     "title": "Related"
+    }
+   ]
+  },
+  {
+   "id": "overview.md",
+   "title": "jumper-bridges",
+   "description": "Overview of the Jumper Bridges mod: what direct bridge ends on ports do for automation and power, its version, translations and release state, and a map of its source, tests, tools and publish folders",
+   "sections": [
+    {
+     "id": "overview.md#what-this-is",
+     "title": "What this is"
+    },
+    {
+     "id": "overview.md#where-things-are",
+     "title": "Where things are"
+    }
+   ]
+  },
+  {
+   "id": "standards/README.md",
+   "title": "Standards",
+   "description": "Index of the three standards documents of Jumper Bridges (code style, error handling, naming conventions), each with a one-line summary of what it covers",
+   "sections": [
+    {
+     "id": "standards/README.md#standards",
+     "title": "Standards"
+    }
+   ]
+  },
+  {
+   "id": "standards/code-style.md",
+   "title": "Code Style Guide",
+   "description": "Code style guide for Jumper Bridges: C# formatting, imports, comments, control structures, Harmony patch and game component conventions, plus its `LogPrefix`, `OnLoad` order and `BridgeKind` layout",
+   "sections": [
+    {
+     "id": "standards/code-style.md#formatting",
+     "title": "Formatting"
+    },
+    {
+     "id": "standards/code-style.md#formatting/indentation",
+     "title": "Indentation"
+    },
+    {
+     "id": "standards/code-style.md#formatting/line-length",
+     "title": "Line Length"
+    },
+    {
+     "id": "standards/code-style.md#formatting/braces",
+     "title": "Braces"
+    },
+    {
+     "id": "standards/code-style.md#language-and-toolchain",
+     "title": "Language and Toolchain"
+    },
+    {
+     "id": "standards/code-style.md#imports-includes",
+     "title": "Imports/Includes"
+    },
+    {
+     "id": "standards/code-style.md#imports-includes/organization",
+     "title": "Organization"
+    },
+    {
+     "id": "standards/code-style.md#imports-includes/example",
+     "title": "Example"
+    },
+    {
+     "id": "standards/code-style.md#comments",
+     "title": "Comments"
+    },
+    {
+     "id": "standards/code-style.md#comments/when-to-comment",
+     "title": "When to Comment"
+    },
+    {
+     "id": "standards/code-style.md#comments/when-not-to-comment",
+     "title": "When NOT to Comment"
+    },
+    {
+     "id": "standards/code-style.md#comments/format",
+     "title": "Format"
+    },
+    {
+     "id": "standards/code-style.md#control-structures",
+     "title": "Control Structures"
+    },
+    {
+     "id": "standards/code-style.md#control-structures/conditionals",
+     "title": "Conditionals"
+    },
+    {
+     "id": "standards/code-style.md#control-structures/loops",
+     "title": "Loops"
+    },
+    {
+     "id": "standards/code-style.md#control-structures/strings",
+     "title": "Strings"
+    },
+    {
+     "id": "standards/code-style.md#harmony-patches",
+     "title": "Harmony Patches"
+    },
+    {
+     "id": "standards/code-style.md#game-components",
+     "title": "Game Components"
+    },
+    {
+     "id": "standards/code-style.md#project-specific-rules",
+     "title": "Project-Specific Rules"
+    },
+    {
+     "id": "standards/code-style.md#project-specific-rules/jumper-bridges-specifics",
+     "title": "Jumper Bridges specifics"
+    },
+    {
+     "id": "standards/code-style.md#related",
+     "title": "Related"
+    }
+   ]
+  },
+  {
+   "id": "standards/error-handling.md",
+   "title": "Error Handling Conventions",
+   "description": "Error handling conventions for Jumper Bridges: guarding patches, try/catch cases, logging levels and anti-patterns, plus its `Prepare()` skipping, end node log lines and option defaults",
+   "sections": [
+    {
+     "id": "standards/error-handling.md#principles",
+     "title": "Principles"
+    },
+    {
+     "id": "standards/error-handling.md#guarding-patches",
+     "title": "Guarding Patches"
+    },
+    {
+     "id": "standards/error-handling.md#guarding-patches/missing-member-warn-leave-vanilla",
+     "title": "Missing member: warn, leave vanilla"
+    },
+    {
+     "id": "standards/error-handling.md#guarding-patches/transpiler-count-the-match",
+     "title": "Transpiler: count the match"
+    },
+    {
+     "id": "standards/error-handling.md#guarding-patches/missing-data-warn-continue",
+     "title": "Missing data: warn, continue"
+    },
+    {
+     "id": "standards/error-handling.md#guarding-patches/null-checks-on-game-objects",
+     "title": "Null checks on game objects"
+    },
+    {
+     "id": "standards/error-handling.md#guarding-patches/warn-once",
+     "title": "Warn once"
+    },
+    {
+     "id": "standards/error-handling.md#try-catch",
+     "title": "try/catch"
+    },
+    {
+     "id": "standards/error-handling.md#try-catch/finalizer-for-a-thread-with-no-handler",
+     "title": "Finalizer for a thread with no handler"
+    },
+    {
+     "id": "standards/error-handling.md#yielding-to-other-mods",
+     "title": "Yielding to Other Mods"
+    },
+    {
+     "id": "standards/error-handling.md#logging",
+     "title": "Logging"
+    },
+    {
+     "id": "standards/error-handling.md#logging/log-levels",
+     "title": "Log Levels"
+    },
+    {
+     "id": "standards/error-handling.md#logging/what-to-include",
+     "title": "What to Include"
+    },
+    {
+     "id": "standards/error-handling.md#anti-patterns-to-avoid",
+     "title": "Anti-Patterns to Avoid"
+    },
+    {
+     "id": "standards/error-handling.md#anti-patterns-to-avoid/swallowing-exceptions",
+     "title": "Swallowing exceptions"
+    },
+    {
+     "id": "standards/error-handling.md#anti-patterns-to-avoid/throwing-from-a-patch",
+     "title": "Throwing from a patch"
+    },
+    {
+     "id": "standards/error-handling.md#anti-patterns-to-avoid/assuming-the-game-s-internals",
+     "title": "Assuming the game's internals"
+    },
+    {
+     "id": "standards/error-handling.md#anti-patterns-to-avoid/silent-degradation",
+     "title": "Silent degradation"
+    },
+    {
+     "id": "standards/error-handling.md#anti-patterns-to-avoid/spamming-the-log",
+     "title": "Spamming the log"
+    },
+    {
+     "id": "standards/error-handling.md#project-specific-patterns",
+     "title": "Project-Specific Patterns"
+    },
+    {
+     "id": "standards/error-handling.md#project-specific-patterns/jumper-bridges-specifics",
+     "title": "Jumper Bridges specifics"
+    },
+    {
+     "id": "standards/error-handling.md#related",
+     "title": "Related"
+    }
+   ]
+  },
+  {
+   "id": "standards/naming-conventions.md",
+   "title": "Naming Conventions",
+   "description": "Naming conventions for Jumper Bridges: files, namespaces, variables, methods, patch classes, `ModStrings` keys and ids, plus its `OPTIONS` keys, `BridgeKind` instances, log prefix and `staticID`",
+   "sections": [
+    {
+     "id": "standards/naming-conventions.md#files-and-directories",
+     "title": "Files and Directories"
+    },
+    {
+     "id": "standards/naming-conventions.md#files-and-directories/general-rules",
+     "title": "General Rules"
+    },
+    {
+     "id": "standards/naming-conventions.md#files-and-directories/examples-by-type",
+     "title": "Examples by Type"
+    },
+    {
+     "id": "standards/naming-conventions.md#code-naming",
+     "title": "Code Naming"
+    },
+    {
+     "id": "standards/naming-conventions.md#code-naming/variables",
+     "title": "Variables"
+    },
+    {
+     "id": "standards/naming-conventions.md#code-naming/functions-methods",
+     "title": "Functions/Methods"
+    },
+    {
+     "id": "standards/naming-conventions.md#code-naming/classes-types-interfaces",
+     "title": "Classes/Types/Interfaces"
+    },
+    {
+     "id": "standards/naming-conventions.md#code-naming/booleans",
+     "title": "Booleans"
+    },
+    {
+     "id": "standards/naming-conventions.md#code-naming/strings-modstrings",
+     "title": "Strings (`ModStrings`)"
+    },
+    {
+     "id": "standards/naming-conventions.md#code-naming/ids-and-tags",
+     "title": "Ids and Tags"
+    },
+    {
+     "id": "standards/naming-conventions.md#project-specific-conventions",
+     "title": "Project-Specific Conventions"
+    },
+    {
+     "id": "standards/naming-conventions.md#project-specific-conventions/jumper-bridges-specifics",
+     "title": "Jumper Bridges specifics"
+    },
+    {
+     "id": "standards/naming-conventions.md#related",
+     "title": "Related"
+    }
+   ]
+  }
+ ]
+}

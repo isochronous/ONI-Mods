@@ -1,4 +1,5 @@
 ---
+tags: task-plan
 doc_id: doc-e199103eadac
 description: "The completion phase of an ONI-Mods task plan: entry and exit steps, plan.md reconciliation, the review unit spec, store update checklist, two-stage retrospective template and completion summary format"
 ---
@@ -8,7 +9,8 @@ description: "The completion phase of an ONI-Mods task plan: entry and exit step
 > Loaded by the `task-plan-phase-completion` skill when present.
 
 ## Phase Entry (run FIRST, before any phase work)
-**Id:** blk-d334720b7bf3
+**Id:** blk-d334720b7bf3  
+**Tags:** phase-handoff
 
 > Reconstruct-first: resume from the committed `plan.md`, not session memory.
 > **Fail closed** — never silently re-derive a missing input. Section names
@@ -24,7 +26,8 @@ description: "The completion phase of an ONI-Mods task plan: entry and exit step
 **Entry contract — completion requires:** verification evidence (copied output) for the current changed-file set, and a `## Review Checkpoint` covering those files (or a fail-closed trigger to run the review here — see the `review` Unit Spec Template below).
 
 ## Phase Exit / Handoff (run LAST, at the phase boundary)
-**Id:** blk-f18c0723bdd1
+**Id:** blk-f18c0723bdd1  
+**Tags:** phase-handoff
 
 > Completion is the final phase. Its exit closes the task rather than handing
 > to a next phase.
@@ -52,7 +55,8 @@ Re-read `plan.md` end-to-end against the actual final state, and update each sec
 The reconciled `plan.md` is the input the retrospective reads from. A stale plan corrupts the retro and misleads reviewers — both downstream steps presume reconciliation has happened.
 
 ## `review` Unit Spec Template
-**Id:** blk-2fadb46da068
+**Id:** blk-2fadb46da068  
+**Tags:** unit-spec, code-review
 
 > Dispatch a `review` unit here ONLY if code changed since the plan.md `## Review Checkpoint`
 > (see phase-implementation § Pre-Completion Review) — i.e. an `implement` or `test`
@@ -78,7 +82,8 @@ Model tier: default (complex for a security-sensitive or large cross-cutting dif
 ```
 
 ## Context Update Checklist
-**Id:** blk-d4b4af844789
+**Id:** blk-d4b4af844789  
+**Tags:** knowledge-store
 
 > Review after every task completion. Check each item. The manager lands every
 > store write itself through `dispatch-context-write` (decisions through
@@ -92,7 +97,8 @@ Model tier: default (complex for a security-sensitive or large cross-cutting dif
 - [ ] `.claude/commands/release-mods.md` and the READMEs updated ONLY for project-wide changes (there is no CLAUDE.md at the repository root; TODO(owner): name the agent-instructions file if one is added)
 
 ## Retrospective Template
-**Id:** blk-5cfacf4857ff
+**Id:** blk-5cfacf4857ff  
+**Tags:** knowledge-store
 
 > Lands as a `retro` write operation into the node's retrospective log under
 > `retrospectives/`, through `dispatch-context-write` — never edit the log by hand.
@@ -106,7 +112,8 @@ Model tier: default (complex for a security-sensitive or large cross-cutting dif
 ```
 
 ## Two-Stage Retrospective
-**Id:** blk-4e77eee519c9
+**Id:** blk-4e77eee519c9  
+**Tags:** knowledge-store
 
 > The retrospective is drafted, then landed — both by the manager. Invoke `task-retrospective` for the full checklist — this section defines only the mechanics.
 

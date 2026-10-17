@@ -1,0 +1,170 @@
+{
+ "documents": [
+  {
+   "id": "workflows/task-plan/phase-completion.md",
+   "tags": [
+    "task-plan"
+   ]
+  },
+  {
+   "id": "workflows/task-plan/phase-implementation.md",
+   "tags": [
+    "task-plan"
+   ]
+  },
+  {
+   "id": "workflows/task-plan/phase-investigation.md",
+   "tags": [
+    "task-plan"
+   ]
+  },
+  {
+   "id": "workflows/task-plan/phase-testing.md",
+   "tags": [
+    "task-plan"
+   ]
+  }
+ ],
+ "sections": [
+  {
+   "id": "workflows/task-plan/phase-completion.md#phase-entry-run-first-before-any-phase-work",
+   "tags": [
+    "phase-handoff"
+   ]
+  },
+  {
+   "id": "workflows/task-plan/phase-completion.md#phase-exit-handoff-run-last-at-the-phase-boundary",
+   "tags": [
+    "phase-handoff"
+   ]
+  },
+  {
+   "id": "workflows/task-plan/phase-implementation.md#phase-entry-run-first-before-any-phase-work",
+   "tags": [
+    "phase-handoff"
+   ]
+  },
+  {
+   "id": "workflows/task-plan/phase-implementation.md#phase-exit-handoff-run-last-at-the-phase-boundary",
+   "tags": [
+    "phase-handoff"
+   ]
+  },
+  {
+   "id": "workflows/task-plan/phase-investigation.md#phase-entry-run-first-before-any-phase-work",
+   "tags": [
+    "phase-handoff"
+   ]
+  },
+  {
+   "id": "workflows/task-plan/phase-investigation.md#phase-exit-handoff-run-last-at-the-phase-boundary",
+   "tags": [
+    "phase-handoff"
+   ]
+  },
+  {
+   "id": "workflows/task-plan/phase-testing.md#phase-entry-run-first-before-any-phase-work",
+   "tags": [
+    "phase-handoff"
+   ]
+  },
+  {
+   "id": "workflows/task-plan/phase-testing.md#phase-exit-handoff-run-last-at-the-phase-boundary",
+   "tags": [
+    "phase-handoff"
+   ]
+  },
+  {
+   "id": "workflows/task-plan/phase-completion.md#reconcile-plan-md",
+   "tags": [],
+   "reason": "inherits"
+  },
+  {
+   "id": "workflows/task-plan/phase-completion.md#review-unit-spec-template",
+   "tags": [
+    "unit-spec",
+    "code-review"
+   ]
+  },
+  {
+   "id": "workflows/task-plan/phase-completion.md#context-update-checklist",
+   "tags": [
+    "knowledge-store"
+   ]
+  },
+  {
+   "id": "workflows/task-plan/phase-completion.md#retrospective-template",
+   "tags": [
+    "knowledge-store"
+   ]
+  },
+  {
+   "id": "workflows/task-plan/phase-completion.md#two-stage-retrospective",
+   "tags": [
+    "knowledge-store"
+   ]
+  },
+  {
+   "id": "workflows/task-plan/phase-completion.md#completion-summary-template",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "task completion summary report"
+  },
+  {
+   "id": "workflows/task-plan/phase-implementation.md#implement-unit-spec-template",
+   "tags": [
+    "unit-spec"
+   ]
+  },
+  {
+   "id": "workflows/task-plan/phase-implementation.md#implementation-progress-tracker",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "step-by-step progress status table"
+  },
+  {
+   "id": "workflows/task-plan/phase-implementation.md#deviation-log-entry",
+   "tags": [],
+   "reason": "no-good-match",
+   "suggestion": "recording a deviation from the plan"
+  },
+  {
+   "id": "workflows/task-plan/phase-implementation.md#pre-completion-review",
+   "tags": [
+    "code-review"
+   ]
+  },
+  {
+   "id": "workflows/task-plan/phase-investigation.md#additional-context-files",
+   "tags": [
+    "knowledge-store"
+   ]
+  },
+  {
+   "id": "workflows/task-plan/phase-investigation.md#research-unit-spec-template",
+   "tags": [
+    "unit-spec"
+   ]
+  },
+  {
+   "id": "workflows/task-plan/phase-investigation.md#plan-unit-spec-template",
+   "tags": [
+    "unit-spec"
+   ]
+  },
+  {
+   "id": "workflows/task-plan/phase-testing.md#test-unit-spec-template",
+   "tags": [
+    "unit-spec",
+    "in-game-testing"
+   ]
+  },
+  {
+   "id": "workflows/task-plan/phase-testing.md#test-status-tracker",
+   "tags": [
+    "in-game-testing",
+    "generated-worlds"
+   ]
+  }
+ ]
+}

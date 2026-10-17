@@ -1,0 +1,75 @@
+{
+  "task": "OM-002",
+  "why": "tag backfill r1 for node . — round 5",
+  "node": "C:/dev/ONI-Mods",
+  "base": {
+    "testing/integration-testing.md": "sha256:c52a26feeb83735320186f6806d748b79a7f384bd4f04e0a94cfbc1288b56ddb",
+    "testing/unit-testing.md": "sha256:02b82be96dacbed0144718bfcb1a3ee8cab43e5fcaa2a94fd622b8c1897dea73",
+    "workflows/branching.md": "sha256:3b1b81c8830025f483b11646c34490e40e0ec3c69a1c7d904d9b0fd12b17140b",
+    "workflows/ci-cd.md": "sha256:a091859c3b2326d82055b0d72adae5dd2015b77c3d14c91baa6bd48e28c0846c",
+    "workflows/commit-conventions.md": "sha256:fcc24ec6096fa84b946976cf5ee05da6165986a04f031c13c9aa314e23757442",
+    "workflows/task-plan/phase-completion.md": "sha256:ec666f15725b1121f511ee90e5a004f0d3e5b94f9604cabadcac5314f778acb9",
+    "workflows/task-plan/phase-investigation.md": "sha256:77672185463c6d7b8adef6594bd323ead9d3ea424bfdb79bbf0a43d2544ad7ea"
+  },
+  "ops": [
+    {
+      "target": "testing/integration-testing.md",
+      "mode": "tag",
+      "add": [
+        "simulated-input"
+      ],
+      "section": "input-and-tool-testing"
+    },
+    {
+      "target": "testing/unit-testing.md",
+      "mode": "tag",
+      "add": [
+        "test-cleanup",
+        "player-log"
+      ],
+      "section": "mocking-patterns/settings-and-environment"
+    },
+    {
+      "target": "workflows/branching.md",
+      "mode": "tag",
+      "add": [
+        "commit-messages",
+        "task-id"
+      ],
+      "section": "workflow/task-work"
+    },
+    {
+      "target": "workflows/ci-cd.md",
+      "mode": "tag",
+      "add": [
+        "release-process",
+        "steam-workshop"
+      ],
+      "section": "stage-details/5-release"
+    },
+    {
+      "target": "workflows/commit-conventions.md",
+      "mode": "tag",
+      "add": [
+        "release-process"
+      ],
+      "section": "release-commits"
+    },
+    {
+      "target": "workflows/task-plan/phase-completion.md",
+      "mode": "tag",
+      "add": [
+        "knowledge-store"
+      ],
+      "section": "retrospective-template"
+    },
+    {
+      "target": "workflows/task-plan/phase-investigation.md",
+      "mode": "tag",
+      "add": [
+        "unit-spec"
+      ],
+      "section": "plan-unit-spec-template"
+    }
+  ]
+}

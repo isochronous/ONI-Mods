@@ -22,8 +22,8 @@
 ## Progress
 - [x] Phase A: 19 change-sets applied (overviews for root, mods/, 17 mods; domains and standards README indexes); committed c7c9357
 - [x] Phase B: 150 descriptions authored by units 05-08, merged into work/desc-answers.json, applied (status complete, 0 declined); strict check 0 block, missing-description finding 0, 150 distinct descriptions
-- [ ] Phase C: coverage backfill, node by node (19 nodes) ← IN PROGRESS
-- [ ] Phase D: tag backfill, node by node
+- [x] Phase C: coverage surveys at all 19 nodes exit 0, nothing owed: 0 proposed, 45 no candidate (root workflows/testing: spread or one target; mod README indexes: no resolved token), overviews not surveyed. Nothing written; left undeclared rather than hand-declaring witness: none, which only git can undo (work/cov/)
+- [ ] Phase D: vocabulary proposals dispatched (unit 09 root, unit 10 the 17 mods); mods/ aggregator skipped (1 document cannot meet the 2-document floor) ← IN PROGRESS
 - [ ] `ks check --all --strict`, `ks sweep`, review, retrospective, commit, PR
 
 ## Open Questions / Blockers
