@@ -73,15 +73,15 @@
 esolve-targets.ps1, 0 failures); ModCheck on the mod DLL passed; manager build of the mod: 0 warnings, 0 errors. Departures: Mod.cs catch + UnpatchAll (pending user ruling, it is a fifth try/catch case beyond the standard's four); #8 swaps whenever the plot faces down; #7 reads ___targetReceptacle (FieldRefAccess failed ModCheck)
 - [x] S4a test kit + T1 (unit 08) — 2834d21 (Kit.cs, Registration.cs); in-game run common/tools/TestRunner/runs/run-20261017-235414: 2 pass, 0 fail (REGISTRATION Prefabs, NaturalCeilingHelper); Player.log `[OvagroOverhead] Loaded version 0.1.0.0`, no OvagroOverhead warning or exception; screenshot of the sandstone strip sent to the user; game closed, mods.json restored. The first attempt was blocked by the user's own game being open
 - [x] S5 tests T2-T5 (unit 09) — 971d9f3 (Kit.cs extended, WildPlanting.cs, Vines.cs); full suite run common/tools/TestRunner/runs/run-20261018-000941: 8 pass, 0 fail (Prefabs, NaturalCeilingHelper, AlongTheCeiling, AlongTheFloor, QueryFindsCeilingCells, PlantUnderCeiling, PlantOnFloor, PipPlantsOnCeiling); T4 real Pip planted in 7 s, not Explicit; Pip spawned on the strip with a reachability check; Player.log Loaded line, no exception; screenshots checked by the manager and sent to the user; game closed, mods.json restored. One failure on the way (vine tests set maturity, but VineMother grows by its grow anim) was a test error, fixed
-- [ ] S6 tests T6-T8 plots and side screen ← NEXT
-- [ ] S9 save round trip T9/T10 (default)
-- [ ] S7 mod README + CHANGELOG (basic); S8 Workshop description + tags (basic)
+- [x] S6+S9 (unit 10) — 30c075c: Plots.cs (T6 FlipV Hydroponic Farm with a real Duplicant delivery and irrigation; T7 FlipV Farm Tile under a solid ceiling; upright regression; no-room-below refusal; Copy Settings four cases; T8 real side screen, Layer 2), Persistence.cs (T9/T10 wild ceiling mother with branches + FlipV hydroponic occupant survive save/load); Kit.cs IsGrown (the game's IsGrown throws on VineMother) and grow helpers copied from Vines.cs; test csproj references Unity UI. Full suite run common/tools/TestRunner/runs/run-20261018-003145: 16 pass, 0 fail; Player.log clean; screenshots checked by the manager and sent; game closed, mods.json restored. No mod bugs
+- [ ] S7 README + CHANGELOG, S8 Workshop description + tags (unit 11) ← NEXT
 - [ ] Preview image (manager, shown to the user before commit)
 - [ ] Manual checks: load a save without the mod; look of the flipped mother (T5 screenshot)
 - [ ] Store: icon-integrate the new mod's node; land the design as a decision record (adr-discipline)
 - [ ] Completion: review, retrospective, commit, PR
 
 ## Open Questions / Blockers
+- For review: Kit.cs holds a copy of Vines.cs's grow helpers (unit 10 left Vines.cs alone as outside its file list).
 - Pip reachability of ceiling cells for a 1x2 hanging plant. Correction (user, 2026-10-17): Pips walk on walls and ceilings; unit 01 read only the default `NavType.Floor` and missed the nav grid. Passed to design unit 03.
 - Whether `vine_mother_kanim` looks right flipped (art not opened).
 - Unverified API details the implementers read from source: ReplaceElement arguments (Kit Dupes.cs), plant maturity API, how T2 drives the Pip's plantableCellQuery, requiredDlcIds list syntax in a real load (unit 04).
