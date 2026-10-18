@@ -58,16 +58,26 @@
 - [x] Investigate — units 01 and 02 reported; findings above
 - [x] Update this plan with findings
 - [x] Architecture: design unit 03 — Approve with modifications; user chose D1-D5 (all as recommended)
-- [ ] Plan unit: sequenced steps from the design and unit 02's checklist ← NEXT
-- [ ] Implement: scaffold + feature
-- [ ] Test: in-game tests (planting on ceiling wild, hydroponic and farm tile; vines growing along the ceiling; save/load)
+- [x] Plan unit 04 (units/04-plan-report.md): steps below; order S1 → S2 → {S3, S4, S4a} → S5 (needs S3, S4a), S6 (needs S4, S4a) → S9; S7, S8 any time after S1; test steps queue on one game session; each step ends in the solution build and a commit
+- [ ] S1 scaffold (basic): csproj, mod.yaml, mod_info.yaml (requiredDlcIds DLC4_ID), Mod.cs, Tests csproj, ONI-Mods.sln, root README row, .github/workflows/label-mod.yml, issue-template Mod dropdowns ← IN PROGRESS
+- [ ] S2 VineMotherCeilingConfig + CeilingForm helper (complex)
+- [ ] S3 seed-side patches #1-#3, #9 (complex)
+- [ ] S4 plot-side patches #4-#8 (complex)
+- [ ] S4a test kit (natural-ceiling helper via SimMessages.ReplaceElement) + T1 registration (default)
+- [ ] S5 tests T2-T5 Pips and vines (default)
+- [ ] S6 tests T6-T8 plots and side screen (default)
+- [ ] S9 save round trip T9/T10 (default)
+- [ ] S7 mod README + CHANGELOG (basic); S8 Workshop description + tags (basic)
+- [ ] Preview image (manager, shown to the user before commit)
+- [ ] Manual checks: load a save without the mod; look of the flipped mother (T5 screenshot); -Steam compatibility run (D6)
 - [ ] Store: icon-integrate the new mod's node; land the design as a decision record (adr-discipline)
 - [ ] Completion: review, retrospective, commit, PR
 
 ## Open Questions / Blockers
 - Pip reachability of ceiling cells for a 1x2 hanging plant. Correction (user, 2026-10-17): Pips walk on walls and ceilings; unit 01 read only the default `NavType.Floor` and missed the nav grid. Passed to design unit 03.
 - Whether `vine_mother_kanim` looks right flipped (art not opened).
-- D6: which of the user's farming or Pip mods to run the tests beside (asked 2026-10-17).
+- D6: which of the user's farming or Pip mods to run the tests beside (asked 2026-10-17, unanswered).
+- Unverified API details the implementers read from source: ReplaceElement arguments (Kit Dupes.cs), plant maturity API, how T2 drives the Pip's plantableCellQuery, requiredDlcIds list syntax in a real load (unit 04).
 - Not in scope, noted: `common/tools/Kanim/kanim.py extract` reads only sharedassets0.assets and cannot extract DLC art (unit 03).
 - testbed-base.sav is missing from the test kit (unit 02, gap).
 
