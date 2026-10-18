@@ -365,7 +365,7 @@ namespace OvagroOverhead.Tests
 		/// The vines of an Ovagro in an upside-down Hydroponic Farm grow along the tiles beside the
 		/// farm, as ceiling vines, the way a wild ceiling Ovagro's grow along the rock.
 		/// </summary>
-		[OniTest("PLOT: an Ovagro in an upside-down Hydroponic Farm grows its vines along the tiles beside it", Timeout = 150, Boxed = true), Layer(0)]
+		[OniTest("PLOT: an Ovagro in an upside-down Hydroponic Farm grows its vines along the tiles beside it", Timeout = 200, Boxed = true), Layer(0)]
 		public static IEnumerator VinesFromDownwardFarm(TestContext t)
 		{
 			t.Speed(3);

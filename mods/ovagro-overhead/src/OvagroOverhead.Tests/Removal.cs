@@ -51,8 +51,8 @@ namespace OvagroOverhead.Tests
 			yield return t.WaitGameSeconds(2);
 			t.Assert.Eq(wild, Kit.PlantAt(wildCell), prefix + ": the wild ceiling Ovagro hangs under the glass");
 
+			yield return Kit.GrowMother(t, farmPlant);
 			VineMother.Instance smi = farmPlant.GetSMI<VineMother.Instance>();
-			yield return t.WaitUntil(() => smi.LeftBranch != null && smi.RightBranch != null, 90, prefix + ": the farm's Ovagro to put out a branch on each side");
 			yield return Kit.GrowChains(t, smi, 3, 3, 90);
 			t.Assert.True(tile.Occupant == null, prefix + ": the Farm Tile has an open order and no plant");
 
