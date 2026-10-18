@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using Isochronous.TestKit;
 using UnityEngine;
 
@@ -78,6 +79,72 @@ namespace OvagroOverhead.Tests
 			if (maturity == null)
 				throw new OniAssertException(plant.name + " has no maturity amount");
 			maturity.SetValue(maturity.GetMax());
+		}
+
+		/// <summary>
+		/// An Ovagro seed held at the cell, as a Pip holds one in its mouth: it does not fall. A seed
+		/// plants at the cell it is in, and a loose seed under a ceiling would drop to the floor, so
+		/// the seed is made without its faller (the game's own switch for things that should not fall).
+		/// </summary>
+		public static GameObject HeldSeed(TestContext t, int cell)
+		{
+			GameObject go = Util.KInstantiate(Assets.GetPrefab("VineMotherSeed"), Grid.CellToPosCBC(cell, Grid.SceneLayer.Ore));
+			go.GetComponent<Pickupable>().handleFallerComponents = false;
+			go.SetActive(true);
+			t.Cleanup(() => { if (go != null) Util.KDestroyGameObject(go); });
+			return go;
+		}
+
+		/// <summary>An adult Pip standing at the cell, removed at cleanup.</summary>
+		public static GameObject Pip(TestContext t, int cell)
+		{
+			return Spawn(t, SquirrelConfig.ID, cell);
+		}
+
+		/// <summary>
+		/// Yield it: waits until the Pip's path grid reaches the cell, and fails at once with a clear
+		/// message when it does not, instead of letting a later wait time out.
+		/// </summary>
+		public static IEnumerator AssertReaches(TestContext t, GameObject pip, int cell, string what)
+		{
+			Navigator nav = pip.GetComponent<Navigator>();
+			yield return t.WaitUntil(() => nav.CanReach(cell), 10, "the Pip at " + Cells.Describe(Grid.PosToCell(pip)) + " to reach " + what + " at " + Cells.Describe(cell));
+		}
+
+		/// <summary>The plant (or building) registered on the building layer at the cell, or null.</summary>
+		public static GameObject PlantAt(int cell)
+		{
+			return Grid.IsValidCell(cell) ? Grid.Objects[cell, (int)ObjectLayer.Building] : null;
+		}
+
+		public static bool Is(GameObject go, Tag prefabId)
+		{
+			return go != null && go.PrefabID() == prefabId;
+		}
+
+		/// <summary>The branches of one side of a vine, from the one beside the mother outwards.</summary>
+		public static List<VineBranch.Instance> Chain(GameObject first)
+		{
+			var chain = new List<VineBranch.Instance>();
+			GameObject go = first;
+			while (go != null && chain.Count < 32)
+			{
+				VineBranch.Instance smi = go.GetSMI<VineBranch.Instance>();
+				if (smi == null)
+					break;
+				chain.Add(smi);
+				go = smi.Branch;
+			}
+			return chain;
+		}
+
+		/// <summary>"(x, y) Shape" for each branch, for the log.</summary>
+		public static string Describe(List<VineBranch.Instance> chain)
+		{
+			var parts = new List<string>();
+			foreach (VineBranch.Instance b in chain)
+				parts.Add(Cells.Describe(Grid.PosToCell(b.gameObject)) + " " + b.MyShape + (b.IsGrown ? " grown" : ""));
+			return parts.Count == 0 ? "none" : string.Join(", ", parts.ToArray());
 		}
 	}
 }
