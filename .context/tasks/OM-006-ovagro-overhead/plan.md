@@ -23,6 +23,7 @@
 - D3 (user): mod_info.yaml declares `requiredDlcIds: [DLC4_ID]`; a new pattern for the repo (other mods use the deprecated `supportedContent: ALL`).
 - D4 (user): plant id `VineMotherCeiling`; it is written into saves and is not renamed after release.
 - D5 (user): include the Copy Settings patch (#8).
+- D6 (user, 2026-10-17): no farming or Pip mods in the user's loadout would affect this; tests run on Ovagro Overhead alone, no -Steam compatibility run.
 - World-gen Ovagro nodes stay on floors.
 - The design lands as a decision record in the mod's own store node once it exists (icon-integrate after the scaffold), through adr-discipline.
 - Naming: folder mods/ovagro-overhead, assembly/namespace/project OvagroOverhead, staticID Isochronous.OvagroOverhead, first version 0.1.0, tag ovagro-overhead-v0.1.0 (unit 02).
@@ -69,14 +70,13 @@
 - [ ] S9 save round trip T9/T10 (default)
 - [ ] S7 mod README + CHANGELOG (basic); S8 Workshop description + tags (basic)
 - [ ] Preview image (manager, shown to the user before commit)
-- [ ] Manual checks: load a save without the mod; look of the flipped mother (T5 screenshot); -Steam compatibility run (D6)
+- [ ] Manual checks: load a save without the mod; look of the flipped mother (T5 screenshot)
 - [ ] Store: icon-integrate the new mod's node; land the design as a decision record (adr-discipline)
 - [ ] Completion: review, retrospective, commit, PR
 
 ## Open Questions / Blockers
 - Pip reachability of ceiling cells for a 1x2 hanging plant. Correction (user, 2026-10-17): Pips walk on walls and ceilings; unit 01 read only the default `NavType.Floor` and missed the nav grid. Passed to design unit 03.
 - Whether `vine_mother_kanim` looks right flipped (art not opened).
-- D6: which of the user's farming or Pip mods to run the tests beside (asked 2026-10-17, unanswered).
 - Unverified API details the implementers read from source: ReplaceElement arguments (Kit Dupes.cs), plant maturity API, how T2 drives the Pip's plantableCellQuery, requiredDlcIds list syntax in a real load (unit 04).
 - Not in scope, noted: `common/tools/Kanim/kanim.py extract` reads only sharedassets0.assets and cannot extract DLC art (unit 03).
 - testbed-base.sav is missing from the test kit (unit 02, gap).
