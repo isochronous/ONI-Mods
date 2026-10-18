@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace OvagroOverhead
 {
 	/// <summary>
@@ -65,6 +67,28 @@ namespace OvagroOverhead
 			seed.direction = swap.Direction;
 			seed.PlantID = swap.PlantID;
 			seed.PreviewID = swap.PreviewID;
+		}
+
+		/// <summary>
+		/// Points the Ovagro seed's prefab at the ceiling form, for a call that reads the prefab instead of
+		/// a seed in the world (plot preview, planter side screen, copy settings). Does nothing when the
+		/// prefab is already swapped, so a nested call leaves the restore to the outer one.
+		/// </summary>
+		public static Swap EnterPrefab()
+		{
+			PlantableSeed seed = PrefabSeed();
+			return IsOvagro(seed) ? Enter(seed) : default;
+		}
+
+		public static void ExitPrefab(Swap swap)
+		{
+			Exit(PrefabSeed(), swap);
+		}
+
+		private static PlantableSeed PrefabSeed()
+		{
+			GameObject prefab = Assets.TryGetPrefab(SeedTag);
+			return prefab != null ? prefab.GetComponent<PlantableSeed>() : null;
 		}
 
 		/// <summary>A wild planting cell under a solid cell, where only the ceiling form fits.</summary>
