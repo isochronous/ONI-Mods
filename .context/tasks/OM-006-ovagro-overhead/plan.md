@@ -26,6 +26,7 @@
 - D6 (user, 2026-10-17): no farming or Pip mods in the user's loadout would affect this; tests run on Ovagro Overhead alone, no -Steam compatibility run.
 - World-gen Ovagro nodes stay on floors.
 - S3 and S4 run as one unit (07), not two parallel units: parallel units would commit on one branch at once, and the nine patches share the swap pattern.
+- Build target stays net48 (user, 2026-10-17). Found: the game's own mscorlib.dll (Unity Mono) carries RuntimeFeature.DefaultImplementationsOfInterfaces, the net48 reference pack does not, which is why CS8702 fires; options for later are compiling against the game's mscorlib or targeting netstandard2.1, both a change to common/oni-mod.props across every mod.
 - To record at completion (store): an IEntityConfig in these net48 mods must write out GetDlcIds and GetAnyRequiredDlcIds (CS8702 on the game's default interface methods); GetDlcIds returns null so the loader takes the IHasDlcRestrictions branch (unit 06).
 - The design lands as a decision record in the mod's own store node once it exists (icon-integrate after the scaffold), through adr-discipline.
 - Naming: folder mods/ovagro-overhead, assembly/namespace/project OvagroOverhead, staticID Isochronous.OvagroOverhead, first version 0.1.0, tag ovagro-overhead-v0.1.0 (unit 02).
