@@ -54,3 +54,33 @@ The tag-backfill skill describes a seven-step run and ships `lib/backfill/*.mjs`
 **Id:** blk-19571747a73c
 
 `ks init --at common --task-prefix OM` refused (a store already exists) and routed to `ks integrate --at common`. Its plan inserted a `tools` aggregator between `common` and its six tool projects. Applying it wrote a correct `tools/.context/projects.md`, but rewrote `common/.context/projects.md` so the row named `ModCheck` pointed at `tools` while the other five rows still pointed at `tools/SaveRunner` and the rest, through the new aggregator. `ks check --store common` reported nothing. Expected: the parent's rows for the moved members re-pointed into one `tools` row, the way the `projects` writer's `repoints` describes. Done instead: replaced `common/.context/projects.md` with a single `tools` row through a `repair` of kind `correction`, ratified by its digest. A change-set naming `common` from the root was refused as a second store, so the repair ran with `--at common`.
+
+## 2026-10-17 write schema: the narrative section mode does not name overview.md as a target
+**Id:** blk-239a99f5f959
+
+OM-005 (in common). `ks write schema --row narrative --mode section` lists the narrative row's targets as domains, standards, architecture, testing, styling, workflows and team-home paths; `overview.md` is not among them. Both drafting units read that as a reason to doubt their overview change-sets. `ks write plan --at common` accepted every `section` op on `overview.md` under the narrative writer. Expected: the schema's target list to include `overview.md`, since the engine routes it there. Done instead: went by the plan output and applied the change-sets.
+
+## 2026-10-17 tag-backfill brief: no answer for empty headings and link lists in an untagged document
+**Id:** blk-a2457b938b06
+
+OM-005 (in common). Eight of ten tagging passes over common's tool nodes reported the same hole in `skills/tag-backfill/tagging-brief.md`. `inherits` is defined as the document's tags or an enclosing heading covering the section, and `no-good-match` requires a missing concept. A heading with no body of its own, or a Related section holding only links, inside a document that got no document tags, fits neither: passes split between `inherits` (against its definition) and `no-good-match` with invented suggestions ("links to related documents"), which then reach the gap list. The same passes split on sub-topics of a term the document carries (Indentation, Braces, Comments under a `code-style` document): the `inherits` rule and the "vocabulary too coarse" warning give opposite answers. The brief's Output section also says to append in batches, which does not fit one JSON object; the manager's note said to rewrite the whole object. Expected: the brief to name the empty-heading and link-list case, and to say which rule wins for sub-topics of a document term. Done instead: triaged every such gap to no new term by hand.
+
+## 2026-10-17 tags and sweep: term counts include records matched through a shared word
+**Id:** blk-6cad7a7c6aea
+
+OM-005 (in common), review unit 06. `ks tags --store C:/dev/ONI-Mods/common --node tools/WorkshopUpload` printed 17 for `item-description`, which 3 records carry; the count includes records carrying any term that shares a word with it (`item-visibility`, `item-download`). `ks sweep --store C:/dev/ONI-Mods/common` flagged `screenshots` and `player-log` in TestRunner as single-carrier terms but not `mod-entry-point`, which one record carries, apparently because other terms share the word `mod`. tag-discipline reads the count to check the 3-record floor, so a shared word hides a term under it. Expected: the count of records that declare the term. Done instead: parsed the `**Tags:**` lines with a script and grep.
+
+## 2026-10-17 write plan: a describe and a document tag on one document cannot share a change-set
+**Id:** blk-222fa626090f
+
+OM-005 (in common), fix unit 07. `ks write plan --at common` refused a change-set holding a `describe` and a document-level `tag` op on the same document, since both replace its frontmatter, and one holding a `section` rewrite and a `tag` removal on the same heading block, since both replace that block (a section write's `tags` field adds terms but cannot remove them). Expected: two edits to different lines of one region to compose in one change-set. Done instead: split each node's fixes into two files (`fix07-<node>.json` and `fix07-b-<node>.json`) applied one after the other.
+
+## 2026-10-17 write plan: a protected plan's confirm digest goes stale when an earlier change-set edits the same file
+**Id:** blk-1c65d7dab6e8
+
+OM-005 (in common). The fix unit planned `fix07-rmterm-TestRunner.json` (a protected `remove` on `tools/TestRunner/.context/tags.md`) while `fix07-mint-TestRunner.json`, which edits the same file, was still unapplied. The digest the plan printed could not ratify the removal after the mint landed, and the plan output gave no warning that a pending write to the same target would invalidate it. Expected: a note in the plan that the confirm digest binds the target's current bytes. Done instead: planned the removal again after the mint and applied it with the new digest.
+
+## 2026-10-17 brief: tag dictionaries listed as records that declare no coverage and no tags
+**Id:** blk-31711a20c7d2
+
+OM-005 (in common), confirmation review unit 08. `ks brief --at C:/dev/ONI-Mods/common` over the eight nodes warned that the six `tags.md` dictionaries declare no coverage and no tags, and suggested giving them `applies_to` or tags through the write path. A dictionary is read through `ks tags`, and the tag-backfill skill excludes it from its own backfill by destination. Expected: no coverage warning for a `tags.md`. Done instead: left them undeclared, as the OM-002 dictionaries are, and recorded the decision in OM-005's plan.
