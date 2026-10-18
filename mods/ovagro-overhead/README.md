@@ -10,9 +10,9 @@ An [Oxygen Not Included](https://www.klei.com/games/oxygen-not-included) mod: Ov
 
 Requires the Prehistoric Planet Pack, which adds Ovagro.
 
-## Before removing the mod
+## Removing the mod
 
-Dig up or clear ceiling Ovagro first, both wild ones and those in downward-facing farm tiles. Without the mod the game drops them when the save loads.
+If removed from a save, ceiling Ovagro and their vines simply vanish; no seed is dropped. Cancel any Ovagro orders on upside-down farm tiles first.
 
 ## Installing
 
