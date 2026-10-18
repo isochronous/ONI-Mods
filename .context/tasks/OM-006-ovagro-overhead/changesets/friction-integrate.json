@@ -1,0 +1,13 @@
+{
+  "task": "OM-006",
+  "why": "record friction met integrating mods/ovagro-overhead: integrate at the root rewrote common's repaired roster and its plan overstated its writes",
+  "ops": [
+    {
+      "mode": "section",
+      "target": "domains/tooling-friction.md",
+      "section": "2026-10-17 integrate: a root run re-adds the tool rows the common roster repair removed",
+      "create_section": true,
+      "body": "To wire the new mods/ovagro-overhead node, `ks integrate --at .` planned and applied (confirm digest `sha256:4b26549a...`). It did the expected work: a new `mods/ovagro-overhead/.context/` node and one row in `mods/.context/projects.md`. It also appended `ModCheck`, `SaveRunner`, `TestRunner`, `StringsTemplate`, `WorkshopUpload` and `WorldgenDriver` rows to `common/.context/projects.md` — the rows the OM-003 repair (entry \"icon-integrate: inserting a tier relabels one roster row\") replaced with a single `tools` row — although the same plan listed `common` under \"not walked — a nested git repository is a different store\". The plan also listed `.gitattributes` and `.gitignore` under every existing node, none of which changed on disk. Expected: a root run leaves a nested store's roster alone, and the plan lists only bytes it will change. Done instead: restored `common/.context/projects.md` with `git -C common checkout`, kept the two intended writes."
+    }
+  ]
+}
