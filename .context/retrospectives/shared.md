@@ -4,6 +4,14 @@ Newest first. Each entry is a `### ` block naming the task it came from, appende
 path — `learned:` on the change-set that produced the lesson, never a closing ceremony.
 
 
+### OM-006: Ovagro Overhead, a new mod that plants Ovagro on ceilings
+**Id:** blk-e6b85866c4d7
+
+- **Avoid**: Designing around facts nobody checked against the user's words or the game. The plan said Duplicants plant in natural tiles when the user had written Pips; unit 01 read only the Pip's spawn nav type and concluded Pips walk floors, when their nav grid includes walls and ceilings; the user caught both. A floating sandstone strip in a test box could never be reached by a Pip spawned elsewhere, which the user also caught. Separately, the manager logged its own ungrouped `--tag 'a && b' 'c'` as engine friction without reading `ks brief --help`, which documents the grouping, and had to correct two entries. Read the user's sentence for who does what, check a unit's game-code reading against how the game plays before building on it, and read a verb's --help before calling it broken.
+- **Repeat**: Checking in game what removing the mod does before writing a removal claim: an Explicit test saved ceiling Ovagro in every state, a KeepSave probe in another mod's suite loaded that save with the mod off, and it showed vanilla vines left behind by the dropped hanging plant throwing every tick, which the design had missed; giving the ceiling vines their own prefab made removal clean (two prefab warnings, no errors). When a wait stalls, logging the object's state every few seconds and screenshotting with the HUD on (status icons) found the cause in one run: a Hydroponic Farm with no pipe reports NeedLiquidIn and its plant wilts. Measuring screenshot crops and title spacing by pixels, not by camera or font metrics, got the preview placement right.
+- **Updated**: testing/integration-testing.md gains "Checking what removing a mod leaves in a save" (Explicit save test, -Fixture, a KeepSave probe in another mod's suite) and "Plant scenes" (a Hydroponic Farm needs a pipe; the Ovagro Node has no maturity amount; a thin warm fill in the vacuum test map; Pips cannot cross a gap; stalled waits log state and screenshot). mods:domains/game-interfaces.md (new) records the net48 rule for entity configs and why the game can use default interface methods. mods/ovagro-overhead:decisions/001 files the ceiling form design (hidden plant and vine pair, routed vanilla seed, all-or-nothing patching), under the node's first tag term, placeholder, in a new tags.md. In common, TestRunner's domains/entities.md and standards/naming-conventions.md now list the KeepSave option.
+
+
 ### OM-002: overviews, then description, coverage and tag backfills over every node
 **Id:** blk-bbb71786a11b
 

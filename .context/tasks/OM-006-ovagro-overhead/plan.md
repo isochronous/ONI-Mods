@@ -5,15 +5,15 @@
 
 ## Phase State
 - **Phase plan**: investigation → architecture → implementation → testing → completion
-- **Completed**: investigation, architecture, implementation, testing
-- **Current**: completion   (status: in-progress)
-- **Next**: none (task complete after completion)
+- **Completed**: investigation, architecture, implementation, testing, completion
+- **Current**: completion   (status: done)
+- **Next**: none (task complete)
 - **Loaded skill**: task-plan-phase-completion
 - **Branch**: OM-006-ovagro-overhead
 - **Attempts (current phase)**: 1
 
 ## Review Checkpoint
-- Unit 12 (units/12-review-report.md) reviewed the change up to 896238b: 0 block, 2 fix, 5 nit; fixes 1-2 and nits 3, 5, 6 resolved in 2fe720f, nit 4 left (common/ Reflect.cs), nit 7 resolved in the description (a890940). Code changed after it (ceiling vine prefab, Preview.cs, Removal.cs, test updates, common 5d0582a and a0fe078): unit 13 reviews 896238b..HEAD and common 93d2890..a0fe078.
+- Unit 12 (units/12-review-report.md) reviewed the change up to 896238b: 0 block, 2 fix, 5 nit; fixes 1-2 and nits 3, 5, 6 resolved in 2fe720f, nit 4 left (common/ Reflect.cs), nit 7 resolved in the description (a890940). Unit 13 (units/13-review-report.md) reviewed 896238b..1d68708 and common 93d2890..a0fe078: approve, 0 block, 1 fix, 5 nit; fix 1 and nits 3, 4, 6 resolved (ca8efd3, common 2f23ffb), nit 2 resolved in the common store (27b5ed9), nit 5 predates the task. Unit 15 (units/15-review-report.md) reviewed those fixes: 0 block; its two points accepted as they stand (VinesFromDownwardFarm Timeout 200 against about 189 s of inner waits, matching Vines.AlongTheCeiling; Removal's GrowMother message carries no copy prefix, with one copy left).
 
 ## Decisions
 - Task id OM-006, not OM-003: `ks resolve --explain` reported highest OM-002 for this node, but the common/ submodule store already holds OM-003..OM-005 under the same prefix.
@@ -32,7 +32,7 @@
 - Patch failure at load (user, 2026-10-17): keep Mod.cs's catch: unpatch everything, warn once, Ovagro stays floor-only. It is a fifth try/catch case beyond the standard's four; at completion the new node gets its standards (populate-context) and its error-handling standard names this case.
 - Ceiling vines are their own hidden prefab VineBranchCeiling (user, 2026-10-18): a copy of VineBranchConfig under its own id, named by the ceiling mother's and its own BRANCH_PREFAB_NAME, so it runs the vanilla vine code (ceilings, corners, walls, floors). Why: removal check (Removal.cs save, loaded with the mod off through a KeepSave probe) showed vanilla vines left behind by a dropped ceiling mother: one VineBranch NRE at load, then RadiationVulnerable NREs every tick (153 in 10 s). With own-prefab vines the plant and vines drop together: two "Could not find prefab" warnings, 0 NREs, no seed. A downward Hydroponic Farm comes back empty; an open Ovagro order on a downward Farm Tile survives with its fetch errand.
 - Harness: [OniTest(KeepSave = true)] (common a0fe078) skips the fixture-area clear before the test, for reading a save as loaded (user: update the harness when tests need it).
-- No store population in this task (user, 2026-10-18: context management in this repo is being reworked): the new node keeps its scaffold placeholders; no decision record, no net48 entity-config note, no node documents; drafting unit 14 stopped before writing anything. The retrospective stays in this plan, not in retrospectives/.
+- Store records (user, 2026-10-18, superseding the earlier "skip all context population"): land the normal completion records (retro with promotions, decision record, the net48 note, the common KeepSave correction); no node population and no tag or description backfill; the decision record's tag term is placeholder (user). Drafting unit 14 was stopped before writing anything.
 - Build target stays net48 (user, 2026-10-17). Found: the game's own mscorlib.dll (Unity Mono) carries RuntimeFeature.DefaultImplementationsOfInterfaces, the net48 reference pack does not, which is why CS8702 fires; options for later are compiling against the game's mscorlib or targeting netstandard2.1, both a change to common/oni-mod.props across every mod.
 - To record at completion (store): an IEntityConfig in these net48 mods must write out GetDlcIds and GetAnyRequiredDlcIds (CS8702 on the game's default interface methods); GetDlcIds returns null so the loader takes the IHasDlcRestrictions branch (unit 06).
 - The design lands as a decision record in the mod's own store node once it exists (icon-integrate after the scaffold), through adr-discipline.
@@ -92,6 +92,28 @@
 **Key files delta**: src/OvagroOverhead.Tests/{Kit, Registration, WildPlanting, Vines, Plots, Persistence, Preview, Removal}.cs; common/tools/TestRunner/{Kit/Attributes.cs, Session.cs, TestBehaviour.cs, README.md}; common/tools/MakePreview/title_preview.py.
 **What the next phase needs**: review unit 13 over the delta since unit 12; store node and records; retrospective; PRs for ONI-Mods and common.
 
+### Handoff: completion   (commit: Phase-Handoff: completion)
+**Sub-agent outputs**:
+- review unit 13 (units/13-review-report.md): approve; VineBranchCeilingConfig matches VineBranchConfig call for call; nothing in the game finds vines by the VineBranch id; BranchPatch still applies; KeepSave correct on every RunAll path.
+- review unit 15 (units/15-review-report.md): the fixes do what the findings asked; 0 block.
+**Reviewer findings**: see ## Review Checkpoint; all block/fix findings resolved.
+**Verification evidence**:
+- `dotnet build ONI-Mods.sln -c Release -p:ModDeployFolder=none` → "Build succeeded. 291 Warning(s) 0 Error(s)"; 0 warning lines mention OvagroOverhead.
+- `pwsh common/tools/TestRunner/Invoke-OniTests.ps1 -Mods OvagroOverhead` after the last code change → "Session done: 17 passed, 0 failed, 0 errors, 0 timeouts, 0 skipped" (run-20261018-014844). Other mods' suites were not re-run for the TestRunner change: KeepSave is opt-in and the 17-test run exercised the changed RunAll paths for tests without it.
+- Removal check → two "Could not find prefab" warnings, 0 NullReferenceException (run-20261018-014051).
+- `ks check --store .` and `ks check --store common` → no check with a non-zero block count.
+- Commit subjects follow workflows/commit-conventions.md (OM-006 prefix, Phase-Handoff trailers, session co-author lines), read through ks read before the close.
+**Decisions delta**: store records landed per the user's clarification.
+**Key files delta**: .context/retrospectives/shared.md, .context/testing/integration-testing.md, mods/.context/domains/game-interfaces.md, mods/ovagro-overhead/.context/{tags.md, decisions/001-*.md, decisions/README.md}; common tools/TestRunner/.context/{domains/entities.md, standards/naming-conventions.md}.
+**What the next phase needs**: none; push and PRs follow.
+**Retro Stage-1 draft**: landed as the OM-006 entry in .context/retrospectives/shared.md — Avoid: designing around facts nobody checked against the user's words or the game (Duplicants vs Pips, Pip nav grid, a floating strip no Pip could reach), and logging an ungrouped --tag expression as engine friction without reading --help. Repeat: checking removal in game with an Explicit save and a KeepSave probe; logging state and screenshotting with the HUD when a wait stalls; measuring crops and title spacing by pixels. Updated: the records listed under Key files delta.
+
+## Completion Summary
+**Accomplished:** Ovagro Overhead, a new mod that lets Ovagro Nodes grow from ceilings (Pips on natural ceilings, Duplicants in flipped Farm Tiles and Hydroponic Farms) with vines growing along the ceiling, plus its Workshop material; removing it from a save leaves nothing behind.
+**Files changed:** mods/ovagro-overhead (mod: 8 source files, mod.yaml, mod_info.yaml; tests: 9 files; README, CHANGELOG, publish/), ONI-Mods.sln, README.md, .github label map and issue forms; common: TestRunner KeepSave, title_preview split spacing.
+**Tests:** 17 in-game tests added, 17 passing; 2 Explicit tools (Preview, Removal).
+**Follow-up work:** the store's node population (overview, standards) after the user's context rework; review nit 4 (side-screen fields through common's Reflect.cs); ModCheck gaps (string-named Harmony targets, -BuildOnly checks only the test DLL, FieldRefAccess false failures); kanim.py cannot extract DLC art; bump the common pointer to common's merged main after its PR merges.
+
 ## Progress
 - [x] Investigate — units 01 and 02 reported; findings above
 - [x] Update this plan with findings
@@ -111,8 +133,10 @@ esolve-targets.ps1, 0 failures); ModCheck on the mod DLL passed; manager build o
 - [x] Review fixes: fix 1 (vines from a downward farm, Plots.VinesFromDownwardFarm), fix 2 (Vines.cs uses Kit's grow helpers), nit 3 (one seed check in Kit), nit 5 (no var in mod code), nit 6 (registration compares mass, branch count and the vine's values with vanilla). Nit 4 (Reflect.cs for side-screen fields) left: common/ change, other mods do the same. Nit 7 (open orders on removal) goes into the description
 - [x] Workshop description: the user's text ("Does one thing: ...", "flipped farm and hydroponic tiles", removal line from the in-game check) with the standard closing lines; README removal section matches (a890940)
 - [x] Store node, decision record, net48 note — dropped: user, 2026-10-18 (store being reworked)
-- [ ] Review unit 13 over the delta since unit 12 ← IN PROGRESS
-- [ ] Retrospective (in this plan), close gate, push and PRs (ONI-Mods and common)
+- [x] Review units 13 and 15 — see ## Review Checkpoint
+- [x] Store records (user, 2026-10-18: "add the normal land records stuff", no tag or description backfill): retro entry in retrospectives/shared.md with two sections promoted to testing/integration-testing.md; mods:domains/game-interfaces.md (net48 entity configs); mods/ovagro-overhead tags.md (term placeholder, per the user) and decisions/001 (the ceiling form design); common TestRunner entities.md and naming-conventions.md list KeepSave (27b5ed9). The node's overview, META and READMEs stay scaffold placeholders
+- [x] Close gate — see the completion handoff
+- [ ] Push OM-006-ovagro-overhead in common and ONI-Mods; open both PRs (user approved 2026-10-18) ← NEXT
 - [x] Pre-completion review (unit 12, units/12-review-report.md): 0 block, 2 fix, 5 nit. Fix 1: no test grows vines from a plant in a downward plot (README claims it); fix 2: Vines.cs duplicates Kit.cs grow helpers. Nits: WildPlanting.cs repeats Kit.AssertSeedPrefabIsVanilla; Plots.cs reads private side-screen fields ad hoc (Reflect.cs is common/, out of scope); `var` in CeilingForm.cs:49 and VineMotherCeilingConfig.cs:61; registration test does not compare mass/age/radiation/branch count with vanilla; README and Workshop text do not mention cancelling open Ovagro orders on downward plots before removal (reasoned from source, untried)
 - [ ] Resolve review fixes 1-2 and nits
 - [ ] Manual checks: load a save without the mod; look of the flipped mother (T5 screenshot)

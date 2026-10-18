@@ -1,0 +1,28 @@
+{
+  "task": "OM-006",
+  "why": "OM-006 retrospective, with its two testing lessons promoted into the integration-testing guide",
+  "ops": [
+    {
+      "row": "retro",
+      "mode": "append",
+      "title": "Ovagro Overhead, a new mod that plants Ovagro on ceilings",
+      "avoid": "Designing around facts nobody checked against the user's words or the game. The plan said Duplicants plant in natural tiles when the user had written Pips; unit 01 read only the Pip's spawn nav type and concluded Pips walk floors, when their nav grid includes walls and ceilings; the user caught both. A floating sandstone strip in a test box could never be reached by a Pip spawned elsewhere, which the user also caught. Separately, the manager logged its own ungrouped `--tag 'a && b' 'c'` as engine friction without reading `ks brief --help`, which documents the grouping, and had to correct two entries. Read the user's sentence for who does what, check a unit's game-code reading against how the game plays before building on it, and read a verb's --help before calling it broken.",
+      "repeat": "Checking in game what removing the mod does before writing a removal claim: an Explicit test saved ceiling Ovagro in every state, a KeepSave probe in another mod's suite loaded that save with the mod off, and it showed vanilla vines left behind by the dropped hanging plant throwing every tick, which the design had missed; giving the ceiling vines their own prefab made removal clean (two prefab warnings, no errors). When a wait stalls, logging the object's state every few seconds and screenshotting with the HUD on (status icons) found the cause in one run: a Hydroponic Farm with no pipe reports NeedLiquidIn and its plant wilts. Measuring screenshot crops and title spacing by pixels, not by camera or font metrics, got the preview placement right.",
+      "updated": "testing/integration-testing.md gains \"Checking what removing a mod leaves in a save\" (Explicit save test, -Fixture, a KeepSave probe in another mod's suite) and \"Plant scenes\" (a Hydroponic Farm needs a pipe; the Ovagro Node has no maturity amount; a thin warm fill in the vacuum test map; Pips cannot cross a gap; stalled waits log state and screenshot). mods:domains/game-interfaces.md (new) records the net48 rule for entity configs and why the game can use default interface methods. mods/ovagro-overhead:decisions/001 files the ceiling form design (hidden plant and vine pair, routed vanilla seed, all-or-nothing patching), under the node's first tag term, placeholder, in a new tags.md. In common, TestRunner's domains/entities.md and standards/naming-conventions.md now list the KeepSave option."
+    },
+    {
+      "mode": "section",
+      "target": "testing/integration-testing.md",
+      "section": "Checking what removing a mod leaves in a save",
+      "create_section": true,
+      "body": "A mod that adds its own prefabs leaves a player's save in a state only the game without the mod can show. Check it in game before writing a removal claim in a README or Workshop description:\n\n1. An `[OniTest(Explicit = true, FreshSave = true)]` test in the mod's suite builds what a player would leave behind (each state of each new object), writes the cells to a text file and saves with `SaveLoader.Instance.Save` under `Session.Dir` (`mods/ovagro-overhead/src/OvagroOverhead.Tests/Removal.cs`).\n2. A probe test in another mod's suite, marked `[OniTest(KeepSave = true, Explicit = true)]` so the harness does not clear part of the save before it, loads that save with `-Fixture` and reports what each listed cell holds, loose items nearby and the plots' orders, at load and after some game seconds. The other mod's loadout keeps the mod under test off. Delete the probe afterwards.\n3. Read `Player.log` for `Could not find prefab` warnings and for exceptions: a vanilla object whose mod-made partner was dropped can throw every tick.\n\nOvagro Overhead's check (OM-006) found its hanging plant dropped on load while the vanilla vines it had grown stayed behind with no plant and threw a NullReferenceException every tick; the vines became the mod's own prefab so both drop together."
+    },
+    {
+      "mode": "section",
+      "target": "testing/integration-testing.md",
+      "section": "Plant scenes",
+      "create_section": true,
+      "body": "Facts that each cost a failed run while building plant scenes for Ovagro Overhead:\n\n- A Hydroponic Farm with no pipe reports `NeedLiquidIn` and its plant wilts, even with water put straight into its storage; build a `LiquidConduit` in the farm's cell.\n- The test map is dug out and all vacuum. A scene that needs air is walled with tiles and filled with `SimMessages.ReplaceElement`; a plant that does not check pressure (Ovagro and its vines) grows in a thin fill, which keeps gas out of screenshots.\n- Some plants have no maturity amount: the Ovagro Node grows by playing its grow animation once and then flags itself grown, so a test waits on its state machine, not on maturity. Its vines do have maturity, and forcing it on each new vine grows a chain in seconds.\n- Pips walk floors, walls and ceilings, but cannot cross a gap from a wall or ceiling to a floating ledge; spawn a Pip on the surface it has to reach, and assert `Navigator.CanReach` before waiting on it.\n- When a wait stalls, log the object's state every few seconds and take a screenshot with the HUD on (status icons) before failing; the cause is usually visible there."
+    }
+  ]
+}
