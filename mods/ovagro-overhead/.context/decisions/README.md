@@ -9,5 +9,6 @@ _Generated from the decision files in this folder. Edits inside this region are 
 
 | ADR | What it decides | Status | Sections |
 | --- | --- | --- | --- |
+| [001](001-ceiling-ovagro-is-a-hidden-plant-and-vine-pair-reached-through-the-vanilla-seed.md) | ceiling ovagro is a hidden plant and vine… | Accepted | — |
 
 <!-- END GENERATED ADR INDEX -->
