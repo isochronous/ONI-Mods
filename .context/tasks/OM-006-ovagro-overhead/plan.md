@@ -29,9 +29,11 @@
 - Naming: folder mods/ovagro-overhead, assembly/namespace/project OvagroOverhead, staticID Isochronous.OvagroOverhead, first version 0.1.0, tag ovagro-overhead-v0.1.0 (unit 02).
 
 ## Key Files
-- mods/ovagro-overhead/: the new mod (to be scaffolded; template mods/just-fall-already, tests modelled on its Doors.cs)
+- mods/ovagro-overhead/: the new mod (scaffolded in bea076e: src/OvagroOverhead/{OvagroOverhead.csproj, Mod.cs, mod.yaml, mod_info.yaml}, src/OvagroOverhead.Tests/OvagroOverhead.Tests.csproj, .gitignore, .gitattributes; store node .context/; template mods/just-fall-already, tests modelled on its Doors.cs)
 - ONI-Mods.sln: solution folder, mod project and Tests project entries (unit 02 gives the blocks)
 - README.md (root): one table row for the new mod
+- .github/workflows/label-mod.yml, .github/ISSUE_TEMPLATE/bug_report.yml, feature_request.yml: new mod registered (S1)
+- mods/.context/projects.md: new node row (M1)
 - Game code (decompiled, outside the repo): C:\Users\thegr\AppData\Local\Temp\claude\C--dev-ONI-Mods\cc565cd0-8a2e-40a2-b730-be890f2c3a64\scratchpad\decomp\ (VineMotherConfig, VineMother, VineBranch, PlantableSeed, PlantableCellQuery, SeedPlantingStates, FarmTileConfig, SaltPlantConfig)
 
 ## Phase Handoff Log
@@ -60,8 +62,9 @@
 - [x] Update this plan with findings
 - [x] Architecture: design unit 03 — Approve with modifications; user chose D1-D5 (all as recommended)
 - [x] Plan unit 04 (units/04-plan-report.md): steps below; order S1 → S2 → {S3, S4, S4a} → S5 (needs S3, S4a), S6 (needs S4, S4a) → S9; S7, S8 any time after S1; test steps queue on one game session; each step ends in the solution build and a commit
-- [ ] S1 scaffold (basic): csproj, mod.yaml, mod_info.yaml (requiredDlcIds DLC4_ID), Mod.cs, Tests csproj, ONI-Mods.sln, root README row, .github/workflows/label-mod.yml, issue-template Mod dropdowns ← IN PROGRESS
-- [ ] S2 VineMotherCeilingConfig + CeilingForm helper (complex)
+- [x] S1 scaffold (unit 05, run at default not basic: nine files incl. the sln and a new DLC field) — bea076e; 12 files; requiredDlcIds confirmed in KMod/Mod.cs 38/436/442-491; manager rebuild: OvagroOverhead and OvagroOverhead.Tests built, 0 errors, 288 warnings all in other mods
+- [x] M1 store node: `ks integrate --at .` wrote mods/ovagro-overhead/.context/ and a mods/projects.md row (7bad16c); its unrequested write to common/.context/projects.md was restored from git and logged as friction; node placeholders (overview, META, domains/standards README) are filled at completion
+- [ ] S2 VineMotherCeilingConfig + CeilingForm helper (complex) ← IN PROGRESS
 - [ ] S3 seed-side patches #1-#3, #9 (complex)
 - [ ] S4 plot-side patches #4-#8 (complex)
 - [ ] S4a test kit (natural-ceiling helper via SimMessages.ReplaceElement) + T1 registration (default)
