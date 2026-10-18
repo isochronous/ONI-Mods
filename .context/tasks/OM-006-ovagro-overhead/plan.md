@@ -139,12 +139,16 @@ esolve-targets.ps1, 0 failures); ModCheck on the mod DLL passed; manager build o
 - [x] Store records (user, 2026-10-18: "add the normal land records stuff", no tag or description backfill): retro entry in retrospectives/shared.md with two sections promoted to testing/integration-testing.md; mods:domains/game-interfaces.md (net48 entity configs); mods/ovagro-overhead tags.md (term placeholder, per the user) and decisions/001 (the ceiling form design); common TestRunner entities.md and naming-conventions.md list KeepSave (27b5ed9). The node's overview, META and READMEs stay scaffold placeholders
 - [x] Close gate — see the completion handoff
 - [x] Rename to Ovagros Overhead: build 0 errors, suite 17/17 under the new names (run-20261018-020806); preview re-rendered with the bottom line raised 20 px (common --raise-bottom, oni-mods-common#5); the old local deploy mods/local/OvagroOverhead removed
-- [x] Pushed and opened: isochronous/oni-mods-common#4 (TestRunner KeepSave, title preview spacing) and isochronous/ONI-Mods#10 (the mod; common points at the #4 branch, bump to common's merged main after it merges)
+- [x] Pushed and opened: isochronous/oni-mods-common#4 (TestRunner KeepSave, title preview spacing) and isochronous/ONI-Mods#10 (the mod)
+- [x] oni-mods-common#4 merged (7e9da0f, user approved); common pointer bumped (67271bc)
+- [x] Task folder zipped (user, 2026-10-18): every file but plan.md is in OM-006-artifacts.zip (4a11e7d)
+- [x] Retrospective log renamed to icon.md in both stores (user: retrospectives belong in icon.md): root 335b08c; common in oni-mods-common#5, which also carries --raise-bottom; #5 merged (7687b3c, user approved), pointer bumped (6e0b86f)
+- [x] isochronous/ONI-Mods#10 merged into main (9a9aa4c, user approved)
 - [x] Pre-completion review (unit 12, units/12-review-report.md): 0 block, 2 fix, 5 nit. Fix 1: no test grows vines from a plant in a downward plot (README claims it); fix 2: Vines.cs duplicates Kit.cs grow helpers. Nits: WildPlanting.cs repeats Kit.AssertSeedPrefabIsVanilla; Plots.cs reads private side-screen fields ad hoc (Reflect.cs is common/, out of scope); `var` in CeilingForm.cs:49 and VineMotherCeilingConfig.cs:61; registration test does not compare mass/age/radiation/branch count with vanilla; README and Workshop text do not mention cancelling open Ovagro orders on downward plots before removal (reasoned from source, untried)
-- [ ] Resolve review fixes 1-2 and nits
-- [ ] Manual checks: load a save without the mod; look of the flipped mother (T5 screenshot)
-- [ ] Store: icon-integrate the new mod's node; land the design as a decision record (adr-discipline)
-- [ ] Completion: review, retrospective, commit, PR
+- [x] Resolve review fixes 1-2 and nits — done in 2fe720f (unit 12) and ca8efd3 / common 2f23ffb (unit 13)
+- [x] Manual checks — loading a save without the mod became the automated removal check (Removal.cs save, KeepSave probe); the flipped mother's look was checked in the T5 and preview screenshots the user reviewed
+- [x] Store — node integrated (7bad16c); decision record 001 landed in the completion phase
+- [x] Completion — see the completion handoff
 
 ## Open Questions / Blockers
 - For review: Kit.cs holds a copy of Vines.cs's grow helpers (unit 10 left Vines.cs alone as outside its file list).
