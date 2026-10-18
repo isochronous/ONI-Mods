@@ -1,0 +1,13 @@
+{
+  "task": "OM-006",
+  "why": "record friction met composing OM-006 packets: several --tag arguments are refused once one holds &&, and a mod-build tag query is filled by per-mod code-style copies",
+  "ops": [
+    {
+      "mode": "section",
+      "target": "domains/tooling-friction.md",
+      "section": "2026-10-17 handoff and brief: several --tag arguments are refused once one of them holds &&",
+      "create_section": true,
+      "body": "`ks handoff ... --tag 'in-game-testing && test-pacing' 'mod-build' 'release-process && steam-workshop'` (and the same shape on `ks brief`) was refused as malformed: the engine joins the arguments with spaces into `in-game-testing && test-pacing mod-build release-process && steam-workshop` and finds two terms side by side. gather-context says several terms union by default, so each argument was expected to be one operand of that union. Done instead: one argument written out in full, `'(in-game-testing && test-pacing) || mod-build || (release-process && steam-workshop)'`. With `--budget 16384`, that packet still gave 66 of its 70 pointers to per-mod `code-style.md` and `entities.md` sections (each mod's dictionary tags its code-style sections `mod-build`) and 4 to the root's testing and release records; the manager named the governing root ids in the unit's prompt."
+    }
+  ]
+}
