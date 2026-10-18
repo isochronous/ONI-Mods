@@ -1,0 +1,3 @@
+# Workshop tags, one per line: the category, then every DLC the mod supports.
+tweaks
+The Prehistoric Planet Pack

@@ -1,0 +1,15 @@
+Ovagro grows from ceilings: Pips plant it overhead, and flipped farm tiles grow it hanging down
+
+[list]
+[*]Pips plant Ovagro seeds on natural ceilings, and the vines grow along the ceiling.
+[*]Duplicants plant Ovagro seeds in Farm Tiles and Hydroponic Farms rotated to face down.
+[*]Floor planting is unchanged.
+[/list]
+
+Requires the Prehistoric Planet Pack.
+
+Before removing the mod, dig up or clear ceiling Ovagro, both wild ones and those in downward-facing farm tiles. Without the mod the game drops them when the save loads.
+
+Made by a professional software developer with assistance from Claude Code. Comes with a no slop guarantee.
+
+Source and issues: https://github.com/isochronous/ONI-Mods
