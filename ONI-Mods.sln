@@ -81,9 +81,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "vent-freeze-fix", "vent-fre
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VentFreezeFix", "mods\vent-freeze-fix\src\VentFreezeFix\VentFreezeFix.csproj", "{D8CAE43F-6A38-4D3B-96AB-B8514FB42D40}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ovagro-overhead", "ovagro-overhead", "{6860FBA7-895D-444E-8DFA-9C955BA1788F}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ovagros-overhead", "ovagros-overhead", "{6860FBA7-895D-444E-8DFA-9C955BA1788F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OvagroOverhead", "mods\ovagro-overhead\src\OvagroOverhead\OvagroOverhead.csproj", "{C6B01296-3CA1-4AF8-8F45-DD2BA01336B8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OvagrosOverhead", "mods\ovagros-overhead\src\OvagrosOverhead\OvagrosOverhead.csproj", "{C6B01296-3CA1-4AF8-8F45-DD2BA01336B8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "common", "common", "{92EA55CD-521F-4AD0-BC78-EC9B2906025B}"
 EndProject
@@ -129,7 +129,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VentFreezeFix.Tests", "mods
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NaturalBackwalls.Tests", "mods\natural-backwalls-everywhere\src\NaturalBackwalls.Tests\NaturalBackwalls.Tests.csproj", "{0C255B21-1680-4DC9-8169-D3EF6DCB6782}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OvagroOverhead.Tests", "mods\ovagro-overhead\src\OvagroOverhead.Tests\OvagroOverhead.Tests.csproj", "{3522D94C-4D20-49EC-8367-2F84A112788C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OvagrosOverhead.Tests", "mods\ovagros-overhead\src\OvagrosOverhead.Tests\OvagrosOverhead.Tests.csproj", "{3522D94C-4D20-49EC-8367-2F84A112788C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{70C0E597-6A30-451E-B618-417970FD42A2}"
 	ProjectSection(SolutionItems) = preProject

@@ -23,7 +23,7 @@ public string[] GetDlcIds()
 }
 ```
 
-`GetDlcIds` stays null so the game's entity loader takes the `IHasDlcRestrictions` branch and reads `GetRequiredDlcIds` and `GetForbiddenDlcIds`. A config that adds a building (`IBuildingConfig`) is unaffected: that is a class the mod inherits from. Ovagro Overhead's `VineMotherCeilingConfig` and `VineBranchCeilingConfig` were the first entity configs in the repo (`mods/ovagro-overhead/src/OvagroOverhead/`).
+`GetDlcIds` stays null so the game's entity loader takes the `IHasDlcRestrictions` branch and reads `GetRequiredDlcIds` and `GetForbiddenDlcIds`. A config that adds a building (`IBuildingConfig`) is unaffected: that is a class the mod inherits from. Ovagros Overhead's `VineMotherCeilingConfig` and `VineBranchCeilingConfig` were the first entity configs in the repo (`mods/ovagros-overhead/src/OvagrosOverhead/`).
 
 ## Why the game can and the mods cannot
 **Id:** blk-f2de0f6edb04
