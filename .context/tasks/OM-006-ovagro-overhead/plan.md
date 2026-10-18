@@ -95,4 +95,5 @@ esolve-targets.ps1, 0 failures); ModCheck on the mod DLL passed; manager build o
 - Farm Tiles: support only if they can face downward in the game (user) — they can.
 - New mod follows the existing mods/<name> layout, build and release conventions of this repo.
 - Pip tests spawn the Pip on top of the natural sandstone, or it cannot path to it; tests assert reachability before waiting (user, 2026-10-18).
+- A test unit stuck on a failure it cannot explain stops, screenshots the setup and the failing state, and reports them for the user to look at (user, 2026-10-18).
 - Store reads: units and the manager read packet pointers with `ks read`; packets are scoped to the folders a unit touches (user, 2026-10-17).
