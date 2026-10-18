@@ -72,8 +72,8 @@
 - [x] S3+S4 (unit 07) — b79be6a: PlantingPatches.cs (#1-#3), BranchPatch.cs (#9), PlotPatches.cs (#4, #5, #8), SideScreenPatches.cs (#6, #7), CeilingForm.cs EnterPrefab/ExitPrefab (nested call is a no-op), Mod.cs all-or-nothing patching. All nine targets resolved with the game's Harmony lookup (scratchpad
 esolve-targets.ps1, 0 failures); ModCheck on the mod DLL passed; manager build of the mod: 0 warnings, 0 errors. Departures: Mod.cs catch + UnpatchAll (pending user ruling, it is a fifth try/catch case beyond the standard's four); #8 swaps whenever the plot faces down; #7 reads ___targetReceptacle (FieldRefAccess failed ModCheck)
 - [x] S4a test kit + T1 (unit 08) — 2834d21 (Kit.cs, Registration.cs); in-game run common/tools/TestRunner/runs/run-20261017-235414: 2 pass, 0 fail (REGISTRATION Prefabs, NaturalCeilingHelper); Player.log `[OvagroOverhead] Loaded version 0.1.0.0`, no OvagroOverhead warning or exception; screenshot of the sandstone strip sent to the user; game closed, mods.json restored. The first attempt was blocked by the user's own game being open
-- [ ] S5 tests T2-T5 Pips and vines (unit 09) ← IN PROGRESS
-- [ ] S6 tests T6-T8 plots and side screen (default)
+- [x] S5 tests T2-T5 (unit 09) — 971d9f3 (Kit.cs extended, WildPlanting.cs, Vines.cs); full suite run common/tools/TestRunner/runs/run-20261018-000941: 8 pass, 0 fail (Prefabs, NaturalCeilingHelper, AlongTheCeiling, AlongTheFloor, QueryFindsCeilingCells, PlantUnderCeiling, PlantOnFloor, PipPlantsOnCeiling); T4 real Pip planted in 7 s, not Explicit; Pip spawned on the strip with a reachability check; Player.log Loaded line, no exception; screenshots checked by the manager and sent to the user; game closed, mods.json restored. One failure on the way (vine tests set maturity, but VineMother grows by its grow anim) was a test error, fixed
+- [ ] S6 tests T6-T8 plots and side screen ← NEXT
 - [ ] S9 save round trip T9/T10 (default)
 - [ ] S7 mod README + CHANGELOG (basic); S8 Workshop description + tags (basic)
 - [ ] Preview image (manager, shown to the user before commit)
