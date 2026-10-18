@@ -1,0 +1,12 @@
+{
+  "task": "OM-006",
+  "why": "extend the OM-006 handoff friction entry with unit 01's packet, which missed the work's subject the same way",
+  "ops": [
+    {
+      "mode": "section",
+      "target": "domains/tooling-friction.md",
+      "section": "2026-10-17 handoff: a scope spanning several mod nodes fills the brief with per-mod copies of one record",
+      "body": "OM-006 unit 02 (how a new mod is scaffolded) got a packet from `ks handoff --scope ONI-Mods.sln Directory.Build.props mods/just-fall-already mods/vent-freeze-fix mods/detect-any-element common/tools common/README.md --decisions`. Its 47 pointers were mostly each mod's own `standards/code-style.md` and `domains/entities.md` sections (nine from detect-any-element's `entities.md` alone, two code-style sections from each of eight mods); none pointed at `workflows/ci-cd.md`, `testing/unit-testing.md` or common's TestRunner and release records, which answer the unit's questions. The unit also reported that the code-style pointers gave one-line reasons naming detect-any-element's `Patches.cs` for records belonging to other mods. The unit read four pointers with `ks read` and answered the rest from files. Expected: records that are near-identical across sibling nodes collapse to one pointer, so the budget reaches the records the scope's own question needs. Unit 01, scoped to `Directory.Build.props mods` for a question answered only by decompiled game code, got 27 of 508 candidates, all per-mod error-handling and code-style standards, and read none. Done instead: nothing in the tool; the manager's scope was also wider than the question (three sample mods and all of `common/tools`), so later packets name only the folders a unit will touch and pass `--tag` for subject records."
+    }
+  ]
+}

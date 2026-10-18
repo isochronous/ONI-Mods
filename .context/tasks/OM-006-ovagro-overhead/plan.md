@@ -1,34 +1,59 @@
 ## Task: OM-006
 ## Branch: OM-006-ovagro-overhead
-## Objective: Scaffold a new mod, mods/ovagro-overhead ("Ovagro Overhead"), whose only feature is letting Ovagro plants grow from the ceiling: planted by Duplicants in natural tiles facing down, and in Hydroponic Farm tiles facing down. Their vines must grow as they do on the floor (downward from the ceiling). Plain Farm Tiles get the same support only if the game lets them be rotated to face down.
+## Objective: Scaffold a new mod, mods/ovagro-overhead ("Ovagro Overhead"), whose only feature is letting Ovagro plants grow from the ceiling: planted by Pips in natural tiles (wild planting on the underside of a tile), and by Duplicants in downward-facing Hydroponic Farms and Farm Tiles (both can face down in the current game). Their vines must grow as they do on the floor, along the ceiling's underside instead. Floor planting keeps working as in vanilla.
 ## Folder: .context/tasks/OM-006-ovagro-overhead/
 
 ## Phase State
 - **Phase plan**: investigation → architecture → implementation → testing → completion
-- **Completed**: (none)
-- **Current**: investigation   (status: in-progress)
-- **Next**: architecture
-- **Loaded skill**: task-plan-phase-investigation
+- **Completed**: investigation
+- **Current**: architecture   (status: pending)
+- **Next**: implementation
+- **Loaded skill**: task-plan-phase-architecture
 - **Branch**: OM-006-ovagro-overhead
-- **Attempts (current phase)**: 1
+- **Attempts (current phase)**: 0
 
 ## Decisions
 - Task id OM-006, not OM-003: `ks resolve --explain` reported highest OM-002 for this node, but the common/ submodule store already holds OM-003..OM-005 under the same prefix.
+- Wild ceiling planting is the Pips' path, as the user wrote; the first plan text said Duplicants, which was the manager's error (unit 01, Q5).
+- Farm Tiles are in scope: both Farm Tile and Hydroponic Farm already rotate FlipV and set receptacle direction Bottom (unit 01, Q4), which meets the user's "if they can face down" condition.
+- Naming: folder mods/ovagro-overhead, assembly/namespace/project OvagroOverhead, staticID Isochronous.OvagroOverhead, first version 0.1.0, tag ovagro-overhead-v0.1.0 (unit 02).
 
 ## Key Files
-- mods/ovagro-overhead/: the new mod (to be scaffolded)
+- mods/ovagro-overhead/: the new mod (to be scaffolded; template mods/just-fall-already, tests modelled on its Doors.cs)
+- ONI-Mods.sln: solution folder, mod project and Tests project entries (unit 02 gives the blocks)
+- README.md (root): one table row for the new mod
+- Game code (decompiled, outside the repo): C:\Users\thegr\AppData\Local\Temp\claude\C--dev-ONI-Mods\cc565cd0-8a2e-40a2-b730-be890f2c3a64\scratchpad\decomp\ (VineMotherConfig, VineMother, VineBranch, PlantableSeed, PlantableCellQuery, SeedPlantingStates, FarmTileConfig, SaltPlantConfig)
 
 ## Phase Handoff Log
 
+### Handoff: investigation → architecture   (commit: Phase-Handoff: investigation)
+**Sub-agent outputs**:
+- explore unit 01 (units/01-explore-report.md), game build 744825 release: Ovagro is `VineMother` (1x2 plant, DLC4 Prehistoric Planet Pack), seed `VineMotherSeed` (direction Top), branches `VineBranch` (1x1, bear the Ovagro Figs), fruit `VineFruit`. Branches are not vertical vines: the mother spawns branches in the cells left and right of its origin cell; each branch hugs a solid surface and walks around it up to 12 deep, with shape and anim logic already symmetric for all four sides. Load-bearing levers, quoted: "Prefab data: tag `Hanging`, `MakeHangingOffsets` on plant and preview, `UprootedMonitor.monitorCells {(0,1)}`, seed `PlantableSeed.direction = Bottom` ... as SaltPlantConfig does." "`VineBranch.cs 466` hard-coded `RootShape = 1 (Bottom)`; the only code constant tying branch geometry to a floor-standing mother. Patch point is `VineBranch.Instance.SetupRootInformation(VineMother.Instance)`." "Mother art: needs `FlipY` (or hanging kanim) on the mother's `KBatchedAnimController`; none exists in the game." "A single prefab can hold only one direction (`PlantableSeed.direction` is per seed); supporting both floor and ceiling needs either a second plant+seed+preview prefab or runtime flipping per placement. `IsValidEntity` already ignores direction for rotatable plots." Farm plots: a vanilla Ovagro seed can already be ordered into a downward farm tile, but the plant spawns upright with its 1x2 area running up into the tile itself. Pips walk `NavType.Floor` and plant through `PlantableCellQuery`/`SeedPlantingStates.CheckValidPlotCell`/`PlantableSeed.TestSuitableGround`, all keyed on `seed.direction`.
+- explore unit 02 (units/02-explore-report.md): template mods/just-fall-already (single-feature Harmony mod, no strings, Doors.cs tests); csproj imports `$(OniCommon)oni-mod.props`/`oni-mod.targets`; Directory.Build.props unchanged; sln needs 3 GUIDs, 8 config lines, 2 NestedProjects lines; tests in `src/OvagroOverhead.Tests/` with `[OniTest]`, found by `Invoke-OniTests.ps1 -Mods OvagroOverhead`; no mod yet declares requiredDlcIds (syntax unverified); release needs CHANGELOG `## Unreleased`, publish/preview 512x512, workshop-description.txt, workshop-tags.txt; workshop-id.txt is written by the release script; no scaffolding script exists; only testbed-so.sav exists (testbed-base.sav missing); 9 doc gaps G1-G9 listed in the report.
+**Reviewer findings**: N/A this phase.
+**Verification evidence**: none run; both units read code only. Unit 01: nothing run in the game, kanim art not opened.
+**Decisions delta**: Pips not Duplicants; Farm Tiles in scope; naming.
+**Key files delta**: as listed in Key Files.
+**What the next phase needs**: a design choosing (1) how one seed supports both floor and ceiling: a second hanging prefab chosen at planting time versus per-instance flipping, and how that survives save/load; (2) how Pips find and reach ceiling cells for a 1x2 hanging plant (a Pip stands on a floor, and a hanging 1x2 needs two free cells under the ceiling); (3) mother art: FlipY on `vine_mother_kanim` versus other art; (4) how downward farm plots spawn the ceiling form; (5) the first branch's root shape; (6) DLC4 gating in mod_info.yaml; (7) how in-game tests prove vines grow along the ceiling. The design unit gets --decisions in its packet and the decompiled sources path.
+
 ## Progress
-- [ ] Investigate: how the game defines the Ovagro plant, how it is planted (seed placement rules, PlantablePlot / farm tile orientation, natural-tile planting by Duplicants), how its vines grow, and how other ceiling-capable plants (e.g. Wheezewort-style "hanging" plants) are allowed on ceilings; whether Farm Tiles / Hydroponic Farms can be rotated; how existing mods in this repo are scaffolded ← IN PROGRESS
-- [ ] Update this plan with findings and the design before any code is written
+- [x] Investigate — units 01 and 02 reported; findings above
+- [x] Update this plan with findings
+- [ ] Architecture: design unit on questions (1)-(7); design questions with more than one defensible answer go to the user ← NEXT
+- [ ] Plan unit: sequenced steps from the design and unit 02's checklist
+- [ ] Implement: scaffold + feature
+- [ ] Test: in-game tests (planting on ceiling wild, hydroponic and farm tile; vines growing along the ceiling; save/load)
+- [ ] Completion: review, retrospective, commit, PR
 
 ## Open Questions / Blockers
-- Which DLC ships Ovagro, and what its internal ids are (investigation will name them).
+- Pip reachability of ceiling cells for a 1x2 hanging plant (code-read only).
+- Whether `vine_mother_kanim` looks right flipped (art not opened).
+- requiredDlcIds YAML syntax for mod_info.yaml (no mod in the repo uses it yet).
+- testbed-base.sav is missing from the test kit (unit 02, gap).
 
 ## Constraints
 - Only feature is ceiling planting for Ovagro; nothing else (user).
 - Vines must grow as expected when planted on the ceiling (user).
-- Farm Tiles: support only if they can face downward in the game (user).
+- Farm Tiles: support only if they can face downward in the game (user) — they can.
 - New mod follows the existing mods/<name> layout, build and release conventions of this repo.
+- Store reads: units and the manager read packet pointers with `ks read`; packets are scoped to the folders a unit touches (user, 2026-10-17).
