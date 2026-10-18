@@ -15,6 +15,7 @@
 ## Decisions
 - Task id OM-006, not OM-003: `ks resolve --explain` reported highest OM-002 for this node, but the common/ submodule store already holds OM-003..OM-005 under the same prefix.
 - Wild ceiling planting is the Pips' path, as the user wrote; the first plan text said Duplicants, which was the manager's error (unit 01, Q5).
+- Pips walk on walls and ceilings (user, 2026-10-17). This overrides the investigation handoff's "a Pip stands on a floor" premise in question (2); unit 01 read only the default `NavType.Floor`.
 - Farm Tiles are in scope: both Farm Tile and Hydroponic Farm already rotate FlipV and set receptacle direction Bottom (unit 01, Q4), which meets the user's "if they can face down" condition.
 - Naming: folder mods/ovagro-overhead, assembly/namespace/project OvagroOverhead, staticID Isochronous.OvagroOverhead, first version 0.1.0, tag ovagro-overhead-v0.1.0 (unit 02).
 
@@ -46,7 +47,7 @@
 - [ ] Completion: review, retrospective, commit, PR
 
 ## Open Questions / Blockers
-- Pip reachability of ceiling cells for a 1x2 hanging plant (code-read only).
+- Pip reachability of ceiling cells for a 1x2 hanging plant. Correction (user, 2026-10-17): Pips walk on walls and ceilings; unit 01 read only the default `NavType.Floor` and missed the nav grid. Passed to design unit 03.
 - Whether `vine_mother_kanim` looks right flipped (art not opened).
 - requiredDlcIds YAML syntax for mod_info.yaml (no mod in the repo uses it yet).
 - testbed-base.sav is missing from the test kit (unit 02, gap).
