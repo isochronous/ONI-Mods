@@ -16,8 +16,8 @@ namespace OvagroOverhead.Tests
 	public static class Preview
 	{
 		private const int Width = 30;
-		private const int Height = 11;
-		private const int GlassRow = 7;
+		private const int Height = 15;
+		private const int GlassRow = 8;
 		/// <summary>The Ovagro's own temperature, inside the 25-45 °C it grows in.</summary>
 		private const float WarmAir = 308.15f;
 
@@ -173,7 +173,7 @@ namespace OvagroOverhead.Tests
 				}
 				yield return t.WaitGameSeconds(1);
 			}
-			yield return Kit.GrowChains(t, smi, 8, 8, 200);
+			yield return Kit.GrowChains(t, smi, 11, 11, 200);
 			List<VineBranch.Instance> all = new List<VineBranch.Instance>(Kit.Chain(smi.LeftBranch));
 			all.AddRange(Kit.Chain(smi.RightBranch));
 			foreach (VineBranch.Instance b in all)
@@ -190,11 +190,17 @@ namespace OvagroOverhead.Tests
 
 			DebugHandler.ToggleScreenshotMode();
 			t.Cleanup(() => { if (DebugHandler.ScreenshotMode) DebugHandler.ToggleScreenshotMode(); });
-			// The screen is 16:9, so an orthographic size s shows 2s rows and 32s/9 columns: 3.1 shows 11.
-			int centre = rect.Cell(mx, GlassRow - 1);
-			foreach (float size in new[] { 3.1f, 3.4f, 3.8f })
+			// The screen is 16:9, so an orthographic size s shows 2s rows and 32s/9 columns; at 4.5 the screen
+			// is 9 cells high, the square the Workshop preview is cropped to; 6 is the wide shot to crop from.
+			// The scene runs from the top of the glass row down to the tips of the leaves, about 1.85 rows
+			// under the glass: the camera goes on its middle, and on the middle of the farm (LookAt aims
+			// at a cell's bottom-left corner), so the title has as much room above the scene as below.
+			Vector3 centre = Grid.CellToPos(farmCell) + new Vector3(0.5f, -0.43f, 0f);
+			foreach (float size in new[] { 4.5f, 6f })
 			{
-				yield return t.LookAt(centre, size);
+				CameraController.Instance.SnapTo(centre, size);
+				yield return null;
+				yield return null;
 				yield return t.WaitGameSeconds(1);
 				yield return t.Screenshot("preview-" + size.ToString("0.0"));
 			}
