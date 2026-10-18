@@ -71,7 +71,7 @@
 - [x] S2 (unit 06) — fbd4703: VineMotherCeilingConfig.cs, CeilingForm.cs (219 lines); departures: net48 cannot use the game's default interface methods (CS8702), so GetDlcIds (null) and GetAnyRequiredDlcIds are written out; vanilla's no-op traits.Get dropped; base trait added twice as vanilla does. Manager build of the mod: 0 warnings, 0 errors
 - [x] S3+S4 (unit 07) — b79be6a: PlantingPatches.cs (#1-#3), BranchPatch.cs (#9), PlotPatches.cs (#4, #5, #8), SideScreenPatches.cs (#6, #7), CeilingForm.cs EnterPrefab/ExitPrefab (nested call is a no-op), Mod.cs all-or-nothing patching. All nine targets resolved with the game's Harmony lookup (scratchpad
 esolve-targets.ps1, 0 failures); ModCheck on the mod DLL passed; manager build of the mod: 0 warnings, 0 errors. Departures: Mod.cs catch + UnpatchAll (pending user ruling, it is a fifth try/catch case beyond the standard's four); #8 swaps whenever the plot faces down; #7 reads ___targetReceptacle (FieldRefAccess failed ModCheck)
-- [ ] S4a test kit + T1 ← NEXT
+- [ ] S4a test kit + T1 (unit 08) — tests written and committed (2834d21: Kit.cs NaturalCeiling/NaturalFloor/NaturalRow via SimMessages.ReplaceElement, Spawn, Seed, ForceMature; Registration.cs T1 (NoColony) + boxed natural-ceiling helper test with screenshot); build 0 errors, -BuildOnly exit 0. NOT RUN: the user's own game (PID 47828, started 14:03) was open and the harness refused; waiting for the user to close it ← BLOCKED
 - [ ] S5 tests T2-T5 Pips and vines (default)
 - [ ] S6 tests T6-T8 plots and side screen (default)
 - [ ] S9 save round trip T9/T10 (default)
