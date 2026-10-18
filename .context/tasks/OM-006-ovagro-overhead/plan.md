@@ -68,8 +68,8 @@
 - [x] S1 scaffold (unit 05, run at default not basic: nine files incl. the sln and a new DLC field) — bea076e; 12 files; requiredDlcIds confirmed in KMod/Mod.cs 38/436/442-491; manager rebuild: OvagroOverhead and OvagroOverhead.Tests built, 0 errors, 288 warnings all in other mods
 - [x] M1 store node: `ks integrate --at .` wrote mods/ovagro-overhead/.context/ and a mods/projects.md row (7bad16c); its unrequested write to common/.context/projects.md was restored from git and logged as friction; node placeholders (overview, META, domains/standards README) are filled at completion
 - [x] S2 (unit 06) — fbd4703: VineMotherCeilingConfig.cs, CeilingForm.cs (219 lines); departures: net48 cannot use the game's default interface methods (CS8702), so GetDlcIds (null) and GetAnyRequiredDlcIds are written out; vanilla's no-op traits.Get dropped; base trait added twice as vanilla does. Manager build of the mod: 0 warnings, 0 errors
-- [ ] S3+S4 patches #1-#9 in one unit (07) ← IN PROGRESS
-- [ ] S4a test kit (natural-ceiling helper via SimMessages.ReplaceElement) + T1 registration (default)
+- [x] S3+S4 (unit 07) — b79be6a: PlantingPatches.cs (#1-#3), BranchPatch.cs (#9), PlotPatches.cs (#4, #5, #8), SideScreenPatches.cs (#6, #7), CeilingForm.cs EnterPrefab/ExitPrefab (nested call is a no-op), Mod.cs all-or-nothing patching. All nine targets resolved with the game's Harmony lookup (scratchpadesolve-targets.ps1, 0 failures); ModCheck on the mod DLL passed; manager build of the mod: 0 warnings, 0 errors. Departures: Mod.cs catch + UnpatchAll (pending user ruling, it is a fifth try/catch case beyond the standard's four); #8 swaps whenever the plot faces down; #7 reads ___targetReceptacle (FieldRefAccess failed ModCheck)
+- [ ] S4a test kit + T1 ← NEXT
 - [ ] S5 tests T2-T5 Pips and vines (default)
 - [ ] S6 tests T6-T8 plots and side screen (default)
 - [ ] S9 save round trip T9/T10 (default)
@@ -83,6 +83,7 @@
 - Pip reachability of ceiling cells for a 1x2 hanging plant. Correction (user, 2026-10-17): Pips walk on walls and ceilings; unit 01 read only the default `NavType.Floor` and missed the nav grid. Passed to design unit 03.
 - Whether `vine_mother_kanim` looks right flipped (art not opened).
 - Unverified API details the implementers read from source: ReplaceElement arguments (Kit Dupes.cs), plant maturity API, how T2 drives the Pip's plantableCellQuery, requiredDlcIds list syntax in a real load (unit 04).
+- Not in scope, noted (unit 07): ModCheck does not check string-named Harmony targets, and `Invoke-OniTests.ps1 -BuildOnly` runs ModCheck on the test DLL only, not the mod DLL; ModCheck reports AccessTools.FieldRefAccess fields as failures in every mod using them (detect-any-element, bitshifter included), a false failure from ModCheck's .NET runtime.
 - Not in scope, noted: `common/tools/Kanim/kanim.py extract` reads only sharedassets0.assets and cannot extract DLC art (unit 03).
 - testbed-base.sav is missing from the test kit (unit 02, gap).
 
