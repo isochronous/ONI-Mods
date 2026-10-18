@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="$(OniCommon)oni-mod.props" />
+
+  <PropertyGroup>
+    <AssemblyName>OvagroOverhead</AssemblyName>
+    <RootNamespace>OvagroOverhead</RootNamespace>
+    <Version>0.1.0</Version>
+  </PropertyGroup>
+
+  <Import Project="$(OniCommon)oni-mod.targets" />
+
+</Project>
