@@ -5,12 +5,15 @@
 
 ## Phase State
 - **Phase plan**: investigation → architecture → implementation → testing → completion
-- **Completed**: investigation, architecture
-- **Current**: implementation   (status: pending)
-- **Next**: testing
-- **Loaded skill**: task-plan-phase-implementation
+- **Completed**: investigation, architecture, implementation, testing
+- **Current**: completion   (status: in-progress)
+- **Next**: none (task complete after completion)
+- **Loaded skill**: task-plan-phase-completion
 - **Branch**: OM-006-ovagro-overhead
-- **Attempts (current phase)**: 0
+- **Attempts (current phase)**: 1
+
+## Review Checkpoint
+- Unit 12 (units/12-review-report.md) reviewed the change up to 896238b: 0 block, 2 fix, 5 nit; fixes 1-2 and nits 3, 5, 6 resolved in 2fe720f, nit 4 left (common/ Reflect.cs), nit 7 resolved in the description (a890940). Code changed after it (ceiling vine prefab, Preview.cs, Removal.cs, test updates, common 5d0582a and a0fe078): unit 13 reviews 896238b..HEAD and common 93d2890..a0fe078.
 
 ## Decisions
 - Task id OM-006, not OM-003: `ks resolve --explain` reported highest OM-002 for this node, but the common/ submodule store already holds OM-003..OM-005 under the same prefix.
@@ -62,6 +65,31 @@
 **Decisions delta**: architecture, D1-D5, world-gen nodes on floors, decision record after integrate (all in ## Decisions).
 **Key files delta**: design names the new files (VineMotherCeilingConfig, CeilingForm helper, patches, tests); the plan unit fixes the file list.
 **What the next phase needs**: a plan unit turns units/02-explore-report.md (scaffold checklist) and units/03-design-report.md (patches, art, tests) into sequenced implement steps; risks to carry into tests: mod-removal behaviour (ceiling plants dropped on load; their branches' fate unconfirmed), the first-branch fix relying on the branch state machine starting after the patched method (T5 checks it), and the prefab field swap in #5-#8. Open: D6, which of the user's farming or Pip mods to run the tests beside (asked).
+
+### Handoff: implementation → testing   (commit: Phase-Handoff: implementation)
+**Sub-agent outputs**:
+- implement unit 05 (units/05-implement-report.md): S1 scaffold, bea076e; requiredDlcIds confirmed in KMod/Mod.cs.
+- implement unit 06 (units/06-implement-report.md): S2 hidden ceiling plant + CeilingForm, fbd4703; net48 CS8702 → GetDlcIds/GetAnyRequiredDlcIds written out.
+- implement unit 07 (units/07-implement-report.md): S3+S4 nine patches, b79be6a; all targets resolved with the game's Harmony lookup; Mod.cs all-or-nothing catch (user ruling: keep).
+- implement unit 11 (units/11-implement-report.md): README, CHANGELOG, Workshop text and tags, 9984e9f; tags widened by the manager (c71b14b).
+- manager (user override 2026-10-18, done directly): ceiling vines as their own prefab VineBranchCeiling (2fe720f) after the removal check; Workshop preview (494f403, b194fe2); description (a890940).
+**Reviewer findings**: unit 12 — see ## Review Checkpoint.
+**Verification evidence**: `dotnet build mods/ovagro-overhead/src/OvagroOverhead/OvagroOverhead.csproj -c Release -p:ModDeployFolder=none` → "0 Warning(s) 0 Error(s)" after each step; test project build "0 Warning(s) 0 Error(s)".
+**Decisions delta**: patch-failure catch kept; S3+S4 in one unit; net48 kept; ceiling vines own prefab.
+**Key files delta**: mods/ovagro-overhead/src/OvagroOverhead/{Mod.cs, CeilingForm.cs, VineMotherCeilingConfig.cs, VineBranchCeilingConfig.cs, PlantingPatches.cs, BranchPatch.cs, PlotPatches.cs, SideScreenPatches.cs, mod.yaml, mod_info.yaml, OvagroOverhead.csproj}; README.md, CHANGELOG.md, publish/{preview.png, workshop-description.txt, workshop-tags.txt}.
+**What the next phase needs**: the suite under src/OvagroOverhead.Tests run in game.
+
+### Handoff: testing → completion   (commit: Phase-Handoff: testing)
+**Sub-agent outputs**:
+- test unit 08 (units/08-test-report.md): Kit.cs, Registration.cs; T1 + helper pass (run-20261017-235414).
+- test unit 09 (units/09-test-report.md): WildPlanting.cs, Vines.cs; T2-T5 pass, real Pip planted in 7 s (run-20261018-000941).
+- test unit 10 (units/10-test-report.md): Plots.cs, Persistence.cs; 16/16 (run-20261018-003145).
+- manager: Plots.VinesFromDownwardFarm (review fix 1), vine prefab checks, Explicit Preview.cs and Removal.cs; harness KeepSave (common a0fe078).
+**Reviewer findings**: unit 12 fixes resolved (see ## Review Checkpoint).
+**Verification evidence**: full suite `pwsh common/tools/TestRunner/Invoke-OniTests.ps1 -Mods OvagroOverhead` → "Session done: 17 passed, 0 failed, 0 errors, 0 timeouts, 0 skipped" (run-20261018-013757). Removal check (REMOVAL save, loaded with the mod off by a KeepSave probe): two "Could not find prefab" warnings, 0 NullReferenceException, no seed, open Farm Tile order kept (run-20261018-014051).
+**Decisions delta**: harness KeepSave option.
+**Key files delta**: src/OvagroOverhead.Tests/{Kit, Registration, WildPlanting, Vines, Plots, Persistence, Preview, Removal}.cs; common/tools/TestRunner/{Kit/Attributes.cs, Session.cs, TestBehaviour.cs, README.md}; common/tools/MakePreview/title_preview.py.
+**What the next phase needs**: review unit 13 over the delta since unit 12; store node and records; retrospective; PRs for ONI-Mods and common.
 
 ## Progress
 - [x] Investigate — units 01 and 02 reported; findings above
