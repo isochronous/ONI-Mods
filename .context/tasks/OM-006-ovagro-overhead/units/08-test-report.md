@@ -1,4 +1,20 @@
-# Unit 08 report: S4a test kit and T1 (BLOCKED: no in-game run)
+# Unit 08 report: S4a test kit and T1 (PASSED in game on the second attempt)
+
+## In-game run (supersedes the BLOCKED section below)
+Command: `pwsh common/tools/TestRunner/Invoke-OniTests.ps1 -Mods OvagroOverhead`, exit 0, after the user closed the game. No test-code fixes were needed, so no further commit; the commit stays 2834d21 (trailers there are Sonnet 5.5; the coordinator asked for the Opus 5.5 line for any fix commit, none was made).
+- Run folder: `C:\dev\ONI-Mods\common\tools\TestRunner\runs\run-20261017-235414`
+- Console: `PASS Registration.Prefabs (0.0 s)`, `PASS Registration.NaturalCeilingHelper (3.1 s)`; "Session done: 2 passed, 0 failed, 0 errors, 0 timeouts, 0 skipped".
+- results.jsonl:
+```
+{"id":"OvagroOverhead.Tests/Registration.Prefabs",...,"layer":0,"status":"pass","message":null,"durationSeconds":0.00,"gameSeconds":0.00,"logErrors":[],"notes":[]}
+{"id":"OvagroOverhead.Tests/Registration.NaturalCeilingHelper",...,"layer":0,"status":"pass","message":null,"durationSeconds":3.07,"gameSeconds":3.07,"logErrors":[],"notes":["built DevLifeSupport at 122849 (101, 193)","boxed 38x8 at (101, 186) in 96 tiles of IgneousRock; air filled, a dev life support in the corner","screenshot ...\artifacts\OvagroOverhead.Tests.Registration.NaturalCeilingHelper-natural-ceiling.png"]}
+```
+- Player.log (run folder): `[03:54:36.754] [1] [INFO] [OvagroOverhead] Loaded version 0.1.0.0`. No OvagroOverhead warning (grep of "warn" with "ovagro": no lines), 0 lines containing "Exception".
+- Screenshot: `C:\dev\ONI-Mods\common\tools\TestRunner\runs\run-20261017-235414\artifacts\OvagroOverhead.Tests.Registration.NaturalCeilingHelper-natural-ceiling.png` (2560x1440). Cropped view: two white tile rows (box top and floor) with a band of natural sandstone-textured rock between them in the upper part, its underside lit gold-edged and irregular (not a tile), open teal air below it; dark igneous rock to the right.
+- Cleanup: game process gone after the run (tasklist empty); Documents mods.json identical to the run's mods.json.real (restored).
+- Mod bugs: none. Harness friction: none this run.
+
+# (earlier attempt, kept for history)
 
 ## Result
 - Pass/fail counts: none. 0 passed, 0 failed, 0 run. The game was already running, so `Invoke-OniTests.ps1 -Mods OvagroOverhead` refused to start: `Invoke-OniTests.ps1:147: The game is already running; close it first.`
