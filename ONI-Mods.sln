@@ -81,6 +81,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "vent-freeze-fix", "vent-fre
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VentFreezeFix", "mods\vent-freeze-fix\src\VentFreezeFix\VentFreezeFix.csproj", "{D8CAE43F-6A38-4D3B-96AB-B8514FB42D40}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ovagros-overhead", "ovagros-overhead", "{6860FBA7-895D-444E-8DFA-9C955BA1788F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OvagrosOverhead", "mods\ovagros-overhead\src\OvagrosOverhead\OvagrosOverhead.csproj", "{C6B01296-3CA1-4AF8-8F45-DD2BA01336B8}"
+EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "common", "common", "{92EA55CD-521F-4AD0-BC78-EC9B2906025B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModCheck", "common\tools\ModCheck\ModCheck.csproj", "{00CBAB8A-7A21-42C0-9C82-A7C1EF0C0B80}"
@@ -124,6 +128,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VentFreezeFix.Tests", "mods\vent-freeze-fix\src\VentFreezeFix.Tests\VentFreezeFix.Tests.csproj", "{5748118E-1B8E-4945-BBF9-2AC4125EAAD2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NaturalBackwalls.Tests", "mods\natural-backwalls-everywhere\src\NaturalBackwalls.Tests\NaturalBackwalls.Tests.csproj", "{0C255B21-1680-4DC9-8169-D3EF6DCB6782}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OvagrosOverhead.Tests", "mods\ovagros-overhead\src\OvagrosOverhead.Tests\OvagrosOverhead.Tests.csproj", "{3522D94C-4D20-49EC-8367-2F84A112788C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{70C0E597-6A30-451E-B618-417970FD42A2}"
 	ProjectSection(SolutionItems) = preProject
@@ -326,6 +332,14 @@ Global
 		{0C255B21-1680-4DC9-8169-D3EF6DCB6782}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0C255B21-1680-4DC9-8169-D3EF6DCB6782}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0C255B21-1680-4DC9-8169-D3EF6DCB6782}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6B01296-3CA1-4AF8-8F45-DD2BA01336B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6B01296-3CA1-4AF8-8F45-DD2BA01336B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6B01296-3CA1-4AF8-8F45-DD2BA01336B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6B01296-3CA1-4AF8-8F45-DD2BA01336B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3522D94C-4D20-49EC-8367-2F84A112788C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3522D94C-4D20-49EC-8367-2F84A112788C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3522D94C-4D20-49EC-8367-2F84A112788C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3522D94C-4D20-49EC-8367-2F84A112788C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{70C0E597-6A30-451E-B618-417970FD42A2} = {72AE865A-6A65-4766-97EB-11290F044A78}
@@ -375,5 +389,7 @@ Global
 		{573F2AB9-5B6C-46B6-8022-363D040A8223} = {04095F9D-16E8-4A49-963E-C83463E02822}
 		{5748118E-1B8E-4945-BBF9-2AC4125EAAD2} = {2ED9D888-3781-4F08-B976-56CD5CFB785A}
 		{0C255B21-1680-4DC9-8169-D3EF6DCB6782} = {85FCA55A-B0CF-4A5D-86F8-97153416254A}
+		{C6B01296-3CA1-4AF8-8F45-DD2BA01336B8} = {6860FBA7-895D-444E-8DFA-9C955BA1788F}
+		{3522D94C-4D20-49EC-8367-2F84A112788C} = {6860FBA7-895D-444E-8DFA-9C955BA1788F}
 	EndGlobalSection
 EndGlobal

@@ -14,6 +14,7 @@
 | Multichannel Critter Sensor | [mods/multichannel-critter-sensor](mods/multichannel-critter-sensor) |
 | Natural Backwalls Everywhere | [mods/natural-backwalls-everywhere](mods/natural-backwalls-everywhere) |
 | No Magic Fridges | [mods/no-magic-fridges](mods/no-magic-fridges) |
+| Ovagros Overhead | [mods/ovagros-overhead](mods/ovagros-overhead) |
 | Refined Building | [mods/refined-building](mods/refined-building) |
 | Salty Surf | [mods/salty-surf](mods/salty-surf) |
 | Smart Weight Plate | [mods/smart-weight-plate](mods/smart-weight-plate) |

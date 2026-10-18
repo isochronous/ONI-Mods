@@ -177,3 +177,25 @@ Steam running; the game not running; the game folder found in a Steam location o
 
 - See also: [unit testing](unit-testing.md)
 - Governed by: [CI/CD workflow](../workflows/ci-cd.md)
+
+## Checking what removing a mod leaves in a save
+**Id:** blk-9a58d8528c61
+
+A mod that adds its own prefabs leaves a player's save in a state only the game without the mod can show. Check it in game before writing a removal claim in a README or Workshop description:
+
+1. An `[OniTest(Explicit = true, FreshSave = true)]` test in the mod's suite builds what a player would leave behind (each state of each new object), writes the cells to a text file and saves with `SaveLoader.Instance.Save` under `Session.Dir` (`mods/ovagros-overhead/src/OvagrosOverhead.Tests/Removal.cs`).
+2. A probe test in another mod's suite, marked `[OniTest(KeepSave = true, Explicit = true)]` so the harness does not clear part of the save before it, loads that save with `-Fixture` and reports what each listed cell holds, loose items nearby and the plots' orders, at load and after some game seconds. The other mod's loadout keeps the mod under test off. Delete the probe afterwards.
+3. Read `Player.log` for `Could not find prefab` warnings and for exceptions: a vanilla object whose mod-made partner was dropped can throw every tick.
+
+Ovagros Overhead's check (OM-006) found its hanging plant dropped on load while the vanilla vines it had grown stayed behind with no plant and threw a NullReferenceException every tick; the vines became the mod's own prefab so both drop together.
+
+## Plant scenes
+**Id:** blk-c1a9de995bf0
+
+Facts that each cost a failed run while building plant scenes for Ovagros Overhead:
+
+- A Hydroponic Farm with no pipe reports `NeedLiquidIn` and its plant wilts, even with water put straight into its storage; build a `LiquidConduit` in the farm's cell.
+- The test map is dug out and all vacuum. A scene that needs air is walled with tiles and filled with `SimMessages.ReplaceElement`; a plant that does not check pressure (Ovagro and its vines) grows in a thin fill, which keeps gas out of screenshots.
+- Some plants have no maturity amount: the Ovagro Node grows by playing its grow animation once and then flags itself grown, so a test waits on its state machine, not on maturity. Its vines do have maturity, and forcing it on each new vine grows a chain in seconds.
+- Pips walk floors, walls and ceilings, but cannot cross a gap from a wall or ceiling to a floating ledge; spawn a Pip on the surface it has to reach, and assert `Navigator.CanReach` before waiting on it.
+- When a wait stalls, log the object's state every few seconds and take a screenshot with the HUD on (status icons) before failing; the cause is usually visible there.

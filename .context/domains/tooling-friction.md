@@ -84,3 +84,47 @@ OM-005 (in common). The fix unit planned `fix07-rmterm-TestRunner.json` (a prote
 **Id:** blk-31711a20c7d2
 
 OM-005 (in common), confirmation review unit 08. `ks brief --at C:/dev/ONI-Mods/common` over the eight nodes warned that the six `tags.md` dictionaries declare no coverage and no tags, and suggested giving them `applies_to` or tags through the write path. A dictionary is read through `ks tags`, and the tag-backfill skill excludes it from its own backfill by destination. Expected: no coverage warning for a `tags.md`. Done instead: left them undeclared, as the OM-002 dictionaries are, and recorded the decision in OM-005's plan.
+
+## 2026-10-17 resolve: the highest task id ignores the same prefix in the common submodule store
+**Id:** blk-c75a87585b6c
+
+Opening OM-006, `ks resolve mods --explain` printed `task ids prefix OM · highest OM-002 (.context/tasks/OM-002-store-backfills)`. The `common/` submodule's own store already holds `OM-003-integrate-common`, `OM-004-populate-common` and `OM-005-common-backfills` under the same `OM` prefix, so taking the next number from resolve would have minted OM-003 a second time. This is the same boundary as the earlier entry on the submodule becoming its own store (the submodule is its own store, outside the root's node graph), seen from the task-id side. Expected: the highest id counts every store that shares the prefix inside the checkout, or resolve warns that a nested store uses the prefix too. Done instead: listed `common/.context/tasks/` by hand and took OM-006.
+
+## 2026-10-17 write plan: a slash in a new section heading is read as a nested address
+**Id:** blk-b32f774e33ce
+
+Recording the task-id entry, `ks write plan` refused a `create_section` op whose heading contained `common/ submodule`: it read the `/` as a block address separator and asked for a parent section named everything before the slash. Expected: `create_section` takes the heading text literally, or the schema says a heading may not contain `/` and how to escape one. Done instead: reworded the heading without the slash.
+
+## 2026-10-17 handoff: a scope spanning several mod nodes fills the brief with per-mod copies of one record
+**Id:** blk-80598ce7fbc3
+
+OM-006 unit 02 (how a new mod is scaffolded) got a packet from `ks handoff --scope ONI-Mods.sln Directory.Build.props mods/just-fall-already mods/vent-freeze-fix mods/detect-any-element common/tools common/README.md --decisions`. Its 47 pointers were mostly each mod's own `standards/code-style.md` and `domains/entities.md` sections (nine from detect-any-element's `entities.md` alone, two code-style sections from each of eight mods); none pointed at `workflows/ci-cd.md`, `testing/unit-testing.md` or common's TestRunner and release records, which answer the unit's questions. The unit also reported that the code-style pointers gave one-line reasons naming detect-any-element's `Patches.cs` for records belonging to other mods. The unit read four pointers with `ks read` and answered the rest from files. Expected: records that are near-identical across sibling nodes collapse to one pointer, so the budget reaches the records the scope's own question needs. Unit 01, scoped to `Directory.Build.props mods` for a question answered only by decompiled game code, got 27 of 508 candidates, all per-mod error-handling and code-style standards, and read none. Done instead: nothing in the tool; the manager's scope was also wider than the question (three sample mods and all of `common/tools`), so later packets name only the folders a unit will touch and pass `--tag` for subject records.
+
+## 2026-10-17 brief: a tag disjunction widens through shared words, and a path packet reaches no subject records
+**Id:** blk-6c43aeeca587
+
+OM-006 design unit 03 ran `ks brief --tag 'mod-compatibility || save-files || game-update-compatibility'`. `game-update-compatibility` pulled in every `in-game-testing` record, so the answer was the same broad testing set the unit already had. That is documented behaviour, not a defect: `ks brief --help` says a term matches any record whose tags share a token with it. The cost is that a hyphenated term sharing a common word (`game`, `testing`) reaches far wider than its dictionary entry; narrowing takes an `&&` with a second term, not a longer `||` list. The unit read only the records whose own tags fit.
+
+The same unit's packet (`ks handoff --scope mods/just-fall-already/src .github/workflows/label-mod.yml --decisions`) spent its 8 KB on per-mod copies of the code-style sections and returned no decision records; the records that governed the design (the new-mod architecture trigger `blk-c8ecd5229a93`, the testing records) came only from tag queries the unit ran itself. Expected: a packet for a design unit reaches the subject records its spec names. Done instead: the manager passes a grouped `--tag` expression into later packets and names governing record ids in the unit's prompt.
+
+## 2026-10-17 handoff and brief: several --tag arguments are refused once one of them holds &&
+**Id:** blk-0d476b3d9191
+
+Not an engine fault: a caller error, kept here with its correction. `ks handoff ... --tag 'in-game-testing && test-pacing' 'mod-build' 'release-process && steam-workshop'` was refused as malformed, correctly. `ks brief --help` documents the grammar: terms union unless `&&` conjoins them, `||` spells the union, parentheses group, and `&&` binds tighter than `||`. Ungrouped, those arguments read as one expression with two terms side by side. The right form is one grouped expression, `--tag '(in-game-testing && test-pacing) || mod-build || (release-process && steam-workshop)'`, which the next run used and which composed. Lesson: read the verb's `--help` before composing a `--tag` expression, and group every `&&` clause with parentheses when it sits beside other terms.
+
+The real friction from that run: with `--budget 16384`, the packet still gave 66 of its 70 pointers to per-mod `code-style.md` and `entities.md` sections (each mod's dictionary tags its code-style sections `mod-build`) and 4 to the root's testing and release records. The manager named the governing root ids in the unit's prompt.
+
+## 2026-10-17 integrate: a root run re-adds the tool rows the common roster repair removed
+**Id:** blk-f52a5dcb40e8
+
+To wire the new mods/ovagro-overhead node, `ks integrate --at .` planned and applied (confirm digest `sha256:4b26549a...`). It did the expected work: a new `mods/ovagro-overhead/.context/` node and one row in `mods/.context/projects.md`. It also appended `ModCheck`, `SaveRunner`, `TestRunner`, `StringsTemplate`, `WorkshopUpload` and `WorldgenDriver` rows to `common/.context/projects.md` — the rows the OM-003 repair (entry "icon-integrate: inserting a tier relabels one roster row") replaced with a single `tools` row — although the same plan listed `common` under "not walked — a nested git repository is a different store". The plan also listed `.gitattributes` and `.gitignore` under every existing node, none of which changed on disk. Expected: a root run leaves a nested store's roster alone, and the plan lists only bytes it will change. Done instead: restored `common/.context/projects.md` with `git -C common checkout`, kept the two intended writes.
+
+## 2026-10-18 write: a retrospective log cannot be renamed
+**Id:** blk-513a68d2b02d
+
+The root's retrospective entries (OM-001, OM-002, OM-006) had been appended to `retrospectives/shared.md`, the log `retro append` writes when no `log` is named; this repository's log is `retrospectives/icon.md`. A narrative `rename` from `retrospectives/shared.md` to `retrospectives/icon.md` was refused: "retro has no `rename` mode" (its modes are append, remove, repair, replay, revise, scaffold). The only write-path route was re-appending each entry to the `icon` log and removing it from `shared` (protected), which mints new entry ids and drops the old ones. Expected: a rename of a whole log that keeps its bytes and ids, or a node setting naming the default log. Done instead: `git mv` of the file at the user's direction, bytes unchanged; `ks map --kind lesson` lists all three entries under `retrospectives/icon.md` and `ks check` reports no block. Later retro writes name `log: "icon"`.
+
+## 2026-10-18 renaming a project: no door for a node's folder, and rename --check refuses on a submodule
+**Id:** blk-df578066c6b1
+
+Renaming the unreleased mod `mods/ovagro-overhead` to `mods/ovagros-overhead` (OM-006) moved its store node with the folder. No verb moves a node: `projects` `repoint` rewrites a row's path cell but keeps its name cell, so the parent's row would have kept the name `ovagro-overhead`, and the node's own scaffold names itself in `META.md`, `overview.md`, the README descriptions and `tags.md`. Done instead: the folder moved with `git mv`, then one protected `repair` (kind `correction`) per file in each node (`mods/ovagros-overhead`, `mods`, root), each the file with only the names changed, ratified by its digest; the decision record kept its text and gained an addendum. Afterwards `ks rename --check ovagro-overhead` refused: "could not read 1 file: common (EISDIR: illegal operation on a directory, read)" — the submodule's gitlink is a tracked path the sweep tries to read as a file. Expected: a node move that repoints the parent row (name and path) and renames the node's own self-references, and a sweep that skips gitlinks. Done instead: `git grep` over the tracked files, history excluded.

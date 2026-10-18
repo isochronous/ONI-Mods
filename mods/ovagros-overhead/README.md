@@ -1,0 +1,34 @@
+# Ovagros Overhead
+
+An [Oxygen Not Included](https://www.klei.com/games/oxygen-not-included) mod: Ovagro grows from ceilings. Pips plant Ovagro seeds on natural ceilings, and Duplicants plant them in Farm Tiles and Hydroponic Farms rotated to face down. The vines grow along the ceiling.
+
+## What it does
+
+- Pips plant Ovagro seeds on natural ceilings, as they plant them on floors.
+- Duplicants plant Ovagro seeds in a Farm Tile or Hydroponic Farm that is flipped to face down. The plant hangs from the plot and its vines grow along the ceiling.
+- Floor planting is unchanged.
+
+Requires the Prehistoric Planet Pack, which adds Ovagro.
+
+## Removing the mod
+
+If removed from a save, ceiling Ovagro and their vines simply vanish; no seed is dropped. Cancel any Ovagro orders on upside-down farm tiles first.
+
+## Installing
+
+As a local mod:
+
+1. Download `OvagrosOverhead-<version>.zip` from the [releases page](https://github.com/isochronous/ONI-Mods/releases?q=ovagros-overhead).
+2. Extract it into a new folder named `OvagrosOverhead` inside the game's local mods folder, so that `mod.yaml` ends up directly inside it (create `local` if it does not exist):
+   - Windows: `Documents\Klei\OxygenNotIncluded\mods\local\OvagrosOverhead`
+   - Linux: `~/.config/unity3d/Klei/Oxygen Not Included/mods/local/OvagrosOverhead`
+3. Enable it in the game's Mods menu and restart.
+
+## Building
+
+```
+git clone https://github.com/isochronous/ONI-Mods.git
+dotnet build ONI-Mods/mods/ovagros-overhead/src/OvagrosOverhead -c Release
+```
+
+The build deploys the mod into the game's local mods folder. See `common/README.md` for the shared build and release tooling.
