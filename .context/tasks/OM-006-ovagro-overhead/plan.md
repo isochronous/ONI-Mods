@@ -2,6 +2,7 @@
 ## Branch: OM-006-ovagro-overhead
 ## Objective: Scaffold a new mod, mods/ovagro-overhead ("Ovagro Overhead"), whose only feature is letting Ovagro plants grow from the ceiling: planted by Pips in natural tiles (wild planting on the underside of a tile), and by Duplicants in downward-facing Hydroponic Farms and Farm Tiles (both can face down in the current game). Their vines must grow as they do on the floor, along the ceiling's underside instead. Floor planting keeps working as in vanilla.
 ## Folder: .context/tasks/OM-006-ovagro-overhead/
+Every other file of this task (units/, changesets/, handoff-*.md) is in OM-006-artifacts.zip in this folder, at the same relative paths.
 
 ## Phase State
 - **Phase plan**: investigation → architecture → implementation → testing → completion
