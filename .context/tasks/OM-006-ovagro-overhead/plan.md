@@ -25,6 +25,8 @@
 - D5 (user): include the Copy Settings patch (#8).
 - D6 (user, 2026-10-17): no farming or Pip mods in the user's loadout would affect this; tests run on Ovagro Overhead alone, no -Steam compatibility run.
 - World-gen Ovagro nodes stay on floors.
+- S3 and S4 run as one unit (07), not two parallel units: parallel units would commit on one branch at once, and the nine patches share the swap pattern.
+- To record at completion (store): an IEntityConfig in these net48 mods must write out GetDlcIds and GetAnyRequiredDlcIds (CS8702 on the game's default interface methods); GetDlcIds returns null so the loader takes the IHasDlcRestrictions branch (unit 06).
 - The design lands as a decision record in the mod's own store node once it exists (icon-integrate after the scaffold), through adr-discipline.
 - Naming: folder mods/ovagro-overhead, assembly/namespace/project OvagroOverhead, staticID Isochronous.OvagroOverhead, first version 0.1.0, tag ovagro-overhead-v0.1.0 (unit 02).
 
@@ -64,9 +66,8 @@
 - [x] Plan unit 04 (units/04-plan-report.md): steps below; order S1 → S2 → {S3, S4, S4a} → S5 (needs S3, S4a), S6 (needs S4, S4a) → S9; S7, S8 any time after S1; test steps queue on one game session; each step ends in the solution build and a commit
 - [x] S1 scaffold (unit 05, run at default not basic: nine files incl. the sln and a new DLC field) — bea076e; 12 files; requiredDlcIds confirmed in KMod/Mod.cs 38/436/442-491; manager rebuild: OvagroOverhead and OvagroOverhead.Tests built, 0 errors, 288 warnings all in other mods
 - [x] M1 store node: `ks integrate --at .` wrote mods/ovagro-overhead/.context/ and a mods/projects.md row (7bad16c); its unrequested write to common/.context/projects.md was restored from git and logged as friction; node placeholders (overview, META, domains/standards README) are filled at completion
-- [ ] S2 VineMotherCeilingConfig + CeilingForm helper (complex) ← IN PROGRESS
-- [ ] S3 seed-side patches #1-#3, #9 (complex)
-- [ ] S4 plot-side patches #4-#8 (complex)
+- [x] S2 (unit 06) — fbd4703: VineMotherCeilingConfig.cs, CeilingForm.cs (219 lines); departures: net48 cannot use the game's default interface methods (CS8702), so GetDlcIds (null) and GetAnyRequiredDlcIds are written out; vanilla's no-op traits.Get dropped; base trait added twice as vanilla does. Manager build of the mod: 0 warnings, 0 errors
+- [ ] S3+S4 patches #1-#9 in one unit (07) ← IN PROGRESS
 - [ ] S4a test kit (natural-ceiling helper via SimMessages.ReplaceElement) + T1 registration (default)
 - [ ] S5 tests T2-T5 Pips and vines (default)
 - [ ] S6 tests T6-T8 plots and side screen (default)
