@@ -5,8 +5,8 @@ using UnityEngine;
 namespace OvagroOverhead.Tests
 {
 	/// <summary>
-	/// The mod loaded and registered its prefabs as the design says, and left the vanilla Ovagro
-	/// Node and its seed as they were. Also the natural-ceiling helper the later tests build on.
+	/// The mod loaded and registered its prefabs as the design says (the ceiling plant, its preview
+	/// and its vines), and left the vanilla Ovagro Node, its vines and its seed as they were. Also the natural-ceiling helper the later tests build on.
 	/// </summary>
 	public static class Registration
 	{
@@ -17,7 +17,7 @@ namespace OvagroOverhead.Tests
 			return prefab;
 		}
 
-		[OniTest("REGISTRATION: the ceiling Ovagro and its preview are registered and the vanilla plant and seed are untouched", Timeout = 30, NoColony = true), Layer(0)]
+		[OniTest("REGISTRATION: the ceiling Ovagro, its preview and its vines are registered and the vanilla plant, vines and seed are untouched", Timeout = 30, NoColony = true), Layer(0)]
 		public static IEnumerator Prefabs(TestContext t)
 		{
 			t.Assert.True(DlcManager.IsContentSubscribed(DlcManager.DLC4_ID), "the Prehistoric Planet Pack is active");
@@ -46,12 +46,35 @@ namespace OvagroOverhead.Tests
 			t.Assert.Eq(vanillaTemp.TemperatureWarningLow, temp.TemperatureWarningLow, "warning low temperature");
 			t.Assert.Eq(vanillaTemp.TemperatureWarningHigh, temp.TemperatureWarningHigh, "warning high temperature");
 
-			var irrigation = ceiling.GetDef<IrrigationMonitor.Def>();
-			var vanillaIrrigation = vanilla.GetDef<IrrigationMonitor.Def>();
+			IrrigationMonitor.Def irrigation = ceiling.GetDef<IrrigationMonitor.Def>();
+			IrrigationMonitor.Def vanillaIrrigation = vanilla.GetDef<IrrigationMonitor.Def>();
 			t.Assert.NotNull(irrigation, "the ceiling plant is irrigated");
 			t.Assert.Eq(vanillaIrrigation.consumedElements.Length, irrigation.consumedElements.Length, "irrigation entries");
 			t.Assert.Eq(vanillaIrrigation.consumedElements[0].tag, irrigation.consumedElements[0].tag, "irrigation tag");
 			t.Assert.Eq(vanillaIrrigation.consumedElements[0].massConsumptionRate, irrigation.consumedElements[0].massConsumptionRate, "irrigation rate");
+
+			t.Assert.Eq(vanilla.GetComponent<PrimaryElement>().Mass, ceiling.GetComponent<PrimaryElement>().Mass, "the ceiling plant's mass is the vanilla plant's");
+			t.Assert.Eq(vanilla.GetDef<VineMother.Def>().MAX_BRANCH_COUNT, ceiling.GetDef<VineMother.Def>().MAX_BRANCH_COUNT, "branch count");
+			t.Assert.Eq(CeilingForm.BranchId, ceiling.GetDef<VineMother.Def>().BRANCH_PREFAB_NAME, "the ceiling plant grows the ceiling vines");
+			t.Assert.Eq(VineBranchConfig.ID, vanilla.GetDef<VineMother.Def>().BRANCH_PREFAB_NAME, "the vanilla plant still grows the vanilla vines");
+
+			// The ceiling vines are the vanilla vines under their own id, so removing the mod drops them with the plant.
+			GameObject branch = Prefab(t, CeilingForm.BranchId);
+			GameObject vanillaBranch = Prefab(t, VineBranchConfig.ID);
+			t.Assert.Eq(CeilingForm.BranchId, branch.GetDef<VineBranch.Def>().BRANCH_PREFAB_NAME, "a ceiling vine grows ceiling vines");
+			t.Assert.Eq(VineBranchConfig.ID, vanillaBranch.GetDef<VineBranch.Def>().BRANCH_PREFAB_NAME, "a vanilla vine still grows vanilla vines");
+			t.Assert.True(branch.HasTag(GameTags.PlantBranch) && branch.HasTag(GameTags.HideFromCodex), "the ceiling vine is a hidden plant branch");
+			t.Assert.Eq(vanillaBranch.GetComponent<PrimaryElement>().Mass, branch.GetComponent<PrimaryElement>().Mass, "the ceiling vine's mass is the vanilla vine's");
+			t.Assert.Eq(vanillaBranch.GetComponent<Crop>().cropId, branch.GetComponent<Crop>().cropId, "the ceiling vine bears Ovagro Figs");
+			t.Assert.Eq(vanillaBranch.GetComponent<PlantFiberProducer>().amount, branch.GetComponent<PlantFiberProducer>().amount, "plant fiber");
+			SeedProducer seeds = branch.GetComponent<SeedProducer>();
+			SeedProducer vanillaSeeds = vanillaBranch.GetComponent<SeedProducer>();
+			t.Assert.Eq(vanillaSeeds.seedInfo.seedId, seeds.seedInfo.seedId, "the ceiling vine drops the vanilla seed");
+			t.Assert.Eq(vanillaSeeds.seedDropChanceMultiplier, seeds.seedDropChanceMultiplier, "seed drop chance");
+			TemperatureVulnerable branchTemp = branch.GetComponent<TemperatureVulnerable>();
+			TemperatureVulnerable vanillaBranchTemp = vanillaBranch.GetComponent<TemperatureVulnerable>();
+			t.Assert.Eq(vanillaBranchTemp.TemperatureWarningLow, branchTemp.TemperatureWarningLow, "the ceiling vine's warning low temperature");
+			t.Assert.Eq(vanillaBranchTemp.TemperatureWarningHigh, branchTemp.TemperatureWarningHigh, "the ceiling vine's warning high temperature");
 
 			GameObject preview = Prefab(t, CeilingForm.PreviewId);
 			CellOffset[] previewCells = preview.GetComponent<OccupyArea>()._UnrotatedOccupiedCellsOffsets;

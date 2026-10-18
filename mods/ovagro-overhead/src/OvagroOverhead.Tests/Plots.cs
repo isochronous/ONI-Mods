@@ -360,5 +360,57 @@ namespace OvagroOverhead.Tests
 			AssertOrderedHanging(t, plot, "the tile ordered from the screen");
 			Kit.AssertSeedPrefabIsVanilla(t, "after the order");
 		}
+
+		/// <summary>
+		/// The vines of an Ovagro in an upside-down Hydroponic Farm grow along the tiles beside the
+		/// farm, as ceiling vines, the way a wild ceiling Ovagro's grow along the rock.
+		/// </summary>
+		[OniTest("PLOT: an Ovagro in an upside-down Hydroponic Farm grows its vines along the tiles beside it", Timeout = 150, Boxed = true), Layer(0)]
+		public static IEnumerator VinesFromDownwardFarm(TestContext t)
+		{
+			t.Speed(3);
+			CellRect inside = t.Dupes.Box();
+			yield return t.WaitGameSeconds(2);
+			int top = TopRow(inside);
+			const int fx = 20;
+			int plotCell = inside.Cell(fx, top);
+			for (int x = fx - 4; x <= fx + 4; x++)
+				if (x != fx)
+					t.World.Build("Tile", inside.Cell(x, top));
+			PlantablePlot plot = Kit.Plot(t, "HydroponicFarm", plotCell, Orientation.FlipV);
+			t.World.Build("LiquidConduit", plotCell);
+			GameObject seed = Kit.Seed(t, inside.Cell(fx + 6, 0));
+			yield return t.WaitGameSeconds(2);
+			plot.CreateOrder(CeilingForm.SeedTag, Tag.Invalid);
+			yield return t.WaitGameSeconds(1);
+			plot.ForceDeposit(seed);
+			yield return t.WaitGameSeconds(1);
+			Kit.Water(plot, 20f);
+			GameObject plant = AssertHangingOccupant(t, plot, "the farm");
+
+			yield return Kit.GrowMother(t, plant);
+			VineMother.Instance smi = plant.GetSMI<VineMother.Instance>();
+			yield return Kit.GrowChains(t, smi, 3, 3, 90);
+			yield return t.WaitGameSeconds(3);
+			List<VineBranch.Instance> left = Kit.Chain(smi.LeftBranch);
+			List<VineBranch.Instance> right = Kit.Chain(smi.RightBranch);
+			t.Log("left: " + Kit.Describe(left) + "; right: " + Kit.Describe(right));
+			t.Assert.Eq(VineBranch.Shape.Top, left[0].RootShape, "the first left branch takes the tiles as a ceiling");
+			t.Assert.Eq(VineBranch.Shape.Top, right[0].RootShape, "the first right branch takes the tiles as a ceiling");
+			for (int i = 0; i < 3; i++)
+			{
+				foreach (KeyValuePair<string, VineBranch.Instance> side in new[] { new KeyValuePair<string, VineBranch.Instance>("left", left[i]), new KeyValuePair<string, VineBranch.Instance>("right", right[i]) })
+				{
+					int expected = inside.Cell(side.Key == "left" ? fx - 1 - i : fx + 1 + i, top - 1);
+					GameObject go = side.Value.gameObject;
+					t.Assert.Eq(Cells.Describe(expected), Cells.Describe(Grid.PosToCell(go)), side.Key + " branch " + (i + 1) + " is under the tiles");
+					t.Assert.Eq(VineBranch.Shape.Top, side.Value.MyShape, side.Key + " branch " + (i + 1) + " hugs the tiles above it");
+					t.Assert.Eq(CeilingForm.BranchTag, go.PrefabID(), side.Key + " branch " + (i + 1) + " is a ceiling vine");
+					t.Assert.False(go.HasTag(GameTags.Uprooted), side.Key + " branch " + (i + 1) + " is rooted");
+				}
+			}
+			yield return t.LookAt(plotCell, 5f);
+			yield return t.Screenshot("vines-from-downward-farm");
+		}
 	}
 }

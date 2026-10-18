@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Isochronous.TestKit;
 using UnityEngine;
 
@@ -14,40 +15,6 @@ namespace OvagroOverhead.Tests
 	/// </summary>
 	public static class Vines
 	{
-		/// <summary>Sets maturity to full on every branch of each side until that side has its count.</summary>
-		private static IEnumerator GrowChains(TestContext t, VineMother.Instance mother, int left, int right, float realSeconds)
-		{
-			float start = Time.realtimeSinceStartup;
-			while (true)
-			{
-				List<VineBranch.Instance> l = Kit.Chain(mother.LeftBranch);
-				List<VineBranch.Instance> r = Kit.Chain(mother.RightBranch);
-				if (l.Count >= left && r.Count >= right)
-					yield break;
-				if (Time.realtimeSinceStartup - start > realSeconds)
-					t.Assert.Fail("the vine did not grow " + left + " branches left and " + right + " right; left: " + Kit.Describe(l) + "; right: " + Kit.Describe(r));
-				if (l.Count < left)
-					foreach (VineBranch.Instance b in l)
-						Kit.ForceMature(b.gameObject);
-				if (r.Count < right)
-					foreach (VineBranch.Instance b in r)
-						Kit.ForceMature(b.gameObject);
-				yield return t.WaitGameSeconds(1);
-			}
-		}
-
-		/// <summary>
-		/// The mother has no maturity amount: its state machine plays its grow animation once, marks
-		/// itself grown, and then tries for a branch on each side every four seconds.
-		/// </summary>
-		private static IEnumerator GrowMother(TestContext t, GameObject mother)
-		{
-			VineMother.Instance smi = mother.GetSMI<VineMother.Instance>();
-			float start = Time.realtimeSinceStartup;
-			yield return t.WaitUntil(() => smi.LeftBranch != null && smi.RightBranch != null, 90, "the mother to grow and put out a branch on each side");
-			t.Log("the mother put out its branches after " + (Time.realtimeSinceStartup - start).ToString("0") + " s");
-		}
-
 		private static void AssertAt(TestContext t, VineBranch.Instance b, int cell, VineBranch.Shape shape, string which)
 		{
 			t.Assert.Eq(Cells.Describe(cell), Cells.Describe(Grid.PosToCell(b.gameObject)), which + " is at the expected cell");
@@ -82,15 +49,17 @@ namespace OvagroOverhead.Tests
 			yield return t.WaitGameSeconds(2);
 			t.Assert.Eq(mother, Kit.PlantAt(motherCell), "the ceiling mother hangs at its cell");
 
-			yield return GrowMother(t, mother);
+			yield return Kit.GrowMother(t, mother);
 			VineMother.Instance smi = mother.GetSMI<VineMother.Instance>();
-			yield return GrowChains(t, smi, 4, 3, 90);
+			yield return Kit.GrowChains(t, smi, 4, 3, 90);
 			yield return t.WaitGameSeconds(5);
 
 			List<VineBranch.Instance> left = Kit.Chain(smi.LeftBranch);
 			List<VineBranch.Instance> right = Kit.Chain(smi.RightBranch);
 			t.Log("left: " + Kit.Describe(left));
 			t.Log("right: " + Kit.Describe(right));
+			foreach (VineBranch.Instance b in left.Concat(right))
+				t.Assert.Eq(CeilingForm.BranchTag, b.gameObject.PrefabID(), "a ceiling Ovagro's branch is a ceiling vine (" + Cells.Describe(Grid.PosToCell(b.gameObject)) + ")");
 			t.Assert.Eq(VineBranch.Shape.Top, left[0].RootShape, "the first left branch takes the ceiling as its root's shape");
 			t.Assert.Eq(VineBranch.Shape.Top, right[0].RootShape, "the first right branch takes the ceiling as its root's shape");
 			for (int i = 0; i < 3; i++)
@@ -129,12 +98,13 @@ namespace OvagroOverhead.Tests
 			yield return t.WaitGameSeconds(2);
 			t.Assert.Eq(mother, Kit.PlantAt(motherCell), "the floor mother stands at its cell");
 
-			yield return GrowMother(t, mother);
+			yield return Kit.GrowMother(t, mother);
 			VineMother.Instance smi = mother.GetSMI<VineMother.Instance>();
 			yield return t.WaitGameSeconds(3);
 			List<VineBranch.Instance> left = Kit.Chain(smi.LeftBranch);
 			List<VineBranch.Instance> right = Kit.Chain(smi.RightBranch);
 			t.Log("left: " + Kit.Describe(left) + "; right: " + Kit.Describe(right));
+			t.Assert.Eq(new Tag(VineBranchConfig.ID), left[0].gameObject.PrefabID(), "a floor Ovagro's branch is the vanilla vine");
 			t.Assert.Eq(VineBranch.Shape.Bottom, left[0].RootShape, "the first left branch takes the floor as its root's shape");
 			t.Assert.Eq(VineBranch.Shape.Bottom, right[0].RootShape, "the first right branch takes the floor as its root's shape");
 			AssertAt(t, left[0], inside.Cell(mx - 1, 1), VineBranch.Shape.Bottom, "left branch 1");

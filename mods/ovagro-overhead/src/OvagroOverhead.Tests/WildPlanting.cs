@@ -27,13 +27,6 @@ namespace OvagroOverhead.Tests
 			yield return Kit.NaturalCeiling(t, inside, StripX0, StripX1, StripRow(inside));
 		}
 
-		private static void AssertSeedIsVanilla(TestContext t, PlantableSeed seed, string whose)
-		{
-			t.Assert.Eq(SingleEntityReceptacle.ReceptacleDirection.Top, seed.direction, whose + " is back to direction Top");
-			t.Assert.Eq(CeilingForm.VanillaPlantTag, seed.PlantID, whose + " plants the vanilla Ovagro again");
-			t.Assert.Eq(VineMotherConfig.ID + "_preview", seed.PreviewID.Name, whose + " previews the vanilla Ovagro again");
-		}
-
 		private static PlantableSeed PrefabSeed()
 		{
 			return Assets.GetPrefab(CeilingForm.SeedTag).GetComponent<PlantableSeed>();
@@ -80,8 +73,8 @@ namespace OvagroOverhead.Tests
 				t.Assert.Eq(inside.Y + y - 1, cy, "the cell " + Cells.Describe(cell) + " is in the row under the strip");
 				t.Assert.False(Grid.Solid[Grid.CellBelow(cell)], "room for the hanging plant below " + Cells.Describe(cell));
 			}
-			AssertSeedIsVanilla(t, seed, "the seed in the world");
-			AssertSeedIsVanilla(t, PrefabSeed(), "the seed prefab");
+			Kit.AssertSeedIsVanilla(t, seed, "the seed in the world");
+			Kit.AssertSeedIsVanilla(t, PrefabSeed(), "the seed prefab");
 		}
 
 		[OniTest("WILD: an Ovagro seed planted under a natural ceiling grows the hanging Ovagro", Timeout = 60, Boxed = true), Layer(0)]
@@ -105,7 +98,7 @@ namespace OvagroOverhead.Tests
 			t.Assert.True(Kit.Is(plant, CeilingForm.PlantTag), "a ceiling Ovagro grows at the seed's cell (found " + (plant != null ? plant.PrefabID().Name : "nothing") + ")");
 			t.Assert.Eq(plant, Kit.PlantAt(Grid.CellBelow(cell)), "it hangs into the cell below");
 			t.Assert.True(seedGo == null, "the seed was used up");
-			AssertSeedIsVanilla(t, PrefabSeed(), "the seed prefab");
+			Kit.AssertSeedIsVanilla(t, PrefabSeed(), "the seed prefab");
 			KBatchedAnimController anim = plant.GetComponent<KBatchedAnimController>();
 			t.Assert.Eq(180f, anim.Rotation, "the art is turned over");
 			t.Assert.True(anim.FlipX, "the art is mirrored back so the plant faces the same way");
@@ -135,7 +128,7 @@ namespace OvagroOverhead.Tests
 				t.Cleanup(() => { if (plant != null) Util.KDestroyGameObject(plant); });
 			t.Assert.True(Kit.Is(plant, CeilingForm.VanillaPlantTag), "the vanilla Ovagro grows on the floor (found " + (plant != null ? plant.PrefabID().Name : "nothing") + ")");
 			t.Assert.Eq(plant, Kit.PlantAt(Grid.CellAbove(cell)), "it stands into the cell above");
-			AssertSeedIsVanilla(t, PrefabSeed(), "the seed prefab");
+			Kit.AssertSeedIsVanilla(t, PrefabSeed(), "the seed prefab");
 		}
 
 		/// <summary>
@@ -182,7 +175,7 @@ namespace OvagroOverhead.Tests
 			t.Assert.True(x >= inside.X + StripX0 && x <= inside.X + StripX1, "under the strip, not past its ends");
 			t.Assert.Eq(plant, Kit.PlantAt(Grid.CellBelow(cell)), "the plant hangs into the cell below");
 			t.Assert.Null(FindPlant(inside, CeilingForm.VanillaPlantTag), "no standing Ovagro anywhere in the box");
-			AssertSeedIsVanilla(t, PrefabSeed(), "the seed prefab");
+			Kit.AssertSeedIsVanilla(t, PrefabSeed(), "the seed prefab");
 			t.Assert.True(plant != null && !plant.HasTag(GameTags.Uprooted), "the planted Ovagro is rooted");
 			yield return t.LookAt(cell, 6f);
 			yield return t.Screenshot("pip-planted");

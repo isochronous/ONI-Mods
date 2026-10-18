@@ -192,13 +192,18 @@ namespace OvagroOverhead.Tests
 			return mother != null && mother.sm.IsGrown.Get(mother);
 		}
 
+		/// <summary>A seed's routing fields are the vanilla ones (no swap left behind).</summary>
+		public static void AssertSeedIsVanilla(TestContext t, PlantableSeed seed, string whose)
+		{
+			t.Assert.Eq(SingleEntityReceptacle.ReceptacleDirection.Top, seed.direction, whose + " is back to direction Top");
+			t.Assert.Eq(CeilingForm.VanillaPlantTag, seed.PlantID, whose + " plants the vanilla Ovagro again");
+			t.Assert.Eq(VineMotherConfig.ID + "_preview", seed.PreviewID.Name, whose + " previews the vanilla Ovagro again");
+		}
+
 		/// <summary>The seed prefab's routing fields are the vanilla ones (no swap left behind).</summary>
 		public static void AssertSeedPrefabIsVanilla(TestContext t, string after)
 		{
-			PlantableSeed seed = Assets.GetPrefab(CeilingForm.SeedTag).GetComponent<PlantableSeed>();
-			t.Assert.Eq(SingleEntityReceptacle.ReceptacleDirection.Top, seed.direction, "the seed prefab is back to direction Top " + after);
-			t.Assert.Eq(CeilingForm.VanillaPlantTag, seed.PlantID, "the seed prefab plants the vanilla Ovagro again " + after);
-			t.Assert.Eq(VineMotherConfig.ID + "_preview", seed.PreviewID.Name, "the seed prefab previews the vanilla Ovagro again " + after);
+			AssertSeedIsVanilla(t, Assets.GetPrefab(CeilingForm.SeedTag).GetComponent<PlantableSeed>(), "the seed prefab " + after);
 		}
 
 		/// <summary>A finished farm plot (Farm Tile, Hydroponic Farm) at the cell, upright or turned upside down.</summary>

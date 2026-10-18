@@ -22,8 +22,12 @@ namespace OvagroOverhead
 		public const string PlantId = "VineMotherCeiling";
 		public const string PreviewId = PlantId + "_preview";
 
+		/// <summary>The ceiling form's vines. Saved in save files; never rename.</summary>
+		public const string BranchId = "VineBranchCeiling";
+
 		public static readonly Tag PlantTag = TagManager.Create(PlantId);
 		public static readonly Tag PreviewTag = TagManager.Create(PreviewId);
+		public static readonly Tag BranchTag = TagManager.Create(BranchId);
 		public static readonly Tag VanillaPlantTag = TagManager.Create(VineMotherConfig.ID);
 		public static readonly Tag SeedTag = TagManager.Create(VineMotherConfig.SEED_ID);
 
@@ -46,7 +50,7 @@ namespace OvagroOverhead
 		/// <summary>Points the seed at the ceiling form. Pass the result to <see cref="Exit"/>.</summary>
 		public static Swap Enter(PlantableSeed seed)
 		{
-			var swap = new Swap
+			Swap swap = new Swap
 			{
 				Active = true,
 				Direction = seed.direction,

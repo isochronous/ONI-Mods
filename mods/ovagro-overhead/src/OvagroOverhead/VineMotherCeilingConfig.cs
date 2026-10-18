@@ -58,7 +58,7 @@ namespace OvagroOverhead
 
 		public GameObject CreatePrefab()
 		{
-			var additionalTags = new List<Tag>
+			List<Tag> additionalTags = new List<Tag>
 			{
 				GameTags.Hanging,
 				GameTags.HideFromSpawnTool,
@@ -88,7 +88,7 @@ namespace OvagroOverhead
 			plant.GetComponent<Modifiers>().initialTraits.Add(BaseTraitId);
 
 			VineMother.Def mother = plant.AddOrGetDef<VineMother.Def>();
-			mother.BRANCH_PREFAB_NAME = "VineBranch";
+			mother.BRANCH_PREFAB_NAME = CeilingForm.BranchId;
 			mother.MAX_BRANCH_COUNT = 24;
 			plant.AddOrGet<HarvestDesignatable>();
 			EntityTemplates.ExtendPlantToIrrigated(plant, new PlantElementAbsorber.ConsumeInfo[]

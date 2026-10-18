@@ -15,9 +15,9 @@ namespace OvagroOverhead.Tests
 	/// </summary>
 	public static class Preview
 	{
-		private const int Width = 30;
-		private const int Height = 15;
-		private const int GlassRow = 8;
+		internal const int Width = 30;
+		internal const int Height = 15;
+		internal const int GlassRow = 8;
 		/// <summary>The Ovagro's own temperature, inside the 25-45 °C it grows in.</summary>
 		private const float WarmAir = 308.15f;
 
@@ -32,14 +32,14 @@ namespace OvagroOverhead.Tests
 		/// enough for a Width x Height scene inside a wall of tiles (the test map is all vacuum, so the
 		/// scene's air needs walls round it).
 		/// </summary>
-		private static CellRect FindFrozenSpot()
+		internal static CellRect FindFrozenSpot(int fromX = int.MinValue)
 		{
 			WorldContainer world = ClusterManager.Instance.activeWorld;
 			int minX = (int)world.minimumBounds.x, minY = (int)world.minimumBounds.y;
 			int maxX = (int)world.maximumBounds.x, maxY = (int)world.maximumBounds.y;
 			const int w = Width + 2, h = Height + 2;
 			for (int y = minY; y + h - 1 <= maxY; y++)
-				for (int x = minX; x + w - 1 <= maxX; x++)
+				for (int x = System.Math.Max(minX, fromX); x + w - 1 <= maxX; x++)
 					if (Fits(world, x, y, w, h))
 						return new CellRect(x, y, w, h);
 			throw new OniAssertException("no " + w + "x" + h + " empty frozen biome area in the active world");
@@ -69,7 +69,7 @@ namespace OvagroOverhead.Tests
 		/// needs walls), then thin warm oxygen in every cell inside and a granite backwall behind it.
 		/// Returns the inside through <paramref name="inside"/>. Yield it.
 		/// </summary>
-		private static IEnumerator Stage(TestContext t, CellRect outer, CellRect[] inside)
+		internal static IEnumerator Stage(TestContext t, CellRect outer, CellRect[] inside)
 		{
 			for (int y = 0; y < outer.H; y++)
 				for (int x = 0; x < outer.W; x++)
