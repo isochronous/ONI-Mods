@@ -7,6 +7,8 @@
     <RootNamespace>OvagroOverhead.Tests</RootNamespace>
     <!-- Never deployed as a mod; the TestRunner launcher copies the DLL into its run folder. -->
     <ModDeployFolder>none</ModDeployFolder>
+    <!-- The side screen test clicks the planter screen's widgets through Unity's event system. -->
+    <ReferenceUnityUI>true</ReferenceUnityUI>
   </PropertyGroup>
 
   <ItemGroup>

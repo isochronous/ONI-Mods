@@ -146,5 +146,103 @@ namespace OvagroOverhead.Tests
 				parts.Add(Cells.Describe(Grid.PosToCell(b.gameObject)) + " " + b.MyShape + (b.IsGrown ? " grown" : ""));
 			return parts.Count == 0 ? "none" : string.Join(", ", parts.ToArray());
 		}
+
+		/// <summary>
+		/// Yield it: waits until the mother has put out a branch on each side. The mother has no
+		/// maturity amount; its state machine plays its grow animation once, marks itself grown, and
+		/// then tries for a branch on each side every four seconds.
+		/// </summary>
+		public static IEnumerator GrowMother(TestContext t, GameObject mother)
+		{
+			VineMother.Instance smi = mother.GetSMI<VineMother.Instance>();
+			yield return t.WaitUntil(() => smi.LeftBranch != null && smi.RightBranch != null, 90, "the mother to grow and put out a branch on each side");
+		}
+
+		/// <summary>
+		/// Yield it: sets maturity to full on every branch of each side, a game second apart, until
+		/// that side has its count (a wild vine grows a branch in about 40 minutes otherwise).
+		/// </summary>
+		public static IEnumerator GrowChains(TestContext t, VineMother.Instance mother, int left, int right, float realSeconds)
+		{
+			float start = Time.realtimeSinceStartup;
+			while (true)
+			{
+				List<VineBranch.Instance> l = Chain(mother.LeftBranch);
+				List<VineBranch.Instance> r = Chain(mother.RightBranch);
+				if (l.Count >= left && r.Count >= right)
+					yield break;
+				if (Time.realtimeSinceStartup - start > realSeconds)
+					t.Assert.Fail("the vine did not grow " + left + " branches left and " + right + " right; left: " + Describe(l) + "; right: " + Describe(r));
+				if (l.Count < left)
+					foreach (VineBranch.Instance b in l)
+						ForceMature(b.gameObject);
+				if (r.Count < right)
+					foreach (VineBranch.Instance b in r)
+						ForceMature(b.gameObject);
+				yield return t.WaitGameSeconds(1);
+			}
+		}
+
+		/// <summary>
+		/// The mother has played its growth through. Its <c>IsGrown</c> property reads a <c>Growing</c>
+		/// component the Ovagro Node does not have; the state machine's own flag is the answer.
+		/// </summary>
+		public static bool IsGrown(VineMother.Instance mother)
+		{
+			return mother != null && mother.sm.IsGrown.Get(mother);
+		}
+
+		/// <summary>The seed prefab's routing fields are the vanilla ones (no swap left behind).</summary>
+		public static void AssertSeedPrefabIsVanilla(TestContext t, string after)
+		{
+			PlantableSeed seed = Assets.GetPrefab(CeilingForm.SeedTag).GetComponent<PlantableSeed>();
+			t.Assert.Eq(SingleEntityReceptacle.ReceptacleDirection.Top, seed.direction, "the seed prefab is back to direction Top " + after);
+			t.Assert.Eq(CeilingForm.VanillaPlantTag, seed.PlantID, "the seed prefab plants the vanilla Ovagro again " + after);
+			t.Assert.Eq(VineMotherConfig.ID + "_preview", seed.PreviewID.Name, "the seed prefab previews the vanilla Ovagro again " + after);
+		}
+
+		/// <summary>A finished farm plot (Farm Tile, Hydroponic Farm) at the cell, upright or turned upside down.</summary>
+		public static PlantablePlot Plot(TestContext t, string prefabId, int cell, Orientation orientation)
+		{
+			GameObject go = t.World.Build(prefabId, cell, orientation);
+			PlantablePlot plot = go.GetComponent<PlantablePlot>();
+			if (plot == null)
+				throw new OniAssertException(prefabId + " has no PlantablePlot");
+			return plot;
+		}
+
+		/// <summary>The plant preview the plot shows for its order or selection, or null.</summary>
+		public static EntityPreview PreviewOf(PlantablePlot plot)
+		{
+			foreach (EntityPreview preview in plot.GetComponentsInChildren<EntityPreview>())
+				if (preview != null && preview.gameObject.activeInHierarchy)
+					return preview;
+			return null;
+		}
+
+		/// <summary>The id of the plot's preview, "none" when it shows none.</summary>
+		public static string PreviewName(PlantablePlot plot)
+		{
+			EntityPreview preview = PreviewOf(plot);
+			return preview != null ? preview.gameObject.PrefabID().Name : "none";
+		}
+
+		/// <summary>The status items the object shows, for the log.</summary>
+		public static string Statuses(GameObject go)
+		{
+			var names = new List<string>();
+			KSelectable selectable = go != null ? go.GetComponent<KSelectable>() : null;
+			StatusItemGroup group = selectable != null ? selectable.GetStatusItemGroup() : null;
+			if (group != null)
+				foreach (StatusItemGroup.Entry entry in group)
+					names.Add(entry.item.Id);
+			return names.Count == 0 ? "none" : string.Join(", ", names.ToArray());
+		}
+
+		/// <summary>Water in the plot's storage, as Duplicants or a pipe would bring it, for its plant's irrigation.</summary>
+		public static void Water(PlantablePlot plot, float kg)
+		{
+			plot.GetComponent<Storage>().AddLiquid(SimHashes.Water, kg, RoomTemperature, byte.MaxValue, 0);
+		}
 	}
 }
