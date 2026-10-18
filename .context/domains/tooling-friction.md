@@ -84,3 +84,13 @@ OM-005 (in common). The fix unit planned `fix07-rmterm-TestRunner.json` (a prote
 **Id:** blk-31711a20c7d2
 
 OM-005 (in common), confirmation review unit 08. `ks brief --at C:/dev/ONI-Mods/common` over the eight nodes warned that the six `tags.md` dictionaries declare no coverage and no tags, and suggested giving them `applies_to` or tags through the write path. A dictionary is read through `ks tags`, and the tag-backfill skill excludes it from its own backfill by destination. Expected: no coverage warning for a `tags.md`. Done instead: left them undeclared, as the OM-002 dictionaries are, and recorded the decision in OM-005's plan.
+
+## 2026-10-17 resolve: the highest task id ignores the same prefix in the common submodule store
+**Id:** blk-c75a87585b6c
+
+Opening OM-006, `ks resolve mods --explain` printed `task ids prefix OM · highest OM-002 (.context/tasks/OM-002-store-backfills)`. The `common/` submodule's own store already holds `OM-003-integrate-common`, `OM-004-populate-common` and `OM-005-common-backfills` under the same `OM` prefix, so taking the next number from resolve would have minted OM-003 a second time. This is the same boundary as the earlier entry on the submodule becoming its own store (the submodule is its own store, outside the root's node graph), seen from the task-id side. Expected: the highest id counts every store that shares the prefix inside the checkout, or resolve warns that a nested store uses the prefix too. Done instead: listed `common/.context/tasks/` by hand and took OM-006.
+
+## 2026-10-17 write plan: a slash in a new section heading is read as a nested address
+**Id:** blk-b32f774e33ce
+
+Recording the task-id entry, `ks write plan` refused a `create_section` op whose heading contained `common/ submodule`: it read the `/` as a block address separator and asked for a parent section named everything before the slash. Expected: `create_section` takes the heading text literally, or the schema says a heading may not contain `/` and how to escape one. Done instead: reworded the heading without the slash.
