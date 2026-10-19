@@ -25,6 +25,7 @@ Another agent works in C:/dev/ONI-Mods (branch OM-007-smooth-borders); all of th
 - Behaviour (user, 2026-10-19): ribbon input and ribbon output. Output connected: a 31-channel switch, the player sets each bit. Both connected: output = input OR switches. Lamp colours: green = incoming bit on, purple = switch on; purple wins when both are on; output-only lamps show switches in purple. Input only: a monitor (green lamps).
 - Switch UI (user, 2026-10-19): a side-screen grid of toggles matching the 8 × 4 face (PLib), only if it works well, is intuitive, looks good and needs no heavy patching; otherwise the vanilla Reader/Writer-style bit list with several bits allowed on. Grid only, not both.
 - Output unconnected (user, 2026-10-19): lamps show the input only; the switch controls are disabled, their saved state is kept but ignored until the output is wired.
+- Name (user, 2026-10-19): the building is the Diagnostic Panel, not "Ribbon Monitor" ("display panel sounds like it's read-only"; it is also a switch). The kanim keeps its name `diagnostic_panel`, no rename. The task folder and branch keep the ribbon-monitor name as history.
 - Yield (user, 2026-10-19): the monitor stays available when Bitshifter stands down for Digital CPU or another Reader/Writer mod; its patches apply apart from the Reader/Writer PatchAll.
 - Menu and tech (user, 2026-10-19): Automation > wires next to the Ribbon Writer, unlocked by ParallelAutomation.
 
