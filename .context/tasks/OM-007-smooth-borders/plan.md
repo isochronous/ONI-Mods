@@ -52,7 +52,9 @@
 - [x] Design unit 02 (units/02-design-report.md): 4 groups merged by equal vanilla floor T-R (Primary 1-10 def 4, Small 1-5 def 3, Moonlets 1-4 def 2, Tiny moonlets 1-2 def 1), world→group by its (T,R); transpiler swaps the two setting reads in DrawWorldBorder (thickness = setting, range 0); POIBounds per edge = larger of vanilla (reverse-patched vanilla run on a cell copy) and flat; PLib 4.25 text entry is centred → ~15-line subclass; tests need TestRunner Prepare hook + config snapshot/restore and a test-only vanilla switch; scaffold mods/smooth-borders, SmoothBorders, Isochronous.SmoothBorders, 0.1.0, net48. 8 open questions (report §6).
 - [x] Show the user the grouping and labels; record — see Decisions (settings design)
 - [x] Plan unit 03 (units/03-plan-report.md): steps S1-S9 + M2; design corrections in its §0 (PLib config folder is named by assembly; translations under src/SmoothBorders/translations/; vanilla baseline via a test Prepare hook unpatching by Harmony id, mod flag as fallback; Prepare returns an undo; WorldgenDriver -ModConfig)
-- [ ] S1 scaffold (unit 04, sonnet) ∥ S2 TestRunner/WorldgenDriver in common/ on branch OM-007-smooth-borders (unit 05, opus) ← IN PROGRESS
+- [x] S1 scaffold (unit 04) — 88214fb, 13 files; build 0 errors, no SmoothBorders warnings; Translations.Register/POptions lines commented out until S3
+- [ ] S2 TestRunner/WorldgenDriver in common/ on branch OM-007-smooth-borders (unit 05, opus) ← IN PROGRESS
+- [ ] S3 groups, options, strings (unit 06, sonnet) ← IN PROGRESS (runs beside S2: S2 commits only in common/)
 - [ ] M2 bump common pointer (manager)
 - [ ] S3 groups, options, strings → S4 border patch → S5 no-colony tests → S6 worldgen tests (one at a time)
 - [ ] S7 review, S8 WorldgenDriver sweep, S9 docs and Workshop material (ask the user: Chinese translation in 0.1.0? preview composition? DLC tags)
