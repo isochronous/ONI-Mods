@@ -57,7 +57,9 @@ namespace SmoothBorders.Tests
 				&& text.gameObject.name == "Text" && text.transform.parent != null && text.transform.parent.parent != null
 				&& text.transform.parent.parent.name == "Intro");
 			t.Assert.NotNull(shown.Intro, "the dialog's intro text");
-			shown.Screen = shown.Intro.GetComponentInParent<KScreen>();
+			// The intro's input field carries a KScreen of its own; the dialog is PLib's "ModOptions" screen above it.
+			KScreen[] screens = shown.Intro.GetComponentsInParent<KScreen>();
+			shown.Screen = screens.FirstOrDefault(screen => screen.gameObject.name == "ModOptions") ?? screens.LastOrDefault();
 			t.Cleanup(() =>
 			{
 				if (shown.Screen != null)
@@ -94,7 +96,8 @@ namespace SmoothBorders.Tests
 			var shown = new Shown();
 			yield return Open(t, shown);
 			yield return t.Screenshot("dialog");
-			t.Assert.Eq((string)OPTIONS.INTRO, shown.Intro.text, "the intro text");
+			// A TextMeshPro input field ends its text with a zero-width space.
+			t.Assert.Eq((string)OPTIONS.INTRO, shown.Intro.text.TrimEnd('\u200B'), "the intro text");
 			t.Assert.True(shown.Labels.Count > 0, "the dialog has rows");
 			t.Assert.True(Top(shown.Intro) > Top(shown.Labels[0]), "the intro sits above the first row");
 
@@ -114,6 +117,18 @@ namespace SmoothBorders.Tests
 					off.Add("line " + (line + 1) + " starts " + ((left - rowLeft) / shown.Intro.transform.lossyScale.x).ToString("F0") + " px from the rows' left edge");
 			}
 			t.Assert.Eq(0, off.Count, "every line of the intro starts where the rows' labels start: " + string.Join("; ", off));
+
+			// The intro's area (the input field's "Text Area" viewport) against the text it holds.
+			RectTransform area = (RectTransform)shown.Intro.transform.parent;
+			var corners = new Vector3[4];
+			area.GetWorldCorners(corners);
+			float scale = shown.Intro.transform.lossyScale.y;
+			TMP_LineInfo last = info.lineInfo[info.lineCount - 1];
+			float textBottom = shown.Intro.transform.TransformPoint(new Vector3(0f, last.descender, 0f)).y;
+			float spare = (textBottom - corners[0].y) / scale;
+			t.Log("intro area " + ((corners[1].y - corners[0].y) / scale).ToString("F0") + " px high; the text's last line ends "
+				+ spare.ToString("F0") + " px above the area's bottom (negative: cut off)");
+			t.Assert.True(spare >= -1f, "the whole intro fits its area (last line " + (-spare).ToString("F0") + " px below the bottom)");
 		}
 
 		/// <summary>Where a line of text starts on screen (world x of its first visible character's left edge).</summary>
