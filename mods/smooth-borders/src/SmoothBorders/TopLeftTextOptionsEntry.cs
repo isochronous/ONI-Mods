@@ -12,7 +12,7 @@ namespace SmoothBorders
 	public sealed class TopLeftTextOptionsEntry : TextBlockOptionsEntry
 	{
 		/// <summary>Lines of height the intro block reserves.</summary>
-		private const int Lines = 6;
+		private const int Lines = 3;
 
 		public TopLeftTextOptionsEntry(string field, IOptionSpec spec) : base(field, spec)
 		{

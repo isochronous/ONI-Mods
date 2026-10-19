@@ -12,7 +12,7 @@ namespace SmoothBorders
 		{
 			public static class OPTIONS
 			{
-				public static LocString INTRO = "The game gives each kind of asteroid its own neutronium wall thickness: the primary asteroid gets the thickest wall, small asteroids and moonlets get thinner ones. Set the wall thickness in tiles for each kind below. Each default is the thinnest point of the game's own wall for that kind. Changes apply to newly generated worlds.";
+				public static LocString INTRO = "Vanilla gives each asteroid type its own wall thickness, so each has its own setting. Defaults match vanilla. Changes apply to new worlds.";
 
 				public static class PRIMARY
 				{
