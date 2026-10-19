@@ -20,6 +20,8 @@ Another agent works in C:/dev/ONI-Mods (branch OM-007-smooth-borders); all of th
 ## Decisions
 - Task id OM-008: `ks resolve --explain` reports highest OM-007 (OM-007-smooth-borders, the other agent's branch); common/ holds OM-003..OM-005.
 - Scope is issue #5 (user, 2026-10-19), not the other Bitshifter companion issues #2-#4.
+- Placement (user, 2026-10-19): not its own mod. Bitshifter gains a companion toolkit of buildings for 31-bit ribbons; the Ribbon Monitor is its first building, #2-#4 follow in the same toolkit.
+- Art (user, 2026-10-19): 3gub's prototype kanim is C:/temp/diagnostic_panel_anim.bytes + diagnostic_panel_build.bytes (no texture png was in C:/temp); free to rename when moving them into the mod. Working copies in C:/Users/thegr/AppData/Local/Temp/claude/C--dev-ONI-Mods/57fa2d13-c310-4f59-90ad-9f226f41d92c/scratchpad/art-3gub/; originals left in C:/temp until the move.
 
 ## Key Files
 - mods/bitshifter/: the Bitshifter mod the Ribbon Monitor is a companion to (src/Bitshifter, src/Bitshifter.Tests, tools/make_art.py)
@@ -36,8 +38,8 @@ Another agent works in C:/dev/ONI-Mods (branch OM-007-smooth-borders); all of th
 - [ ] Completion: review, retro, PR
 
 ## Open Questions / Blockers
-- Is the Ribbon Monitor its own mod, one building in a single companion mod that will later hold #2-#4 too, or a building inside Bitshifter? The issue says "a Bitshifter companion mod".
-- Art format from 3gub (png + kanim triplet?) and which states/frames it carries (lamp-per-bit overlays vs whole-building frames).
+- The kanim came without its texture png: ask the user for diagnostic_panel_0.png (or whatever the build file names).
+- Which symbols, frames and animations 3gub's kanim carries, and whether they fit driving 31 lamps independently.
 
 ## Constraints
 - Work only in the worktree C:/dev/ONI-Mods-OM-008.
