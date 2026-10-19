@@ -28,8 +28,10 @@ namespace Bitshifter
 
 		/// <summary>The vanilla Ribbon Reader's and Writer's green (their colorOn).</summary>
 		public static readonly Color Green = new Color(29f / 85f, 37f / 51f, 0.36862746f);
-		/// <summary>The vanilla Ribbon Reader's and Writer's red (their colorOff).</summary>
-		public static readonly Color Red = new Color(0.9529412f, 0.2901961f, 0.2784314f);
+		/// <summary>The lamp tint of an input bit carrying a Green Signal.</summary>
+		public static readonly Color LampGreen = new Color(137f / 255f, 252f / 255f, 76f / 255f);
+		/// <summary>The lamp tint of an inactive bit.</summary>
+		public static readonly Color LampRed = new Color(1f, 0f, 0f);
 		/// <summary>The side screen colour of a bit switched on.</summary>
 		public static readonly Color Purple = new Color(0.608f, 0.349f, 0.816f);
 		/// <summary>The lamp tint of a bit switched on: bluer than <see cref="Purple"/>, as the bloom pass pulls it toward pink.</summary>
@@ -205,9 +207,9 @@ namespace Bitshifter
 				case LampState.Switch:
 					return LampPurple;
 				case LampState.Input:
-					return Green;
+					return LampGreen;
 				default:
-					return Red;
+					return LampRed;
 			}
 		}
 
