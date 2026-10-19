@@ -456,26 +456,55 @@ namespace SmoothBorders.Tests
 			return "(" + (x - world.WorldOffset.x) + ", " + (y - world.WorldOffset.y) + ") " + (element != null ? element.id.ToString() : "?");
 		}
 
-		/// <summary>The fog lifted around the cell and the camera on it (switching to its asteroid), then a screenshot.</summary>
+		/// <summary>
+		/// The cell's whole asteroid out of the fog of war (test-only), the camera switched to that
+		/// asteroid as the game's asteroid list does it and then on the cell, and a screenshot.
+		/// </summary>
 		public static IEnumerator Photograph(TestContext t, int cell, string name)
 		{
 			int worldId = Grid.WorldIdx[cell];
-			if (ClusterManager.Instance.activeWorldId != worldId)
-			{
-				ClusterManager.Instance.SetActiveWorld(worldId);
-				yield return t.Frames(5);
-			}
-			Grid.CellToXY(cell, out int cx, out int cy);
-			for (int y = cy - 12; y <= cy + 12; y++)
-				for (int x = cx - 20; x <= cx + 20; x++)
-				{
-					int around = Grid.XYToCell(x, y);
-					if (Grid.IsValidCell(around) && Grid.WorldIdx[around] == worldId)
-						Grid.Reveal(around);
-				}
+			t.World.RevealAsteroid(ClusterManager.Instance.GetWorld(worldId));
+			yield return ShowAsteroid(t, worldId);
 			yield return t.WaitRealSeconds(0.5);
 			yield return t.LookAt(cell, 10f);
 			yield return t.Screenshot(name);
+		}
+
+		/// <summary>
+		/// The camera on another asteroid the way the game's asteroid list moves it there
+		/// (CameraController.ActiveWorldStarWipe, which moves the camera along). ClusterManager's
+		/// SetActiveWorld alone leaves the camera at the previous asteroid's coordinates, outside the
+		/// new one, where only black is drawn.
+		/// </summary>
+		public static IEnumerator ShowAsteroid(TestContext t, int worldId)
+		{
+			if (ClusterManager.Instance.activeWorldId == worldId)
+				yield break;
+			CameraController.Instance.ActiveWorldStarWipe(worldId);
+			yield return t.WaitUntil(() => ClusterManager.Instance.activeWorldId == worldId, 10, "the camera switched to asteroid " + worldId);
+			yield return t.WaitRealSeconds(1.0);
+		}
+
+		/// <summary>Where the camera points: the cell, the asteroid that cell belongs to, and whether it lies inside the active asteroid.</summary>
+		public static string CameraSpot()
+		{
+			Vector3 pos = CameraController.Instance.transform.GetPosition();
+			int cell = Grid.PosToCell(pos);
+			WorldContainer active = ClusterManager.Instance.activeWorld;
+			Grid.CellToXY(cell, out int x, out int y);
+			bool inside = active != null && x >= active.WorldOffset.x && x < active.WorldOffset.x + active.WorldSize.x && y >= active.WorldOffset.y && y < active.WorldOffset.y + active.WorldSize.y;
+			int visible = 0, total = 0;
+			if (active != null)
+				for (int cy = active.WorldOffset.y; cy < active.WorldOffset.y + active.WorldSize.y; cy++)
+					for (int cx = active.WorldOffset.x; cx < active.WorldOffset.x + active.WorldSize.x; cx++)
+					{
+						total++;
+						if (Grid.Visible[Grid.XYToCell(cx, cy)] > 0)
+							visible++;
+					}
+			return "camera at (" + x + ", " + y + "), cell " + cell + " of asteroid " + (Grid.IsValidCell(cell) ? Grid.WorldIdx[cell].ToString() : "none")
+				+ "; active asteroid " + (active != null ? active.id + " " + Short(active.worldName) + " at (" + active.WorldOffset.x + ", " + active.WorldOffset.y + ") size " + active.WorldSize.x + "x" + active.WorldSize.y : "none")
+				+ "; " + (inside ? "inside it" : "OUTSIDE it") + "; " + visible + " of " + total + " of its cells out of the fog";
 		}
 
 		/// <summary>
@@ -485,6 +514,16 @@ namespace SmoothBorders.Tests
 		/// the cluster is known to hold all came up. Problem spots are photographed before the test fails.
 		/// </summary>
 		public static IEnumerator ExpectFlat(TestContext t, Options options, params Group[] groupsExpected)
+		{
+			return ExpectFlat(t, options, (ICollection<string>)null, groupsExpected);
+		}
+
+		/// <summary>
+		/// ExpectFlat with asteroids the mod is not to draw (short world names): a worldgen mod that
+		/// builds them itself, never through the game's DrawWorldBorder. They are not measured; the
+		/// caller checks them against the world without the mod.
+		/// </summary>
+		public static IEnumerator ExpectFlat(TestContext t, Options options, ICollection<string> leftAlone, params Group[] groupsExpected)
 		{
 			t.Assert.NotNull(t.Generated, "the test runs in a generated world");
 			t.Assert.Eq(0, t.Generated.Errors.Count, "the worldgen reported no errors: " + string.Join(" | ", t.Generated.Errors));
@@ -497,6 +536,11 @@ namespace SmoothBorders.Tests
 			foreach (WorldContainer world in Asteroids())
 			{
 				BorderPair pair = PairOf(world);
+				if (leftAlone != null && leftAlone.Contains(Short(world.worldName)))
+				{
+					t.Log(pair + ": built by its own mod, not measured");
+					continue;
+				}
 				if (!pair.Drawn || pair.T <= 0)
 				{
 					t.Log(pair + ": no wall to measure");
@@ -554,7 +598,8 @@ namespace SmoothBorders.Tests
 					problems.Add("no asteroid of the group " + group.Id + " in the cluster");
 			foreach (var spot in spots.Take(4))
 				yield return Photograph(t, spot.Value, spot.Key);
-			t.Assert.True(measured > 0, "the cluster has asteroids with a wall");
+			if (leftAlone == null || Asteroids().Any(world => !leftAlone.Contains(Short(world.worldName))))
+				t.Assert.True(measured > 0, "the cluster has asteroids with a wall");
 			t.Assert.Eq(0, problems.Count, "every wall is flat at the configured thickness: " + string.Join(" | ", problems));
 		}
 
