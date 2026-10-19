@@ -67,13 +67,15 @@ namespace Bitshifter.Tests
 			LogState(t, panel);
 			yield return t.Screenshot("1-grid-wired");
 
+			// The face close up, neither selected nor under the pointer: the game brightens a
+			// selected or hovered building, which washes the lamps out to white.
+			SelectTool.Instance.Select(null);
+			yield return t.WaitGameSeconds(1);
 			yield return t.LookAt(r.Cell(4, 1), 3f);
 			yield return t.WaitGameSeconds(1);
 			yield return t.Screenshot("3-face-lit");
 
 			// The hover card, with nothing selected, over the panel.
-			SelectTool.Instance.Select(null);
-			yield return t.WaitGameSeconds(1);
 			yield return t.LookAt(r.Cell(4, 1), 6f);
 			t.PointAt(r.Cell(4, 1));
 			yield return t.WaitGameSeconds(1);
