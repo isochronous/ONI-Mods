@@ -28,6 +28,8 @@ namespace Bitshifter
 
 		/// <summary>The vanilla Ribbon Reader's and Writer's green (their colorOn).</summary>
 		public static readonly Color Green = new Color(29f / 85f, 37f / 51f, 0.36862746f);
+		/// <summary>The vanilla Ribbon Reader's and Writer's red (their colorOff).</summary>
+		public static readonly Color Red = new Color(0.9529412f, 0.2901961f, 0.2784314f);
 		/// <summary>The side screen colour of a bit switched on.</summary>
 		public static readonly Color Purple = new Color(0.608f, 0.349f, 0.816f);
 		/// <summary>The lamp tint of a bit switched on: bluer than <see cref="Purple"/>, as the bloom pass pulls it toward pink.</summary>
@@ -36,6 +38,7 @@ namespace Bitshifter
 		public enum LampState
 		{
 			Off,
+			Inactive,
 			Input,
 			Switch,
 		}
@@ -68,12 +71,15 @@ namespace Bitshifter
 		private int drawnInput;
 		private int drawnSwitches;
 		private bool drawnWired;
+		private bool drawnInputWired;
 
 		/// <summary>The switched-on bits, bit 0 for bit 1.</summary>
 		public int Switches => switches;
 
 		/// <summary>The input ribbon's value, or 0 while no ribbon is wired to the input.</summary>
 		public int InputValue => ports != null && ports.IsPortConnected(InputPort) ? ports.GetInputValue(InputPort) : 0;
+
+		public bool InputWired => ports != null && ports.IsPortConnected(InputPort);
 
 		public bool OutputWired => ports != null && ports.IsPortConnected(OutputPort);
 
@@ -98,17 +104,22 @@ namespace Bitshifter
 			Redraw(false);
 		}
 
-		/// <summary>What the lamp of a bit (0-based) shows: purple wins over green, and switches count only while the output is wired.</summary>
+		/// <summary>
+		/// What the lamp of a bit (0-based) shows: purple wins over green, switches count only while the
+		/// output is wired, an inactive bit is red while either port is wired, and dark only with neither.
+		/// </summary>
 		public LampState Lamp(int bit)
 		{
-			return LampOf(bit, InputValue, OutputWired);
+			return LampOf(bit, InputValue, InputWired, OutputWired);
 		}
 
-		private LampState LampOf(int bit, int input, bool wired)
+		private LampState LampOf(int bit, int input, bool inputWired, bool wired)
 		{
 			if (wired && IsSwitchOn(bit))
 				return LampState.Switch;
-			return (input & (1 << bit)) != 0 ? LampState.Input : LampState.Off;
+			if ((input & (1 << bit)) != 0)
+				return LampState.Input;
+			return inputWired || wired ? LampState.Inactive : LampState.Off;
 		}
 
 		protected override void OnPrefabInit()
@@ -166,22 +177,38 @@ namespace Bitshifter
 			if (kbac == null)
 				return;
 			int input = InputValue;
+			bool inputWired = InputWired;
 			bool wired = OutputWired;
-			if (!force && drawn && input == drawnInput && switches == drawnSwitches && wired == drawnWired)
+			if (!force && drawn && input == drawnInput && switches == drawnSwitches && wired == drawnWired
+					&& inputWired == drawnInputWired)
 				return;
 			drawn = true;
 			drawnInput = input;
 			drawnSwitches = switches;
 			drawnWired = wired;
+			drawnInputWired = inputWired;
 			for (int bit = 0; bit < Lamps.Length; bit++)
 			{
-				LampState lamp = LampOf(bit, input, wired);
+				LampState lamp = LampOf(bit, input, inputWired, wired);
 				kbac.SetSymbolVisiblity(Lamps[bit], lamp != LampState.Off);
 				if (lamp != LampState.Off)
-					kbac.SetSymbolTint(Lamps[bit], lamp == LampState.Switch ? LampPurple : Green);
+					kbac.SetSymbolTint(Lamps[bit], LampColor(lamp));
 			}
 			if (selectable != null && switchesStatus != null)
 				selectable.ToggleStatusItem(switchesStatus, wired, this);
+		}
+
+		private static Color LampColor(LampState lamp)
+		{
+			switch (lamp)
+			{
+				case LampState.Switch:
+					return LampPurple;
+				case LampState.Input:
+					return Green;
+				default:
+					return Red;
+			}
 		}
 
 		/// <summary>

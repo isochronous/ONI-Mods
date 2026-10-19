@@ -21,13 +21,13 @@ namespace Bitshifter
 					public static LocString NAME = STRINGS.UI.FormatAsLink("Ribbon Diagnostic Panel", "RIBBONDIAGNOSTICPANEL");
 					public static LocString DESC = "Seeing every bit of a ribbon at once makes a circuit quick to trace.";
 					public static LocString EFFECT =
-						"Shows all 31 bits of an " + Ribbon + " on a grid of lamps: a lamp lights green for each bit carrying a " + Green + ".\n" +
+						"Shows all 31 bits of an " + Ribbon + " on a grid of lamps: a lamp lights green for each bit carrying a " + Green + " and red for each bit carrying a " + Red + ".\n" +
 						"\n" +
 						"With its output wired, it is also a 31-channel switch. Bits switched on light purple, and the output carries every bit that is on at the input or switched on.";
 
 					public static LocString LOGIC_PORT = "Ribbon Input";
 					public static LocString LOGIC_PORT_ACTIVE = "Lights a green lamp for each bit carrying a " + Green;
-					public static LocString LOGIC_PORT_INACTIVE = "Otherwise, the bit's lamp stays dark";
+					public static LocString LOGIC_PORT_INACTIVE = "Lights a red lamp for each bit carrying a " + Red;
 					public static LocString LOGIC_PORT_OUTPUT = "Ribbon Output";
 					public static LocString OUTPUT_PORT_ACTIVE = "Sends a " + Green + " on each bit that is on at the input or switched on";
 					public static LocString OUTPUT_PORT_INACTIVE = "Otherwise, sends a " + Red + " on that bit";
