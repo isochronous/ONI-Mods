@@ -10,10 +10,10 @@ Another agent works in C:/dev/ONI-Mods (branch OM-007-smooth-borders); all of th
 
 ## Phase State
 - **Phase plan**: investigation → architecture → implementation → testing → completion
-- **Completed**: investigation
-- **Current**: architecture   (status: in-progress)
-- **Next**: implementation
-- **Loaded skill**: task-plan-phase-architecture
+- **Completed**: investigation, architecture
+- **Current**: implementation   (status: in-progress)
+- **Next**: testing
+- **Loaded skill**: task-plan-phase-implementation
 - **Branch**: OM-008-ribbon-monitor
 - **Attempts (current phase)**: 1
 
@@ -30,6 +30,7 @@ Another agent works in C:/dev/ONI-Mods (branch OM-007-smooth-borders); all of th
 - Building id `RibbonDiagnosticPanel` (user, 2026-10-19).
 - Ports (user, 2026-10-19): input top-left (0,1), output bottom-left (0,0); overrides the design's bottom-row pick.
 - Release waits for 3gub's fixed art; the prototype is for building and testing only (user, 2026-10-19).
+- Grid palette C, panel mirror (user, 2026-10-19): "most closely resembles the way the existing ribbon readers/writers work in their config panels". The user expects the game's custom-UI support to be weaker than the design assumes, so the side screen is built and screenshotted before anything depends on it; if it fights the game, stop and bring screenshots, do not pile on patches.
 - Taken from the design without a user question: purple #9B59D0 (seen in game before tests), tooltip lists on bits with ranges (`Input: 1, 3, 9-12`) plus the ribbon value, build icon unlit per the icon style (screenshot), LogicGate layer like the Reader/Writer, keep the Workshop preview.
 - Yield (user, 2026-10-19): the monitor stays available when Bitshifter stands down for Digital CPU or another Reader/Writer mod; its patches apply apart from the Reader/Writer PatchAll.
 - Menu and tech (user, 2026-10-19): Automation > wires next to the Ribbon Writer, unlocked by ParallelAutomation.
@@ -62,12 +63,23 @@ Another agent works in C:/dev/ONI-Mods (branch OM-007-smooth-borders); all of th
 **Key files delta**: see Key Files.
 **What the next phase needs**: user answers on the open questions below, then a design unit for: building id and kanim name, port cells, component state and update flow (input, switches, output, tints, visibility), gating against Bitshifter's yield, strings and status-item tooltip format, side screen (grid via PLib, fallback ILogicRibbonBitSelector), harness additions (tint getter, side-screen click), test plan, and the art fixes the repo makes vs the artist.
 
+### Handoff: architecture → implementation   (commit: Phase-Handoff: architecture)
+**Sub-agent outputs**:
+- design unit 02 (units/02-design-report.md): "**Approve with modifications.** 1. Switch UI: the PLib grid, not the list. ... 2. Split the patches with Harmony categories (`[HarmonyPatchCategory]`, present in the game's 0Harmony 2.4.2 ...). The toolkit patches apply in `OnLoad` ... The Reader/Writer patches keep their late, conditional `OnAllModsLoaded` application. 3. The output always carries input OR switches, wired or not. Only the lamps and the controls ignore the switches while the output is unwired. 4. Off lamps are hidden, not tinted dark." Files: `B/Toolkit/{Toolkit.cs, ToolkitPatches.cs, RibbonDiagnosticPanelConfig.cs, RibbonDiagnosticPanel.cs, RibbonDiagnosticPanelSideScreen.cs}`, `B/ModStrings.cs`, `B/Mod.cs` changed, translations, `B/anim/assets/diagnostic_panel/`, `mods/bitshifter/anim-original/diagnostic_panel/`, make_art.py ui step. Component state: one `[Serialize] int switches` (bits 0-30); refresh on input LogicValueChanged and Render200ms (wiring changes raise no event); lamp per bit: switch (output wired) → purple, else input → green #57B95E, else hidden. Two StatusItems (input always, switches while wired), list-of-bits format. Grid: PButton cells 28 x 24 in four PPanel rows with a 16 px nibble gap, ColorStyleSetting per state, `isInteractable = false` when unwired, "All off" button. Harness: `Kit/Anims.cs` (SymbolTint, SymbolVisible), `Kit/Screens.cs` (Select, SideScreen<T>, Click, Deselect), `World.StatusItems`, Reflect.cs fields. 12 tests listed (section 7). Release: 1.3.0, UsePLib + UseTranslations, zh/ko/ru po, README/CHANGELOG/mod.yaml/Workshop, store records, decision record draft (Bitshifter node decisions/001).
+**Reviewer findings**: N/A this phase.
+**Verification evidence**: design only; Harmony 2.4.2 PatchCategory/PatchAllUncategorized checked by reflection on the game's 0Harmony.dll; id collision checked against 201 installed Workshop mods; palette mock rendered (scratchpad/om008-design/grid-directions.png).
+**Decisions delta**: design approved with its modifications; id RibbonDiagnosticPanel; ports input (0,1) top-left, output (0,0) bottom-left; palette C; release waits for fixed art.
+**Key files delta**: the Toolkit/ files, ModStrings.cs, anim folders, make_art.py, TestRunner Kit/Anims.cs, Kit/Screens.cs, Kit/World.cs, Reflect.cs.
+**What the next phase needs**: design steps 1-6 first (art in, build setup, strings, building, patches + Mod.cs, side screen), then in-game screenshots for the user (grid wired and unwired, lit face, hover card) and a stop for the user's call on the look. Steps 7-11 (harness, tests, translations, docs, store) only after that.
+
 ## Progress
 - [x] Worktree and task branch created
 - [x] Investigate — unit 01 report; prototype kanim fits per-lamp tinting; Bitshifter needs strings, building patches and a gating choice
 - [x] Update this plan with findings and next steps from investigation
-- [ ] Architecture: user answers on the open questions, then design unit 02 ← IN PROGRESS
-- [ ] Implementation
+- [x] Architecture — design unit 02 approved with modifications; user picked id, ports, palette C
+- [ ] Implementation 1-6: art in, build setup, strings, building, patches + Mod.cs, side screen (unit 03) ← IN PROGRESS
+- [ ] Screenshots to the user (grid wired/unwired, face, hover card); stop for the look decision
+- [ ] Implementation 7: TestRunner Kit additions (common/ first, then the bump)
 - [ ] In-game tests
 - [ ] Completion: review, retro, PR
 
