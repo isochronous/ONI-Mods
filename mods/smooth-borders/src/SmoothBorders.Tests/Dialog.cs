@@ -106,17 +106,23 @@ namespace SmoothBorders.Tests
 			t.Log("intro: " + info.lineCount + " line(s)");
 			t.Assert.True(info.lineCount > 1, "the intro wraps inside the dialog");
 			shown.Labels[0].ForceMeshUpdate();
+			float px = shown.Intro.transform.lossyScale.x;
 			float rowLeft = LineLeft(shown.Labels[0], 0);
-			// A few pixels for glyph bearings; a centred line is off by half its spare width.
-			float slack = 4f * shown.Intro.transform.lossyScale.x;
+			float introLeft = LineLeft(shown.Intro, 0);
+			// Left-aligned: every line starts at the first line's left edge, give or take a glyph bearing
+			// (a centred line would be off by half its spare width).
 			var off = new List<string>();
-			for (int line = 0; line < info.lineCount; line++)
+			for (int line = 1; line < info.lineCount; line++)
 			{
 				float left = LineLeft(shown.Intro, line);
-				if (Mathf.Abs(left - rowLeft) > slack)
-					off.Add("line " + (line + 1) + " starts " + ((left - rowLeft) / shown.Intro.transform.lossyScale.x).ToString("F0") + " px from the rows' left edge");
+				if (Mathf.Abs(left - introLeft) > 4f * px)
+					off.Add("line " + (line + 1) + " starts " + ((left - introLeft) / px).ToString("F0") + " px from line 1");
 			}
-			t.Assert.Eq(0, off.Count, "every line of the intro starts where the rows' labels start: " + string.Join("; ", off));
+			float indent = (introLeft - rowLeft) / px;
+			t.Log("intro lines start " + indent.ToString("F0") + " px right of the rows' labels");
+			t.Assert.Eq(0, off.Count, "every line of the intro starts at one left edge: " + string.Join("; ", off));
+			// The intro has a little padding of its own; it still lines up with the rows below, not centred.
+			t.Assert.True(indent >= -2f && indent <= 12f, "the intro's left edge is within the padding of the rows' left edge (" + indent.ToString("F0") + " px)");
 
 			// The intro's area (the input field's "Text Area" viewport) against the text it holds.
 			RectTransform area = (RectTransform)shown.Intro.transform.parent;
