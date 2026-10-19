@@ -1,28 +1,41 @@
-using System.Collections.Generic;
 using Newtonsoft.Json;
+using System.Collections.Generic;
+using PeterHan.PLib;
 using PeterHan.PLib.Options;
-using OPTIONS = SmoothBorders.ModStrings.SMOOTHBORDERS.OPTIONS;
 
 namespace SmoothBorders
 {
 	/// <summary>
 	/// Mod options: the wall thickness in tiles for each kind of asteroid. Read again for every
-	/// world generated, so changes need no restart. All entries come from CreateOptions so the
-	/// dialog shows them in the order they are yielded.
+	/// world generated, so changes need no restart. The dialog lists the properties in declaration
+	/// order, and PLib itself reads, writes and resets them: the intro block is a dynamic entry
+	/// declared first, the four settings use RangedIntOptionsEntry.
 	/// </summary>
 	[JsonObject(MemberSerialization.OptIn)]
 	[ConfigFile(SharedConfigLocation: true)]
 	public sealed class Options : IOptions
 	{
+		/// <summary>The intro block above the settings. It holds no value and is never saved.</summary>
+		[DynamicOption(typeof(TopLeftTextOptionsEntry))]
+		public LocText Intro => null;
+
+		[DynamicOption(typeof(RangedIntOptionsEntry))]
+		[Limit(1, 16)]
 		[JsonProperty]
 		public int Primary { get; set; } = Groups.Primary.Default;
 
+		[DynamicOption(typeof(RangedIntOptionsEntry))]
+		[Limit(1, 7)]
 		[JsonProperty]
 		public int Small { get; set; } = Groups.Small.Default;
 
+		[DynamicOption(typeof(RangedIntOptionsEntry))]
+		[Limit(1, 6)]
 		[JsonProperty]
 		public int Moonlets { get; set; } = Groups.Moonlets.Default;
 
+		[DynamicOption(typeof(RangedIntOptionsEntry))]
+		[Limit(1, 3)]
 		[JsonProperty]
 		public int TinyMoonlets { get; set; } = Groups.TinyMoonlets.Default;
 
@@ -37,22 +50,10 @@ namespace SmoothBorders
 			return group.Clamp(value);
 		}
 
+		/// <summary>No extra entries: every entry is a declared property.</summary>
 		public IEnumerable<IOptionsEntry> CreateOptions()
 		{
-			yield return new TopLeftTextOptionsEntry("Intro", new OptionAttribute(OPTIONS.INTRO));
-			yield return Row(nameof(Primary), Groups.Primary, OPTIONS.PRIMARY.NAME, OPTIONS.PRIMARY.TOOLTIP);
-			yield return Row(nameof(Small), Groups.Small, OPTIONS.SMALL.NAME, OPTIONS.SMALL.TOOLTIP);
-			yield return Row(nameof(Moonlets), Groups.Moonlets, OPTIONS.MOONLETS.NAME, OPTIONS.MOONLETS.TOOLTIP);
-			yield return Row(nameof(TinyMoonlets), Groups.TinyMoonlets, OPTIONS.TINY_MOONLETS.NAME, OPTIONS.TINY_MOONLETS.TOOLTIP);
-		}
-
-		// The range is appended in code so translators never handle it and the label cannot
-		// disagree with the slider's limits.
-		private static IOptionsEntry Row(string field, Group group, string name, string tooltip)
-		{
-			return new IntOptionsEntry(field,
-				new OptionAttribute(name + " (" + group.RangeText + ")", tooltip),
-				new LimitAttribute(group.Min, group.Max));
+			return null;
 		}
 
 		public void OnOptionsChanged()

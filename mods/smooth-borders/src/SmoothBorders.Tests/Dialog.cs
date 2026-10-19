@@ -44,10 +44,10 @@ namespace SmoothBorders.Tests
 		/// Opens the dialog with no config file (the harness puts the player's back at the end of the
 		/// run), waits for it to lay out, and finds its parts; it is closed again at cleanup.
 		/// </summary>
-		private static IEnumerator Open(TestContext t, Shown shown)
+		private static IEnumerator Open(TestContext t, Shown shown, bool fresh = true)
 		{
 			string config = Support.ConfigPath;
-			if (File.Exists(config))
+			if (fresh && File.Exists(config))
 				File.Delete(config);
 			POptions.ShowDialog(typeof(Options));
 			yield return t.WaitRealSeconds(1.5);
@@ -124,6 +124,26 @@ namespace SmoothBorders.Tests
 			// The intro has a little padding of its own; it still lines up with the rows below, not centred.
 			t.Assert.True(indent >= -2f && indent <= 12f, "the intro's left edge is within the padding of the rows' left edge (" + indent.ToString("F0") + " px)");
 
+			// A thin rule between the intro and the first field, as wide as the intro block
+			Transform block = shown.Intro.transform.parent.parent.parent;
+			t.Assert.Eq("IntroBlock", block.name, "the intro sits in its block");
+			Transform rule = block.Find("Spacer");
+			t.Assert.NotNull(rule, "the rule exists");
+			var ruleBox = new Vector3[4];
+			((RectTransform)rule).GetWorldCorners(ruleBox);
+			Image ruleImage = rule.GetComponent<Image>();
+			t.Assert.NotNull(ruleImage, "the rule is drawn");
+			float ruleTop = ruleBox[1].y;
+			float ruleHeight = (ruleBox[1].y - ruleBox[0].y) / px;
+			t.Log("rule: " + ruleHeight.ToString("F1") + " px high, " + ((ruleBox[2].x - ruleBox[0].x) / px).ToString("F0") + " px wide");
+			t.Assert.True(ruleHeight >= 0.9f && ruleHeight <= 2.1f, "the rule is thin (" + ruleHeight.ToString("F1") + " px)");
+			t.Assert.True(ruleTop < Top(shown.Intro.transform.parent) , "the rule is below the intro's text area");
+			t.Assert.True(ruleBox[0].y > Top(shown.Fields[0]), "the rule is above the first field");
+			RectTransform blockBox = (RectTransform)block;
+			var bc = new Vector3[4];
+			blockBox.GetWorldCorners(bc);
+			t.Assert.True(ruleBox[2].x - ruleBox[0].x >= (bc[2].x - bc[0].x) * 0.9f, "the rule spans the intro block's width");
+
 			// The intro's area (the input field's "Text Area" viewport) against the text it holds.
 			RectTransform area = (RectTransform)shown.Intro.transform.parent;
 			var corners = new Vector3[4];
@@ -162,6 +182,52 @@ namespace SmoothBorders.Tests
 				t.Assert.Eq((float)Maxima[i], shown.Sliders[i].maxValue, "row " + (i + 1) + "'s slider ends at the kind's maximum");
 				t.Assert.Eq((float)Defaults[i], shown.Sliders[i].value, "row " + (i + 1) + "'s slider stands at the default");
 			}
+		}
+
+		private static readonly int[] Chosen = { 7, 5, 4, 2 };
+
+		private static void Click(Shown shown, string name)
+		{
+			KButton button = shown.Screen.GetComponentsInChildren<KButton>().FirstOrDefault(b => b.gameObject.name == name);
+			if (button == null)
+				throw new System.InvalidOperationException("no button named " + name);
+			button.SignalClick(KKeyCode.Mouse0);
+		}
+
+		private static string Fields(Shown shown)
+		{
+			return string.Join(",", shown.Fields.Select(field => field.text));
+		}
+
+		[OniTest("SB: values set in the options dialog are saved on OK, shown on reopen, and Reset to default puts back 4, 3, 2 and 1", NoColony = true, Timeout = 60), Layer(2)]
+		public static IEnumerator SavesAndResets(TestContext t)
+		{
+			var shown = new Shown();
+			yield return Open(t, shown);
+			for (int i = 0; i < Chosen.Length; i++)
+				shown.Sliders[i].value = Chosen[i];
+			yield return t.WaitRealSeconds(0.5);
+			t.Assert.Eq("7,5,4,2", Fields(shown), "the fields follow the sliders");
+			Click(shown, "ok");
+			yield return t.WaitRealSeconds(1.0);
+			Options saved = Options.Load();
+			t.Log("config after OK: " + saved.Primary + "," + saved.Small + "," + saved.Moonlets + "," + saved.TinyMoonlets);
+			t.Assert.Eq(7, saved.Primary, "Primary written on OK");
+			t.Assert.Eq(5, saved.Small, "Small written on OK");
+			t.Assert.Eq(4, saved.Moonlets, "Moonlets written on OK");
+			t.Assert.Eq(2, saved.TinyMoonlets, "TinyMoonlets written on OK");
+
+			var again = new Shown();
+			yield return Open(t, again, false);
+			t.Log("fields on reopen: " + Fields(again));
+			t.Assert.Eq("7,5,4,2", Fields(again), "the saved values show on reopen");
+			t.Assert.Eq(7f, again.Sliders[0].value, "the first slider stands at the saved value");
+			Click(again, "ResetConfig");
+			yield return t.WaitRealSeconds(0.5);
+			t.Log("fields after Reset to default: " + Fields(again));
+			t.Assert.Eq("4,3,2,1", Fields(again), "Reset to default shows 4, 3, 2 and 1");
+			for (int i = 0; i < Defaults.Length; i++)
+				t.Assert.Eq((float)Defaults[i], again.Sliders[i].value, "row " + (i + 1) + "'s slider is back at the default");
 		}
 	}
 }
