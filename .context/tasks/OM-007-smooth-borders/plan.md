@@ -24,7 +24,7 @@
 - Dialog approved by the user (2026-10-19, screenshot from run sb-rule-20261019-123546).
 - No translations in 0.1.0 (user, 2026-10-19): translations come after the mod is stable with comprehensive tests. No preview from us: the user is making the preview image.
 - Compatibility before release (user, 2026-10-19): check against unusual worldgen — the MiniBase mod, the upside-down asteroid, "different lab asteroids", etc.
-- "Lab asteroids" = the Skewed Asteroid (StrangeAsteroidKleiFest2023 and its cluster version) (user, 2026-10-19). Worldgen mods (MiniBase etc.) are tested with Workshop ids the user supplies: 1825146346, 3430682737, 2582905897, 3743010929, 3382061617 (user, 2026-10-19). All five now installed (user subscribed): 3382061617 MiniBaseFE, 1825146346 Empty Worlds, 3430682737 Voidria worldgen, 2582905897 Baator, 3743010929 Omnificia Asteroid II. Unit 12 runs after unit 11 (one game at a time).
+- "Lab asteroids" = the Skewed Asteroid (StrangeAsteroidKleiFest2023 and its cluster version) (user, 2026-10-19). Worldgen mods (MiniBase etc.) are tested with Workshop ids the user supplies: 1825146346, 3430682737, 2582905897, 3743010929, 3382061617 (user, 2026-10-19). All five now installed (user subscribed): 3382061617 MiniBaseFE, 1825146346 Empty Worlds, 3430682737 Voidria worldgen, 2582905897 Baator, 3743010929 Omnificia Asteroid II. Unit 12 runs after unit 11 (one game at a time). Goals for these mods, in order (user, 2026-10-19): (1) never crash alongside them; (2) disable Smooth Borders' features on worldgen that does not write rectangular map borders; (3) very optional: settings for the mods' custom worldgen when present.
 - Task id OM-007: OM-001..OM-006 are taken across this store and the common/ submodule store.
 
 ## Key Files
