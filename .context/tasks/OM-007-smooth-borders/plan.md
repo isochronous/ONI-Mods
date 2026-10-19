@@ -51,10 +51,15 @@
 - [x] Bring the approach options to the user; record the choice — A, per-asteroid-type thickness settings
 - [x] Design unit 02 (units/02-design-report.md): 4 groups merged by equal vanilla floor T-R (Primary 1-10 def 4, Small 1-5 def 3, Moonlets 1-4 def 2, Tiny moonlets 1-2 def 1), world→group by its (T,R); transpiler swaps the two setting reads in DrawWorldBorder (thickness = setting, range 0); POIBounds per edge = larger of vanilla (reverse-patched vanilla run on a cell copy) and flat; PLib 4.25 text entry is centred → ~15-line subclass; tests need TestRunner Prepare hook + config snapshot/restore and a test-only vanilla switch; scaffold mods/smooth-borders, SmoothBorders, Isochronous.SmoothBorders, 0.1.0, net48. 8 open questions (report §6).
 - [x] Show the user the grouping and labels; record — see Decisions (settings design)
-- [ ] Plan unit 03: sequenced implement/test steps from units/02-design-report.md with the user's changes ← IN PROGRESS
+- [x] Plan unit 03 (units/03-plan-report.md): steps S1-S9 + M2; design corrections in its §0 (PLib config folder is named by assembly; translations under src/SmoothBorders/translations/; vanilla baseline via a test Prepare hook unpatching by Harmony id, mod flag as fallback; Prepare returns an undo; WorldgenDriver -ModConfig)
+- [ ] S1 scaffold (unit 04, sonnet) ∥ S2 TestRunner/WorldgenDriver in common/ on branch OM-007-smooth-borders (unit 05, opus) ← IN PROGRESS
+- [ ] M2 bump common pointer (manager)
+- [ ] S3 groups, options, strings → S4 border patch → S5 no-colony tests → S6 worldgen tests (one at a time)
+- [ ] S7 review, S8 WorldgenDriver sweep, S9 docs and Workshop material (ask the user: Chinese translation in 0.1.0? preview composition? DLC tags)
 - [ ] Update this plan with the implementation steps
 
 ## Open Questions / Blockers
+- To land at completion (tooling friction, root node domains/tooling-friction.md): units 01 and 02 both reported the `ks handoff --scope mods ...` brief spent its budget on 17 copies of one try/catch record and left out the generated-worlds testing records (blk-87272da04dee, blk-c8a18ea4088d), reachable only by `--tag generated-worlds`.
 - Thickness of the flat border: vanilla's minimum, its average, or something else.
 - Whether things other than the border walk reach the edge (POI/template bounds the border skips, subworld features, space-surface tops) and how a flat border meets them.
 - Determinism: the border walk consumes the worldgen RNG; changing it may shift every later random draw and so change the seed's layout. Must be checked.
