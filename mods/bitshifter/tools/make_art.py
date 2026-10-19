@@ -1,4 +1,5 @@
-"""Build the Ribbon Reader and Ribbon Writer kanims with the bit display.
+"""Build the Ribbon Reader and Ribbon Writer kanims with the bit display, and the Ribbon
+Diagnostic Panel's kanim with its build menu icon.
 
     python tools/make_art.py [--game <OxygenNotIncluded folder>] [--preview [out.png]] [--check]
 
@@ -25,8 +26,16 @@ input 1, output 4), idle and off as copies of net0, and the vanilla place and ui
 art changed to match: the construction ghost loses the bit lights' white outlines and gets
 outlines of the panel and the signal light, and the build menu icon is the building itself, unlit,
 scaled down over the plain shadow the game's icons have. Output goes
-to src/Bitshifter/anim/assets/bitshifter_ribbon_reader and ..._writer. --check builds them in
-the temp folder instead and fails when they differ from those (after a game update, say).
+to src/Bitshifter/anim/assets/bitshifter_ribbon_reader and ..._writer.
+
+The Ribbon Diagnostic Panel's kanim (diagnostic_panel, by 3GuB) is read from
+anim-original/diagnostic_panel, the artist's export kept as delivered, and written to
+src/Bitshifter/anim/assets/diagnostic_panel with one change: its build menu icon is the panel
+in its unlit pose ("off": the body and the digits, no lamps) over the same plain shadow. A new
+export from the artist goes into anim-original and through this script again.
+
+--check builds all three in the temp folder instead and fails when they differ from the
+committed ones (after a game update or a new export, say).
 """
 import argparse
 import os
@@ -39,9 +48,15 @@ from scipy import ndimage
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "..", "..", "common", "tools", "Kanim"))
-from kanim import Sprite, drift, extract, load, read_anims, read_build, read_kanim, render, show, vanilla, write_kanim  # noqa: E402
+from kanim import Sprite, drift, extract, load, load_files, read_anims, read_build, read_kanim, render, show, vanilla, write_kanim  # noqa: E402
 
 ASSETS = os.path.join(ROOT, "src", "Bitshifter", "anim", "assets")
+
+# The Ribbon Diagnostic Panel's kanim, as the artist exported it, and the texture size its art
+# needs once repacked (the body, the construction ghost and the two digit layers do not fit 512).
+DIAG = "diagnostic_panel"
+DIAG_ORIGINAL = os.path.join(ROOT, "anim-original", DIAG)
+DIAG_TEXTURE = 1024
 
 # Display colours: an amber LED display behind a dark warm window, unlit segments faintly visible.
 PANEL = (46, 40, 36, 255)
@@ -237,9 +252,15 @@ def ui_art(vanilla_icon, kanim):
     building = building.crop(building.getbbox())
     if mirrored(vanilla_icon.image, building):
         building = building.transpose(Image.FLIP_LEFT_RIGHT)
+    return over_shadow(building, vanilla_icon)
+
+
+def over_shadow(building, reference):
+    """A rendered building scaled down to fit the texture of the reference icon (a Sprite),
+    keeping its pixels per unit, over the icons' plain shadow."""
     shadow_h = building.width / 8
-    # Fit building and shadow in the vanilla icon's texture, keeping its 0.5 pixels per unit.
-    room = vanilla_icon.image.width - 8, vanilla_icon.image.height - 8
+    # Fit building and shadow in the reference icon's texture, keeping its 0.5 pixels per unit.
+    room = reference.image.width - 8, reference.image.height - 8
     fit = min(room[0] / building.width, room[1] / (building.height + shadow_h * 0.75))
     building = building.resize((round(building.width * fit), round(building.height * fit)), Image.LANCZOS)
     shadow_h *= fit
@@ -250,7 +271,7 @@ def ui_art(vanilla_icon, kanim):
     ImageDraw.Draw(shadow).ellipse([4 * o, cy - shadow_h * o / 2, (4 + building.width) * o, cy + shadow_h * o / 2], fill=(0, 0, 0, 76))
     icon = shadow.resize((w, h), Image.LANCZOS)
     icon.alpha_composite(building, (4, 4))
-    scale = vanilla_icon.image.width / vanilla_icon.width
+    scale = reference.image.width / reference.width
     return Sprite(icon, icon.width / scale, icon.height / scale)
 
 
@@ -309,6 +330,19 @@ def build(out_root, game, new_name, game_name, box_symbol, face_colour, turn):
     print(f"{new_name}: display centred at ({gx:.1f}, {gy:.1f})")
 
 
+def build_panel(out_root):
+    """The Ribbon Diagnostic Panel: the artist's kanim from anim-original as it is, with the
+    build menu icon drawn from its unlit pose (body and digits, no lamps) in place of the
+    artist's placeholder, and the anims' bounds recomputed."""
+    tex, build_bytes, anim_bytes = load_files(DIAG_ORIGINAL, DIAG)
+    symbols, anims, bloom = read_kanim(tex, build_bytes, anim_bytes)
+    building, _ = render(tex, build_bytes, anim_bytes, "off", scale=1.0)
+    building = building.crop(building.getbbox())
+    symbols["ui"] = [over_shadow(building, symbols["ui"][0])]
+    write_kanim(os.path.join(out_root, DIAG), DIAG, symbols, anims, texture_size=DIAG_TEXTURE, bloom=bloom)
+    print(f"{DIAG}: icon redrawn from {os.path.relpath(DIAG_ORIGINAL, ROOT)}")
+
+
 def preview(path):
     """Both buildings with both ports wired, showing 23, horizontal and turned upright."""
     hidden = {"seg_c_1", "seg_f_1", "seg_e_2", "seg_f_2"}
@@ -338,8 +372,9 @@ def main():
     extract([spec[0] for spec in BUILDINGS.values()], a.game)
     for new_name, spec in BUILDINGS.items():
         build(out_root, a.game, new_name, *spec)
+    build_panel(out_root)
     if a.check:
-        changed = [f for n in BUILDINGS for f in drift(os.path.join(out_root, n), os.path.join(ASSETS, n))]
+        changed = [f for n in list(BUILDINGS) + [DIAG] for f in drift(os.path.join(out_root, n), os.path.join(ASSETS, n))]
         if changed:
             sys.exit("the committed kanims differ from a fresh build: " + ", ".join(changed))
         print("the committed kanims match a fresh build")
