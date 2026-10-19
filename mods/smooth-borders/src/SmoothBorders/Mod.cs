@@ -1,7 +1,9 @@
 using System;
 using HarmonyLib;
+using Isochronous;
 using KMod;
 using PeterHan.PLib.Core;
+using PeterHan.PLib.Options;
 using UnityEngine;
 
 namespace SmoothBorders
@@ -22,9 +24,8 @@ namespace SmoothBorders
 				Debug.LogWarning("[SmoothBorders] Could not patch the game, borders stay as the game draws them: " + e.GetBaseException().Message);
 			}
 			PUtil.InitLibrary(false);
-			// Registered once the types exist:
-			// Translations.Register(harmony, typeof(ModStrings));
-			// new POptions().RegisterOptions(this, typeof(Options));
+			Translations.Register(harmony, typeof(ModStrings));
+			new POptions().RegisterOptions(this, typeof(Options));
 			Debug.Log("[SmoothBorders] Loaded version " + typeof(SmoothBordersMod).Assembly.GetName().Version);
 		}
 	}
