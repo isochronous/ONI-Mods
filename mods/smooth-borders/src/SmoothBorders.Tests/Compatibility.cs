@@ -436,6 +436,8 @@ namespace SmoothBorders.Tests
 		{
 			int start = ClusterManager.Instance.activeWorldId;
 			WorldContainer other = Support.Asteroids().FirstOrDefault(world => world.id != start);
+			if (other == null && !DlcManager.IsExpansion1Active())
+				t.Skip("the base game's clusters have one asteroid; the switch between two needs Spaced Out");
 			t.Assert.NotNull(other, "the cluster has a second asteroid");
 			t.Log("on the start asteroid: " + Support.CameraSpot());
 			yield return t.Screenshot("1-start");
