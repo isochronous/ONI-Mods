@@ -9,7 +9,8 @@ namespace SmoothBorders.Tests
 	/// the same coordinate with the mod on and the default config: every wall flat at the default
 	/// thickness, and the buildings and geysers exactly where the baseline has them (the default is
 	/// the game's thinnest wall, so the POI rectangles stay the game's). The flat and the placement
-	/// tests share one world. Base-game coordinates are skipped in Spaced Out and the reverse.
+	/// tests share one world. Base-game coordinates are skipped in Spaced Out and the reverse; run
+	/// them with the launcher's -Mode base. More clusters, explicit, are in Clusters.
 	/// </summary>
 	public static class Identity
 	{
@@ -129,13 +130,15 @@ namespace SmoothBorders.Tests
 
 		/// <summary>
 		/// The mod drew this world (its log has the flat walls, so this is not a second vanilla world),
-		/// no edge's POI rectangle grew, and the placements equal the baseline's.
+		/// no edge's POI rectangle grew, the placements equal the baseline's, and the neutronium inside
+		/// the border strips is the baseline's, cell for cell.
 		/// </summary>
-		private static IEnumerator SameAndNoGrowth(TestContext t, string coordinate)
+		internal static IEnumerator SameAndNoGrowth(TestContext t, string coordinate)
 		{
 			t.Assert.True(Support.FlatWalls().Count > 0, "the mod drew this world's walls (its log lines: " + string.Join(" | ", Support.Logged()) + ")");
 			t.Assert.Eq(0, Support.GrewLines().Count, "no POI rectangle grew at the defaults: " + string.Join(" | ", Support.GrewLines()));
 			yield return Support.ExpectSamePlacements(t, coordinate, "vanilla");
+			yield return Support.ExpectInnerNeutroniumKept(t, coordinate, "vanilla", new Options(), true);
 		}
 	}
 }

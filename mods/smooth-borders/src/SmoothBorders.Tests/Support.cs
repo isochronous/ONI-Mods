@@ -285,8 +285,12 @@ namespace SmoothBorders.Tests
 			/// <summary>Neutronium at depth F a flat wall still tolerates outside magma (templates, other biome bands).</summary>
 			public int DeepAllowed => Math.Max(2, Lines / 50);
 
-			/// <summary>Neutronium at depth F tolerated in a magma zone: a tenth of the lines (the game's own wall reaches a third and more).</summary>
-			public int MagmaAllowed => Math.Max(2, Lines / 10);
+			/// <summary>
+			/// Neutronium at depth F tolerated in a magma zone: a quarter of the lines. The game's own wall
+			/// there reaches a third and more; the magma bed's neutronium alone reached a fifth on the
+			/// bottom of a 64-wide moonlet (MarshyMoonlet, KF23-C-7, run sb-so-mini-20261019-133502).
+			/// </summary>
+			public int MagmaAllowed => Math.Max(2, Lines / 4);
 
 			public bool TooDeep => Deep.Count > DeepAllowed || DeepInMagma.Count > MagmaAllowed;
 
@@ -367,6 +371,91 @@ namespace SmoothBorders.Tests
 				(InMagma(beyond) ? edge.DeepInMagma : edge.Deep).Add(beyond);
 		}
 
+		/// <summary>
+		/// The cells of the templates the asteroid's world file places at a fixed spot
+		/// (overridePlacement): the game stamps them there without looking at the border. Every name
+		/// a rule lists is counted, so a rule that picks one of several excuses all of them.
+		/// </summary>
+		public static HashSet<int> FixedTemplateCells(WorldContainer world)
+		{
+			var cells = new HashSet<int>();
+			ProcGen.World data = SettingsCache.worlds.GetWorldData(world.worldName);
+			if (data?.worldTemplateRules == null)
+				return cells;
+			foreach (ProcGen.World.TemplateSpawnRules rule in data.worldTemplateRules)
+			{
+				if (rule.overridePlacement == Vector2I.minusone || rule.names == null)
+					continue;
+				foreach (string name in rule.names)
+				{
+					TemplateContainer template = TemplateCache.GetTemplate(name);
+					if (template?.cells == null)
+						continue;
+					foreach (Cell c in template.cells)
+					{
+						int cell = Grid.XYToCell(world.WorldOffset.x + rule.overridePlacement.x + c.location_x, world.WorldOffset.y + rule.overridePlacement.y + c.location_y);
+						if (Grid.IsValidCell(cell) && Grid.WorldIdx[cell] == world.id)
+							cells.Add(cell);
+					}
+				}
+			}
+			return cells;
+		}
+
+		private static bool IsVacuum(int cell)
+		{
+			Element element = Grid.Element[cell];
+			return element != null && (element.id == SimHashes.Vacuum || element.id == SimHashes.Void);
+		}
+
+		/// <summary>
+		/// Whether the game skips vacuum on this cell's line: the line's point on the edge lies in a
+		/// terrain cell tagged RemoveWorldBorderOverVacuum (the saved overworld cells keep the tags).
+		/// </summary>
+		public static bool EdgePointSkipsVacuum(WorldContainer world, string edge, int cell)
+		{
+			Grid.CellToXY(cell, out int x, out int y);
+			int x0 = world.WorldOffset.x, y0 = world.WorldOffset.y;
+			Vector2 point;
+			switch (edge)
+			{
+				case "left": point = new Vector2(x0, y); break;
+				case "right": point = new Vector2(x0 + world.WorldSize.x - 1, y); break;
+				case "bottom": point = new Vector2(x, y0); break;
+				default: point = new Vector2(x, y0 + world.WorldSize.y - 1); break;
+			}
+			List<Klei.WorldDetailSave.OverworldCell> cells = SaveLoader.Instance?.clusterDetailSave?.overworldCells;
+			if (cells == null)
+				return false;
+			foreach (Klei.WorldDetailSave.OverworldCell overworld in cells)
+				if (overworld.tags != null && overworld.tags.Contains(WorldGenTags.RemoveWorldBorderOverVacuum) && overworld.poly.Contains(point))
+					return true;
+			return false;
+		}
+
+		/// <summary>How far a cell is from one edge of its asteroid (0 is the outermost line).</summary>
+		public static int DepthOf(WorldContainer world, string edge, int cell)
+		{
+			Grid.CellToXY(cell, out int x, out int y);
+			x -= world.WorldOffset.x;
+			y -= world.WorldOffset.y;
+			switch (edge)
+			{
+				case "left": return x;
+				case "right": return world.WorldSize.x - 1 - x;
+				case "bottom": return y;
+				default: return world.WorldSize.y - 1 - y;
+			}
+		}
+
+		/// <summary>"(x, y) Element" with x and y from the asteroid's corner.</summary>
+		public static string Describe(WorldContainer world, int cell)
+		{
+			Grid.CellToXY(cell, out int x, out int y);
+			Element element = Grid.Element[cell];
+			return "(" + (x - world.WorldOffset.x) + ", " + (y - world.WorldOffset.y) + ") " + (element != null ? element.id.ToString() : "?");
+		}
+
 		/// <summary>The fog lifted around the cell and the camera on it (switching to its asteroid), then a screenshot.</summary>
 		public static IEnumerator Photograph(TestContext t, int cell, string name)
 		{
@@ -424,11 +513,31 @@ namespace SmoothBorders.Tests
 				Edge[] edges = Measure(world, f);
 				measured++;
 				t.Log(pair + ", " + (group != null ? group.Id : "no group") + ", F = " + f + ": " + string.Join("; ", edges.Select(e => e.ToString())));
+				HashSet<int> fixedTemplates = FixedTemplateCells(world);
 				foreach (Edge edge in edges)
 				{
+					// A template the world file places at a fixed spot (overridePlacement) is stamped
+					// wherever it lands, border or not, as in the game without the mod; its cells are
+					// the game's, not gaps in the wall. Said in a note, with the shallowest depth hit.
+					List<int> stamped = edge.Gaps.Where(fixedTemplates.Contains).ToList();
+					if (stamped.Count > 0)
+					{
+						edge.Gaps.RemoveAll(fixedTemplates.Contains);
+						t.Log(world.worldName + " " + edge.Name + ": " + stamped.Count + " cell(s) nearer the edge than " + f + " belong to a template placed at a fixed spot (overridePlacement), "
+							+ "the nearest " + stamped.Min(cell => DepthOf(world, edge.Name, cell)) + " from the edge: " + string.Join(", ", stamped.Take(6).Select(cell => Describe(world, cell))));
+					}
+					// The game leaves vacuum unwalled on a line whose edge point lies in terrain tagged
+					// RemoveWorldBorderOverVacuum (DrawWorldBorder), whatever the zone; so does the mod.
+					List<int> skipped = edge.Gaps.Where(cell => IsVacuum(cell) && EdgePointSkipsVacuum(world, edge.Name, cell)).ToList();
+					if (skipped.Count > 0)
+					{
+						edge.Gaps.RemoveAll(skipped.Contains);
+						t.Log(world.worldName + " " + edge.Name + ": " + skipped.Count + " vacuum cell(s) nearer the edge than " + f + " on lines the game leaves unwalled over vacuum (RemoveWorldBorderOverVacuum): "
+							+ string.Join(", ", skipped.Take(6).Select(cell => Describe(world, cell))));
+					}
 					if (edge.Gaps.Count > 0)
 					{
-						problems.Add(world.worldName + " " + edge.Name + ": " + edge.Gaps.Count + " cell(s) nearer the edge than " + f + " are not neutronium");
+						problems.Add(world.worldName + " " + edge.Name + ": " + edge.Gaps.Count + " cell(s) nearer the edge than " + f + " are not neutronium (" + string.Join(", ", edge.Gaps.Take(4).Select(cell => Describe(world, cell))) + ")");
 						spots.Add(new KeyValuePair<string, int>(Short(world.worldName) + "-" + edge.Name + "-gap", edge.Gaps[0]));
 					}
 					if (edge.TooDeep)
@@ -518,8 +627,97 @@ namespace SmoothBorders.Tests
 			List<string> placements = Placements();
 			File.WriteAllLines(PlacementFile(coordinate, what), placements);
 			t.Log(placements.Count + " buildings and geysers written to " + PlacementFile(coordinate, what));
+			List<string> inner = InnerNeutronium(defaults);
+			File.WriteAllLines(NeutroniumFile(coordinate, what), inner);
+			t.Log(inner.Count + " neutronium cells inside the border strips written to " + NeutroniumFile(coordinate, what));
 			t.Assert.True(uneven > 0, "the flatness measure finds the game's own wall deeper than the default on some edge");
 			t.Assert.True(placements.Count > 0, "the baseline world has buildings and geysers to compare");
+			yield break;
+		}
+
+		// ---- neutronium away from the border ----
+
+		/// <summary>
+		/// How deep an asteroid's border strip reaches: the game's wall is T - R to T + R deep on every
+		/// edge, the mod's is F; the strip is the deeper of the two. Cells deeper than that are the
+		/// asteroid's inside, where neither draws a wall.
+		/// </summary>
+		public static int StripDepth(BorderPair pair, Options options)
+		{
+			if (!pair.Drawn || pair.T <= 0)
+				return 0;
+			return Math.Max(Groups.Thickness(pair.T, pair.R, options), pair.T + pair.R);
+		}
+
+		/// <summary>
+		/// Every neutronium cell of the loaded cluster inside the border strips (the strip as deep as
+		/// StripDepth gives for these options), as "world x y" lines with x and y counted from the
+		/// asteroid's corner, sorted. The magma beds' own neutronium and any a template brings.
+		/// </summary>
+		public static List<string> InnerNeutronium(Options options)
+		{
+			var cells = new List<string>();
+			foreach (WorldContainer world in Asteroids())
+			{
+				int s = StripDepth(PairOf(world), options);
+				int x0 = world.WorldOffset.x, y0 = world.WorldOffset.y, w = world.WorldSize.x, h = world.WorldSize.y;
+				for (int y = s; y < h - s; y++)
+					for (int x = s; x < w - s; x++)
+					{
+						int cell = Grid.XYToCell(x0 + x, y0 + y);
+						if (Grid.IsValidCell(cell) && IsNeutronium(cell))
+							cells.Add(Short(world.worldName) + " " + x + " " + y);
+					}
+			}
+			cells.Sort(string.CompareOrdinal);
+			return cells;
+		}
+
+		public static string NeutroniumFile(string coordinate, string what)
+		{
+			return Path.Combine(Isochronous.TestRunner.Session.Dir, "neutronium-" + what + "-" + coordinate + ".txt");
+		}
+
+		/// <summary>
+		/// No neutronium the baseline world has inside the border strips is gone from this world: the
+		/// mod changed the wall and nothing else. The strip is as deep as these options make it, so
+		/// the baseline's cells are compared only where both worlds are inside. With exact, no
+		/// neutronium was added there either (the defaults, where the placements are the baseline's).
+		/// </summary>
+		public static IEnumerator ExpectInnerNeutroniumKept(TestContext t, string coordinate, string baseline, Options options, bool exact, bool assertKept = true)
+		{
+			string file = NeutroniumFile(coordinate, baseline);
+			t.Assert.True(File.Exists(file), "the baseline neutronium of " + coordinate + " was written earlier in this run (" + file + "); run the baseline test with this one");
+			var strips = new Dictionary<string, KeyValuePair<int, Vector2I>>();
+			foreach (WorldContainer world in Asteroids())
+				strips[Short(world.worldName)] = new KeyValuePair<int, Vector2I>(StripDepth(PairOf(world), options), world.WorldSize);
+			var expected = new List<string>();
+			foreach (string line in File.ReadAllLines(file))
+			{
+				string[] parts = line.Split(' ');
+				if (parts.Length != 3 || !strips.TryGetValue(parts[0], out var strip))
+				{
+					expected.Add(line);
+					continue;
+				}
+				int x = int.Parse(parts[1]), y = int.Parse(parts[2]), s = strip.Key;
+				if (x >= s && x < strip.Value.x - s && y >= s && y < strip.Value.y - s)
+					expected.Add(line);
+			}
+			List<string> actual = InnerNeutronium(options);
+			File.WriteAllLines(Path.ChangeExtension(file, null) + "-compared-" + options.Primary + "-" + options.Small + "-" + options.Moonlets + "-" + options.TinyMoonlets + ".txt", actual);
+			var actualSet = new HashSet<string>(actual);
+			var expectedSet = new HashSet<string>(expected);
+			List<string> removed = expected.Where(line => !actualSet.Contains(line)).ToList();
+			List<string> added = actual.Where(line => !expectedSet.Contains(line)).ToList();
+			t.Log(actual.Count + " neutronium cells inside the strips here, " + expected.Count + " in the baseline; " + removed.Count + " gone, " + added.Count + " new"
+				+ (removed.Count > 0 ? " (gone: " + string.Join(", ", removed.Take(5)) + ")" : "")
+				+ (added.Count > 0 ? " (new: " + string.Join(", ", added.Take(5)) + ")" : ""));
+			if (!assertKept)
+				yield break;
+			t.Assert.True(removed.Count == 0, "no neutronium inside the border strips is gone: " + string.Join(", ", removed.Take(8)));
+			if (exact)
+				t.Assert.True(added.Count == 0, "no neutronium inside the border strips is new: " + string.Join(", ", added.Take(8)));
 			yield break;
 		}
 
