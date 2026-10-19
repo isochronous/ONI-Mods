@@ -59,36 +59,69 @@ namespace SmoothBorders.Tests
 
 		// ---- the mod's log lines, caught while a world generates ----
 
-		private static readonly object gate = new object();
-		private static readonly List<string> lines = new List<string>();
+		// The game's Debug.Log writes to the console, which Unity sends to Player.log; it never reaches
+		// Application.logMessageReceived. So the capture is a stretch of Player.log: from where the file
+		// ended when the capture began to where it ended when the capture stopped (or its end now).
+		private static string logPath;
+		private static long captureStart = -1;
+		private static long captureEnd = -1;
+
+		private static string LogPath
+		{
+			get
+			{
+				string path = Application.consoleLogPath;
+				return string.IsNullOrEmpty(path) ? Path.Combine(Application.persistentDataPath, "Player.log") : path;
+			}
+		}
+
+		private static long LogLength(string path)
+		{
+			var info = new FileInfo(path);
+			return info.Exists ? info.Length : 0;
+		}
 
 		/// <summary>
-		/// From now on every log line holding "[SmoothBorders] " is kept (worldgen logs from its own
-		/// threads, hence the threaded event). The lines of an earlier world are dropped. The returned
-		/// action stops the capture; the lines stay readable until the next capture starts.
+		/// From now on every Player.log line holding "[SmoothBorders] " belongs to this capture (worldgen
+		/// logs from its own threads into the same file). The lines of an earlier world are dropped. The
+		/// returned action stops the capture; its lines stay readable until the next capture starts.
 		/// </summary>
 		public static System.Action CaptureLog()
 		{
-			lock (gate)
-				lines.Clear();
-			Application.LogCallback handler = (message, stack, type) =>
-			{
-				if (message == null)
-					return;
-				int at = message.IndexOf(LogTag, StringComparison.Ordinal);
-				if (at < 0)
-					return;
-				lock (gate)
-					lines.Add(message.Substring(at + LogTag.Length).Trim());
-			};
-			Application.logMessageReceivedThreaded += handler;
-			return () => Application.logMessageReceivedThreaded -= handler;
+			logPath = LogPath;
+			captureStart = LogLength(logPath);
+			captureEnd = -1;
+			return () => captureEnd = LogLength(logPath);
 		}
 
 		public static List<string> Logged()
 		{
-			lock (gate)
-				return new List<string>(lines);
+			var found = new List<string>();
+			if (logPath == null || captureStart < 0)
+				return found;
+			using (var stream = new FileStream(logPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete))
+			{
+				long end = captureEnd >= 0 ? captureEnd : stream.Length;
+				if (end <= captureStart)
+					return found;
+				stream.Seek(captureStart, SeekOrigin.Begin);
+				var buffer = new byte[end - captureStart];
+				int read = 0;
+				while (read < buffer.Length)
+				{
+					int n = stream.Read(buffer, read, buffer.Length - read);
+					if (n <= 0)
+						break;
+					read += n;
+				}
+				foreach (string line in System.Text.Encoding.UTF8.GetString(buffer, 0, read).Split('\n'))
+				{
+					int at = line.IndexOf(LogTag, StringComparison.Ordinal);
+					if (at >= 0)
+						found.Add(line.Substring(at + LogTag.Length).Trim());
+				}
+			}
+			return found;
 		}
 
 		private static readonly Regex FlatLine = new Regex(@"^(.+): group (.+), flat wall (\d+) tiles$");
@@ -241,16 +274,40 @@ namespace SmoothBorders.Tests
 			public int Lines;
 			/// <summary>Cells at depth below F that are not neutronium, outside Space zones (where the game skips vacuum).</summary>
 			public readonly List<int> Gaps = new List<int>();
-			/// <summary>Cells at depth F that are neutronium: the wall is deeper than F there.</summary>
+			/// <summary>Cells at depth F that are neutronium outside a magma zone: the wall is deeper than F there.</summary>
 			public readonly List<int> Deep = new List<int>();
+			/// <summary>
+			/// Cells at depth F that are neutronium in a magma zone. The magma bed at the bottom of an
+			/// asteroid has neutronium of its own, which meets the wall in places; counted apart.
+			/// </summary>
+			public readonly List<int> DeepInMagma = new List<int>();
 
-			/// <summary>Neutronium at depth F a flat wall still tolerates: the game puts a little elsewhere too (biome bands, templates).</summary>
+			/// <summary>Neutronium at depth F a flat wall still tolerates outside magma (templates, other biome bands).</summary>
 			public int DeepAllowed => Math.Max(2, Lines / 50);
+
+			/// <summary>Neutronium at depth F tolerated in a magma zone: a tenth of the lines (the game's own wall reaches a third and more).</summary>
+			public int MagmaAllowed => Math.Max(2, Lines / 10);
+
+			public bool TooDeep => Deep.Count > DeepAllowed || DeepInMagma.Count > MagmaAllowed;
 
 			public override string ToString()
 			{
-				return Name + " " + Gaps.Count + " gap(s), " + Deep.Count + "/" + Lines + " deeper (" + DeepAllowed + " allowed)";
+				return Name + " " + Gaps.Count + " gap(s), " + Deep.Count + "/" + Lines + " deeper (" + DeepAllowed + " allowed), "
+					+ DeepInMagma.Count + " in magma (" + MagmaAllowed + " allowed)";
 			}
+		}
+
+		private static bool InMagma(int cell)
+		{
+			SubWorld.ZoneType[] zones = global::World.Instance.zoneRenderData.worldZoneTypes;
+			return cell < zones.Length && zones[cell] == SubWorld.ZoneType.MagmaCore;
+		}
+
+		/// <summary>The zone types of the first few cells, for a failure message.</summary>
+		public static string Zones(IEnumerable<int> cells)
+		{
+			SubWorld.ZoneType[] zones = global::World.Instance.zoneRenderData.worldZoneTypes;
+			return string.Join(", ", cells.Take(5).Select(cell => cell < zones.Length ? zones[cell].ToString() : "?"));
 		}
 
 		private static bool IsNeutronium(int cell)
@@ -307,7 +364,7 @@ namespace SmoothBorders.Tests
 				return;
 			edge.Lines++;
 			if (IsNeutronium(beyond))
-				edge.Deep.Add(beyond);
+				(InMagma(beyond) ? edge.DeepInMagma : edge.Deep).Add(beyond);
 		}
 
 		/// <summary>The fog lifted around the cell and the camera on it (switching to its asteroid), then a screenshot.</summary>
@@ -374,10 +431,12 @@ namespace SmoothBorders.Tests
 						problems.Add(world.worldName + " " + edge.Name + ": " + edge.Gaps.Count + " cell(s) nearer the edge than " + f + " are not neutronium");
 						spots.Add(new KeyValuePair<string, int>(Short(world.worldName) + "-" + edge.Name + "-gap", edge.Gaps[0]));
 					}
-					if (edge.Deep.Count > edge.DeepAllowed)
+					if (edge.TooDeep)
 					{
-						problems.Add(world.worldName + " " + edge.Name + ": neutronium at depth " + f + " on " + edge.Deep.Count + " of " + edge.Lines + " lines");
-						spots.Add(new KeyValuePair<string, int>(Short(world.worldName) + "-" + edge.Name + "-deep", edge.Deep[0]));
+						List<int> deep = edge.Deep.Concat(edge.DeepInMagma).ToList();
+						problems.Add(world.worldName + " " + edge.Name + ": neutronium at depth " + f + " on " + edge.Deep.Count + " of " + edge.Lines
+							+ " lines outside magma and " + edge.DeepInMagma.Count + " in magma (zones: " + Zones(deep) + ")");
+						spots.Add(new KeyValuePair<string, int>(Short(world.worldName) + "-" + edge.Name + "-deep", deep[0]));
 					}
 				}
 			}
@@ -454,7 +513,7 @@ namespace SmoothBorders.Tests
 					continue;
 				Edge[] edges = Measure(world, Groups.Thickness(pair.T, pair.R, defaults));
 				t.Log("game's wall, " + pair + ": " + string.Join("; ", edges.Select(e => e.ToString())));
-				uneven += edges.Count(e => e.Deep.Count > e.DeepAllowed);
+				uneven += edges.Count(e => e.TooDeep);
 			}
 			List<string> placements = Placements();
 			File.WriteAllLines(PlacementFile(coordinate, what), placements);
