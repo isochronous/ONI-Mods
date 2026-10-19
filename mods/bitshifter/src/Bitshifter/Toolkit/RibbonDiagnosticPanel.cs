@@ -48,7 +48,7 @@ namespace Bitshifter
 		private static StatusItem inputStatus;
 		private static StatusItem switchesStatus;
 
-#pragma warning disable CS0649 // set by the game
+#pragma warning disable CS0169, CS0649 // set by the game; CopyBuildingSettings is there for the copy settings tool
 		[MyCmpAdd]
 		private CopyBuildingSettings copyBuildingSettings;
 		[MyCmpGet]
@@ -57,7 +57,7 @@ namespace Bitshifter
 		private KBatchedAnimController kbac;
 		[MyCmpGet]
 		private KSelectable selectable;
-#pragma warning restore CS0649
+#pragma warning restore CS0169, CS0649
 
 		[Serialize]
 		private int switches;
