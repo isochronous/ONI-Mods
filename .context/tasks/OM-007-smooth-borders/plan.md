@@ -55,7 +55,7 @@
 - [x] S1 scaffold (unit 04) — 88214fb, 13 files; build 0 errors, no SmoothBorders warnings; Translations.Register/POptions lines commented out until S3
 - [ ] S2 TestRunner/WorldgenDriver in common/ on branch OM-007-smooth-borders (unit 05, opus) ← IN PROGRESS
 - [x] S3 groups, options, strings (unit 06) — 25b1416; Groups.cs, Options.cs, TopLeftTextOptionsEntry.cs, ModStrings.cs, translations/SmoothBorders.pot; mod project 0 warnings 0 errors; translations.py "ALL CHECKS PASSED"; full sln build blocked by unit 05's in-progress Session.cs edits (re-run after S2)
-- [ ] S4 border patch (unit 07, opus) ← IN PROGRESS (no game launch: S2 may be using it)
+- [x] S4 border patch (unit 07) — 04e1d27; Border.cs, WorldGen_DrawWorldBorder_Patch.cs (transpiler on the two GetIntSetting calls, prefix runs the reverse-patched vanilla on a cell copy, postfix keeps the deeper rectangle per edge), WorldGen_DrawWorldBorder_Vanilla.cs; mod build 0/0; offline IL check against the real 556-instruction method passes, altered IL fails safe ("DrawWorldBorder has changed", Patched false). Deviation (minor): vanilla rectangles pass via Harmony __state, not thread-static. S6 must prove flatness, reverse patch sees original IL (T5), vanilla identity at defaults, no holes, options re-read per world.
 - [ ] M2 bump common pointer (manager)
 - [ ] S3 groups, options, strings → S4 border patch → S5 no-colony tests → S6 worldgen tests (one at a time)
 - [ ] S7 review, S8 WorldgenDriver sweep, S9 docs and Workshop material (ask the user: Chinese translation in 0.1.0? preview composition? DLC tags)
