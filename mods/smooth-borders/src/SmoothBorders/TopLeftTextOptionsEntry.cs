@@ -2,6 +2,7 @@ using PeterHan.PLib.Options;
 using PeterHan.PLib.UI;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace SmoothBorders
 {
@@ -13,6 +14,9 @@ namespace SmoothBorders
 	{
 		/// <summary>Lines of height the intro block reserves.</summary>
 		private const int Lines = 3;
+
+		/// <summary>Space around the intro block.</summary>
+		private static readonly RectOffset Padding = new RectOffset(4, 4, 4, 6);
 
 		public TopLeftTextOptionsEntry(string field, IOptionSpec spec) : base(field, spec)
 		{
@@ -29,10 +33,15 @@ namespace SmoothBorders
 				TextAlignment = TextAlignmentOptions.TopLeft,
 				LineCount = Lines,
 				FlexSize = Vector2.right
-			}.AddOnRealize(realized => realized.GetComponent<TMP_InputField>().readOnly = true),
+			}.AddOnRealize(realized =>
+			{
+				realized.GetComponent<TMP_InputField>().readOnly = true;
+				// PTextArea draws a white box border on its root; the intro is plain text
+				realized.GetComponent<Image>().enabled = false;
+			}),
 			new GridComponentSpec(row, 0)
 			{
-				Margin = CONTROL_MARGIN,
+				Margin = Padding,
 				Alignment = TextAnchor.UpperLeft,
 				ColumnSpan = 2
 			});
