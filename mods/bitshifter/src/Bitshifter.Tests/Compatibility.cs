@@ -33,6 +33,36 @@ namespace Bitshifter.Tests
 		}
 
 		/// <summary>
+		/// The Ribbon Diagnostic Panel stays when the mod stands down for Digital CPU: it is in the build menu
+		/// and the tech, its side screen opens, and a 32-bit input (a Digital CPU Writer on bit 32) leaves
+		/// the lamps for bits 1-31 red and passes bit 32 to the output. Needs that Workshop mod:
+		/// Invoke-OniTests.ps1 -Mods Bitshifter -Steam 3244925649 -Filter "*Panel*Digital*"
+		/// </summary>
+		[OniTest("Bitshifter: the diagnostic panel stays available and passes bit 32 when Digital CPU is enabled", Timeout = 120, Explicit = true), Layer(2)]
+		public static IEnumerator PanelStaysWhenStoodDown(TestContext t)
+		{
+			bool cpu = Global.Instance.modManager.mods.Any(m => m.label.id == "3244925649" && m.IsEnabledForActiveDlc());
+			if (!cpu)
+				t.Skip("Digital CPU is not enabled; run with -Steam 3244925649");
+			var list = TUNING.BUILDINGS.PLANORDER.First(p => p.category == "Automation").buildingAndSubcategoryData;
+			t.Assert.True(list.Any(pair => pair.Key == RibbonDiagnosticPanelConfig.ID), "the panel is in the build menu");
+			t.Assert.True(Db.Get().Techs.Get("ParallelAutomation").unlockedItemIDs.Contains(RibbonDiagnosticPanelConfig.ID), "and in its tech");
+
+			PanelRig rig = null;
+			yield return PanelRig.Build(t, t.Rect(PanelRig.Width, PanelRig.Height), Feed.Writer, true, 31, x => rig = x, 31);
+			rig.Set(true);
+			yield return t.WaitGameSeconds(1);
+			t.Assert.Eq(int.MinValue, rig.PanelPart.InputValue, "the panel's input carries bit 32");
+			t.Assert.Eq(int.MinValue, rig.PanelPart.OutputValue, "the output passes bit 32 through");
+			t.Assert.True(rig.AlarmInput > 0, "a Reader on bit 32 sees it");
+			for (int bit = 0; bit < BitshifterMod.Bits; bit++)
+				t.Assert.Eq(RibbonDiagnosticPanel.LampState.Inactive, rig.PanelPart.Lamp(bit), "lamp " + (bit + 1) + " stays red");
+
+			yield return t.Screens.Select(rig.Panel);
+			t.Assert.NotNull(t.Screens.SideScreen<RibbonDiagnosticPanelSideScreen>(), "the panel's side screen opens");
+		}
+
+		/// <summary>
 		/// Better Automation Overlay's label on a Ribbon Reader, read in the frame the reader is
 		/// built, before the label has spawned: what Blueprints Expanded does, which crashed the game
 		/// with a NullReferenceException in the overlay's UpdateUI. The label reads blank until it

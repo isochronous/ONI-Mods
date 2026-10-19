@@ -1,9 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using HarmonyLib;
 using Isochronous.TestKit;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 namespace Bitshifter.Tests
 {
@@ -55,12 +53,12 @@ namespace Bitshifter.Tests
 			t.Assert.True(panel.OutputWired, "the panel's output is wired");
 
 			yield return t.LookAt(r.Cell(4, 1), 6f);
-			yield return Select(t, panelGo);
-			RibbonDiagnosticPanelSideScreen screen = ShownSideScreen();
+			yield return t.Screens.Select(panelGo);
+			RibbonDiagnosticPanelSideScreen screen = t.Screens.SideScreen<RibbonDiagnosticPanelSideScreen>();
 			t.Assert.NotNull(screen, "the panel's side screen is showing");
-			GameObject cell = FindChild(screen.gameObject, "Bit" + (ClickedBit + 1));
+			GameObject cell = t.Screens.Find(screen.gameObject, "Bit" + (ClickedBit + 1));
 			t.Assert.NotNull(cell, "the grid has a cell for bit " + (ClickedBit + 1));
-			Click(cell);
+			t.Screens.Click(cell);
 			yield return t.WaitGameSeconds(1);
 			t.Assert.True(panel.IsSwitchOn(ClickedBit), "clicking cell " + (ClickedBit + 1) + " switches bit " + (ClickedBit + 1) + " on");
 			t.Assert.Eq(SourceBits | PanelSwitches | (1 << ClickedBit), panel.OutputValue, "the output is input OR switches");
@@ -69,7 +67,7 @@ namespace Bitshifter.Tests
 
 			// The face close up, neither selected nor under the pointer: the game brightens a
 			// selected or hovered building, which washes the lamps out to white.
-			SelectTool.Instance.Select(null);
+			t.Screens.Deselect();
 			yield return t.WaitGameSeconds(1);
 			yield return t.LookAt(r.Cell(4, 1), 3f);
 			yield return t.WaitGameSeconds(1);
@@ -96,10 +94,10 @@ namespace Bitshifter.Tests
 				yield return t.WaitGameSeconds(1);
 			}
 			t.Assert.False(panel.OutputWired, "the panel's output is unwired");
-			yield return Select(t, panelGo);
+			yield return t.Screens.Select(panelGo);
 			LogState(t, panel);
 			yield return t.Screenshot("2-grid-unwired");
-			SelectTool.Instance.Select(null);
+			t.Screens.Deselect();
 			yield return t.WaitGameSeconds(1);
 
 			// The build menu: Automation, where the panel follows the Ribbon Writer.
@@ -107,36 +105,6 @@ namespace Bitshifter.Tests
 			t.Cleanup(() => PlanScreen.Instance.CloseCategoryPanel(false));
 			yield return t.WaitGameSeconds(1);
 			yield return t.Screenshot("5-build-menu");
-		}
-
-		private static IEnumerator Select(TestContext t, GameObject building)
-		{
-			SelectTool.Instance.Select(building.GetComponent<KSelectable>());
-			yield return t.WaitGameSeconds(1.5);
-		}
-
-		private static RibbonDiagnosticPanelSideScreen ShownSideScreen()
-		{
-			foreach (DetailsScreen.SideScreenRef sr in Traverse.Create(DetailsScreen.Instance).Field("sideScreens").GetValue<List<DetailsScreen.SideScreenRef>>())
-				if (sr.screenInstance is RibbonDiagnosticPanelSideScreen s && s.gameObject.activeInHierarchy)
-					return s;
-			return null;
-		}
-
-		private static GameObject FindChild(GameObject root, string name)
-		{
-			foreach (Transform child in root.GetComponentsInChildren<Transform>(true))
-				if (child.name == name)
-					return child.gameObject;
-			return null;
-		}
-
-		private static void Click(GameObject go)
-		{
-			var data = new PointerEventData(UnityEngine.EventSystems.EventSystem.current) { button = PointerEventData.InputButton.Left };
-			ExecuteEvents.Execute(go, data, ExecuteEvents.pointerDownHandler);
-			ExecuteEvents.Execute(go, data, ExecuteEvents.pointerUpHandler);
-			ExecuteEvents.Execute(go, data, ExecuteEvents.pointerClickHandler);
 		}
 
 		private static void LogState(TestContext t, RibbonDiagnosticPanel panel)
@@ -148,10 +116,7 @@ namespace Bitshifter.Tests
 				if (panel.Lamp(bit) != RibbonDiagnosticPanel.LampState.Off)
 					lamps.Add((bit + 1) + "=" + panel.Lamp(bit));
 			t.Log("lamps lit: " + string.Join(" ", lamps.ToArray()));
-			var items = new List<string>();
-			foreach (StatusItemGroup.Entry entry in panel.GetComponent<KSelectable>().GetStatusItemGroup())
-				items.Add(entry.GetName());
-			t.Log("status items: " + string.Join(" | ", items.ToArray()));
+			t.Log("status items: " + string.Join(" | ", t.World.StatusItems(panel.gameObject).ToArray()));
 		}
 	}
 }
