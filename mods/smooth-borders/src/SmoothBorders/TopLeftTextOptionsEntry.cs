@@ -1,38 +1,36 @@
 using PeterHan.PLib.Options;
 using PeterHan.PLib.UI;
+using TMPro;
 using UnityEngine;
 
 namespace SmoothBorders
 {
 	/// <summary>
-	/// PLib's text block centres its text. This one sits top-left, takes the panel's width and
-	/// wraps there.
+	/// PLib's text block centres its text. This one is a read-only PTextArea, whose text wraps at the
+	/// panel's width with every line left-aligned from the top.
 	/// </summary>
 	public sealed class TopLeftTextOptionsEntry : TextBlockOptionsEntry
 	{
-		private static readonly TextStyleSetting WrapStyle = MakeStyle();
+		/// <summary>Lines of height the intro block reserves.</summary>
+		private const int Lines = 6;
 
 		public TopLeftTextOptionsEntry(string field, IOptionSpec spec) : base(field, spec)
 		{
 		}
 
-		private static TextStyleSetting MakeStyle()
-		{
-			TextStyleSetting style = PUITuning.Fonts.TextLightStyle.DeriveStyle();
-			style.enableWordWrapping = true;
-			return style;
-		}
-
 		public override void CreateUIEntry(PGridPanel parent, ref int row)
 		{
-			parent.AddChild(new PLabel(Field)
+			parent.AddChild(new PTextArea(Field)
 			{
 				Text = LookInStrings(Title),
 				ToolTip = LookInStrings(Tooltip),
-				TextStyle = WrapStyle,
-				TextAlignment = TextAnchor.UpperLeft,
+				TextStyle = PUITuning.Fonts.TextLightStyle,
+				BackColor = PUITuning.Colors.Transparent,
+				TextAlignment = TextAlignmentOptions.TopLeft,
+				LineCount = Lines,
 				FlexSize = Vector2.right
-			}, new GridComponentSpec(row, 0)
+			}.AddOnRealize(realized => realized.GetComponent<TMP_InputField>().readOnly = true),
+			new GridComponentSpec(row, 0)
 			{
 				Margin = CONTROL_MARGIN,
 				Alignment = TextAnchor.UpperLeft,

@@ -27,7 +27,7 @@ namespace SmoothBorders.Tests
 		private sealed class Shown
 		{
 			public KScreen Screen;
-			public LocText Intro;
+			public TMP_Text Intro;
 			public List<LocText> Labels;
 			public List<TMP_InputField> Fields;
 			public List<Slider> Sliders;
@@ -51,9 +51,11 @@ namespace SmoothBorders.Tests
 				File.Delete(config);
 			POptions.ShowDialog(typeof(Options));
 			yield return t.WaitRealSeconds(1.5);
-			// PLib names each label's object after the entry: "Intro" for the text block, "Label" for the rows.
-			shown.Intro = Object.FindObjectsByType<LocText>(FindObjectsSortMode.None).FirstOrDefault(text => text.isActiveAndEnabled
-				&& text.transform.parent != null && text.transform.parent.name == "Intro");
+			// PLib names each label's object after the entry: "Label" for the rows. The intro is a PTextArea
+			// named "Intro", and its text is the TextMeshPro child called "Text".
+			shown.Intro = Object.FindObjectsByType<TMP_Text>(FindObjectsSortMode.None).FirstOrDefault(text => text.isActiveAndEnabled
+				&& text.gameObject.name == "Text" && text.transform.parent != null && text.transform.parent.parent != null
+				&& text.transform.parent.parent.name == "Intro");
 			t.Assert.NotNull(shown.Intro, "the dialog's intro text");
 			shown.Screen = shown.Intro.GetComponentInParent<KScreen>();
 			t.Cleanup(() =>
@@ -66,7 +68,7 @@ namespace SmoothBorders.Tests
 			shown.Labels = root.GetComponentsInChildren<LocText>()
 				.Where(text => text.transform.parent != null && text.transform.parent.name == "Label")
 				.OrderByDescending(Top).ToList();
-			shown.Fields = root.GetComponentsInChildren<TMP_InputField>().OrderByDescending(Top).ToList();
+			shown.Fields = root.GetComponentsInChildren<TMP_InputField>().Where(field => !field.readOnly).OrderByDescending(Top).ToList();
 			shown.Sliders = root.GetComponentsInChildren<Slider>().OrderByDescending(Top).ToList();
 		}
 
@@ -115,7 +117,7 @@ namespace SmoothBorders.Tests
 		}
 
 		/// <summary>Where a line of text starts on screen (world x of its first visible character's left edge).</summary>
-		private static float LineLeft(LocText text, int line)
+		private static float LineLeft(TMP_Text text, int line)
 		{
 			TMP_TextInfo info = text.textInfo;
 			TMP_LineInfo lineInfo = info.lineInfo[line];
