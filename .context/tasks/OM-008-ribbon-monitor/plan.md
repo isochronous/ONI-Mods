@@ -21,7 +21,9 @@ Another agent works in C:/dev/ONI-Mods (branch OM-007-smooth-borders); all of th
 - Task id OM-008: `ks resolve --explain` reports highest OM-007 (OM-007-smooth-borders, the other agent's branch); common/ holds OM-003..OM-005.
 - Scope is issue #5 (user, 2026-10-19), not the other Bitshifter companion issues #2-#4.
 - Placement (user, 2026-10-19): not its own mod. Bitshifter gains a companion toolkit of buildings for 31-bit ribbons; the Ribbon Monitor is its first building, #2-#4 follow in the same toolkit.
-- Art (user, 2026-10-19): 3gub's prototype kanim is C:/temp/diagnostic_panel_anim.bytes + diagnostic_panel_build.bytes (no texture png was in C:/temp); free to rename when moving them into the mod. Working copies in C:/Users/thegr/AppData/Local/Temp/claude/C--dev-ONI-Mods/57fa2d13-c310-4f59-90ad-9f226f41d92c/scratchpad/art-3gub/; originals left in C:/temp until the move.
+- Art (user, 2026-10-19): 3gub's prototype kanim is C:/temp/diagnostic_panel_anim.bytes + diagnostic_panel_build.bytes and C:/tmp/diagnostic_panel_0.png (texture: 8 × 4 panel with 31 cells, lamps white because the game tints them at runtime, a "temp" placeholder UI icon); free to rename when moving them into the mod. Working copies in C:/Users/thegr/AppData/Local/Temp/claude/C--dev-ONI-Mods/57fa2d13-c310-4f59-90ad-9f226f41d92c/scratchpad/art-3gub/; originals left in place until the move.
+- Behaviour (user, 2026-10-19): ribbon input and ribbon output. Output connected: a 31-channel switch, the player sets each bit. Both connected: output = input OR switches. Lamp colours: green = incoming bit on, purple = switch on; purple wins when both are on; output-only lamps show switches in purple. Input only: a monitor (green lamps).
+- Switch UI (user, 2026-10-19): a side-screen grid of toggles matching the 8 × 4 face, with a fallback to the vanilla Ribbon Reader/Writer style bit selector extended to allow several bits on at once.
 
 ## Key Files
 - mods/bitshifter/: the Bitshifter mod the Ribbon Monitor is a companion to (src/Bitshifter, src/Bitshifter.Tests, tools/make_art.py)
@@ -38,7 +40,8 @@ Another agent works in C:/dev/ONI-Mods (branch OM-007-smooth-borders); all of th
 - [ ] Completion: review, retro, PR
 
 ## Open Questions / Blockers
-- The kanim came without its texture png: ask the user for diagnostic_panel_0.png (or whatever the build file names).
+- "Fallback" for the switch UI: read as "use the Reader/Writer-style selector if the grid side screen proves impractical"; confirm with the user if the grid turns out feasible but the fallback is wanted as well.
+- Behaviour with input only and no output connected: lamps show input (green), switches have no effect; confirm whether switch settings should still show (purple) when the output is unconnected.
 - Which symbols, frames and animations 3gub's kanim carries, and whether they fit driving 31 lamps independently.
 
 ## Constraints
