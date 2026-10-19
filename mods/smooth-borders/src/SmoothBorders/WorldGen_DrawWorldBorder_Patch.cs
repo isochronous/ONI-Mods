@@ -87,7 +87,10 @@ namespace SmoothBorders
 			return loads == 1 ? found : -1;
 		}
 
-		public static void Prefix(WorldGen __instance, ref WorldgenSimData simData, Chunk world, out State __state)
+		// Last, so any other mod's prefix has drawn from rnd before the copy is taken.
+		[HarmonyPriority(Priority.Last)]
+		public static void Prefix(WorldGen __instance, ref WorldgenSimData simData, Chunk world, SeededRandom rnd,
+			out State __state)
 		{
 			__state = null;
 			Border.End();
@@ -97,7 +100,7 @@ namespace SmoothBorders
 			int before = bounds != null ? bounds.Count : 0;
 			try
 			{
-				__state = Probe(__instance, ref simData, world);
+				__state = Probe(__instance, ref simData, world, rnd);
 			}
 			catch (Exception e)
 			{
@@ -110,7 +113,7 @@ namespace SmoothBorders
 			}
 		}
 
-		private static State Probe(WorldGen worldGen, ref WorldgenSimData simData, Chunk world)
+		private static State Probe(WorldGen worldGen, ref WorldgenSimData simData, Chunk world, SeededRandom rnd)
 		{
 			WorldGenSettings settings = worldGen.Settings;
 			string name = settings.world?.filePath ?? "world";
@@ -125,15 +128,16 @@ namespace SmoothBorders
 			Group group = Groups.ForWorld(t, r);
 			int tiles = Groups.Thickness(t, r, options);
 
-			// The game's own draw on a copy of the cells, with the same fresh random the game passes,
-			// adds the game's four rectangles; they are taken out again and kept for the postfix.
+			// The game's own draw on a copy of the cells, with a copy of the random the game passes
+			// (another mod's prefix may already have drawn from it), adds the game's four rectangles;
+			// they are taken out again and kept for the postfix.
 			List<RectInt> bounds = worldGen.POIBounds;
 			int before = bounds.Count;
 			WorldgenSimData copy = simData;
 			copy.cells = (Sim.Cell[])simData.cells.Clone();
 			HashSet<int> throwawayCells = new HashSet<int>();
 			List<RectInt> poiBounds = bounds;
-			WorldGen_DrawWorldBorder_Vanilla.DrawWorldBorder(worldGen, ref copy, world, new SeededRandom(0),
+			WorldGen_DrawWorldBorder_Vanilla.DrawWorldBorder(worldGen, ref copy, world, CopyOf(rnd),
 				ref throwawayCells, ref poiBounds, NoProgress);
 			int added = bounds.Count - before;
 			if (added != EdgeCount)
@@ -156,6 +160,18 @@ namespace SmoothBorders
 				Before = before,
 				Vanilla = vanilla
 			};
+		}
+
+		/// <summary>A random at the same point in the same sequence as <paramref name="rnd"/>, which it leaves as it is.</summary>
+		private static SeededRandom CopyOf(SeededRandom rnd)
+		{
+			SeededRandom copy = new SeededRandom(rnd.seed);
+			KRandom from = rnd.RandomSource();
+			KRandom to = copy.RandomSource();
+			Traverse.Create(to).Field("inext").SetValue(Traverse.Create(from).Field("inext").GetValue<int>());
+			Traverse.Create(to).Field("inextp").SetValue(Traverse.Create(from).Field("inextp").GetValue<int>());
+			Traverse.Create(to).Field("SeedArray").SetValue(Traverse.Create(from).Field("SeedArray").GetValue<int[]>().Clone());
+			return copy;
 		}
 
 		public static void Postfix(WorldGen __instance, State __state)
