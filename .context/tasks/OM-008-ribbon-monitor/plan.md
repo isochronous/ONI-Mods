@@ -77,8 +77,8 @@ Another agent works in C:/dev/ONI-Mods (branch OM-007-smooth-borders); all of th
 - [x] Investigate — unit 01 report; prototype kanim fits per-lamp tinting; Bitshifter needs strings, building patches and a gating choice
 - [x] Update this plan with findings and next steps from investigation
 - [x] Architecture — design unit 02 approved with modifications; user picked id, ports, palette C
-- [ ] Implementation 1-6: art in, build setup, strings, building, patches + Mod.cs, side screen (unit 03) ← IN PROGRESS
-- [ ] Screenshots to the user (grid wired/unwired, face, hover card); stop for the look decision
+- [x] Implementation 1-6 — unit 03 (units/03-implement-report.md), commits 57b43b8..7639641; build 0 errors, make_art --check passes; PLib grid laid out as designed, clicks set switches; deviations: 1024 x 1024 atlas (write_kanim packs square), no missing-wire icon on the ports, two-bit runs listed not ranged, output resent on Render200ms after a cut input wire, "All off" ButtonBlueStyle
+- [ ] Screenshots to the user (common/tools/TestRunner/runs/om008-look2-20261019-162616/artifacts/); open: face lamps wash to pastel under bloom and cover their digits, overlay port icons cover lamps 2-3 and 18-19, build icon busy; stop for the look decision ← IN PROGRESS
 - [ ] Implementation 7: TestRunner Kit additions (common/ first, then the bump)
 - [ ] In-game tests
 - [ ] Completion: review, retro, PR
