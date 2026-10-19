@@ -30,7 +30,7 @@ namespace Bitshifter
 		public static readonly Color Green = new Color(29f / 85f, 37f / 51f, 0.36862746f);
 		// The lamp tints are deeper than the colours they show: the bloom pass brightens them toward yellow and white.
 		/// <summary>The lamp tint of an input bit carrying a Green Signal.</summary>
-		public static readonly Color LampGreen = new Color(60f / 255f, 170f / 255f, 30f / 255f);
+		public static readonly Color LampGreen = new Color(40f / 255f, 1f, 80f / 255f);
 		/// <summary>The lamp tint of an inactive bit.</summary>
 		public static readonly Color LampRed = new Color(175f / 255f, 0f, 0f);
 		/// <summary>The side screen colour of a bit switched on.</summary>
