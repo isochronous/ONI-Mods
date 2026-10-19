@@ -31,6 +31,8 @@ Another agent works in C:/dev/ONI-Mods (branch OM-007-smooth-borders); all of th
 - Ports (user, 2026-10-19): input top-left (0,1), output bottom-left (0,0); overrides the design's bottom-row pick.
 - Release waits for 3gub's fixed art; the prototype is for building and testing only (user, 2026-10-19).
 - Grid palette C, panel mirror (user, 2026-10-19): "most closely resembles the way the existing ribbon readers/writers work in their config panels". The user expects the game's custom-UI support to be weaker than the design assumes, so the side screen is built and screenshotted before anything depends on it; if it fights the game, stop and bring screenshots, do not pile on patches.
+- Lamp purple (user, 2026-10-19): "needs to be more purple", it read pink under bloom. Lamp tint LampPurple #6A1FD6; the side screen keeps Purple #9B59D0 (not raised).
+- Inactive bits (user, 2026-10-19): "if a cable is hooked up and a bit is inactive, that means a RED light, not a blank one". A lamp is red (vanilla colorOff) while either port is wired and the bit is neither input-on nor switch-on; dark only with neither port wired. LOGIC_PORT_INACTIVE and EFFECT strings say so.
 - Taken from the design without a user question: purple #9B59D0 (seen in game before tests), tooltip lists on bits with ranges (`Input: 1, 3, 9-12`) plus the ribbon value, build icon unlit per the icon style (screenshot), LogicGate layer like the Reader/Writer, keep the Workshop preview.
 - Yield (user, 2026-10-19): the monitor stays available when Bitshifter stands down for Digital CPU or another Reader/Writer mod; its patches apply apart from the Reader/Writer PatchAll.
 - Menu and tech (user, 2026-10-19): Automation > wires next to the Ribbon Writer, unlocked by ParallelAutomation.
