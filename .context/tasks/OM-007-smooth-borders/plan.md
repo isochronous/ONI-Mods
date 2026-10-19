@@ -5,10 +5,10 @@
 
 ## Phase State
 - **Phase plan**: investigation → architecture → implementation → testing → completion
-- **Completed**: investigation
-- **Current**: architecture   (status: in-progress)
-- **Next**: implementation
-- **Loaded skill**: task-plan-phase-architecture
+- **Completed**: investigation, architecture
+- **Current**: implementation   (status: in-progress)
+- **Next**: testing
+- **Loaded skill**: task-plan-phase-implementation
 - **Branch**: OM-007-smooth-borders
 - **Attempts (current phase)**: 1
 
@@ -20,6 +20,7 @@
 - Runs once, at the end of worldgen (user, 2026-10-19): even a tile-replacement approach hooks the end of the worldgen pipeline, runs once on generation and never again; first-load replacement stays only as the fallback in the comparison. Sent to unit 01.
 - Approach A (user, 2026-10-19): draw the border flat inside `WorldGen.DrawWorldBorder` (unit 01 option A/A′), keeping vanilla POIBounds so geysers, POIs and story traits match a vanilla seed; critter/plant placement may differ. Chosen over P2 (exact spawn identity, unsettled edge liquids, deeper hook) and P1 (same result as A, more parts). Runs once at generation.
 - Thickness is configurable per asteroid type (user, 2026-10-19): separate settings, defaults = vanilla values (the walk's floor T-R; 4 on the primary), primary range 1-10 as the user's first guide; each setting's label shows its valid range; a top-left-aligned text block above the fields explains that vanilla gives different asteroid types different wall thicknesses (user's wording was a draft: "Different asteroid type have different ranges in vanilla so that moonlets, small asteroids, and the primary get different wall thicknesses").
+- Settings design (user, 2026-10-19, on units/02-design-report.md §6): four groups merged by equal vanilla floor, named Primary asteroids / Small asteroids / Moonlets / Tiny moonlets; tooltips do NOT list asteroids (user: "unreadable as a tooltip and is not necessary"), tooltip is the game default only. Ranges 1 to vanilla's thickest T+R (user chose over 1 to T, overriding the earlier "1-10" guide): Primary 1-16, Small 1-7, Moonlets 1-6, Tiny moonlets 1-3 (max of the group's T+R). Defaults = vanilla floor T-R: 4, 3, 2, 1. POI bounds per edge = larger of vanilla and flat rectangle (user approved). Modded worlds with an unknown (T,R) pair: flat at max(1, T-R), no setting (user approved). Taken as defaults, stated to the user: natural neutronium (magma band) untouched; all four fields shown in base game and Spaced Out; text block wording from the report §1.
 - Task id OM-007: OM-001..OM-006 are taken across this store and the common/ submodule store.
 
 ## Key Files
@@ -36,11 +37,21 @@
 **Key files delta**: none.
 **What the next phase needs**: the user's choice of approach (A′ / P1 / P2) and thickness (T-R / T); then a plan unit for the scaffold and patch. Packet note from unit 01: the generated-worlds testing records (blk-87272da04dee, blk-c8a18ea4088d) were reachable only by --tag generated-worlds.
 
+### Handoff: architecture → implementation   (commit: Phase-Handoff: architecture)
+**Sub-agent outputs**:
+- design unit 02 (units/02-design-report.md), tier complex: groups by (T,R) with merging by equal floor ("Floors 4, 3, 2 and 1 are distinct, so four is the smallest number of groups with vanilla defaults"); flat draw by a transpiler swapping the two `GetIntSetting` reads at the top of `WorldGen.DrawWorldBorder` for configured thickness and range 0 (§2.3); POI bounds "per edge, the larger of the vanilla and the flat rectangle", vanilla rectangles from a Harmony reverse patch of the unpatched method on a cell copy (§2.4); PLib 4.25 text-only entry is centred, a ~15-line subclass makes it top-left, entries built in code so the block is first (§2.5); strings through ModStrings (§2.6); failure handling (§2.7); tests (§4) need a TestRunner `Prepare` hook before worldgen, a snapshot/restore of the mod's config folder, and a test-only static switch for the vanilla baseline; scaffold §5.
+**Reviewer findings**: N/A this phase.
+**Verification evidence**: none run; code and world-file reading, border_sim.py reproduction (unverified in game).
+**Decisions delta**: settings design (in ## Decisions); ranges changed by the user to 1..T+R, tooltips without asteroid lists — these override the report's §1 tooltip and §2.2 range sections.
+**Key files delta**: none yet; scaffold names mods/smooth-borders, SmoothBorders, Isochronous.SmoothBorders.
+**What the next phase needs**: a plan unit turning the design report plus the user's overrides into sequenced implement and test steps (scaffold, settings + text block, transpiler, POI bounds, strings/translations, TestRunner changes in common/, tests, Workshop material).
+
 ## Progress
 - [x] Investigate — unit 01 reported; mechanism, RNG effects and the hook table above
 - [x] Bring the approach options to the user; record the choice — A, per-asteroid-type thickness settings
-- [ ] Design unit 02: settings grouping, ranges, labels, text block, flat draw + POIBounds with thickness above vanilla ← IN PROGRESS
-- [ ] Show the user the grouping and labels; record
+- [x] Design unit 02 (units/02-design-report.md): 4 groups merged by equal vanilla floor T-R (Primary 1-10 def 4, Small 1-5 def 3, Moonlets 1-4 def 2, Tiny moonlets 1-2 def 1), world→group by its (T,R); transpiler swaps the two setting reads in DrawWorldBorder (thickness = setting, range 0); POIBounds per edge = larger of vanilla (reverse-patched vanilla run on a cell copy) and flat; PLib 4.25 text entry is centred → ~15-line subclass; tests need TestRunner Prepare hook + config snapshot/restore and a test-only vanilla switch; scaffold mods/smooth-borders, SmoothBorders, Isochronous.SmoothBorders, 0.1.0, net48. 8 open questions (report §6).
+- [x] Show the user the grouping and labels; record — see Decisions (settings design)
+- [ ] Plan unit 03: sequenced implement/test steps from units/02-design-report.md with the user's changes ← IN PROGRESS
 - [ ] Update this plan with the implementation steps
 
 ## Open Questions / Blockers
