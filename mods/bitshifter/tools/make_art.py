@@ -30,8 +30,9 @@ to src/Bitshifter/anim/assets/bitshifter_ribbon_reader and ..._writer.
 
 The Ribbon Diagnostic Panel's kanim (diagnostic_panel, by 3GuB) is read from
 anim-original/diagnostic_panel, the artist's export kept as delivered, and written to
-src/Bitshifter/anim/assets/diagnostic_panel with one change: its build menu icon is the panel
-in its unlit pose ("off": the body and the digits, no lamps) over the same plain shadow. A new
+src/Bitshifter/anim/assets/diagnostic_panel with two changes: its build menu icon is the panel
+in its unlit pose ("off": the body and the digits, no lamps) over the same plain shadow, and its
+lamps (bit_bloom_1..31) lose the bloom flag, so they show the mod's tints as they are. A new
 export from the artist goes into anim-original and through this script again.
 
 --check builds all three in the temp folder instead and fails when they differ from the
@@ -339,8 +340,10 @@ def build_panel(out_root):
     building, _ = render(tex, build_bytes, anim_bytes, "off", scale=1.0)
     building = building.crop(building.getbbox())
     symbols["ui"] = [over_shadow(building, symbols["ui"][0])]
+    # The lamps do not glow: on their pure white art the bloom pass washed the tints toward white.
+    bloom = {n for n in bloom if not n.startswith("bit_bloom_")}
     write_kanim(os.path.join(out_root, DIAG), DIAG, symbols, anims, texture_size=DIAG_TEXTURE, bloom=bloom)
-    print(f"{DIAG}: icon redrawn from {os.path.relpath(DIAG_ORIGINAL, ROOT)}")
+    print(f"{DIAG}: icon redrawn and lamp glow removed, from {os.path.relpath(DIAG_ORIGINAL, ROOT)}")
 
 
 def preview(path):
