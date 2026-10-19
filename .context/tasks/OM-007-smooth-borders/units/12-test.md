@@ -22,7 +22,7 @@ Prefer parameterised tests in the existing Flatness/Identity style with `-Steam`
 ## Scope
 - IN: mods/smooth-borders/src/SmoothBorders.Tests/** (a compatibility test class, Explicit if it depends on Workshop mods so the default suite stays self-contained); common/ only if the harness lacks something needed.
 - OUT: mod code (report defects with evidence; fix only if small and obvious, and say so); the user's own mods.json and configs beyond what the harness restores.
-- Acceptance: runner summary lines verbatim with run ids; a table mod × world × setting × result; findings per mod. One game at a time; tests at human speed; never close a game you did not start; if stuck for an unknown reason, stop and screenshot. Commit by path, one terse subject line, trailers `Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>` and `Claude-Session: https://claude.ai/code/session_01SuoJMc2zs26eqoCJMtJzCm`.
+- Acceptance: after the runs, no save or colony summary created by them remains under Documents\Klei\OxygenNotIncluded (the harness deletes them since unit 13; show a before/after listing of RetiredColonies and save_files); runner summary lines verbatim with run ids; a table mod × world × setting × result; findings per mod. One game at a time; tests at human speed; never close a game you did not start; if stuck for an unknown reason, stop and screenshot. Commit by path, one terse subject line, trailers `Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>` and `Claude-Session: https://claude.ai/code/session_01SuoJMc2zs26eqoCJMtJzCm`.
 
 ## Context the packet does not carry
 - Reports in this task's units/ folder: 01 (mechanism), 02 (groups), 07 (patch, fail-safe, log lines), 08 and 11 (tests, harness behaviour; Player.log carries mod log lines).
