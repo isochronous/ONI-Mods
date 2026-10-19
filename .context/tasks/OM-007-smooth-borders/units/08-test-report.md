@@ -1,6 +1,6 @@
-# Unit 08 report: S5 and S6 tests (phase 1: written, built, committed; not run)
+# Unit 08 report: S5 and S6 tests (written and run)
 
-**Status:** Phase 1 is done. The tests are committed as **`6944e9b`** "OM-007: Smooth Borders tests" on OM-007-smooth-borders, with both trailers. Only the five test files were staged, by path. Nothing was run in the game: the player's game was up throughout, and I neither launched it nor closed it. Phase 2 (running) is still to do; the commands are at the end.
+**Status:** The tests were committed as `6944e9b`. The fixes from the runs are `2362df7`, `4d99e15` and `d49434f`, all on OM-007-smooth-borders and staged by path. Phase 2 has run. The harness check passed, with the config SHA1 unchanged. The SmoothBorders suite stands at 14 pass, 2 fail, 3 skipped (the base-game coordinates, in Spaced Out). Every worldgen test passes. Both failures are mod defects (Phase 2 results, section 3): the options dialog does not bind its four settings, and the 3-line intro area cuts off the last line.
 
 ## Files (all in `mods/smooth-borders/src/SmoothBorders.Tests/`)
 
@@ -175,6 +175,159 @@ No signature or Prepare errors were reported.
    - **Deep allowance:** `max(2, lines/50)` per edge.
    - **Gap excuse:** limited to Space zone cells. The first run will show whether natural neutronium, or a template with `overridePlacement`, trips either check. Each failure is photographed.
    - **Control assertion:** the Vanilla tests require at least one edge over the deep allowance, which makes sure the measure is not blind.
+
+## Phase 2 results
+
+### 1. Harness check owed by unit 05: passed
+
+**Command:** `pwsh common/tools/TestRunner/Invoke-OniTests.ps1 -Mods NaturalBackwalls -Filter '*Generated*' -Label nb-harness`
+
+**Run id:** `nb-harness-20261019-121323`
+
+**Runner lines (verbatim):**
+```
+PASS     NaturalBackwalls.Tests/Generated.StartingAsteroid (0.0 s)
+PASS     NaturalBackwalls.Tests/Generated.OtherPlanetoids (0.0 s)
+PASS     NaturalBackwalls.Tests/Generated.Overview (2.3 s)
+Session done: 3 passed, 0 failed, 0 errors, 0 timeouts, 0 skipped; 3 passed, 0 failed, 0 errors, 0 timeouts, 0 skipped of 3; 41.4 s real time
+Game live after 62 s; results in C:\dev\ONI-Mods\common\tools\TestRunner\runs\nb-harness-20261019-121323
+```
+
+**Player.log:**
+```
+[16:13:58.554] [1] [INFO] [TestRunner] backed up the config of NaturalBackwalls
+[16:14:30.908] [1] [INFO] [TestRunner] put back the config of NaturalBackwalls
+```
+
+**warden.log:** `12:14:47 game exited` / `restored mods.json` / `live session closed`.
+
+**SHA1 of `mods\config\NaturalBackwalls\config.json`:** before `8151c4e6f20b60cfc69236884ac7c2608b7dc066`, after `8151c4e6f20b60cfc69236884ac7c2608b7dc066`. Unchanged.
+
+**Small harness leftover:** after the restore, `%LOCALAPPDATA%\IsochronousOniTests\config-backup\` remains as an empty folder. It holds no backup, so nothing is restored by mistake later.
+
+### 2. SmoothBorders suite
+
+**Final standing:** 14 pass, 2 fail, 3 skipped (the base-game coordinates, in Spaced Out). Both failures are mod defects, with the evidence in section 3. All worldgen tests pass. `mods\config\SmoothBorders` was absent before every run and absent after each one.
+
+**Every test fix, committed by path on OM-007-smooth-borders:**
+- `2362df7` Dialog tests:
+  - The dialog is found as PLib's "ModOptions" screen. The intro's input field carries a KScreen of its own, so the nearest KScreen gave 0 rows.
+  - The input field's trailing zero-width space is ignored in the text compare.
+  - A new check: the whole intro fits its area.
+- `4d99e15` Support:
+  - The mod's log lines are read from Player.log, between offsets taken at Prepare and at undo. The game's `Debug.Log` is `Console.WriteLine` (decompiled `Debug.WriteTimeStamped`), so `Application.logMessageReceivedThreaded` never sees it.
+  - Neutronium at depth F inside a MagmaCore zone is counted apart, with an allowance of lines/10. Elsewhere the allowance stays at lines/50.
+- `d49434f` Dialog: the intro must be left-aligned (every line on one left edge, within 4 px) and indented 12 px or less from the rows. This allows e3af936's padding.
+
+**Runs, in order:**
+
+`sb-s5-20261019-121630`, S5 alone (`-Filter '*AsteroidKinds*;*Dialog*'`), before the fixes:
+```
+Session done: 4 passed, 3 failed, 0 errors, 0 timeouts, 0 skipped; 4 passed, 3 failed, 0 errors, 0 timeouts, 0 skipped of 7; 18.9 s real time
+```
+All 4 AsteroidKinds pass. The world table holds 62 loaded worlds with a border, in the six pairs `(2,1)` x3, `(3,1)` x6, `(4,1)` x2, `(4,2)` x8, `(5,2)` x20, `(10,6)` x23.
+
+`sb-dialog-20261019-121911`, Dialog on c55d5cb plus fix 2362df7:
+```
+Session done: 1 passed, 2 failed, 0 errors, 0 timeouts, 0 skipped; 1 passed, 2 failed, 0 errors, 0 timeouts, 0 skipped of 3; 13.9 s real time
+```
+
+`sb-full-20261019-122006`, the first full run (`-TimeoutSec 1800`):
+```
+Session done: 7 passed, 9 failed, 0 errors, 0 timeouts, 3 skipped; 7 passed, 9 failed, 0 errors, 0 timeouts, 3 skipped of 19; 192.9 s real time; fixture loaded again 7 time(s)
+```
+- The worldgen failures were "the mod logged no flat wall": the log-capture bug, fixed in 4d99e15.
+- Every wall still measured flat.
+- One more failure: TerraMoonlet's bottom at the defaults had neutronium at depth 4 on 9 of 152 lines. It is the magma bed's own neutronium meeting the wall (screenshot `sb-full-20261019-122006\artifacts\SmoothBorders.Tests.Identity.TerraniaFlat-TerraMoonlet-bottom-deep.png`). Run 2 confirms all 9 are in MagmaCore.
+
+`sb-full2-20261019-122424`, the second full run, on HEAD 4d99e15 with e3af936 included:
+```
+PASS     SmoothBorders.Tests/AsteroidKinds.EveryWorldInTheTable (0.0 s)
+PASS     SmoothBorders.Tests/AsteroidKinds.DefaultsAreTheGamesThinnest (0.0 s)
+PASS     SmoothBorders.Tests/AsteroidKinds.PairsOutsideTheTable (0.0 s)
+PASS     SmoothBorders.Tests/AsteroidKinds.ConfigLimitedOnRead (0.0 s)
+PASS     SmoothBorders.Tests/Dialog.LabelsAndTooltips (1.6 s)
+FAIL     SmoothBorders.Tests/Dialog.IntroTopLeft (1.6 s): every line of the intro starts where the rows' labels start: line 1 starts 6 px from the rows' left edge; ... (test fixed by d49434f)
+FAIL     SmoothBorders.Tests/Dialog.SlidersAndDefaults (1.5 s): row 1's field shows the default (expected 4, got 0)
+PASS     SmoothBorders.Tests/Flatness.AtMaxima (0.0 s)
+PASS     SmoothBorders.Tests/Flatness.RectanglesGrowAtMaxima (0.0 s)
+PASS     SmoothBorders.Tests/Flatness.AtMixedValues (0.0 s)
+PASS     SmoothBorders.Tests/Identity.TerraniaVanilla (0.0 s)
+PASS     SmoothBorders.Tests/Identity.TerraniaFlat (0.0 s)
+PASS     SmoothBorders.Tests/Identity.TerraniaSame (0.0 s)
+PASS     SmoothBorders.Tests/Identity.ClassicTerraVanilla (0.0 s)
+PASS     SmoothBorders.Tests/Identity.ClassicTerraFlat (0.0 s)
+PASS     SmoothBorders.Tests/Identity.ClassicTerraSame (0.0 s)
+SKIPPED  SmoothBorders.Tests/Identity.BaseTerraVanilla (0.0 s): SNDST-A-100-0-0-0 is a base game cluster and the game is in Spaced Out mode
+SKIPPED  SmoothBorders.Tests/Identity.BaseTerraFlat (0.0 s): SNDST-A-100-0-0-0 is a base game cluster and the game is in Spaced Out mode
+SKIPPED  SmoothBorders.Tests/Identity.BaseTerraSame (0.0 s): SNDST-A-100-0-0-0 is a base game cluster and the game is in Spaced Out mode
+Session done: 14 passed, 2 failed, 0 errors, 0 timeouts, 3 skipped; 14 passed, 2 failed, 0 errors, 0 timeouts, 3 skipped of 19; 192.9 s real time; fixture loaded again 7 time(s)
+Game live after 210 s; results in C:\dev\ONI-Mods\common\tools\TestRunner\runs\sb-full2-20261019-122424
+```
+Player.log: `backed up the config of SmoothBorders (none yet)`, then `put back the config of SmoothBorders (none, as before the run)`.
+
+`sb-dialog2-20261019-122821`, Dialog on HEAD d49434f (mod at e3af936):
+```
+PASS     SmoothBorders.Tests/Dialog.LabelsAndTooltips (1.6 s)
+FAIL     SmoothBorders.Tests/Dialog.IntroTopLeft (1.5 s): the whole intro fits its area (last line 19 px below the bottom) (expected true)
+FAIL     SmoothBorders.Tests/Dialog.SlidersAndDefaults (1.5 s): row 1's field shows the default (expected 4, got 0)
+Session done: 1 passed, 2 failed, 0 errors, 0 timeouts, 0 skipped; 1 passed, 2 failed, 0 errors, 0 timeouts, 0 skipped of 3; 13.5 s real time
+```
+The intro is now left-aligned: 4 lines on one left edge, 6 px right of the row labels (the padding).
+
+**What the worldgen results show (run 2):**
+- **Flat at every setting tested:**
+  - **Coverage:** defaults, maxima (16/7/6/3) and mixed (7/1/5/2), on all 9 Terrania asteroids and all 8 classic Terra asteroids. Every kind came up in both clusters.
+  - **Thickness:** for every asteroid the mod logged the thickness the config gives.
+  - **Gaps:** 0 gaps on every edge, so no template holes, even at 16.
+  - **Depth F:** no neutronium at depth F outside magma. Inside magma the most is 9 of 152 (TerraMoonlet bottom at the defaults).
+  - **Control:** the game's own wall on the same seeds is deeper than the default on most edges. TerraMoonlet's left edge has 106 of 266 outside magma plus 14 in magma; its bottom has 60 of 152 in magma. The measure can tell the two apart.
+- **POI rectangles at the maxima:** 9 grew lines. TerraMoonlet's left grew 11->16, right 7->16, bottom 10->16; six moonlet edges grew by 1. At the defaults no rectangle grew, in either cluster.
+- **Identity at the defaults:**
+  - Terrania: 1759 buildings and geysers, 0 missing, 0 extra.
+  - Classic Terra: 2327, 0 missing, 0 extra.
+  - Both "Flat" tests ran in the world generated right after a Vanilla world. That shows the undo re-applied the patches, and that the reverse patch drew the vanilla rectangles.
+- **Options re-read:** AtMixedValues came after AtMaxima in one session and logged the new thicknesses, so the options are read again for each world.
+- **Not run:** the Explicit tests (VanillaAgain, seeds 200 and 300).
+
+### 3. Mod defects found (evidence; not fixed)
+
+**A. The options dialog neither shows nor saves the four settings. Severity: high.**
+
+- **What the player sees:** with no config file, the four number fields read `0, 0, 0, 0` and the sliders stand at their minimum: `1-16 at 1, 1-7 at 1, 1-6 at 1, 1-3 at 1` (SlidersAndDefaults notes, every run; screenshot below).
+- **Cause, in PLib 4.25.0's `OptionsDialog` (decompiled):**
+  - `FillModOptions` adds the entries from `IOptions.CreateOptions()` only to a local copy of the categories.
+  - `UpdateOptions()` (`item.ReadFrom(options)`) and `WriteOptions()` (`item.WriteTo(options)`) loop over `optionCategories`, which holds only the entries built from `[Option]` attributes.
+  - So a value entry yielded from `CreateOptions` is never filled from the config, and is never written back on OK.
+  - Natural Backwalls avoids this: its value options are `[Option]` properties, and its dynamic entries hold the options object themselves.
+- **Effect:** the player sees 0s. A change made in the dialog is lost on OK: the file gets the unchanged object that was read. Worldgen itself is unaffected; it reads the file.
+- **Why I did not fix it:** it is not a one-line change. It is the choice made in S3, "No static `[Option]` properties (keeps the yield order)". There are two ways out:
+  1. Make the four ints `[Option]` properties with `[Limit]`. Then the intro text block, which stays dynamic, would come after them.
+  2. Use an `IntOptionsEntry` subclass bound to the options object. It reads the value in its constructor (`ReadFrom(owner)`) and writes on every change by overriding the protected `Update()` and calling `WriteTo(owner)`. `CreateOptions` is called on the dialog's own options object, so `this` is the one PLib saves. "Reset to default" would still not refresh these rows: PLib's `OnResetConfig` swaps in a new object and calls the same `UpdateOptions`.
+
+  This is the manager's call. `Dialog.SlidersAndDefaults` is the test for it.
+
+**B. The 3-line intro area cuts off the last line. Severity: low, visual.**
+
+At the current dialog width, the new shorter intro wraps to 4 lines, and the area shows 3. "Changes apply to newly generated worlds." is hidden. The test measures the last line ending 19 px below an area 57 px high. `LineCount = 4` would fit it at this width.
+
+The white border is gone and the padding is in (e3af936). There is no large gap.
+
+The `Dialog.IntroTopLeft` assertion is "the whole intro fits its area". `TopLeftTextOptionsEntry.cs` was left for the manager.
+
+**Dialog screenshot for the user (current build, e3af936):**
+`C:\dev\ONI-Mods\common\tools\TestRunner\runs\sb-dialog2-20261019-122821\artifacts\SmoothBorders.Tests.Dialog.IntroTopLeft-dialog.png`
+
+Earlier states, for comparison:
+- `sb-s5-20261019-121630` (6-line area, long text)
+- `sb-dialog-20261019-121911` (3-line area, with border)
+
+### 4. Config and leftovers
+
+- **SmoothBorders config:** `mods\config\SmoothBorders` is absent now, as it was before the runs.
+- **Natural Backwalls config:** SHA1 still `8151c4e6f20b60cfc69236884ac7c2608b7dc066`.
+- **Warden:** its last lines are `game exited`, `restored mods.json`, `live session closed`. No game is running.
+- **Leftover:** the empty `%LOCALAPPDATA%\IsochronousOniTests\config-backup\` folder is still there.
 
 ## Phase 2 commands (when the game is free)
 
