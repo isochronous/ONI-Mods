@@ -158,6 +158,7 @@ namespace Bitshifter
 				Text = PANEL.ALL_OFF,
 				ToolTip = PANEL.ALL_OFF_TOOLTIP,
 				Margin = new RectOffset(8, 8, 4, 4),
+				Color = PUITuning.Colors.ButtonBlueStyle,
 				OnClick = _ => SwitchAllOff(),
 			}.AddOnRealize(go => allOff = go)));
 			root.AddTo(gameObject);
