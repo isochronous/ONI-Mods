@@ -54,7 +54,8 @@
 - [x] Plan unit 03 (units/03-plan-report.md): steps S1-S9 + M2; design corrections in its §0 (PLib config folder is named by assembly; translations under src/SmoothBorders/translations/; vanilla baseline via a test Prepare hook unpatching by Harmony id, mod flag as fallback; Prepare returns an undo; WorldgenDriver -ModConfig)
 - [x] S1 scaffold (unit 04) — 88214fb, 13 files; build 0 errors, no SmoothBorders warnings; Translations.Register/POptions lines commented out until S3
 - [ ] S2 TestRunner/WorldgenDriver in common/ on branch OM-007-smooth-borders (unit 05, opus) ← IN PROGRESS
-- [ ] S3 groups, options, strings (unit 06, sonnet) ← IN PROGRESS (runs beside S2: S2 commits only in common/)
+- [x] S3 groups, options, strings (unit 06) — 25b1416; Groups.cs, Options.cs, TopLeftTextOptionsEntry.cs, ModStrings.cs, translations/SmoothBorders.pot; mod project 0 warnings 0 errors; translations.py "ALL CHECKS PASSED"; full sln build blocked by unit 05's in-progress Session.cs edits (re-run after S2)
+- [ ] S4 border patch (unit 07, opus) ← IN PROGRESS (no game launch: S2 may be using it)
 - [ ] M2 bump common pointer (manager)
 - [ ] S3 groups, options, strings → S4 border patch → S5 no-colony tests → S6 worldgen tests (one at a time)
 - [ ] S7 review, S8 WorldgenDriver sweep, S9 docs and Workshop material (ask the user: Chinese translation in 0.1.0? preview composition? DLC tags)
