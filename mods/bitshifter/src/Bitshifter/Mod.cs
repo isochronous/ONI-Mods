@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using System.Reflection;
 using HarmonyLib;
+using Isochronous;
 using KMod;
+using PeterHan.PLib.Core;
 using UnityEngine;
 
 namespace Bitshifter
@@ -13,7 +15,8 @@ namespace Bitshifter
 
 		/// <summary>
 		/// Workshop items that already widen the ribbon reader and writer. When one of them is
-		/// enabled this mod does nothing, so the two never fight over the same methods.
+		/// enabled this mod leaves the reader and writer alone, so the two never fight over the
+		/// same methods; the toolkit's buildings stay.
 		/// </summary>
 		private static readonly string[] YieldToWorkshopIds =
 		{
@@ -35,10 +38,15 @@ namespace Bitshifter
 			AccessTools.Method(typeof(LogicRibbonWriter), "OnSpawn"),
 		};
 
-		// Patches are applied in OnAllModsLoaded, after every other mod had its turn, so
-		// deliberately not base.OnLoad (which would PatchAll right away).
+		// Two groups of patches. The toolkit's (category Toolkit.PatchCategory) are applied here,
+		// whatever other mods do. The Reader and Writer patches (uncategorized) are applied in
+		// OnAllModsLoaded, after every other mod had its turn, and only when no other mod widens
+		// the Reader or Writer. So deliberately not base.OnLoad, which would PatchAll right away.
 		public override void OnLoad(Harmony harmony)
 		{
+			PUtil.InitLibrary(false);
+			Translations.Register(harmony, typeof(ModStrings));
+			harmony.PatchCategory(typeof(BitshifterMod).Assembly, Toolkit.PatchCategory);
 			Debug.Log("[Bitshifter] Loaded version " + typeof(BitshifterMod).Assembly.GetName().Version);
 		}
 
@@ -48,10 +56,10 @@ namespace Bitshifter
 			string reason = WhyYield(mods);
 			if (reason != null)
 			{
-				Debug.Log("[Bitshifter] Disabled: " + reason);
+				Debug.Log("[Bitshifter] Reader and Writer left alone: " + reason);
 				return;
 			}
-			harmony.PatchAll(typeof(BitshifterMod).Assembly);
+			harmony.PatchAllUncategorized(typeof(BitshifterMod).Assembly);
 			Debug.Log("[Bitshifter] Ribbon Reader and Writer can select bits 1-" + Bits);
 		}
 
