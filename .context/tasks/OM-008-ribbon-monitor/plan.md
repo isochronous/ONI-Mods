@@ -34,6 +34,9 @@ Another agent works in C:/dev/ONI-Mods (branch OM-007-smooth-borders); all of th
 - Lamp purple (user, 2026-10-19): "needs to be more purple", it read pink under bloom. Lamp tint LampPurple #6A1FD6; the side screen keeps Purple #9B59D0 (not raised).
 - Inactive bits (user, 2026-10-19): "if a cable is hooked up and a bit is inactive, that means a RED light, not a blank one". A lamp is red (vanilla colorOff) while either port is wired and the bit is neither input-on nor switch-on; dark only with neither port wired. LOGIC_PORT_INACTIVE and EFFECT strings say so.
 - Lamp red and green (user, 2026-10-19): red RGB 255 0 0, green 137 252 76 (LampRed, LampGreen). These replace the vanilla colorOn/colorOff the units had taken from LogicRibbonReader; the side screen keeps the vanilla green.
+- Lamp bloom (user, 2026-10-19): kept, after comparing a no-bloom build (true colours, as Pixel Pack does) with bloom and deeper tints. Tints are deeper than the colours they show: LampGreen 60 170 30, LampRed 175 0 0, LampPurple 75 0 175 (supersede the earlier lamp values above). make_art.py ships the artist's bloom flags unchanged.
+- Grid look approved (user, 2026-10-19): palette C as screenshotted (om008-look10 run).
+- Build icon (unlit panel) still open with the user; it does not block the tests.
 - Taken from the design without a user question: purple #9B59D0 (seen in game before tests), tooltip lists on bits with ranges (`Input: 1, 3, 9-12`) plus the ribbon value, build icon unlit per the icon style (screenshot), LogicGate layer like the Reader/Writer, keep the Workshop preview.
 - Yield (user, 2026-10-19): the monitor stays available when Bitshifter stands down for Digital CPU or another Reader/Writer mod; its patches apply apart from the Reader/Writer PatchAll.
 - Menu and tech (user, 2026-10-19): Automation > wires next to the Ribbon Writer, unlocked by ParallelAutomation.
@@ -81,8 +84,9 @@ Another agent works in C:/dev/ONI-Mods (branch OM-007-smooth-borders); all of th
 - [x] Update this plan with findings and next steps from investigation
 - [x] Architecture — design unit 02 approved with modifications; user picked id, ports, palette C
 - [x] Implementation 1-6 — unit 03 (units/03-implement-report.md), commits 57b43b8..7639641; build 0 errors, make_art --check passes; PLib grid laid out as designed, clicks set switches; deviations: 1024 x 1024 atlas (write_kanim packs square), no missing-wire icon on the ports, two-bit runs listed not ranged, output resent on Render200ms after a cut input wire, "All off" ButtonBlueStyle
-- [ ] Screenshots to the user (common/tools/TestRunner/runs/om008-look2-20261019-162616/artifacts/); open: face lamps wash to pastel under bloom and cover their digits, overlay port icons cover lamps 2-3 and 18-19, build icon busy; stop for the look decision ← IN PROGRESS
-- [ ] Implementation 7: TestRunner Kit additions (common/ first, then the bump)
+- [ ] Screenshots to the user (common/tools/TestRunner/runs/om008-look2-20261019-162616/artifacts/); open: face lamps wash to pastel under bloom and cover their digits, overlay port icons cover lamps 2-3 and 18-19, build icon busy; stop for the look decision — done: lamp colours and bloom settled over runs look5-look10, grid approved
+- [ ] Implementation 7-8: TestRunner Kit additions (common/ first, then the bump) and the DiagnosticPanel test suite (unit 04) ← IN PROGRESS
+- [ ] Implementation 9-10: translations, docs and release text
 - [ ] In-game tests
 - [ ] Completion: review, retro, PR
 
