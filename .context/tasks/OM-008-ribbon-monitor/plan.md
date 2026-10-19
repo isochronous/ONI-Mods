@@ -26,6 +26,11 @@ Another agent works in C:/dev/ONI-Mods (branch OM-007-smooth-borders); all of th
 - Switch UI (user, 2026-10-19): a side-screen grid of toggles matching the 8 × 4 face (PLib), only if it works well, is intuitive, looks good and needs no heavy patching; otherwise the vanilla Reader/Writer-style bit list with several bits allowed on. Grid only, not both.
 - Output unconnected (user, 2026-10-19): lamps show the input only; the switch controls are disabled, their saved state is kept but ignored until the output is wired.
 - Name (user, 2026-10-19): the building is the "Ribbon Diagnostic Panel" (player-visible name), not "Ribbon Monitor" ("display panel sounds like it's read-only"; it is also a switch). The kanim keeps its name `diagnostic_panel`, no rename. The task folder and branch keep the ribbon-monitor name as history.
+- Design unit 02 (units/02-design-report.md): Approve with modifications. Toolkit in src/Bitshifter/Toolkit/, toolkit patches under [HarmonyPatchCategory("BitshifterToolkit")] applied in OnLoad with PLib init and Translations.Register; Reader/Writer patches via PatchAllUncategorized after the yield check. Output always sends input OR switches (no wrong pulse on wiring; the player sees switches ignored while unwired). Off lamps hidden. PLib grid side screen, one DetailsScreen.OnPrefabInit postfix; the list fallback is rejected (breaks on stand-down, shared rows, no disabled state).
+- Building id `RibbonDiagnosticPanel` (user, 2026-10-19).
+- Ports (user, 2026-10-19): input top-left (0,1), output bottom-left (0,0); overrides the design's bottom-row pick.
+- Release waits for 3gub's fixed art; the prototype is for building and testing only (user, 2026-10-19).
+- Taken from the design without a user question: purple #9B59D0 (seen in game before tests), tooltip lists on bits with ranges (`Input: 1, 3, 9-12`) plus the ribbon value, build icon unlit per the icon style (screenshot), LogicGate layer like the Reader/Writer, keep the Workshop preview.
 - Yield (user, 2026-10-19): the monitor stays available when Bitshifter stands down for Digital CPU or another Reader/Writer mod; its patches apply apart from the Reader/Writer PatchAll.
 - Menu and tech (user, 2026-10-19): Automation > wires next to the Ribbon Writer, unlocked by ParallelAutomation.
 
