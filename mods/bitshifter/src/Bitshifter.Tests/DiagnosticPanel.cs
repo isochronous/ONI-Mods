@@ -350,8 +350,13 @@ namespace Bitshifter.Tests
 			t.Assert.Eq(1 << 16, rig.PanelPart.Switches, "the saved switches are kept");
 			yield return t.Screenshot("grid-unwired");
 
+			// Dragging a ribbon with a build tool clears the selection, as it does for a player, so the panel is selected again.
 			yield return rig.WireOutput(t);
+			yield return t.Screens.Select(rig.Panel);
 			yield return t.WaitGameSeconds(0.5);
+			screen = t.Screens.SideScreen<RibbonDiagnosticPanelSideScreen>();
+			t.Assert.NotNull(screen, "the side screen shows again");
+			hint = t.Screens.Find(t.Screens.Find(screen.gameObject, "Hint"), "Text");
 			t.Assert.True(t.Screens.Find(screen.gameObject, "Bit5").GetComponent<KButton>().isInteractable, "wiring the output enables the cells");
 			t.Assert.Eq((string)PANEL.SIDE_SCREEN_WIRED, hint.GetComponent<LocText>().text, "and the line above the grid changes");
 		}
