@@ -6,8 +6,8 @@ using PANEL = Bitshifter.ModStrings.BITSHIFTER.DIAGNOSTICPANEL;
 namespace Bitshifter
 {
 	/// <summary>
-	/// The Ribbon Diagnostic Panel. Its face has one lamp per bit (symbols bit_bloom_1 to
-	/// bit_bloom_31, laid out 8 x 4 like the side screen): green while that bit of the input
+	/// The Ribbon Diagnostic Panel. Its face has one lamp per bit (symbols bit_1 to
+	/// bit_31, laid out 8 x 4 like the side screen): green while that bit of the input
 	/// ribbon is on, purple while the player has switched it on and the output is wired, hidden
 	/// otherwise (the body draws a dark socket under every lamp). The output always carries
 	/// input OR switches, wired or not, so a wire added later takes the right value at once; only
@@ -28,8 +28,8 @@ namespace Bitshifter
 
 		/// <summary>The vanilla Ribbon Reader's and Writer's green (their colorOn).</summary>
 		public static readonly Color Green = new Color(29f / 85f, 37f / 51f, 0.36862746f);
-		// The lamp tints lean away from the colours they show, because the bloom pass shifts them:
-		// green toward yellow, red toward orange, purple toward pink. Red is touchy: much more blue reads pink.
+		// The lamp tints were tuned with bloom on the lamps, which shifts them (green toward yellow, red
+		// toward orange, purple toward pink); the art's current export has no bloom on them.
 		/// <summary>The lamp tint of an input bit carrying a Green Signal.</summary>
 		public static readonly Color LampGreen = new Color(40f / 255f, 1f, 80f / 255f);
 		/// <summary>The lamp tint of an inactive bit.</summary>
@@ -270,7 +270,7 @@ namespace Bitshifter
 		{
 			var lamps = new KAnimHashedString[BitshifterMod.Bits];
 			for (int bit = 0; bit < lamps.Length; bit++)
-				lamps[bit] = new KAnimHashedString("bit_bloom_" + (bit + 1));
+				lamps[bit] = new KAnimHashedString("bit_" + (bit + 1));
 			return lamps;
 		}
 	}

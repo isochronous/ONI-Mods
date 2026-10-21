@@ -12,7 +12,7 @@ namespace Bitshifter.Tests
 	/// <summary>
 	/// The Ribbon Diagnostic Panel: lamps, switches, output, saving, copying, the build menu and its
 	/// side screen. The lamps are read back from the building's animation (visibility and tint of
-	/// bit_bloom_1 to bit_bloom_31), the status items from the selectable, the side screen from the
+	/// bit_1 to bit_31), the status items from the selectable, the side screen from the
 	/// widgets the details screen shows. Every step waits game time, as a player's would.
 	/// </summary>
 	public static class DiagnosticPanel
@@ -44,7 +44,7 @@ namespace Bitshifter.Tests
 			for (int bit = 0; bit < BitshifterMod.Bits; bit++)
 			{
 				LampState want = expected(bit);
-				var symbol = new KAnimHashedString("bit_bloom_" + (bit + 1));
+				var symbol = new KAnimHashedString("bit_" + (bit + 1));
 				bool visible = Anims.SymbolVisible(kbac, symbol);
 				if (part.Lamp(bit) != want)
 					wrong.Add((bit + 1) + " is " + part.Lamp(bit) + ", wanted " + want);
