@@ -59,6 +59,10 @@ PLib is merged into the DLL by the shared build, so the mod ships as a single fi
 - Kinds and ranges are in `Groups.cs`, built from the (T, R) pairs in the game's worldgen files.
 - Settings are PLib options (`Options.cs`), stored in `mods/config/SmoothBorders/config.json`.
 
+## Translations
+
+The mod is available in English, Chinese (Simplified), Korean and Russian; it loads the game's language from `translations/<locale>.po`. Other languages can be added from the template `translations/SmoothBorders.pot` in `src/SmoothBorders/translations/`.
+
 ## Tests
 
 `src/SmoothBorders.Tests` runs in the game through the shared TestRunner (`common/tools/TestRunner`): the options dialog, flatness at the defaults and the maxima, the same placements as the game at the defaults, the fail-safe, and opt-in tests for more clusters and the worldgen mods above.
