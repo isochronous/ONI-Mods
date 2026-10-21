@@ -16,12 +16,14 @@
 - Centre tile stays solid as vanilla; only the plate ends gain jumper placement (Jeremy, option A of 01-explore-findings Q3). Smallest change, no seal/save/deconstruct impact.
 - Plate ends may NOT share a cell with a regular wire bridge end; keep the existing refusals at Patches.cs:181-229 (Jeremy). Avoids the tile-over-end hole and mixed-rating rings.
 - Plates come under the existing Power bridges option; no new option or strings (Jeremy).
+- Unit 02 deviation, accepted: tooltip "Heavy-watt joint plates are unchanged" reworded under the same key, translations updated by the unit; extra tile-over-end test and node-cell guard.
 - Plates join BridgeKind.Power's node/link tables via Of() recognising HighWattBridgeTile, not a new BridgeKind (one network manager per kind).
 
 ## Key Files
 - mods/jumper-bridges/src/JumperBridges/BridgeKind.cs: Of() gains HighWattBridgeTile; NodeAnim gains the two plate IDs
 - mods/jumper-bridges/src/JumperBridges/Patches.cs: plate prefab postfixes; MarkArea prefix (121-156) must keep vanilla footprint marks for plates; IsValidHighWattBridgeLocation jumper check
-- mods/jumper-bridges/ tests (Power.cs), README.md, CHANGELOG.md
+- mods/jumper-bridges/src/JumperBridges.Tests/JointPlates.cs (new), Power.cs
+- mods/jumper-bridges/src/JumperBridges/ModStrings.cs, translations/*.po/.pot, README.md, CHANGELOG.md, publish/workshop-description.txt
 
 ## Phase Handoff Log
 
@@ -37,8 +39,8 @@
 ## Progress
 - [x] Investigate — units/01-explore-findings.md: the mod never changes span; plate keeps one solid centre cell; MarkArea prefix (Patches.cs:121-156) would strip plate footprint marks; plates must join BridgeKind.Power's tables; four centre options A–D
 - [x] Ask Jeremy — keep centre solid, no plate/wire-bridge end sharing, under Power bridges option
-- [ ] Implement plates in Jumper Bridges + in-game tests (unit 02) ← IN PROGRESS
-- [ ] Review unit
+- [x] Implement plates in Jumper Bridges + in-game tests (unit 02) — 000e870; build 0 errors; tests in JointPlates.cs (-Filter "*joint plate*"); deviations: 5th test (no tile on plate end) + IsValidTileLocation guard on node cells (vanilla NRE, unreproduced); Power option tooltip reworded with zh/ko/ru
+- [ ] Review unit (03) ← IN PROGRESS
 - [ ] Run narrowest in-game test filter (ask Jeremy before long runs)
 
 ## Open Questions / Blockers
