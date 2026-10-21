@@ -13,7 +13,7 @@ namespace JumperBridges.Tests
 		private const string Bridge = "WireBridge";
 
 		/// <summary>Tiles along the bottom row, so the floor buildings on row 1 can stand.</summary>
-		private static CellRect Floor(TestContext t, int width)
+		internal static CellRect Floor(TestContext t, int width)
 		{
 			CellRect r = t.Rect(width, 3);
 			for (int x = 0; x < width; x++)
@@ -21,14 +21,14 @@ namespace JumperBridges.Tests
 			return r;
 		}
 
-		private static ushort Circuit(int cell) => Game.Instance.circuitManager.GetCircuitID(cell);
+		internal static ushort Circuit(int cell) => Game.Instance.circuitManager.GetCircuitID(cell);
 
 		/// <summary>
 		/// What the build tool asks when the player hovers the def over the cell: the placement
 		/// check with a live preview object as the source, as BuildTool's visualizer. World.Build
 		/// checks with no source object, which skips the port checks this mod changes.
 		/// </summary>
-		private static bool ValidWithPreview(string prefabId, int cell, out string reason)
+		internal static bool ValidWithPreview(string prefabId, int cell, out string reason)
 		{
 			BuildingDef def = Assets.GetBuildingDef(prefabId);
 			GameObject preview = GameUtil.KInstantiate(def.BuildingPreview, Grid.CellToPosCBC(cell, def.SceneLayer), Grid.SceneLayer.Ore, null, LayerMask.NameToLayer("Place"));

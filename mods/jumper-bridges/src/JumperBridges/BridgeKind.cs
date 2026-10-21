@@ -24,9 +24,10 @@ namespace JumperBridges
 			typeof(UtilityNetworkManager<LogicCircuitNetwork, LogicWire>));
 
 		/// <summary>
-		/// The Wire Bridge, Conductive Wire Bridge and Insulated Wire Bridge: every building on the
-		/// WireBridge placement rule. The heavy-watt joint plates have a rule of their own and are
-		/// left alone.
+		/// The Wire Bridge, Conductive Wire Bridge and Insulated Wire Bridge (the WireBridge
+		/// placement rule), and the Heavi-Watt Joint Plate and Heavi-Watt Conductive Joint Plate
+		/// (the HighWattBridgeTile rule). They share one network manager, so they share one node
+		/// table and one link table.
 		/// </summary>
 		public static readonly BridgeKind Power = new BridgeKind(
 			"power",
@@ -88,6 +89,7 @@ namespace JumperBridges
 				case BuildLocationRule.LogicBridge:
 					return Logic;
 				case BuildLocationRule.WireBridge:
+				case BuildLocationRule.HighWattBridgeTile:
 					return Power;
 				default:
 					return null;
@@ -103,7 +105,7 @@ namespace JumperBridges
 			return null;
 		}
 
-		/// <summary>The enabled kind of a bridge building or prefab; null for anything else, a heavy-watt joint plate included.</summary>
+		/// <summary>The enabled kind of a bridge or joint plate building or prefab; null for anything else.</summary>
 		public static BridgeKind OfBridge(GameObject go)
 		{
 			if (go == null)
@@ -115,7 +117,8 @@ namespace JumperBridges
 
 		/// <summary>
 		/// The wire art an end node plays: the wire the bridge is the bridge of. Automation:
-		/// wire or ribbon. Power: the plain, conductive or insulated wire, by the bridge.
+		/// wire or ribbon. Power: the plain, conductive or insulated wire, by the bridge, and for
+		/// the joint plates the heavi-watt or conductive heavi-watt wire.
 		/// </summary>
 		public string NodeAnim(GameObject bridge)
 		{
@@ -130,9 +133,20 @@ namespace JumperBridges
 					return "utilities_electric_conduct_kanim";
 				case WireRubberBridgeConfig.ID:
 					return "utilities_electric_rubber_kanim";
+				case WireBridgeHighWattageConfig.ID:
+					return "utilities_electric_insulated_kanim";
+				case WireRefinedBridgeHighWattageConfig.ID:
+					return "utilities_electric_conduct_hiwatt_kanim";
 				default:
 					return "utilities_electric_kanim";
 			}
+		}
+
+		/// <summary>Whether the building is a heavy-watt joint plate (the HighWattBridgeTile placement rule).</summary>
+		public static bool IsJointPlate(GameObject go)
+		{
+			Building building = go != null ? go.GetComponent<Building>() : null;
+			return building != null && building.Def.BuildLocationRule == BuildLocationRule.HighWattBridgeTile;
 		}
 
 		public override string ToString() => Name;

@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Heavi-Watt Joint Plates and Heavi-Watt Conductive Joint Plates too: a plate end can sit directly on a power port or another plate's end. The centre stays a solid tile.
+
 ## 0.2.0 - 2026-10-17
 
 - Renamed to Jumper Bridges, since it now covers power bridges too.
