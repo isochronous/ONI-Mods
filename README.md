@@ -18,6 +18,7 @@
 | Refined Building | [mods/refined-building](mods/refined-building) |
 | Salty Surf | [mods/salty-surf](mods/salty-surf) |
 | Smart Weight Plate | [mods/smart-weight-plate](mods/smart-weight-plate) |
+| Smooth Borders | [mods/smooth-borders](mods/smooth-borders) |
 | Storage Pod Redux | [mods/storage-pod-redux](mods/storage-pod-redux) |
 | Sweep Zones Redux | [mods/sweep-zones](mods/sweep-zones) |
 | Upgrade Planner | [mods/upgrade-planner](mods/upgrade-planner) |
