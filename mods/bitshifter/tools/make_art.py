@@ -333,9 +333,10 @@ def build(out_root, game, new_name, game_name, box_symbol, face_colour, turn):
 def build_panel(out_root):
     """The Ribbon Diagnostic Panel: the artist's kanim from anim-original as it is, with the
     build menu icon drawn from its unlit pose (body and digits, no lamps) in place of the
-    artist's placeholder, and the anims' bounds recomputed."""
+    artist's placeholder, and the anims' bounds recomputed. The export's UVs are inset half a
+    texel, so the sprites are cut with read_kanim's inset (rounding them misaligns the lamps)."""
     tex, build_bytes, anim_bytes = load_files(DIAG_ORIGINAL, DIAG)
-    symbols, anims, bloom = read_kanim(tex, build_bytes, anim_bytes)
+    symbols, anims, bloom = read_kanim(tex, build_bytes, anim_bytes, inset=True)
     building, _ = render(tex, build_bytes, anim_bytes, "off", scale=1.0)
     building = building.crop(building.getbbox())
     symbols["ui"] = [over_shadow(building, symbols["ui"][0])]
