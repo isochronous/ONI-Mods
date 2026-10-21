@@ -24,5 +24,5 @@ msgstr "Прямые электрические мосты"
 
 #. STRINGS.JUMPERBRIDGES.OPTIONS.POWER.TOOLTIP
 msgctxt "STRINGS.JUMPERBRIDGES.OPTIONS.POWER.TOOLTIP"
-msgid "A Wire Bridge, Conductive Wire Bridge, Insulated Wire Bridge or Heavi-Watt Joint Plate can be placed with either end directly on a power port or another bridge's end, and that port is connected. Needs a restart."
-msgstr "Мост для провода, мост для проводящего провода, мост для изолированного провода или соединительную пластину для мощного провода можно поставить любым концом прямо на электрический порт или на конец другого моста, и этот порт будет подключён. Требуется перезапуск."
+msgid "A Wire Bridge, Conductive Wire Bridge, Insulated Wire Bridge, Heavi-Watt Joint Plate or Heavi-Watt Conductive Joint Plate can be placed with either end directly on a power port, and that port is connected. A wire bridge end can share a cell with another wire bridge's end, and a joint plate end with another joint plate's end. Needs a restart."
+msgstr "Мост для провода, мост для проводящего провода, мост для изолированного провода, соединительную пластину для мощного провода или проводящую соединительную пластину для мощного провода можно поставить любым концом прямо на электрический порт, и этот порт будет подключён. Конец моста для провода может делить клетку с концом другого такого моста, а конец пластины — с концом другой пластины. Требуется перезапуск."

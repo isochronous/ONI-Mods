@@ -228,10 +228,7 @@ namespace JumperBridges
 			GameObject onLayer = Grid.Objects[cell, (int)ObjectLayer.WireConnectors];
 			if (onLayer != null && onLayer != self && BridgeKind.IsJointPlate(onLayer) == jointPlate && IsBridgeEnd(onLayer, cell))
 				return true;
-			foreach (GameObject go in BridgeFootprint.EndsAt(cell))
-				if (go != self && go.GetComponent<BridgeFootprint>().Kind == BridgeKind.Power && BridgeKind.IsJointPlate(go) == jointPlate)
-					return true;
-			return false;
+			return BridgeFootprint.AnyPowerEndAt(cell, self, jointPlate);
 		}
 	}
 
@@ -598,7 +595,12 @@ namespace JumperBridges
 			// bridge was conducting through them, and a wire that melted or broke must not take
 			// the bridge's links with it.
 			List<JumperBridge> bridges = JumperBridge.At(kind, cell);
-			if (bridges.Count > 0 && __instance.isPhysicalBuilding)
+			// Only an end takes a node; a bridge whose middle is here (a wire bridge's, a joint
+			// plate's centre) must not leave the wire's connections for a later node.
+			bool endHere = false;
+			foreach (JumperBridge bridge in bridges)
+				endHere |= bridge.GetComponent<BridgeFootprint>().IsEnd(cell);
+			if (endHere && __instance.isPhysicalBuilding)
 				JumperBridge.Inherit(kind, cell, __instance.Connections);
 			foreach (JumperBridge bridge in bridges)
 				bridge.ScheduleCreate();

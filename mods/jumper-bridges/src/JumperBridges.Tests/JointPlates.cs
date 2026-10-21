@@ -24,6 +24,7 @@ namespace JumperBridges.Tests
 			GameObject battery = t.World.Build("Battery", batteryCell);
 			GameObject lamp = t.World.Build("FloorLamp", lampCell);
 			yield return t.WaitGameSeconds(0.5);
+			t.Assert.Eq(ushort.MaxValue, Power.Circuit(lampCell), "the lamp's port is on no circuit before the plate");
 
 			bool valid = Power.ValidWithPreview(Plate, r.Cell(2, 1), out string reason);
 			t.Assert.True(valid, "the plate may be placed with its ends on both ports: " + reason);
@@ -39,9 +40,60 @@ namespace JumperBridges.Tests
 			t.Assert.False(lamp.HasTag(GameTags.HasInvalidPorts), "the lamp has no port overlap");
 			t.Assert.False(plate.HasTag(GameTags.HasInvalidPorts), "the plate has no port overlap");
 
+			t.Assert.True(lamp.GetComponent<Operational>().GetFlag(InvalidPortReporter.portsNotOverlapping), "the lamp is not put out of order");
+
 			battery.GetComponent<Battery>().AddEnergy(10000f);
 			EnergyConsumer consumer = lamp.GetComponent<EnergyConsumer>();
 			yield return t.WaitUntil(() => consumer.IsPowered, 5, "the lamp powered from the battery");
+		}
+
+		/// <summary>Two plates with one end each on the same free cell: allowed, one node there, power passes through.</summary>
+		[OniTest("Jumper Bridges joint plate: two plates meeting end to end at one cell connect and carry power", Timeout = 40), Layer(0)]
+		public static IEnumerator PlatesEndToEnd(TestContext t)
+		{
+			CellRect r = Power.Floor(t, 7);
+			int batteryCell = r.Cell(1, 1);
+			int sharedCell = r.Cell(3, 1);
+			int lampCell = r.Cell(5, 1);
+			GameObject battery = t.World.Build("Battery", batteryCell);
+			GameObject lamp = t.World.Build("FloorLamp", lampCell);
+			yield return t.WaitGameSeconds(0.5);
+			t.Assert.Eq(ushort.MaxValue, Power.Circuit(lampCell), "the lamp's port is on no circuit before the plates");
+
+			bool valid = Power.ValidWithPreview(Plate, r.Cell(2, 1), out string reason);
+			t.Assert.True(valid, "the first plate may be placed: " + reason);
+			t.World.Build(Plate, r.Cell(2, 1));
+			yield return t.WaitUntil(() => BridgeEndNode.TryGet(BridgeKind.Power, sharedCell, out _), 3, "the first plate's free end node at " + Cells.Describe(sharedCell));
+			yield return t.WaitGameSeconds(0.5);
+
+			valid = Power.ValidWithPreview(Plate, r.Cell(4, 1), out reason);
+			t.Assert.True(valid, "the second plate's end may sit on the first plate's end: " + reason);
+			t.World.Build(Plate, r.Cell(4, 1));
+			yield return t.WaitUntil(() => BridgeEndNode.TryGet(BridgeKind.Power, lampCell, out _), 3, "the second plate's end node on the lamp's port");
+			yield return t.WaitGameSeconds(0.5);
+
+			ushort circuit = Power.Circuit(batteryCell);
+			t.Assert.NotEq(ushort.MaxValue, circuit, "the battery's port is on a circuit");
+			t.Assert.Eq(circuit, Power.Circuit(sharedCell), "the shared end is on the battery's circuit");
+			t.Assert.Eq(circuit, lamp.GetComponent<EnergyConsumer>().CircuitID, "the lamp reports the battery's circuit");
+			t.Assert.False(lamp.HasTag(GameTags.HasInvalidPorts), "the lamp has no port overlap");
+
+			battery.GetComponent<Battery>().AddEnergy(10000f);
+			EnergyConsumer consumer = lamp.GetComponent<EnergyConsumer>();
+			yield return t.WaitUntil(() => consumer.IsPowered, 5, "the lamp powered through both plates");
+		}
+
+		/// <summary>One of the vanilla refusals the mod keeps: a plate end inside a tile.</summary>
+		[OniTest("Jumper Bridges joint plate: a plate end inside a tile is still refused", Timeout = 30), Layer(0)]
+		public static IEnumerator NotInTile(TestContext t)
+		{
+			CellRect r = Power.Floor(t, 5);
+			t.World.Build("Tile", r.Cell(1, 1));
+			yield return t.WaitGameSeconds(0.5);
+
+			bool valid = Power.ValidWithPreview(Plate, r.Cell(2, 1), out string reason);
+			t.Assert.False(valid, "a plate end in the tile is refused");
+			t.Assert.Eq((string)UI.TOOLTIPS.HELP_BUILDLOCATION_HIGHWATT_NOT_IN_TILE, reason, "refused as not in tiles");
 		}
 
 		[OniTest("Jumper Bridges joint plate: the centre is a solid tile and the ends draw conductive heavi-watt wire", Timeout = 30), Layer(0)]

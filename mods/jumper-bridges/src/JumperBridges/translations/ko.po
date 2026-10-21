@@ -24,5 +24,5 @@ msgstr "전선 다리 직접 연결"
 
 #. STRINGS.JUMPERBRIDGES.OPTIONS.POWER.TOOLTIP
 msgctxt "STRINGS.JUMPERBRIDGES.OPTIONS.POWER.TOOLTIP"
-msgid "A Wire Bridge, Conductive Wire Bridge, Insulated Wire Bridge or Heavi-Watt Joint Plate can be placed with either end directly on a power port or another bridge's end, and that port is connected. Needs a restart."
-msgstr "전선 다리, 전도성 전선 다리, 절연 전선 다리 또는 고와트 접합판의 양쪽 끝을 전력 포트나 다른 다리의 끝에 바로 놓을 수 있으며, 그 포트는 연결됩니다. 재시작이 필요합니다."
+msgid "A Wire Bridge, Conductive Wire Bridge, Insulated Wire Bridge, Heavi-Watt Joint Plate or Heavi-Watt Conductive Joint Plate can be placed with either end directly on a power port, and that port is connected. A wire bridge end can share a cell with another wire bridge's end, and a joint plate end with another joint plate's end. Needs a restart."
+msgstr "전선 다리, 전도성 전선 다리, 절연 전선 다리, 고와트 접합판 또는 고와트 전도성 접합판의 양쪽 끝을 전력 포트에 바로 놓을 수 있으며, 그 포트는 연결됩니다. 전선 다리의 끝은 다른 전선 다리의 끝과, 접합판의 끝은 다른 접합판의 끝과 같은 칸을 쓸 수 있습니다. 재시작이 필요합니다."

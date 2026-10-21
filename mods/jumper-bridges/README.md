@@ -61,7 +61,7 @@ Automated in-game tests live in `src/JumperBridges.Tests` and run through the ha
 pwsh common/tools/TestRunner/Invoke-OniTests.ps1 -Mods JumperBridges
 ```
 
-So far: the sensor-bridge-machine signal check, wire drags from a bridge end, gates, wires leaving from under an end, deconstruct by ends, and for power the battery-bridge-lamp circuit, a lamp placed onto a bridge end, a wire drag from an end and deconstruct between two ports, and for joint plates the battery-plate-lamp circuit, the solid centre, the refusal of a plate end on a wire bridge end, no tile on a plate end and deconstruct from the centre. The rest of the checklist below is still done by hand.
+So far: the sensor-bridge-machine signal check, wire drags from a bridge end, gates, wires leaving from under an end, deconstruct by ends, and for power the battery-bridge-lamp circuit, a lamp placed onto a bridge end, a wire drag from an end and deconstruct between two ports, and for joint plates the battery-plate-lamp circuit, the solid centre, two plates meeting end to end, the refusal of a plate end on a wire bridge end and in a tile, no tile on a plate end and deconstruct from the centre. The rest of the checklist below is still done by hand.
 
 In-game checks, from the investigation's sections 5 and 6. Run them in sandbox mode with the automation overlay open; each line is one check.
 
