@@ -40,7 +40,9 @@
 - [x] Investigate — units/01-explore-findings.md: the mod never changes span; plate keeps one solid centre cell; MarkArea prefix (Patches.cs:121-156) would strip plate footprint marks; plates must join BridgeKind.Power's tables; four centre options A–D
 - [x] Ask Jeremy — keep centre solid, no plate/wire-bridge end sharing, under Power bridges option
 - [x] Implement plates in Jumper Bridges + in-game tests (unit 02) — 000e870; build 0 errors; tests in JointPlates.cs (-Filter "*joint plate*"); deviations: 5th test (no tile on plate end) + IsValidTileLocation guard on node cells (vanilla NRE, unreproduced); Power option tooltip reworded with zh/ko/ru
-- [ ] Review unit (03) ← IN PROGRESS
+- [x] Review unit (03) — no critical; M1/M2 untested plate-on-plate and kept refusals; m1 tooltip overclaims sharing; m2 NRE confirmed (pre-existing since 0.2.0), no changelog bullet; m3 list alloc; m4 full replacements (note); m5 stale inherit at bridge middles; m6 lamp test baseline; m7 stale store records
+- [ ] Resolve review findings except m4/m7 (unit 04) ← IN PROGRESS
+- [ ] Fix stale store records m7 through the write path
 - [ ] Run narrowest in-game test filter (ask Jeremy before long runs)
 
 ## Open Questions / Blockers
