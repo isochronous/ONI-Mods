@@ -5,6 +5,6 @@ Also allows customizing the border thickness - if you for some reason want 16 ti
 [b]Compatibility[/b]
 Works on build 744825 (U59) or newer. Asteroids from other worldgen mods use the setting for the kind of asteroid their border matches, or get a flat wall at their own generation's thinnest. Tested with Empty Worlds, Baator, Omnificia Asteroid II, Voidria and MiniBase.
 
-Made by a professional software developer with assistance from Claude Code. Comes with a no slop guarantee.
+Made by a professional software developer with assistance from Claude Code. Comes with a no slop guarantee. Thanks to 3GuB for the awesome Meep meme preview image!
 
 Source and issue tracker: https://github.com/isochronous/ONI-Mods
