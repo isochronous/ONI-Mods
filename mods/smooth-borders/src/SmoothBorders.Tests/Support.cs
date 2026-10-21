@@ -231,6 +231,8 @@ namespace SmoothBorders.Tests
 			public string World;
 			public int T, R;
 			public bool Drawn;
+			/// <summary>DrawWorldBorderForce: the game walls vacuum too, on every line.</summary>
+			public bool Force;
 
 			public override string ToString()
 			{
@@ -245,7 +247,8 @@ namespace SmoothBorders.Tests
 				World = name,
 				T = IntSetting(world, Border.ThicknessKey),
 				R = IntSetting(world, Border.RangeKey),
-				Drawn = BoolSetting(world, "DrawWorldBorder")
+				Drawn = BoolSetting(world, "DrawWorldBorder"),
+				Force = BoolSetting(world, "DrawWorldBorderForce")
 			};
 		}
 
@@ -272,7 +275,7 @@ namespace SmoothBorders.Tests
 			public string Name;
 			/// <summary>Rows (left, right) or columns (bottom, top) whose cell at depth F was looked at.</summary>
 			public int Lines;
-			/// <summary>Cells at depth below F that are not neutronium, outside Space zones (where the game skips vacuum).</summary>
+			/// <summary>Cells at depth below F that are not neutronium (ExpectFlat excuses those on lines the game leaves unwalled over vacuum).</summary>
 			public readonly List<int> Gaps = new List<int>();
 			/// <summary>Cells at depth F that are neutronium outside a magma zone: the wall is deeper than F there.</summary>
 			public readonly List<int> Deep = new List<int>();
@@ -320,16 +323,11 @@ namespace SmoothBorders.Tests
 			return element != null && element.id == SimHashes.Unobtanium;
 		}
 
-		private static bool InSpace(int cell)
-		{
-			SubWorld.ZoneType[] zones = global::World.Instance.zoneRenderData.worldZoneTypes;
-			return cell < zones.Length && zones[cell] == SubWorld.ZoneType.Space;
-		}
-
 		/// <summary>
 		/// The world's four edges measured against a flat wall F deep: every cell nearer the edge than F
-		/// should be neutronium (the game leaves vacuum in Space zones unwalled), and the cell at depth F
-		/// should not, away from the corners where the other edges' walls run.
+		/// should be neutronium (each one that is not is a gap; ExpectFlat excuses the lines the game
+		/// leaves unwalled over vacuum), and the cell at depth F should not, away from the corners where
+		/// the other edges' walls run.
 		/// </summary>
 		public static Edge[] Measure(WorldContainer world, int f)
 		{
@@ -358,7 +356,7 @@ namespace SmoothBorders.Tests
 			for (int d = 0; d < f; d++)
 			{
 				int cell = cellAtDepth(d);
-				if (Grid.IsValidCell(cell) && !IsNeutronium(cell) && !InSpace(cell))
+				if (Grid.IsValidCell(cell) && !IsNeutronium(cell))
 					edge.Gaps.Add(cell);
 			}
 			if (corner)
@@ -402,10 +400,14 @@ namespace SmoothBorders.Tests
 			return cells;
 		}
 
-		private static bool IsVacuum(int cell)
+		/// <summary>
+		/// Vacuum, or a gas or liquid: what a cell the game left unwalled as vacuum can hold once the
+		/// world has settled (gas and liquid flow in). A solid there is not the game's.
+		/// </summary>
+		private static bool IsVacuumOrFluid(int cell)
 		{
 			Element element = Grid.Element[cell];
-			return element != null && (element.id == SimHashes.Vacuum || element.id == SimHashes.Void);
+			return element != null && (element.id == SimHashes.Vacuum || element.id == SimHashes.Void || element.IsGas || element.IsLiquid);
 		}
 
 		/// <summary>
@@ -570,13 +572,17 @@ namespace SmoothBorders.Tests
 						t.Log(world.worldName + " " + edge.Name + ": " + stamped.Count + " cell(s) nearer the edge than " + f + " belong to a template placed at a fixed spot (overridePlacement), "
 							+ "the nearest " + stamped.Min(cell => DepthOf(world, edge.Name, cell)) + " from the edge: " + string.Join(", ", stamped.Take(6).Select(cell => Describe(world, cell))));
 					}
-					// The game leaves vacuum unwalled on a line whose edge point lies in terrain tagged
-					// RemoveWorldBorderOverVacuum (DrawWorldBorder), whatever the zone; so does the mod.
-					List<int> skipped = edge.Gaps.Where(cell => IsVacuum(cell) && EdgePointSkipsVacuum(world, edge.Name, cell)).ToList();
+					// The game walls every cell of every line except vacuum on a line whose edge point lies
+					// in terrain tagged RemoveWorldBorderOverVacuum, unless the world sets
+					// DrawWorldBorderForce (DrawWorldBorder); so does the mod. Gas and liquid flow into
+					// those cells once the world settles, so they are excused there too; nothing else is,
+					// in any zone.
+					List<int> skipped = pair.Force ? new List<int>()
+						: edge.Gaps.Where(cell => IsVacuumOrFluid(cell) && EdgePointSkipsVacuum(world, edge.Name, cell)).ToList();
 					if (skipped.Count > 0)
 					{
 						edge.Gaps.RemoveAll(skipped.Contains);
-						t.Log(world.worldName + " " + edge.Name + ": " + skipped.Count + " vacuum cell(s) nearer the edge than " + f + " on lines the game leaves unwalled over vacuum (RemoveWorldBorderOverVacuum): "
+						t.Log(world.worldName + " " + edge.Name + ": " + skipped.Count + " vacuum, gas or liquid cell(s) nearer the edge than " + f + " on lines the game leaves unwalled over vacuum (RemoveWorldBorderOverVacuum): "
 							+ string.Join(", ", skipped.Take(6).Select(cell => Describe(world, cell))));
 					}
 					if (edge.Gaps.Count > 0)

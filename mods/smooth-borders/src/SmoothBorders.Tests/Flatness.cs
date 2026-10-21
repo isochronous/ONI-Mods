@@ -40,7 +40,8 @@ namespace SmoothBorders.Tests
 		{
 			foreach (string line in Support.GrewLines())
 				t.Log(line);
-			// At 16 tiles the primary's wall is deeper than the game's thickest on every edge (15 at most).
+			// At 16 tiles the primary's wall is as deep as the game's thickest (T + R = 16), which the
+			// game's walk (steps of -2 to +1 per line) seldom reaches on an edge, so a rectangle grows.
 			t.Assert.True(Support.GrewLines().Exists(line => line.Contains("TerraMoonlet")),
 				"the primary asteroid's POI rectangles grew (" + Support.GrewLines().Count + " grew line(s) in all)");
 			yield break;

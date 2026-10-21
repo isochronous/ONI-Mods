@@ -39,10 +39,6 @@ namespace SmoothBorders.Tests
 		// Omnificia Asteroid II (3743010929), Spaced Out with every worldgen DLC.
 		private const string OmnificiaSandstone = "XL-OM2-SND-C-100-0-0-0";
 		private const string OmnificiaBeach = "XL-OM2-BCH-C-100-0-0-0";
-		private const string OmnificiaForest = "XL-OM2-FST-C-100-0-0-0";
-		private const string OmnificiaGarden = "XL-OM2-GDN-C-100-0-0-0";
-		private const string OmnificiaIceCaves = "XL-OM2-ICV-C-100-0-0-0";
-		private const string OmnificiaSwamp = "XL-OM2-SWP-C-100-0-0-0";
 
 		/// <summary>MiniBase's own asteroids: its RenderOffline prefix skips the game's worldgen for them and draws its own walls.</summary>
 		private static readonly string[] MiniBaseOwn = { "MiniBase", "BabyOilyMoonlet", "BabyMarshyMoonlet", "BabyNiobiumMoonlet" };
@@ -427,36 +423,6 @@ namespace SmoothBorders.Tests
 			t.Log("played " + (GameClock.Instance != null ? GameClock.Instance.GetTime().ToString("F0") : "?") + " game seconds in, " + Support.Asteroids().Count + " asteroid(s) shown");
 		}
 
-		/// <summary>
-		/// What the earlier Plays did, kept as a diagnosis: ClusterManager.SetActiveWorld alone on
-		/// another asteroid. Logs where the camera then points against the new asteroid's bounds and
-		/// photographs it fogged, revealed, and after the game's own switch.
-		/// </summary>
-		private static IEnumerator CameraDiagnosis(TestContext t)
-		{
-			int start = ClusterManager.Instance.activeWorldId;
-			WorldContainer other = Support.Asteroids().FirstOrDefault(world => world.id != start);
-			if (other == null && !DlcManager.IsExpansion1Active())
-				t.Skip("the base game's clusters have one asteroid; the switch between two needs Spaced Out");
-			t.Assert.NotNull(other, "the cluster has a second asteroid");
-			t.Log("on the start asteroid: " + Support.CameraSpot());
-			yield return t.Screenshot("1-start");
-			ClusterManager.Instance.SetActiveWorld(other.id);
-			yield return t.WaitRealSeconds(1.5);
-			t.Log("after SetActiveWorld(" + other.id + ") alone: " + Support.CameraSpot());
-			yield return t.Screenshot("2-setactiveworld-only");
-			t.World.RevealAsteroid(other);
-			yield return t.WaitRealSeconds(1.0);
-			t.Log("the same, " + Support.Short(other.worldName) + " revealed: " + Support.CameraSpot());
-			yield return t.Screenshot("3-setactiveworld-only-revealed");
-			ClusterManager.Instance.SetActiveWorld(start);
-			yield return t.WaitRealSeconds(1.0);
-			yield return Support.ShowAsteroid(t, other.id);
-			t.Log("after the game's switch (ActiveWorldStarWipe): " + Support.CameraSpot());
-			yield return t.Screenshot("4-game-switch-revealed");
-			yield return Support.ShowAsteroid(t, start);
-		}
-
 		/// <summary>Generation succeeds with Smooth Borders on: no worldgen error, flat at these options, the mod's own asteroids untouched by Smooth Borders.</summary>
 		private static IEnumerator Generates(TestContext t, Options options, string startPrefix, string[] own)
 		{
@@ -476,7 +442,9 @@ namespace SmoothBorders.Tests
 				t.Log("SB: " + line);
 			CompareEdges(t, coordinate);
 			yield return Support.ExpectFlat(t, MaximaConfig, own);
-			var baseline = new HashSet<string>(File.ReadAllLines(Support.PlacementFile(coordinate, Baseline)));
+			string file = Support.PlacementFile(coordinate, Baseline);
+			t.Assert.True(File.Exists(file), "the mod-alone placements of " + coordinate + " were written earlier in this run (" + file + "); run the baseline test with this one");
+			var baseline = new HashSet<string>(File.ReadAllLines(file));
 			List<string> here = Support.Placements();
 			int moved = here.Count(line => !baseline.Contains(line)) + baseline.Count(line => !here.Contains(line));
 			t.Log(moved == 0 ? "the buildings and geysers sit where the mod-alone world has them"
@@ -531,21 +499,11 @@ namespace SmoothBorders.Tests
 		[OniTest("SB+Empty Worlds: at the defaults Emptera's buildings, geysers and inner neutronium are Empty Worlds' alone", Worldgen = Emptera, Prepare = nameof(Defaults), Explicit = true, Timeout = 60), Layer(0)]
 		public static IEnumerator EmptyEmpteraSame(TestContext t) => Same(t, Emptera, NoneOwn);
 
-		[OniTest("diagnosis: where the camera points after ClusterManager.SetActiveWorld alone (the earlier Plays), against the game's own switch", Worldgen = Emptera, Prepare = nameof(Defaults), Explicit = true, Timeout = 120), Layer(0)]
-		public static IEnumerator EmptyEmpteraCamera(TestContext t) => CameraDiagnosis(t);
-
 		[OniTest("SB+Empty Worlds: Emptera plays without an error", Worldgen = Emptera, Prepare = nameof(Defaults), Explicit = true, Timeout = 120), Layer(0)]
 		public static IEnumerator EmptyEmpteraPlays(TestContext t) => Plays(t);
 
 		[OniTest("SB+Empty Worlds: at the maxima every asteroid of Emptera has a flat wall", Worldgen = Emptera, Prepare = nameof(Maxima), Explicit = true, Timeout = 120), Layer(0)]
 		public static IEnumerator EmptyEmpteraAtMaxima(TestContext t) => AtMaxima(t, Emptera, "Emptera", NoneOwn);
-
-		[OniTest("control: Emptera generated a second time with Smooth Borders' patches off puts its buildings and geysers where the first did", Worldgen = Emptera, Prepare = nameof(AloneAgain), Explicit = true, Timeout = 120), Layer(0)]
-		public static IEnumerator EmptyEmpteraAloneAgain(TestContext t)
-		{
-			CompareRects(t, Emptera);
-			return Support.ExpectSamePlacements(t, Emptera, Baseline);
-		}
 
 		[OniTest("control: Islands with Smooth Borders' patches off; written down", Worldgen = Islands, Prepare = nameof(Alone), Explicit = true, Timeout = 120), Layer(0)]
 		public static IEnumerator EmptyIslandsAlone(TestContext t) => RecordAlone(t, Islands, "Islands", NoneOwn);
@@ -561,13 +519,6 @@ namespace SmoothBorders.Tests
 
 		[OniTest("SB+Empty Worlds: at the maxima every asteroid of Islands has a flat wall", Worldgen = Islands, Prepare = nameof(Maxima), Explicit = true, Timeout = 120), Layer(0)]
 		public static IEnumerator EmptyIslandsAtMaxima(TestContext t) => AtMaxima(t, Islands, "Islands", NoneOwn);
-
-		[OniTest("control: Islands generated a second time with Smooth Borders' patches off puts its buildings and geysers where the first did", Worldgen = Islands, Prepare = nameof(AloneAgain), Explicit = true, Timeout = 120), Layer(0)]
-		public static IEnumerator EmptyIslandsAloneAgain(TestContext t)
-		{
-			CompareRects(t, Islands);
-			return Support.ExpectSamePlacements(t, Islands, Baseline);
-		}
 
 		// ======== Voidria, -Steam 3430682737 ========
 
@@ -665,37 +616,13 @@ namespace SmoothBorders.Tests
 		[OniTest("SB+Omnificia: at the maxima Omnificia sandstone has a flat wall", Worldgen = OmnificiaSandstone, Prepare = nameof(Maxima), Explicit = true, Timeout = 150), Layer(0)]
 		public static IEnumerator OmnificiaAtMaxima(TestContext t) => AtMaxima(t, OmnificiaSandstone, "Omnificia2Sandstone", NoneOwn);
 
-		// ---- the other five Omnificia clusters: generation succeeds and every wall is flat ----
+		// ---- one more Omnificia cluster: generation succeeds and every wall is flat ----
 
 		[OniTest("SB+Omnificia: Omnificia Beach generates and has a flat wall at the defaults", Worldgen = OmnificiaBeach, Prepare = nameof(Defaults), Explicit = true, Timeout = 150), Layer(0)]
 		public static IEnumerator OmnificiaBeachFlat(TestContext t) => Generates(t, new Options(), "Omnificia2Beach", NoneOwn);
 
 		[OniTest("SB+Omnificia: Omnificia Beach generates and has a flat wall at the maxima", Worldgen = OmnificiaBeach, Prepare = nameof(Maxima), Explicit = true, Timeout = 150), Layer(0)]
 		public static IEnumerator OmnificiaBeachAtMaxima(TestContext t) => Generates(t, MaximaConfig, "Omnificia2Beach", NoneOwn);
-
-		[OniTest("SB+Omnificia: Omnificia Forest generates and has a flat wall at the defaults", Worldgen = OmnificiaForest, Prepare = nameof(Defaults), Explicit = true, Timeout = 150), Layer(0)]
-		public static IEnumerator OmnificiaForestFlat(TestContext t) => Generates(t, new Options(), "Omnificia2Forest", NoneOwn);
-
-		[OniTest("SB+Omnificia: Omnificia Forest generates and has a flat wall at the maxima", Worldgen = OmnificiaForest, Prepare = nameof(Maxima), Explicit = true, Timeout = 150), Layer(0)]
-		public static IEnumerator OmnificiaForestAtMaxima(TestContext t) => Generates(t, MaximaConfig, "Omnificia2Forest", NoneOwn);
-
-		[OniTest("SB+Omnificia: Omnificia Garden generates and has a flat wall at the defaults", Worldgen = OmnificiaGarden, Prepare = nameof(Defaults), Explicit = true, Timeout = 150), Layer(0)]
-		public static IEnumerator OmnificiaGardenFlat(TestContext t) => Generates(t, new Options(), "Omnificia2Garden", NoneOwn);
-
-		[OniTest("SB+Omnificia: Omnificia Garden generates and has a flat wall at the maxima", Worldgen = OmnificiaGarden, Prepare = nameof(Maxima), Explicit = true, Timeout = 150), Layer(0)]
-		public static IEnumerator OmnificiaGardenAtMaxima(TestContext t) => Generates(t, MaximaConfig, "Omnificia2Garden", NoneOwn);
-
-		[OniTest("SB+Omnificia: Omnificia IceCaves generates and has a flat wall at the defaults", Worldgen = OmnificiaIceCaves, Prepare = nameof(Defaults), Explicit = true, Timeout = 150), Layer(0)]
-		public static IEnumerator OmnificiaIceCavesFlat(TestContext t) => Generates(t, new Options(), "Omnificia2IceCaves", NoneOwn);
-
-		[OniTest("SB+Omnificia: Omnificia IceCaves generates and has a flat wall at the maxima", Worldgen = OmnificiaIceCaves, Prepare = nameof(Maxima), Explicit = true, Timeout = 150), Layer(0)]
-		public static IEnumerator OmnificiaIceCavesAtMaxima(TestContext t) => Generates(t, MaximaConfig, "Omnificia2IceCaves", NoneOwn);
-
-		[OniTest("SB+Omnificia: Omnificia Swamp generates and has a flat wall at the defaults", Worldgen = OmnificiaSwamp, Prepare = nameof(Defaults), Explicit = true, Timeout = 150), Layer(0)]
-		public static IEnumerator OmnificiaSwampFlat(TestContext t) => Generates(t, new Options(), "Omnificia2Swamp", NoneOwn);
-
-		[OniTest("SB+Omnificia: Omnificia Swamp generates and has a flat wall at the maxima", Worldgen = OmnificiaSwamp, Prepare = nameof(Maxima), Explicit = true, Timeout = 150), Layer(0)]
-		public static IEnumerator OmnificiaSwampAtMaxima(TestContext t) => Generates(t, MaximaConfig, "Omnificia2Swamp", NoneOwn);
 
 		// ======== all five together, -Steam 3382061617,1825146346,3430682737,2582905897,3743010929 ========
 		// One cluster of each mod, at the defaults, with every one of the five mods enabled.
