@@ -58,5 +58,49 @@ namespace SweepZones
 					nameof(SweepZoneTool), TOOL.TOOLTIP, largeIcon: false));
 			}
 		}
+
+		// The Cancel tool sends Cancel to the first item in a cell, which cancels the
+		// sweep of the whole pile there.
+		[HarmonyPatch(typeof(Clearable), "OnCancel")]
+		public static class Clearable_OnCancel_Patch
+		{
+			public static void Postfix(Pickupable ___pickupable)
+			{
+				for (ObjectLayerListItem item = ___pickupable.objectLayerListItem; item != null; item = item.nextItem)
+					if (item.pickupable != null)
+						item.pickupable.KPrefabID.AddTag(ZoneStore.PlayerCancelled, serialize: true);
+			}
+		}
+
+		// The item's own "Cancel Sweep" button.
+		[HarmonyPatch(typeof(Clearable), "OnClickCancel")]
+		public static class Clearable_OnClickCancel_Patch
+		{
+			public static void Postfix(Pickupable ___pickupable)
+			{
+				___pickupable.KPrefabID.AddTag(ZoneStore.PlayerCancelled, serialize: true);
+			}
+		}
+
+		// Marked again (Sweep tool, the item's button, or merged with marked debris).
+		[HarmonyPatch(typeof(Clearable), nameof(Clearable.MarkForClear))]
+		public static class Clearable_MarkForClear_Patch
+		{
+			public static void Postfix(Pickupable ___pickupable, bool ___isMarkedForClear)
+			{
+				if (___isMarkedForClear)
+					___pickupable.KPrefabID.RemoveTag(ZoneStore.PlayerCancelled);
+			}
+		}
+
+		// Picked up by a Duplicant: wherever it is dropped, the zones treat it as new.
+		[HarmonyPatch(typeof(Clearable), "OnStore")]
+		public static class Clearable_OnStore_Patch
+		{
+			public static void Postfix(Pickupable ___pickupable)
+			{
+				___pickupable.KPrefabID.RemoveTag(ZoneStore.PlayerCancelled);
+			}
+		}
 	}
 }

@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Debris you cancel the sweep of inside a sweep zone stays cancelled until a Duplicant picks it up or you mark it again.
+
 ## 1.6.0 - 2026-10-12
 
 - Chinese (Simplified), Korean and Russian translations. Translations load from translations/<locale>.po; the template for other languages is translations/SweepZones.pot.

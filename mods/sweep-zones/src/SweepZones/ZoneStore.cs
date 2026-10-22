@@ -14,6 +14,13 @@ namespace SweepZones
 	{
 		private static readonly Tag MopPlacerTag = new Tag("MopPlacer");
 
+		/// <summary>
+		/// Set on debris whose sweep the player cancelled (Cancel tool or the item's own
+		/// button), saved with the item. The zones leave it alone until a Duplicant picks it
+		/// up or it is marked for sweeping again. See the Clearable patches.
+		/// </summary>
+		public static readonly Tag PlayerCancelled = new Tag("Isochronous_SweepZones_PlayerCancelled");
+
 		public static ZoneStore Instance { get; private set; }
 
 		[Serialize]
@@ -135,10 +142,12 @@ namespace SweepZones
 					if (go == null || pickupable == null)
 						continue;
 					KPrefabID prefabID = pickupable.KPrefabID;
-					// Skip Duplicants, and anything already marked (Garbage tag is
-					// added by MarkForClear and removed by CancelClearing) so we don't
-					// stomp priorities the player changed by hand.
-					if (prefabID.HasTag(GameTags.BaseMinion) || prefabID.HasTag(GameTags.Garbage))
+					// Skip Duplicants, anything already marked (Garbage tag is added by
+					// MarkForClear and removed by CancelClearing) so we don't stomp
+					// priorities the player changed by hand, and debris whose sweep the
+					// player cancelled.
+					if (prefabID.HasTag(GameTags.BaseMinion) || prefabID.HasTag(GameTags.Garbage)
+						|| prefabID.HasTag(PlayerCancelled))
 						continue;
 					// Cached-field checks first: things that sit in a zone indefinitely
 					// without ever being clearable (critters, for example) are rejected

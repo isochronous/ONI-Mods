@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Linq;
+using HarmonyLib;
 using Isochronous.TestKit;
 using UnityEngine;
 
@@ -36,7 +37,7 @@ namespace SweepZones.Tests
 			t.Assert.False(Marked(outside), "debris outside every zone is left alone");
 		}
 
-		[OniTest("Sweep Zones: a priority changed by hand sticks, cancelled sweeping comes back while the zone stands, and erasing the zone keeps errands but stops new ones", Timeout = 90), Layer(0)]
+		[OniTest("Sweep Zones: a priority changed by hand sticks, sweeping cancelled by code (not the player) comes back while the zone stands, and erasing the zone keeps errands but stops new ones", Timeout = 90), Layer(0)]
 		public static IEnumerator ZoneLifecycle(TestContext t)
 		{
 			ZoneStore store = Zones.Fresh(t);
@@ -54,7 +55,7 @@ namespace SweepZones.Tests
 			Zones.Same(t, Zones.Basic(9), debris.GetComponent<Prioritizable>().GetMasterPriority(), "a manual adjustment is not overridden");
 
 			debris.GetComponent<Clearable>().CancelClearing();
-			t.Assert.False(Marked(debris), "cancelled");
+			t.Assert.False(Marked(debris), "cancelled by code, as the game does when an item is stored");
 			yield return t.WaitUntil(() => Marked(debris), 6, "the cancelled debris to be marked again, the zone still standing");
 
 			store.RemoveSweep(cell);
@@ -63,6 +64,35 @@ namespace SweepZones.Tests
 			debris.GetComponent<Clearable>().CancelClearing();
 			yield return t.WaitGameSeconds(3);
 			t.Assert.False(Marked(debris), "and with the zone gone, cancelled debris stays cancelled");
+		}
+
+		[OniTest("Sweep Zones: debris the player cancels stays cancelled in a sweep zone until it is marked again", Timeout = 90), Layer(0)]
+		public static IEnumerator PlayerCancelSticks(TestContext t)
+		{
+			ZoneStore store = Zones.Fresh(t);
+			CellRect r = t.Rect(8, 3);
+			Zones.Floor(t, r, 0, 7);
+			yield return t.WaitGameSeconds(1);
+			int cell = r.Cell(3, 1);
+			store.SetSweep(cell, Zones.Basic(5));
+			GameObject debris = t.Dupes.Drop(SimHashes.SandStone, 40f, cell);
+			yield return t.WaitUntil(() => Marked(debris), 6, "the debris to be marked");
+
+			// What the Cancel tool does to the first item in a dragged cell.
+			Grid.Objects[cell, (int)ObjectLayer.Pickupables].Trigger((int)GameHashes.Cancel);
+			t.Assert.False(Marked(debris), "the Cancel tool cancels the sweep");
+			yield return t.WaitGameSeconds(3);
+			t.Assert.False(Marked(debris), "and it stays cancelled with the zone standing");
+
+			// Marked again by the player (Sweep tool or the item's button), then cancelled with the
+			// item's own button.
+			debris.GetComponent<Clearable>().MarkForClear();
+			t.Assert.True(Marked(debris), "marked again");
+			t.Assert.False(debris.GetComponent<KPrefabID>().HasTag(ZoneStore.PlayerCancelled), "marking lifts the player's cancel");
+			Traverse.Create(debris.GetComponent<Clearable>()).Method("OnClickCancel").GetValue();
+			t.Assert.False(Marked(debris), "the item's Cancel Sweep button cancels it");
+			yield return t.WaitGameSeconds(3);
+			t.Assert.False(Marked(debris), "and that stays cancelled too");
 		}
 
 		[OniTest("Sweep Zones: puddles in a mop zone get mop errands at the zone's priority, by vanilla's rules", Timeout = 90), Layer(0)]
