@@ -4,6 +4,14 @@ Newest first. Each entry is a `### ` block naming the task it came from, appende
 path — `learned:` on the change-set that produced the lesson, never a closing ceremony.
 
 
+### OM-009: reopen: shared ends, heavi-watt art, fixture clear
+**Id:** blk-2d96fd4e2f71
+
+- **Avoid**: A new test (`JointPlates.WireBridgeOnPlateEnd`) left a wire bridge on no object layer, and `FixtureArea.Clear` only cleared what `Grid.Objects` names, so the bridge leaked into `Power.LampOntoBridgeEnd` and failed it (circuit 21 vs 22). A test that changes which object holds a cell's layer slot can outlive the clear; the harness now sweeps buildings by placement cells and warns on survivors. One full run was also killed by Claude Code under system memory pressure (Discord and VS Code held ~14 GB); check free memory before a long in-game run.
+- **Repeat**: On an unexplained failure in an untouched test, a read-only debug unit traced it from the run's Player.log (object counts per clear, missing cleanup lines) to the harness before any mod code changed; the fix went into the harness, not the test, and the rerun was 25/25 with a Duplicant-box suite included to cover the harness change.
+- **Updated**: common `tools/TestRunner` `domains/entities.md` FixtureArea now states the placement-cell sweep, the kept previews and life support, and the survivor warning; mods/jumper-bridges `domains/entities.md` (BridgeEndNode art rule, Harmony patches, Business Rules) and `domains/glossary.md` (Joint plate) state shared ends and heavi-watt art.
+
+
 ### OM-009: Jumper Bridges heavy-watt joint plates
 **Id:** blk-2c58c8c2a081
 

@@ -5,10 +5,10 @@
 
 ## Phase State
 - **Phase plan**: investigation → implementation → testing → completion
-- **Completed**: investigation
-- **Current**: implementation   (status: in-progress — reopened 2026-10-21: Jeremy reversed the no-sharing decision)
-- **Next**: testing, completion
-- **Loaded skill**: task-plan-phase-implementation
+- **Completed**: investigation, implementation, testing, completion
+- **Current**: completion   (status: done — reopen closed 2026-10-22)
+- **Next**: none — task complete
+- **Loaded skill**: task-plan-phase-completion
 - **Branch**: OM-009-jumper-heavy-wire
 - **Attempts (current phase)**: 0
 
@@ -68,10 +68,15 @@
 - [x] Review (unit 09) — no critical/moderate; README:19 and art-on-join check fixed by manager (5cb954c); store notes fb71e8d
 - [x] Full suite om009b-20261022-092432: 20/21, Power.LampOntoBridgeEnd failed (expected 22, got 21)
 - [x] Debug (unit 10) — test-state leak: FixtureArea.Clear (common/tools/TestRunner FixtureArea.cs:112-124) only clears Grid.Objects, so WireBridgeOnPlateEnd's bridge (on no layer once the plate goes) survives and BridgeLinks rings it into the next test; not the mod diff
-- [ ] Harness: Clear also destroys buildings whose placement cells touch the rect, warn on survivors (unit 11, common/ submodule branch OM-009-jumper-heavy-wire) ← IN PROGRESS
-- [ ] Review, in-game run, store notes, retro addendum, push to #13
+- [x] Harness: Clear also destroys buildings whose placement cells touch the rect, warn on survivors (unit 11) — common fb3b432
+- [x] Review (unit 12) — M1 guard each building, skip BuildingPreview, dead fallback: fixed by manager in common a933d0b
+- [x] Run om009c killed by Claude Code under system memory pressure; game exited cleanly, mods.json restored; Discord and VS Code closed at Jeremy's direction
+- [x] Run om009d-20261022-101359 (JumperBridges + JustFallAlready): 25 passed, 0 failed; no survivor warnings
+- [x] Store: TestRunner FixtureArea record; retro addendum in .context/retrospectives/icon.md
+- [x] Push outer branch to #13; common branch PR
 
 ## Review Checkpoint
+- Reopen: units 07, 09 and 12 covered d95ad94..fbe882a and common fb3b432; later edits (5cb954c test assert + README, common a933d0b review fixes) are the reviews' own findings, verified by run om009d 25/25.
 - Units 03 and 05 covered 0e97c6c..44f7dd9; N1/N2 text fixes made after, docs only.
 
 ## Open Questions / Blockers
