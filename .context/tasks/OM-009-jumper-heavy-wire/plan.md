@@ -15,6 +15,7 @@
 ## Decisions
 - Centre tile stays solid as vanilla; only the plate ends gain jumper placement (Jeremy, option A of 01-explore-findings Q3). Smallest change, no seal/save/deconstruct impact.
 - ~~Plate ends may NOT share a cell with a regular wire bridge end~~ — SUPERSEDED 2026-10-21 by Jeremy: a wire bridge end (plain, conductive, insulated) and a joint plate end MAY share a cell. The joined circuit takes the lowest rating and may overload the wire bridge; players are allowed that. A tile may not be built on such a shared end.
+- A shared plate/wire bridge end draws heavi-watt (or conductive heavi-watt) art while any joint plate touches it, and switches back to the wire bridge's art when the plate is removed (Jeremy, 2026-10-22, review 07 m2).
 - Plates come under the existing Power bridges option; no new option or strings (Jeremy).
 - Unit 02 deviation, accepted: tooltip "Heavy-watt joint plates are unchanged" reworded under the same key, translations updated by the unit; extra tile-over-end test and node-cell guard.
 - Plates join BridgeKind.Power's node/link tables via Of() recognising HighWattBridgeTile, not a new BridgeKind (one network manager per kind).
@@ -60,7 +61,9 @@
 - [x] Re-review of 44f7dd9 (unit 05) — all resolved; N1 changelog "crash"→"error", N2 README "power"→"wire bridge's end" fixed by manager
 - [x] Retrospective landed in .context/retrospectives/icon.md
 - [x] Commit and open PR — #13
-- [ ] Reopen: allow wire bridge end / plate end sharing, tile refused on shared end (unit 06) ← IN PROGRESS
+- [x] Reopen: allow wire bridge end / plate end sharing, tile refused on shared end (unit 06) — d95ad94; OnWireBridgeEnd test; build 0 errors
+- [x] Review (unit 07) — no critical/moderate; m1 tooltip 'port is connected' on a bridge end; m2 shared-end art; m3 plate-first order + deconstruct-one untested; m4 stale comments
+- [ ] Fix m1-m4 code side + heavi-watt art on shared ends (unit 08) ← IN PROGRESS
 - [ ] Review, in-game run, store notes, retro addendum, push to #13
 
 ## Review Checkpoint
