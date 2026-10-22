@@ -203,9 +203,8 @@ namespace JumperBridges
 	}
 
 	/// <summary>
-	/// Power placement. Vanilla refuses a power bridge end or joint plate end on any cell already
-	/// holding a power port or another bridge's end; either may now sit on a port or on any power
-	/// bridge end. The joined circuit takes the lowest rating among its bridges.
+	/// Tells a power bridge end apart from a power port on the WireConnectors layer, for the
+	/// port placement checks below.
 	/// </summary>
 	internal static class PowerPorts
 	{
@@ -279,8 +278,8 @@ namespace JumperBridges
 	/// <summary>
 	/// Vanilla keeps a tile, and another joint plate's centre, off a joint plate's end because the
 	/// plate holds the WireConnectors slot there. A plate end on a port or on another bridge's end
-	/// may not hold it, whichever was built first; the plate is found through BridgeFootprint
-	/// instead, so a cell with a joint plate end is never covered by a solid tile.
+	/// does not always hold it: whatever was built there first does. The plate is found through
+	/// BridgeFootprint instead, so a cell with a joint plate end is never covered by a solid tile.
 	/// The vanilla method's first check reads the Building of whatever is on the WireTile layer,
 	/// and a power node has none; on a node's cell the prefix runs the method's other two checks
 	/// and counts the node as the wire it stands for, which a tile may cover.

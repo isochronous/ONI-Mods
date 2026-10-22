@@ -150,6 +150,52 @@ namespace JumperBridges.Tests
 		}
 
 		/// <summary>
+		/// The plate is built first, so it holds the connector slot on the shared cell and the tile
+		/// check refuses through the plate on that slot. The shared end draws as the plate's wire,
+		/// then as the wire bridge's once the plate is gone.
+		/// </summary>
+		[OniTest("Jumper Bridges joint plate: a wire bridge end on a plate end draws heavi-watt wire until the plate goes", Timeout = 40), Layer(0)]
+		public static IEnumerator WireBridgeOnPlateEnd(TestContext t)
+		{
+			CellRect r = Power.Floor(t, 7);
+			int batteryCell = r.Cell(1, 1);
+			int sharedCell = r.Cell(3, 1);
+			int lampCell = r.Cell(5, 1);
+			t.World.Build("Battery", batteryCell);
+			yield return t.WaitGameSeconds(0.5);
+			GameObject lamp = t.World.Build("FloorLamp", lampCell);
+			yield return t.WaitGameSeconds(0.5);
+			GameObject plate = t.World.Build(Plate, r.Cell(2, 1));
+			yield return t.WaitUntil(() => BridgeEndNode.TryGet(BridgeKind.Power, sharedCell, out _), 3, "the plate's free end node at " + Cells.Describe(sharedCell));
+			yield return t.WaitGameSeconds(0.5);
+			t.Assert.Eq(plate, t.World.At(sharedCell, ObjectLayer.WireConnectors), "the plate holds the shared cell's connector slot");
+
+			bool valid = Power.ValidWithPreview("WireBridge", r.Cell(4, 1), out string reason);
+			t.Assert.True(valid, "the wire bridge's end may sit on the plate's end: " + reason);
+			t.World.Build("WireBridge", r.Cell(4, 1));
+			yield return t.WaitUntil(() => BridgeEndNode.TryGet(BridgeKind.Power, lampCell, out _), 3, "the wire bridge's end node on the lamp's port");
+			yield return t.WaitGameSeconds(0.5);
+
+			ushort circuit = Power.Circuit(batteryCell);
+			t.Assert.NotEq(ushort.MaxValue, circuit, "the battery's port is on a circuit");
+			t.Assert.Eq(circuit, Power.Circuit(sharedCell), "the shared end is on the battery's circuit");
+			t.Assert.Eq(circuit, lamp.GetComponent<EnergyConsumer>().CircuitID, "the lamp reports the battery's circuit");
+			t.Assert.False(Power.ValidWithPreview("Tile", sharedCell, out reason), "a tile on the shared end is refused");
+			t.Assert.Eq((string)UI.TOOLTIPS.HELP_BUILDLOCATION_WIRE_OBSTRUCTION, reason, "refused as a wire obstruction");
+			BridgeEndNode.TryGet(BridgeKind.Power, sharedCell, out BridgeEndNode node);
+			KBatchedAnimController art = node.GetComponent<KBatchedAnimController>();
+			t.Assert.Eq(Assets.GetAnim("utilities_electric_insulated_kanim"), art.AnimFiles[0], "the shared end draws as heavi-watt wire");
+
+			t.World.Destroy(plate);
+			yield return t.WaitGameSeconds(0.5);
+			t.Assert.True(BridgeEndNode.TryGet(BridgeKind.Power, sharedCell, out BridgeEndNode remaining) && remaining == node, "the shared end node stays for the wire bridge");
+			ushort bridgeCircuit = Power.Circuit(lampCell);
+			t.Assert.NotEq(ushort.MaxValue, bridgeCircuit, "the lamp's port is on a circuit");
+			t.Assert.Eq(bridgeCircuit, Power.Circuit(sharedCell), "the shared end is on the wire bridge's circuit");
+			t.Assert.Eq(Assets.GetAnim("utilities_electric_kanim"), art.AnimFiles[0], "the end draws as the wire bridge's wire");
+		}
+
+		/// <summary>
 		/// The plate's end sat on a battery's port, so the port held the connector slot; with the
 		/// battery gone the slot is empty, and only the mod's registry keeps a tile off the end.
 		/// </summary>

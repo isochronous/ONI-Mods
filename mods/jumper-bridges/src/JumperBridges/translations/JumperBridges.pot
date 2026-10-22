@@ -23,6 +23,6 @@ msgstr ""
 
 #. STRINGS.JUMPERBRIDGES.OPTIONS.POWER.TOOLTIP
 msgctxt "STRINGS.JUMPERBRIDGES.OPTIONS.POWER.TOOLTIP"
-msgid "A Wire Bridge, Conductive Wire Bridge, Insulated Wire Bridge, Heavi-Watt Joint Plate or Heavi-Watt Conductive Joint Plate can be placed with either end directly on a power port or on the end of any of these, and that port is connected. A tile cannot be built over a joint plate's end. Needs a restart."
+msgid "A Wire Bridge, Conductive Wire Bridge, Insulated Wire Bridge, Heavi-Watt Joint Plate or Heavi-Watt Conductive Joint Plate can be placed with either end directly on a power port, which is then connected, or on the end of any of these. A tile cannot be built over a joint plate's end. Needs a restart."
 msgstr ""
 

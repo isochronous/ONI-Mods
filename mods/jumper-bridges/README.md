@@ -18,7 +18,7 @@ The bridges' own end ports no longer show in the automation overlay; the bridge 
 
 A Wire Bridge, Conductive Wire Bridge or Insulated Wire Bridge works the same way on a power network: an end may sit on any building's power input or output, or on another power bridge's end, joint plates included, and draws as a piece of the wire the bridge is the bridge of (plain, conductive or insulated), coloured by its circuit in the power overlay. A building may also be placed with its power port on an existing bridge end. The end piece is not a wire, so the circuit's wattage limit is the bridge's own, as for a bridge whose end sits on a wire.
 
-The Heavi-Watt Joint Plate and Heavi-Watt Conductive Joint Plate work the same way: an end may sit on a power port or on any power bridge's end, wire bridges included, and draws as a piece of heavi-watt or conductive heavi-watt wire. The plate's centre is a solid tile as in the base game, and a tile cannot be built over a plate's end. A circuit joined through a wire bridge and a joint plate takes the lower wattage limit of the two.
+The Heavi-Watt Joint Plate and Heavi-Watt Conductive Joint Plate work the same way: an end may sit on a power port or on any power bridge's end, wire bridges included, and draws as a piece of heavi-watt or conductive heavi-watt wire, also where it shares a cell with a wire bridge's end. The plate's centre is a solid tile as in the base game, and a tile cannot be built over a plate's end. A circuit joined through a wire bridge and a joint plate takes the lower wattage limit of the two.
 
 ## Options
 
@@ -61,7 +61,7 @@ Automated in-game tests live in `src/JumperBridges.Tests` and run through the ha
 pwsh common/tools/TestRunner/Invoke-OniTests.ps1 -Mods JumperBridges
 ```
 
-So far: the sensor-bridge-machine signal check, wire drags from a bridge end, gates, wires leaving from under an end, deconstruct by ends, and for power the battery-bridge-lamp circuit, a lamp placed onto a bridge end, a wire drag from an end and deconstruct between two ports, and for joint plates the battery-plate-lamp circuit, the solid centre, two plates meeting end to end, a plate end on a wire bridge end with no tile over it, the refusal of a plate end in a tile, no tile on a plate end that sat on a port and deconstruct from the centre. The rest of the checklist below is still done by hand.
+So far: the sensor-bridge-machine signal check, wire drags from a bridge end, gates, wires leaving from under an end, deconstruct by ends, and for power the battery-bridge-lamp circuit, a lamp placed onto a bridge end, a wire drag from an end and deconstruct between two ports, and for joint plates the battery-plate-lamp circuit, the solid centre, two plates meeting end to end, a plate end on a wire bridge end with no tile over it, a wire bridge end on a plate end drawing as heavi-watt wire until the plate goes, the refusal of a plate end in a tile, no tile on a plate end that sat on a port and deconstruct from the centre. The rest of the checklist below is still done by hand.
 
 In-game checks, from the investigation's sections 5 and 6. Run them in sandbox mode with the automation overlay open; each line is one check.
 
