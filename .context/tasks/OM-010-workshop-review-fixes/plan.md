@@ -5,6 +5,7 @@
 2. Vent Freeze Fix adds vent watchers to any vent spawned at any time, not only on load.
 3. Just Fall Already logs every forced fall.
 4. Salty Surf's custom liquid element has no name string and shows in the sandbox element picker with a missing-string label. Hide it from sandbox tools if possible; otherwise give it a name that tells players not to paint it into the map.
+5. Sweep Zones Redux (added by Jeremy 2026-10-22): a sweep errand the player cancels on debris inside a sweep zone is re-marked within a second; player-cancelled errands should stay cancelled, if that is fairly simple.
 ## Folder: .context/tasks/OM-010-workshop-review-fixes/
 
 ## Phase State
@@ -37,6 +38,7 @@
   - Salty Surf: unit says no element is added, only tag SaltySurfWater (Mod.cs:30, 47-58) on Water/Salt Water; the missing string shows in their Properties line. Contradicts Jeremy's sandbox observation — ask.
 - [x] Ask Jeremy — answers in Decisions
 - [ ] Implement units 05-08 in parallel (no commits by units; manager commits) ← IN PROGRESS
+- [ ] Sweep Zones: explore + implement if simple (unit 11) ← IN PROGRESS
 - [ ] Review, in-game run (narrow filters), store notes, retro, PR
 
 ## Open Questions / Blockers
@@ -44,4 +46,5 @@
 
 ## Constraints
 - In-game tests at human speed, narrowest filter; ask before runs. Check free memory before a long run.
+- Sweep Zones: only if simple; no large complexity for it (Jeremy). If it is not simple, report options instead of building.
 - Release comes after this task, as a separate round (Jeremy).
