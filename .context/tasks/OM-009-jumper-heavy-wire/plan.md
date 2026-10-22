@@ -21,6 +21,7 @@
 - Plates join BridgeKind.Power's node/link tables via Of() recognising HighWattBridgeTile, not a new BridgeKind (one network manager per kind).
 
 ## Key Files
+- common/tools/TestRunner/**/FixtureArea.cs: Clear misses buildings on no ObjectLayer (unit 10)
 - mods/jumper-bridges/src/JumperBridges/BridgeKind.cs: Of() gains HighWattBridgeTile; NodeAnim gains the two plate IDs
 - mods/jumper-bridges/src/JumperBridges/Patches.cs: plate prefab postfixes; MarkArea prefix (121-156) must keep vanilla footprint marks for plates; IsValidHighWattBridgeLocation jumper check
 - mods/jumper-bridges/src/JumperBridges.Tests/JointPlates.cs (new), Power.cs
@@ -63,7 +64,11 @@
 - [x] Commit and open PR — #13
 - [x] Reopen: allow wire bridge end / plate end sharing, tile refused on shared end (unit 06) — d95ad94; OnWireBridgeEnd test; build 0 errors
 - [x] Review (unit 07) — no critical/moderate; m1 tooltip 'port is connected' on a bridge end; m2 shared-end art; m3 plate-first order + deconstruct-one untested; m4 stale comments
-- [ ] Fix m1-m4 code side + heavi-watt art on shared ends (unit 08) ← IN PROGRESS
+- [x] Fix m1-m4 code side + heavi-watt art on shared ends (unit 08) — fbe882a; WireBridgeOnPlateEnd
+- [x] Review (unit 09) — no critical/moderate; README:19 and art-on-join check fixed by manager (5cb954c); store notes fb71e8d
+- [x] Full suite om009b-20261022-092432: 20/21, Power.LampOntoBridgeEnd failed (expected 22, got 21)
+- [x] Debug (unit 10) — test-state leak: FixtureArea.Clear (common/tools/TestRunner FixtureArea.cs:112-124) only clears Grid.Objects, so WireBridgeOnPlateEnd's bridge (on no layer once the plate goes) survives and BridgeLinks rings it into the next test; not the mod diff
+- [ ] Harness: Clear also destroys buildings whose placement cells touch the rect, warn on survivors (unit 11, common/ submodule branch OM-009-jumper-heavy-wire) ← IN PROGRESS
 - [ ] Review, in-game run, store notes, retro addendum, push to #13
 
 ## Review Checkpoint
