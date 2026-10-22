@@ -5,10 +5,10 @@
 
 ## Phase State
 - **Phase plan**: investigation → implementation → testing → completion
-- **Completed**: investigation
-- **Current**: implementation   (status: in-progress)
-- **Next**: testing
-- **Loaded skill**: task-plan-phase-implementation
+- **Completed**: investigation, implementation, testing, completion
+- **Current**: completion   (status: done)
+- **Next**: none — task complete
+- **Loaded skill**: task-plan-phase-completion
 - **Branch**: OM-009-jumper-heavy-wire
 - **Attempts (current phase)**: 0
 
@@ -36,17 +36,36 @@
 **Key files delta**: BridgeKind.cs, Patches.cs, Power.cs tests, README, CHANGELOG
 **What the next phase needs**: units/01-explore-findings.md Q1 "Adding the plates, file by file" and Q3 items 1-5, with the decisions above.
 
+### Handoff: implementation → testing → completion
+**Sub-agent outputs**:
+- unit 02 (units/02-implement-report.md): plates join Power, MarkArea keeps plate footprint, IsValidHighWattBridgeLocation replacing prefix, no-sharing both ways, IsValidTileLocation guard; 5 tests.
+- unit 03 review (units/03-review-findings.md): no critical; M1, M2, m1-m7.
+- unit 04 (units/04-implement-report.md): M1, M2, m1, m2, m3, m5, m6 fixed.
+- unit 05 review (units/05-review-findings.md): all resolved; N1, N2 minor text.
+**Reviewer findings**: all critical/moderate resolved; m4 left as follow-up; m7 landed in the store.
+**Verification evidence**: `dotnet build ONI-Mods.sln -c Release -p:ModDeployFolder=none` → "0 Error(s)". In-game: "Session done: 20 passed, 0 failed, 0 errors, 0 timeouts, 0 skipped ... 40.3 s real time". `ks check --store .`: 0 block.
+**Decisions delta**: unit 02 deviation accepted (tooltip, translations, tile-over-end guard).
+**Key files delta**: JointPlates.cs, BridgeFootprint.cs (AnyPowerEndAt), JumperBridge/Patches m5 inherit change, publish/workshop-description.txt.
+**What the next phase needs**: nothing — task complete.
+**Retro Stage-1 draft**: Avoid — spec framed a long span the mod never makes; read the overview first; say whether player strings may change. Repeat — check every patch against the vanilla decompile; full suite after shared-code changes. Updated — jumper-bridges entities/glossary/overview, root tooling-friction.
+
 ## Progress
 - [x] Investigate — units/01-explore-findings.md: the mod never changes span; plate keeps one solid centre cell; MarkArea prefix (Patches.cs:121-156) would strip plate footprint marks; plates must join BridgeKind.Power's tables; four centre options A–D
 - [x] Ask Jeremy — keep centre solid, no plate/wire-bridge end sharing, under Power bridges option
 - [x] Implement plates in Jumper Bridges + in-game tests (unit 02) — 000e870; build 0 errors; tests in JointPlates.cs (-Filter "*joint plate*"); deviations: 5th test (no tile on plate end) + IsValidTileLocation guard on node cells (vanilla NRE, unreproduced); Power option tooltip reworded with zh/ko/ru
 - [x] Review unit (03) — no critical; M1/M2 untested plate-on-plate and kept refusals; m1 tooltip overclaims sharing; m2 NRE confirmed (pre-existing since 0.2.0), no changelog bullet; m3 list alloc; m4 full replacements (note); m5 stale inherit at bridge middles; m6 lamp test baseline; m7 stale store records
-- [ ] Resolve review findings except m4/m7 (unit 04) ← IN PROGRESS
-- [ ] Fix stale store records m7 through the write path
-- [ ] Run narrowest in-game test filter (ask Jeremy before long runs)
+- [x] Resolve review findings except m4/m7 (unit 04) — 44f7dd9; +PlatesEndToEnd, +NotInTile; build 0 errors; translations ALL CHECKS PASSED
+- [x] Fix stale store records m7 through the write path — entities/glossary/overview at mods/jumper-bridges
+- [x] In-game run — Jeremy chose the whole Jumper Bridges suite: 20 passed, 0 failed (run om009-20261021-220419)
+- [x] Re-review of 44f7dd9 (unit 05) — all resolved; N1 changelog "crash"→"error", N2 README "power"→"wire bridge's end" fixed by manager
+- [x] Retrospective landed in .context/retrospectives/icon.md
+- [x] Commit and open PR
+
+## Review Checkpoint
+- Units 03 and 05 covered 0e97c6c..44f7dd9; N1/N2 text fixes made after, docs only.
 
 ## Open Questions / Blockers
-- (none)
+- Follow-up (minor, not acted on): m4 — IsValidHighWattBridgeLocation and the IsValidTileLocation node-cell path replace vanilla bodies; re-diff them against the decompile on each game update before release.
 
 ## Constraints
 - In-game tests at human speed, narrowest filter; ask before long runs.

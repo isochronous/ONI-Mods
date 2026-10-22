@@ -3,7 +3,7 @@
 ## Unreleased
 
 - Heavi-Watt Joint Plates and Heavi-Watt Conductive Joint Plates too: a plate end can sit directly on a power port or another plate's end. The centre stays a solid tile.
-- Fixed a crash when placing a tile over a bridge end node.
+- Fixed an error when placing a tile over a bridge end node.
 
 ## 0.2.0 - 2026-10-17
 

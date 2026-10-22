@@ -16,7 +16,7 @@ The bridges' own end ports no longer show in the automation overlay; the bridge 
 
 ## Power bridges
 
-A Wire Bridge, Conductive Wire Bridge or Insulated Wire Bridge works the same way on a power network: an end may sit on any building's power input or output, or on another power bridge's end, and draws as a piece of the wire the bridge is the bridge of (plain, conductive or insulated), coloured by its circuit in the power overlay. A building may also be placed with its power port on an existing bridge end. The end piece is not a wire, so the circuit's wattage limit is the bridge's own, as for a bridge whose end sits on a wire.
+A Wire Bridge, Conductive Wire Bridge or Insulated Wire Bridge works the same way on a power network: an end may sit on any building's power input or output, or on another wire bridge's end, and draws as a piece of the wire the bridge is the bridge of (plain, conductive or insulated), coloured by its circuit in the power overlay. A building may also be placed with its power port on an existing bridge end. The end piece is not a wire, so the circuit's wattage limit is the bridge's own, as for a bridge whose end sits on a wire.
 
 The Heavi-Watt Joint Plate and Heavi-Watt Conductive Joint Plate work the same way: an end may sit on a power port or on another joint plate's end, and draws as a piece of heavi-watt or conductive heavi-watt wire. The plate's centre is a solid tile as in the base game, and a tile cannot be built over a plate's end. A wire bridge end and a joint plate end may not share a cell.
 

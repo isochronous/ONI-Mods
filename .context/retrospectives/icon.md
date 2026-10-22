@@ -4,6 +4,14 @@ Newest first. Each entry is a `### ` block naming the task it came from, appende
 path — `learned:` on the change-set that produced the lesson, never a closing ceremony.
 
 
+### OM-009: Jumper Bridges heavy-watt joint plates
+**Id:** blk-2c58c8c2a081
+
+- **Avoid**: The task was framed as a long-span bridge with a solid middle; Jumper Bridges never changes a bridge's span, so the plate keeps its one vanilla solid cell and the real work was at the end cells. Read the mod's overview record (`blk-2d2edc3c3db1`) before writing an explore spec's questions, so the spec does not carry a wrong premise. Implement units also widened scope (tooltip rewording, self-written zh/ko/ru lines, an extra crash guard); a spec should say whether player-visible strings may change.
+- **Repeat**: Explore and review units decompiled the vanilla methods (`ilspycmd -t <Type>` against the game's Assembly-CSharp.dll) and checked each patch against them; that caught the `BuildingDef.MarkArea` prefix that would have stripped the plate's footprint marks, a real pre-existing NullReferenceException in `IsValidTileLocation` on bridge end node cells, and a tooltip that overclaimed what may share a cell. Running the whole mod suite after a change to shared code (20/20 in one 40 s session) confirmed the wire bridges were untouched.
+- **Updated**: mods/jumper-bridges `domains/entities.md` (BridgeKind, Harmony patches, Business Rules, Key Code Paths), `domains/glossary.md` (Joint plate), `overview.md` (What this is) now describe the plates as Power-kind jumper bridges with a solid centre; root `domains/tooling-friction.md` records the brief crowding by other mods' code-style sections.
+
+
 ### OM-006: Ovagro Overhead, a new mod that plants Ovagro on ceilings
 **Id:** blk-e6b85866c4d7
 
