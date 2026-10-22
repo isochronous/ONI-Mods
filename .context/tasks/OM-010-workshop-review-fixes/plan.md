@@ -38,7 +38,11 @@
   - Salty Surf: unit says no element is added, only tag SaltySurfWater (Mod.cs:30, 47-58) on Water/Salt Water; the missing string shows in their Properties line. Contradicts Jeremy's sandbox observation — ask.
 - [x] Ask Jeremy — answers in Decisions
 - [ ] Implement units 05-08 in parallel (no commits by units; manager commits) ← IN PROGRESS
-- [ ] Sweep Zones: explore + implement if simple (unit 11) ← IN PROGRESS
+- [x] Translations for VFF tooltip (unit 09) — dbf7ec0
+- [x] Review 10 (four mods) — no critical; moderate VFF wording resolved by Jeremy; 8 minor
+- [x] Sweep Zones (unit 11) — 4e444dd, PlayerCancelled tag, Marking.PlayerCancelSticks
+- [x] Review 12 (Sweep Zones) — M1 merges, M2 any-cancel tags; Jeremy chose both recommended fixes
+- [ ] Fix units 13 (Sweep Zones) and 14 (minors in four mods) ← IN PROGRESS
 - [ ] Review, in-game run (narrow filters), store notes, retro, PR
 
 ## Open Questions / Blockers
@@ -46,5 +50,7 @@
 
 ## Constraints
 - In-game tests at human speed, narrowest filter; ask before runs. Check free memory before a long run.
+- Vent Freeze Fix: a built vent's watcher may dig an impossible tile on ticks 2-5; keep it, text as is (Jeremy, after review 10).
+- Sweep Zones: the cancel sticks only when the debris was marked for sweeping at that moment and sits in a sweep zone; any debris merging into a cancelled pile lifts the cancel (Jeremy, after review 12).
 - Sweep Zones: only if simple; no large complexity for it (Jeremy). If it is not simple, report options instead of building.
 - Release comes after this task, as a separate round (Jeremy).
