@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-- Debris in a sweep zone whose sweep you cancel stays cancelled until a Duplicant picks it up, you mark it again, more debris lands on the pile, or you paint the zone over it again.
+- Debris in a sweep zone whose sweep you cancel stays cancelled until a Duplicant picks it up, you mark it again, debris of the same material merges into the pile, or you paint the zone over it again.
 
 ## 1.6.0 - 2026-10-12
 
