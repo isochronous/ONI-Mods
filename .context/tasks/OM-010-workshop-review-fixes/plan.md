@@ -42,7 +42,9 @@
 - [x] Review 10 (four mods) — no critical; moderate VFF wording resolved by Jeremy; 8 minor
 - [x] Sweep Zones (unit 11) — 4e444dd, PlayerCancelled tag, Marking.PlayerCancelSticks
 - [x] Review 12 (Sweep Zones) — M1 merges, M2 any-cancel tags; Jeremy chose both recommended fixes
-- [ ] Fix units 13 (Sweep Zones) and 14 (minors in four mods) ← IN PROGRESS
+- [x] Fix units 13 and 14 — 768d2ac; review 15 clean (3 minor, wording fixed by manager); store notes c407186
+- [x] Whole suites run om010-20261022-123342: 73 passed, 1 failed (UpgradePlanner ByHand.CancelledRebuild: 'the plan is complete: Pick at least one building that can be built in Granite.'), 16 skipped (need Blueprints Expanded)
+- [ ] Debug CancelledRebuild (unit 16) ← IN PROGRESS
 - [ ] Review, in-game run (narrow filters), store notes, retro, PR
 
 ## Open Questions / Blockers
