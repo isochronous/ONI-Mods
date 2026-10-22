@@ -21,7 +21,7 @@ namespace JumperBridges
 				public static class POWER
 				{
 					public static LocString NAME = "Direct power bridges";
-					public static LocString TOOLTIP = "A Wire Bridge, Conductive Wire Bridge, Insulated Wire Bridge, Heavi-Watt Joint Plate or Heavi-Watt Conductive Joint Plate can be placed with either end directly on a power port, and that port is connected. A wire bridge end can share a cell with another wire bridge's end, and a joint plate end with another joint plate's end. Needs a restart.";
+					public static LocString TOOLTIP = "A Wire Bridge, Conductive Wire Bridge, Insulated Wire Bridge, Heavi-Watt Joint Plate or Heavi-Watt Conductive Joint Plate can be placed with either end directly on a power port or on the end of any of these, and that port is connected. A tile cannot be built over a joint plate's end. Needs a restart.";
 				}
 			}
 		}

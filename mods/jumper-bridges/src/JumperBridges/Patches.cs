@@ -204,10 +204,8 @@ namespace JumperBridges
 
 	/// <summary>
 	/// Power placement. Vanilla refuses a power bridge end or joint plate end on any cell already
-	/// holding a power port or another bridge's end; either may now sit on a port, a wire bridge
-	/// end on a wire bridge end and a joint plate end on a joint plate end. A wire bridge end and
-	/// a joint plate end never share a cell, whichever comes first. Both are looked up in
-	/// BridgeFootprint, since an end on a port does not hold the WireConnectors slot.
+	/// holding a power port or another bridge's end; either may now sit on a port or on any power
+	/// bridge end. The joined circuit takes the lowest rating among its bridges.
 	/// </summary>
 	internal static class PowerPorts
 	{
@@ -219,48 +217,26 @@ namespace JumperBridges
 			BridgeFootprint footprint = go.GetComponent<BridgeFootprint>();
 			return footprint != null && footprint.Kind == BridgeKind.Power && footprint.IsEnd(cell);
 		}
-
-		/// <summary>Whether a power bridge or joint plate other than the one being placed has an end on the cell.</summary>
-		public static bool HasEnd(int cell, GameObject self, bool jointPlate)
-		{
-			if (!Grid.IsValidCell(cell))
-				return false;
-			GameObject onLayer = Grid.Objects[cell, (int)ObjectLayer.WireConnectors];
-			if (onLayer != null && onLayer != self && BridgeKind.IsJointPlate(onLayer) == jointPlate && IsBridgeEnd(onLayer, cell))
-				return true;
-			return BridgeFootprint.AnyPowerEndAt(cell, self, jointPlate);
-		}
 	}
 
+	/// <summary>The wire bridge's end check, with ends allowed on ports and on any power bridge end.</summary>
 	[HarmonyPatch(typeof(BuildingDef), "IsValidWireBridgeLocation")]
 	public static class BuildingDef_IsValidWireBridgeLocation_Patch
 	{
 		public static bool Prepare() => BridgeKind.Power.Enabled;
 
-		public static bool Prefix(GameObject source_go, ref string fail_reason, ref bool __result)
+		public static bool Prefix(ref string fail_reason, ref bool __result)
 		{
-			UtilityNetworkLink link = source_go != null ? source_go.GetComponent<UtilityNetworkLink>() : null;
-			if (link == null)
-				return true;
-			link.GetCells(out int end1, out int end2);
-			if (PowerPorts.HasEnd(end1, source_go, jointPlate: true) || PowerPorts.HasEnd(end2, source_go, jointPlate: true))
-			{
-				fail_reason = UI.TOOLTIPS.HELP_BUILDLOCATION_WIRECONNECTORS_OVERLAP;
-				__result = false;
-			}
-			else
-			{
-				fail_reason = null;
-				__result = true;
-			}
+			fail_reason = null;
+			__result = true;
 			return false;
 		}
 	}
 
 	/// <summary>
-	/// The joint plate's end check, with ends allowed on ports and on other joint plates' ends
-	/// and refused on wire bridge ends. The vanilla method's other refusals stay: an end off the
-	/// map, an end in a tile (FoundationTile), an end in a door or a door under construction.
+	/// The joint plate's end check, with ends allowed on ports and on any power bridge end. The
+	/// vanilla method's other refusals stay: an end off the map, an end in a tile (FoundationTile),
+	/// an end in a door or a door under construction.
 	/// The centre is checked as a tile by the caller (IsValidTileLocation) as before.
 	/// </summary>
 	[HarmonyPatch(typeof(BuildingDef), "IsValidHighWattBridgeLocation")]
@@ -282,12 +258,7 @@ namespace JumperBridges
 				return false;
 			}
 			link.GetCells(out int end1, out int end2);
-			if (PowerPorts.HasEnd(end1, source_go, jointPlate: false) || PowerPorts.HasEnd(end2, source_go, jointPlate: false))
-			{
-				fail_reason = UI.TOOLTIPS.HELP_BUILDLOCATION_WIRECONNECTORS_OVERLAP;
-				__result = false;
-			}
-			else if (InTileOrDoor(end1) || InTileOrDoor(end2))
+			if (InTileOrDoor(end1) || InTileOrDoor(end2))
 			{
 				fail_reason = UI.TOOLTIPS.HELP_BUILDLOCATION_HIGHWATT_NOT_IN_TILE;
 				__result = false;
@@ -307,9 +278,9 @@ namespace JumperBridges
 
 	/// <summary>
 	/// Vanilla keeps a tile, and another joint plate's centre, off a joint plate's end because the
-	/// plate holds the WireConnectors slot there. A plate end on a port, or on a shared end whose
-	/// slot holder has gone, does not hold it; the plate is found through BridgeFootprint instead,
-	/// so the end node is never buried in a solid tile.
+	/// plate holds the WireConnectors slot there. A plate end on a port or on another bridge's end
+	/// may not hold it, whichever was built first; the plate is found through BridgeFootprint
+	/// instead, so a cell with a joint plate end is never covered by a solid tile.
 	/// The vanilla method's first check reads the Building of whatever is on the WireTile layer,
 	/// and a power node has none; on a node's cell the prefix runs the method's other two checks
 	/// and counts the node as the wire it stands for, which a tile may cover.
@@ -347,7 +318,7 @@ namespace JumperBridges
 
 		public static void Postfix(GameObject source_go, int cell, ref string fail_reason, ref bool __result)
 		{
-			if (__result && PowerPorts.HasEnd(cell, source_go, jointPlate: true))
+			if (__result && BridgeFootprint.JointPlateEndAt(cell, source_go))
 			{
 				fail_reason = UI.TOOLTIPS.HELP_BUILDLOCATION_WIRE_OBSTRUCTION;
 				__result = false;

@@ -116,29 +116,37 @@ namespace JumperBridges.Tests
 		}
 
 		/// <summary>
-		/// Both directions, with the first end on a battery's port so that it does not hold the
-		/// connector slot and only the mod's registry knows it is there. Each preview is valid
-		/// before the other bridge is built.
+		/// The wire bridge is built first, so its end holds the connector slot on the shared cell and
+		/// only the mod's registry knows the plate's end is there too.
 		/// </summary>
-		[OniTest("Jumper Bridges joint plate: a plate end and a wire bridge end may not share a cell", Timeout = 40), Layer(0)]
-		public static IEnumerator NotOnWireBridgeEnd(TestContext t)
+		[OniTest("Jumper Bridges joint plate: a plate end on a wire bridge end joins its circuit and keeps a tile off", Timeout = 40), Layer(0)]
+		public static IEnumerator OnWireBridgeEnd(TestContext t)
 		{
-			CellRect r = Power.Floor(t, 10);
-			t.World.Build("Battery", r.Cell(2, 1));
-			t.World.Build("Battery", r.Cell(7, 1));
+			CellRect r = Power.Floor(t, 7);
+			int batteryCell = r.Cell(1, 1);
+			int sharedCell = r.Cell(3, 1);
+			int lampCell = r.Cell(5, 1);
+			t.World.Build("Battery", batteryCell);
+			GameObject lamp = t.World.Build("FloorLamp", lampCell);
+			GameObject bridge = t.World.Build("WireBridge", r.Cell(2, 1));
+			yield return t.WaitUntil(() => BridgeEndNode.TryGet(BridgeKind.Power, sharedCell, out _), 3, "the wire bridge's free end node at " + Cells.Describe(sharedCell));
 			yield return t.WaitGameSeconds(0.5);
-			t.Assert.True(Power.ValidWithPreview(Plate, r.Cell(1, 1), out string reason), "a plate end on the free battery port: " + reason);
-			t.Assert.True(Power.ValidWithPreview("WireBridge", r.Cell(6, 1), out reason), "a wire bridge end on the free battery port: " + reason);
+			t.Assert.Eq(bridge, t.World.At(sharedCell, ObjectLayer.WireConnectors), "the wire bridge holds the shared cell's connector slot");
 
-			t.World.Build("WireBridge", r.Cell(3, 1));
-			t.World.Build(Plate, r.Cell(8, 1));
-			yield return t.WaitUntil(() => BridgeEndNode.TryGet(BridgeKind.Power, r.Cell(2, 1), out _) && BridgeEndNode.TryGet(BridgeKind.Power, r.Cell(7, 1), out _), 3, "end nodes on both battery ports");
+			bool valid = Power.ValidWithPreview(Plate, r.Cell(4, 1), out string reason);
+			t.Assert.True(valid, "the plate's end may sit on the wire bridge's end: " + reason);
+			t.World.Build(Plate, r.Cell(4, 1));
+			yield return t.WaitUntil(() => BridgeEndNode.TryGet(BridgeKind.Power, lampCell, out _), 3, "the plate's end node on the lamp's port");
 			yield return t.WaitGameSeconds(0.5);
 
-			t.Assert.False(Power.ValidWithPreview(Plate, r.Cell(1, 1), out reason), "a plate end on the wire bridge's end is refused");
-			t.Assert.Eq((string)UI.TOOLTIPS.HELP_BUILDLOCATION_WIRECONNECTORS_OVERLAP, reason, "refused as a connector overlap");
-			t.Assert.False(Power.ValidWithPreview("WireBridge", r.Cell(6, 1), out reason), "a wire bridge end on the plate's end is refused");
-			t.Assert.Eq((string)UI.TOOLTIPS.HELP_BUILDLOCATION_WIRECONNECTORS_OVERLAP, reason, "refused as a connector overlap");
+			ushort circuit = Power.Circuit(batteryCell);
+			t.Assert.NotEq(ushort.MaxValue, circuit, "the battery's port is on a circuit");
+			t.Assert.Eq(circuit, Power.Circuit(sharedCell), "the shared end is on the battery's circuit");
+			t.Assert.Eq(circuit, lamp.GetComponent<EnergyConsumer>().CircuitID, "the lamp reports the battery's circuit");
+			t.Assert.Eq(1000f, Game.Instance.circuitManager.GetMaxSafeWattageForCircuit(circuit), "the circuit's limit is the wire bridge's");
+
+			t.Assert.False(Power.ValidWithPreview("Tile", sharedCell, out reason), "a tile on the shared end is refused");
+			t.Assert.Eq((string)UI.TOOLTIPS.HELP_BUILDLOCATION_WIRE_OBSTRUCTION, reason, "refused as a wire obstruction");
 		}
 
 		/// <summary>

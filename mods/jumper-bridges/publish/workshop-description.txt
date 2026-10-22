@@ -1,6 +1,6 @@
 Wire bridges are just bent wires.
 
-An automation bridge, power bridge or Heavi-Watt Joint Plate (plain or conductive) can be placed with either end directly on a building's port, and that port counts as connected: the bridge end acts as its own piece of wire, drawn like one, with nothing to build, deconstruct or pay for. Bridges of one kind can be daisy-chained, end on end; a joint plate end shares a cell only with another joint plate's end, not with a wire bridge's. A wire dragged up to a bridge end joins it as it would join a wire. Bridges whose ends sit on real wires work exactly as before.
+An automation bridge, power bridge or Heavi-Watt Joint Plate (plain or conductive) can be placed with either end directly on a building's port, and that port counts as connected: the bridge end acts as its own piece of wire, drawn like one, with nothing to build, deconstruct or pay for. Bridges of one kind can be daisy-chained, end on end, and a joint plate end can share a cell with any power bridge's end. A tile cannot be built over a joint plate's end. A wire dragged up to a bridge end joins it as it would join a wire. Bridges whose ends sit on real wires work exactly as before.
 
 [h2]Options[/h2]
 Automation bridges and power bridges can each be turned off in the mod's options. A restart applies the change.

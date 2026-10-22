@@ -36,13 +36,13 @@ namespace JumperBridges
 			return result;
 		}
 
-		/// <summary>Whether a power bridge other than self, of the joint plate kind asked for, has an end on the cell; allocates nothing.</summary>
-		public static bool AnyPowerEndAt(int cell, GameObject self, bool jointPlate)
+		/// <summary>Whether a joint plate other than self, complete or queued, has an end on the cell; allocates nothing.</summary>
+		public static bool JointPlateEndAt(int cell, GameObject self)
 		{
 			if (!byCell.TryGetValue(cell, out List<BridgeFootprint> list))
 				return false;
 			foreach (BridgeFootprint footprint in list)
-				if (footprint != null && footprint.gameObject != self && footprint.IsEnd(cell) && footprint.Kind == BridgeKind.Power && BridgeKind.IsJointPlate(footprint.gameObject) == jointPlate)
+				if (footprint != null && footprint.gameObject != self && footprint.IsEnd(cell) && BridgeKind.IsJointPlate(footprint.gameObject))
 					return true;
 			return false;
 		}
