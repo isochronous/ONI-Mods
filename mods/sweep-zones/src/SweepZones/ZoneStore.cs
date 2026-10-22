@@ -15,9 +15,10 @@ namespace SweepZones
 		private static readonly Tag MopPlacerTag = new Tag("MopPlacer");
 
 		/// <summary>
-		/// Set on debris whose sweep the player cancelled (Cancel tool or the item's own
-		/// button), saved with the item. The zones leave it alone until a Duplicant picks it
-		/// up or it is marked for sweeping again. See the Clearable patches.
+		/// Set on debris in a sweep zone whose sweep the player cancelled (Cancel tool or the
+		/// item's own button) while it was marked, saved with the item. The zones leave it
+		/// alone until a Duplicant picks it up, it is marked for sweeping again, other debris
+		/// merges into it, or a sweep zone is painted over it. See the Clearable patches.
 		/// </summary>
 		public static readonly Tag PlayerCancelled = new Tag("Isochronous_SweepZones_PlayerCancelled");
 
@@ -49,10 +50,27 @@ namespace SweepZones
 			base.OnCleanUp();
 		}
 
+		/// <summary>Painting a sweep zone over debris lifts the player's earlier cancel, so all of it is swept.</summary>
 		public void SetSweep(int cell, PrioritySetting priority)
 		{
 			sweepCells[cell] = priority;
 			Version++;
+			if (!Grid.IsValidCell(cell))
+				return;
+			GameObject first = Grid.Objects[cell, (int)ObjectLayer.Pickupables];
+			Pickupable firstPickupable = first != null ? first.GetComponent<Pickupable>() : null;
+			if (firstPickupable == null)
+				return;
+			for (ObjectLayerListItem item = firstPickupable.objectLayerListItem; item != null; item = item.nextItem)
+				if (item.pickupable != null)
+					item.pickupable.KPrefabID.RemoveTag(PlayerCancelled);
+		}
+
+		/// <summary>Debris marked for sweeping that sits in a sweep zone.</summary>
+		public static bool IsMarkedInSweepZone(Pickupable pickupable)
+		{
+			return Instance != null && pickupable.KPrefabID.HasTag(GameTags.Garbage)
+				&& Instance.sweepCells.ContainsKey(Grid.PosToCell(pickupable));
 		}
 
 		public void RemoveSweep(int cell)

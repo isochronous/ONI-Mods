@@ -59,7 +59,7 @@ msgstr "불러온 뒤 타일 복구"
 
 #. STRINGS.VENTFREEZEFIX.OPTIONS.REPAIR_ON_LOAD.TOOLTIP
 msgctxt "STRINGS.VENTFREEZEFIX.OPTIONS.REPAIR_ON_LOAD.TOOLTIP"
-msgid "For the first second after a liquid vent spawns (on load, or when it is built), a natural tile that formed at or under a vent out of less liquid than a tile needs is dug up and dropped as debris at its full mass. Takes effect on the next load."
+msgid "For the first second after a liquid vent is built or a save is loaded, a natural tile that formed at or under a vent out of less liquid than a tile needs is dug up and dropped as debris at its full mass. Takes effect on the next load."
 msgstr "액체 벤트가 생성된 뒤(불러올 때 또는 건설될 때) 첫 1초 동안, 벤트 위치나 그 아래에 타일 하나에 필요한 양보다 적은 액체로 생긴 자연 타일을 파내어 전체 질량의 잔해로 떨어뜨립니다. 다음 불러오기부터 적용됩니다."
 
 #. STRINGS.VENTFREEZEFIX.OPTIONS.REPRO_BUTTON.NAME

@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- The description now matches what the watcher does: it runs for a second after a vent is built or a save is loaded.
+
 ## 0.2.0 - 2026-10-12
 
 - Chinese (Simplified), Korean and Russian translations. Translations load from `translations/<locale>.po`; the template for other languages is `translations/VentFreezeFix.pot`.

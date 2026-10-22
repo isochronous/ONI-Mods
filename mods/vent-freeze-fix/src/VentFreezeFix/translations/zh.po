@@ -59,7 +59,7 @@ msgstr "加载后修复砖块"
 
 #. STRINGS.VENTFREEZEFIX.OPTIONS.REPAIR_ON_LOAD.TOOLTIP
 msgctxt "STRINGS.VENTFREEZEFIX.OPTIONS.REPAIR_ON_LOAD.TOOLTIP"
-msgid "For the first second after a liquid vent spawns (on load, or when it is built), a natural tile that formed at or under a vent out of less liquid than a tile needs is dug up and dropped as debris at its full mass. Takes effect on the next load."
+msgid "For the first second after a liquid vent is built or a save is loaded, a natural tile that formed at or under a vent out of less liquid than a tile needs is dug up and dropped as debris at its full mass. Takes effect on the next load."
 msgstr "液体排液口生成后（加载时或建造时）的第一秒内，若排液口处或其下方由不足以形成砖块的液体形成了自然砖块，则将其挖掉，并以全部质量作为碎片掉落。下次加载时生效。"
 
 #. STRINGS.VENTFREEZEFIX.OPTIONS.REPRO_BUTTON.NAME

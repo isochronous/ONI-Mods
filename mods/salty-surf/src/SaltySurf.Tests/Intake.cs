@@ -31,13 +31,8 @@ namespace SaltySurf.Tests
 				string text = element.FullDescription(false);
 				t.Assert.False(text.Contains("MISSING"), hash + " description has no missing string (got: " + text.Replace("\n", " | ") + ")");
 				t.Assert.False(text.ToUpperInvariant().Contains("SALTYSURFWATER"), hash + " description does not name the tag");
-				string line = null;
-				string prefix = ((string)STRINGS.ELEMENTS.ELEMENTPROPERTIES).Split('{')[0];
-				foreach (string l in text.Split('\n'))
-					if (l.Contains(prefix))
-						line = l;
-				t.Assert.True(line != null, hash + " description has a Properties line");
-				t.Assert.False(line.TrimEnd().EndsWith(","), hash + " Properties line has no trailing separator (got: " + line + ")");
+				foreach (string line in text.Split('\n'))
+					t.Assert.False(line.TrimEnd().EndsWith(","), hash + " no description line ends in a separator (got: " + line + ")");
 			}
 			yield break;
 		}

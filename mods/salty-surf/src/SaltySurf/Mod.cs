@@ -49,9 +49,9 @@ namespace SaltySurf
 	{
 		public static void Postfix()
 		{
-			// The tag has no display name, so keep it out of the Properties line. The line writes
-			// ", " after every tag but the last, hidden or not, so the tag goes first to leave no
-			// trailing separator.
+			// The tag has no display name, so keep it out of the Properties line. A hidden tag writes
+			// nothing itself; the visible tag before it writes the separator unless it is last. A
+			// hidden tag in last place would leave a trailing separator, so the tag goes first.
 			GameTags.HiddenElementTags.Add(SurfWater.Tag);
 			foreach (SimHashes hash in SurfWater.Elements)
 			{
