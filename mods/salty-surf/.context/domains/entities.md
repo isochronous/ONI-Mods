@@ -31,12 +31,13 @@ Salty Surf makes the Mechanical Surfboard run on Salt Water as well as Water. Th
 
 ### Harmony patches
 **Id:** blk-0d5a13c73107  
-**Tags:** harmony-patching, game-tag, info-panel-text  
+**Tags:** harmony-patching, game-tag, info-panel-text
+
 **Location**: `src/SaltySurf/Mod.cs`
 
 | Patch target | Kind | Purpose |
 |--------------|------|---------|
-| `ElementLoader.Load` | Postfix | Adds `SurfWater.Tag` to the `oreTags` of Water and Salt Water |
+| `ElementLoader.Load` | Postfix | Puts `SurfWater.Tag` first in the `oreTags` of Water and Salt Water and adds it to `GameTags.HiddenElementTags`, so the elements' Properties line does not list it (the tag has no name string) |
 | `MechanicalSurfboardConfig.ConfigureBuildingTemplate` | Postfix | Sets the `ConduitConsumer.capacityTag` to `SurfWater.Tag`, so the intake accepts either liquid |
 | `MechanicalSurfboard.States.IsReady` | Prefix (replaces) | Ready when `Storage.GetMassAvailable(SurfWater.Tag)` reaches `minOperationalWaterKG` (2 kg) |
 | `MechanicalSurfboardWorkable.OnWorkTick` | Prefix (replaces) | Draws `waterSpillRateKG x dt` from the tank by tag with `ConsumeAndGetDisease` and drops the element actually drawn through `FallingWater.AddParticle`, at a random cell across the board's width |

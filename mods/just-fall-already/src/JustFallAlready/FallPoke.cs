@@ -23,9 +23,10 @@ namespace JustFallAlready
 	/// has had its batch, the cell is disarmed. Nothing else is ever inspected: a door starting to
 	/// move, another door, or the stream of batches from digging and building cannot trigger a poke.
 	///
-	/// Telemetry: every poke is logged, and any handler run over a few milliseconds is logged with its
-	/// numbers. The event fires on the main thread inside the game's own graph update, with and
-	/// without Fast Track (its path cache keeps that call), and updating a critter brain directly from
+	/// Telemetry: every poke is logged when the game was started by the test runner (any
+	/// --onitest-* argument), which is what the tests read; any handler run over a few milliseconds is
+	/// always logged with its numbers. The event fires on the main thread inside the game's own
+	/// graph update, with and without Fast Track (its path cache keeps that call), and updating a critter brain directly from
 	/// the main thread is what Fast Track itself does for non-duplicant brains it queues.
 	/// </summary>
 	[HarmonyPatch(typeof(Pathfinding), nameof(Pathfinding.AddNavGrid))]
@@ -34,6 +35,8 @@ namespace JustFallAlready
 		/// <summary>Armed cells are dropped if no navigation batch touches them within this time (it always should).</summary>
 		private const float ArmSeconds = 2f;
 		private const double SlowMilliseconds = 2.0;
+		/// <summary>Whether the game was started by the test runner (an --onitest-* argument); only then is each poke logged.</summary>
+		private static readonly bool LogPokes = StartedByTestRunner();
 
 		/// <summary>Armed cell -> the time it was armed.</summary>
 		private static readonly Dictionary<int, float> armed = new Dictionary<int, float>();
@@ -42,7 +45,9 @@ namespace JustFallAlready
 		private static NavGrid lastGrid;
 		private static bool? openDoorsAreAir;
 		private static int cacheFrame = -1;
+		/// <summary>Critters in armed cells, gathered at most once per frame; arming a cell clears it.</summary>
 		private static readonly Dictionary<int, List<Brain>> crittersByCell = new Dictionary<int, List<Brain>>();
+		private static readonly Stack<List<Brain>> spareLists = new Stack<List<Brain>>();
 
 		public static void Postfix(NavGrid nav_grid)
 		{
@@ -68,6 +73,8 @@ namespace JustFallAlready
 					return;
 				float now = Time.realtimeSinceStartup;
 				Purge(now);
+				// The armed set changes: gather the critters again on the next lookup, even within this frame.
+				cacheFrame = -1;
 				bool around = OpenDoorsAreAir;
 				foreach (int cell in building.PlacementCells)
 				{
@@ -124,7 +131,8 @@ namespace JustFallAlready
 							continue;
 						brain.UpdateBrain();
 						pokes++;
-						UnityEngine.Debug.Log("[JustFallAlready] " + brain.name + " at cell " + cell + " lost its " + navigator.CurrentNavType + " footing to a door; told it to fall");
+						if (LogPokes)
+							UnityEngine.Debug.Log("[JustFallAlready] " + brain.name + " at cell " + cell + " lost its " + navigator.CurrentNavType + " footing to a door; told it to fall");
 					}
 				}
 				// Every grid gets its own batch for the same dirty cells, in registration order; disarm after the last one.
@@ -161,23 +169,40 @@ namespace JustFallAlready
 			}
 		}
 
-		/// <summary>Critters (brains with a creature fall monitor) by cell, gathered once per frame.</summary>
+		private static bool StartedByTestRunner()
+		{
+			foreach (string arg in System.Environment.GetCommandLineArgs())
+				if (arg.StartsWith("--onitest-", System.StringComparison.Ordinal))
+					return true;
+			return false;
+		}
+
+		/// <summary>
+		/// Critters (running brains with a creature fall monitor) in the given armed cell. The first
+		/// lookup in a frame walks the brains once and keeps only those standing in an armed cell, so
+		/// the component checks run for a handful of brains, not every brain in the colony.
+		/// </summary>
 		private static bool CrittersAt(int cell, out List<Brain> critters)
 		{
 			if (cacheFrame != Time.frameCount)
 			{
 				cacheFrame = Time.frameCount;
+				foreach (List<Brain> list in crittersByCell.Values)
+				{
+					list.Clear();
+					spareLists.Push(list);
+				}
 				crittersByCell.Clear();
 				foreach (Brain brain in Components.Brains.Items)
 				{
-					if (!brain.IsRunning())
+					int at = Grid.PosToCell(brain);
+					if (!armed.ContainsKey(at) || !brain.IsRunning())
 						continue;
 					StateMachineController controller = brain.GetComponent<StateMachineController>();
 					if (controller == null || controller.GetSMI<CreatureFallMonitor.Instance>() == null)
 						continue;
-					int at = Grid.PosToCell(brain);
 					if (!crittersByCell.TryGetValue(at, out List<Brain> list))
-						crittersByCell[at] = list = new List<Brain>();
+						crittersByCell[at] = list = spareLists.Count != 0 ? spareLists.Pop() : new List<Brain>();
 					list.Add(brain);
 				}
 			}

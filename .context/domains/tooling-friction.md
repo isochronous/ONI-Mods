@@ -133,3 +133,8 @@ Renaming the unreleased mod `mods/ovagro-overhead` to `mods/ovagros-overhead` (O
 **Id:** blk-2dfcc5b0839b
 
 `ks brief --for mods/jumper-bridges` (8192-byte budget) returned 36 of 49 candidates; 22 of the shown pointers were other mods' `standards/code-style.md` "Line Length" and "Harmony Patches" sections, matched by source-mention because each names a jumper-bridges file as an example. They spent the budget and the brief was truncated before the jumper-bridges glossary record on joint plates (`blk-279f9dc39e51`), the record most relevant to the task. Expected: the target node's own records to rank above sibling nodes' mentions of its paths. Done instead: the explore unit grepped the glossary to find it. `ks read` with several ids in one call worked cleanly.
+
+## 2026-10-22 write: a section body starting with a field line reshapes the block's metadata
+**Id:** blk-f755cc056946
+
+OM-010 store updates used `write plan`/`apply` section ops whose bodies began with the block's `**Description**:` line (the `**Id:**` and `**Tags:**` lines left out, as the skill says). The writer kept the Tags line but dropped its trailing two-space line break and inserted a blank line before `**Description**`, so the metadata lines now render as separate paragraphs (seen in mods/just-fall-already `domains/entities.md` FallPoke). Expected: the field lines under the heading to keep their shape. Left as written; it renders and `ks check` reports no block. Also recurring: handoff briefs for any mod path fill with each sibling mod's copy of the same standards sections (try/catch, Game Components), crowding out the target mod's `entities.md` (see the 2026-10-21 entry).

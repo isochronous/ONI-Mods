@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Debris in a sweep zone whose sweep you cancel stays cancelled until a Duplicant picks it up, you mark it again, debris of the same material merges into the pile, or you paint the zone over it again.
+
 ## 1.6.0 - 2026-10-12
 
 - Chinese (Simplified), Korean and Russian translations. Translations load from translations/<locale>.po; the template for other languages is translations/SweepZones.pot.

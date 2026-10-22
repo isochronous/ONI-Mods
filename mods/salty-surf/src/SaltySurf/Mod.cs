@@ -49,11 +49,20 @@ namespace SaltySurf
 	{
 		public static void Postfix()
 		{
+			// The tag has no display name, so keep it out of the Properties line. A hidden tag writes
+			// nothing itself; the visible tag before it writes the separator unless it is last. A
+			// hidden tag in last place would leave a trailing separator, so the tag goes first.
+			GameTags.HiddenElementTags.Add(SurfWater.Tag);
 			foreach (SimHashes hash in SurfWater.Elements)
 			{
 				Element element = ElementLoader.FindElementByHash(hash);
 				if (element != null && !element.HasTag(SurfWater.Tag))
-					element.oreTags = element.oreTags.AddToArray(SurfWater.Tag);
+				{
+					Tag[] tags = new Tag[element.oreTags.Length + 1];
+					tags[0] = SurfWater.Tag;
+					element.oreTags.CopyTo(tags, 1);
+					element.oreTags = tags;
+				}
 			}
 		}
 	}

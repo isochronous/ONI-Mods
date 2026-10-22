@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- No longer writes a log line for each critter it drops.
+- Spends less time finding critters next to doors.
+
 ## 0.1.1 - 2026-10-14
 
 - Renamed to Just Fall Already! Nothing about what it does has changed.

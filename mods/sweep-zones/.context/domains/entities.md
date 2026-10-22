@@ -57,7 +57,8 @@ Sweep Zones Redux adds a toolbar tool for painting persistent zones. Debris that
 
 ### Harmony patches
 **Id:** blk-8ed739708efc  
-**Tags:** harmony-patching  
+**Tags:** harmony-patching
+
 **Location**: `src/SweepZones/Patches.cs`
 
 | Target | Kind | Purpose |
@@ -66,6 +67,12 @@ Sweep Zones Redux adds a toolbar tool for painting persistent zones. Debris that
 | `SaveGame.OnPrefabInit` | Postfix | Adds the `ZoneStore` component |
 | `PlayerController.OnPrefabInit` | Postfix | Creates the `SweepZoneTool` object and appends it to `tools` |
 | `ToolMenu.CreateBasicTools` | Postfix | Adds the toolbar button, bound to the hotkey action |
+| `Clearable.OnCancel` | Prefix + Postfix | A player cancel (Cancel tool) of a sweep on debris that was marked and sits in a sweep zone tags the pile `ZoneStore.PlayerCancelled` |
+| `Clearable.OnClickCancel` | Prefix + Postfix | The same for the item's own Cancel Sweep button |
+| `Movable.MarkForMove` | Prefix | Move To also sends a cancel to the item; that cancel is not remembered |
+| `Clearable.OnAbsorb` | Postfix | Debris merging into a pile lifts its cancel |
+| `Clearable.MarkForClear` | Postfix | Marking the pile again lifts its cancel |
+| `Clearable.OnStore` | Postfix | A pickup lifts the cancel |
 
 ## Business Rules
 **Id:** blk-a6ab594b39d9
@@ -74,6 +81,7 @@ Sweep Zones Redux adds a toolbar tool for painting persistent zones. Debris that
 - Painting skips invalid cells; erasing is never restricted.
 - Each zone cell remembers the priority (including yellow alert) selected when painted.
 - Every second, debris in a sweep zone is marked for clearing, unless it is a Duplicant (`GameTags.BaseMinion`, `MinionIdentity`), already marked (`GameTags.Garbage`), or not clearable (critters). A priority already set on an item is never overridden, so manual changes stick.
+- A player who cancels the sweep of marked debris in a sweep zone (Cancel tool or the item's button) tags the pile `PlayerCancelled`, saved with it; the once-a-second pass skips it until a Duplicant picks it up, it is marked again, debris of the same material merges into it, or a zone is painted over it (`ZoneStore.SetSweep`). Cancels of other orders, such as Move To, are not remembered.
 - Mop zones follow the vanilla mop rules: a liquid cell on a valid zone cell with no placer yet and mass not over the game's `MopTool.maxMopAmt`.
 - Each time the tool is activated or its mode switched, `PruneInvalidCells` drops zone cells that no longer qualify (floor dug out, cell built over).
 - Erasing a zone keeps errands already created; the vanilla Cancel tool removes them.
