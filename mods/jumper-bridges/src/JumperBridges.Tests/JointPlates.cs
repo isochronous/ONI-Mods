@@ -144,6 +144,8 @@ namespace JumperBridges.Tests
 			t.Assert.Eq(circuit, Power.Circuit(sharedCell), "the shared end is on the battery's circuit");
 			t.Assert.Eq(circuit, lamp.GetComponent<EnergyConsumer>().CircuitID, "the lamp reports the battery's circuit");
 			t.Assert.Eq(1000f, Game.Instance.circuitManager.GetMaxSafeWattageForCircuit(circuit), "the circuit's limit is the wire bridge's");
+			BridgeEndNode.TryGet(BridgeKind.Power, sharedCell, out BridgeEndNode node);
+			t.Assert.Eq(Assets.GetAnim("utilities_electric_insulated_kanim"), node.GetComponent<KBatchedAnimController>().AnimFiles[0], "the shared end switches to heavi-watt wire");
 
 			t.Assert.False(Power.ValidWithPreview("Tile", sharedCell, out reason), "a tile on the shared end is refused");
 			t.Assert.Eq((string)UI.TOOLTIPS.HELP_BUILDLOCATION_WIRE_OBSTRUCTION, reason, "refused as a wire obstruction");
