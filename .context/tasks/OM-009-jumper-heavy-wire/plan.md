@@ -5,16 +5,16 @@
 
 ## Phase State
 - **Phase plan**: investigation → implementation → testing → completion
-- **Completed**: investigation, implementation, testing, completion
-- **Current**: completion   (status: done)
-- **Next**: none — task complete
-- **Loaded skill**: task-plan-phase-completion
+- **Completed**: investigation
+- **Current**: implementation   (status: in-progress — reopened 2026-10-21: Jeremy reversed the no-sharing decision)
+- **Next**: testing, completion
+- **Loaded skill**: task-plan-phase-implementation
 - **Branch**: OM-009-jumper-heavy-wire
 - **Attempts (current phase)**: 0
 
 ## Decisions
 - Centre tile stays solid as vanilla; only the plate ends gain jumper placement (Jeremy, option A of 01-explore-findings Q3). Smallest change, no seal/save/deconstruct impact.
-- Plate ends may NOT share a cell with a regular wire bridge end; keep the existing refusals at Patches.cs:181-229 (Jeremy). Avoids the tile-over-end hole and mixed-rating rings.
+- ~~Plate ends may NOT share a cell with a regular wire bridge end~~ — SUPERSEDED 2026-10-21 by Jeremy: a wire bridge end (plain, conductive, insulated) and a joint plate end MAY share a cell. The joined circuit takes the lowest rating and may overload the wire bridge; players are allowed that. A tile may not be built on such a shared end.
 - Plates come under the existing Power bridges option; no new option or strings (Jeremy).
 - Unit 02 deviation, accepted: tooltip "Heavy-watt joint plates are unchanged" reworded under the same key, translations updated by the unit; extra tile-over-end test and node-cell guard.
 - Plates join BridgeKind.Power's node/link tables via Of() recognising HighWattBridgeTile, not a new BridgeKind (one network manager per kind).
@@ -59,7 +59,9 @@
 - [x] In-game run — Jeremy chose the whole Jumper Bridges suite: 20 passed, 0 failed (run om009-20261021-220419)
 - [x] Re-review of 44f7dd9 (unit 05) — all resolved; N1 changelog "crash"→"error", N2 README "power"→"wire bridge's end" fixed by manager
 - [x] Retrospective landed in .context/retrospectives/icon.md
-- [x] Commit and open PR
+- [x] Commit and open PR — #13
+- [ ] Reopen: allow wire bridge end / plate end sharing, tile refused on shared end (unit 06) ← IN PROGRESS
+- [ ] Review, in-game run, store notes, retro addendum, push to #13
 
 ## Review Checkpoint
 - Units 03 and 05 covered 0e97c6c..44f7dd9; N1/N2 text fixes made after, docs only.
