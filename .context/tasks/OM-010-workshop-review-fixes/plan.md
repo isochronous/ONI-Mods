@@ -10,12 +10,12 @@
 
 ## Phase State
 - **Phase plan**: investigation → implementation → testing → completion
-- **Completed**: (none)
-- **Current**: investigation   (status: in-progress)
-- **Next**: implementation
-- **Loaded skill**: task-plan-phase-investigation
+- **Completed**: investigation, implementation, testing, completion
+- **Current**: completion   (status: done)
+- **Next**: none — task complete
+- **Loaded skill**: task-plan-phase-completion
 - **Branch**: OM-010-workshop-review-fixes
-- **Attempts (current phase)**: 1
+- **Attempts (current phase)**: 0
 
 ## Decisions
 - One task and one branch for all four: each fix is small and they ship together in the next release round (Jeremy, 2026-10-22). One unit per mod node.
@@ -29,6 +29,13 @@
 - mods/upgrade-planner/, mods/vent-freeze-fix/, mods/just-fall-already/, mods/salty-surf/
 
 ## Phase Handoff Log
+
+### Handoff: investigation → implementation → testing → completion
+**Sub-agent outputs**: units 01-04 explore (03, 04 reports on disk; 01, 02 summarised in Progress), 05-09/11/13/14 implement, 10/12/15 review, 16 debug.
+**Reviewer findings**: all critical/moderate resolved or decided by Jeremy; minors fixed.
+**Verification evidence**: `dotnet build ONI-Mods.sln -c Release -p:ModDeployFolder=none` → 0 Error(s). Run om010-20261022-123342: "73 passed, 1 failed, 0 errors, 0 timeouts, 16 skipped" (fail = missing RequireBlueprints guard, fixed). Run om010be-20261022-125051: "17 passed, 0 failed". translations.py vent-freeze-fix: ALL CHECKS PASSED.
+**What the next phase needs**: nothing — release round next (Jeremy).
+**Retro Stage-1 draft**: see .context/retrospectives/icon.md OM-010 entry.
 
 ## Progress
 - [x] Investigate all four (units 01-04):
@@ -44,11 +51,16 @@
 - [x] Review 12 (Sweep Zones) — M1 merges, M2 any-cancel tags; Jeremy chose both recommended fixes
 - [x] Fix units 13 and 14 — 768d2ac; review 15 clean (3 minor, wording fixed by manager); store notes c407186
 - [x] Whole suites run om010-20261022-123342: 73 passed, 1 failed (UpgradePlanner ByHand.CancelledRebuild: 'the plan is complete: Pick at least one building that can be built in Granite.'), 16 skipped (need Blueprints Expanded)
-- [ ] Debug CancelledRebuild (unit 16) ← IN PROGRESS
-- [ ] Review, in-game run (narrow filters), store notes, retro, PR
+- [x] Debug CancelledRebuild (unit 16) — not OM-010: test lacked RequireBlueprints; added (3a70d48)
+- [x] Blueprints Expanded tests om010be-20261022-125051 (-Steam 3468585385): 17 passed, 0 failed
+- [x] Retro and tooling friction landed; PR
+
+## Review Checkpoint
+- Reviews 10, 12, 15 covered aa2fae7, 4e444dd, 768d2ac; later commits are review wording fixes and one test guard, verified by runs om010 (73 pass; 1 fail traced to the missing guard) and om010be (17/17).
 
 ## Open Questions / Blockers
-- (none yet)
+- Note for Jeremy: the Cancel tool's default "All" filter dragged over a sweep zone also remembers cancelled sweeps there (within his rule).
+- Unit 01/02 explore reports were never written; their findings live in ## Progress.
 
 ## Constraints
 - In-game tests at human speed, narrowest filter; ask before runs. Check free memory before a long run.

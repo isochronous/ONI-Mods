@@ -4,6 +4,14 @@ Newest first. Each entry is a `### ` block naming the task it came from, appende
 path — `learned:` on the change-set that produced the lesson, never a closing ceremony.
 
 
+### OM-010: Workshop review fixes in five mods
+**Id:** blk-e0ae710e477a
+
+- **Avoid**: Three of the four outside claims were only partly right and one described a different symptom (Salty Surf adds a tag, not an element; the missing string is in the Properties line), so checking each claim against the code first saved building the wrong fix. Two explore units never wrote their report files and an implement spec then pointed at one; a spec should name the report file and the manager should check it exists before citing it. A test that needs another Workshop mod (`ByHand.CancelledRebuild`) failed instead of skipping; every test that turns on All buildings must call `BuildingSettings.RequireBlueprints(t)`.
+- **Repeat**: One explore unit per mod in parallel, then implement units that build only their own projects and never commit, with the manager committing once; no index or build-lock collisions across five mods. A review per change found real behaviour gaps (Sweep Zones cancel tagging every cancel, merges) that the user then decided in two questions. Running the Blueprints Expanded tests with `-Steam 3468585385` and a ';'-separated `-Filter` confirmed the skipped paths.
+- **Updated**: entities.md in mods/upgrade-planner (highlight cache key), mods/vent-freeze-fix (watcher on every vent), mods/just-fall-already (log gate, critter lookup), mods/sweep-zones (player-cancel rule, six patches) and mods/salty-surf (hidden tag); root domains/tooling-friction.md.
+
+
 ### OM-009: reopen: shared ends, heavi-watt art, fixture clear
 **Id:** blk-2d96fd4e2f71
 
