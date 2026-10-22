@@ -20,7 +20,8 @@ Just Fall Already makes a critter fall at once when a door takes its footing awa
 
 ### FallPoke
 **Id:** blk-7d0c65d332f3  
-**Tags:** harmony-patching, navigation-grid  
+**Tags:** harmony-patching, navigation-grid
+
 **Description**: Static class with the whole mod. A postfix on `Pathfinding.AddNavGrid` subscribes to each navigation grid's `OnNavGridUpdateComplete`. A nested patch on `Door.SetWorldState` arms cells when a door finishes a state change. When a grid batch includes an armed cell, any critter standing in that cell whose navigation type is no longer valid there has `brain.UpdateBrain()` called, which runs normal chore selection and with it the game's fall check.  
 **Location**: `mods/just-fall-already/src/JustFallAlready/FallPoke.cs`
 
@@ -31,7 +32,8 @@ Just Fall Already makes a critter fall at once when a door takes its footing awa
 | SlowMilliseconds | const double (2.0) | A handler run over this is logged with its numbers |
 | lastGrid | NavGrid | The grid registered last; its batch for a set of dirty cells comes after every other grid's, so cells are disarmed after it |
 | OpenDoorsAreAir | bool | Whether an assembly named like `CrittersFallThroughOpenDoors` is loaded; decided once and logged |
-| crittersByCell | Dictionary<int, List<Brain>> | Running brains that have a `CreatureFallMonitor.Instance`, gathered once per frame |
+| crittersByCell | Dictionary<int, List<Brain>> | Running brains with a `CreatureFallMonitor.Instance` standing in an armed cell, gathered once per frame on the first lookup; each brain's cell is checked against the armed cells before any component lookup, lists are reused, and arming a cell clears the cache |
+| LogPokes | bool | Whether the game was started by the TestRunner (a command-line argument starting with `--onitest-`); read once. Only then is each poke logged |
 
 **Relationships**: `Door_SetWorldState_Patch` arms; `OnGridUpdated` pokes and disarms; `CrittersAt` supplies critters. Duplicants and robots have no creature fall monitor and are never poked.
 
@@ -64,7 +66,7 @@ Just Fall Already makes a critter fall at once when a door takes its footing awa
 
 - **Door finishes a state change**: `Door.SetWorldState` postfix arms cells — see `mods/just-fall-already/src/JustFallAlready/FallPoke.cs`
 - **Grid recomputed**: `OnGridUpdated` checks armed cells, finds critters, calls `brain.UpdateBrain()`, disarms after the last grid — same file
-- **Telemetry**: each poke is logged with the brain, cell and nav type; slow handlers log their timing — same file
+- **Telemetry**: when the TestRunner started the game, each poke is logged with the brain, cell and nav type (the door tests count that line); slow handlers always log their timing — same file
 - **Tests**: `mods/just-fall-already/src/JustFallAlready.Tests/Doors.cs` covers a door closing on a critter, a stacked-door pez dropper, a door opening under a critter (nothing poked without the other mod), a duplicant in a closing door (not poked), and an explicit test with Critters Fall Through Open Doors
 
 ## Related

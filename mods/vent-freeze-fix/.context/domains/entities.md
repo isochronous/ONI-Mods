@@ -94,7 +94,7 @@ Only the watcher's two cell snapshots, so the first comparison after a load has 
 - The landing cell is the last open cell going down from the vent before the first solid (`LandingCell`). Cells still in the snapshot are also checked, since the walk down stops one cell higher once the landing cell turns solid.
 - After the sim digs a cell, its snapshot resets to vacuum, so a tile that re-forms before the next tick is judged as new.
 - A dig still pending with the cell still solid is asked again each tick.
-- The watcher runs only in the first second of running time after a load, and does nothing at all when `RepairOnLoad` is off.
+- Every liquid vent gets the watcher when it is built or a save is loaded. It runs for the first second of running time; on a newly built vent the first tick has no earlier state, and later ticks may still dig a tile that could not have formed in normal play. It does nothing at all when `RepairOnLoad` is off, and does nothing at all when `RepairOnLoad` is off.
 - The mod reads public grid data and uses the game's own dig path; it does not touch the sim otherwise.
 
 ## Domain Terminology
