@@ -26,8 +26,12 @@
 ## Phase Handoff Log
 
 ## Progress
-- [ ] Investigate all four in parallel (units 01-04, one per mod) ← IN PROGRESS
-- [ ] Update this plan with findings, ask Jeremy anything with more than one defensible answer
+- [x] Investigate all four (units 01-04):
+  - Upgrade Planner: partly true — GetOverlayColorData cache never hits (UpgradeTool.cs:71 colorsBoxVersion never assigned, check at :302), so Compile + all BuildingCompletes scan every frame instead of once a second. One-line fix. Store record says once a second (wrong until fixed).
+  - Vent Freeze Fix: true but harmless — watcher on every vent (Mod.cs:54-60), 5 ticks then removes itself; a built vent's first tick has no history and does nothing. Gating to load-spawned vents is possible; Repair.cs tests rely on built vents ticking. README/Workshop/entities.md:97 say "after a load" — wrong.
+  - Just Fall Already: partly true — one line per actual poke (FallPoke.cs:127), bounded; 5 tests count that line (Doors.cs:26-29). Bigger cost: per-frame Components.Brains scan in CrittersAt.
+  - Salty Surf: unit says no element is added, only tag SaltySurfWater (Mod.cs:30, 47-58) on Water/Salt Water; the missing string shows in their Properties line. Contradicts Jeremy's sandbox observation — ask.
+- [ ] Ask Jeremy: Vent Freeze Fix gate?, Just Fall Already log?, Salty Surf where seen ← IN PROGRESS
 
 ## Open Questions / Blockers
 - (none yet)
