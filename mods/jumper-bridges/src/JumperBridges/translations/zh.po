@@ -24,5 +24,5 @@ msgstr "电线桥直连"
 
 #. STRINGS.JUMPERBRIDGES.OPTIONS.POWER.TOOLTIP
 msgctxt "STRINGS.JUMPERBRIDGES.OPTIONS.POWER.TOOLTIP"
-msgid "A Wire Bridge, Conductive Wire Bridge or Insulated Wire Bridge can be placed with either end directly on a power port or another bridge's end, and that port is connected. Heavy-watt joint plates are unchanged. Needs a restart."
-msgstr "电线桥、导电电线桥或绝缘电线桥的任一端可以直接放在电力端口或另一座桥的端点上，该端口即被连接。高功率接合板不受影响。需要重启游戏。"
+msgid "A Wire Bridge, Conductive Wire Bridge, Insulated Wire Bridge, Heavi-Watt Joint Plate or Heavi-Watt Conductive Joint Plate can be placed with either end directly on a power port, which is then connected, or on the end of any of these. A tile cannot be built over a joint plate's end. Needs a restart."
+msgstr "电线桥、导电电线桥、绝缘电线桥、高功率接合板或高功率导电接合板的任一端可以直接放在电力端口上（该端口即被连接），或放在以上任一建筑的端点上。接合板的端点上不能建造砖块。需要重启游戏。"

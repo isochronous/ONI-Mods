@@ -39,6 +39,8 @@ namespace JumperBridges
 		public bool Ribbon { get; private set; }
 
 		private KBatchedAnimController controller;
+		/// <summary>The owner whose wire art the node plays.</summary>
+		private JumperBridge artOwner;
 		private bool registered;
 		private bool released;
 
@@ -75,6 +77,7 @@ namespace JumperBridges
 			element.ElementID = bridgeElement != null ? bridgeElement.ElementID : SimHashes.Copper;
 			BridgeEndNode node = go.AddComponent<BridgeEndNode>();
 			node.owners.Add(bridge);
+			node.artOwner = bridge;
 			node.Kind = kind;
 			node.Cell = cell;
 			LogicUtilityNetworkLink logicLink = bridge.GetComponent<LogicUtilityNetworkLink>();
@@ -115,6 +118,7 @@ namespace JumperBridges
 			Kind.Manager.AddToNetworks(Cell, this, is_endpoint: false);
 			registered = true;
 			RefreshFromNeighbours();
+			UpdateArt();
 			UtilityConnections inherited = JumperBridge.TakeInherited(Kind, Cell);
 			if (inherited != 0)
 				InheritFromWire(inherited);
@@ -195,16 +199,49 @@ namespace JumperBridges
 		{
 			if (!owners.Contains(bridge))
 				owners.Add(bridge);
+			UpdateArt();
 		}
 
 		/// <summary>An owner is going; the node stays for the others and leaves with the last.</summary>
 		public void Disown(JumperBridge bridge)
 		{
 			owners.Remove(bridge);
-			if (owners.Count > 0 || released)
+			if (released)
 				return;
+			if (owners.Count > 0)
+			{
+				UpdateArt();
+				return;
+			}
 			Release();
 			Util.KDestroyGameObject(gameObject);
+		}
+
+		/// <summary>
+		/// A power end shared by a joint plate and a wire bridge draws as the plate's heavi-watt
+		/// wire while any plate has an end here, whichever was built first; otherwise it keeps the
+		/// art it has while that owner stays, and takes the first remaining owner's when it goes.
+		/// The kanim is swapped on the existing controller, and Refresh replays the segment.
+		/// </summary>
+		private void UpdateArt()
+		{
+			if (Kind != BridgeKind.Power || released || !registered || owners.Count == 0)
+				return;
+			bool plateHere = owners.Exists(owner => owner != null && BridgeKind.IsJointPlate(owner.gameObject));
+			if (artOwner != null && owners.Contains(artOwner) && (!plateHere || BridgeKind.IsJointPlate(artOwner.gameObject)))
+				return;
+			JumperBridge chosen = plateHere
+				? owners.Find(owner => owner != null && BridgeKind.IsJointPlate(owner.gameObject))
+				: owners.Find(owner => owner != null);
+			if (chosen == null)
+				return;
+			artOwner = chosen;
+			KAnimFile anim = Assets.GetAnim(Kind.NodeAnim(chosen.gameObject));
+			if (controller.AnimFiles[0] == anim)
+				return;
+			controller.SwapAnims(new KAnimFile[] { anim });
+			controller.SetSymbolVisiblity(Wire.OutlineSymbol, is_visible: false);
+			Refresh();
 		}
 
 		/// <summary>Sets this node's bits outright, for the disconnect tool; mirrors UpdateConnections + Refresh on a wire.</summary>
