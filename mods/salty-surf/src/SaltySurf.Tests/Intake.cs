@@ -21,6 +21,27 @@ namespace SaltySurf.Tests
 			yield break;
 		}
 
+		[OniTest("SaltySurf: the Properties line of Water and Salt Water has no missing string and no trailing separator", Timeout = 30), Layer(0)]
+		public static IEnumerator PropertiesLine(TestContext t)
+		{
+			foreach (SimHashes hash in SurfWater.Elements)
+			{
+				Element element = ElementLoader.FindElementByHash(hash);
+				t.Assert.True(element.HasTag(SurfWater.Tag), hash + " still carries the tag");
+				string text = element.FullDescription(false);
+				t.Assert.False(text.Contains("MISSING"), hash + " description has no missing string (got: " + text.Replace("\n", " | ") + ")");
+				t.Assert.False(text.ToUpperInvariant().Contains("SALTYSURFWATER"), hash + " description does not name the tag");
+				string line = null;
+				string prefix = ((string)STRINGS.ELEMENTS.ELEMENTPROPERTIES).Split('{')[0];
+				foreach (string l in text.Split('\n'))
+					if (l.Contains(prefix))
+						line = l;
+				t.Assert.True(line != null, hash + " description has a Properties line");
+				t.Assert.False(line.TrimEnd().EndsWith(","), hash + " Properties line has no trailing separator (got: " + line + ")");
+			}
+			yield break;
+		}
+
 		[OniTest("SaltySurf: the info panel lists Water and Salt Water, and keeps the other lines", Timeout = 30), Layer(0)]
 		public static IEnumerator Descriptors(TestContext t)
 		{

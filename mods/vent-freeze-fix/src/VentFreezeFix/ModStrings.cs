@@ -27,7 +27,7 @@ namespace VentFreezeFix
 				public static class REPAIR_ON_LOAD
 				{
 					public static LocString NAME = "Repair tiles after loading";
-					public static LocString TOOLTIP = "For the first second after a load, a natural tile that formed at or under a vent out of less liquid than a tile needs is dug up and dropped as debris at its full mass. Takes effect on the next load.";
+					public static LocString TOOLTIP = "For the first second after a liquid vent spawns (on load, or when it is built), a natural tile that formed at or under a vent out of less liquid than a tile needs is dug up and dropped as debris at its full mass. Takes effect on the next load.";
 				}
 
 				public static class DEBUG_MODE
