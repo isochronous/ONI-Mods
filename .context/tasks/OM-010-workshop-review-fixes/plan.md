@@ -18,6 +18,10 @@
 
 ## Decisions
 - One task and one branch for all four: each fix is small and they ship together in the next release round (Jeremy, 2026-10-22). One unit per mod node.
+- Upgrade Planner: assign colorsBoxVersion so the 1 s cache works (no choice involved).
+- Vent Freeze Fix: leave the code; fix README, Workshop description and store note to say every vent gets the watcher and it does nothing on a built one (Jeremy).
+- Just Fall Already: log the per-fall line only when the game was launched by the TestRunner (an `--onitest-` command-line argument); fix the per-frame all-critters scan in CrittersAt (Jeremy).
+- Salty Surf: the report Jeremy had says the unnamed tag shows in Water/Salt Water's Properties line, matching unit 04; hide the tag from that line (GameTags.HiddenElementTags, tag first in the list) (Jeremy).
 - The claims are second-hand: each is checked against the code before anything changes.
 
 ## Key Files
@@ -31,7 +35,9 @@
   - Vent Freeze Fix: true but harmless — watcher on every vent (Mod.cs:54-60), 5 ticks then removes itself; a built vent's first tick has no history and does nothing. Gating to load-spawned vents is possible; Repair.cs tests rely on built vents ticking. README/Workshop/entities.md:97 say "after a load" — wrong.
   - Just Fall Already: partly true — one line per actual poke (FallPoke.cs:127), bounded; 5 tests count that line (Doors.cs:26-29). Bigger cost: per-frame Components.Brains scan in CrittersAt.
   - Salty Surf: unit says no element is added, only tag SaltySurfWater (Mod.cs:30, 47-58) on Water/Salt Water; the missing string shows in their Properties line. Contradicts Jeremy's sandbox observation — ask.
-- [ ] Ask Jeremy: Vent Freeze Fix gate?, Just Fall Already log?, Salty Surf where seen ← IN PROGRESS
+- [x] Ask Jeremy — answers in Decisions
+- [ ] Implement units 05-08 in parallel (no commits by units; manager commits) ← IN PROGRESS
+- [ ] Review, in-game run (narrow filters), store notes, retro, PR
 
 ## Open Questions / Blockers
 - (none yet)
