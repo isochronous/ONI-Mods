@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.2.1 - 2026-10-29
 
 - The description now matches what the watcher does: it runs for a second after a vent is built or a save is loaded.
 
