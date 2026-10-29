@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 1.6.1 - 2026-10-29
 
 - Debris in a sweep zone whose sweep you cancel stays cancelled until a Duplicant picks it up, you mark it again, debris of the same material merges into the pile, or you paint the zone over it again.
 
