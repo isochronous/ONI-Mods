@@ -28,17 +28,19 @@ outlines of the panel and the signal light, and the build menu icon is the build
 scaled down over the plain shadow the game's icons have. Output goes
 to src/Bitshifter/anim/assets/bitshifter_ribbon_reader and ..._writer.
 
-The Ribbon Diagnostic Panel's kanim (diagnostic_panel, by 3GuB) is read from
-anim-original/diagnostic_panel, the artist's export kept as delivered, and written to
-src/Bitshifter/anim/assets/diagnostic_panel with one change: its build menu icon is the panel
-in its unlit pose ("off": the body and the digits, no lamps) over the same plain shadow. A new
-export from the artist goes into anim-original and through this script again.
+The Ribbon Diagnostic Panel's kanim (diagnostic_panel, by 3GuB, build menu icon included) is
+read from anim-original/diagnostic_panel, the artist's export kept as delivered, and written to
+src/Bitshifter/anim/assets/diagnostic_panel with one change: the export leaves every frame's
+bounds unset (NaN), so they are computed from the frame's sprites. The texture and the build
+file are copied as they are. A new export from the artist goes into anim-original and through
+this script again.
 
 --check builds all three in the temp folder instead and fails when they differ from the
 committed ones (after a game update or a new export, say).
 """
 import argparse
 import os
+import shutil
 import sys
 import tempfile
 
@@ -48,15 +50,14 @@ from scipy import ndimage
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "..", "..", "common", "tools", "Kanim"))
-from kanim import Sprite, drift, extract, load, load_files, read_anims, read_build, read_kanim, render, show, vanilla, write_kanim  # noqa: E402
+from kanim import (Sprite, drift, extract, load, read_anim_file, read_anims, read_build, read_kanim,  # noqa: E402
+                   render, show, vanilla, write_anim_file, write_kanim)
 
 ASSETS = os.path.join(ROOT, "src", "Bitshifter", "anim", "assets")
 
-# The Ribbon Diagnostic Panel's kanim, as the artist exported it, and the texture size its art
-# needs once repacked (the body, the construction ghost and the two digit layers do not fit 512).
+# The Ribbon Diagnostic Panel's kanim, as the artist exported it.
 DIAG = "diagnostic_panel"
 DIAG_ORIGINAL = os.path.join(ROOT, "anim-original", DIAG)
-DIAG_TEXTURE = 1024
 
 # Display colours: an amber LED display behind a dark warm window, unlit segments faintly visible.
 PANEL = (46, 40, 36, 255)
@@ -331,17 +332,34 @@ def build(out_root, game, new_name, game_name, box_symbol, face_colour, turn):
 
 
 def build_panel(out_root):
-    """The Ribbon Diagnostic Panel: the artist's kanim from anim-original as it is, with the
-    build menu icon drawn from its unlit pose (body and digits, no lamps) in place of the
-    artist's placeholder, and the anims' bounds recomputed. The export's UVs are inset half a
-    texel, so the sprites are cut with read_kanim's inset (rounding them misaligns the lamps)."""
-    tex, build_bytes, anim_bytes = load_files(DIAG_ORIGINAL, DIAG)
-    symbols, anims, bloom = read_kanim(tex, build_bytes, anim_bytes, inset=True)
-    building, _ = render(tex, build_bytes, anim_bytes, "off", scale=1.0)
-    building = building.crop(building.getbbox())
-    symbols["ui"] = [over_shadow(building, symbols["ui"][0])]
-    write_kanim(os.path.join(out_root, DIAG), DIAG, symbols, anims, texture_size=DIAG_TEXTURE, bloom=bloom)
-    print(f"{DIAG}: icon redrawn from {os.path.relpath(DIAG_ORIGINAL, ROOT)}")
+    """The Ribbon Diagnostic Panel: the artist's kanim from anim-original as it is (texture and
+    build file copied byte for byte, so the sprites keep the export's own UVs), with each anim
+    frame's bounds, which the export leaves NaN, set to the box around its sprites."""
+    folder = os.path.join(out_root, DIAG)
+    os.makedirs(folder, exist_ok=True)
+    for suffix in ("_0.png", "_build.bytes"):
+        shutil.copyfile(os.path.join(DIAG_ORIGINAL, DIAG + suffix), os.path.join(folder, DIAG + suffix))
+    with open(os.path.join(DIAG_ORIGINAL, DIAG + "_build.bytes"), "rb") as f:
+        built, _ = read_build(f.read())
+    with open(os.path.join(DIAG_ORIGINAL, DIAG + "_anim.bytes"), "rb") as f:
+        anim = read_anim_file(f.read())
+    for _, _, _, frames in anim.anims:
+        for frame in frames:
+            x1 = y1 = float("inf")
+            x2 = y2 = float("-inf")
+            for symbol, index, *_rest in frame[4]:
+                numbers = sorted(built[symbol])
+                lower = [n for n in numbers if n <= index]
+                px, py, pw, ph = built[symbol][max(lower) if lower else numbers[0]][:4]
+                a, b, c, d, tx, ty = _rest[6:12]
+                # The sprite's centre and the half extents of its transformed box.
+                x, y = a * px + c * py + tx, b * px + d * py + ty
+                ex, ey = abs(a) * pw / 2 + abs(c) * ph / 2, abs(b) * pw / 2 + abs(d) * ph / 2
+                x1, x2, y1, y2 = min(x1, x - ex), max(x2, x + ex), min(y1, y - ey), max(y2, y + ey)
+            frame[:4] = [(x1 + x2) / 2, (y1 + y2) / 2, x2 - x1, y2 - y1]
+    with open(os.path.join(folder, DIAG + "_anim.bytes"), "wb") as f:
+        f.write(write_anim_file(anim))
+    print(f"{DIAG}: copied from {os.path.relpath(DIAG_ORIGINAL, ROOT)} with its anim bounds set")
 
 
 def preview(path):
