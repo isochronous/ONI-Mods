@@ -40,7 +40,8 @@
 - [x] Earlier session investigation: the Freezer slider is a mod gap, not an oni-moono fault (reasoning above in Key Files)
 - [x] Investigate — units/01-research-report.md; design in the investigation handoff block
 - [x] Update this plan with findings — Jeremy chose named IR fridges, no CabinetFrozen
-- [ ] Implementation: new mod skeleton + Compat patches, builds clean ← IN PROGRESS
+- [x] Implementation: new mod skeleton + Compat patches — units/02-implement-report.md; build 0 warnings 0 errors (re-run by manager); also added to sln, root README, .github templates and label-mod.yml (GitHub label to create at release)
+- [ ] Review of the new mod ← IN PROGRESS
 - [ ] In-game test with the three Workshop mods loaded
 - [ ] Completion: review, retro, commit, PR
 

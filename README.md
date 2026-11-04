@@ -8,6 +8,7 @@
 | Corner Build Anything | [mods/corner-build-anything](mods/corner-build-anything) |
 | Detect Any Element | [mods/detect-any-element](mods/detect-any-element) |
 | Don't Count Eggs on Rails | [mods/dont-count-eggs-on-rails](mods/dont-count-eggs-on-rails) |
+| Fridge Thresholds Extended | [mods/fridge-thresholds-extended](mods/fridge-thresholds-extended) |
 | Jumper Bridges | [mods/jumper-bridges](mods/jumper-bridges) |
 | Just Fall Already! | [mods/just-fall-already](mods/just-fall-already) |
 | Motion Sensor Range | [mods/motion-sensor-range](mods/motion-sensor-range) |
