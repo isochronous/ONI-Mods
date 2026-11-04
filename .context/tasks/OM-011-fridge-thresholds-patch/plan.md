@@ -5,10 +5,10 @@
 
 ## Phase State
 - **Phase plan**: investigation → implementation → testing → completion
-- **Completed**: investigation
-- **Current**: implementation   (status: in-progress)
-- **Next**: testing
-- **Loaded skill**: task-plan-phase-implementation
+- **Completed**: investigation, implementation, testing, completion
+- **Current**: completion   (status: done)
+- **Next**: none — task complete
+- **Loaded skill**: task-plan-phase-completion
 - **Branch**: OM-011-fridge-thresholds-patch
 - **Attempts (current phase)**: 0
 
@@ -36,6 +36,20 @@
 **Key files delta**: mods/fridge-thresholds-extended/** (new); pattern sources mods/vent-freeze-fix (skeleton), mods/smart-weight-plate/src/SmartWeightPlate/Mod.cs:22-58 (optional-mod compat shape).
 **What the next phase needs**: the research report; the repo skeleton pattern; the decisions above. Implementation must build with `dotnet build ONI-Mods.sln -c Release -p:ModDeployFolder=none`.
 
+### Handoff: implementation/testing → completion
+**Sub-agent outputs**: units/02-implement-report.md (mod + Fixes), units/04-test-report.md (runs 1-4, review 2 fixes).
+**Reviewer findings**: review 1 (units/03-review-report.md): M1 fixed, M2 tests added, minors fixed or accepted. Review 2 (units/05-review-report.md): moderate test-name fixed; same-frame builds and debug logs fixed; green-on-low assertion and Patch-line order left as follow-ups.
+**Verification evidence**: run-20261104-131755: 5 passed, 0 failed, 0 errors (before the review-2 test edits). `dotnet build ONI-Mods.sln -c Release -p:ModDeployFolder=none`: Build succeeded, 0 Error(s), no warnings from FridgeThresholdsExtended projects. `ks check --store .`: 0 block.
+**Decisions delta**: Jeremy clears Steam launch options himself for test runs; RoundTripLoad discovers its food before the filter.
+**Key files delta**: mods/fridge-thresholds-extended/** ; ONI-Mods.sln ; README.md ; .github/ISSUE_TEMPLATE/{bug_report,feature_request}.yml ; .github/workflows/label-mod.yml ; .context/testing/integration-testing.md ; .context/retrospectives/icon.md
+**Retro Stage-1 draft**: landed as the OM-011 entry in retrospectives/icon.md (Avoid: check the launch path before a run, don't hand Jeremy guesses as causes; Repeat: read both mods' code to settle mod-vs-environment, vanilla control next to modded building, reflection-only compat bound in OnAllModsLoaded; Updated: two integration-testing sections).
+
+## Completion Summary
+**Accomplished:** New mod Fridge Thresholds Extended makes Storage Refrigerator Thresholds' High/Low sliders drive the logic port of Psyko's Freezer and of the five Industrial Revolution fridges, with no build-time reference to any of the three mods.
+**Files changed:** new mods/fridge-thresholds-extended (mod + Tests project), sln, root README, .github templates/workflow, two store records.
+**Tests:** 5 [OniTest] added; 5/5 passed in game (stock runtime) before the review-2 test edits, which are built but not run.
+**Follow-up work:** see Open Questions.
+
 ## Progress
 - [x] Earlier session investigation: the Freezer slider is a mod gap, not an oni-moono fault (reasoning above in Key Files)
 - [x] Investigate — units/01-research-report.md; design in the investigation handoff block
@@ -49,14 +63,14 @@
   - [x] Jeremy cleared the launch options himself. Run 2 (run-20261104-130820) and rerun (run-20261104-131031): 4 passed, 1 failed. Verified: Freezer hysteresis matches the vanilla Refrigerator control, red without power; IR SimpleFridge thresholds; Freezer copy settings; 3 patch-applied log lines, no exceptions. RoundTripLoad fails in test setup (food not in the Freezer's filter, dropped on load). M1 partly evidenced: component order correct, LastSetFlag already set on first post-load update.
   - [x] Run 3 (run-20261104-131318): filter set but still 4/1 — real cause: MushBar never discovered (storing does not discover), TreeFilterable.OnSpawn strips undiscovered tags on load and drops the food.
   - [x] Run 4 (run-20261104-131755) with DiscoveredResources.Discover before the filter: 5 passed, 0 failed. After load Freezer holds 35%, sends green once powered; thresholds component ahead of Freezer (34 < 37). M1 evidenced by order + LastSetFlag False at first update, not by the green itself (Freezer unpowered at first update).
-- [ ] Completion: retro, store notes (moono launch gap, brief duplication friction), PR ← NEXT
+- [x] Second review (units/05-review-report.md): no blockers. Fixed in Fridges.cs: RoundTripLoad renamed LoadKeepsOrderFillAndGreen (component order is what proves M1), a game second between back-to-back builds, debug logs removed; -BuildOnly 0/0, ModCheck clean. These last test edits are not run in game.
+- [x] Store: testing/integration-testing.md gains "Launching with oni-moono" and "Save round trips and undiscovered items"; retro appended to retrospectives/icon.md; `ks check` 0 block. Brief-duplication friction already recorded (tooling-friction.md 2026-10-21, 2026-10-22), not re-added.
+- [x] Completion: PR opened
 - [ ] In-game test with the three Workshop mods loaded
 - [ ] Completion: review, retro, commit, PR
 
 ## Open Questions / Blockers
-- To check in game: Harmony accepts `Component __instance` on the manual Freezer prefix; sliders drive the port on Freezer and IR fridges; first signal after load.
-- Store gap to land at close: no record says Jeremy's game launches through oni-moono or that TestRunner can't launch that way.
-- ICON friction to record at close: the research brief repeated the same two sections once per mod node (17 copies each).
+- Follow-ups (not in this task): (1) not run under oni-moono; TestRunner support for Moono launches would be its own task. (2) The review-2 test edits are built but not run in game; the next run of the suite covers them. (3) Minor, left: green-on-low never asserted against the port; Patch-line order in PatchFreezerLogic; Invoke allocation. (4) The GitHub label fridge-thresholds-extended is created at release.
 
 ## Constraints
 - Patch mod must load cleanly when any of the three target mods is missing.

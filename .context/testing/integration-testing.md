@@ -199,3 +199,15 @@ Facts that each cost a failed run while building plant scenes for Ovagros Overhe
 - Some plants have no maturity amount: the Ovagro Node grows by playing its grow animation once and then flags itself grown, so a test waits on its state machine, not on maturity. Its vines do have maturity, and forcing it on each new vine grows a chain in seconds.
 - Pips walk floors, walls and ceilings, but cannot cross a gap from a wall or ceiling to a floating ledge; spawn a Pip on the surface it has to reach, and assert `Navigator.CanReach` before waiting on it.
 - When a wait stalls, log the object's state every few seconds and take a screenshot with the HUD on (status icons) before failing; the cause is usually visible there.
+
+## Launching with oni-moono
+**Id:** blk-a24ff5debb99  
+**Tags:** mod-loadout
+
+Jeremy's Steam launch options for the game may start it through oni-moono (`"...\oni-moono\player\OniMoono.exe" -- %command%`). With them set, `Invoke-OniTests.ps1` fails with "The game did not start within 120 s": Moono rejects the harness's `--onitest-*` arguments as unknown options and exits within 3 s, before writing a log, and the launcher only watches for an `OxygenNotIncluded` process. The warden still restores `mods.json`. To run a suite, Jeremy clears the launch options himself and restores them after the run; the harness never edits Steam settings. Results from such a run are on the stock Mono runtime, not on Moono (OM-011, run-20261104-130136).
+
+## Save round trips and undiscovered items
+**Id:** blk-8267d1f1a45b  
+**Tags:** save-files
+
+An item a test spawns and stores straight into a building (`Storage.Store`) is not discovered by the colony, however much is stored; the side screen does not list it, though `TreeFilterable.AddTagToFilter` still accepts it. On load, `TreeFilterable.OnSpawn` removes tags that are not discovered from the filter, and the storage drops the items on the floor. A test that saves and reloads filtered storage calls `DiscoveredResources.Instance.Discover(tag, category)` first and asserts the tag is discovered (`mods/fridge-thresholds-extended/src/FridgeThresholdsExtended.Tests/Fridges.cs`, `WriteRoundTrip`). Tests that never reload do not show the drop.

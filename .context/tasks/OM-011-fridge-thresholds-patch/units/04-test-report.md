@@ -286,3 +286,26 @@ No exceptions. Run folder: `common/tools/TestRunner/runs/run-20261104-131755`; s
 **What it shows for M1.** After the load the food and thresholds survive, the hysteresis state survives (green at 35% on the way down), and the thresholds component is ahead of the Freezer's own (34 < 37). At the first update after the load the Freezer was not yet powered (port 0, operational False), and it went green once the saved generator powered it. As predicted, that green comes from the OperationalChanged recompute, so the port alone does not tell the fix apart from no fix. The component order and `LastSetFlag False` (not null) at the first update are the evidence for the fix.
 
 Still not covered by this suite: the other four IR fridges, and loading with each target mod missing in turn. Not committed.
+
+## Review 2 fixes (05-review-report.md; Fridges.cs only, game not run)
+
+- **M1, test name.** `RoundTripLoad` is now `LoadKeepsOrderFillAndGreen`. Its display name reads "(round trip 2/2) after the load the thresholds component is still ahead of the Freezer's own, the thresholds and the 35% fill are kept, and once powered it sends green". A summary on the test says that the green on its own would pass without the order fix (power-on recomputes the port), and that the component-order assertion is the oracle for that fix. The assertions are unchanged.
+- **m1, pacing.** `yield return t.WaitGameSeconds(1)` now sits between the two `t.World.Build` calls in `FreezerFollowsThresholds` (Freezer, then Refrigerator) and in `FreezerCopySettings` (the two Freezers).
+- **m2, logs.** I removed the "before discovery" line in `WriteRoundTrip`, and the `Look()` helper with its "first look", "after the load" and "once powered" lines in the load test (which also drops the now-unused `LastSetFlag` read). Kept: the fill log in `Fill` and the component-order logs (SimpleFridge, built Freezer, loaded Freezer). Those carry the values behind the order and fill assertions. Every remaining assertion message states its own value.
+- Unchanged as instructed: green-on-low coverage (m3) and the Patch-line order in ThresholdsCompat.cs (m4).
+
+Build (`-BuildOnly`, no game session):
+
+```
+Building C:\dev\ONI-Mods\mods\fridge-thresholds-extended\src\FridgeThresholdsExtended.Tests\FridgeThresholdsExtended.Tests.csproj
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:01.19
+Checking FridgeThresholdsExtended.Tests.dll against the game assemblies
+Built and checked against the game assemblies (-BuildOnly: no game session).
+```
+
+The renamed and paced tests have not been run in game since these edits. Not committed.

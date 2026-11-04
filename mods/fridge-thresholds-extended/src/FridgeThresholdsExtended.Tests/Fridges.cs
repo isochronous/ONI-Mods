@@ -170,6 +170,7 @@ namespace FridgeThresholdsExtended.Tests
 			var rig = new Rig();
 			yield return Box(t, rig, 10);
 			GameObject freezer = t.World.Build("Freezer", rig.Inside.Cell(5, 0));
+			yield return t.WaitGameSeconds(1);
 			GameObject fridge = t.World.Build("Refrigerator", rig.Inside.Cell(9, 0));
 			yield return t.WaitGameSeconds(1);
 			t.Assert.NotNull(freezer.GetComponent(FreezerComponentType(t)), "the Freezer building runs Psyko's Freezer component");
@@ -215,6 +216,7 @@ namespace FridgeThresholdsExtended.Tests
 			CellRect inside = t.Dupes.Box();
 			yield return t.WaitGameSeconds(1);
 			GameObject source = t.World.Build("Freezer", inside.Cell(5, 0));
+			yield return t.WaitGameSeconds(1);
 			GameObject target = t.World.Build("Freezer", inside.Cell(9, 0));
 			yield return t.WaitGameSeconds(1);
 			Component from = Thresholds(t, source);
@@ -254,8 +256,6 @@ namespace FridgeThresholdsExtended.Tests
 			Tag category = DiscoveredResources.GetCategoryForEntity(Assets.GetPrefab(Food).GetComponent<KPrefabID>());
 			Storage freezerStorage = freezer.GetComponent<Storage>();
 			bool Listed() => freezerStorage.storageFilters.Any(f => DiscoveredResources.Instance.GetDiscoveredResourcesFromTag(f).Contains(food));
-			t.Log(Food + " before discovery: IsDiscovered " + DiscoveredResources.Instance.IsDiscovered(food) + ", category " + category
-				+ ", listed under the Freezer's filters (" + string.Join(", ", freezerStorage.storageFilters) + ") " + Listed());
 			DiscoveredResources.Instance.Discover(food, category);
 			t.Assert.True(Listed(), Food + " is a discovered resource of one of the Freezer's storage categories");
 			TreeFilterable filter = freezer.GetComponent<TreeFilterable>();
@@ -275,8 +275,14 @@ namespace FridgeThresholdsExtended.Tests
 			Session.SavePath = path;
 		}
 
-		[OniTest("FTE: (round trip 2/2) after the load the Freezer sends green at 35% with no storage change, and keeps its thresholds", Timeout = 60, FreshSave = true), Layer(0)]
-		public static IEnumerator RoundTripLoad(TestContext t)
+		/// <summary>
+		/// The component order is what keeps the first signal after a load right (the thresholds are
+		/// registered before Freezer.OnSpawn sends it). The green is checked once the saved generator
+		/// powers the Freezer, and power-on recomputes the port, so the green alone would pass without
+		/// the order fix; the order assertion is the oracle for that fix.
+		/// </summary>
+		[OniTest("FTE: (round trip 2/2) after the load the thresholds component is still ahead of the Freezer's own, the thresholds and the 35% fill are kept, and once powered it sends green", Timeout = 60, FreshSave = true), Layer(0)]
+		public static IEnumerator LoadKeepsOrderFillAndGreen(TestContext t)
 		{
 			string loaded = Session.SavePath;
 			t.Cleanup(() =>
@@ -298,13 +304,6 @@ namespace FridgeThresholdsExtended.Tests
 
 			Storage storage = freezer.GetComponent<Storage>();
 			Operational operational = freezer.GetComponent<Operational>();
-			PropertyInfo lastSetFlag = AccessTools.Property(thresholds.GetType(), "LastSetFlag");
-			string Look() => "port " + Port(freezer) + ", operational " + operational.IsOperational + ", LastSetFlag " + (lastSetFlag.GetValue(thresholds) ?? "null")
-				+ ", stored " + (storage.MassStored() / Capacity(freezer) * 100f).ToString("0.0") + "% in " + storage.items.Count + " item(s)";
-			// The test starts on the game's first update after the load (time scale 0), before the
-			// saved generator has powered the circuit; this look is logged, not asserted.
-			t.Log("first look after the load: " + Look());
-			t.Log("after the load: filter " + string.Join(", ", freezer.GetComponent<TreeFilterable>().GetTags()) + ", " + Food + " discovered " + DiscoveredResources.Instance.IsDiscovered(new Tag(Food)));
 			int thresholdsAt = IndexOf(freezer, thresholds.GetType()), freezerAt = IndexOf(freezer, FreezerComponentType(t));
 			t.Log("loaded Freezer components: thresholds at " + thresholdsAt + ", Freezer at " + freezerAt);
 			t.Assert.True(thresholdsAt >= 0 && thresholdsAt < freezerAt, "the loaded Freezer has the thresholds component ahead of its own");
@@ -313,7 +312,6 @@ namespace FridgeThresholdsExtended.Tests
 
 			yield return t.WaitUntil(() => operational.IsOperational, 20, "the loaded Freezer to be powered by the saved generator");
 			yield return t.WaitGameSeconds(1);
-			t.Log("once powered: " + Look());
 			yield return t.LookAt(Grid.PosToCell(freezer), 8f);
 			yield return t.Screenshot("after-load");
 			float fill = storage.MassStored() / Capacity(freezer);
