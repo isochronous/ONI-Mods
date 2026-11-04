@@ -176,3 +176,45 @@ RoundTripLoad notes: `first look after the load: port 0, operational False, Last
 No exceptions in either Player.log. Each run's own `Player's folders` line above confirms the harness left nothing new in the player's folders. Run folders: `common/tools/TestRunner/runs/run-20261104-130820` and `run-20261104-131031`.
 
 Test file changed since run 2a: `mods/fridge-thresholds-extended/src/FridgeThresholdsExtended.Tests/Fridges.cs` (RoundTripLoad waits for power before asserting, and asserts the fill). Not committed.
+
+## Run 3 (food filter set before filling)
+
+Change since run 2b, in `Fridges.cs` `WriteRoundTrip`: before power and filling, `TreeFilterable.AddTagToFilter(MushBar)`, with an assert that the filter now contains it. `RoundTripLoad` already asserts that the 35% fill survives the load. Same command, no -KeepGame. This was the last approved run; there were no reruns.
+
+**Result: 4 passed, 1 failed, 0 errors.**
+
+```
+Launching: -applaunch 457140 --onitest-dir=C:\dev\ONI-Mods\common\tools\TestRunner\runs\run-20261104-131318 --onitest-save=C:\dev\ONI-Mods\common\tools\TestRunner\runs\run-20261104-131318\fixture.sav --onitest-timeout=600 --onitest-test-timeout=60 --onitest-config=FridgeThresholdsExtended --onitest-server=C:\Users\thegr\AppData\Local\IsochronousOniTests\live
+PASS     FridgeThresholdsExtended.Tests/Fridges.FreezerFollowsThresholds (5.8 s)
+PASS     FridgeThresholdsExtended.Tests/Fridges.IndustrialRevolutionFridge (4.1 s)
+PASS     FridgeThresholdsExtended.Tests/Fridges.FreezerCopySettings (2.0 s)
+PASS     FridgeThresholdsExtended.Tests/Fridges.WriteRoundTrip (4.7 s)
+FAIL     FridgeThresholdsExtended.Tests/Fridges.RoundTripLoad (1.3 s): the loaded Freezer holds the 35% it was saved with (0.0%) (expected true)
+Session done: 4 passed, 1 failed, 0 errors, 0 timeouts, 0 skipped; 4 passed, 1 failed, 0 errors, 0 timeouts, 0 skipped of 5; 52.1 s real time; fixture loaded again 1 time(s)
+Player's folders: nothing new in save_files, cloud_save_files, RetiredColonies
+Game live after 68 s; results in C:\dev\ONI-Mods\common\tools\TestRunner\runs\run-20261104-131318
+```
+
+RoundTripLoad notes:
+
+```
+first look after the load: port 0, operational False, LastSetFlag False, stored 0.0% in 0 item(s)
+loaded Freezer components: thresholds at 34, Freezer at 37
+once powered: port 0, operational True, LastSetFlag False, stored 0.0% in 0 item(s)
+```
+
+WriteRoundTrip had the Freezer at 35.0% (69.8 kg) right before `Saved to [...\fte-roundtrip.sav]`. Screenshot: `runs/run-20261104-131318/artifacts/FridgeThresholdsExtended.Tests.Fridges.RoundTripLoad-after-load.png`. It shows the same green pile on the floor at the Freezer's base as in run 2b.
+
+**The cause is unclear, and the filter explanation from Run 2 is ruled out.** With the filter allowing MushBar, the loaded Freezer still has no items, and the pile is still on the floor. What is known: the food was in storage when the save was written. After the load, storage is empty and something lies on the floor beside the Freezer. What is not known: whether the item is written to the save outside storage, dropped as the colony loads, or dropped by something in this mod loadout. The vanilla Refrigerator was not given the same round trip, so it is not known whether this is specific to the Freezer. Next step, which needs a new approval: add a vanilla Refrigerator to the round trip as a control, and log the pile's prefab and mass after the load. I did not investigate further, because no more runs are approved.
+
+Unchanged from Run 2: Freezer (a), IR SimpleFridge (b) and copy settings (c) pass. For (d), the component order and `LastSetFlag False` at the first update after the load show the M1 order fix taking effect. A green signal from a filled Freezer after a load is still unverified.
+
+FridgeThresholdsExtended Player.log lines (run 3):
+
+```
+[18:13:36.412] [1] [INFO] [FridgeThresholdsExtended] Loaded version 0.1.0.0
+[18:13:36.571] [1] [INFO] [FridgeThresholdsExtended] Industrial Revolution found; thresholds added to 5 fridges
+[18:13:36.576] [1] [INFO] [FridgeThresholdsExtended] Freezer found; its logic port follows the thresholds
+```
+
+No exceptions in Player.log. The only warnings are "Recoverable parse error" lines for other Workshop mods' mod.yaml files (2880433226, 3599672848, 1722760223), which are unrelated. Run folder: `common/tools/TestRunner/runs/run-20261104-131318`. Not committed.

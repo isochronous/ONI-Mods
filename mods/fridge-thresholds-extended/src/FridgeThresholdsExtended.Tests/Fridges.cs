@@ -247,6 +247,11 @@ namespace FridgeThresholdsExtended.Tests
 			t.Log("built Freezer components: thresholds at " + thresholdsAt + ", Freezer at " + freezerAt);
 			t.Assert.True(thresholdsAt >= 0 && thresholdsAt < freezerAt, "the thresholds component comes before the Freezer's own, so it is registered before the Freezer's first signal");
 			SetThresholds(thresholds, false, 50, 20);
+			// The player's food filter allows the food, as it must for the Freezer to keep it on a load.
+			TreeFilterable filter = freezer.GetComponent<TreeFilterable>();
+			filter.AddTagToFilter(new Tag(Food));
+			t.Assert.True(filter.ContainsTag(new Tag(Food)), "the Freezer's food filter allows " + Food);
+			yield return t.WaitGameSeconds(1);
 			yield return Power(t, rig, freezer);
 			yield return Steps(t, new[] { (0.60f, 1), (0.35f, 1) }, freezer);
 
