@@ -93,6 +93,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "fridge-thresholds-extended"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FridgeThresholdsExtended", "mods\fridge-thresholds-extended\src\FridgeThresholdsExtended\FridgeThresholdsExtended.csproj", "{775B88F8-16DC-4079-81CB-22DADA67342C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FridgeThresholdsExtended.Tests", "mods\fridge-thresholds-extended\src\FridgeThresholdsExtended.Tests\FridgeThresholdsExtended.Tests.csproj", "{4E1C7B2A-93D5-4F86-A0B7-6D2E58C9F314}"
+EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "common", "common", "{92EA55CD-521F-4AD0-BC78-EC9B2906025B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModCheck", "common\tools\ModCheck\ModCheck.csproj", "{00CBAB8A-7A21-42C0-9C82-A7C1EF0C0B80}"
@@ -362,6 +364,10 @@ Global
 		{775B88F8-16DC-4079-81CB-22DADA67342C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{775B88F8-16DC-4079-81CB-22DADA67342C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{775B88F8-16DC-4079-81CB-22DADA67342C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E1C7B2A-93D5-4F86-A0B7-6D2E58C9F314}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E1C7B2A-93D5-4F86-A0B7-6D2E58C9F314}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E1C7B2A-93D5-4F86-A0B7-6D2E58C9F314}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E1C7B2A-93D5-4F86-A0B7-6D2E58C9F314}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{70C0E597-6A30-451E-B618-417970FD42A2} = {72AE865A-6A65-4766-97EB-11290F044A78}
@@ -416,5 +422,6 @@ Global
 		{B91F4D63-2E7A-4C85-A3D6-7E0C1F52B8A9} = {A7C3E1D2-5B84-4F69-9D0E-3C2B8F6A1E47}
 		{D2E8A0F5-6C13-47B9-8E4A-9B5D3C7F1A62} = {A7C3E1D2-5B84-4F69-9D0E-3C2B8F6A1E47}
 		{775B88F8-16DC-4079-81CB-22DADA67342C} = {9A160FD4-8F6B-4887-99CD-D8F1BBCC908A}
+		{4E1C7B2A-93D5-4F86-A0B7-6D2E58C9F314} = {9A160FD4-8F6B-4887-99CD-D8F1BBCC908A}
 	EndGlobalSection
 EndGlobal

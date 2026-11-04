@@ -44,11 +44,15 @@
 - [x] Review of the new mod — units/03-review-report.md: no blockers. M1 real (Freezer component spawns after Freezer, stale first signal on load); M2 no Tests project; minors: wrong warning text for a missing IR class (ThresholdsCompat.cs:89-93), Invoke allocation (accepted: runs only on storage/power events), README last line explains mechanics.
 - [x] Fix M1, the warning text, the README line — build 0/0 (02-implement-report.md "Fixes")
 - [ ] Testing phase: Tests project + one in-game run with the three Workshop mods (units/04-test.md); Jeremy approved the run 2026-11-04 ← IN PROGRESS
+  - [x] Tests project FridgeThresholdsExtended.Tests (5 tests in Fridges.cs), -BuildOnly 0/0
+  - [x] Run 1 (run-20261104-130136): 0 run, game never started. Steam launch options go through oni-moono (OniMoono.exe -- %command%); moono rejects the --onitest-* args and exits; TestRunner only watches for an OxygenNotIncluded process. mods.json restored byte-identical.
+  - [ ] Jeremy to choose how to run it (needs fresh approval)
 - [ ] In-game test with the three Workshop mods loaded
 - [ ] Completion: review, retro, commit, PR
 
 ## Open Questions / Blockers
 - To check in game: Harmony accepts `Component __instance` on the manual Freezer prefix; sliders drive the port on Freezer and IR fridges; first signal after load.
+- Store gap to land at close: no record says Jeremy's game launches through oni-moono or that TestRunner can't launch that way.
 - ICON friction to record at close: the research brief repeated the same two sections once per mod node (17 copies each).
 
 ## Constraints
