@@ -114,3 +114,65 @@ The test code itself has not run, so a fix-and-rerun of it may still be needed o
 - The `common` store's TestRunner pointers (entities, error-handling, naming) applied in principle, but the TestRunner README held everything this work needed. The README was not among the pointers; it was reached through the spec.
 - Missed: nothing in either brief records that the game now launches through oni-moono, or that the harness cannot launch through it. That is the fact that decided this unit's outcome. It belongs in the TestRunner node, for example as a known limit next to "Steam must be running".
 - No ICON friction in this unit.
+
+## Run 2 (Steam launch options cleared by Jeremy, no Moono)
+
+Command (both runs): `pwsh -NoProfile -File common/tools/TestRunner/Invoke-OniTests.ps1 -Mods FridgeThresholdsExtended -Steam 2959340381,2618339179,3557584850` (no -KeepGame).
+
+**Result: 4 passed, 1 failed, in both the run and the one allowed rerun.** The failure is the round-trip load test, and it comes from the test's setup, not from the mod.
+
+### Run 2a, verbatim
+
+```
+Launching: -applaunch 457140 --onitest-dir=C:\dev\ONI-Mods\common\tools\TestRunner\runs\run-20261104-130820 --onitest-save=C:\dev\ONI-Mods\common\tools\TestRunner\runs\run-20261104-130820\fixture.sav --onitest-timeout=600 --onitest-test-timeout=60 --onitest-config=FridgeThresholdsExtended --onitest-server=C:\Users\thegr\AppData\Local\IsochronousOniTests\live
+PASS     FridgeThresholdsExtended.Tests/Fridges.FreezerFollowsThresholds (5.8 s)
+PASS     FridgeThresholdsExtended.Tests/Fridges.IndustrialRevolutionFridge (4.1 s)
+PASS     FridgeThresholdsExtended.Tests/Fridges.FreezerCopySettings (2.0 s)
+PASS     FridgeThresholdsExtended.Tests/Fridges.WriteRoundTrip (4.2 s)
+FAIL     FridgeThresholdsExtended.Tests/Fridges.RoundTripLoad (0.0 s): the loaded Freezer at 35%, saved green on its way down, sends green (expected 1, got 0)
+Session done: 4 passed, 1 failed, 0 errors, 0 timeouts, 0 skipped; 4 passed, 1 failed, 0 errors, 0 timeouts, 0 skipped of 5; 50.8 s real time; fixture loaded again 1 time(s)
+Player's folders: nothing new in save_files, cloud_save_files, RetiredColonies
+Game live after 70 s; results in C:\dev\ONI-Mods\common\tools\TestRunner\runs\run-20261104-130820
+```
+
+RoundTripLoad notes: `first look after the load: port 0, operational False, LastSetFlag False, stored 0.0%` and `loaded Freezer components: thresholds at 34, Freezer at 37`.
+
+The test started on the game's first update after the load (`first update, time scale 0` in Player.log), before the saved generator had powered the circuit. Asserting at that moment was a test-code fault. I fixed it: the test now logs the first look, waits until the Freezer is operational and one game second has passed, takes a screenshot, and asserts that the fill is still 35% before checking the port.
+
+### Run 2b (fix and rerun), verbatim
+
+```
+Launching: -applaunch 457140 --onitest-dir=C:\dev\ONI-Mods\common\tools\TestRunner\runs\run-20261104-131031 --onitest-save=C:\dev\ONI-Mods\common\tools\TestRunner\runs\run-20261104-131031\fixture.sav --onitest-timeout=600 --onitest-test-timeout=60 --onitest-config=FridgeThresholdsExtended --onitest-server=C:\Users\thegr\AppData\Local\IsochronousOniTests\live
+PASS     FridgeThresholdsExtended.Tests/Fridges.FreezerFollowsThresholds (5.8 s)
+PASS     FridgeThresholdsExtended.Tests/Fridges.IndustrialRevolutionFridge (4.2 s)
+PASS     FridgeThresholdsExtended.Tests/Fridges.FreezerCopySettings (2.0 s)
+PASS     FridgeThresholdsExtended.Tests/Fridges.WriteRoundTrip (4.2 s)
+FAIL     FridgeThresholdsExtended.Tests/Fridges.RoundTripLoad (1.3 s): the loaded Freezer holds the 35% it was saved with (0.0%) (expected true)
+Session done: 4 passed, 1 failed, 0 errors, 0 timeouts, 0 skipped; 4 passed, 1 failed, 0 errors, 0 timeouts, 0 skipped of 5; 52 s real time; fixture loaded again 1 time(s)
+Player's folders: nothing new in save_files, cloud_save_files, RetiredColonies
+Game live after 68 s; results in C:\dev\ONI-Mods\common\tools\TestRunner\runs\run-20261104-131031
+```
+
+RoundTripLoad notes: `first look after the load: port 0, operational False, LastSetFlag False, stored 0.0% in 0 item(s)` and `once powered: port 0, operational True, LastSetFlag False, stored 0.0% in 0 item(s)`.
+
+**Cause.** After the load the Freezer holds no items. Screenshot `runs/run-20261104-131031/artifacts/FridgeThresholdsExtended.Tests.Fridges.RoundTripLoad-after-load.png` shows the food in a pile on the floor at the Freezer's base. The test stores MushBar straight into storage and never adds it to the Freezer's food filter (TreeFilterable), which is empty on a new building. The likely mechanism, not confirmed in code, is that the load re-applies the empty filter and the game drops what it does not allow. Port 0 at 0% is the correct signal for an empty Freezer. **Fix for a further run:** before filling, set the Freezer's TreeFilterable accepted tags to include MushBar. That needs Jeremy's approval for another run; I did not run again.
+
+### What the runs establish
+
+- **Freezer (a): verified.** Port 1, 1, 0, 0, 1 at 60/35/10/35/60% with High 50 / Low 20, the same as the vanilla Refrigerator control, and red without power. Before this mod the Freezer sent red at 60%. Screenshot: `runs/run-20261104-130820/artifacts/...FreezerFollowsThresholds-green-at-60.png`.
+- **IR SimpleFridge (b): verified.** It has RefrigeratorThresholds, at component index 32, ahead of Refrigerator at 36. Port 1, 1, 0 at 60/35/10%.
+- **Copy settings (c): verified.** Green on low, 70 and 30 carried from one Freezer to another.
+- **First signal after load (d): partly verified.** The thresholds component is ahead of Freezer on the built Freezer (34 < 37) and on the loaded one. `LastSetFlag` is `False`, not `null`, at the first update after the load. ThresholdsBase.OnSpawn resets it to null, so the Freezer's OnSpawn ran the prefix after the thresholds were registered, which is the M1 fix working. Still not verified: a green signal from a loaded, filled Freezer. That needs the filter fix above.
+- Harmony accepted `Component __instance` and the `___` field injection on the manual Freezer patches. The Freezer and copy tests could not have passed otherwise.
+
+### FridgeThresholdsExtended Player.log lines (identical in both runs)
+
+```
+[FridgeThresholdsExtended] Loaded version 0.1.0.0
+[FridgeThresholdsExtended] Industrial Revolution found; thresholds added to 5 fridges
+[FridgeThresholdsExtended] Freezer found; its logic port follows the thresholds
+```
+
+No exceptions in either Player.log. Each run's own `Player's folders` line above confirms the harness left nothing new in the player's folders. Run folders: `common/tools/TestRunner/runs/run-20261104-130820` and `run-20261104-131031`.
+
+Test file changed since run 2a: `mods/fridge-thresholds-extended/src/FridgeThresholdsExtended.Tests/Fridges.cs` (RoundTripLoad waits for power before asserting, and asserts the fill). Not committed.

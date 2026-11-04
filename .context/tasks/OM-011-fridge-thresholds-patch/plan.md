@@ -46,7 +46,8 @@
 - [ ] Testing phase: Tests project + one in-game run with the three Workshop mods (units/04-test.md); Jeremy approved the run 2026-11-04 ← IN PROGRESS
   - [x] Tests project FridgeThresholdsExtended.Tests (5 tests in Fridges.cs), -BuildOnly 0/0
   - [x] Run 1 (run-20261104-130136): 0 run, game never started. Steam launch options go through oni-moono (OniMoono.exe -- %command%); moono rejects the --onitest-* args and exits; TestRunner only watches for an OxygenNotIncluded process. mods.json restored byte-identical.
-  - [ ] Jeremy to choose how to run it (needs fresh approval)
+  - [x] Jeremy cleared the launch options himself. Run 2 (run-20261104-130820) and rerun (run-20261104-131031): 4 passed, 1 failed. Verified: Freezer hysteresis matches the vanilla Refrigerator control, red without power; IR SimpleFridge thresholds; Freezer copy settings; 3 patch-applied log lines, no exceptions. RoundTripLoad fails in test setup (food not in the Freezer's filter, dropped on load). M1 partly evidenced: component order correct, LastSetFlag already set on first post-load update.
+  - [ ] Fix RoundTripLoad setup (add MushBar to the filter) + one more run, if Jeremy approves; Jeremy restores launch options after
 - [ ] In-game test with the three Workshop mods loaded
 - [ ] Completion: review, retro, commit, PR
 

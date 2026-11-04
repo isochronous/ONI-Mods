@@ -281,19 +281,28 @@ namespace FridgeThresholdsExtended.Tests
 			t.Assert.NotNull(freezer.GetComponent(FreezerComponentType(t)), "the building at " + Cells.Describe(cell) + " is the Freezer");
 			Component thresholds = Thresholds(t, freezer);
 
-			// First look, before anything in the test touches the Freezer.
-			int first = Port(freezer);
+			Storage storage = freezer.GetComponent<Storage>();
 			Operational operational = freezer.GetComponent<Operational>();
-			object lastSet = AccessTools.Property(thresholds.GetType(), "LastSetFlag").GetValue(thresholds);
-			t.Log("first look after the load: port " + first + ", operational " + operational.IsOperational + ", LastSetFlag " + (lastSet ?? "null")
-				+ ", stored " + (freezer.GetComponent<Storage>().MassStored() / Capacity(freezer) * 100f).ToString("0.0") + "%");
+			PropertyInfo lastSetFlag = AccessTools.Property(thresholds.GetType(), "LastSetFlag");
+			string Look() => "port " + Port(freezer) + ", operational " + operational.IsOperational + ", LastSetFlag " + (lastSetFlag.GetValue(thresholds) ?? "null")
+				+ ", stored " + (storage.MassStored() / Capacity(freezer) * 100f).ToString("0.0") + "% in " + storage.items.Count + " item(s)";
+			// The test starts on the game's first update after the load (time scale 0), before the
+			// saved generator has powered the circuit; this look is logged, not asserted.
+			t.Log("first look after the load: " + Look());
 			int thresholdsAt = IndexOf(freezer, thresholds.GetType()), freezerAt = IndexOf(freezer, FreezerComponentType(t));
 			t.Log("loaded Freezer components: thresholds at " + thresholdsAt + ", Freezer at " + freezerAt);
-
+			t.Assert.True(thresholdsAt >= 0 && thresholdsAt < freezerAt, "the loaded Freezer has the thresholds component ahead of its own");
 			t.Assert.Eq(50f, Setting(thresholds, "ActivateValue"), "High is still 50");
 			t.Assert.Eq(20f, Setting(thresholds, "DeactivateValue"), "Low is still 20");
-			t.Assert.Eq(1, first, "the loaded Freezer at 35%, saved green on its way down, sends green");
-			t.Assert.True(thresholdsAt >= 0 && thresholdsAt < freezerAt, "the loaded Freezer has the thresholds component ahead of its own");
+
+			yield return t.WaitUntil(() => operational.IsOperational, 20, "the loaded Freezer to be powered by the saved generator");
+			yield return t.WaitGameSeconds(1);
+			t.Log("once powered: " + Look());
+			yield return t.LookAt(Grid.PosToCell(freezer), 8f);
+			yield return t.Screenshot("after-load");
+			float fill = storage.MassStored() / Capacity(freezer);
+			t.Assert.True(Mathf.Abs(fill - 0.35f) < 0.01f, "the loaded Freezer holds the 35% it was saved with (" + (fill * 100f).ToString("0.0") + "%)");
+			t.Assert.Eq(1, Port(freezer), "the loaded Freezer at 35%, saved green on its way down, sends green with no storage change");
 			yield return t.WaitGameSeconds(2);
 			t.Assert.Eq(1, Port(freezer), "and still sends green two game seconds later");
 		}
