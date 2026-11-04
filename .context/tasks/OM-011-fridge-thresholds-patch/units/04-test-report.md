@@ -218,3 +218,71 @@ FridgeThresholdsExtended Player.log lines (run 3):
 ```
 
 No exceptions in Player.log. The only warnings are "Recoverable parse error" lines for other Workshop mods' mod.yaml files (2880433226, 3599672848, 1722760223), which are unrelated. Run folder: `common/tools/TestRunner/runs/run-20261104-131318`. Not committed.
+
+### Run 3: why the filter does not hold (Jeremy: "filter is not getting set")
+
+I worked this out from the game code and the screenshots, without another run.
+
+**Which API the test calls.** `TreeFilterable.AddTagToFilter(new Tag("MushBar"))` on the built Freezer, before power and filling. That call is the same one the game's side screen makes: `TreeFilterableSideScreen` calls `targetFilterable.AddTagToFilter(tag)` / `RemoveTagFromFilter(tag)`. The test's assert `ContainsTag(MushBar)` passed, so the tag was in the filter for the rest of that session. The Freezer's `TreeFilterable` is vanilla (`go.AddOrGet<TreeFilterable>()` in FreezerConfig), with `storage.storageFilters = STORAGEFILTERS.FOOD`. Psyko's Freezer has no filter logic of its own. Its `FilteredStorage` only forbids `Compostable`.
+
+**What differs from the side screen.** The side screen only offers what the colony has discovered. Its rows come from `DiscoveredResources.Instance.GetDiscoveredResourcesFromTag(category)` for each storage filter category. A player can therefore only tick food the colony has discovered. The test's MushBar is made with `KInstantiate` and put straight into storage, so it is never discovered. That is why Jeremy saw no filter set in the side screen: an undiscovered item has no row to show ticked.
+
+**Why it is undone on the load (vanilla `TreeFilterable.OnSpawn`, decompiled from the installed game):**
+1. `autoSelectStoredOnLoad` unions the stored item IDs into `acceptedTagSet`, so MushBar is in it.
+2. Then `filterByStorageCategoriesOnSpawn` runs `RemoveIncorrectAcceptedTags`. That removes every accepted tag not found in `DiscoveredResources.GetDiscoveredResourcesFromTag(storageFilter)` for any of the storage's categories. MushBar is not discovered, so it is removed.
+3. `RemoveTagFromFilter` → `UpdateFilters` → `DropFilteredItemsFromTargetStorage` (`dropIncorrectOnFilterChange` is true). The food is dropped onto the floor. This is the green pile at the Freezer's base in the run 2b and run 3 screenshots.
+
+This explains both runs. Without the filter (run 2b), step 1 added the tag and step 2 removed it again. With the filter (run 3), the tag came out of the save and step 2 removed it again. Neither this mod nor Psyko's Freezer is involved: a vanilla Refrigerator with undiscovered food would drop it the same way. That is inferred from the shared code; it has not been run.
+
+Inferred: that MushBar is undiscovered in `testbed-so.sav`. It is consistent with the drop, and nothing else in OnSpawn drops a stored item, but I did not read the fixture's DiscoveredResources directly.
+
+**Proposed fix (test code only, not applied, not run).** In `WriteRoundTrip`, before setting the filter, discover the food the way picking it up in a colony would: `DiscoveredResources.Instance.Discover(new Tag(Food), GameTags.Edible)`. Assert `DiscoveredResources.Instance.GetDiscoveredResourcesFromTag(GameTags.Edible).Contains(MushBar)` so the test fails clearly if the category is wrong. Then `AddTagToFilter` as now. Discovery is saved with the colony, so after the load `RemoveIncorrectAcceptedTags` keeps MushBar and the food stays in storage. The round-trip save is a run-folder file and the fixture is reloaded afterwards, so the player's saves are untouched. A screenshot of the side screen before saving would show the tick Jeremy expected. Running it needs a new approval.
+
+## Run 4 (discovery fix)
+
+**Jeremy's question: aren't the earlier tests already putting MushBar into the Freezer?** Yes. All of them fill through `Fill` (Fridges.cs:113-118: `KInstantiate(Assets.GetPrefab("MushBar"))` then `storage.Store(go)`). `FreezerFollowsThresholds` does so at Fridges.cs:182, for the Freezer and the Refrigerator, and `IndustrialRevolutionFridge` at :208. All five tests share one loaded colony; the only reload is the FreshSave before `RoundTripLoad`. Any discovery from tests 1-2 would therefore have been in the round-trip save.
+
+The run measured the outcome directly. When `WriteRoundTrip` started, after tests 1-2 had stored hundreds of kg of MushBar, the log read: `MushBar before discovery: IsDiscovered False, category Edible, listed under the Freezer's filters (Edible, CookingIngredient, Medicine) False`. So storing never discovers the food.
+
+The only discovery path I found in the game is `WorldInventory.OnAddedFetchable`, which calls `DiscoveredResources.Instance.Discover` the first time a prefab appears in a world's inventory (decompiled WorldInventory.cs:310-328, subscribed to a Game event at :71). That event does not fire for an item made with `KInstantiate` and stored straight away. I did not trace exactly why, because I did not find the code that raises the event.
+
+The drop happens only at load time, in `TreeFilterable.OnSpawn` → `RemoveIncorrectAcceptedTags` → `RemoveTagFromFilter` → `UpdateFilters` → `DropFilteredItemsFromTargetStorage`. That is why the earlier tests never showed it.
+
+**Fix** (Fridges.cs, `WriteRoundTrip`): log the discovery state, call `DiscoveredResources.Instance.Discover(MushBar, GetCategoryForEntity(prefab))` (the category came out as `Edible`), assert that MushBar is now listed under one of the Freezer's storage categories (the same check `RemoveIncorrectAcceptedTags` makes), then `AddTagToFilter`. `RoundTripLoad` also logs the filter and the discovery state after the load. `-BuildOnly`: 0 warnings, 0 errors, ModCheck clean.
+
+**Result: 5 passed, 0 failed, 0 errors.** Same command, no -KeepGame, run once.
+
+```
+Launching: -applaunch 457140 --onitest-dir=C:\dev\ONI-Mods\common\tools\TestRunner\runs\run-20261104-131755 --onitest-save=C:\dev\ONI-Mods\common\tools\TestRunner\runs\run-20261104-131755\fixture.sav --onitest-timeout=600 --onitest-test-timeout=60 --onitest-config=FridgeThresholdsExtended --onitest-server=C:\Users\thegr\AppData\Local\IsochronousOniTests\live
+PASS     FridgeThresholdsExtended.Tests/Fridges.FreezerFollowsThresholds (5.8 s)
+PASS     FridgeThresholdsExtended.Tests/Fridges.IndustrialRevolutionFridge (4.2 s)
+PASS     FridgeThresholdsExtended.Tests/Fridges.FreezerCopySettings (2.0 s)
+PASS     FridgeThresholdsExtended.Tests/Fridges.WriteRoundTrip (4.7 s)
+PASS     FridgeThresholdsExtended.Tests/Fridges.RoundTripLoad (3.3 s)
+Session done: 5 passed, 0 failed, 0 errors, 0 timeouts, 0 skipped; 5 passed, 0 failed, 0 errors, 0 timeouts, 0 skipped of 5; 54 s real time; fixture loaded again 1 time(s)
+Player's folders: nothing new in save_files, cloud_save_files, RetiredColonies
+Game live after 70 s; results in C:\dev\ONI-Mods\common\tools\TestRunner\runs\run-20261104-131755
+```
+
+RoundTripLoad notes:
+
+```
+first look after the load: port 0, operational False, LastSetFlag False, stored 35.0% in 1 item(s)
+after the load: filter MushBar, MushBar discovered True
+loaded Freezer components: thresholds at 34, Freezer at 37
+once powered: port 1, operational True, LastSetFlag True, stored 35.0% in 1 item(s)
+```
+
+FridgeThresholdsExtended Player.log lines:
+
+```
+[18:18:12.835] [1] [INFO] [FridgeThresholdsExtended] Loaded version 0.1.0.0
+[18:18:13.000] [1] [INFO] [FridgeThresholdsExtended] Industrial Revolution found; thresholds added to 5 fridges
+[18:18:13.006] [1] [INFO] [FridgeThresholdsExtended] Freezer found; its logic port follows the thresholds
+```
+
+No exceptions. Run folder: `common/tools/TestRunner/runs/run-20261104-131755`; screenshot `artifacts/FridgeThresholdsExtended.Tests.Fridges.RoundTripLoad-after-load.png`.
+
+**What it shows for M1.** After the load the food and thresholds survive, the hysteresis state survives (green at 35% on the way down), and the thresholds component is ahead of the Freezer's own (34 < 37). At the first update after the load the Freezer was not yet powered (port 0, operational False), and it went green once the saved generator powered it. As predicted, that green comes from the OperationalChanged recompute, so the port alone does not tell the fix apart from no fix. The component order and `LastSetFlag False` (not null) at the first update are the evidence for the fix.
+
+Still not covered by this suite: the other four IR fridges, and loading with each target mod missing in turn. Not committed.

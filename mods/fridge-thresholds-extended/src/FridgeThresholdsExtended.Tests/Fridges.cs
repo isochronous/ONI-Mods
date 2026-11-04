@@ -247,9 +247,19 @@ namespace FridgeThresholdsExtended.Tests
 			t.Log("built Freezer components: thresholds at " + thresholdsAt + ", Freezer at " + freezerAt);
 			t.Assert.True(thresholdsAt >= 0 && thresholdsAt < freezerAt, "the thresholds component comes before the Freezer's own, so it is registered before the Freezer's first signal");
 			SetThresholds(thresholds, false, 50, 20);
-			// The player's food filter allows the food, as it must for the Freezer to keep it on a load.
+			// TreeFilterable.OnSpawn drops, on a load, stored items whose tag is not a discovered resource
+			// of the storage's categories; the side screen likewise lists only discovered food. Discover
+			// the food under the game's own category for it, then tick it as the side screen does.
+			Tag food = new Tag(Food);
+			Tag category = DiscoveredResources.GetCategoryForEntity(Assets.GetPrefab(Food).GetComponent<KPrefabID>());
+			Storage freezerStorage = freezer.GetComponent<Storage>();
+			bool Listed() => freezerStorage.storageFilters.Any(f => DiscoveredResources.Instance.GetDiscoveredResourcesFromTag(f).Contains(food));
+			t.Log(Food + " before discovery: IsDiscovered " + DiscoveredResources.Instance.IsDiscovered(food) + ", category " + category
+				+ ", listed under the Freezer's filters (" + string.Join(", ", freezerStorage.storageFilters) + ") " + Listed());
+			DiscoveredResources.Instance.Discover(food, category);
+			t.Assert.True(Listed(), Food + " is a discovered resource of one of the Freezer's storage categories");
 			TreeFilterable filter = freezer.GetComponent<TreeFilterable>();
-			filter.AddTagToFilter(new Tag(Food));
+			filter.AddTagToFilter(food);
 			t.Assert.True(filter.ContainsTag(new Tag(Food)), "the Freezer's food filter allows " + Food);
 			yield return t.WaitGameSeconds(1);
 			yield return Power(t, rig, freezer);
@@ -294,6 +304,7 @@ namespace FridgeThresholdsExtended.Tests
 			// The test starts on the game's first update after the load (time scale 0), before the
 			// saved generator has powered the circuit; this look is logged, not asserted.
 			t.Log("first look after the load: " + Look());
+			t.Log("after the load: filter " + string.Join(", ", freezer.GetComponent<TreeFilterable>().GetTags()) + ", " + Food + " discovered " + DiscoveredResources.Instance.IsDiscovered(new Tag(Food)));
 			int thresholdsAt = IndexOf(freezer, thresholds.GetType()), freezerAt = IndexOf(freezer, FreezerComponentType(t));
 			t.Log("loaded Freezer components: thresholds at " + thresholdsAt + ", Freezer at " + freezerAt);
 			t.Assert.True(thresholdsAt >= 0 && thresholdsAt < freezerAt, "the loaded Freezer has the thresholds component ahead of its own");
