@@ -41,7 +41,9 @@
 - [x] Investigate — units/01-research-report.md; design in the investigation handoff block
 - [x] Update this plan with findings — Jeremy chose named IR fridges, no CabinetFrozen
 - [x] Implementation: new mod skeleton + Compat patches — units/02-implement-report.md; build 0 warnings 0 errors (re-run by manager); also added to sln, root README, .github templates and label-mod.yml (GitHub label to create at release)
-- [ ] Review of the new mod ← IN PROGRESS
+- [x] Review of the new mod — units/03-review-report.md: no blockers. M1 real (Freezer component spawns after Freezer, stale first signal on load); M2 no Tests project; minors: wrong warning text for a missing IR class (ThresholdsCompat.cs:89-93), Invoke allocation (accepted: runs only on storage/power events), README last line explains mechanics.
+- [x] Fix M1, the warning text, the README line — build 0/0 (02-implement-report.md "Fixes")
+- [ ] Testing phase: Tests project + one in-game run with the three Workshop mods (units/04-test.md); Jeremy approved the run 2026-11-04 ← IN PROGRESS
 - [ ] In-game test with the three Workshop mods loaded
 - [ ] Completion: review, retro, commit, PR
 

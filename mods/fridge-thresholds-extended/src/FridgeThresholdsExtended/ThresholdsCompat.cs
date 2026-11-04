@@ -23,7 +23,10 @@ namespace FridgeThresholdsExtended
 	/// Refrigerator class, whose UpdateLogicCircuit sends IsFull() and IsOperational: the sliders
 	/// show and save, and the port ignores them. That method gets the thresholds mod's
 	/// Refrigerator prefix, rebuilt against Freezer's fields, and Freezer's OnCopySettings gets
-	/// the thresholds mod's copy of the three settings.
+	/// the thresholds mod's copy of the three settings. The thresholds mod adds the component in a
+	/// postfix, after Freezer, so it is not registered yet when Freezer.OnSpawn sends the first
+	/// signal; a prefix on FreezerConfig.DoPostConfigureComplete adds it ahead of Freezer instead,
+	/// and the thresholds mod's AddOrGet then finds it.
 	///
 	/// None of the three mods is referenced at build time. Every type is found by name once all
 	/// mods are loaded, the thresholds members are bound here once, and a part whose members are
@@ -34,6 +37,7 @@ namespace FridgeThresholdsExtended
 		private const string ThresholdsBaseType = "StorageRefrigeratorThresholds.ThresholdsBase";
 		private const string RefrigeratorThresholdsType = "StorageRefrigeratorThresholds.RefrigeratorThresholds";
 		private const string FreezerType = "Psyko.Freezer.Freezer";
+		private const string FreezerConfigType = "Psyko.Freezer.FreezerConfig";
 		private const string IRFridgeNamespace = "RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesRefrigeration.";
 
 		// Matched by class: the two Hightech configs have each other's building ID.
@@ -86,7 +90,12 @@ namespace FridgeThresholdsExtended
 				int patched = 0;
 				for (int i = 0; i < configs.Length; i++)
 				{
-					MethodInfo original = configs[i] != null ? AccessTools.DeclaredMethod(configs[i], "DoPostConfigureComplete") : null;
+					if (configs[i] == null)
+					{
+						Debug.LogWarning("[FridgeThresholdsExtended] Industrial Revolution " + IRFridgeConfigs[i] + " skipped: class not found");
+						continue;
+					}
+					MethodInfo original = AccessTools.DeclaredMethod(configs[i], "DoPostConfigureComplete");
 					if (original == null)
 					{
 						Debug.LogWarning("[FridgeThresholdsExtended] Industrial Revolution " + IRFridgeConfigs[i] + " skipped: DoPostConfigureComplete not found");
@@ -114,6 +123,8 @@ namespace FridgeThresholdsExtended
 			try
 			{
 				MethodInfo original = AccessTools.DeclaredMethod(freezer, "UpdateLogicCircuit");
+				Type freezerConfig = AccessTools.TypeByName(FreezerConfigType);
+				MethodInfo configure = freezerConfig != null ? AccessTools.DeclaredMethod(freezerConfig, "DoPostConfigureComplete") : null;
 				MethodInfo get = AccessTools.Method(thresholdsBase, "Get", new[] { typeof(GameObject) });
 				updateLogicState = AccessTools.Method(thresholdsBase, "UpdateLogicState", new[] { typeof(float) });
 				isActuallyOperational = AccessTools.Method(thresholdsBase, "IsActuallyOperational", new[] { typeof(Operational) });
@@ -122,6 +133,7 @@ namespace FridgeThresholdsExtended
 				MethodInfo maxCapacity = AccessTools.Method(typeof(FilteredStorage), "GetMaxCapacityMinusStorageMargin");
 				string missing =
 					original == null ? "Freezer.UpdateLogicCircuit"
+					: configure == null ? "FreezerConfig.DoPostConfigureComplete"
 					: !HasField(freezer, "filteredStorage", typeof(FilteredStorage)) ? "Freezer.filteredStorage"
 					: !HasField(freezer, "operational", typeof(Operational)) ? "Freezer.operational"
 					: !HasField(freezer, "ports", typeof(LogicPorts)) ? "Freezer.ports"
@@ -147,6 +159,7 @@ namespace FridgeThresholdsExtended
 				getThresholds = (Func<GameObject, object>)Delegate.CreateDelegate(typeof(Func<GameObject, object>), get);
 				getAmountStored = AccessTools.MethodDelegate<Func<FilteredStorage, float>>(amountStored);
 				getMaxCapacity = AccessTools.MethodDelegate<Func<FilteredStorage, float>>(maxCapacity);
+				harmony.Patch(configure, prefix: new HarmonyMethod(typeof(ThresholdsCompat), nameof(AddThresholdsPrefix)));
 				harmony.Patch(original, prefix: new HarmonyMethod(typeof(ThresholdsCompat), nameof(UpdateLogicCircuitPrefix)));
 				Debug.Log("[FridgeThresholdsExtended] Freezer found; its logic port follows the thresholds");
 			}
@@ -166,7 +179,7 @@ namespace FridgeThresholdsExtended
 		{
 			object thresholds = getThresholds(__instance.gameObject);
 			if (thresholds == null)
-				return true; // not spawned yet: Freezer's own full signal until the next update
+				return true; // no thresholds on this Freezer: its own full signal
 			float stored = getAmountStored(___filteredStorage);
 			float capacity = getMaxCapacity(___filteredStorage);
 			bool operational = (bool)isActuallyOperational.Invoke(thresholds, new object[] { ___operational });

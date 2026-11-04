@@ -29,4 +29,4 @@ git clone --recurse-submodules https://github.com/isochronous/ONI-Mods.git
 dotnet build ONI-Mods/mods/fridge-thresholds-extended/src/FridgeThresholdsExtended -c Release
 ```
 
-Harmony only, no PLib. None of the three mods is referenced at build time; their types are found by name when the game loads mods.
+The build does not need any of the three mods installed.

@@ -67,3 +67,26 @@ Time Elapsed 00:00:09.13
 - The brief listed the same two sections once per mod node (17 copies each of When to Comment and try/catch); one copy of each was useful, the rest did not add anything. Same friction as the research unit reported.
 - Missed: nothing in the brief covered the scaffold checklist (sln, root README table, .github issue templates and label workflow); that came from reading commit 88214fb. The `common` store brief (two ICON lessons) did not apply to this work.
 - The Workshop writing style came from Jeremy's memory file, not the store.
+
+## Fixes (after review 03-review-report.md)
+
+Only mods/fridge-thresholds-extended changed. The Invoke allocations (m2) and the llunak check (m3) are unchanged, as instructed.
+
+- **M1, Freezer first signal after load.** `PatchFreezerLogic` resolves `Psyko.Freezer.FreezerConfig.DoPostConfigureComplete` (missing: warn "FreezerConfig.DoPostConfigureComplete not found" and skip the whole Freezer logic part) and prefixes it with the existing null-checked `AddThresholdsPrefix`. `RefrigeratorThresholds` now sits ahead of `Freezer`, and the thresholds mod's postfix `AddOrGet` finds it. The prefix is applied after the llunak check, in the same try/catch, right before the `UpdateLogicCircuit` prefix. The comment on the `Get == null` path now reads "no thresholds on this Freezer: its own full signal", and the class summary says why the config prefix exists.
+- **m1, IR warning.** A config class that does not resolve now warns "Industrial Revolution <Class> skipped: class not found". "DoPostConfigureComplete not found" is kept for the case where the class exists but the method does not.
+- **README.** I replaced the last line ("Harmony only, no PLib. None of the three mods is referenced at build time; ...") with "The build does not need any of the three mods installed."
+
+Rebuild: `dotnet build ONI-Mods.sln -c Release -p:ModDeployFolder=none`, exit 0. Full log: C:\Users\thegr\AppData\Local\Temp\claude\C--dev-ONI-Mods\7b932c4a-6569-4783-a8c2-8a995ac90316\scratchpad\build-om011-fix.txt.
+
+```
+  FridgeThresholdsExtended -> C:\dev\ONI-Mods\mods\fridge-thresholds-extended\src\FridgeThresholdsExtended\bin\Release\FridgeThresholdsExtended.dll
+...
+    288 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:06.23
+```
+
+Warnings naming fridge-thresholds-extended: 0. All 288 are in other projects (the first build reported 291; this build was incremental, and none of the warnings in either belongs to this mod).
+
+The in-game check for the first signal after load still applies, now to confirm that the component order puts thresholds first on the Freezer.
