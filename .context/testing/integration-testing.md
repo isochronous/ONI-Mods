@@ -199,3 +199,15 @@ Facts that each cost a failed run while building plant scenes for Ovagros Overhe
 - Some plants have no maturity amount: the Ovagro Node grows by playing its grow animation once and then flags itself grown, so a test waits on its state machine, not on maturity. Its vines do have maturity, and forcing it on each new vine grows a chain in seconds.
 - Pips walk floors, walls and ceilings, but cannot cross a gap from a wall or ceiling to a floating ledge; spawn a Pip on the surface it has to reach, and assert `Navigator.CanReach` before waiting on it.
 - When a wait stalls, log the object's state every few seconds and take a screenshot with the HUD on (status icons) before failing; the cause is usually visible there.
+
+## Launching with oni-moono
+**Id:** blk-a24ff5debb99  
+**Tags:** mod-loadout
+
+Jeremy's Steam launch options for the game may start it through oni-moono (`"...\oni-moono\player\OniMoono.exe" -- %command%`). The common tools run that way with the launch options left as they are. Moono from commit 07cbcfc passes the tools' arguments through (earlier builds rejected them and exited within 3 s). TestRunner, SaveRunner and WorldgenDriver find the game as an `OniMoono` process whose command line holds their own arguments (`--onitest-`, `--saverun`, `--worldgen-`), through `common/tools/TestRunner/GameProcess.ps1` (OM-012, OM-013). ModTest launches with no arguments and follows the first game that starts after its launch. A Moono session Jeremy started by hand counts as an open game and refuses a launch. Player.log line 1 reads "Moono starting: commit=... .NET=..." on such a run; results are on Moono, not the stock Mono runtime. Proven in game: TestRunner (run-20261104-211549, 5 of 5), WorldgenDriver (one coordinate, complete) and SaveRunner (moono-unpause-20261105-103540, done in 71 s), each with mods.json restored. A loaded save starts paused, and something paused the SaveRunner run again 8.4 game seconds in; the first run unpaused only once and sat paused until its 900 s timeout, so `RunBehaviour` now unpauses whenever it finds the game paused and logs "game paused at N game s, unpausing". ModTest's Moono path is unchecked in game, since its check needs the game quit by hand.
+
+## Save round trips and undiscovered items
+**Id:** blk-8267d1f1a45b  
+**Tags:** save-files
+
+An item a test spawns and stores straight into a building (`Storage.Store`) is not discovered by the colony, however much is stored; the side screen does not list it, though `TreeFilterable.AddTagToFilter` still accepts it. On load, `TreeFilterable.OnSpawn` removes tags that are not discovered from the filter, and the storage drops the items on the floor. A test that saves and reloads filtered storage calls `DiscoveredResources.Instance.Discover(tag, category)` first and asserts the tag is discovered (`mods/fridge-thresholds-extended/src/FridgeThresholdsExtended.Tests/Fridges.cs`, `WriteRoundTrip`). Tests that never reload do not show the drop.

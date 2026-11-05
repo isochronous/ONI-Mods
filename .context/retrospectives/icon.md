@@ -4,6 +4,14 @@ Newest first. Each entry is a `### ` block naming the task it came from, appende
 path — `learned:` on the change-set that produced the lesson, never a closing ceremony.
 
 
+### OM-011: Fridge Thresholds Extended: thresholds for Freezer and Industrial Revolution fridges
+**Id:** blk-ff9a0da9320e
+
+- **Avoid**: Starting an in-game run without checking how the game is launched: Steam's launch options now go through oni-moono, which made the first approved run test nothing. Also giving Jeremy a guess as the cause twice (the food filter, then a fresh colony per test) before the code was read; both were wrong. The real cause, items stored by a test are never discovered and are dropped on load, came from reading TreeFilterable. Recurring friction, already in domains/tooling-friction.md: handoff briefs for a mod path repeat each sibling mod's copy of the shared standards sections.
+- **Repeat**: Settling 'mod or environment?' by reading both mods' code before any run: the Freezer slider was a gap between two Workshop mods, not oni-moono. A vanilla Refrigerator next to the modded one as a control in the same test. Reading other mods' types only by reflection, bound in OnAllModsLoaded, with no foreign type in any patch signature, so the mod loads with any target missing.
+- **Updated**: testing/integration-testing.md gains 'Launching with oni-moono' (the harness cannot start the game through Moono; Jeremy clears the launch options for a run) and 'Save round trips and undiscovered items' (discover a test's items before a reload, or filtered storage drops them).
+
+
 ### OM-010: Workshop review fixes in five mods
 **Id:** blk-e0ae710e477a
 
