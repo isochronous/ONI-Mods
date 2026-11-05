@@ -309,3 +309,88 @@ Built and checked against the game assemblies (-BuildOnly: no game session).
 ```
 
 The renamed and paced tests have not been run in game since these edits. Not committed.
+
+## Run 5 (oni-moono)
+
+**Result: in game, 5 passed, 0 failed, 0 errors, on Moono. The launcher still reported "The game did not start within 120 s" and exited with code 1, because it never saw the game process.** I ran it once, with no -KeepGame, and did not stop or rerun it. Steam launch options: Jeremy's oni-moono line. Nothing was committed, and the harness, the mod and the tests were not changed.
+
+### What I expected (written before the run)
+
+- The launcher finds the game by process name only. `Get-Process OxygenNotIncluded` is used at Invoke-OniTests.ps1:154 (the live-game pid check), :215-232 (leftover and already-running checks), :542 (the 120 s start wait) and :576 (the config restore). The warden does the same in `Find-Game` (Watch-OniGame.ps1:41, :45).
+- Moono is not a wrapper that starts OxygenNotIncluded.exe. `OniMoono.exe` (src/OniMoono.NativeHost/host.c) loads hostfxr and runs OniMoono.dll in its own process, so the game runs as a process named `OniMoono`.
+- My expectation: the launcher waits 120 s, throws "did not start", stops the warden and restores mods.json itself, whether or not Moono accepts the arguments. The clone at commit 66b5f36 (the commit in Jeremy's 16:58 Player.log) still sends any `--` option after the exe to "Unknown option", so on that build the game would exit at once. If the installed build passes the arguments through, the game runs the suite with no warden and no launcher watching it.
+- The second case happened. The Player.log shows commit **07cbcfc**, which is newer than the clone.
+
+### Runner output, verbatim
+
+```
+pwsh -NoProfile -File common/tools/TestRunner/Invoke-OniTests.ps1 -Mods FridgeThresholdsExtended -Steam 2959340381,2618339179,3557584850
+
+Building C:\dev\ONI-Mods\mods\fridge-thresholds-extended\src\FridgeThresholdsExtended.Tests\FridgeThresholdsExtended.Tests.csproj
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:03.79
+Checking FridgeThresholdsExtended.Tests.dll against the game assemblies
+Loadout: TestRunner + FridgeThresholdsExtended + Workshop 2959340381, 2618339179, 3557584850; mode Spaced Out; fixture C:\dev\ONI-Mods\common\tools\TestRunner\fixtures\testbed-so.sav
+Launching: -applaunch 457140 --onitest-dir=C:\dev\ONI-Mods\common\tools\TestRunner\runs\run-20261104-210014 --onitest-save=C:\dev\ONI-Mods\common\tools\TestRunner\runs\run-20261104-210014\fixture.sav --onitest-timeout=600 --onitest-test-timeout=60 --onitest-config=FridgeThresholdsExtended --onitest-server=C:\Users\thegr\AppData\Local\IsochronousOniTests\live
+Restored mods.json.
+Put the player's last-save pointer (SaveFilenameKey/) back.
+Exception: C:\dev\ONI-Mods\common\tools\TestRunner\Invoke-OniTests.ps1:543
+Line |
+ 543 |  …      if (-not $proc) { throw 'The game did not start within 120 s.' }
+     |                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     | The game did not start within 120 s.
+```
+
+Exit code 1. The launcher printed no results, because it took the failure path. The game wrote them to the run folder anyway: `common/tools/TestRunner/runs/run-20261104-210014/results.jsonl`, formatted below the way the launcher formats them.
+
+```
+PASS     FridgeThresholdsExtended.Tests/Fridges.FreezerFollowsThresholds (6.5 s)
+PASS     FridgeThresholdsExtended.Tests/Fridges.IndustrialRevolutionFridge (4.1 s)
+PASS     FridgeThresholdsExtended.Tests/Fridges.FreezerCopySettings (2.5 s)
+PASS     FridgeThresholdsExtended.Tests/Fridges.WriteRoundTrip (4.2 s)
+PASS     FridgeThresholdsExtended.Tests/Fridges.LoadKeepsOrderFillAndGreen (3.6 s)
+results.jsonl.status: {"status":"done","detail":"5 passed, 0 failed, 0 errors, 0 timeouts, 0 skipped",...,"total":5,"passed":5,"reloads":1,"realSeconds":53.8}
+```
+
+The screenshots are in `artifacts/` (`...FreezerFollowsThresholds-green-at-60.png`, `...LoadKeepsOrderFillAndGreen-after-load.png`). The launcher did not copy a Player.log into the run folder, because that copy is on the found-the-game path. I saved one at `C:\Users\thegr\AppData\Local\Temp\claude\C--dev-ONI-Mods\7b932c4a-6569-4783-a8c2-8a995ac90316\scratchpad\om011-run5-Player.log`. The full console capture is at `C:\Users\thegr\AppData\Local\Temp\claude\C--dev-ONI-Mods\7b932c4a-6569-4783-a8c2-8a995ac90316\scratchpad\om011-run5.txt`.
+
+### It ran on Moono
+
+The first line of Player.log:
+
+```
+[engine] Moono starting: commit=07cbcfcb8417afb90313e034a3d8456f888d2bb6 exe=%USERPROFILE%\AppData\Local\oni-moono\player\OniMoono.exe game=F:\SteamLibrary\steamapps\common\OxygenNotIncluded .NET=10.0.13
+```
+
+Moono passed the arguments through. Every `--onitest-*` argument is logged as "not read by this player; passed to the game" (Player.log lines 14-20), and TestRunner read them (line 715). Moono's default game tweaks were on (fast-load-screen, fast-serialization, background-save, no-save-gc and others), so this result is for Moono with its default tweaks.
+
+### FridgeThresholdsExtended Player.log lines
+
+```
+[02:00:46.903] [2] [INFO] [FridgeThresholdsExtended] Loaded version 0.1.0.0
+[02:00:47.054] [2] [INFO] [FridgeThresholdsExtended] Industrial Revolution found; thresholds added to 5 fridges
+[02:00:47.057] [2] [INFO] [FridgeThresholdsExtended] Freezer found; its logic port follows the thresholds
+```
+
+Component order, the evidence for the M1 fix: `SimpleFridge components: thresholds at 32, Refrigerator at 36`, `built Freezer components: thresholds at 34, Freezer at 37`, `loaded Freezer components: thresholds at 34, Freezer at 37`. These match run 4 on Mono.
+
+### Exceptions
+
+None. The Player.log has 0 lines containing "Exception" and 0 `[ERROR]` lines. The game shut itself down cleanly: "ending the live session: no run for 15 s", then `App.Quit`, then "[engine] Exiting after 7028 frames with code 0" at 21:01:55.
+
+### mods.json
+
+Restored. The launcher restored it on its failure path at about 21:02:20, which is after the game had exited at 21:01:55. The player's mods.json now has the same SHA-256 (98490930...A690B) as the run's `mods.json.real` and as my own copy taken before the run. The launcher also put back the last-save pointer. TestRunner put back the FridgeThresholdsExtended config itself ("none, as before the run"). No warden is left running: the launcher stopped it, and the warden log ends at "waiting up to 150 s for the game". No game process is left running.
+
+This was safe only because of the timing: the suite finished in 54 s and the game quit within 95 s of launch. A run longer than 120 s would have had its mods.json restored under a live game, with no warden left to restore it again after the game exits.
+
+### What the harness needs (not done: this needs its own approval)
+
+The launcher and the warden must recognise a game running as `OniMoono` as well as `OxygenNotIncluded`:
+- One helper, for example `Get-GameProcess`, that returns `OxygenNotIncluded` processes plus `OniMoono` processes. For OniMoono it should keep only processes whose command line contains `--onitest-` or the game path, so that Moono's `Restarter.exe` and a player's own Moono session are told apart. Use it at Invoke-OniTests.ps1:154, :215, :218, :220, :232, :542 and :576, and in Watch-OniGame.ps1 `Find-Game` (:41, :45).
+- The rest then works unchanged: the pid file, `$proc.HasExited`, the warden's idle and busy kills, the Player.log copy (Moono writes the same `LocalLow\Klei\Oxygen Not Included\Player.log`) and the live-session reuse.
+- Testing notes: `.context/testing/integration-testing.md` "Launching with oni-moono" can now say that Moono passes the arguments through as of commit 07cbcfc, and that the launcher does not yet follow the `OniMoono` process.
