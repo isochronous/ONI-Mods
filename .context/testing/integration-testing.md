@@ -204,7 +204,7 @@ Facts that each cost a failed run while building plant scenes for Ovagros Overhe
 **Id:** blk-a24ff5debb99  
 **Tags:** mod-loadout
 
-Jeremy's Steam launch options for the game may start it through oni-moono (`"...\oni-moono\player\OniMoono.exe" -- %command%`). With them set, `Invoke-OniTests.ps1` fails with "The game did not start within 120 s": Moono rejects the harness's `--onitest-*` arguments as unknown options and exits within 3 s, before writing a log, and the launcher only watches for an `OxygenNotIncluded` process. The warden still restores `mods.json`. To run a suite, Jeremy clears the launch options himself and restores them after the run; the harness never edits Steam settings. Results from such a run are on the stock Mono runtime, not on Moono (OM-011, run-20261104-130136).
+Jeremy's Steam launch options for the game may start it through oni-moono (`"...\oni-moono\player\OniMoono.exe" -- %command%`). Before 2026-11-04, Moono rejected the harness's `--onitest-*` arguments as unknown options and exited within 3 s, so `Invoke-OniTests.ps1` failed with "The game did not start within 120 s" (OM-011, run-20261104-130136); the warden still restored `mods.json`. Jeremy reports that the latest Moono passes command-line arguments through to the game. Not yet confirmed with a harness run: whether the launcher, which watches for an `OxygenNotIncluded` process, follows a game started through Moono. Until a run confirms it, a suite runs with the launch options cleared, which Jeremy does himself and restores after; the harness never edits Steam settings. Results from such a run are on the stock Mono runtime, not on Moono.
 
 ## Save round trips and undiscovered items
 **Id:** blk-8267d1f1a45b  
