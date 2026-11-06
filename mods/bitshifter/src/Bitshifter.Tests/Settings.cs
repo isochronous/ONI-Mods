@@ -33,7 +33,7 @@ namespace Bitshifter.Tests
 			Rig rig = null;
 			yield return Rig.Build(t, r, 20, 20, x => rig = x);
 			rig.Set(true);
-			yield return t.WaitGameSeconds(1);
+			yield return t.WaitGameSeconds(0.5);
 			t.Assert.True(rig.AlarmInput > 0, "the signal passes before the save");
 
 			Tag writerTag = rig.Writer.PrefabID();
@@ -42,16 +42,16 @@ namespace Bitshifter.Tests
 			byte[] readerFile = SaveFile.Capture(rig.Reader);
 			t.World.Destroy(rig.Writer);
 			t.World.Destroy(rig.Reader);
-			yield return t.WaitGameSeconds(2);
+			yield return t.WaitGameSeconds(1);
 			GameObject writer = SaveFile.Restore(writerTag, writerFile);
 			GameObject reader = SaveFile.Restore(readerTag, readerFile);
-			yield return t.WaitGameSeconds(2);
+			yield return t.WaitGameSeconds(1);
 			t.Assert.Eq(20, writer.GetComponent<LogicRibbonWriter>().GetBitSelection(), "the writer's bit is kept");
 			t.Assert.Eq(20, reader.GetComponent<LogicRibbonReader>().GetBitSelection(), "the reader's bit is kept");
 			t.Assert.Eq(31, writer.GetComponent<LogicRibbonWriter>().GetBitDepth(), "the loaded writer offers 31 bits");
 			t.Assert.True(rig.AlarmInput > 0, "the signal passes through the loaded pair");
 			rig.Set(false);
-			yield return t.WaitGameSeconds(1);
+			yield return t.WaitGameSeconds(0.5);
 			t.Assert.Eq(0, rig.AlarmInput, "and stops with the switch");
 		}
 
@@ -63,7 +63,7 @@ namespace Bitshifter.Tests
 			GameObject reader = t.World.Build("LogicRibbonReader", r.Cell(2, 0));
 			var writerPart = writer.GetComponent<LogicRibbonWriter>();
 			var readerPart = reader.GetComponent<LogicRibbonReader>();
-			yield return t.WaitGameSeconds(1);
+			yield return t.WaitGameSeconds(0.5);
 			var writerAnim = writer.GetComponent<KBatchedAnimController>();
 			var readerAnim = reader.GetComponent<KBatchedAnimController>();
 
@@ -73,7 +73,7 @@ namespace Bitshifter.Tests
 			{
 				writerPart.SetBitSelection(bit);
 				readerPart.SetBitSelection(bit);
-				yield return t.WaitGameSeconds(1);
+				yield return t.WaitGameSeconds(0.5);
 				t.Assert.Eq("net0", writerAnim.CurrentAnim?.name, "the unwired writer's pose on bit " + (bit + 1));
 				t.Assert.Eq("net0", readerAnim.CurrentAnim?.name, "the unwired reader's pose on bit " + (bit + 1));
 			}

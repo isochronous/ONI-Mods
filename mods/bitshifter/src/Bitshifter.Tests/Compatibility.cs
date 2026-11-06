@@ -51,7 +51,7 @@ namespace Bitshifter.Tests
 			PanelRig rig = null;
 			yield return PanelRig.Build(t, t.Rect(PanelRig.Width, PanelRig.Height), Feed.Writer, true, 31, x => rig = x, 31);
 			rig.Set(true);
-			yield return t.WaitGameSeconds(1);
+			yield return t.WaitGameSeconds(0.5);
 			t.Assert.Eq(int.MinValue, rig.PanelPart.InputValue, "the panel's input carries bit 32");
 			t.Assert.Eq(int.MinValue, rig.PanelPart.OutputValue, "the output passes bit 32 through");
 			t.Assert.True(rig.AlarmInput > 0, "a Reader on bit 32 sees it");

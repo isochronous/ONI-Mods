@@ -33,11 +33,9 @@ namespace Bitshifter.Tests
 			UtilityDragSession wire = t.Tools.UtilityTool("LogicWire", SimHashes.Copper);
 			yield return wire.Path(r.Cell(0, 0), r.Cell(1, 0), r.Cell(1, 1), r.Cell(1, 2), r.Cell(1, 3));
 			wire.Dispose();
-			yield return t.WaitGameSeconds(1);
 			UtilityDragSession ribbon = t.Tools.UtilityTool("LogicRibbon", SimHashes.Copper);
 			yield return ribbon.Path(r.Cell(2, 3), r.Cell(2, 2), r.Cell(2, 1), r.Cell(2, 0), r.Cell(3, 0), r.Cell(4, 0));
 			ribbon.Dispose();
-			yield return t.WaitGameSeconds(1);
 			ribbon = t.Tools.UtilityTool("LogicRibbon", SimHashes.Copper);
 			yield return ribbon.Path(r.Cell(5, 0), r.Cell(6, 0));
 			ribbon.Dispose();
@@ -48,7 +46,7 @@ namespace Bitshifter.Tests
 			t.Assert.Eq(0, Value(r.Cell(4, 0)), "nothing on the ribbon with the switch off");
 			t.Assert.Eq(all, Value(r.Cell(6, 0)), "every bit on out of the gate with the switch off");
 			bits.HandleToggle();
-			yield return t.WaitGameSeconds(1);
+			yield return t.WaitGameSeconds(0.5);
 			t.Log("switch on: in " + Binary(Value(r.Cell(4, 0))) + ", out " + Binary(Value(r.Cell(6, 0))));
 			t.Assert.Eq(Written, Value(r.Cell(4, 0)), "the writers set bits 1, 3, 5 and 7");
 			t.Assert.Eq(all & ~Written, Value(r.Cell(6, 0)), "every bit but 1, 3, 5 and 7 out of the gate");
@@ -73,11 +71,9 @@ namespace Bitshifter.Tests
 			UtilityDragSession ribbon = t.Tools.UtilityTool("LogicRibbon", SimHashes.Copper);
 			yield return ribbon.Path(r.Cell(0, 0), r.Cell(1, 0));
 			ribbon.Dispose();
-			yield return t.WaitGameSeconds(1);
 			ribbon = t.Tools.UtilityTool("LogicRibbon", SimHashes.Copper);
 			yield return ribbon.Path(r.Cell(2, 0), r.Cell(3, 0));
 			ribbon.Dispose();
-			yield return t.WaitGameSeconds(1);
 			ribbon = t.Tools.UtilityTool("LogicRibbon", SimHashes.Copper);
 			yield return ribbon.Path(r.Cell(4, 0), r.Cell(5, 0));
 			ribbon.Dispose();
@@ -89,7 +85,7 @@ namespace Bitshifter.Tests
 			t.Assert.Eq(all, Value(r.Cell(3, 0)), "bits 1-31 out of the NOT");
 			t.Assert.Eq(0xFF, Value(r.Cell(5, 0)), "bits 1-8 out of a Reader on bit 24");
 			reader.SetBitSelection(27); // Bit 28
-			yield return t.WaitGameSeconds(1);
+			yield return t.WaitGameSeconds(0.5);
 			t.Log("Reader on bit 28 out " + Binary(Value(r.Cell(5, 0))));
 			t.Assert.Eq(0xF, Value(r.Cell(5, 0)), "bits 1-4 out of a Reader on bit 28");
 		}
