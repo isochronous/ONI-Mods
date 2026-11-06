@@ -50,11 +50,11 @@ namespace Bitshifter.Tests
 			yield return Rig.Build(t, t.Rect(6, 1), bit, bit, r => rig = r);
 			t.Assert.Eq(0, rig.AlarmInput, "off with the switch off");
 			rig.Set(true);
-			yield return t.WaitGameSeconds(1);
+			yield return t.WaitGameSeconds(0.5);
 			t.Assert.Eq(1 << bit, rig.WriterPart.GetOutputValue(), "the writer puts its input on bit " + bit);
 			t.Assert.True(rig.AlarmInput > 0, "the alarm is on with the switch on, bit " + bit);
 			rig.Set(false);
-			yield return t.WaitGameSeconds(1);
+			yield return t.WaitGameSeconds(0.5);
 			t.Assert.Eq(0, rig.AlarmInput, "off again with the switch off, bit " + bit);
 		}
 
@@ -64,11 +64,11 @@ namespace Bitshifter.Tests
 			Rig rig = null;
 			yield return Rig.Build(t, t.Rect(6, 1), LastBit, FirstModdedBit + 3, r => rig = r);
 			rig.Set(true);
-			yield return t.WaitGameSeconds(1);
+			yield return t.WaitGameSeconds(0.5);
 			t.Assert.Eq(1 << LastBit, rig.WriterPart.GetOutputValue(), "the ribbon carries bit " + LastBit);
 			t.Assert.Eq(0, rig.AlarmInput, "a reader on bit " + (FirstModdedBit + 3) + " reads a clear bit");
 			rig.ReaderPart.SetBitSelection(LastBit);
-			yield return t.WaitGameSeconds(1);
+			yield return t.WaitGameSeconds(0.5);
 			t.Assert.True(rig.AlarmInput > 0, "the reader picks the signal up once it is on the writer's bit");
 		}
 	}

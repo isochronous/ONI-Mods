@@ -28,7 +28,7 @@ namespace Bitshifter.Tests
 			yield return t.WaitGameSeconds(1);
 			writer.SetBitSelection(22); // Bit 23
 			reader.SetBitSelection(6);  // Bit 7
-			yield return t.WaitGameSeconds(1);
+			yield return t.WaitGameSeconds(0.5);
 			KBatchedAnimController w = writer.GetComponent<KBatchedAnimController>();
 			KBatchedAnimController rd = reader.GetComponent<KBatchedAnimController>();
 			t.Assert.Eq("net0", w.CurrentAnim?.name, "the writer's pose with nothing wired");
@@ -36,7 +36,7 @@ namespace Bitshifter.Tests
 			AssertDigits(t, w, "abdeg", "abcdg", "the writer showing 23");
 			AssertDigits(t, rd, "", "abc", "the reader showing 7, no leading zero");
 			reader.SetBitSelection(9); // Bit 10
-			yield return t.WaitGameSeconds(1);
+			yield return t.WaitGameSeconds(0.5);
 			AssertDigits(t, rd, "bc", "abcdef", "the reader showing 10");
 		}
 
@@ -59,7 +59,7 @@ namespace Bitshifter.Tests
 				b.SetBitSelection(22); // Bit 23
 			foreach (ILogicRibbonBitSelector b in new ILogicRibbonBitSelector[] { upReader, reader })
 				b.SetBitSelection(6);  // Bit 7
-			yield return t.WaitGameSeconds(1);
+			yield return t.WaitGameSeconds(0.5);
 			AssertDigits(t, upWriter.GetComponent<KBatchedAnimController>(), "abdeg", "abcdg", "the upright writer showing 23");
 			AssertDigits(t, upReader.GetComponent<KBatchedAnimController>(), "", "abc", "the upright reader showing 7");
 			AssertDigits(t, writer.GetComponent<KBatchedAnimController>(), Turn("abcdg"), Turn("abdeg"), "the turned writer showing 23");
@@ -105,10 +105,10 @@ namespace Bitshifter.Tests
 			t.Assert.Eq("net5", rig.Writer.GetComponent<KBatchedAnimController>().CurrentAnim?.name, "the writer's pose with both ports wired");
 			yield return t.LookAt(r.Cell(4, 1), 5);
 			rig.Set(true);
-			yield return t.WaitGameSeconds(1);
+			yield return t.WaitGameSeconds(0.5);
 			yield return t.Screenshot("on");
 			rig.Set(false);
-			yield return t.WaitGameSeconds(1);
+			yield return t.WaitGameSeconds(0.5);
 			yield return t.Screenshot("off");
 		}
 	}

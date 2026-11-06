@@ -37,11 +37,9 @@ namespace Bitshifter.Tests
 			UtilityDragSession wire = t.Tools.UtilityTool("LogicWire", SimHashes.Copper);
 			yield return wire.Path(r.Cell(0, 0), r.Cell(1, 0));
 			wire.Dispose();
-			yield return t.WaitGameSeconds(1);
 			UtilityDragSession ribbon = t.Tools.UtilityTool("LogicRibbon", SimHashes.Copper);
 			yield return ribbon.Path(r.Cell(2, 0), r.Cell(3, 0));
 			ribbon.Dispose();
-			yield return t.WaitGameSeconds(1);
 			wire = t.Tools.UtilityTool("LogicWire", SimHashes.Copper);
 			yield return wire.Path(r.Cell(4, 0), r.Cell(5, 0));
 			wire.Dispose();
@@ -125,7 +123,6 @@ namespace Bitshifter.Tests
 				wire = t.Tools.UtilityTool("LogicWire", SimHashes.Copper);
 				yield return wire.Path(r.Cell(0, 0), r.Cell(1, 0));
 				wire.Dispose();
-				yield return t.WaitGameSeconds(1);
 			}
 			if (feed != Feed.None)
 			{
@@ -136,14 +133,14 @@ namespace Bitshifter.Tests
 				else
 					yield return ribbon.Path(r.Cell(2, 0), r.Cell(2, 1), r.Cell(3, 1));
 				ribbon.Dispose();
-				yield return t.WaitGameSeconds(1);
 			}
 			wire = t.Tools.UtilityTool("LogicWire", SimHashes.Copper);
 			yield return wire.Path(r.Cell(7, 0), r.Cell(8, 0));
 			wire.Dispose();
-			yield return t.WaitGameSeconds(1);
 			if (wireOutput)
 				yield return rig.WireOutput(t);
+			else
+				yield return t.WaitGameSeconds(1);
 			done(rig);
 		}
 
@@ -156,14 +153,12 @@ namespace Bitshifter.Tests
 			yield return t.WaitGameSeconds(1);
 		}
 
-		/// <summary>Takes the output ribbon away one piece at a time, as a player deconstructs it.</summary>
+		/// <summary>Takes the output ribbon away, every piece at once, as a deconstruct drag over it does.</summary>
 		public IEnumerator CutOutput(TestContext t)
 		{
 			for (int x = 6; x >= 3; x--)
-			{
 				t.World.Destroy(t.World.At(r.Cell(x, 0), ObjectLayer.LogicWire));
-				yield return t.WaitGameSeconds(1);
-			}
+			yield return t.WaitGameSeconds(1);
 		}
 
 		/// <summary>The value the alarm's input port reads.</summary>

@@ -26,23 +26,20 @@ namespace Bitshifter.Tests
 			// Cells: 0-1 the source panel, 2 the ribbon's climb, 3-4 the panel, 5 ribbon, 6-7 the reader.
 			CellRect r = t.Rect(8, 2);
 			GameObject source = t.World.Build(RibbonDiagnosticPanelConfig.ID, r.Cell(0, 0));
-			yield return t.WaitGameSeconds(1);
 			GameObject panelGo = t.World.Build(RibbonDiagnosticPanelConfig.ID, r.Cell(3, 0));
-			yield return t.WaitGameSeconds(1);
 			GameObject reader = t.World.Build("LogicRibbonReader", r.Cell(6, 0));
 			yield return t.WaitGameSeconds(1);
 			RibbonDiagnosticPanel panel = panelGo.GetComponent<RibbonDiagnosticPanel>();
 
 			source.GetComponent<RibbonDiagnosticPanel>().SetSwitches(SourceBits);
-			yield return t.WaitGameSeconds(1);
+			yield return t.WaitGameSeconds(0.5);
 			panel.SetSwitches(PanelSwitches);
-			yield return t.WaitGameSeconds(1);
+			yield return t.WaitGameSeconds(0.5);
 
 			// The source's output (its bottom left) up to the panel's input (its top left).
 			UtilityDragSession ribbon = t.Tools.UtilityTool("LogicRibbon", SimHashes.Copper);
 			yield return ribbon.Path(r.Cell(0, 0), r.Cell(1, 0), r.Cell(2, 0), r.Cell(2, 1), r.Cell(3, 1));
 			ribbon.Dispose();
-			yield return t.WaitGameSeconds(1);
 			// The panel's output (its bottom left) to the reader's input.
 			ribbon = t.Tools.UtilityTool("LogicRibbon", SimHashes.Copper);
 			yield return ribbon.Path(r.Cell(3, 0), r.Cell(4, 0), r.Cell(5, 0), r.Cell(6, 0));
@@ -59,7 +56,7 @@ namespace Bitshifter.Tests
 			GameObject cell = t.Screens.Find(screen.gameObject, "Bit" + (ClickedBit + 1));
 			t.Assert.NotNull(cell, "the grid has a cell for bit " + (ClickedBit + 1));
 			t.Screens.Click(cell);
-			yield return t.WaitGameSeconds(1);
+			yield return t.WaitGameSeconds(0.5);
 			t.Assert.True(panel.IsSwitchOn(ClickedBit), "clicking cell " + (ClickedBit + 1) + " switches bit " + (ClickedBit + 1) + " on");
 			t.Assert.Eq(SourceBits | PanelSwitches | (1 << ClickedBit), panel.OutputValue, "the output is input OR switches");
 			LogState(t, panel);
@@ -68,42 +65,40 @@ namespace Bitshifter.Tests
 			// The face close up, neither selected nor under the pointer: the game brightens a
 			// selected or hovered building, which washes the lamps out to white.
 			t.Screens.Deselect();
-			yield return t.WaitGameSeconds(1);
+			yield return t.WaitGameSeconds(0.5);
 			yield return t.LookAt(r.Cell(4, 1), 3f);
-			yield return t.WaitGameSeconds(1);
+			yield return t.WaitGameSeconds(0.5);
 			yield return t.Screenshot("3-face-lit");
 
 			// The hover card, with nothing selected, over the panel.
 			yield return t.LookAt(r.Cell(4, 1), 6f);
 			t.PointAt(r.Cell(4, 1));
-			yield return t.WaitGameSeconds(1);
+			yield return t.WaitGameSeconds(0.5);
 			yield return t.Screenshot("4a-hover");
 			OverlayScreen.Instance.ToggleOverlay(OverlayModes.Logic.ID);
 			t.Cleanup(() => OverlayScreen.Instance.ToggleOverlay(OverlayModes.None.ID));
-			yield return t.WaitGameSeconds(1);
+			yield return t.WaitGameSeconds(0.5);
 			t.PointAt(r.Cell(4, 1));
-			yield return t.WaitGameSeconds(1);
+			yield return t.WaitGameSeconds(0.5);
 			yield return t.Screenshot("4b-hover-automation-overlay");
 			OverlayScreen.Instance.ToggleOverlay(OverlayModes.None.ID);
-			yield return t.WaitGameSeconds(1);
+			yield return t.WaitGameSeconds(0.5);
 
-			// Unwire the output, one ribbon piece at a time.
+			// Unwire the output, every ribbon piece at once.
 			for (int x = 6; x >= 3; x--)
-			{
 				t.World.Destroy(t.World.At(r.Cell(x, 0), ObjectLayer.LogicWire));
-				yield return t.WaitGameSeconds(1);
-			}
+			yield return t.WaitGameSeconds(1);
 			t.Assert.False(panel.OutputWired, "the panel's output is unwired");
 			yield return t.Screens.Select(panelGo);
 			LogState(t, panel);
 			yield return t.Screenshot("2-grid-unwired");
 			t.Screens.Deselect();
-			yield return t.WaitGameSeconds(1);
+			yield return t.WaitGameSeconds(0.5);
 
 			// The build menu: Automation, where the panel follows the Ribbon Writer.
 			PlanScreen.Instance.OpenCategoryByName("Automation");
 			t.Cleanup(() => PlanScreen.Instance.CloseCategoryPanel(false));
-			yield return t.WaitGameSeconds(1);
+			yield return t.WaitGameSeconds(0.5);
 			yield return t.Screenshot("5-build-menu");
 		}
 

@@ -14,7 +14,7 @@ namespace Bitshifter.Tests
 		private static IEnumerator Show(TestContext t, GameObject building, System.Action<LogicBitSelectorSideScreen> done)
 		{
 			SelectTool.Instance.Select(building.GetComponent<KSelectable>());
-			yield return t.WaitGameSeconds(1.5);
+			yield return t.WaitGameSeconds(1);
 			LogicBitSelectorSideScreen screen = null;
 			foreach (DetailsScreen.SideScreenRef sr in Traverse.Create(DetailsScreen.Instance).Field("sideScreens").GetValue<List<DetailsScreen.SideScreenRef>>())
 				if (sr.screenInstance is LogicBitSelectorSideScreen s && s.gameObject.activeInHierarchy)
@@ -74,7 +74,7 @@ namespace Bitshifter.Tests
 				t.Assert.Eq(1, screen.GetComponentsInChildren<KScrollRect>(true).Length, "one scroll view after showing it " + (i + 1) + " time(s)");
 				t.Assert.Eq(31, Rows(screen).Count, "31 rows after showing it " + (i + 1) + " time(s)");
 				SelectTool.Instance.Select(null);
-				yield return t.WaitGameSeconds(1);
+				yield return t.WaitGameSeconds(0.5);
 			}
 			GameObject header = Traverse.Create(DetailsScreen.Instance).Field("sidescreenTabHeader").GetValue<GameObject>();
 			float width = header.GetComponent<RectTransform>().rect.width;
