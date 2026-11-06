@@ -8,6 +8,7 @@
 | Corner Build Anything | [mods/corner-build-anything](mods/corner-build-anything) |
 | Detect Any Element | [mods/detect-any-element](mods/detect-any-element) |
 | Don't Count Eggs on Rails | [mods/dont-count-eggs-on-rails](mods/dont-count-eggs-on-rails) |
+| Fridge Thresholds Extended | [mods/fridge-thresholds-extended](mods/fridge-thresholds-extended) |
 | Jumper Bridges | [mods/jumper-bridges](mods/jumper-bridges) |
 | Just Fall Already! | [mods/just-fall-already](mods/just-fall-already) |
 | Motion Sensor Range | [mods/motion-sensor-range](mods/motion-sensor-range) |
@@ -18,6 +19,7 @@
 | Refined Building | [mods/refined-building](mods/refined-building) |
 | Salty Surf | [mods/salty-surf](mods/salty-surf) |
 | Smart Weight Plate | [mods/smart-weight-plate](mods/smart-weight-plate) |
+| Smooth Borders | [mods/smooth-borders](mods/smooth-borders) |
 | Storage Pod Redux | [mods/storage-pod-redux](mods/storage-pod-redux) |
 | Sweep Zones Redux | [mods/sweep-zones](mods/sweep-zones) |
 | Upgrade Planner | [mods/upgrade-planner](mods/upgrade-planner) |

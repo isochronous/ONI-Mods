@@ -36,6 +36,17 @@ namespace JumperBridges
 			return result;
 		}
 
+		/// <summary>Whether a joint plate other than self, complete or queued, has an end on the cell; allocates nothing.</summary>
+		public static bool JointPlateEndAt(int cell, GameObject self)
+		{
+			if (!byCell.TryGetValue(cell, out List<BridgeFootprint> list))
+				return false;
+			foreach (BridgeFootprint footprint in list)
+				if (footprint != null && footprint.gameObject != self && footprint.IsEnd(cell) && BridgeKind.IsJointPlate(footprint.gameObject))
+					return true;
+			return false;
+		}
+
 		/// <summary>The bridges with an end or their middle on the cell; a fresh list.</summary>
 		public static List<GameObject> At(int cell)
 		{

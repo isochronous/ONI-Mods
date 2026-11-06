@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="$(OniCommon)oni-mod.props" />
+
+  <PropertyGroup>
+    <AssemblyName>SmoothBorders.Tests</AssemblyName>
+    <RootNamespace>SmoothBorders.Tests</RootNamespace>
+    <!-- Never deployed as a mod; the TestRunner launcher copies the DLL into its run folder. -->
+    <ModDeployFolder>none</ModDeployFolder>
+    <ReferenceUnityUI>true</ReferenceUnityUI>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SmoothBorders\SmoothBorders.csproj" Private="false" />
+    <ProjectReference Include="$(OniCommon)tools\TestRunner\TestRunner.csproj" Private="false" />
+  </ItemGroup>
+
+  <Import Project="$(OniCommon)oni-mod.targets" />
+
+</Project>

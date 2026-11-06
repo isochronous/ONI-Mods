@@ -1,0 +1,3 @@
+title: "Smooth Borders"
+description: "Draws the neutronium world border flat, at a set thickness per kind of asteroid. New worlds only."
+staticID: "Isochronous.SmoothBorders"

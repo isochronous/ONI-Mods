@@ -40,8 +40,9 @@ Jumper Bridges lets an Automation Wire Bridge or Automation Ribbon Bridge, and a
 
 ### BridgeKind
 **Id:** blk-e978d080073f  
-**Tags:** utility-network  
-**Description**: What differs between automation and power: the network manager, layers and wire art. Two instances, `Logic` and `Power`, in `BridgeKind.All`. Each keeps its own live node table, so an automation and a power bridge end on one cell are on two separate networks. `Of(BuildingDef)` maps `BuildLocationRule.LogicBridge` to Logic and `BuildLocationRule.WireBridge` to Power; the heavy-watt joint plates have their own rule and are left alone.  
+**Tags:** utility-network
+
+**Description**: What differs between automation and power: the network manager, layers and wire art. Two instances, `Logic` and `Power`, in `BridgeKind.All`. Each keeps its own live node table, so an automation and a power bridge end on one cell are on two separate networks. `Of(BuildingDef)` maps `BuildLocationRule.LogicBridge` to Logic, and both `BuildLocationRule.WireBridge` and `BuildLocationRule.HighWattBridgeTile` (the two heavy-watt joint plates) to Power. The plates join Power rather than a kind of their own because one network manager allows one node and one link partner per cell.  
 **Location**: `mods/jumper-bridges/src/JumperBridges/BridgeKind.cs`
 
 | Property | Type | Description |
@@ -53,7 +54,7 @@ Jumper Bridges lets an Automation Wire Bridge or Automation Ribbon Bridge, and a
 | Nodes | Dictionary<int, BridgeEndNode> | Live nodes by cell, one per cell |
 | Manager, Items, Links | game network manager and its private `items` and `links` tables | Read by reflection on cold paths |
 
-**Relationships**: `NodeAnim` picks the wire kanim a node plays: `logic_wires_kanim` or `logic_ribbon_kanim` (by the link's bit depth), and for power `utilities_electric_kanim`, `utilities_electric_conduct_kanim` or `utilities_electric_rubber_kanim`.
+**Relationships**: `NodeAnim` picks the wire kanim a node plays: `logic_wires_kanim` or `logic_ribbon_kanim` (by the link's bit depth), and for power `utilities_electric_kanim`, `utilities_electric_conduct_kanim` or `utilities_electric_rubber_kanim`, or for the joint plates `utilities_electric_insulated_kanim` (heavi-watt wire) or `utilities_electric_conduct_hiwatt_kanim` (conductive heavi-watt wire).
 
 ### JumperBridge
 **Id:** blk-c5d470758241  
@@ -65,8 +66,9 @@ Jumper Bridges lets an Automation Wire Bridge or Automation Ribbon Bridge, and a
 
 ### BridgeEndNode
 **Id:** blk-a0f2a41a1467  
-**Tags:** game-component, utility-network  
-**Description**: A `KAnimGraphTileVisualizer` on a standalone GameObject (no building) that stands in for a wire under a bridge end. It makes the three registrations a wire makes: the wire tile layer, a physical network node with connection bits and a network item at the cell, so the port there is told it is connected. It plays the wire kanim and mirrors the connection bits its neighbours point at it. Several bridge ends on one cell share one node, which goes with its last owner. It costs nothing, yields nothing, has no deconstruct order and is not saved. On a power network it is not a `Wire`, so the circuit's wattage limit is the bridge's own.  
+**Tags:** game-component, utility-network
+
+**Description**: A `KAnimGraphTileVisualizer` on a standalone GameObject (no building) that stands in for a wire under a bridge end. It makes the three registrations a wire makes: the wire tile layer, a physical network node with connection bits and a network item at the cell, so the port there is told it is connected. It plays the wire kanim and mirrors the connection bits its neighbours point at it. Several bridge ends on one cell share one node, which goes with its last owner. On power, `UpdateArt` re-picks the kanim whenever an owner joins or leaves: a joint plate's heavi-watt wire while any plate has an end on the cell, otherwise the art it has while that owner stays, then the first remaining owner's; the kanim is swapped on the existing controller (`SwapAnims`), never by recreating the node. It costs nothing, yields nothing, has no deconstruct order and is not saved. On a power network it is not a `Wire`, so the circuit's wattage limit is the bridge's own.  
 **Location**: `mods/jumper-bridges/src/JumperBridges/BridgeEndNode.cs`
 
 **Relationships**: owned by one or more `JumperBridge`s; registered in `BridgeKind.Nodes`.
@@ -85,14 +87,15 @@ Jumper Bridges lets an Automation Wire Bridge or Automation Ribbon Bridge, and a
 
 ### Harmony patches
 **Id:** blk-a88b0d39bc11  
-**Tags:** harmony-patching, wire-tools  
+**Tags:** harmony-patching, wire-tools
+
 **Description**: The game classes and methods patched, grouped by purpose, all in `mods/jumper-bridges/src/JumperBridges/Patches.cs`. A group is skipped when its kind is off.
 - Bridge setup (automation): `LogicWireBridgeConfig` and `LogicRibbonBridgeConfig` `DoPostConfigureComplete` and `DoPostConfigureUnderConstruction` add `JumperBridge` and `BridgeFootprint`.
-- Bridge setup (power): `WireBridgeConfig` `DoPostConfigureComplete` and `DoPostConfigureUnderConstruction`.
-- Placement: `BuildingDef.MarkArea`, `AreLogicPortsInValidPositions`, `IsValidWireBridgeLocation`, `IsValidHighWattBridgeLocation`, `ArePowerPortsInValidPositions`, `MarkOverlappingPorts`.
+- Bridge setup (power): `WireBridgeConfig` and `WireBridgeHighWattageConfig` `DoPostConfigureComplete` and `DoPostConfigureUnderConstruction`; the other wire bridges and the conductive joint plate inherit them.
+- Placement: `BuildingDef.MarkArea` (a joint plate keeps the vanilla footprint marks, so its solid centre stays on Building and FoundationTile), `AreLogicPortsInValidPositions`, `IsValidWireBridgeLocation` and `IsValidHighWattBridgeLocation` (a wire bridge or joint plate end may sit on a port or on any power bridge's end; the plate check replaces vanilla's and keeps its off-map, in-tile and door refusals), `IsValidTileLocation` (no tile on a cell where a joint plate has an end, found through `BridgeFootprint.JointPlateEndAt` whoever holds the connector slot; vanilla's checks done by the mod on bridge end node cells, where vanilla would throw), `ArePowerPortsInValidPositions`, `MarkOverlappingPorts`.
 - Ports: `LogicPorts.CreatePhysicalPorts`, `DestroyPhysicalPorts`, `CreateVisualizers` (skipped for bridges).
 - Links: `LogicUtilityNetworkLink` and `WireUtilityNetworkLink` `OnConnect` and `OnDisconnect` call `BridgeLinks`.
-- Wire art and drags: `KAnimGraphTileVisualizer.OnSpawn`, `UpdateConnections`, `OnCleanUp`; `BaseUtilityBuildTool.BuildPath`.
+- Wire art and drags: `KAnimGraphTileVisualizer.OnSpawn`, `UpdateConnections`, `OnCleanUp` (a leaving wire's connections are kept only for a cell where some bridge has an end); `BaseUtilityBuildTool.BuildPath`.
 - Tools: `DisconnectTool.OnDragComplete` and `OnMouseMove`; `DeconstructTool.DeconstructCell`; `CancelTool.OnDragTool`; `PrioritizeTool.OnDragTool`.
 - Overlays: `OverlayModes.Logic` and `OverlayModes.Power` `Update` and `Disable`.
 
@@ -106,8 +109,9 @@ Jumper Bridges lets an Automation Wire Bridge or Automation Ribbon Bridge, and a
 - A bridge end on a gate does not put the gate out of order.
 - Deconstructing the bridge removes the node; wires that led into the end redraw as dead ends at once.
 - Overload is unchanged: a wire bridge carrying a ribbon signal is damaged as in the base game, and a broken bridge's ends stop conducting until repaired.
-- A power bridge end may not sit on a heavy-watt joint plate's end, and joint plates are unchanged. A building may be placed with its power port on an existing bridge end.
-- Each kind can be turned off in the options (restart required); a kind that is off is left to the base game.
+- The heavy-watt joint plates are jumper bridges too. Their centre stays a solid tile as in the base game; only the ends gain jumper placement. A plate end may share a cell with a port or with any power bridge's end, wire bridges included, in either build order; the joined circuit takes the lowest wattage limit, so the wire bridge may overload. No tile may be built on a cell where a plate has an end. A shared power end draws as the plate's heavi-watt wire while any plate has an end there, and as the remaining bridge's wire once the drawing bridge goes. A plate is reached for deconstruct at its centre as well as its ends.
+- A building may be placed with its power port on an existing bridge end.
+- Each kind can be turned off in the options (restart required); a kind that is off is left to the base game. The joint plates come under the power option.
 - The bridges' own two end ports are kept as geometry but never register as ports, which also removes the base game's silent port displacement when two ports share a cell. They no longer show in the automation overlay.
 
 ## Key Code Paths
@@ -119,7 +123,7 @@ Jumper Bridges lets an Automation Wire Bridge or Automation Ribbon Bridge, and a
 - **Wire drag onto a bridge end**: `BaseUtilityBuildTool.BuildPath` patch reads the drag's bits into the node — see `Patches.cs`
 - **Deconstruct by ends**: `DeconstructTool.DeconstructCell` and `BridgeFootprint.EndsAt` — see `Patches.cs`, `BridgeFootprint.cs`
 - **Design record**: the investigation notes (section 6 covers the design) are kept outside this repository
-- **Tests**: in-game tests in `mods/jumper-bridges/src/JumperBridges.Tests/` (`Signals.cs`, `Gates.cs`, `WireDrags.cs`, `WireUnderEnd.cs`, `Deconstruct.cs`, `Power.cs`, plus explicit `Preview.cs`); `README.md` carries the manual in-game checklist for what is not yet automated
+- **Tests**: in-game tests in `mods/jumper-bridges/src/JumperBridges.Tests/` (`Signals.cs`, `Gates.cs`, `WireDrags.cs`, `WireUnderEnd.cs`, `Deconstruct.cs`, `Power.cs`, `JointPlates.cs`, plus explicit `Preview.cs`); `README.md` carries the manual in-game checklist for what is not yet automated
 
 ## Related
 **Id:** blk-02f47981e0e0

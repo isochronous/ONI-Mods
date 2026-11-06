@@ -38,8 +38,9 @@ Upgrade Planner adds a toolbar tool that rebuilds the buildings in a box-dragged
 | Replace type: Target, TargetMaterials | Family, Tag[] | The type to build over it and its materials |
 
 ### Matcher and Upgrade
-**Id:** blk-eb0cfd6059c7  
-**Description**: A plan compiled for a drag or highlight. `Matcher.Matches(building)` says whether the plan takes a building; `TryPlan(building, out Upgrade)` says what it becomes. `Upgrade` holds the target `BuildingDef`, the materials and `Rebuild` (deconstruct and reconstruct instead of building over). Made again when the plan changes and once a second, since research changes what is allowed.  
+**Id:** blk-eb0cfd6059c7
+
+**Description**: A plan compiled for a drag or highlight. `Matcher.Matches(building)` says whether the plan takes a building; `TryPlan(building, out Upgrade)` says what it becomes. `Upgrade` holds the target `BuildingDef`, the materials and `Rebuild` (deconstruct and reconstruct instead of building over). Made again when the plan changes and once a second, since research changes what is allowed. The tool's highlight (`GetOverlayColorData`, called every frame) is cached on the matcher time, the box version and the active world, so it is rebuilt at most once a second, on a plan or box change, or on switching asteroids.  
 **Location**: `src/UpgradePlanner/Plan/UpgradePlan.cs`
 
 ### Family and Category

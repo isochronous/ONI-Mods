@@ -80,9 +80,10 @@ Terms used in the Jumper Bridges mod (`mods/jumper-bridges`). For the classes an
 
 ### Joint plate (heavy-watt)
 **Id:** blk-279f9dc39e51  
-**Tags:** utility-network  
-**Definition**: The heavy-watt joint plate, a power connector with its own placement rule. The mod leaves it alone and refuses a power bridge end on its end.  
-**Used in**: `IsValidHighWattBridgeLocation` patch
+**Tags:** utility-network
+
+**Definition**: The Heavi-Watt Joint Plate or Heavi-Watt Conductive Joint Plate, a power bridge whose centre cell is a solid tile. The mod makes it a jumper bridge of the Power kind: the centre stays solid, the ends may sit on ports and on any power bridge's end, and no tile may be built over a plate end.  
+**Used in**: `BridgeKind.Of`, `BridgeFootprint.JointPlateEndAt`, `BridgeEndNode.UpdateArt`, `MarkArea`, `IsValidHighWattBridgeLocation` and `IsValidTileLocation` patches
 
 ### Wire drag
 **Id:** blk-d0010eca3d9e  

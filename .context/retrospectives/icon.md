@@ -4,6 +4,38 @@ Newest first. Each entry is a `### ` block naming the task it came from, appende
 path — `learned:` on the change-set that produced the lesson, never a closing ceremony.
 
 
+### OM-011: Fridge Thresholds Extended: thresholds for Freezer and Industrial Revolution fridges
+**Id:** blk-ff9a0da9320e
+
+- **Avoid**: Starting an in-game run without checking how the game is launched: Steam's launch options now go through oni-moono, which made the first approved run test nothing. Also giving Jeremy a guess as the cause twice (the food filter, then a fresh colony per test) before the code was read; both were wrong. The real cause, items stored by a test are never discovered and are dropped on load, came from reading TreeFilterable. Recurring friction, already in domains/tooling-friction.md: handoff briefs for a mod path repeat each sibling mod's copy of the shared standards sections.
+- **Repeat**: Settling 'mod or environment?' by reading both mods' code before any run: the Freezer slider was a gap between two Workshop mods, not oni-moono. A vanilla Refrigerator next to the modded one as a control in the same test. Reading other mods' types only by reflection, bound in OnAllModsLoaded, with no foreign type in any patch signature, so the mod loads with any target missing.
+- **Updated**: testing/integration-testing.md gains 'Launching with oni-moono' (the harness cannot start the game through Moono; Jeremy clears the launch options for a run) and 'Save round trips and undiscovered items' (discover a test's items before a reload, or filtered storage drops them).
+
+
+### OM-010: Workshop review fixes in five mods
+**Id:** blk-e0ae710e477a
+
+- **Avoid**: Three of the four outside claims were only partly right and one described a different symptom (Salty Surf adds a tag, not an element; the missing string is in the Properties line), so checking each claim against the code first saved building the wrong fix. Two explore units never wrote their report files and an implement spec then pointed at one; a spec should name the report file and the manager should check it exists before citing it. A test that needs another Workshop mod (`ByHand.CancelledRebuild`) failed instead of skipping; every test that turns on All buildings must call `BuildingSettings.RequireBlueprints(t)`.
+- **Repeat**: One explore unit per mod in parallel, then implement units that build only their own projects and never commit, with the manager committing once; no index or build-lock collisions across five mods. A review per change found real behaviour gaps (Sweep Zones cancel tagging every cancel, merges) that the user then decided in two questions. Running the Blueprints Expanded tests with `-Steam 3468585385` and a ';'-separated `-Filter` confirmed the skipped paths.
+- **Updated**: entities.md in mods/upgrade-planner (highlight cache key), mods/vent-freeze-fix (watcher on every vent), mods/just-fall-already (log gate, critter lookup), mods/sweep-zones (player-cancel rule, six patches) and mods/salty-surf (hidden tag); root domains/tooling-friction.md.
+
+
+### OM-009: reopen: shared ends, heavi-watt art, fixture clear
+**Id:** blk-2d96fd4e2f71
+
+- **Avoid**: A new test (`JointPlates.WireBridgeOnPlateEnd`) left a wire bridge on no object layer, and `FixtureArea.Clear` only cleared what `Grid.Objects` names, so the bridge leaked into `Power.LampOntoBridgeEnd` and failed it (circuit 21 vs 22). A test that changes which object holds a cell's layer slot can outlive the clear; the harness now sweeps buildings by placement cells and warns on survivors. One full run was also killed by Claude Code under system memory pressure (Discord and VS Code held ~14 GB); check free memory before a long in-game run.
+- **Repeat**: On an unexplained failure in an untouched test, a read-only debug unit traced it from the run's Player.log (object counts per clear, missing cleanup lines) to the harness before any mod code changed; the fix went into the harness, not the test, and the rerun was 25/25 with a Duplicant-box suite included to cover the harness change.
+- **Updated**: common `tools/TestRunner` `domains/entities.md` FixtureArea now states the placement-cell sweep, the kept previews and life support, and the survivor warning; mods/jumper-bridges `domains/entities.md` (BridgeEndNode art rule, Harmony patches, Business Rules) and `domains/glossary.md` (Joint plate) state shared ends and heavi-watt art.
+
+
+### OM-009: Jumper Bridges heavy-watt joint plates
+**Id:** blk-2c58c8c2a081
+
+- **Avoid**: The task was framed as a long-span bridge with a solid middle; Jumper Bridges never changes a bridge's span, so the plate keeps its one vanilla solid cell and the real work was at the end cells. Read the mod's overview record (`blk-2d2edc3c3db1`) before writing an explore spec's questions, so the spec does not carry a wrong premise. Implement units also widened scope (tooltip rewording, self-written zh/ko/ru lines, an extra crash guard); a spec should say whether player-visible strings may change.
+- **Repeat**: Explore and review units decompiled the vanilla methods (`ilspycmd -t <Type>` against the game's Assembly-CSharp.dll) and checked each patch against them; that caught the `BuildingDef.MarkArea` prefix that would have stripped the plate's footprint marks, a real pre-existing NullReferenceException in `IsValidTileLocation` on bridge end node cells, and a tooltip that overclaimed what may share a cell. Running the whole mod suite after a change to shared code (20/20 in one 40 s session) confirmed the wire bridges were untouched.
+- **Updated**: mods/jumper-bridges `domains/entities.md` (BridgeKind, Harmony patches, Business Rules, Key Code Paths), `domains/glossary.md` (Joint plate), `overview.md` (What this is) now describe the plates as Power-kind jumper bridges with a solid centre; root `domains/tooling-friction.md` records the brief crowding by other mods' code-style sections.
+
+
 ### OM-006: Ovagro Overhead, a new mod that plants Ovagro on ceilings
 **Id:** blk-e6b85866c4d7
 

@@ -9,7 +9,7 @@ description: "Overview of the Jumper Bridges mod: what direct bridge ends on por
 **Id:** blk-2d2edc3c3db1  
 **Tags:** mod-options, mod-strings
 
-Jumper Bridges is an Oxygen Not Included mod: an Automation Wire Bridge, Automation Ribbon Bridge, Wire Bridge, Conductive Wire Bridge or Insulated Wire Bridge can be placed with either end directly on any automation or power port cell, and that port counts as connected. Each end acts as its own piece of wire, drawn like one, with nothing to build, deconstruct or pay for. Bridges chain end on end, and a wire dragged up to a bridge end joins it. The automation and power halves can each be turned off in the mod options. Version 0.2.0 in `mod_info.yaml` (released 2026-10-17), minimum supported build 744825, published on the Steam Workshop with Korean, Russian and Chinese translations.
+Jumper Bridges is an Oxygen Not Included mod: an Automation Wire Bridge, Automation Ribbon Bridge, Wire Bridge, Conductive Wire Bridge, Insulated Wire Bridge, Heavi-Watt Joint Plate or Heavi-Watt Conductive Joint Plate can be placed with either end directly on any automation or power port cell, and that port counts as connected. Each end acts as its own piece of wire, drawn like one, with nothing to build, deconstruct or pay for. Bridges chain end on end, and a wire dragged up to a bridge end joins it. The automation and power halves can each be turned off in the mod options. Version 0.2.0 in `mod_info.yaml` (released 2026-10-17), minimum supported build 744825, published on the Steam Workshop with Korean, Russian and Chinese translations; the joint plates are unreleased (task OM-009).
 
 ## Where things are
 **Id:** blk-7a7996b980da  

@@ -54,7 +54,10 @@ namespace UpgradePlanner
 		/// <summary>The plan the highlight and overlay show: the one being edited while the window is open, else the applied one.</summary>
 		private UpgradePlan Shown => dialog.IsOpen ? plan : applied;
 
-		/// <summary>The plan as the highlight sees it, worked out again when it changes or after <see cref="RecompileSeconds"/>.</summary>
+		/// <summary>
+		/// The plan as the highlight sees it, and the cells it colours. Both are worked out again when the plan
+		/// or the box changes, and otherwise at most once every <see cref="RecompileSeconds"/>.
+		/// </summary>
 		private Matcher matcher;
 		private UpgradePlan matcherPlan;
 		private int matcherVersion = -1;
@@ -68,7 +71,7 @@ namespace UpgradePlanner
 		/// <summary>What the box being dragged holds that the drag would mark, with what each becomes; the cells it covers; and a count of its changes, for the highlight.</summary>
 		private readonly Dictionary<BuildingComplete, Upgrade> boxed = new Dictionary<BuildingComplete, Upgrade>();
 		private RectInt boxCells;
-		private int boxVersion, colorsBoxVersion = -1;
+		private int boxVersion, colorsBoxVersion = -1, colorsWorld = -1;
 
 		protected override void OnPrefabInit()
 		{
@@ -299,16 +302,18 @@ namespace UpgradePlanner
 			if (!Dragging && boxed.Count > 0)
 				ClearBox();
 			UpgradePlan shown = Shown;
-			if (colorsBoxVersion == boxVersion && matcher != null && matcherPlan == shown && matcherVersion == (shown?.Version ?? -1) && Time.unscaledTime - matcherTime < RecompileSeconds)
+			int world = ClusterManager.Instance.activeWorldId;
+			if (colorsBoxVersion == boxVersion && colorsWorld == world && matcher != null && matcherPlan == shown && matcherVersion == (shown?.Version ?? -1) && Time.unscaledTime - matcherTime < RecompileSeconds)
 				return;
 			matcher = shown?.Compile();
 			matcherPlan = shown;
 			matcherVersion = shown?.Version ?? -1;
 			matcherTime = Time.unscaledTime;
+			colorsBoxVersion = boxVersion;
+			colorsWorld = world;
 			cellColors.Clear();
 			if (matcher == null)
 				return;
-			int world = ClusterManager.Instance.activeWorldId;
 			foreach (BuildingComplete building in Components.BuildingCompletes.Items)
 			{
 				if (building == null || !matcher.Matches(building))

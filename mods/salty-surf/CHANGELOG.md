@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.1 - 2026-10-29
+
+- Water and Salt Water no longer show a missing-text entry in the Properties line of their codex page and info panel.
+
 ## 0.2.0 - 2026-10-12
 
 - Chinese (Simplified), Korean and Russian translations. Translations load from translations/<locale>.po; the template for other languages is translations/SaltySurf.pot.

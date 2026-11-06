@@ -321,6 +321,7 @@ namespace UpgradePlanner.Tests
 		[OniTest("Upgrade Planner: a rebuild cancelled with the Cancel tool before the crew comes leaves the building alone", Timeout = 300, Boxed = true), Layer(1)]
 		public static IEnumerator CancelledRebuild(TestContext t)
 		{
+			BuildingSettings.RequireBlueprints(t);
 			t.ResearchAll();
 			CellRect inside = t.Dupes.Box();
 			yield return t.WaitGameSeconds(1);

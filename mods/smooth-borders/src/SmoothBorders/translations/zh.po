@@ -1,0 +1,53 @@
+msgid ""
+msgstr ""
+"Application: Oxygen Not Included\n"
+"POT Version: 2.0\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. STRINGS.SMOOTHBORDERS.OPTIONS.INTRO
+msgctxt "STRINGS.SMOOTHBORDERS.OPTIONS.INTRO"
+msgid "Vanilla gives each asteroid type its own wall thickness, so each has its own setting. Defaults match vanilla. Changes apply to new worlds."
+msgstr "原版中每种小行星的边界墙厚度各不相同，因此每种都有单独的设置。默认值与原版一致。更改仅对新世界生效。"
+
+#. STRINGS.SMOOTHBORDERS.OPTIONS.MOONLETS.NAME
+msgctxt "STRINGS.SMOOTHBORDERS.OPTIONS.MOONLETS.NAME"
+msgid "Moonlets"
+msgstr "卫星"
+
+#. STRINGS.SMOOTHBORDERS.OPTIONS.MOONLETS.TOOLTIP
+msgctxt "STRINGS.SMOOTHBORDERS.OPTIONS.MOONLETS.TOOLTIP"
+msgid "Game default: 2."
+msgstr "游戏默认值：2。"
+
+#. STRINGS.SMOOTHBORDERS.OPTIONS.PRIMARY.NAME
+msgctxt "STRINGS.SMOOTHBORDERS.OPTIONS.PRIMARY.NAME"
+msgid "Primary asteroids"
+msgstr "主小行星"
+
+#. STRINGS.SMOOTHBORDERS.OPTIONS.PRIMARY.TOOLTIP
+msgctxt "STRINGS.SMOOTHBORDERS.OPTIONS.PRIMARY.TOOLTIP"
+msgid "Game default: 4."
+msgstr "游戏默认值：4。"
+
+#. STRINGS.SMOOTHBORDERS.OPTIONS.SMALL.NAME
+msgctxt "STRINGS.SMOOTHBORDERS.OPTIONS.SMALL.NAME"
+msgid "Small asteroids"
+msgstr "小型小行星"
+
+#. STRINGS.SMOOTHBORDERS.OPTIONS.SMALL.TOOLTIP
+msgctxt "STRINGS.SMOOTHBORDERS.OPTIONS.SMALL.TOOLTIP"
+msgid "Game default: 3."
+msgstr "游戏默认值：3。"
+
+#. STRINGS.SMOOTHBORDERS.OPTIONS.TINY_MOONLETS.NAME
+msgctxt "STRINGS.SMOOTHBORDERS.OPTIONS.TINY_MOONLETS.NAME"
+msgid "Tiny moonlets"
+msgstr "微型卫星"
+
+#. STRINGS.SMOOTHBORDERS.OPTIONS.TINY_MOONLETS.TOOLTIP
+msgctxt "STRINGS.SMOOTHBORDERS.OPTIONS.TINY_MOONLETS.TOOLTIP"
+msgid "Game default: 1."
+msgstr "游戏默认值：1。"

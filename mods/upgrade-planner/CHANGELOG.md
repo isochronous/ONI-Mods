@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.5.1 - 2026-10-29
+
+### Fixed
+
+- The building highlight is worked out once a second instead of every frame.
+
 ## 0.5.0 - 2026-10-15
 
 ### Changed

@@ -186,6 +186,24 @@ namespace UpgradePlanner.Tests
 			t.Assert.Eq(0, ((PlannerHoverCard)tool.GetComponent<HoverTextConfiguration>()).Types.Count, "the hover card counts nothing once the drag is done");
 		}
 
+		[OniTest("Upgrade Planner: the highlight is not worked out again on a second call with nothing changed", Timeout = 30), Layer(2)]
+		public static IEnumerator HighlightIsCached(TestContext t)
+		{
+			List<int> cells = Tiles(t);
+			yield return t.WaitGameSeconds(1);
+			yield return Pick(t);
+			PlannerWindow.PressApply(t);
+			yield return t.WaitRealSeconds(0.5);
+			UpgradeTool tool = (UpgradeTool)PlayerController.Instance.ActiveTool;
+			tool.GetOverlayColorData(out HashSet<ToolMenu.CellColorData> colors);
+			t.Assert.True(colors.Any(c => c.cell == cells[0]), "the highlight covers the tile at " + Cells.Describe(cells[0]));
+			// Working it out again empties the set first, so a cell added to it by hand shows whether that happened.
+			var marker = new ToolMenu.CellColorData(cells[0], Color.magenta);
+			colors.Add(marker);
+			tool.GetOverlayColorData(out colors);
+			t.Assert.True(colors.Contains(marker), "a second call with nothing changed leaves the highlight as it was");
+		}
+
 		/// <summary>The first <paramref name="held"/> tiles marked in the highlight, the rest not, and the hover card counting them.</summary>
 		private static void ExpectBox(TestContext t, UpgradeTool tool, List<int> cells, int held, string when)
 		{

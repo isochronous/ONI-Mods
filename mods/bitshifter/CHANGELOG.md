@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 1.2.1 - 2026-10-29
 
 - Pasting Ribbon Readers or Writers with Blueprints Expanded while Better Automation Overlay is enabled no longer crashes the game.
 

@@ -59,8 +59,8 @@ msgstr "Исправлять клетки после загрузки"
 
 #. STRINGS.VENTFREEZEFIX.OPTIONS.REPAIR_ON_LOAD.TOOLTIP
 msgctxt "STRINGS.VENTFREEZEFIX.OPTIONS.REPAIR_ON_LOAD.TOOLTIP"
-msgid "For the first second after a load, a natural tile that formed at or under a vent out of less liquid than a tile needs is dug up and dropped as debris at its full mass. Takes effect on the next load."
-msgstr "В первую секунду после загрузки природная клетка, образовавшаяся на клапане или под ним из меньшего количества жидкости, чем нужно для клетки, выкапывается и выпадает в виде обломков полной массы. Вступает в силу при следующей загрузке."
+msgid "For the first second after a liquid vent is built or a save is loaded, a natural tile that formed at or under a vent out of less liquid than a tile needs is dug up and dropped as debris at its full mass. Takes effect on the next load."
+msgstr "В первую секунду после появления клапана для жидкости (при загрузке или при постройке) природная клетка, образовавшаяся на клапане или под ним из меньшего количества жидкости, чем нужно для клетки, выкапывается и выпадает в виде обломков полной массы. Вступает в силу при следующей загрузке."
 
 #. STRINGS.VENTFREEZEFIX.OPTIONS.REPRO_BUTTON.NAME
 msgctxt "STRINGS.VENTFREEZEFIX.OPTIONS.REPRO_BUTTON.NAME"
