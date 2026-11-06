@@ -1,4 +1,5 @@
-"""Build the Ribbon Reader and Ribbon Writer kanims with the bit display.
+"""Build the Ribbon Reader and Ribbon Writer kanims with the bit display, and the Ribbon
+Diagnostic Panel's kanim with its build menu icon.
 
     python tools/make_art.py [--game <OxygenNotIncluded folder>] [--preview [out.png]] [--check]
 
@@ -25,11 +26,21 @@ input 1, output 4), idle and off as copies of net0, and the vanilla place and ui
 art changed to match: the construction ghost loses the bit lights' white outlines and gets
 outlines of the panel and the signal light, and the build menu icon is the building itself, unlit,
 scaled down over the plain shadow the game's icons have. Output goes
-to src/Bitshifter/anim/assets/bitshifter_ribbon_reader and ..._writer. --check builds them in
-the temp folder instead and fails when they differ from those (after a game update, say).
+to src/Bitshifter/anim/assets/bitshifter_ribbon_reader and ..._writer.
+
+The Ribbon Diagnostic Panel's kanim (diagnostic_panel, by 3GuB, build menu icon included) is
+read from anim-original/diagnostic_panel, the artist's export kept as delivered, and written to
+src/Bitshifter/anim/assets/diagnostic_panel with one change: the export leaves every frame's
+bounds unset (NaN), so they are computed from the frame's sprites. The texture and the build
+file are copied as they are. A new export from the artist goes into anim-original and through
+this script again.
+
+--check builds all three in the temp folder instead and fails when they differ from the
+committed ones (after a game update or a new export, say).
 """
 import argparse
 import os
+import shutil
 import sys
 import tempfile
 
@@ -39,9 +50,14 @@ from scipy import ndimage
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "..", "..", "common", "tools", "Kanim"))
-from kanim import Sprite, drift, extract, load, read_anims, read_build, read_kanim, render, show, vanilla, write_kanim  # noqa: E402
+from kanim import (Sprite, drift, extract, load, read_anim_file, read_anims, read_build, read_kanim,  # noqa: E402
+                   render, show, vanilla, write_anim_file, write_kanim)
 
 ASSETS = os.path.join(ROOT, "src", "Bitshifter", "anim", "assets")
+
+# The Ribbon Diagnostic Panel's kanim, as the artist exported it.
+DIAG = "diagnostic_panel"
+DIAG_ORIGINAL = os.path.join(ROOT, "anim-original", DIAG)
 
 # Display colours: an amber LED display behind a dark warm window, unlit segments faintly visible.
 PANEL = (46, 40, 36, 255)
@@ -237,9 +253,15 @@ def ui_art(vanilla_icon, kanim):
     building = building.crop(building.getbbox())
     if mirrored(vanilla_icon.image, building):
         building = building.transpose(Image.FLIP_LEFT_RIGHT)
+    return over_shadow(building, vanilla_icon)
+
+
+def over_shadow(building, reference):
+    """A rendered building scaled down to fit the texture of the reference icon (a Sprite),
+    keeping its pixels per unit, over the icons' plain shadow."""
     shadow_h = building.width / 8
-    # Fit building and shadow in the vanilla icon's texture, keeping its 0.5 pixels per unit.
-    room = vanilla_icon.image.width - 8, vanilla_icon.image.height - 8
+    # Fit building and shadow in the reference icon's texture, keeping its 0.5 pixels per unit.
+    room = reference.image.width - 8, reference.image.height - 8
     fit = min(room[0] / building.width, room[1] / (building.height + shadow_h * 0.75))
     building = building.resize((round(building.width * fit), round(building.height * fit)), Image.LANCZOS)
     shadow_h *= fit
@@ -250,7 +272,7 @@ def ui_art(vanilla_icon, kanim):
     ImageDraw.Draw(shadow).ellipse([4 * o, cy - shadow_h * o / 2, (4 + building.width) * o, cy + shadow_h * o / 2], fill=(0, 0, 0, 76))
     icon = shadow.resize((w, h), Image.LANCZOS)
     icon.alpha_composite(building, (4, 4))
-    scale = vanilla_icon.image.width / vanilla_icon.width
+    scale = reference.image.width / reference.width
     return Sprite(icon, icon.width / scale, icon.height / scale)
 
 
@@ -309,6 +331,37 @@ def build(out_root, game, new_name, game_name, box_symbol, face_colour, turn):
     print(f"{new_name}: display centred at ({gx:.1f}, {gy:.1f})")
 
 
+def build_panel(out_root):
+    """The Ribbon Diagnostic Panel: the artist's kanim from anim-original as it is (texture and
+    build file copied byte for byte, so the sprites keep the export's own UVs), with each anim
+    frame's bounds, which the export leaves NaN, set to the box around its sprites."""
+    folder = os.path.join(out_root, DIAG)
+    os.makedirs(folder, exist_ok=True)
+    for suffix in ("_0.png", "_build.bytes"):
+        shutil.copyfile(os.path.join(DIAG_ORIGINAL, DIAG + suffix), os.path.join(folder, DIAG + suffix))
+    with open(os.path.join(DIAG_ORIGINAL, DIAG + "_build.bytes"), "rb") as f:
+        built, _ = read_build(f.read())
+    with open(os.path.join(DIAG_ORIGINAL, DIAG + "_anim.bytes"), "rb") as f:
+        anim = read_anim_file(f.read())
+    for _, _, _, frames in anim.anims:
+        for frame in frames:
+            x1 = y1 = float("inf")
+            x2 = y2 = float("-inf")
+            for symbol, index, *_rest in frame[4]:
+                numbers = sorted(built[symbol])
+                lower = [n for n in numbers if n <= index]
+                px, py, pw, ph = built[symbol][max(lower) if lower else numbers[0]][:4]
+                a, b, c, d, tx, ty = _rest[6:12]
+                # The sprite's centre and the half extents of its transformed box.
+                x, y = a * px + c * py + tx, b * px + d * py + ty
+                ex, ey = abs(a) * pw / 2 + abs(c) * ph / 2, abs(b) * pw / 2 + abs(d) * ph / 2
+                x1, x2, y1, y2 = min(x1, x - ex), max(x2, x + ex), min(y1, y - ey), max(y2, y + ey)
+            frame[:4] = [(x1 + x2) / 2, (y1 + y2) / 2, x2 - x1, y2 - y1]
+    with open(os.path.join(folder, DIAG + "_anim.bytes"), "wb") as f:
+        f.write(write_anim_file(anim))
+    print(f"{DIAG}: copied from {os.path.relpath(DIAG_ORIGINAL, ROOT)} with its anim bounds set")
+
+
 def preview(path):
     """Both buildings with both ports wired, showing 23, horizontal and turned upright."""
     hidden = {"seg_c_1", "seg_f_1", "seg_e_2", "seg_f_2"}
@@ -338,8 +391,9 @@ def main():
     extract([spec[0] for spec in BUILDINGS.values()], a.game)
     for new_name, spec in BUILDINGS.items():
         build(out_root, a.game, new_name, *spec)
+    build_panel(out_root)
     if a.check:
-        changed = [f for n in BUILDINGS for f in drift(os.path.join(out_root, n), os.path.join(ASSETS, n))]
+        changed = [f for n in list(BUILDINGS) + [DIAG] for f in drift(os.path.join(out_root, n), os.path.join(ASSETS, n))]
         if changed:
             sys.exit("the committed kanims differ from a fresh build: " + ", ".join(changed))
         print("the committed kanims match a fresh build")
