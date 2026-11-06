@@ -1,0 +1,133 @@
+msgid ""
+msgstr ""
+"Application: Oxygen Not Included\n"
+"POT Version: 2.0\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. STRINGS.BITSHIFTER.DIAGNOSTICPANEL.ALL_OFF
+msgctxt "STRINGS.BITSHIFTER.DIAGNOSTICPANEL.ALL_OFF"
+msgid "All off"
+msgstr ""
+
+#. STRINGS.BITSHIFTER.DIAGNOSTICPANEL.ALL_OFF_TOOLTIP
+msgctxt "STRINGS.BITSHIFTER.DIAGNOSTICPANEL.ALL_OFF_TOOLTIP"
+msgid "Switch every bit off"
+msgstr ""
+
+#. STRINGS.BITSHIFTER.DIAGNOSTICPANEL.BITS_NONE
+msgctxt "STRINGS.BITSHIFTER.DIAGNOSTICPANEL.BITS_NONE"
+msgid "none"
+msgstr ""
+
+#. STRINGS.BITSHIFTER.DIAGNOSTICPANEL.BITS_RANGE
+msgctxt "STRINGS.BITSHIFTER.DIAGNOSTICPANEL.BITS_RANGE"
+msgid "{0}-{1}"
+msgstr ""
+
+#. STRINGS.BITSHIFTER.DIAGNOSTICPANEL.BITS_SEPARATOR
+msgctxt "STRINGS.BITSHIFTER.DIAGNOSTICPANEL.BITS_SEPARATOR"
+msgid ", "
+msgstr ""
+
+#. STRINGS.BITSHIFTER.DIAGNOSTICPANEL.CELL_INPUT
+msgctxt "STRINGS.BITSHIFTER.DIAGNOSTICPANEL.CELL_INPUT"
+msgid "The input has bit {0} on."
+msgstr ""
+
+#. STRINGS.BITSHIFTER.DIAGNOSTICPANEL.CELL_OFF
+msgctxt "STRINGS.BITSHIFTER.DIAGNOSTICPANEL.CELL_OFF"
+msgid "Bit {0}: switched off. Click to switch it on."
+msgstr ""
+
+#. STRINGS.BITSHIFTER.DIAGNOSTICPANEL.CELL_ON
+msgctxt "STRINGS.BITSHIFTER.DIAGNOSTICPANEL.CELL_ON"
+msgid "Bit {0}: switched on. Click to switch it off."
+msgstr ""
+
+#. STRINGS.BITSHIFTER.DIAGNOSTICPANEL.CELL_UNWIRED
+msgctxt "STRINGS.BITSHIFTER.DIAGNOSTICPANEL.CELL_UNWIRED"
+msgid "Bit {0}. Wire the output port to use the switches."
+msgstr ""
+
+#. STRINGS.BITSHIFTER.DIAGNOSTICPANEL.SIDE_SCREEN_TITLE
+msgctxt "STRINGS.BITSHIFTER.DIAGNOSTICPANEL.SIDE_SCREEN_TITLE"
+msgid "Switches"
+msgstr ""
+
+#. STRINGS.BITSHIFTER.DIAGNOSTICPANEL.SIDE_SCREEN_UNWIRED
+msgctxt "STRINGS.BITSHIFTER.DIAGNOSTICPANEL.SIDE_SCREEN_UNWIRED"
+msgid "Wire the output port to use the switches."
+msgstr ""
+
+#. STRINGS.BITSHIFTER.DIAGNOSTICPANEL.SIDE_SCREEN_WIRED
+msgctxt "STRINGS.BITSHIFTER.DIAGNOSTICPANEL.SIDE_SCREEN_WIRED"
+msgid "Switched bits join the input on the output."
+msgstr ""
+
+#. STRINGS.BITSHIFTER.DIAGNOSTICPANEL.STATUS_INPUT
+msgctxt "STRINGS.BITSHIFTER.DIAGNOSTICPANEL.STATUS_INPUT"
+msgid "Input: {0}"
+msgstr ""
+
+#. STRINGS.BITSHIFTER.DIAGNOSTICPANEL.STATUS_INPUT_TOOLTIP
+msgctxt "STRINGS.BITSHIFTER.DIAGNOSTICPANEL.STATUS_INPUT_TOOLTIP"
+msgid "Bits on the input ribbon carrying a <b><style=\"logic_on\">Green Signal</style></b>\nRibbon value: {1}"
+msgstr ""
+
+#. STRINGS.BITSHIFTER.DIAGNOSTICPANEL.STATUS_SWITCHES
+msgctxt "STRINGS.BITSHIFTER.DIAGNOSTICPANEL.STATUS_SWITCHES"
+msgid "Switches: {0}"
+msgstr ""
+
+#. STRINGS.BITSHIFTER.DIAGNOSTICPANEL.STATUS_SWITCHES_TOOLTIP
+msgctxt "STRINGS.BITSHIFTER.DIAGNOSTICPANEL.STATUS_SWITCHES_TOOLTIP"
+msgid "Bits switched on in the side screen. The output carries these and every input bit."
+msgstr ""
+
+#. STRINGS.BUILDINGS.PREFABS.RIBBONDIAGNOSTICPANEL.DESC
+msgctxt "STRINGS.BUILDINGS.PREFABS.RIBBONDIAGNOSTICPANEL.DESC"
+msgid "Seeing every bit of a ribbon at once makes a circuit quick to trace."
+msgstr ""
+
+#. STRINGS.BUILDINGS.PREFABS.RIBBONDIAGNOSTICPANEL.EFFECT
+msgctxt "STRINGS.BUILDINGS.PREFABS.RIBBONDIAGNOSTICPANEL.EFFECT"
+msgid "Shows all 31 bits of an <link=\"LOGICRIBBON\">Automation Ribbon</link> on a grid of lamps: a lamp lights green for each bit carrying a <b><style=\"logic_on\">Green Signal</style></b> and red for each bit carrying a <b><style=\"logic_off\">Red Signal</style></b>.\n\nWith its output wired, it is also a 31-channel switch. Bits switched on light purple, and the output carries every bit that is on at the input or switched on."
+msgstr ""
+
+#. STRINGS.BUILDINGS.PREFABS.RIBBONDIAGNOSTICPANEL.LOGIC_PORT
+msgctxt "STRINGS.BUILDINGS.PREFABS.RIBBONDIAGNOSTICPANEL.LOGIC_PORT"
+msgid "Ribbon Input"
+msgstr ""
+
+#. STRINGS.BUILDINGS.PREFABS.RIBBONDIAGNOSTICPANEL.LOGIC_PORT_ACTIVE
+msgctxt "STRINGS.BUILDINGS.PREFABS.RIBBONDIAGNOSTICPANEL.LOGIC_PORT_ACTIVE"
+msgid "Lights a green lamp for each bit carrying a <b><style=\"logic_on\">Green Signal</style></b>"
+msgstr ""
+
+#. STRINGS.BUILDINGS.PREFABS.RIBBONDIAGNOSTICPANEL.LOGIC_PORT_INACTIVE
+msgctxt "STRINGS.BUILDINGS.PREFABS.RIBBONDIAGNOSTICPANEL.LOGIC_PORT_INACTIVE"
+msgid "Lights a red lamp for each bit carrying a <b><style=\"logic_off\">Red Signal</style></b>"
+msgstr ""
+
+#. STRINGS.BUILDINGS.PREFABS.RIBBONDIAGNOSTICPANEL.LOGIC_PORT_OUTPUT
+msgctxt "STRINGS.BUILDINGS.PREFABS.RIBBONDIAGNOSTICPANEL.LOGIC_PORT_OUTPUT"
+msgid "Ribbon Output"
+msgstr ""
+
+#. STRINGS.BUILDINGS.PREFABS.RIBBONDIAGNOSTICPANEL.NAME
+msgctxt "STRINGS.BUILDINGS.PREFABS.RIBBONDIAGNOSTICPANEL.NAME"
+msgid "<link=\"RIBBONDIAGNOSTICPANEL\">Ribbon Diagnostic Panel</link>"
+msgstr ""
+
+#. STRINGS.BUILDINGS.PREFABS.RIBBONDIAGNOSTICPANEL.OUTPUT_PORT_ACTIVE
+msgctxt "STRINGS.BUILDINGS.PREFABS.RIBBONDIAGNOSTICPANEL.OUTPUT_PORT_ACTIVE"
+msgid "Sends a <b><style=\"logic_on\">Green Signal</style></b> on each bit that is on at the input or switched on"
+msgstr ""
+
+#. STRINGS.BUILDINGS.PREFABS.RIBBONDIAGNOSTICPANEL.OUTPUT_PORT_INACTIVE
+msgctxt "STRINGS.BUILDINGS.PREFABS.RIBBONDIAGNOSTICPANEL.OUTPUT_PORT_INACTIVE"
+msgid "Otherwise, sends a <b><style=\"logic_off\">Red Signal</style></b> on that bit"
+msgstr ""
+
