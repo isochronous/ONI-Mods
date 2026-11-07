@@ -5,10 +5,10 @@
 
 ## Phase State
 - **Phase plan**: investigation → implementation → testing → completion
-- **Completed**: investigation
-- **Current**: testing   (status: in-progress)
-- **Next**: completion
-- **Loaded skill**: task-plan-phase-testing
+- **Completed**: investigation, implementation, testing, completion
+- **Current**: completion   (status: done)
+- **Next**: none — ship-now PR open; held lane OM-012-u60-only waits for U60's release
+- **Loaded skill**: task-plan-phase-completion
 - **Branch**: OM-012-u60-readiness
 - **Attempts (current phase)**: 1
 
@@ -19,8 +19,14 @@
 - "Everything else gets updated" includes the at-risk items: obsolete Subscribe/Unsubscribe and GameScenePartitioner.Add overloads move to their U60 replacements, and the upgrade-planner tick timing and jumper-bridges overlay get checked in game.
 
 ## Key Files
-- ONI-Mods.sln: build of every mod against the testing-branch assemblies
-- common/oni-mod.props: where the game's managed folder is referenced
+- mods/salty-surf/src/SaltySurf/Mod.cs: descriptor patch pair (U59 GetDescriptors / U60 CollectDescriptors), warnings
+- mods/upgrade-planner/src/UpgradePlanner/Patches.cs, UI/MaterialPicker.cs: OnSelectMaterial by name; ConfigureScreen callbacks typed per build; cached lookups
+- mods/corner-build-anything/src/CornerBuildAnything.Tests/Reach.cs: GetOffsets().ToArray()
+- mods/{bitshifter,jumper-bridges,motion-sensor-range,multichannel-critter-sensor,smart-weight-plate}: Subscribe/Unsubscribe off the obsolete overloads
+- mods/smooth-borders/src/SmoothBorders.Tests/FailSafes.cs: expected-warning log line
+- common/tools/TestRunner/{Patches.cs,Reflect.cs,README.md,Worldgen.cs,GameMode.ps1}: CapturePng patch, worldgen Stopwatch, blank last-save key (common branch u60, 2413b5a)
+- Held lane (OM-012-u60-only): mods/ovagros-overhead (VineBranchCeilingConfig, VineMotherCeilingConfig, tests, mod_info.yaml); motion-sensor-range RangeSlider.cs + smart-weight-plate SmartWeightPlate.cs partitioner overload, both mod_info.yaml 762230
+- .context/domains/game-updates.md, .context/testing/integration-testing.md, .context/domains/tooling-friction.md, .context/retrospectives/icon.md
 
 ## Phase Handoff Log
 
@@ -31,6 +37,18 @@
 **Verification evidence**: in the unit report (build: 9 errors / 307 warnings; patch-check and IL diff outputs in scratchpad)
 **What the next phase needs**: Jeremy's answers on No Magic Fridges and on release timing / U59 compatibility before the ovagros fix shape is fixed.
 
+### Handoff: testing → completion
+**Sub-agent outputs**: unit 06 — every suite green on U60 762230 after two harness fixes; save folders identical (2705 files). Unit 07 — Smooth Borders patch active on U60 (transpiler matched: True), 18/18. Unit 08 review — 0 critical, 2 moderate, 6 minor; both lanes ready. Unit 09 — moderate + minor fixes; rerun 77/78 (ProblemTypesKept order-dependent, passes alone).
+**Reviewer findings**: moderate 1 (RangeSlider throwing bind) fixed; moderate 2 (U59 in-game evidence) open — needs live build; minors: Salty Surf warnings + DeclaredMethod fixed, Upgrade Planner cache + warning fixed, CBA test DLL on U59 accepted (test-only), submodule push done with the PR, publish/ yaml left to the release script.
+**Verification evidence**: ship-now tip on U60: solution build errors only in ovagros-overhead (expected — its fix is held); held tip 0 errors; `ks check`: 0 block.
+**Retro Stage-1 draft**: landed in retrospectives/icon.md (OM-012).
+
+## Completion Summary
+**Accomplished:** every mod checked and fixed for U60; fixes that work on U59 too are ready to ship now, U60-only changes wait on OM-012-u60-only.
+**Files changed:** 9 mods + common/tools/TestRunner; store: game-updates.md, integration-testing.md section.
+**Tests:** none added; full in-game smoke test on U60 green except one order-dependent Upgrade Planner test.
+**Follow-up work:** U59 in-game run of the ship-now lane before release; ProblemTypesKept flake; re-check transpilers on the U60 release build; No Magic Fridges retirement at release; merge held lane at U60 release.
+
 ## Progress
 - [x] Investigate — unit 01: 3 mods + corner tests + TestRunner broken; see handoff
 - [x] Update this plan with findings and the fix list
@@ -39,7 +57,8 @@
 - [x] Review (both lanes) — unit 08: 0 critical, 2 moderate, 6 minor; both lanes ready; ship-now verified against U59 by decompile + Cecil member-reference scan
 - [x] Review fixes — unit 09: RangeSlider non-throwing bind (held); Salty Surf warnings + DeclaredMethod, Upgrade Planner cached lookups + warning (ship-now). U60 rerun SaltySurf,UpgradePlanner,MotionSensorRange: 77/78; BuildingSettings.ProblemTypesKept failed in the suite, passes alone (1/1)
 - [x] Store: domains/game-updates.md, testing/integration-testing.md "Smoke-testing many mods", tooling-friction entry
-- [ ] Retro, PRs ← IN PROGRESS
+- [x] Retro — retrospectives/icon.md
+- [x] PRs — ship-now lane (ONI-Mods OM-012-u60-readiness, oni-mods-common u60); held lane pushed, no PR until U60 releases
 - [ ] Ship-now lane on the live U59 build (needs Steam switched back; Jeremy)
 - [ ] Close: review, retro, commit, PR
 

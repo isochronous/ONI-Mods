@@ -4,6 +4,14 @@ Newest first. Each entry is a `### ` block naming the task it came from, appende
 path — `learned:` on the change-set that produced the lesson, never a closing ceremony.
 
 
+### OM-012: U60 readiness on the testing branch
+**Id:** blk-b5506fc84692
+
+- **Avoid**: Specifying a per-mod minimal loadout for a multi-mod smoke test: TestRunner reuses the game only for an identical loadout, so every suite relaunched the game until Jeremy pointed it out. Also reading a Player.log warning without the test running at that moment: unit 06 took Smooth Borders' fail-safe test warning ("DrawWorldBorder has changed") for a U60 break and a whole unit went to disproving it. And the first sweep relied on a build plus patch resolution; the second compile error in Ovagro's Overhead tests and the bool→BuildableState callback change in Upgrade Planner only showed once the first errors were fixed.
+- **Repeat**: Running each mod's Harmony patch classes for real in a scratch .NET 8 host against the new DLLs, plus a decompile diff of every patched method against the frozen previous build (F:\ONI-Frozen\APP), found every real break before a launch. Splitting fixes into a ship-now lane (works on both builds; checked with a Cecil member-reference scan against the previous build) and a held lane stacked on it kept the live-build releases unblocked. Gating the test unit on a save-safety check first (before/after listing of all save folders) made an overnight unattended smoke test safe.
+- **Updated**: domains/game-updates.md (new: build locations, breakage checks including the reference scan and log-reading rule, the two lanes, what U60 changed); testing/integration-testing.md "Smoke-testing many mods" (one -Mods call, one shared loadout); domains/tooling-friction.md (briefs filled with one duplicated block).
+
+
 ### OM-011: Fridge Thresholds Extended: thresholds for Freezer and Industrial Revolution fridges
 **Id:** blk-ff9a0da9320e
 
