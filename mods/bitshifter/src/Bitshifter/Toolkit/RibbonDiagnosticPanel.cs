@@ -49,10 +49,10 @@ namespace Bitshifter
 
 		private static readonly KAnimHashedString[] Lamps = MakeLamps();
 
-		private static readonly EventSystem.IntraObjectHandler<RibbonDiagnosticPanel> OnLogicValueChangedDelegate =
-			new EventSystem.IntraObjectHandler<RibbonDiagnosticPanel>((component, data) => component.OnLogicValueChanged(data));
-		private static readonly EventSystem.IntraObjectHandler<RibbonDiagnosticPanel> OnCopySettingsDelegate =
-			new EventSystem.IntraObjectHandler<RibbonDiagnosticPanel>((component, data) => component.OnCopySettings(data));
+		private static readonly System.Action<object, object> OnLogicValueChangedDelegate =
+			(context, data) => ((RibbonDiagnosticPanel)context).OnLogicValueChanged(data);
+		private static readonly System.Action<object, object> OnCopySettingsDelegate =
+			(context, data) => ((RibbonDiagnosticPanel)context).OnCopySettings(data);
 
 		private static StatusItem inputStatus;
 		private static StatusItem switchesStatus;
@@ -129,14 +129,14 @@ namespace Bitshifter
 		protected override void OnPrefabInit()
 		{
 			base.OnPrefabInit();
-			Subscribe(-905833192, OnCopySettingsDelegate);
+			Subscribe(-905833192, OnCopySettingsDelegate, this);
 		}
 
 		protected override void OnSpawn()
 		{
 			base.OnSpawn();
 			MakeStatusItems();
-			Subscribe(-801688580, OnLogicValueChangedDelegate);
+			Subscribe(-801688580, OnLogicValueChangedDelegate, this);
 			kbac.Play("on");
 			SendOutput();
 			Redraw(true);
