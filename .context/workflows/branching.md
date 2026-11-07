@@ -84,7 +84,9 @@ git commit -m "OM-001: <what changed>"
 git push origin OM-001-populate-context
 ```
 
-How a finished task branch returns to `main` (pull request, or a local fast-forward merge): TODO(owner). No pull request has been opened on `isochronous/ONI-Mods` so far, and merge commits appear only where a mod's history was brought in.
+A finished task branch returns to `main` through a pull request on `isochronous/ONI-Mods`, one per repository (#12 onward; the early ones were merge commits, #17 onward squash merges). When the task changes `common/`, the submodule branch is pushed and merged into oni-mods-common's `main` with a merge commit, not a squash, so the commit the superproject points at stays reachable; the superproject PR then points `common` at it.
+
+A change that has to wait for a game update's release goes on a held branch stacked on the task branch (OM-012: `OM-012-u60-only`), pushed but not opened as a pull request until the update ships.
 
 ### Everyday Mod Work
 **Id:** blk-18b48635f7e5  
