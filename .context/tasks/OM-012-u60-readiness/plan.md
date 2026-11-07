@@ -6,9 +6,9 @@
 ## Phase State
 - **Phase plan**: investigation → implementation → testing → completion
 - **Completed**: investigation
-- **Current**: implementation   (status: in-progress)
-- **Next**: testing
-- **Loaded skill**: task-plan-phase-implementation
+- **Current**: testing   (status: in-progress)
+- **Next**: completion
+- **Loaded skill**: task-plan-phase-testing
 - **Branch**: OM-012-u60-readiness
 - **Attempts (current phase)**: 1
 
@@ -34,8 +34,9 @@
 ## Progress
 - [x] Investigate — unit 01: 3 mods + corner tests + TestRunner broken; see handoff
 - [x] Update this plan with findings and the fix list
-- [ ] Fix per mod — units 02 (salty-surf, upgrade-planner, corner tests), 03 (ovagros-overhead), 04 (common TestRunner + obsolete overloads) ← IN PROGRESS
-- [ ] In-game tests per touched mod (narrow filters; ask before long runs)
+- [x] Fix per mod — units 02-05; solution builds 0 errors on U60. Ship-now commits on OM-012-u60-readiness (common b528473 on branch u60); held commits (Ovagro's Overhead, partitioner overloads in Motion Sensor Range + Smart Weight Plate, minimumSupportedBuild 762230) on OM-012-u60-only
+- [ ] In-game tests per touched mod on U60 from the OM-012-u60-only tip — unit 06 (Jeremy asleep, said use the PC as necessary) ← IN PROGRESS
+- [ ] Ship-now lane on the live U59 build (needs Steam switched back; Jeremy)
 - [ ] Close: review, retro, commit, PR
 
 ## Open Questions / Blockers
