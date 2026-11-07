@@ -125,6 +125,17 @@ namespace SaltySurf
 	public static class SurfDescriptors
 	{
 		private const string Amount = "{amount}";
+		private static bool warnedNoTarget;
+		private static bool warnedNoAmount;
+
+		/// <summary>Logs one warning when the running build has neither descriptor method to patch.</summary>
+		public static void WarnIfNoTarget()
+		{
+			if (warnedNoTarget || MechanicalSurfboard_GetDescriptors_Patch.Find() != null || MechanicalSurfboard_CollectDescriptors_Patch.Find() != null)
+				return;
+			warnedNoTarget = true;
+			Debug.LogWarning("[SaltySurf] Neither MechanicalSurfboard.GetDescriptors nor CollectDescriptors was found; the info panel keeps listing Water alone.");
+		}
 
 		/// <summary>Swaps the Water requirement line for one naming every accepted liquid. The line is found by its template, so the amount's formatting is whatever the game used.</summary>
 		public static void Rewrite(List<Descriptor> descriptors)
@@ -134,7 +145,12 @@ namespace SaltySurf
 			string template = BUILDINGS.PREFABS.MECHANICALSURFBOARD.WATER_REQUIREMENT;
 			int at = template.IndexOf(Amount);
 			if (at < 0)
+			{
+				if (!warnedNoAmount)
+					Debug.LogWarning("[SaltySurf] The surfboard's water requirement text has no {amount}; the info panel keeps listing Water alone.");
+				warnedNoAmount = true;
 				return;
+			}
 			string water = ElementLoader.FindElementByHash(SimHashes.Water).name;
 			string head = template.Substring(0, at).Replace("{element}", water);
 			string tail = template.Substring(at + Amount.Length).Replace("{element}", water);
@@ -156,7 +172,7 @@ namespace SaltySurf
 	[HarmonyPatch]
 	public static class MechanicalSurfboard_GetDescriptors_Patch
 	{
-		private static MethodBase Find()
+		internal static MethodBase Find()
 		{
 			return typeof(MechanicalSurfboard).GetMethod("IGameObjectEffectDescriptor.GetDescriptors",
 				BindingFlags.Instance | BindingFlags.NonPublic);
@@ -164,6 +180,7 @@ namespace SaltySurf
 
 		public static bool Prepare()
 		{
+			SurfDescriptors.WarnIfNoTarget();
 			return Find() != null;
 		}
 
@@ -182,14 +199,14 @@ namespace SaltySurf
 	[HarmonyPatch]
 	public static class MechanicalSurfboard_CollectDescriptors_Patch
 	{
-		private static MethodBase Find()
+		internal static MethodBase Find()
 		{
-			return typeof(MechanicalSurfboard).GetMethod("CollectDescriptors",
-				BindingFlags.Instance | BindingFlags.Public, null, new[] { typeof(GameObject), typeof(List<Descriptor>) }, null);
+			return AccessTools.DeclaredMethod(typeof(MechanicalSurfboard), "CollectDescriptors", new[] { typeof(GameObject), typeof(List<Descriptor>) });
 		}
 
 		public static bool Prepare()
 		{
+			SurfDescriptors.WarnIfNoTarget();
 			return Find() != null;
 		}
 
