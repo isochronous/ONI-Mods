@@ -116,30 +116,91 @@ namespace SaltySurf
 		}
 	}
 
-	/// <summary>The building's info panel lists the accepted liquids instead of Water alone.</summary>
+	/// <summary>
+	/// The building's info panel lists the accepted liquids instead of Water alone. The panel text is
+	/// edited in place after the game has built it, in whichever way the running build builds it:
+	/// builds up to U59 list the descriptors through the explicit
+	/// <c>IGameObjectEffectDescriptor.GetDescriptors</c>, later builds through <c>CollectDescriptors</c>.
+	/// </summary>
+	public static class SurfDescriptors
+	{
+		private const string Amount = "{amount}";
+
+		/// <summary>Swaps the Water requirement line for one naming every accepted liquid. The line is found by its template, so the amount's formatting is whatever the game used.</summary>
+		public static void Rewrite(List<Descriptor> descriptors)
+		{
+			if (descriptors == null)
+				return;
+			string template = BUILDINGS.PREFABS.MECHANICALSURFBOARD.WATER_REQUIREMENT;
+			int at = template.IndexOf(Amount);
+			if (at < 0)
+				return;
+			string water = ElementLoader.FindElementByHash(SimHashes.Water).name;
+			string head = template.Substring(0, at).Replace("{element}", water);
+			string tail = template.Substring(at + Amount.Length).Replace("{element}", water);
+			for (int i = 0; i < descriptors.Count; i++)
+			{
+				string text = descriptors[i].text;
+				if (text == null || text.Length < head.Length + tail.Length || !text.StartsWith(head) || !text.EndsWith(tail))
+					continue;
+				string amount = text.Substring(head.Length, text.Length - head.Length - tail.Length);
+				Descriptor descriptor = descriptors[i];
+				descriptor.text = BUILDINGS.PREFABS.MECHANICALSURFBOARD.WATER_REQUIREMENT.Replace("{element}", SurfWater.Names()).Replace(Amount, amount);
+				descriptor.tooltipText = BUILDINGS.PREFABS.MECHANICALSURFBOARD.WATER_REQUIREMENT_TOOLTIP.Replace("{element}", SurfWater.Names()).Replace(Amount, amount);
+				descriptors[i] = descriptor;
+			}
+		}
+	}
+
+	/// <summary>Builds up to U59: the building implements <c>IGameObjectEffectDescriptor.GetDescriptors</c> explicitly.</summary>
 	[HarmonyPatch]
 	public static class MechanicalSurfboard_GetDescriptors_Patch
 	{
-		public static MethodBase TargetMethod()
+		private static MethodBase Find()
 		{
 			return typeof(MechanicalSurfboard).GetMethod("IGameObjectEffectDescriptor.GetDescriptors",
 				BindingFlags.Instance | BindingFlags.NonPublic);
 		}
 
-		public static void Postfix(MechanicalSurfboard __instance, List<Descriptor> __result)
+		public static bool Prepare()
 		{
-			string water = ElementLoader.FindElementByHash(SimHashes.Water).name;
-			string amount = GameUtil.GetFormattedMass(__instance.minOperationalWaterKG);
-			string vanilla = BUILDINGS.PREFABS.MECHANICALSURFBOARD.WATER_REQUIREMENT.Replace("{element}", water).Replace("{amount}", amount);
-			for (int i = 0; i < __result.Count; i++)
-			{
-				if (__result[i].text != vanilla)
-					continue;
-				Descriptor descriptor = __result[i];
-				descriptor.text = BUILDINGS.PREFABS.MECHANICALSURFBOARD.WATER_REQUIREMENT.Replace("{element}", SurfWater.Names()).Replace("{amount}", amount);
-				descriptor.tooltipText = BUILDINGS.PREFABS.MECHANICALSURFBOARD.WATER_REQUIREMENT_TOOLTIP.Replace("{element}", SurfWater.Names()).Replace("{amount}", amount);
-				__result[i] = descriptor;
-			}
+			return Find() != null;
+		}
+
+		public static MethodBase TargetMethod()
+		{
+			return Find();
+		}
+
+		public static void Postfix(List<Descriptor> __result)
+		{
+			SurfDescriptors.Rewrite(__result);
+		}
+	}
+
+	/// <summary>Builds from U60: the building adds its descriptors to the caller's list in <c>CollectDescriptors</c>.</summary>
+	[HarmonyPatch]
+	public static class MechanicalSurfboard_CollectDescriptors_Patch
+	{
+		private static MethodBase Find()
+		{
+			return typeof(MechanicalSurfboard).GetMethod("CollectDescriptors",
+				BindingFlags.Instance | BindingFlags.Public, null, new[] { typeof(GameObject), typeof(List<Descriptor>) }, null);
+		}
+
+		public static bool Prepare()
+		{
+			return Find() != null;
+		}
+
+		public static MethodBase TargetMethod()
+		{
+			return Find();
+		}
+
+		public static void Postfix(List<Descriptor> descriptors)
+		{
+			SurfDescriptors.Rewrite(descriptors);
 		}
 	}
 }
