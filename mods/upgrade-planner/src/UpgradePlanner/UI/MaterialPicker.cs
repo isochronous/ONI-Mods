@@ -48,7 +48,11 @@ namespace UpgradePlanner
 			parent.AddOrGet<PlannerPickerHost>();
 			MaterialSelectionPanel panel = Util.KInstantiateUI<MaterialSelectionPanel>(productInfo.materialSelectionPanelPrefab.gameObject, parent, force_active: true);
 			panel.ClearSelectActions();
-			Configure(panel, recipe, options.ForBuilding);
+			if (!Configure(panel, recipe, options.ForBuilding))
+			{
+				UnityEngine.Object.Destroy(panel.gameObject);
+				return null;
+			}
 			panel.ToggleShowDescriptorPanels(show: false);
 			if (panel.PriorityScreen != null && panel.PriorityScreen.transform.parent != null)
 				panel.PriorityScreen.transform.parent.gameObject.SetActive(false);
@@ -80,29 +84,59 @@ namespace UpgradePlanner
 		/// that answers it is <c>IsDefBuildable</c> and <c>IsDefBuildableForMaterialSelectionPanel</c>
 		/// respectively; the callback is built to whichever type the running build declares.
 		/// </summary>
-		private static void Configure(MaterialSelectionPanel panel, Recipe recipe, bool forBuilding)
+		private static bool Configure(MaterialSelectionPanel panel, Recipe recipe, bool forBuilding)
 		{
-			MethodInfo configure = AccessTools.Method(typeof(MaterialSelectionPanel), "ConfigureScreen");
-			ParameterInfo[] parameters = configure.GetParameters();
+			if (!LookUp(forBuilding))
+				return false;
+			MethodInfo configure = configureScreen;
+			ParameterInfo[] parameters = configureParameters;
 			Type stateType = parameters[1].ParameterType;
 			Delegate state;
 			if (forBuilding)
 			{
-				MethodInfo answer = AccessTools.Method(typeof(PlanScreen), "IsDefBuildableForMaterialSelectionPanel")
-					?? AccessTools.Method(typeof(PlanScreen), "IsDefBuildable");
-				state = Delegate.CreateDelegate(stateType, PlanScreen.Instance, answer);
+				state = Delegate.CreateDelegate(stateType, PlanScreen.Instance, isDefBuildable);
 			}
 			else
 			{
-				Type result = stateType.GetMethod("Invoke").ReturnType;
+				Type result = stateResultType;
 				Type holder = typeof(Always<>).MakeGenericType(result);
 				holder.GetField("Value").SetValue(null, result == typeof(bool) ? true : Enum.Parse(result, "Allowed"));
 				state = Delegate.CreateDelegate(stateType, holder.GetMethod("Get"));
 			}
 			Delegate tooltip = forBuilding
-				? Delegate.CreateDelegate(parameters[2].ParameterType, PlanScreen.Instance, AccessTools.Method(typeof(PlanScreen), "GetTooltipForBuildable"))
+				? Delegate.CreateDelegate(parameters[2].ParameterType, PlanScreen.Instance, getTooltipForBuildable)
 				: Delegate.CreateDelegate(parameters[2].ParameterType, typeof(MaterialPicker).GetMethod(nameof(NoTooltip), BindingFlags.Static | BindingFlags.NonPublic));
 			configure.Invoke(panel, new object[] { recipe, state, tooltip });
+			return true;
+		}
+
+		private static MethodInfo configureScreen, isDefBuildable, getTooltipForBuildable;
+		private static ParameterInfo[] configureParameters;
+		private static Type stateResultType;
+		private static bool lookedUp, warnedMissing;
+
+		/// <summary>Resolves the game members <see cref="Configure"/> needs once. Logs one warning naming the mod when one is missing.</summary>
+		private static bool LookUp(bool forBuilding)
+		{
+			if (!lookedUp)
+			{
+				lookedUp = true;
+				configureScreen = AccessTools.Method(typeof(MaterialSelectionPanel), "ConfigureScreen");
+				configureParameters = configureScreen?.GetParameters();
+				if (configureParameters != null && configureParameters.Length >= 3)
+					stateResultType = configureParameters[1].ParameterType.GetMethod("Invoke")?.ReturnType;
+				isDefBuildable = AccessTools.Method(typeof(PlanScreen), "IsDefBuildableForMaterialSelectionPanel")
+					?? AccessTools.Method(typeof(PlanScreen), "IsDefBuildable");
+				getTooltipForBuildable = AccessTools.Method(typeof(PlanScreen), "GetTooltipForBuildable");
+			}
+			bool found = configureScreen != null && configureParameters != null && configureParameters.Length >= 3 && stateResultType != null
+				&& (!forBuilding || (isDefBuildable != null && getTooltipForBuildable != null));
+			if (!found && !warnedMissing)
+			{
+				warnedMissing = true;
+				Debug.LogWarning("[UpgradePlanner] The game's material selection panel setup was not found; the material picker is not shown.");
+			}
+			return found;
 		}
 
 		/// <summary>A callback answering the one value for every building, of the type the game declares.</summary>
