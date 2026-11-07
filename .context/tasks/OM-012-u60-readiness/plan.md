@@ -5,15 +5,18 @@
 
 ## Phase State
 - **Phase plan**: investigation → implementation → testing → completion
-- **Completed**: (none)
-- **Current**: investigation   (status: in-progress)
-- **Next**: implementation
-- **Loaded skill**: task-plan-phase-investigation
+- **Completed**: investigation
+- **Current**: implementation   (status: in-progress)
+- **Next**: testing
+- **Loaded skill**: task-plan-phase-implementation
 - **Branch**: OM-012-u60-readiness
 - **Attempts (current phase)**: 1
 
 ## Decisions
-- (none yet)
+- Two lanes (Jeremy, 2026-11-07): fixes that work on both U59 744825 and U60 ship now (this branch, PR to main; common/ branch `u60`); changes that need U60-only API (Ovagro's Overhead, any obsolete-overload replacement missing in U59) go on a held branch `OM-012-u60-only` stacked on this one, merged when U60 is officially released.
+- Only U60-only changes raise `minimumSupportedBuild` to 762230 (the testing build; the release build will be higher).
+- No Magic Fridges is retired (Jeremy, 2026-11-07): vanilla U60 fixes the problem it was made for. No U60 code changes to it; how it's retired on the Workshop/README is settled at U60 release.
+- "Everything else gets updated" includes the at-risk items: obsolete Subscribe/Unsubscribe and GameScenePartitioner.Add overloads move to their U60 replacements, and the upgrade-planner tick timing and jumper-bridges overlay get checked in game.
 
 ## Key Files
 - ONI-Mods.sln: build of every mod against the testing-branch assemblies
@@ -31,13 +34,13 @@
 ## Progress
 - [x] Investigate — unit 01: 3 mods + corner tests + TestRunner broken; see handoff
 - [x] Update this plan with findings and the fix list
-- [ ] Fix per mod
+- [ ] Fix per mod — units 02 (salty-surf, upgrade-planner, corner tests), 03 (ovagros-overhead), 04 (common TestRunner + obsolete overloads) ← IN PROGRESS
 - [ ] In-game tests per touched mod (narrow filters; ask before long runs)
 - [ ] Close: review, retro, commit, PR
 
 ## Open Questions / Blockers
-- Jeremy thinks No Magic Fridges may be unnecessary in U60 (vanilla fix?). Added to unit 01's scope; if fixed in vanilla, deciding what happens to the mod (retire, mark as live-build-only, or keep) is Jeremy's call.
-- Do mods declare a minimum/last-working build (mod_info.yaml `minimumSupportedBuild`) that needs bumping for U60?
+- How No Magic Fridges is retired (Workshop text, README, hide/unlist) — at U60 release.
+- Re-check the four transpilers against the release U60 build (testing build is a debug build).
 
 ## Constraints
 - Test runs take Jeremy's desktop: narrowest filter, ask before long or chained runs; never -KeepGame.
