@@ -1,0 +1,133 @@
+msgid ""
+msgstr ""
+"Application: Oxygen Not Included\n"
+"POT Version: 2.0\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. STRINGS.BITSHIFTER.DIAGNOSTICPANEL.ALL_OFF
+msgctxt "STRINGS.BITSHIFTER.DIAGNOSTICPANEL.ALL_OFF"
+msgid "All off"
+msgstr "全部关闭"
+
+#. STRINGS.BITSHIFTER.DIAGNOSTICPANEL.ALL_OFF_TOOLTIP
+msgctxt "STRINGS.BITSHIFTER.DIAGNOSTICPANEL.ALL_OFF_TOOLTIP"
+msgid "Switch every bit off"
+msgstr "关闭所有位"
+
+#. STRINGS.BITSHIFTER.DIAGNOSTICPANEL.BITS_NONE
+msgctxt "STRINGS.BITSHIFTER.DIAGNOSTICPANEL.BITS_NONE"
+msgid "none"
+msgstr "无"
+
+#. STRINGS.BITSHIFTER.DIAGNOSTICPANEL.BITS_RANGE
+msgctxt "STRINGS.BITSHIFTER.DIAGNOSTICPANEL.BITS_RANGE"
+msgid "{0}-{1}"
+msgstr "{0}-{1}"
+
+#. STRINGS.BITSHIFTER.DIAGNOSTICPANEL.BITS_SEPARATOR
+msgctxt "STRINGS.BITSHIFTER.DIAGNOSTICPANEL.BITS_SEPARATOR"
+msgid ", "
+msgstr "、"
+
+#. STRINGS.BITSHIFTER.DIAGNOSTICPANEL.CELL_INPUT
+msgctxt "STRINGS.BITSHIFTER.DIAGNOSTICPANEL.CELL_INPUT"
+msgid "The input has bit {0} on."
+msgstr "输入端的位{0}已开启。"
+
+#. STRINGS.BITSHIFTER.DIAGNOSTICPANEL.CELL_OFF
+msgctxt "STRINGS.BITSHIFTER.DIAGNOSTICPANEL.CELL_OFF"
+msgid "Bit {0}: switched off. Click to switch it on."
+msgstr "位{0}：已关闭。点击开启。"
+
+#. STRINGS.BITSHIFTER.DIAGNOSTICPANEL.CELL_ON
+msgctxt "STRINGS.BITSHIFTER.DIAGNOSTICPANEL.CELL_ON"
+msgid "Bit {0}: switched on. Click to switch it off."
+msgstr "位{0}：已开启。点击关闭。"
+
+#. STRINGS.BITSHIFTER.DIAGNOSTICPANEL.CELL_UNWIRED
+msgctxt "STRINGS.BITSHIFTER.DIAGNOSTICPANEL.CELL_UNWIRED"
+msgid "Bit {0}. Wire the output port to use the switches."
+msgstr "位{0}。连接输出端口后才能使用开关。"
+
+#. STRINGS.BITSHIFTER.DIAGNOSTICPANEL.SIDE_SCREEN_TITLE
+msgctxt "STRINGS.BITSHIFTER.DIAGNOSTICPANEL.SIDE_SCREEN_TITLE"
+msgid "Switches"
+msgstr "开关"
+
+#. STRINGS.BITSHIFTER.DIAGNOSTICPANEL.SIDE_SCREEN_UNWIRED
+msgctxt "STRINGS.BITSHIFTER.DIAGNOSTICPANEL.SIDE_SCREEN_UNWIRED"
+msgid "Wire the output port to use the switches."
+msgstr "连接输出端口后才能使用开关。"
+
+#. STRINGS.BITSHIFTER.DIAGNOSTICPANEL.SIDE_SCREEN_WIRED
+msgctxt "STRINGS.BITSHIFTER.DIAGNOSTICPANEL.SIDE_SCREEN_WIRED"
+msgid "Switched bits join the input on the output."
+msgstr "开启的位会与输入一起送到输出端。"
+
+#. STRINGS.BITSHIFTER.DIAGNOSTICPANEL.STATUS_INPUT
+msgctxt "STRINGS.BITSHIFTER.DIAGNOSTICPANEL.STATUS_INPUT"
+msgid "Input: {0}"
+msgstr "输入：{0}"
+
+#. STRINGS.BITSHIFTER.DIAGNOSTICPANEL.STATUS_INPUT_TOOLTIP
+msgctxt "STRINGS.BITSHIFTER.DIAGNOSTICPANEL.STATUS_INPUT_TOOLTIP"
+msgid "Bits on the input ribbon carrying a <b><style=\"logic_on\">Green Signal</style></b>\nRibbon value: {1}"
+msgstr "输入信号线组上携带<b><style=\"logic_on\">绿色信号</style></b>的位\n线组数值：{1}"
+
+#. STRINGS.BITSHIFTER.DIAGNOSTICPANEL.STATUS_SWITCHES
+msgctxt "STRINGS.BITSHIFTER.DIAGNOSTICPANEL.STATUS_SWITCHES"
+msgid "Switches: {0}"
+msgstr "开关：{0}"
+
+#. STRINGS.BITSHIFTER.DIAGNOSTICPANEL.STATUS_SWITCHES_TOOLTIP
+msgctxt "STRINGS.BITSHIFTER.DIAGNOSTICPANEL.STATUS_SWITCHES_TOOLTIP"
+msgid "Bits switched on in the side screen. The output carries these and every input bit."
+msgstr "在侧边栏中开启的位。输出端携带这些位以及所有输入位。"
+
+#. STRINGS.BUILDINGS.PREFABS.RIBBONDIAGNOSTICPANEL.DESC
+msgctxt "STRINGS.BUILDINGS.PREFABS.RIBBONDIAGNOSTICPANEL.DESC"
+msgid "Seeing every bit of a ribbon at once makes a circuit quick to trace."
+msgstr "一眼看清信号线组的每一位，追查电路更快捷。"
+
+#. STRINGS.BUILDINGS.PREFABS.RIBBONDIAGNOSTICPANEL.EFFECT
+msgctxt "STRINGS.BUILDINGS.PREFABS.RIBBONDIAGNOSTICPANEL.EFFECT"
+msgid "Shows all 31 bits of an <link=\"LOGICRIBBON\">Automation Ribbon</link> on a grid of lamps: a lamp lights green for each bit carrying a <b><style=\"logic_on\">Green Signal</style></b> and red for each bit carrying a <b><style=\"logic_off\">Red Signal</style></b>.\n\nWith its output wired, it is also a 31-channel switch. Bits switched on light purple, and the output carries every bit that is on at the input or switched on."
+msgstr "用一组指示灯显示<link=\"LOGICRIBBON\">信号线组</link>的全部31位：携带<b><style=\"logic_on\">绿色信号</style></b>的位亮绿灯，携带<b><style=\"logic_off\">红色信号</style></b>的位亮红灯。\n\n连接输出端后，它也是一个31路开关。开关开启的位亮紫灯，输出端携带输入中开启或开关开启的每一位。"
+
+#. STRINGS.BUILDINGS.PREFABS.RIBBONDIAGNOSTICPANEL.LOGIC_PORT
+msgctxt "STRINGS.BUILDINGS.PREFABS.RIBBONDIAGNOSTICPANEL.LOGIC_PORT"
+msgid "Ribbon Input"
+msgstr "线组输入端"
+
+#. STRINGS.BUILDINGS.PREFABS.RIBBONDIAGNOSTICPANEL.LOGIC_PORT_ACTIVE
+msgctxt "STRINGS.BUILDINGS.PREFABS.RIBBONDIAGNOSTICPANEL.LOGIC_PORT_ACTIVE"
+msgid "Lights a green lamp for each bit carrying a <b><style=\"logic_on\">Green Signal</style></b>"
+msgstr "为每个携带<b><style=\"logic_on\">绿色信号</style></b>的位点亮绿灯"
+
+#. STRINGS.BUILDINGS.PREFABS.RIBBONDIAGNOSTICPANEL.LOGIC_PORT_INACTIVE
+msgctxt "STRINGS.BUILDINGS.PREFABS.RIBBONDIAGNOSTICPANEL.LOGIC_PORT_INACTIVE"
+msgid "Lights a red lamp for each bit carrying a <b><style=\"logic_off\">Red Signal</style></b>"
+msgstr "为每个携带<b><style=\"logic_off\">红色信号</style></b>的位点亮红灯"
+
+#. STRINGS.BUILDINGS.PREFABS.RIBBONDIAGNOSTICPANEL.LOGIC_PORT_OUTPUT
+msgctxt "STRINGS.BUILDINGS.PREFABS.RIBBONDIAGNOSTICPANEL.LOGIC_PORT_OUTPUT"
+msgid "Ribbon Output"
+msgstr "线组输出端"
+
+#. STRINGS.BUILDINGS.PREFABS.RIBBONDIAGNOSTICPANEL.NAME
+msgctxt "STRINGS.BUILDINGS.PREFABS.RIBBONDIAGNOSTICPANEL.NAME"
+msgid "<link=\"RIBBONDIAGNOSTICPANEL\">Ribbon Diagnostic Panel</link>"
+msgstr "<link=\"RIBBONDIAGNOSTICPANEL\">线组诊断面板</link>"
+
+#. STRINGS.BUILDINGS.PREFABS.RIBBONDIAGNOSTICPANEL.OUTPUT_PORT_ACTIVE
+msgctxt "STRINGS.BUILDINGS.PREFABS.RIBBONDIAGNOSTICPANEL.OUTPUT_PORT_ACTIVE"
+msgid "Sends a <b><style=\"logic_on\">Green Signal</style></b> on each bit that is on at the input or switched on"
+msgstr "在输入中开启或开关开启的每一位上发送<b><style=\"logic_on\">绿色信号</style></b>"
+
+#. STRINGS.BUILDINGS.PREFABS.RIBBONDIAGNOSTICPANEL.OUTPUT_PORT_INACTIVE
+msgctxt "STRINGS.BUILDINGS.PREFABS.RIBBONDIAGNOSTICPANEL.OUTPUT_PORT_INACTIVE"
+msgid "Otherwise, sends a <b><style=\"logic_off\">Red Signal</style></b> on that bit"
+msgstr "否则在该位上发送<b><style=\"logic_off\">红色信号</style></b>"

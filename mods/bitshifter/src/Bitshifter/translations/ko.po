@@ -1,0 +1,133 @@
+msgid ""
+msgstr ""
+"Application: Oxygen Not Included\n"
+"POT Version: 2.0\n"
+"Language: ko_KR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. STRINGS.BITSHIFTER.DIAGNOSTICPANEL.ALL_OFF
+msgctxt "STRINGS.BITSHIFTER.DIAGNOSTICPANEL.ALL_OFF"
+msgid "All off"
+msgstr "모두 끄기"
+
+#. STRINGS.BITSHIFTER.DIAGNOSTICPANEL.ALL_OFF_TOOLTIP
+msgctxt "STRINGS.BITSHIFTER.DIAGNOSTICPANEL.ALL_OFF_TOOLTIP"
+msgid "Switch every bit off"
+msgstr "모든 비트를 끕니다"
+
+#. STRINGS.BITSHIFTER.DIAGNOSTICPANEL.BITS_NONE
+msgctxt "STRINGS.BITSHIFTER.DIAGNOSTICPANEL.BITS_NONE"
+msgid "none"
+msgstr "없음"
+
+#. STRINGS.BITSHIFTER.DIAGNOSTICPANEL.BITS_RANGE
+msgctxt "STRINGS.BITSHIFTER.DIAGNOSTICPANEL.BITS_RANGE"
+msgid "{0}-{1}"
+msgstr "{0}-{1}"
+
+#. STRINGS.BITSHIFTER.DIAGNOSTICPANEL.BITS_SEPARATOR
+msgctxt "STRINGS.BITSHIFTER.DIAGNOSTICPANEL.BITS_SEPARATOR"
+msgid ", "
+msgstr ", "
+
+#. STRINGS.BITSHIFTER.DIAGNOSTICPANEL.CELL_INPUT
+msgctxt "STRINGS.BITSHIFTER.DIAGNOSTICPANEL.CELL_INPUT"
+msgid "The input has bit {0} on."
+msgstr "입력의 비트 {0}이(가) 켜져 있습니다."
+
+#. STRINGS.BITSHIFTER.DIAGNOSTICPANEL.CELL_OFF
+msgctxt "STRINGS.BITSHIFTER.DIAGNOSTICPANEL.CELL_OFF"
+msgid "Bit {0}: switched off. Click to switch it on."
+msgstr "비트 {0}: 꺼짐. 클릭하면 켭니다."
+
+#. STRINGS.BITSHIFTER.DIAGNOSTICPANEL.CELL_ON
+msgctxt "STRINGS.BITSHIFTER.DIAGNOSTICPANEL.CELL_ON"
+msgid "Bit {0}: switched on. Click to switch it off."
+msgstr "비트 {0}: 켜짐. 클릭하면 끕니다."
+
+#. STRINGS.BITSHIFTER.DIAGNOSTICPANEL.CELL_UNWIRED
+msgctxt "STRINGS.BITSHIFTER.DIAGNOSTICPANEL.CELL_UNWIRED"
+msgid "Bit {0}. Wire the output port to use the switches."
+msgstr "비트 {0}. 스위치를 사용하려면 출력 포트를 연결하세요."
+
+#. STRINGS.BITSHIFTER.DIAGNOSTICPANEL.SIDE_SCREEN_TITLE
+msgctxt "STRINGS.BITSHIFTER.DIAGNOSTICPANEL.SIDE_SCREEN_TITLE"
+msgid "Switches"
+msgstr "스위치"
+
+#. STRINGS.BITSHIFTER.DIAGNOSTICPANEL.SIDE_SCREEN_UNWIRED
+msgctxt "STRINGS.BITSHIFTER.DIAGNOSTICPANEL.SIDE_SCREEN_UNWIRED"
+msgid "Wire the output port to use the switches."
+msgstr "스위치를 사용하려면 출력 포트를 연결하세요."
+
+#. STRINGS.BITSHIFTER.DIAGNOSTICPANEL.SIDE_SCREEN_WIRED
+msgctxt "STRINGS.BITSHIFTER.DIAGNOSTICPANEL.SIDE_SCREEN_WIRED"
+msgid "Switched bits join the input on the output."
+msgstr "켠 비트는 입력과 함께 출력으로 나갑니다."
+
+#. STRINGS.BITSHIFTER.DIAGNOSTICPANEL.STATUS_INPUT
+msgctxt "STRINGS.BITSHIFTER.DIAGNOSTICPANEL.STATUS_INPUT"
+msgid "Input: {0}"
+msgstr "입력: {0}"
+
+#. STRINGS.BITSHIFTER.DIAGNOSTICPANEL.STATUS_INPUT_TOOLTIP
+msgctxt "STRINGS.BITSHIFTER.DIAGNOSTICPANEL.STATUS_INPUT_TOOLTIP"
+msgid "Bits on the input ribbon carrying a <b><style=\"logic_on\">Green Signal</style></b>\nRibbon value: {1}"
+msgstr "입력 리본에서 <b><style=\"logic_on\">녹색 신호</style></b>를 전달하는 비트\n리본 값: {1}"
+
+#. STRINGS.BITSHIFTER.DIAGNOSTICPANEL.STATUS_SWITCHES
+msgctxt "STRINGS.BITSHIFTER.DIAGNOSTICPANEL.STATUS_SWITCHES"
+msgid "Switches: {0}"
+msgstr "스위치: {0}"
+
+#. STRINGS.BITSHIFTER.DIAGNOSTICPANEL.STATUS_SWITCHES_TOOLTIP
+msgctxt "STRINGS.BITSHIFTER.DIAGNOSTICPANEL.STATUS_SWITCHES_TOOLTIP"
+msgid "Bits switched on in the side screen. The output carries these and every input bit."
+msgstr "사이드 화면에서 켠 비트입니다. 출력은 이 비트들과 모든 입력 비트를 전달합니다."
+
+#. STRINGS.BUILDINGS.PREFABS.RIBBONDIAGNOSTICPANEL.DESC
+msgctxt "STRINGS.BUILDINGS.PREFABS.RIBBONDIAGNOSTICPANEL.DESC"
+msgid "Seeing every bit of a ribbon at once makes a circuit quick to trace."
+msgstr "리본의 모든 비트를 한눈에 보면 회로를 빠르게 추적할 수 있습니다."
+
+#. STRINGS.BUILDINGS.PREFABS.RIBBONDIAGNOSTICPANEL.EFFECT
+msgctxt "STRINGS.BUILDINGS.PREFABS.RIBBONDIAGNOSTICPANEL.EFFECT"
+msgid "Shows all 31 bits of an <link=\"LOGICRIBBON\">Automation Ribbon</link> on a grid of lamps: a lamp lights green for each bit carrying a <b><style=\"logic_on\">Green Signal</style></b> and red for each bit carrying a <b><style=\"logic_off\">Red Signal</style></b>.\n\nWith its output wired, it is also a 31-channel switch. Bits switched on light purple, and the output carries every bit that is on at the input or switched on."
+msgstr "<link=\"LOGICRIBBON\">자동화 리본</link>의 31비트 전체를 램프 격자로 표시합니다. <b><style=\"logic_on\">녹색 신호</style></b>를 전달하는 비트마다 녹색 램프가, <b><style=\"logic_off\">적색 신호</style></b>를 전달하는 비트마다 적색 램프가 켜집니다.\n\n출력을 연결하면 31채널 스위치로도 쓸 수 있습니다. 스위치로 켠 비트는 보라색으로 켜지며, 출력은 입력에서 켜져 있거나 스위치로 켠 모든 비트를 전달합니다."
+
+#. STRINGS.BUILDINGS.PREFABS.RIBBONDIAGNOSTICPANEL.LOGIC_PORT
+msgctxt "STRINGS.BUILDINGS.PREFABS.RIBBONDIAGNOSTICPANEL.LOGIC_PORT"
+msgid "Ribbon Input"
+msgstr "리본 입력"
+
+#. STRINGS.BUILDINGS.PREFABS.RIBBONDIAGNOSTICPANEL.LOGIC_PORT_ACTIVE
+msgctxt "STRINGS.BUILDINGS.PREFABS.RIBBONDIAGNOSTICPANEL.LOGIC_PORT_ACTIVE"
+msgid "Lights a green lamp for each bit carrying a <b><style=\"logic_on\">Green Signal</style></b>"
+msgstr "<b><style=\"logic_on\">녹색 신호</style></b>를 전달하는 비트마다 녹색 램프를 켭니다"
+
+#. STRINGS.BUILDINGS.PREFABS.RIBBONDIAGNOSTICPANEL.LOGIC_PORT_INACTIVE
+msgctxt "STRINGS.BUILDINGS.PREFABS.RIBBONDIAGNOSTICPANEL.LOGIC_PORT_INACTIVE"
+msgid "Lights a red lamp for each bit carrying a <b><style=\"logic_off\">Red Signal</style></b>"
+msgstr "<b><style=\"logic_off\">적색 신호</style></b>를 전달하는 비트마다 적색 램프를 켭니다"
+
+#. STRINGS.BUILDINGS.PREFABS.RIBBONDIAGNOSTICPANEL.LOGIC_PORT_OUTPUT
+msgctxt "STRINGS.BUILDINGS.PREFABS.RIBBONDIAGNOSTICPANEL.LOGIC_PORT_OUTPUT"
+msgid "Ribbon Output"
+msgstr "리본 출력"
+
+#. STRINGS.BUILDINGS.PREFABS.RIBBONDIAGNOSTICPANEL.NAME
+msgctxt "STRINGS.BUILDINGS.PREFABS.RIBBONDIAGNOSTICPANEL.NAME"
+msgid "<link=\"RIBBONDIAGNOSTICPANEL\">Ribbon Diagnostic Panel</link>"
+msgstr "<link=\"RIBBONDIAGNOSTICPANEL\">리본 진단 패널</link>"
+
+#. STRINGS.BUILDINGS.PREFABS.RIBBONDIAGNOSTICPANEL.OUTPUT_PORT_ACTIVE
+msgctxt "STRINGS.BUILDINGS.PREFABS.RIBBONDIAGNOSTICPANEL.OUTPUT_PORT_ACTIVE"
+msgid "Sends a <b><style=\"logic_on\">Green Signal</style></b> on each bit that is on at the input or switched on"
+msgstr "입력에서 켜져 있거나 스위치로 켠 비트마다 <b><style=\"logic_on\">녹색 신호</style></b>를 보냅니다"
+
+#. STRINGS.BUILDINGS.PREFABS.RIBBONDIAGNOSTICPANEL.OUTPUT_PORT_INACTIVE
+msgctxt "STRINGS.BUILDINGS.PREFABS.RIBBONDIAGNOSTICPANEL.OUTPUT_PORT_INACTIVE"
+msgid "Otherwise, sends a <b><style=\"logic_off\">Red Signal</style></b> on that bit"
+msgstr "그 외에는 해당 비트에 <b><style=\"logic_off\">적색 신호</style></b>를 보냅니다"
