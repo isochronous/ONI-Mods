@@ -21,6 +21,8 @@ namespace JumperBridges
 
 		private readonly BridgeEndNode[] nodes = new BridgeEndNode[2];
 		private SchedulerHandle pending;
+		private int brokenHandle = -1;
+		private int repairedHandle = -1;
 
 		public BridgeKind Kind { get; private set; }
 
@@ -28,16 +30,16 @@ namespace JumperBridges
 		{
 			base.OnSpawn();
 			Kind = BridgeKind.OfBridge(gameObject);
-			Subscribe((int)GameHashes.BuildingBroken, OnBroken);
-			Subscribe((int)GameHashes.BuildingFullyRepaired, OnRepaired);
+			brokenHandle = Subscribe((int)GameHashes.BuildingBroken, OnBroken);
+			repairedHandle = Subscribe((int)GameHashes.BuildingFullyRepaired, OnRepaired);
 			ScheduleCreate();
 		}
 
 		protected override void OnCleanUp()
 		{
 			pending.ClearScheduler();
-			Unsubscribe((int)GameHashes.BuildingBroken, OnBroken);
-			Unsubscribe((int)GameHashes.BuildingFullyRepaired, OnRepaired);
+			Unsubscribe(ref brokenHandle);
+			Unsubscribe(ref repairedHandle);
 			if (!Game.IsQuitting() && !App.IsExiting)
 				RemoveNodes();
 			base.OnCleanUp();

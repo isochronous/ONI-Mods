@@ -96,7 +96,7 @@ namespace CornerBuildAnything.Tests
 			GameObject order = Pockets.Order(t, "Ladder", origin);
 			yield return t.Frames(3);
 			Constructable constructable = order.GetComponent<Constructable>();
-			CellOffset[] now = constructable.GetOffsets(origin);
+			CellOffset[] now = constructable.GetOffsets(origin).ToArray();
 			Pockets.Has(t, Pockets.Offset(origin, corner), now, "the corner reaches the ladder");
 			// What the game itself would do for a tile piece: the corner table, with the def's filter.
 			var table = OffsetGroups.BuildReachabilityTable(def.PlacementOffsets, OffsetGroups.InvertedStandardTableWithCorners, def.ConstructionOffsetFilter);
@@ -129,7 +129,7 @@ namespace CornerBuildAnything.Tests
 			GameObject order = Pockets.Order(t, "LogicWireBridge", middle);
 			yield return t.Frames(3);
 			Constructable constructable = order.GetComponent<Constructable>();
-			CellOffset[] build = constructable.GetOffsets(middle);
+			CellOffset[] build = constructable.GetOffsets(middle).ToArray();
 			t.Log("build offsets " + Pockets.Describe(build));
 			Pockets.Has(t, corner, build, "a Duplicant may stand in the corner to build the bridge from its end");
 			Pockets.Lacks(t, corner, Pockets.StandardOffsets(constructable, def, Orientation.Neutral, middle, true), "the standard table fails for a bridge whose end alone is in the pocket");
@@ -162,7 +162,7 @@ namespace CornerBuildAnything.Tests
 			GameObject order = Pockets.Order(t, "LogicWireBridge", middle, Orientation.R90);
 			yield return t.Frames(3);
 			Constructable constructable = order.GetComponent<Constructable>();
-			CellOffset[] build = constructable.GetOffsets(middle);
+			CellOffset[] build = constructable.GetOffsets(middle).ToArray();
 			t.Log("build offsets " + Pockets.Describe(build));
 			Pockets.Has(t, corner, build, "a Duplicant may stand in the corner above the upper end");
 			Pockets.Lacks(t, corner, Pockets.StandardOffsets(constructable, def, Orientation.R90, middle, true), "the standard table would not have reached it");
@@ -199,7 +199,7 @@ namespace CornerBuildAnything.Tests
 				probe.Clear();
 			}
 			Pockets.Has(t, below, open, "the cell below is a place to stand when no filter is applied");
-			CellOffset[] build = constructable.GetOffsets(cell);
+			CellOffset[] build = constructable.GetOffsets(cell).ToArray();
 			t.Log("build offsets " + Pockets.Describe(build));
 			Pockets.Lacks(t, below, build, "but the plate's filter still forbids it");
 			Pockets.Has(t, left, build, "the cell beside it, on a tile, is still allowed");

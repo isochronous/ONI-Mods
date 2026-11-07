@@ -75,6 +75,8 @@ namespace SmoothBorders.Tests
 			string flat = Listing(new[] { new CodeInstruction(OpCodes.Call, FlatSetting) })[0];
 			t.Assert.True(changed.All(i => patchedListing[i] == flat), "both now call Border.Setting");
 
+			t.Log("next: two altered copies of the method; each draws the mod's \"DrawWorldBorder has changed\" warning, expected here and not a sign of a game change");
+
 			// The thickness read twice: the load and the call duplicated right after the first pair.
 			List<CodeInstruction> twice = PatchProcessor.GetOriginalInstructions(DrawWorldBorder);
 			load = ThicknessLoad(twice);

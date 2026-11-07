@@ -142,3 +142,11 @@ OM-008 (Ribbon Diagnostic Panel in Bitshifter). `ks brief --decisions --for mods
 **Id:** blk-f755cc056946
 
 OM-010 store updates used `write plan`/`apply` section ops whose bodies began with the block's `**Description**:` line (the `**Id:**` and `**Tags:**` lines left out, as the skill says). The writer kept the Tags line but dropped its trailing two-space line break and inserted a blank line before `**Description**`, so the metadata lines now render as separate paragraphs (seen in mods/just-fall-already `domains/entities.md` FallPoke). Expected: the field lines under the heading to keep their shape. Left as written; it renders and `ks check` reports no block. Also recurring: handoff briefs for any mod path fill with each sibling mod's copy of the same standards sections (try/catch, Game Components), crowding out the target mod's `entities.md` (see the 2026-10-21 entry).
+
+## 2026-11-07 OM-012: handoff briefs filled with one duplicated block
+**Id:** blk-ebf7301e99d4
+
+- Invocation: `ks handoff --task OM-012-u60-readiness --scope mods/<several mods> ... --checkpoints 0` (units 02-09, and the review unit with `--decisions`).
+- What it did: 17 of the review packet's 21 pointers were the same try/catch error-handling standard, copied once per mod node; the other packets were the same. The budget went to that block, and nothing about game updates, the frozen previous build, event subscriptions or `mods:domains/game-interfaces.md` (reported unreachable) made it in.
+- Expected: one pointer for a block that every scoped node carries a copy of, leaving the budget for records that differ.
+- Instead: every unit worked from the spec and its own reading of the code and game DLLs; none ran `ks read` on the brief.

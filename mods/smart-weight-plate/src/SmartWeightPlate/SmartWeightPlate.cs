@@ -65,8 +65,8 @@ namespace SmartWeightPlate
 		private bool lastSignal;
 		private bool signalSent;
 
-		private static readonly EventSystem.IntraObjectHandler<SmartWeightPlate> OnCopySettingsDelegate =
-			new EventSystem.IntraObjectHandler<SmartWeightPlate>((component, data) => component.OnCopySettings(data));
+		private static readonly System.Action<object, object> OnCopySettingsDelegate =
+			(context, data) => ((SmartWeightPlate)context).OnCopySettings(data);
 
 		public float CurrentValue => massSolid + massPickupables + massActivators;
 
@@ -129,7 +129,7 @@ namespace SmartWeightPlate
 		protected override void OnPrefabInit()
 		{
 			base.OnPrefabInit();
-			Subscribe((int)GameHashes.CopySettings, OnCopySettingsDelegate);
+			Subscribe((int)GameHashes.CopySettings, OnCopySettingsDelegate, this);
 		}
 
 		[OnDeserialized]
