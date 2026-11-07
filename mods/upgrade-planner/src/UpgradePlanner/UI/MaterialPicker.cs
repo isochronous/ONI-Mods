@@ -1,4 +1,7 @@
+using System;
 using System.Collections.Generic;
+using System.Reflection;
+using HarmonyLib;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -45,10 +48,7 @@ namespace UpgradePlanner
 			parent.AddOrGet<PlannerPickerHost>();
 			MaterialSelectionPanel panel = Util.KInstantiateUI<MaterialSelectionPanel>(productInfo.materialSelectionPanelPrefab.gameObject, parent, force_active: true);
 			panel.ClearSelectActions();
-			if (options.ForBuilding)
-				panel.ConfigureScreen(recipe, PlanScreen.Instance.IsDefBuildable, PlanScreen.Instance.GetTooltipForBuildable);
-			else
-				panel.ConfigureScreen(recipe, _ => true, _ => "");
+			Configure(panel, recipe, options.ForBuilding);
 			panel.ToggleShowDescriptorPanels(show: false);
 			if (panel.PriorityScreen != null && panel.PriorityScreen.transform.parent != null)
 				panel.PriorityScreen.transform.parent.gameObject.SetActive(false);
@@ -68,10 +68,66 @@ namespace UpgradePlanner
 					HideAmounts(selector);
 				int index = selector.selectorIndex;
 				if (preselect != null && index < preselect.Count && preselect[index].IsValid && selector.ElementToggles.ContainsKey(preselect[index]))
-					selector.OnSelectMaterial(preselect[index], recipe);
+					SelectMaterial(selector, preselect[index], recipe);
 			}
 			panel.AddSelectAction(() => onChanged(Choices(selectors)));
 			return panel;
+		}
+
+		/// <summary>
+		/// Sets the panel up for its recipe. The panel's "can this be built" callback returns a bool up
+		/// to U59 and a <c>MaterialSelectionPanel.BuildableState</c> from U60, and the PlanScreen method
+		/// that answers it is <c>IsDefBuildable</c> and <c>IsDefBuildableForMaterialSelectionPanel</c>
+		/// respectively; the callback is built to whichever type the running build declares.
+		/// </summary>
+		private static void Configure(MaterialSelectionPanel panel, Recipe recipe, bool forBuilding)
+		{
+			MethodInfo configure = AccessTools.Method(typeof(MaterialSelectionPanel), "ConfigureScreen");
+			ParameterInfo[] parameters = configure.GetParameters();
+			Type stateType = parameters[1].ParameterType;
+			Delegate state;
+			if (forBuilding)
+			{
+				MethodInfo answer = AccessTools.Method(typeof(PlanScreen), "IsDefBuildableForMaterialSelectionPanel")
+					?? AccessTools.Method(typeof(PlanScreen), "IsDefBuildable");
+				state = Delegate.CreateDelegate(stateType, PlanScreen.Instance, answer);
+			}
+			else
+			{
+				Type result = stateType.GetMethod("Invoke").ReturnType;
+				Type holder = typeof(Always<>).MakeGenericType(result);
+				holder.GetField("Value").SetValue(null, result == typeof(bool) ? true : Enum.Parse(result, "Allowed"));
+				state = Delegate.CreateDelegate(stateType, holder.GetMethod("Get"));
+			}
+			Delegate tooltip = forBuilding
+				? Delegate.CreateDelegate(parameters[2].ParameterType, PlanScreen.Instance, AccessTools.Method(typeof(PlanScreen), "GetTooltipForBuildable"))
+				: Delegate.CreateDelegate(parameters[2].ParameterType, typeof(MaterialPicker).GetMethod(nameof(NoTooltip), BindingFlags.Static | BindingFlags.NonPublic));
+			configure.Invoke(panel, new object[] { recipe, state, tooltip });
+		}
+
+		/// <summary>A callback answering the one value for every building, of the type the game declares.</summary>
+		public static class Always<T>
+		{
+			public static T Value;
+			public static T Get(BuildingDef def) => Value;
+		}
+
+		private static string NoTooltip(BuildingDef def) => "";
+
+		private delegate void SelectMaterialCall(MaterialSelector selector, Tag elem, Recipe recipe, bool focusScrollRect);
+		private static SelectMaterialCall selectMaterial;
+
+		/// <summary>
+		/// Picks a toggle as a click on it does. The game's method for it is public up to U59 and private
+		/// from U60 (which adds a public <c>TrySelectMaterial</c> that checks the stock first; a pick
+		/// here must go through whatever the stock is), so it is reached by name.
+		/// </summary>
+		private static void SelectMaterial(MaterialSelector selector, Tag elem, Recipe recipe)
+		{
+			if (selectMaterial == null)
+				selectMaterial = AccessTools.MethodDelegate<SelectMaterialCall>(
+					AccessTools.Method(typeof(MaterialSelector), "OnSelectMaterial", new[] { typeof(Tag), typeof(Recipe), typeof(bool) }));
+			selectMaterial(selector, elem, recipe, false);
 		}
 
 		/// <summary>The current pick of every ingredient's selector, Tag.Invalid where none is made.</summary>
