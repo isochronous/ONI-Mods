@@ -56,8 +56,8 @@ namespace OvagrosOverhead
 				STRINGS.CREATURES.SPECIES.VINEBRANCH.DESC, 1f, Assets.GetAnim("vine_kanim"), "line_idle",
 				Grid.SceneLayer.BuildingFront, 1, 1, DECOR.BONUS.TIER0, default(EffectorValues), SimHashes.Creature,
 				additionalTags, 308.15f);
-			EntityTemplates.ExtendEntityToBasicPlant(branch, 273.15f, 298.15f, 318.15f, 378.15f, null,
-				pressure_sensitive: false, pressure_lethal_low: 0f, pressure_warning_low: 0.15f, crop_id: null,
+			EntityTemplates.ExtendEntityToBasicPlant(branch, harvest: null, 273.15f, 298.15f, 318.15f, 378.15f, null,
+				pressure_sensitive: false, pressure_lethal_low: 0f, pressure_warning_low: 0.15f,
 				can_drown: true, can_tinker: true, require_solid_tile: false, require_Backwall_Foundation: false,
 				should_grow_old: false, max_age: 2400f, min_radiation: 0f, max_radiation: 2200f,
 				baseTraitId: BaseTraitId, baseTraitName: name);
@@ -65,8 +65,7 @@ namespace OvagrosOverhead
 			branch.AddOrGet<CodexEntryRedirector>().CodexID = VineMotherConfig.ID;
 			branch.AddOrGet<PlantFiberProducer>().amount = VineBranchConfig.PLANT_FIBER_PRODUCED_PER_CYCLE;
 			branch.AddOrGet<UprootedMonitor>();
-			Crop.CropVal crop = CROPS.CROP_TYPES.Find(c => c.cropId == VineFruitConfig.ID);
-			branch.AddOrGet<Crop>().Configure(crop);
+			EntityTemplates.ConfigureCrop(branch, VineBranchConfig.HARVEST);
 			Modifiers modifiers = branch.GetComponent<Modifiers>();
 			if (branch.GetComponent<Traits>() == null)
 			{
@@ -75,11 +74,11 @@ namespace OvagrosOverhead
 			}
 			modifiers.initialAmounts.Add(Db.Get().Amounts.Maturity.Id);
 			modifiers.initialAmounts.Add(Db.Get().Amounts.Maturity2.Id);
-			modifiers.initialAttributes.Add(Db.Get().PlantAttributes.YieldAmount.Id);
+			modifiers.initialAttributes.Add(Db.Get().PlantAttributes.YieldFactor.Id);
 			Trait trait = Db.Get().traits.Get(modifiers.initialTraits[0]);
 			trait.Add(new AttributeModifier(Db.Get().Amounts.Maturity.maxAttribute.Id, VineBranchConfig.GROWING_DURATION_CYCLES, name));
 			trait.Add(new AttributeModifier(Db.Get().Amounts.Maturity2.maxAttribute.Id, VineBranchConfig.GROWING_DURATION_CYCLES, name));
-			trait.Add(new AttributeModifier(Db.Get().PlantAttributes.YieldAmount.Id, crop.numProduced, name));
+			trait.Add(new AttributeModifier(Db.Get().PlantAttributes.YieldFactor.Id, 1f, name));
 			GeneratedBuildings.RegisterWithOverlay(OverlayScreen.HarvestableIDs, CeilingForm.BranchId);
 			branch.AddOrGetDef<VineBranch.Def>().BRANCH_PREFAB_NAME = CeilingForm.BranchId;
 			branch.AddOrGet<Harvestable>();

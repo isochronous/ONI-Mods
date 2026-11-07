@@ -65,7 +65,7 @@ namespace OvagrosOverhead.Tests
 			t.Assert.Eq(VineBranchConfig.ID, vanillaBranch.GetDef<VineBranch.Def>().BRANCH_PREFAB_NAME, "a vanilla vine still grows vanilla vines");
 			t.Assert.True(branch.HasTag(GameTags.PlantBranch) && branch.HasTag(GameTags.HideFromCodex), "the ceiling vine is a hidden plant branch");
 			t.Assert.Eq(vanillaBranch.GetComponent<PrimaryElement>().Mass, branch.GetComponent<PrimaryElement>().Mass, "the ceiling vine's mass is the vanilla vine's");
-			t.Assert.Eq(vanillaBranch.GetComponent<Crop>().cropId, branch.GetComponent<Crop>().cropId, "the ceiling vine bears Ovagro Figs");
+			t.Assert.Eq(vanillaBranch.GetComponent<Crop>().primaryCropId, branch.GetComponent<Crop>().primaryCropId, "the ceiling vine bears Ovagro Figs");
 			t.Assert.Eq(vanillaBranch.GetComponent<PlantFiberProducer>().amount, branch.GetComponent<PlantFiberProducer>().amount, "plant fiber");
 			SeedProducer seeds = branch.GetComponent<SeedProducer>();
 			SeedProducer vanillaSeeds = vanillaBranch.GetComponent<SeedProducer>();

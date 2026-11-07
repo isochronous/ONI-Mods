@@ -68,12 +68,13 @@ namespace OvagrosOverhead
 				STRINGS.CREATURES.SPECIES.VINEMOTHER.NAME, STRINGS.CREATURES.SPECIES.VINEMOTHER.DESC, 2f,
 				Assets.GetAnim(AnimName), "object", Grid.SceneLayer.BuildingFront, 1, 2, DECOR.BONUS.TIER1,
 				default(EffectorValues), SimHashes.Creature, additionalTags, 308.15f);
+			plant.AddOrGet<InfoDescription>().subtitle = STRINGS.CREATURES.SPECIES.VINEMOTHER.SUBTITLE;
 			EntityTemplates.MakeHangingOffsets(plant, 1, 2);
-			EntityTemplates.ExtendEntityToBasicPlant(plant,
+			EntityTemplates.ExtendEntityToBasicPlant(plant, harvest: null,
 				VineMotherConfig.TEMPERATURE_LETHAL_LOW, VineMotherConfig.TEMPERATURE_WARNING_LOW,
 				VineMotherConfig.TEMPERATURE_WARNING_HIGH, VineMotherConfig.TEMPERATURE_LETHAL_HIGH,
 				VineMotherConfig.ALLOWED_ELEMENTS, pressure_sensitive: false, pressure_lethal_low: 0f,
-				pressure_warning_low: 0.15f, crop_id: null, can_drown: true, can_tinker: false,
+				pressure_warning_low: 0.15f, can_drown: true, can_tinker: false,
 				require_solid_tile: true, require_Backwall_Foundation: false, should_grow_old: false,
 				max_age: 2400f, min_radiation: 0f, max_radiation: 2200f, baseTraitId: BaseTraitId,
 				baseTraitName: STRINGS.CREATURES.SPECIES.VINEMOTHER.NAME);

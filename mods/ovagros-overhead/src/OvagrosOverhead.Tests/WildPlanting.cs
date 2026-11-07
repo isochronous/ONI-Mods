@@ -56,7 +56,7 @@ namespace OvagrosOverhead.Tests
 			yield return Kit.AssertReaches(t, pip, inside.Cell(20, y - 1), "a cell under the strip");
 
 			PlantableSeed seed = seedGo.GetComponent<PlantableSeed>();
-			PlantableCellQuery query = PathFinderQueries.plantableCellQuery.Reset(seed, 20);
+			PlantableCellQuery query = PathFinderQueries.plantableCellQuery.Reset(seed, false, 20);
 			pip.GetComponent<Navigator>().RunQuery(query);
 			var cells = new List<int>(query.result_cells);
 			var described = new List<string>();
