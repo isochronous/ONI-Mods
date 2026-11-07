@@ -35,7 +35,8 @@
 - [x] Investigate — unit 01: 3 mods + corner tests + TestRunner broken; see handoff
 - [x] Update this plan with findings and the fix list
 - [x] Fix per mod — units 02-05; solution builds 0 errors on U60. Ship-now commits on OM-012-u60-readiness (common b528473 on branch u60); held commits (Ovagro's Overhead, partitioner overloads in Motion Sensor Range + Smart Weight Plate, minimumSupportedBuild 762230) on OM-012-u60-only
-- [ ] In-game tests per touched mod on U60 from the OM-012-u60-only tip — unit 06 (Jeremy asleep, said use the PC as necessary) ← IN PROGRESS
+- [x] In-game smoke test, every mod on U60 from the OM-012-u60-only tip — unit 06: all suites green after two harness fixes (worldgen timer on worker thread; blank last-save key) — common dd0fa4c pointer; saves untouched (2705-file listing identical). Unit 07: Smooth Borders warning was the fail-safe test's own, patch matched on U60, 18/18.
+- [ ] Review (both lanes) ← IN PROGRESS
 - [ ] Ship-now lane on the live U59 build (needs Steam switched back; Jeremy)
 - [ ] Close: review, retro, commit, PR
 
