@@ -36,12 +36,18 @@
 - [x] Update this plan with findings and the fix list
 - [x] Fix per mod — units 02-05; solution builds 0 errors on U60. Ship-now commits on OM-012-u60-readiness (common b528473 on branch u60); held commits (Ovagro's Overhead, partitioner overloads in Motion Sensor Range + Smart Weight Plate, minimumSupportedBuild 762230) on OM-012-u60-only
 - [x] In-game smoke test, every mod on U60 from the OM-012-u60-only tip — unit 06: all suites green after two harness fixes (worldgen timer on worker thread; blank last-save key) — common dd0fa4c pointer; saves untouched (2705-file listing identical). Unit 07: Smooth Borders warning was the fail-safe test's own, patch matched on U60, 18/18.
-- [ ] Review (both lanes) ← IN PROGRESS
+- [x] Review (both lanes) — unit 08: 0 critical, 2 moderate, 6 minor; both lanes ready; ship-now verified against U59 by decompile + Cecil member-reference scan
+- [x] Review fixes — unit 09: RangeSlider non-throwing bind (held); Salty Surf warnings + DeclaredMethod, Upgrade Planner cached lookups + warning (ship-now). U60 rerun SaltySurf,UpgradePlanner,MotionSensorRange: 77/78; BuildingSettings.ProblemTypesKept failed in the suite, passes alone (1/1)
+- [x] Store: domains/game-updates.md, testing/integration-testing.md "Smoke-testing many mods", tooling-friction entry
+- [ ] Retro, PRs ← IN PROGRESS
 - [ ] Ship-now lane on the live U59 build (needs Steam switched back; Jeremy)
 - [ ] Close: review, retro, commit, PR
 
 ## Open Questions / Blockers
 - How No Magic Fridges is retired (Workshop text, README, hide/unlist) — at U60 release.
+- Upgrade Planner BuildingSettings.ProblemTypesKept is order/timing dependent on U60 (FishFeeder not rebuilt in Cinnabar inside the full suite; passes alone). Not investigated; not touched by OM-012's edits.
+- Ship-now reflection paths (Upgrade Planner picker, Salty Surf Rewrite) have static evidence only on U59 (decompile + reference scan); an in-game run on the live build needs Steam switched back (Jeremy) before release.
+- Corner Build Anything test DLL built against U60 won't load on U59 (test-only).
 - Re-check the four transpilers against the release U60 build (testing build is a debug build).
 
 ## Constraints
