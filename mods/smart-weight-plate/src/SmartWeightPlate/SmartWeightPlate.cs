@@ -67,6 +67,12 @@ namespace SmartWeightPlate
 
 		private static readonly System.Action<object, object> OnCopySettingsDelegate =
 			(context, data) => ((SmartWeightPlate)context).OnCopySettings(data);
+		private static readonly System.Action<object, object> SolidChangedCallback =
+			(context, data) => ((SmartWeightPlate)context).OnSolidChanged(data);
+		private static readonly System.Action<object, object> PickupablesChangedCallback =
+			(context, data) => ((SmartWeightPlate)context).OnPickupablesChanged(data);
+		private static readonly System.Action<object, object> ActivatorsChangedCallback =
+			(context, data) => ((SmartWeightPlate)context).OnActivatorsChanged(data);
 
 		public float CurrentValue => massSolid + massPickupables + massActivators;
 
@@ -150,11 +156,11 @@ namespace SmartWeightPlate
 			}
 			int cell = SensedCell;
 			solidChangedEntry = GameScenePartitioner.Instance.Add("SmartWeightPlate.SolidChanged", gameObject, cell,
-				GameScenePartitioner.Instance.solidChangedLayer, OnSolidChanged);
+				GameScenePartitioner.Instance.solidChangedLayer, SolidChangedCallback, this);
 			pickupablesChangedEntry = GameScenePartitioner.Instance.Add("SmartWeightPlate.PickupablesChanged", gameObject, cell,
-				GameScenePartitioner.Instance.pickupablesChangedLayer, OnPickupablesChanged);
+				GameScenePartitioner.Instance.pickupablesChangedLayer, PickupablesChangedCallback, this);
 			activatorChangedEntry = GameScenePartitioner.Instance.Add("SmartWeightPlate.ActivatorChanged", gameObject, cell,
-				GameScenePartitioner.Instance.floorSwitchActivatorChangedLayer, OnActivatorsChanged);
+				GameScenePartitioner.Instance.floorSwitchActivatorChangedLayer, ActivatorsChangedCallback, this);
 			// Anything already in the cell registered before us and will not raise an event.
 			OnSolidChanged(null);
 			OnPickupablesChanged(null);
