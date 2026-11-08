@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Changing a building's material works with the U60 update as well as the current game.
+
 ## 0.5.1 - 2026-10-29
 
 ### Fixed
