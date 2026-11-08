@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Works with the U60 update as well as the current game.
+
 ## 0.2.1 - 2026-10-29
 
 - Water and Salt Water no longer show a missing-text entry in the Properties line of their codex page and info panel.
