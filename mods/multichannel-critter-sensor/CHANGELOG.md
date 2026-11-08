@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Works with the U60 update as well as the current game.
+
 ## 0.3.0 - 2026-10-12
 
 - Chinese (Simplified), Korean and Russian translations. Translations load from translations/<locale>.po; the template for other languages is translations/MultichannelCritterSensor.pot.
