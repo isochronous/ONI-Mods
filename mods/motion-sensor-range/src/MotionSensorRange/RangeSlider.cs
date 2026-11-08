@@ -36,11 +36,8 @@ namespace MotionSensorRange
 			&& OnPickupablesChangedMethod != null && RefreshReachableCellsMethod != null;
 		private static bool warnedMissingInternals;
 
-		private static readonly EventSystem.IntraObjectHandler<RangeSlider> OnCopySettingsDelegate =
-			new EventSystem.IntraObjectHandler<RangeSlider>(delegate(RangeSlider component, object data)
-			{
-				component.OnCopySettings(data);
-			});
+		private static readonly System.Action<object, object> OnCopySettingsDelegate =
+			(context, data) => ((RangeSlider)context).OnCopySettings(data);
 
 		[Serialize]
 		private int range = DefaultRange;
@@ -90,7 +87,7 @@ namespace MotionSensorRange
 		protected override void OnPrefabInit()
 		{
 			base.OnPrefabInit();
-			Subscribe((int)GameHashes.CopySettings, OnCopySettingsDelegate);
+			Subscribe((int)GameHashes.CopySettings, OnCopySettingsDelegate, this);
 		}
 
 		protected override void OnSpawn()

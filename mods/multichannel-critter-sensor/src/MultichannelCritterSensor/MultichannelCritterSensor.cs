@@ -35,11 +35,8 @@ namespace MultichannelCritterSensor
 		private const int ThresholdMask = (1 << PrimaryBit) | (1 << EggBit);
 		private const int PulseMask = (1 << RisingBit) | (1 << FallingBit);
 
-		private static readonly EventSystem.IntraObjectHandler<MultichannelCritterSensor> OnCopySettingsDelegate =
-			new EventSystem.IntraObjectHandler<MultichannelCritterSensor>(delegate(MultichannelCritterSensor component, object data)
-			{
-				component.OnCopySettings(data);
-			});
+		private static readonly System.Action<object, object> OnCopySettingsDelegate =
+			(context, data) => ((MultichannelCritterSensor)context).OnCopySettings(data);
 
 		// ---- configuration (saved with the building) ----
 
@@ -130,7 +127,7 @@ namespace MultichannelCritterSensor
 		protected override void OnPrefabInit()
 		{
 			base.OnPrefabInit();
-			Subscribe((int)GameHashes.CopySettings, OnCopySettingsDelegate);
+			Subscribe((int)GameHashes.CopySettings, OnCopySettingsDelegate, this);
 		}
 
 		protected override void OnSpawn()

@@ -74,7 +74,8 @@ namespace UpgradePlanner
 		/// menu's choices, and the building its Change material recipe names (the Printing Pod, which
 		/// some mods let players rebuild) keeps its own. The recipe is used for nothing else there.
 		/// </summary>
-		[HarmonyPatch(typeof(MaterialSelector), nameof(MaterialSelector.OnSelectMaterial))]
+		// By name: the method is public up to U59 and private from U60.
+		[HarmonyPatch(typeof(MaterialSelector), "OnSelectMaterial")]
 		public static class MaterialSelector_OnSelectMaterial_Patch
 		{
 			public static void Prefix(MaterialSelector __instance, ref Recipe recipe)

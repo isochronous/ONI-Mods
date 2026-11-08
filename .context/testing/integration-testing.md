@@ -211,3 +211,10 @@ A loaded save starts paused, and on a fixture with no Duplicants the "colony los
 **Tags:** save-files
 
 An item a test spawns and stores straight into a building (`Storage.Store`) is not discovered by the colony, however much is stored; the side screen does not list it, though `TreeFilterable.AddTagToFilter` still accepts it. On load, `TreeFilterable.OnSpawn` removes tags that are not discovered from the filter, and the storage drops the items on the floor. A test that saves and reloads filtered storage calls `DiscoveredResources.Instance.Discover(tag, category)` first and asserts the tag is discovered (`mods/fridge-thresholds-extended/src/FridgeThresholdsExtended.Tests/Fridges.cs`, `WriteRoundTrip`). Tests that never reload do not show the drop.
+
+## Smoke-testing many mods
+**Id:** blk-94242d3925fd
+
+Run every suite in one `Invoke-OniTests.ps1 -Mods A,B,C` call with one shared loadout. The live session reuses the running game only when the loadout matches (same mods, `-With`/`-Steam`, DLL and config hashes), and it reloads the fixture between mods' tests, so one call boots the game once; a loop of one call per mod, each with its own minimal loadout, relaunches the game for every suite. The shared run also stands in for the check that all of the repo's mods load together. Results print only at session end; live progress is in `runs/<run>/results.jsonl`. Suites that need other authors' mods (Fridge Thresholds Extended, Upgrade Planner's Blueprints Expanded tests) run afterwards with their `-Steam` ids.
+
+A run of every suite takes about 20 minutes, past the default `-TimeoutSec 600`; pass `-TimeoutSec 1800`. To finish a run that stopped partway, keep the same `-Mods` list and name the tests still owed by exact id in `-Filter` (`;`-separated), taken from `results.jsonl`: a filter also selects `Explicit` tests, so `Suite.Tests/*` pulls in compatibility tests a normal run leaves out (Smooth Borders has about 90).
