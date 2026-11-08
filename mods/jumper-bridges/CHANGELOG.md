@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Works with the U60 update as well as the current game.
+
 ## 0.3.0 - 2026-10-29
 
 - Heavi-Watt Joint Plates and Heavi-Watt Conductive Joint Plates too: a plate end can sit directly on a power port or on any power bridge's end. The centre stays a solid tile.
