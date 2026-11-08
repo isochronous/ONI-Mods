@@ -10,6 +10,7 @@ A ribbon's signal is a 32-bit number; the game only exposes the low four bits. T
 [*]NOT gate has been patched to invert all 31 bits, not just the first 4.
 [*]Copy-settings works; the selected bit is saved with the building.
 [*]Fancy seven-segment display to show the current setting.
+[*]A Ribbon Diagnostic Panel that shows all 31 bits of a ribbon on a grid of lamps. With its output wired, it is also a 31-channel switch.
 [/list]
 
 [h2]Compatibility[/h2]
