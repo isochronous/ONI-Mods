@@ -11,13 +11,16 @@ namespace FridgeThresholdsExtended
 	/// threshold sliders through its RefrigeratorThresholds component, and makes the fridge's full
 	/// port follow them by prefixing the game's Refrigerator.UpdateLogicCircuit. It adds the
 	/// component to the vanilla Refrigerator and, by type name, to Freezer and the fridges of the
-	/// old standalone Dupes Refrigeration mod. Two cases it misses:
+	/// old standalone Dupes Refrigeration mod. Three cases it misses:
 	///
 	/// Ronivan's Legacy - Industrial Revolution (Workshop 3557584850) carries the Dupes
 	/// Refrigeration fridges in its own assembly and namespace, so they get no component. They use
 	/// the game's Refrigerator, so the component is all they need: it is added in a prefix on each
 	/// config's DoPostConfigureComplete, ahead of the Refrigerator, as the thresholds mod does for
 	/// the vanilla fridge, so it is registered before the Refrigerator's first logic update.
+	///
+	/// Storage Pod Redux's Cool Pod (StoragePodRedux.CoolPodConfig) is the same case: the game's
+	/// Refrigerator, no component, and the same prefix adds it.
 	///
 	/// Freezer (Psyko, Workshop 2618339179) has the component, but runs its own copy of the
 	/// Refrigerator class, whose UpdateLogicCircuit sends IsFull() and IsOperational: the sliders
@@ -28,7 +31,7 @@ namespace FridgeThresholdsExtended
 	/// signal; a prefix on FreezerConfig.DoPostConfigureComplete adds it ahead of Freezer instead,
 	/// and the thresholds mod's AddOrGet then finds it.
 	///
-	/// None of the three mods is referenced at build time. Every type is found by name once all
+	/// None of these mods is referenced at build time. Every type is found by name once all
 	/// mods are loaded, the thresholds members are bound here once, and a part whose members are
 	/// missing is skipped with a warning.
 	/// </summary>
@@ -38,6 +41,7 @@ namespace FridgeThresholdsExtended
 		private const string RefrigeratorThresholdsType = "StorageRefrigeratorThresholds.RefrigeratorThresholds";
 		private const string FreezerType = "Psyko.Freezer.Freezer";
 		private const string FreezerConfigType = "Psyko.Freezer.FreezerConfig";
+		private const string CoolPodConfigType = "StoragePodRedux.CoolPodConfig";
 		private const string IRFridgeNamespace = "RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesRefrigeration.";
 
 		// Matched by class: the two Hightech configs have each other's building ID.
@@ -72,6 +76,7 @@ namespace FridgeThresholdsExtended
 				return;
 			}
 			PatchIRFridges(harmony);
+			PatchCoolPod(harmony);
 			Type freezer = AccessTools.TypeByName(FreezerType);
 			if (freezer == null)
 				return;
@@ -109,6 +114,28 @@ namespace FridgeThresholdsExtended
 			catch (Exception e)
 			{
 				Debug.LogWarning("[FridgeThresholdsExtended] Industrial Revolution fridges skipped: " + e.GetBaseException().Message);
+			}
+		}
+
+		private static void PatchCoolPod(Harmony harmony)
+		{
+			try
+			{
+				Type config = AccessTools.TypeByName(CoolPodConfigType);
+				if (config == null)
+					return;
+				MethodInfo original = AccessTools.DeclaredMethod(config, "DoPostConfigureComplete");
+				if (original == null)
+				{
+					Debug.LogWarning("[FridgeThresholdsExtended] Storage Pod Redux Cool Pod skipped: DoPostConfigureComplete not found");
+					return;
+				}
+				harmony.Patch(original, prefix: new HarmonyMethod(typeof(ThresholdsCompat), nameof(AddThresholdsPrefix)));
+				Debug.Log("[FridgeThresholdsExtended] Storage Pod Redux found; thresholds added to the Cool Pod");
+			}
+			catch (Exception e)
+			{
+				Debug.LogWarning("[FridgeThresholdsExtended] Storage Pod Redux Cool Pod skipped: " + e.GetBaseException().Message);
 			}
 		}
 

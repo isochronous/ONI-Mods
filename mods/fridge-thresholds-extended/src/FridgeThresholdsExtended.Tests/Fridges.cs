@@ -209,6 +209,26 @@ namespace FridgeThresholdsExtended.Tests
 			yield return Steps(t, new[] { (0.60f, 1), (0.35f, 1), (0.10f, 0) }, fridge);
 		}
 
+		// Storage Pod Redux leaves its Cool Pod out while Industrial Revolution's Fridge Pod is on,
+		// so this one runs in its own loadout: -With storage-pod-redux -Steam 2959340381.
+		[OniTest("FTE: a Storage Pod Redux Cool Pod has the thresholds and its full port follows High 50 / Low 20", Timeout = 90), Layer(0)]
+		public static IEnumerator StoragePodReduxCoolPod(TestContext t)
+		{
+			if (Assets.GetBuildingDef("CoolPodConfig") == null)
+				t.Skip("Storage Pod Redux's Cool Pod is not registered (Storage Pod Redux not loaded, or left out for Industrial Revolution's Fridge Pod)");
+			t.Speed(2);
+			var rig = new Rig();
+			yield return Box(t, rig, 6);
+			GameObject pod = t.World.Build("CoolPodConfig", rig.Inside.Cell(5, 0));
+			yield return t.WaitGameSeconds(1);
+			Component thresholds = Thresholds(t, pod);
+			t.Log("CoolPodConfig components: thresholds at " + IndexOf(pod, thresholds.GetType()) + ", Refrigerator at " + IndexOf(pod, typeof(Refrigerator)));
+			SetThresholds(thresholds, false, 50, 20);
+			yield return Power(t, rig, pod);
+			t.Assert.Eq(0, Port(pod), "the empty Cool Pod sends red");
+			yield return Steps(t, Hysteresis, pod);
+		}
+
 		[OniTest("FTE: copy settings from one Freezer to another carries green on low, High and Low", Timeout = 60), Layer(0)]
 		public static IEnumerator FreezerCopySettings(TestContext t)
 		{
