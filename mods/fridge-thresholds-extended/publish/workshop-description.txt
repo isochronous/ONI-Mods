@@ -4,11 +4,12 @@ Makes [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2959340381]Sto
 [*][b][url=https://steamcommunity.com/sharedfiles/filedetails/?id=2618339179]Freezer[/url][/b]: the sliders already showed up, now they actually work.
 [*][b][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3557584850]Ronivan's Legacy - Industrial Revolution[/url][/b]: all five fridges get the sliders.
 [*][b]Mini Fridge[/b] from The Aquatic Planet Pack.
+[*][b][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3756115269]Mini Freezer[/url][/b].
 [*][b]Cool Pod[/b] from [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3812993268]Storage Pod Redux[/url].
 [/list]
 
 [b]Compatibility[/b]
-Requires Storage Refrigerator Thresholds. Freezer, Industrial Revolution and Storage Pod Redux are all optional; whichever you don't have is skipped. Build 744825 or newer.
+Requires Storage Refrigerator Thresholds. Freezer, Mini Freezer, Industrial Revolution and Storage Pod Redux are all optional; whichever you don't have is skipped. Build 744825 or newer.
 
 Made by a professional software developer with assistance from Claude Code. Comes with a no slop guarantee.
 

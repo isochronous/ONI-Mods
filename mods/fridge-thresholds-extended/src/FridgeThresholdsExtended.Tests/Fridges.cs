@@ -247,6 +247,25 @@ namespace FridgeThresholdsExtended.Tests
 			yield return Steps(t, Hysteresis, fridge);
 		}
 
+		// Run with -Steam 2959340381,3756115269 (needs The Aquatic Planet Pack).
+		[OniTest("FTE: a Mini Freezer has the thresholds and its full port follows High 50 / Low 20", Timeout = 90), Layer(0)]
+		public static IEnumerator MiniFreezer(TestContext t)
+		{
+			if (Assets.GetBuildingDef("MiniFreezer") == null)
+				t.Skip("the Mini Freezer is not registered (the Mini Freezer mod, Workshop 3756115269, not loaded)");
+			t.Speed(2);
+			var rig = new Rig();
+			yield return Box(t, rig, 6);
+			GameObject freezer = t.World.Build("MiniFreezer", rig.Inside.Cell(5, 0));
+			yield return t.WaitGameSeconds(1);
+			Component thresholds = Thresholds(t, freezer);
+			t.Assert.True(IndexOf(freezer, thresholds.GetType()) < IndexOf(freezer, typeof(ThresholdsRefresh)), "the refresh comes after the thresholds component");
+			SetThresholds(thresholds, false, 50, 20);
+			yield return Power(t, rig, freezer);
+			t.Assert.Eq(0, Port(freezer), "the empty Mini Freezer sends red");
+			yield return Steps(t, Hysteresis, freezer);
+		}
+
 		/// <summary>
 		/// What happens on a spawn: the fridge's own OnSpawn sends its plain full signal before the
 		/// thresholds component has registered (LastSetFlag null, as ThresholdsBase.OnSpawn leaves

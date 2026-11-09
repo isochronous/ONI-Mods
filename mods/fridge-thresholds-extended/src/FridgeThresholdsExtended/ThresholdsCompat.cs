@@ -15,7 +15,7 @@ namespace FridgeThresholdsExtended
 	/// fridges, by config class name. This adds it to more fridges, picked by building ID once every
 	/// building is registered (a postfix on BuildingConfigManager.ConfigurePost):
 	///
-	/// - the Mini Fridge (The Aquatic Planet Pack), Storage Pod Redux's Cool Pod and the fridges of Ronivan's Legacy -
+	/// - the Mini Fridge (The Aquatic Planet Pack), the Mini Freezer (Workshop 3756115269), Storage Pod Redux's Cool Pod and the fridges of Ronivan's Legacy -
 	///   Industrial Revolution (Workshop 3557584850). They use the game's Refrigerator, so the
 	///   component is all they need.
 	/// - Freezer (Psyko, Workshop 2618339179), which the thresholds mod already covers; the
@@ -47,6 +47,7 @@ namespace FridgeThresholdsExtended
 		private static readonly (string id, string name)[] Buildings =
 		{
 			("MiniFridge", "Mini Fridge"), // The Aquatic Planet Pack
+			("MiniFreezer", "Mini Freezer"), // Workshop 3756115269
 			("CoolPodConfig", "Storage Pod Redux Cool Pod"),
 			("SimpleFridge", "Industrial Revolution Simple Fridge"),
 			("AIO_FridgeLarge", "Industrial Revolution Large Fridge"),
