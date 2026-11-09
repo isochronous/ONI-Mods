@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using HarmonyLib;
@@ -10,51 +11,56 @@ namespace FridgeThresholdsExtended
 	/// Storage Refrigerator Thresholds (llunak, Workshop 2959340381) gives a fridge High and Low
 	/// threshold sliders through its RefrigeratorThresholds component, and makes the fridge's full
 	/// port follow them by prefixing the game's Refrigerator.UpdateLogicCircuit. It adds the
-	/// component to the vanilla Refrigerator and, by type name, to Freezer and the fridges of the
-	/// old standalone Dupes Refrigeration mod. Three cases it misses:
+	/// component to the vanilla Refrigerator, Freezer and the old standalone Advanced Refrigeration
+	/// fridges, by config class name. This adds it to more fridges, picked by building ID once every
+	/// building is registered (a postfix on BuildingConfigManager.ConfigurePost):
 	///
-	/// Ronivan's Legacy - Industrial Revolution (Workshop 3557584850) carries the Dupes
-	/// Refrigeration fridges in its own assembly and namespace, so they get no component. They use
-	/// the game's Refrigerator, so the component is all they need: it is added in a prefix on each
-	/// config's DoPostConfigureComplete, ahead of the Refrigerator, as the thresholds mod does for
-	/// the vanilla fridge, so it is registered before the Refrigerator's first logic update.
+	/// - the Mini Fridge (The Aquatic Planet Pack), Storage Pod Redux's Cool Pod and the fridges of Ronivan's Legacy -
+	///   Industrial Revolution (Workshop 3557584850). They use the game's Refrigerator, so the
+	///   component is all they need.
+	/// - Freezer (Psyko, Workshop 2618339179), which the thresholds mod already covers; the
+	///   component is added only if it is missing.
 	///
-	/// Storage Pod Redux's Cool Pod (StoragePodRedux.CoolPodConfig) is the same case: the game's
-	/// Refrigerator, no component, and the same prefix adds it.
+	/// The thresholds mod registers a fridge's component in its OnSpawn, and the fridge sends its
+	/// first signal from its own OnSpawn. Components spawn in the order they were added, and a
+	/// component added to the finished prefab comes after the fridge's own, so that first signal
+	/// would ignore the thresholds and a loaded fridge between Low and High would show the wrong
+	/// state until its fill or power changed. A ThresholdsRefresh, added after the thresholds
+	/// component, runs the fridge's UpdateLogicCircuit again once both have spawned.
 	///
-	/// Freezer (Psyko, Workshop 2618339179) has the component, but runs its own copy of the
-	/// Refrigerator class, whose UpdateLogicCircuit sends IsFull() and IsOperational: the sliders
-	/// show and save, and the port ignores them. That method gets the thresholds mod's
-	/// Refrigerator prefix, rebuilt against Freezer's fields, and Freezer's OnCopySettings gets
-	/// the thresholds mod's copy of the three settings. The thresholds mod adds the component in a
-	/// postfix, after Freezer, so it is not registered yet when Freezer.OnSpawn sends the first
-	/// signal; a prefix on FreezerConfig.DoPostConfigureComplete adds it ahead of Freezer instead,
-	/// and the thresholds mod's AddOrGet then finds it.
+	/// Freezer runs its own copy of the Refrigerator class, whose UpdateLogicCircuit sends IsFull()
+	/// and IsOperational: the sliders show and save, and the port ignores them. That method gets
+	/// the thresholds mod's Refrigerator prefix, rebuilt against Freezer's fields, and Freezer's
+	/// OnCopySettings gets the thresholds mod's copy of the three settings.
 	///
-	/// None of these mods is referenced at build time. Every type is found by name once all
-	/// mods are loaded, the thresholds members are bound here once, and a part whose members are
-	/// missing is skipped with a warning.
+	/// None of these mods is referenced at build time. Buildings that are not registered are
+	/// skipped, Freezer's class is found by name, and a part whose members are missing is skipped
+	/// with a warning.
 	/// </summary>
 	internal static class ThresholdsCompat
 	{
 		private const string ThresholdsBaseType = "StorageRefrigeratorThresholds.ThresholdsBase";
 		private const string RefrigeratorThresholdsType = "StorageRefrigeratorThresholds.RefrigeratorThresholds";
 		private const string FreezerType = "Psyko.Freezer.Freezer";
-		private const string FreezerConfigType = "Psyko.Freezer.FreezerConfig";
-		private const string CoolPodConfigType = "StoragePodRedux.CoolPodConfig";
-		private const string IRFridgeNamespace = "RonivansLegacy_ChemicalProcessing.Content.Defs.Buildings.DupesRefrigeration.";
 
-		// Matched by class: the two Hightech configs have each other's building ID.
-		private static readonly string[] IRFridgeConfigs =
+		// Building IDs, with what each one is for the log.
+		private static readonly (string id, string name)[] Buildings =
 		{
-			"FridgeSmallConfig",
-			"FridgeLargeConfig",
-			"FridgePodConfig",
-			"HightechBigFridgeConfig",
-			"HightechSmallFridgeConfig",
+			("MiniFridge", "Mini Fridge"), // The Aquatic Planet Pack
+			("CoolPodConfig", "Storage Pod Redux Cool Pod"),
+			("SimpleFridge", "Industrial Revolution Simple Fridge"),
+			("AIO_FridgeLarge", "Industrial Revolution Large Fridge"),
+			("FridgePod", "Industrial Revolution Fridge Pod"),
+			("HightechSmallFridge", "Industrial Revolution High-tech Small Fridge"),
+			("HightechBigFridge", "Industrial Revolution High-tech Big Fridge"),
+			("Freezer", "Freezer"),
 		};
 
 		private static Type refrigeratorThresholds;
+		private static Type freezerType;
+
+		private static Action<Refrigerator> refrigeratorUpdate;
+		private static MethodInfo freezerUpdate;
 
 		// ThresholdsBase members, bound once in Apply.
 		private static Func<GameObject, object> getThresholds;
@@ -75,74 +81,69 @@ namespace FridgeThresholdsExtended
 				Debug.Log("[FridgeThresholdsExtended] Storage Refrigerator Thresholds not found; nothing to do");
 				return;
 			}
-			PatchIRFridges(harmony);
-			PatchCoolPod(harmony);
-			Type freezer = AccessTools.TypeByName(FreezerType);
-			if (freezer == null)
+			MethodInfo update = AccessTools.Method(typeof(Refrigerator), "UpdateLogicCircuit");
+			MethodInfo configurePost = AccessTools.Method(typeof(BuildingConfigManager), nameof(BuildingConfigManager.ConfigurePost));
+			if (update == null || configurePost == null)
+			{
+				Debug.LogWarning("[FridgeThresholdsExtended] skipped: " + (update == null ? "Refrigerator.UpdateLogicCircuit" : "BuildingConfigManager.ConfigurePost") + " not found");
 				return;
-			PatchFreezerLogic(harmony, freezer, thresholdsBase);
-			PatchFreezerCopySettings(harmony, freezer, thresholdsBase);
+			}
+			refrigeratorUpdate = AccessTools.MethodDelegate<Action<Refrigerator>>(update);
+			freezerType = AccessTools.TypeByName(FreezerType);
+			if (freezerType != null)
+			{
+				PatchFreezerLogic(harmony, freezerType, thresholdsBase);
+				PatchFreezerCopySettings(harmony, freezerType, thresholdsBase);
+			}
+			harmony.Patch(configurePost, postfix: new HarmonyMethod(typeof(ThresholdsCompat), nameof(ConfigurePostPostfix)));
 		}
 
-		private static void PatchIRFridges(Harmony harmony)
+		/// <summary>Every building is registered: adds the thresholds and the refresh to the fridges that are there.</summary>
+		private static void ConfigurePostPostfix()
 		{
-			try
+			var added = new List<string>();
+			foreach (var (id, name) in Buildings)
 			{
-				Type[] configs = IRFridgeConfigs.Select(name => AccessTools.TypeByName(IRFridgeNamespace + name)).ToArray();
-				if (configs.All(config => config == null))
-					return;
-				var prefix = new HarmonyMethod(typeof(ThresholdsCompat), nameof(AddThresholdsPrefix));
-				int patched = 0;
-				for (int i = 0; i < configs.Length; i++)
+				try
 				{
-					if (configs[i] == null)
+					GameObject prefab = Assets.GetBuildingDef(id)?.BuildingComplete;
+					if (prefab == null)
+						continue;
+					if (prefab.GetComponent<Refrigerator>() == null && (freezerType == null || prefab.GetComponent(freezerType) == null))
 					{
-						Debug.LogWarning("[FridgeThresholdsExtended] Industrial Revolution " + IRFridgeConfigs[i] + " skipped: class not found");
+						Debug.LogWarning("[FridgeThresholdsExtended] " + name + " (" + id + ") skipped: it has no Refrigerator");
 						continue;
 					}
-					MethodInfo original = AccessTools.DeclaredMethod(configs[i], "DoPostConfigureComplete");
-					if (original == null)
-					{
-						Debug.LogWarning("[FridgeThresholdsExtended] Industrial Revolution " + IRFridgeConfigs[i] + " skipped: DoPostConfigureComplete not found");
-						continue;
-					}
-					harmony.Patch(original, prefix: prefix);
-					patched++;
+					if (prefab.GetComponent(refrigeratorThresholds) == null)
+						prefab.AddComponent(refrigeratorThresholds);
+					prefab.AddOrGet<ThresholdsRefresh>();
+					added.Add(name);
 				}
-				Debug.Log("[FridgeThresholdsExtended] Industrial Revolution found; thresholds added to " + patched + " fridges");
-			}
-			catch (Exception e)
-			{
-				Debug.LogWarning("[FridgeThresholdsExtended] Industrial Revolution fridges skipped: " + e.GetBaseException().Message);
-			}
-		}
-
-		private static void PatchCoolPod(Harmony harmony)
-		{
-			try
-			{
-				Type config = AccessTools.TypeByName(CoolPodConfigType);
-				if (config == null)
-					return;
-				MethodInfo original = AccessTools.DeclaredMethod(config, "DoPostConfigureComplete");
-				if (original == null)
+				catch (Exception e)
 				{
-					Debug.LogWarning("[FridgeThresholdsExtended] Storage Pod Redux Cool Pod skipped: DoPostConfigureComplete not found");
-					return;
+					Debug.LogWarning("[FridgeThresholdsExtended] " + name + " (" + id + ") skipped: " + e.GetBaseException().Message);
 				}
-				harmony.Patch(original, prefix: new HarmonyMethod(typeof(ThresholdsCompat), nameof(AddThresholdsPrefix)));
-				Debug.Log("[FridgeThresholdsExtended] Storage Pod Redux found; thresholds added to the Cool Pod");
 			}
-			catch (Exception e)
-			{
-				Debug.LogWarning("[FridgeThresholdsExtended] Storage Pod Redux Cool Pod skipped: " + e.GetBaseException().Message);
-			}
+			Debug.Log("[FridgeThresholdsExtended] thresholds on: " + (added.Count > 0 ? string.Join(", ", added) : "none of the fridges it knows"));
 		}
 
-		private static void AddThresholdsPrefix(GameObject go)
+		/// <summary>
+		/// Runs the fridge's UpdateLogicCircuit, from ThresholdsRefresh.OnSpawn: the thresholds are
+		/// registered by then, so the signal follows them.
+		/// </summary>
+		internal static void RefreshPort(GameObject go)
 		{
-			if (go.GetComponent(refrigeratorThresholds) == null)
-				go.AddComponent(refrigeratorThresholds);
+			Refrigerator fridge = go.GetComponent<Refrigerator>();
+			if (fridge != null)
+			{
+				refrigeratorUpdate(fridge);
+				return;
+			}
+			if (freezerUpdate == null)
+				return;
+			Component freezer = go.GetComponent(freezerType);
+			if (freezer != null)
+				freezerUpdate.Invoke(freezer, null);
 		}
 
 		private static void PatchFreezerLogic(Harmony harmony, Type freezer, Type thresholdsBase)
@@ -150,8 +151,6 @@ namespace FridgeThresholdsExtended
 			try
 			{
 				MethodInfo original = AccessTools.DeclaredMethod(freezer, "UpdateLogicCircuit");
-				Type freezerConfig = AccessTools.TypeByName(FreezerConfigType);
-				MethodInfo configure = freezerConfig != null ? AccessTools.DeclaredMethod(freezerConfig, "DoPostConfigureComplete") : null;
 				MethodInfo get = AccessTools.Method(thresholdsBase, "Get", new[] { typeof(GameObject) });
 				updateLogicState = AccessTools.Method(thresholdsBase, "UpdateLogicState", new[] { typeof(float) });
 				isActuallyOperational = AccessTools.Method(thresholdsBase, "IsActuallyOperational", new[] { typeof(Operational) });
@@ -159,8 +158,7 @@ namespace FridgeThresholdsExtended
 				MethodInfo amountStored = AccessTools.Method(typeof(FilteredStorage), "GetAmountStored");
 				MethodInfo maxCapacity = AccessTools.Method(typeof(FilteredStorage), "GetMaxCapacityMinusStorageMargin");
 				string missing =
-					original == null ? "Freezer.UpdateLogicCircuit"
-					: configure == null ? "FreezerConfig.DoPostConfigureComplete"
+					original == null || original.GetParameters().Length != 0 ? "Freezer.UpdateLogicCircuit"
 					: !HasField(freezer, "filteredStorage", typeof(FilteredStorage)) ? "Freezer.filteredStorage"
 					: !HasField(freezer, "operational", typeof(Operational)) ? "Freezer.operational"
 					: !HasField(freezer, "ports", typeof(LogicPorts)) ? "Freezer.ports"
@@ -176,6 +174,7 @@ namespace FridgeThresholdsExtended
 					Debug.LogWarning("[FridgeThresholdsExtended] Freezer logic port skipped: " + missing + " not found");
 					return;
 				}
+				freezerUpdate = original;
 				// A later Storage Refrigerator Thresholds that handles Freezer itself wins.
 				Patches existing = Harmony.GetPatchInfo(original);
 				if (existing != null && existing.Prefixes.Any(patch => patch.owner.IndexOf("llunak", StringComparison.OrdinalIgnoreCase) >= 0))
@@ -186,7 +185,6 @@ namespace FridgeThresholdsExtended
 				getThresholds = (Func<GameObject, object>)Delegate.CreateDelegate(typeof(Func<GameObject, object>), get);
 				getAmountStored = AccessTools.MethodDelegate<Func<FilteredStorage, float>>(amountStored);
 				getMaxCapacity = AccessTools.MethodDelegate<Func<FilteredStorage, float>>(maxCapacity);
-				harmony.Patch(configure, prefix: new HarmonyMethod(typeof(ThresholdsCompat), nameof(AddThresholdsPrefix)));
 				harmony.Patch(original, prefix: new HarmonyMethod(typeof(ThresholdsCompat), nameof(UpdateLogicCircuitPrefix)));
 				Debug.Log("[FridgeThresholdsExtended] Freezer found; its logic port follows the thresholds");
 			}
@@ -206,7 +204,7 @@ namespace FridgeThresholdsExtended
 		{
 			object thresholds = getThresholds(__instance.gameObject);
 			if (thresholds == null)
-				return true; // no thresholds on this Freezer: its own full signal
+				return true; // no thresholds on this Freezer (or not spawned yet): its own full signal
 			float stored = getAmountStored(___filteredStorage);
 			float capacity = getMaxCapacity(___filteredStorage);
 			bool operational = (bool)isActuallyOperational.Invoke(thresholds, new object[] { ___operational });
@@ -261,6 +259,21 @@ namespace FridgeThresholdsExtended
 		{
 			FieldInfo field = AccessTools.DeclaredField(type, name);
 			return field != null && field.FieldType == fieldType;
+		}
+	}
+
+	/// <summary>
+	/// Added after the thresholds component, so it spawns after it: sends the fridge's port again
+	/// once the thresholds are registered (see ThresholdsCompat). It has no state, so it is left
+	/// out of saves.
+	/// </summary>
+	[SkipSaveFileSerialization]
+	public sealed class ThresholdsRefresh : KMonoBehaviour
+	{
+		protected override void OnSpawn()
+		{
+			base.OnSpawn();
+			ThresholdsCompat.RefreshPort(gameObject);
 		}
 	}
 }

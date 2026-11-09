@@ -229,6 +229,76 @@ namespace FridgeThresholdsExtended.Tests
 			yield return Steps(t, Hysteresis, pod);
 		}
 
+		[OniTest("FTE: a vanilla Mini Fridge has the thresholds and its full port follows High 50 / Low 20", Timeout = 90), Layer(0)]
+		public static IEnumerator MiniFridge(TestContext t)
+		{
+			if (Assets.GetBuildingDef("MiniFridge") == null)
+				t.Skip("the Mini Fridge is not registered (it comes with The Aquatic Planet Pack)");
+			t.Speed(2);
+			var rig = new Rig();
+			yield return Box(t, rig, 6);
+			GameObject fridge = t.World.Build("MiniFridge", rig.Inside.Cell(5, 0));
+			yield return t.WaitGameSeconds(1);
+			Component thresholds = Thresholds(t, fridge);
+			t.Assert.True(IndexOf(fridge, thresholds.GetType()) < IndexOf(fridge, typeof(ThresholdsRefresh)), "the refresh comes after the thresholds component");
+			SetThresholds(thresholds, false, 50, 20);
+			yield return Power(t, rig, fridge);
+			t.Assert.Eq(0, Port(fridge), "the empty Mini Fridge sends red");
+			yield return Steps(t, Hysteresis, fridge);
+		}
+
+		/// <summary>
+		/// What happens on a spawn: the fridge's own OnSpawn sends its plain full signal before the
+		/// thresholds component has registered (LastSetFlag null, as ThresholdsBase.OnSpawn leaves
+		/// it), and the refresh, spawning after both, has to send the thresholds' signal. On a load the
+		/// power usually comes on later and recomputes the port anyway; the refresh is what fixes a
+		/// fridge that is operational at spawn, so this sets up that state on a powered fridge and
+		/// runs the refresh's own code.
+		/// </summary>
+		[OniTest("FTE: the refresh replaces a fridge's stale plain full signal with the thresholds' one (Freezer and Industrial Revolution Simple Fridge)", Timeout = 90), Layer(0)]
+		public static IEnumerator RefreshResendsStalePort(TestContext t)
+		{
+			t.Speed(2);
+			t.Assert.NotNull(Assets.GetBuildingDef("SimpleFridge"), "Industrial Revolution's SimpleFridge is registered");
+			MethodInfo refresh = AccessTools.Method(AccessTools.TypeByName("FridgeThresholdsExtended.ThresholdsCompat"), "RefreshPort");
+			t.Assert.NotNull(refresh, "ThresholdsCompat.RefreshPort, which ThresholdsRefresh.OnSpawn runs");
+			var rig = new Rig();
+			yield return Box(t, rig, 10);
+			GameObject freezer = t.World.Build("Freezer", rig.Inside.Cell(5, 0));
+			yield return t.WaitGameSeconds(1);
+			GameObject fridge = t.World.Build("SimpleFridge", rig.Inside.Cell(9, 0));
+			yield return t.WaitGameSeconds(1);
+			GameObject[] both = { freezer, fridge };
+			foreach (GameObject go in both)
+			{
+				t.Assert.NotNull(go.GetComponent<ThresholdsRefresh>(), go.PrefabID().Name + " has the refresh");
+				SetThresholds(Thresholds(t, go), false, 50, 20);
+			}
+			yield return Power(t, rig, both);
+			yield return Steps(t, new[] { (0.60f, 1), (0.35f, 1) }, both);
+
+			// The spawn state: the plain signal (35% is not full: red) and no flag sent yet.
+			foreach (GameObject go in both)
+			{
+				Component thresholds = Thresholds(t, go);
+				AccessTools.Property(thresholds.GetType(), "LastSetFlag").SetValue(thresholds, null);
+				go.GetComponent<LogicPorts>().SendSignal(FilteredStorage.FULL_PORT_ID, 0);
+			}
+			yield return t.WaitGameSeconds(1);
+			foreach (GameObject go in both)
+				t.Assert.Eq(0, Port(go), go.PrefabID().Name + " sends the stale red with nothing to correct it");
+
+			foreach (GameObject go in both)
+				refresh.Invoke(null, new object[] { go });
+			yield return t.WaitGameSeconds(1);
+			foreach (GameObject go in both)
+			{
+				t.Assert.Eq(1, Port(go), go.PrefabID().Name + " at 35% on its way down sends green after the refresh");
+				Component thresholds = Thresholds(t, go);
+				t.Assert.Eq(true, AccessTools.Property(thresholds.GetType(), "LastSetFlag").GetValue(thresholds), go.PrefabID().Name + "'s thresholds recorded the green as sent");
+			}
+		}
+
 		[OniTest("FTE: copy settings from one Freezer to another carries green on low, High and Low", Timeout = 60), Layer(0)]
 		public static IEnumerator FreezerCopySettings(TestContext t)
 		{
@@ -267,7 +337,7 @@ namespace FridgeThresholdsExtended.Tests
 			Component thresholds = Thresholds(t, freezer);
 			int thresholdsAt = IndexOf(freezer, thresholds.GetType()), freezerAt = IndexOf(freezer, freezerType);
 			t.Log("built Freezer components: thresholds at " + thresholdsAt + ", Freezer at " + freezerAt);
-			t.Assert.True(thresholdsAt >= 0 && thresholdsAt < freezerAt, "the thresholds component comes before the Freezer's own, so it is registered before the Freezer's first signal");
+			t.Assert.True(thresholdsAt >= 0 && thresholdsAt < IndexOf(freezer, typeof(ThresholdsRefresh)), "the refresh comes after the thresholds component, so it sends the Freezer's port again once the thresholds are registered");
 			SetThresholds(thresholds, false, 50, 20);
 			// TreeFilterable.OnSpawn drops, on a load, stored items whose tag is not a discovered resource
 			// of the storage's categories; the side screen likewise lists only discovered food. Discover
@@ -296,12 +366,11 @@ namespace FridgeThresholdsExtended.Tests
 		}
 
 		/// <summary>
-		/// The component order is what keeps the first signal after a load right (the thresholds are
-		/// registered before Freezer.OnSpawn sends it). The green is checked once the saved generator
-		/// powers the Freezer, and power-on recomputes the port, so the green alone would pass without
-		/// the order fix; the order assertion is the oracle for that fix.
+		/// The green is checked once the saved generator powers the Freezer, and power-on recomputes
+		/// the port, so this passes with or without the refresh; RefreshResendsStalePort is the test
+		/// of what the refresh sends.
 		/// </summary>
-		[OniTest("FTE: (round trip 2/2) after the load the thresholds component is still ahead of the Freezer's own, the thresholds and the 35% fill are kept, and once powered it sends green", Timeout = 60, FreshSave = true), Layer(0)]
+		[OniTest("FTE: (round trip 2/2) after the load the refresh still follows the thresholds component, the thresholds and the 35% fill are kept, and once powered it sends green", Timeout = 60, FreshSave = true), Layer(0)]
 		public static IEnumerator LoadKeepsOrderFillAndGreen(TestContext t)
 		{
 			string loaded = Session.SavePath;
@@ -326,7 +395,7 @@ namespace FridgeThresholdsExtended.Tests
 			Operational operational = freezer.GetComponent<Operational>();
 			int thresholdsAt = IndexOf(freezer, thresholds.GetType()), freezerAt = IndexOf(freezer, FreezerComponentType(t));
 			t.Log("loaded Freezer components: thresholds at " + thresholdsAt + ", Freezer at " + freezerAt);
-			t.Assert.True(thresholdsAt >= 0 && thresholdsAt < freezerAt, "the loaded Freezer has the thresholds component ahead of its own");
+			t.Assert.True(thresholdsAt >= 0 && thresholdsAt < IndexOf(freezer, typeof(ThresholdsRefresh)), "the loaded Freezer has the refresh after the thresholds component");
 			t.Assert.Eq(50f, Setting(thresholds, "ActivateValue"), "High is still 50");
 			t.Assert.Eq(20f, Setting(thresholds, "DeactivateValue"), "Low is still 20");
 

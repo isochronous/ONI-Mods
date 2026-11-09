@@ -1,11 +1,12 @@
 # Fridge Thresholds Extended
 
-An [Oxygen Not Included](https://www.klei.com/games/oxygen-not-included) mod that makes the High and Low threshold sliders from [Storage Refrigerator Thresholds](https://steamcommunity.com/sharedfiles/filedetails/?id=2959340381) drive the automation port of the [Freezer](https://steamcommunity.com/sharedfiles/filedetails/?id=2618339179), of the fridges from [Ronivan's Legacy - Industrial Revolution](https://steamcommunity.com/sharedfiles/filedetails/?id=3557584850), and of the Cool Pod from [Storage Pod Redux](https://steamcommunity.com/sharedfiles/filedetails/?id=3812993268).
+An [Oxygen Not Included](https://www.klei.com/games/oxygen-not-included) mod that makes the High and Low threshold sliders from [Storage Refrigerator Thresholds](https://steamcommunity.com/sharedfiles/filedetails/?id=2959340381) drive the automation port of the Mini Fridge from The Aquatic Planet Pack, the [Freezer](https://steamcommunity.com/sharedfiles/filedetails/?id=2618339179), the fridges from [Ronivan's Legacy - Industrial Revolution](https://steamcommunity.com/sharedfiles/filedetails/?id=3557584850), and the Cool Pod from [Storage Pod Redux](https://steamcommunity.com/sharedfiles/filedetails/?id=3812993268).
 
 ## What it does
 
 - **Freezer:** the sliders already show on it, and now its port follows them instead of only reporting full. Copy settings carries the thresholds over too.
 - **Industrial Revolution fridges** (the small, large, pod and both high-tech fridges): they get the threshold sliders, and their port follows them the way the Refrigerator's does.
+- **Mini Fridge** (The Aquatic Planet Pack): it gets the threshold sliders, and its port follows them the way the Refrigerator's does.
 - **Storage Pod Redux Cool Pod:** it gets the threshold sliders, and its port follows them the way the Refrigerator's does.
 
 ## Compatibility

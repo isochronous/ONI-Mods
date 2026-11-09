@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-- The Storage Pod Redux Cool Pod gets the threshold sliders, and its port follows them.
+- The Mini Fridge (The Aquatic Planet Pack) and the Storage Pod Redux Cool Pod get the threshold sliders.
 
 ## 0.1.0 - 2026-11-04
 
