@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.1.1 - 2026-11-09
 
 - Add support for Mini Freezer mod
 
