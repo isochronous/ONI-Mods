@@ -13,11 +13,10 @@ namespace FastWirelessAutomationFix
 	/// OnPrefabInit, before Game.OnSpawn runs, call those stale receivers and throw a
 	/// NullReferenceException that leaves the emitter half-initialised.
 	///
-	/// This empties the table with the mod's own ChannelManager.Reset when the old game is torn down
-	/// (Game.DestroyInstances) and again when the new Game is set up (Game.OnPrefabInit), which runs
-	/// before the save's buildings are created. Reset is safe on an empty table, and every wireless
-	/// building registers again in its own OnSpawn. The mod is reached by name only; nothing is
-	/// referenced at build time.
+	/// This empties the table with the mod's own ChannelManager.Reset when the new Game is set up
+	/// (Game.OnPrefabInit), which runs before the save's buildings are created. Reset is safe on an
+	/// empty table, and every wireless building registers again in its own OnSpawn. The mod is
+	/// reached by name only; nothing is referenced at build time.
 	/// </summary>
 	public sealed class FastWirelessAutomationFixMod : UserMod2
 	{
@@ -50,18 +49,16 @@ namespace FastWirelessAutomationFix
 					return;
 				}
 
-				var destroy = AccessTools.Method(typeof(Game), "DestroyInstances");
 				var prefabInit = AccessTools.Method(typeof(Game), "OnPrefabInit");
-				if (destroy == null || prefabInit == null)
+				if (prefabInit == null)
 				{
-					Debug.LogWarning("[FastWirelessAutomationFix] skipped: Game.DestroyInstances or Game.OnPrefabInit not found");
+					Debug.LogWarning("[FastWirelessAutomationFix] skipped: Game.OnPrefabInit not found");
 					return;
 				}
 
 				reset = (System.Action)Delegate.CreateDelegate(typeof(System.Action), method);
-				harmony.Patch(destroy, postfix: new HarmonyMethod(typeof(FastWirelessAutomationFixMod), nameof(ResetChannels)));
 				harmony.Patch(prefabInit, prefix: new HarmonyMethod(typeof(FastWirelessAutomationFixMod), nameof(ResetChannels)));
-				Debug.Log("[FastWirelessAutomationFix] Patched Game.DestroyInstances and Game.OnPrefabInit to reset the Fast Wireless Automation+ channels");
+				Debug.Log("[FastWirelessAutomationFix] Patched Game.OnPrefabInit to reset the Fast Wireless Automation+ channels");
 			}
 			catch (Exception e)
 			{

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using HarmonyLib;
 using Isochronous.TestKit;
 using Isochronous.TestRunner;
@@ -51,15 +52,31 @@ namespace FastWirelessAutomationFix.Tests
 		/// registration out, so one is left bound to a destroyed receiver: what the first game's
 		/// receivers are in the table when the next save loads, without the fix.
 		/// </summary>
-		private static void LeaveReceiverRegistered(GameObject receiver, TestContext t)
+		private static System.Action LeaveReceiverRegistered(GameObject receiver, TestContext t)
 		{
+			// Everything the injection needs is looked up and asserted here, in the test body, so that a
+			// change in the mod fails this test; the cleanup it returns only invokes what was found.
 			Type managerType = AccessTools.TypeByName(ChannelManagerType);
-			object channels = AccessTools.Field(managerType, "channels").GetValue(null);
-			object channel = ((System.Collections.IDictionary)channels)[DefaultChannel];
+			FieldInfo channelsField = AccessTools.Field(managerType, "channels");
+			t.Assert.NotNull(channelsField, "ChannelManager has a 'channels' field");
+			object channels = channelsField?.GetValue(null);
+			t.Assert.NotNull(channels, "ChannelManager.channels holds a table");
+			object channel = (channels as IDictionary)?[DefaultChannel];
+			t.Assert.NotNull(channel, "the table has a channel " + DefaultChannel);
 			Component part = receiver.GetComponent(AccessTools.TypeByName(ReceiverType));
-			var callback = (Action<bool>)AccessTools.Field(part.GetType(), "on_updateState_cb").GetValue(part);
-			AccessTools.Method(channel.GetType(), "add_OnConnectChanged").Invoke(channel, new object[] { callback });
-			t.Log("left a second registration of the receiver on channel " + DefaultChannel);
+			FieldInfo callbackField = part == null ? null : AccessTools.Field(part.GetType(), "on_updateState_cb");
+			t.Assert.NotNull(callbackField, "the receiver has an 'on_updateState_cb' field");
+			var callback = callbackField?.GetValue(part) as Action<bool>;
+			t.Assert.NotNull(callback, "the receiver's 'on_updateState_cb' holds a callback");
+			MethodInfo add = channel == null ? null : AccessTools.Method(channel.GetType(), "add_OnConnectChanged");
+			t.Assert.NotNull(add, "the channel has an 'OnConnectChanged' event to add to");
+			return () =>
+			{
+				add.Invoke(channel, new object[] { callback });
+				// LoadAgain asserts this: it is the proof that the stale registration was left.
+				File.AppendAllText(CellsPath, ",injected");
+				t.Log("left a second registration of the receiver on channel " + DefaultChannel);
+			};
 		}
 
 		[OniTest("FWA fix: (second load 1/2) a switch, a powered emitter and a receiver on one channel work, and the receiver stays registered as the game is left", Timeout = 90), Layer(0)]
@@ -111,7 +128,7 @@ namespace FastWirelessAutomationFix.Tests
 			t.Assert.True(File.Exists(path), "the save was written to " + path);
 			// The next test (FreshSave) loads this file instead of the fixture; it puts the fixture back.
 			Session.SavePath = path;
-			t.Cleanup(() => LeaveReceiverRegistered(receiver, t));
+			t.Cleanup(LeaveReceiverRegistered(receiver, t));
 		}
 
 		[OniTest("FWA fix: (second load 2/2) the second load in a session raises nothing from the receivers, the emitter finishes its init and the receiver follows the switch", Timeout = 90, FreshSave = true), Layer(0)]
@@ -132,10 +149,13 @@ namespace FastWirelessAutomationFix.Tests
 			t.Assert.True(Session.Reloads > 0, "the colony was loaded again in this session (" + Session.Reloads + " reload(s))");
 
 			t.Log("errors logged while the save loaded: " + t.LoadErrors.Count + (t.LoadErrors.Count > 0 ? "; first: " + t.LoadErrors[0] : ""));
-			List<string> fromMod = t.LoadErrors.Where(e => e.Contains("FastWireless") || e.Contains("OnUpdateState") || e.Contains("ChannelData") || e.Contains("SignalNetworkBase")).ToList();
+			// The frames of the known trace (ChannelData / SignalNetworkBase / the mod's OnUpdateState) all name the mod.
+			List<string> fromMod =t.LoadErrors.Where(e => e.Contains("FastWireless") || e.Contains("OnUpdateState") || e.Contains("ChannelData") || e.Contains("SignalNetworkBase")).ToList();
 			t.Assert.Eq(0, fromMod.Count, "no error from Fast Wireless Automation+ while the save loaded" + (fromMod.Count > 0 ? ": " + fromMod[0] : ""));
 
-			int[] cells = File.ReadAllText(CellsPath).Split(',').Select(int.Parse).ToArray();
+			string[] saved = File.ReadAllText(CellsPath).Split(',');
+			t.Assert.True(saved.Contains("injected"), "the first test left the stale registration (without it this test would pass with or without the fix)");
+			int[] cells = saved.Where(s => s != "injected").Select(int.Parse).ToArray();
 			GameObject toggle = t.World.At(cells[0], ObjectLayer.Building);
 			GameObject emitter = t.World.At(cells[1], ObjectLayer.Building);
 			GameObject receiver = t.World.At(cells[2], ObjectLayer.Building);
