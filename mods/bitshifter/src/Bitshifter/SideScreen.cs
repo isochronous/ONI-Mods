@@ -12,6 +12,9 @@ namespace Bitshifter
 	/// had (tall enough to make it obvious there is more below), with a permanent scrollbar
 	/// on the right. The scroll view is the game's own KScrollRect and the bar is cloned from
 	/// a vanilla side screen, so both look and feel like the rest of the details panel.
+	/// This patch stands down with the Reader and Writer patches; the Fan-out Gate's screen is
+	/// wrapped by ToolkitPatches.LogicBitSelectorSideScreen_SetTarget_GatePatch through
+	/// <see cref="WrapRows"/>.
 	/// </summary>
 	[HarmonyPatch(typeof(LogicBitSelectorSideScreen), nameof(LogicBitSelectorSideScreen.SetTarget))]
 	internal static class LogicBitSelectorSideScreen_SetTarget_Patch
@@ -27,13 +30,19 @@ namespace Bitshifter
 
 		private static void Postfix(LogicBitSelectorSideScreen __instance)
 		{
-			if (__instance.rowPrefab == null)
+			WrapRows(__instance);
+		}
+
+		/// <summary>Puts the screen's rows in the scroll view, unless they already are.</summary>
+		internal static void WrapRows(LogicBitSelectorSideScreen screen)
+		{
+			if (screen.rowPrefab == null)
 				return;
-			RectTransform rows = __instance.rowPrefab.transform.parent as RectTransform;
+			RectTransform rows = screen.rowPrefab.transform.parent as RectTransform;
 			if (rows == null || rows.parent == null || IsWrapped(rows))
 				return;
-			Wrap(rows, RowListHeight(__instance.rowPrefab, rows) * HeightScale);
-			FitUnderHeader(__instance);
+			Wrap(rows, RowListHeight(screen.rowPrefab, rows) * HeightScale);
+			FitUnderHeader(screen);
 		}
 
 		/// <summary>

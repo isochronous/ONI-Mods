@@ -11,6 +11,7 @@ A ribbon's signal is a 32-bit number; the game only exposes the low four bits. T
 [*]Copy-settings works; the selected bit is saved with the building.
 [*]Fancy seven-segment display to show the current setting.
 [*]A 31-bit diagnostic panel. Shows current state when input is wired, can act as a 31-channel switch when output is wired. Switched-on bits are shown as purple to distinguish them from bits enabled on the input.
+[*]A Fan-out Gate. While its input is on, it sends every bit picked in its side screen on a ribbon; while it is off, the ribbon is off.
 [/list]
 
 [h2]Compatibility[/h2]
@@ -18,7 +19,7 @@ Works with the base game and all DLCs, on build 744825 (U59) or newer. No depend
 
 The mod stands down automatically (and says so in the log) when Digital CPU (ONICPU, which already makes ribbons, the Reader, and the Writer 32-bit) is enabled, or when any other mod has already patched the Reader's or Writer's bit depth, so it never doubles up with a mod that does the same thing.
 
-Diagnostic panel art by 3GuB
+Diagnostic panel and Fan-out Gate art by 3GuB
 
 Developed by a professional software developer with assistance from Claude Code. Comes with a no slop guarantee.
 
