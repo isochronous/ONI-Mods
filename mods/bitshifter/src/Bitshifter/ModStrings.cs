@@ -32,6 +32,23 @@ namespace Bitshifter
 					public static LocString OUTPUT_PORT_ACTIVE = "Sends a " + Green + " on each bit that is on at the input or switched on";
 					public static LocString OUTPUT_PORT_INACTIVE = "Otherwise, sends a " + Red + " on that bit";
 				}
+
+				public static class FANOUTGATE
+				{
+					public static LocString NAME = STRINGS.UI.FormatAsLink("Fan-out Gate", "FANOUTGATE");
+					public static LocString DESC = "One signal can switch many bits of a ribbon at once.";
+					public static LocString EFFECT =
+						"Sends the bits chosen in its side screen on an " + Ribbon + " while its input receives a " + Green + ".\n" +
+						"\n" +
+						"While the input receives a " + Red + ", every bit of the ribbon carries a " + Red + ".";
+
+					public static LocString LOGIC_PORT = "Input";
+					public static LocString LOGIC_PORT_ACTIVE = Green + ": send the chosen bits";
+					public static LocString LOGIC_PORT_INACTIVE = Red + ": send a " + Red + " on every bit";
+					public static LocString LOGIC_PORT_OUTPUT = "Ribbon Output";
+					public static LocString OUTPUT_PORT_ACTIVE = "Sends a " + Green + " on each chosen bit while the input receives a " + Green;
+					public static LocString OUTPUT_PORT_INACTIVE = "Otherwise, sends a " + Red + " on that bit";
+				}
 			}
 		}
 
@@ -60,6 +77,11 @@ namespace Bitshifter
 				public static LocString CELL_UNWIRED = "Bit {0}. Wire the output port to use the switches.";
 				public static LocString ALL_OFF = "All off";
 				public static LocString ALL_OFF_TOOLTIP = "Switch every bit off";
+			}
+
+			public static class FANOUTGATE
+			{
+				public static LocString SIDE_SCREEN_TITLE = "Bits to send";
 			}
 		}
 	}

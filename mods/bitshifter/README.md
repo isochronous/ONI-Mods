@@ -46,7 +46,7 @@ A successful build deploys the mod to `Documents\Klei\OxygenNotIncluded\mods\loc
 
 ## Art
 
-Diagnostic panel art by 3GuB.
+Diagnostic panel and Fan-out Gate art by 3GuB.
 
 The Reader and Writer display is drawn by `tools/make_art.py`, which starts from the game's own Ribbon Reader and Writer kanims and writes `src/Bitshifter/anim/assets/bitshifter_ribbon_reader` and `..._writer`. It needs Python with the packages in `common/tools/requirements.txt` and the game installed; `--preview` renders both buildings and opens the image, and `--check` fails when the committed kanims differ from a fresh build (after a game update, say).
 

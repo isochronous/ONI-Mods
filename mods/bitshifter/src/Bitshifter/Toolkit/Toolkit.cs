@@ -35,6 +35,8 @@ namespace Bitshifter
 		{
 			// Automation > wires, right after the vanilla Ribbon Writer, unlocked with it.
 			new Entry(RibbonDiagnosticPanelConfig.ID, "wires", LogicRibbonWriterConfig.ID, "ParallelAutomation"),
+			// Then the Fan-out Gate, after the panel.
+			new Entry(FanoutGateConfig.ID, "wires", RibbonDiagnosticPanelConfig.ID, "ParallelAutomation"),
 		};
 	}
 }

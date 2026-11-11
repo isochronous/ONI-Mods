@@ -87,6 +87,56 @@ msgctxt "STRINGS.BITSHIFTER.DIAGNOSTICPANEL.STATUS_SWITCHES_TOOLTIP"
 msgid "Bits switched on in the side screen. The output carries these and every input bit."
 msgstr "在侧边栏中开启的位。输出端携带这些位以及所有输入位。"
 
+#. STRINGS.BITSHIFTER.FANOUTGATE.SIDE_SCREEN_TITLE
+msgctxt "STRINGS.BITSHIFTER.FANOUTGATE.SIDE_SCREEN_TITLE"
+msgid "Bits to send"
+msgstr "要发送的位"
+
+#. STRINGS.BUILDINGS.PREFABS.FANOUTGATE.DESC
+msgctxt "STRINGS.BUILDINGS.PREFABS.FANOUTGATE.DESC"
+msgid "One signal can switch many bits of a ribbon at once."
+msgstr "一个信号即可同时切换信号线组的多个位。"
+
+#. STRINGS.BUILDINGS.PREFABS.FANOUTGATE.EFFECT
+msgctxt "STRINGS.BUILDINGS.PREFABS.FANOUTGATE.EFFECT"
+msgid "Sends the bits chosen in its side screen on an <link=\"LOGICRIBBON\">Automation Ribbon</link> while its input receives a <b><style=\"logic_on\">Green Signal</style></b>.\n\nWhile the input receives a <b><style=\"logic_off\">Red Signal</style></b>, every bit of the ribbon carries a <b><style=\"logic_off\">Red Signal</style></b>."
+msgstr "当输入端接收到<b><style=\"logic_on\">绿色信号</style></b>时，在<link=\"LOGICRIBBON\">信号线组</link>上发送侧边栏中选定的位。\n\n当输入端接收到<b><style=\"logic_off\">红色信号</style></b>时，信号线组的每一位都携带<b><style=\"logic_off\">红色信号</style></b>。"
+
+#. STRINGS.BUILDINGS.PREFABS.FANOUTGATE.LOGIC_PORT
+msgctxt "STRINGS.BUILDINGS.PREFABS.FANOUTGATE.LOGIC_PORT"
+msgid "Input"
+msgstr "输入端"
+
+#. STRINGS.BUILDINGS.PREFABS.FANOUTGATE.LOGIC_PORT_ACTIVE
+msgctxt "STRINGS.BUILDINGS.PREFABS.FANOUTGATE.LOGIC_PORT_ACTIVE"
+msgid "<b><style=\"logic_on\">Green Signal</style></b>: send the chosen bits"
+msgstr "<b><style=\"logic_on\">绿色信号</style></b>：发送选定的位"
+
+#. STRINGS.BUILDINGS.PREFABS.FANOUTGATE.LOGIC_PORT_INACTIVE
+msgctxt "STRINGS.BUILDINGS.PREFABS.FANOUTGATE.LOGIC_PORT_INACTIVE"
+msgid "<b><style=\"logic_off\">Red Signal</style></b>: send a <b><style=\"logic_off\">Red Signal</style></b> on every bit"
+msgstr "<b><style=\"logic_off\">红色信号</style></b>：在每一位上发送<b><style=\"logic_off\">红色信号</style></b>"
+
+#. STRINGS.BUILDINGS.PREFABS.FANOUTGATE.LOGIC_PORT_OUTPUT
+msgctxt "STRINGS.BUILDINGS.PREFABS.FANOUTGATE.LOGIC_PORT_OUTPUT"
+msgid "Ribbon Output"
+msgstr "线组输出端"
+
+#. STRINGS.BUILDINGS.PREFABS.FANOUTGATE.NAME
+msgctxt "STRINGS.BUILDINGS.PREFABS.FANOUTGATE.NAME"
+msgid "<link=\"FANOUTGATE\">Fan-out Gate</link>"
+msgstr "<link=\"FANOUTGATE\">扇出门</link>"
+
+#. STRINGS.BUILDINGS.PREFABS.FANOUTGATE.OUTPUT_PORT_ACTIVE
+msgctxt "STRINGS.BUILDINGS.PREFABS.FANOUTGATE.OUTPUT_PORT_ACTIVE"
+msgid "Sends a <b><style=\"logic_on\">Green Signal</style></b> on each chosen bit while the input receives a <b><style=\"logic_on\">Green Signal</style></b>"
+msgstr "当输入端接收到<b><style=\"logic_on\">绿色信号</style></b>时，在每个选定的位上发送<b><style=\"logic_on\">绿色信号</style></b>"
+
+#. STRINGS.BUILDINGS.PREFABS.FANOUTGATE.OUTPUT_PORT_INACTIVE
+msgctxt "STRINGS.BUILDINGS.PREFABS.FANOUTGATE.OUTPUT_PORT_INACTIVE"
+msgid "Otherwise, sends a <b><style=\"logic_off\">Red Signal</style></b> on that bit"
+msgstr "否则在该位上发送<b><style=\"logic_off\">红色信号</style></b>"
+
 #. STRINGS.BUILDINGS.PREFABS.RIBBONDIAGNOSTICPANEL.DESC
 msgctxt "STRINGS.BUILDINGS.PREFABS.RIBBONDIAGNOSTICPANEL.DESC"
 msgid "Seeing every bit of a ribbon at once makes a circuit quick to trace."

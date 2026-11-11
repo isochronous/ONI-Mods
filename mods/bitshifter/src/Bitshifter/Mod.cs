@@ -14,6 +14,12 @@ namespace Bitshifter
 		public const int Bits = 31;
 
 		/// <summary>
+		/// True when the mod left the Reader and Writer to another mod (set in OnAllModsLoaded).
+		/// The toolkit's side screen patch reads it; tests set it to act out a yield.
+		/// </summary>
+		public static bool Yielded { get; internal set; }
+
+		/// <summary>
 		/// Workshop items that already widen the ribbon reader and writer. When one of them is
 		/// enabled this mod leaves the reader and writer alone, so the two never fight over the
 		/// same methods; the toolkit's buildings stay.
@@ -54,6 +60,7 @@ namespace Bitshifter
 		{
 			OverlayLabelGuard.Apply(harmony);
 			string reason = WhyYield(mods);
+			Yielded = reason != null;
 			if (reason != null)
 			{
 				Debug.Log("[Bitshifter] Reader and Writer left alone: " + reason);
