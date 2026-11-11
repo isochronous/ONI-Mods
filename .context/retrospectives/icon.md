@@ -4,6 +4,14 @@ Newest first. Each entry is a `### ` block naming the task it came from, appende
 path — `learned:` on the change-set that produced the lesson, never a closing ceremony.
 
 
+### OM-015: Fast Wireless Automation+ second-load fix
+**Id:** blk-d4b1d39342e6
+
+- **Avoid**: Trusting a unit's claim about the harness: unit 02 said TestRunner cannot load a second save, and Jeremy had to point at FridgeThresholdsExtended's FreshSave round trip. Launching OniMoono.exe --game by hand outside the runner: it started Moono's window and the stock game through Steam (Steam asked Jeremy to approve the custom launch), with his full mod list; I then misdescribed the two windows as one game and twice said OniMoono processes were running from a stale listing. A test whose setup runs in a cleanup step passes vacuously, because the harness only notes cleanup errors (review M1).
+- **Repeat**: Reproducing a second-load bug with a WriteSave / LoadAgain pair (FreshSave = true), asserting the setup in the test body plus a marker the reload checks, then proving the test with a fix-off run (patches commented out, Mod.cs restored from bytes in a finally): it failed with the exact NRE from Jeremy's Player-prev.log. Patching another Workshop mod by reflecting its method in OnAllModsLoaded (OM-011 pattern). Splitting submodule changes by the branch whose code they fix (the -Runtime fix on common's OM-014 branch, load capture on a branch from main's 5078e10).
+- **Updated**: testing/integration-testing.md (new: Second-load bugs); domains/tooling-friction.md (brief duplication again); common/tools/TestRunner/.context/domains/entities.md (TestContext gains LoadErrors, separate change-set in the common store).
+
+
 ### OM-012: U60 readiness on the testing branch
 **Id:** blk-b5506fc84692
 

@@ -5,10 +5,10 @@
 
 ## Phase State
 - **Phase plan**: investigation → implementation → testing → completion
-- **Completed**: (none)
-- **Current**: investigation   (status: in-progress)
-- **Next**: implementation
-- **Loaded skill**: task-plan-phase-investigation
+- **Completed**: investigation, implementation, testing, completion
+- **Current**: completion   (status: done)
+- **Next**: none — task complete
+- **Loaded skill**: task-plan-phase-completion
 - **Branch**: OM-015-fast-wireless-automation-fix
 - **Attempts (current phase)**: 1
 
@@ -38,9 +38,10 @@
 - [x] Moono check dropped: a hand launch of `OniMoono.exe --game` started Moono's window AND the stock game through Steam (Steam asked Jeremy to approve the custom launch); Jeremy killed the stock game. Direct launch is OM-014's to fix. Two OniMoono.exe processes left running at Jeremy's call.
 - [x] Commit — common: af9fd71 on OM-014-onimoono-direct-launch (single -Runtime fix, belongs to OM-014's code); b7844e1 on new common branch OM-015-fast-wireless-automation-fix from 5078e10 (load-time error capture). Main repo commit points common at b7844e1. sln rebuilt against b7844e1: 0 errors. Not pushed.
 - [x] Review (units/05-review-report.md): 0 critical; moderate M1 test passes vacuously if the cleanup injection throws (SecondLoad.cs:115, harness only notes cleanup errors), M2 Game.DestroyInstances postfix (Mod.cs:62) could wipe live registrations if teardown runs late; minors 3-6 (Session.cs:462 capture outlives a run, LoadErrors doc, SetLoadErrors copies without lock, docs entities.md:114 + README), 7 style, 8 no README (fine, local).
-- [ ] Review fixes: M1, drop DestroyInstances patch (Jeremy approved), minors 3-6 → unit 06 ← IN PROGRESS
-- [ ] One Stock run of the pair (Jeremy approved), commit follow-up
-- [ ] Retro
+- [x] Review fixes (units/06-implement-report.md): M1 setup asserted in WriteSave + `,injected` marker checked by LoadAgain; DestroyInstances patch dropped (OnPrefabInit prefix only); minors 3-6 fixed in common 314153e
+- [x] Stock run (runs/run-20261111-183009): `PASS WriteSave (4.8 s)`, `PASS LoadAgain (1.5 s)`, `Session done: 2 passed, 0 failed, 0 errors`. Committed main 578a53a, common 314153e.
+- [x] Retro landed in retrospectives/icon.md; promoted testing/integration-testing.md "Second-load bugs", domains/tooling-friction.md entry; common/tools/TestRunner/.context/domains/entities.md gains LoadErrors. `ks check` on both stores: 0 block.
+- [ ] Follow-ups (not this task): OM-014 owns the Moono direct launch (also starts the stock game through Steam); the "Launching with oni-moono" section of testing/integration-testing.md on main is still garbled (repaired by 400e915 on OM-014's branch). No PR opened: local mod, Jeremy has not asked for one.
 
 ## Open Questions / Blockers
 - Run 1 failed before launch: `Cannot bind argument to parameter 'Path' because it is null.` Cause: Invoke-OniTests.ps1:232 `$legs = if (...) { @(...) } else { @($Runtime) }` unrolls a one-item array to a string, so `$legs[0]` was 'S' and `$runDir` null for any single-runtime run. Fixed in common (uncommitted): `$legs = @(if ... { 'Stock', 'Moono' } else { $Runtime })`. Run 2 (Stock, runs/run-20261111-180835): `PASS SecondLoad.WriteSave (4.9 s)`, `PASS SecondLoad.LoadAgain (1.4 s)`, `Session done: 2 passed, 0 failed, 0 errors`. Fix-off run (Stock, patches commented out, Mod.cs restored from bytes afterwards and redeployed): `PASS WriteSave`, `FAIL LoadAgain: ... NullReferenceException ... KMonoBehaviour.InitializeComponent ... Error in FastWirelessEmitterComplete.EnergyConsumer.OnPrefabInit (expected 0, got 1)` — the same failure as Jeremy's log, so the test catches the bug. Moono run: `The game did not start within 120 s.` (Invoke-OniTests.ps1:568); OniMoono.exe exists, no game process left; not retried. Unit 04 (units/04-explore-report.md): player never wrote a Player.log, warden log ends "waiting up to 150 s for the game", no crash event; wrong-process-lookup ruled out; never-started vs exited-early open. Checked-out `common` is 61b048a = OM-014's unproven direct-launch implementation (main and OM-014 both record 5078e10), so this was the first direct launch ever and OM-015's harness edits sit on top of OM-014's uncommitted-pointer work. Narrowest next launch (needs Jeremy): OniMoono alone with --game and --log, no Stock session first.
