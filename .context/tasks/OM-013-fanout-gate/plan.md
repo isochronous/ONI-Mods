@@ -5,10 +5,10 @@
 
 ## Phase State
 - **Phase plan**: investigation → implementation → testing → completion
-- **Completed**: investigation
-- **Current**: implementation   (status: in-progress)
-- **Next**: testing
-- **Loaded skill**: task-plan-phase-implementation
+- **Completed**: investigation, implementation, testing
+- **Current**: completion   (status: in-progress)
+- **Next**: (none)
+- **Loaded skill**: task-retrospective
 - **Branch**: OM-013-fanout-gate
 - **Attempts (current phase)**: 1
 
@@ -20,6 +20,8 @@
 - Footprint (user, 2026-11-10): 2 x 1 "like every other two-port gate": input CellOffset(0,0), ribbon output CellOffset(1,0), as the Ribbon Writer. The art body (528 x 236) is exactly the vanilla Buffer and Filter gates' panel/place size (both 2 x 1, `kanim.py list logic_buffer|logic_filter`), so the overhang is vanilla; NOT gate is 436 x 248, Ribbon Writer 364 x 223.
 - Lamps (user, 2026-11-10): "for now we'll just turn them all on when we get an input signal": input on -> `on_1_1111`; input off (wired) -> `on_0_0000`; nothing wired -> `off`.
 - Taken without a user question (precedent OM-008 / Ribbon Writer): player name "Fan-out Gate", id `FanoutGate`; Automation > wires after the Ribbon Diagnostic Panel, tech ParallelAutomation; rotatable R360 like the Ribbon Writer; unwired input = off; art goes through make_art.py from anim-original/fanout_gate/ with bounds fixed and files renamed fanout_gate_*; the scroll-view wrap for the gate's list is applied in the toolkit category for the gate only, so Reader/Writer behaviour under yield is unchanged; bit 32 rows ignored.
+
+- Review unit 03 (units/03-review-report.md): approve with fixes. Should-fix: the gate-only scroll wrap stays on the shared LogicBitSelectorSideScreen, so under Digital CPU a Reader/Writer opened after a gate is wrapped too. User (2026-11-10): "Undo wrap for others" — when Bitshifter has yielded, remove the wrap for any target that is not a Fan-out Gate. Nits taken: GameHashes names, a test for the output-only anim (`on_0_0000`).
 
 ## Key Files
 - mods/bitshifter/src/Bitshifter/anim/assets/fanout_gate/: 3GuB's kanim (anim name logic_fanout)
@@ -38,9 +40,12 @@
 ## Progress
 - [x] Investigate: unit 01 — art, toolkit pattern, side-screen route, tests, docs
 - [x] Update this plan with findings and the open questions for the user — answered 2026-11-10 (Decisions)
-- [ ] Implement the building, logic, side screen, strings, translations, art pipeline, tests — unit 02 ← IN PROGRESS
-- [ ] Build, in-game tests (narrow filter), screenshots for the user
-- [ ] Completion: review, retro, commit, PR
+- [x] Implement the building, logic, side screen, strings, translations, art pipeline, tests — unit 02, commit 994e525; 9/9 Fan-out tests green (run-20261110-191054)
+- [x] Build, in-game tests (narrow filter), screenshots for the user — units/02-shots/
+- [x] Review — unit 03, approve with fixes; fixes by unit 02 follow-up: 10/10 Fan-out tests green (run-20261110-194233)
+- [x] Store: mods/bitshifter/.context/domains/entities.md Key Code Paths; retro in .context/retrospectives/icon.md
+- [x] Side-screen regression run (-Filter "*screen*") — 10/10 green, run-20261110-194448 (incl. SideScreen.WriterRowsAndScroll, WrappedOnce, ChooseLastRow)
+- [ ] Commit, push, PR (main repo + common submodule branch)
 
 ## Open Questions / Blockers
 - Building id, player name, ports, menu position, tech: to propose after investigation.

@@ -4,6 +4,14 @@ Newest first. Each entry is a `### ` block naming the task it came from, appende
 path — `learned:` on the change-set that produced the lesson, never a closing ceremony.
 
 
+### OM-013: Bitshifter Fan-out Gate
+**Id:** blk-7a0366dc2e90
+
+- **Avoid**: Patching a shared vanilla side screen for one building leaks to every other target of that screen: the gate-only scroll wrap stayed on LogicBitSelectorSideScreen and would have reached Digital CPU's Reader/Writer while Bitshifter yields; review caught it, fixed with UnwrapRows. Also: the TestRunner -Filter value is split at a space on the Steam launch line, so "Bitshifter: Fan-out*" matched 0 tests; write ? for spaces ("Bitshifter:?Fan-out*"). And compare new art with vanilla buildings of the same footprint (Buffer/Filter 2 x 1 are 528 x 236, the gate's exact size) before calling it oversized: the Ribbon Writer was the wrong reference.
+- **Repeat**: Reusing the vanilla bit selector through ILogicRibbonBitSelector plus one RefreshToggles postfix gave multi-select with no UI code; baked-colour art (one anim per lamp pattern) needs only Play(name); make_art.py's build_export pattern took the second artist export with no change to the panel's output.
+- **Updated**: mods/bitshifter/.context/domains/entities.md (Key Code Paths: Toolkit folder, panel, gate, yield-aware wrap, art build, tests), landed earlier in this task
+
+
 ### OM-012: U60 readiness on the testing branch
 **Id:** blk-b5506fc84692
 

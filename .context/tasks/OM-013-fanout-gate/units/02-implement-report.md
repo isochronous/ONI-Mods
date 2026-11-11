@@ -129,3 +129,77 @@ There were three launches, one after another, none looped:
 - **Not ICON, for the record:**
   - `Invoke-OniTests.ps1 -Filter` with a space silently matches a prefix and runs 0 tests with exit 1. A guard or quoting fix in the runner would help.
   - A Bash heredoc turned `"\\n"` in a Python replacement string into real newlines inside ModStrings.cs. I caught it and fixed it with Edit; the memory note on heredoc backslashes applies.
+
+## Review fixes
+
+These address units/03-review-report.md and are not committed; the base is 994e525.
+
+### Changes
+- `src/Bitshifter/Mod.cs`: new `public static bool Yielded { get; internal set; }`, set in OnAllModsLoaded from WhyYield. Tests set it through reflection to act out a yield.
+- `src/Bitshifter/SideScreen.cs`:
+  - `WrapRows` now records what wrapping changes, per screen:
+    - the row container's rect values (anchors, pivot, position, size);
+    - whether the container had a ContentSizeFitter, and its mode;
+    - every LayoutElement's min and preferred width;
+    - every VerticalLayoutGroup's childControlWidth and childForceExpandWidth.
+  - New `UnwrapRows` moves the rows back to the scroll view's place, restores all of those values, then deactivates and destroys the scroll view.
+  - The class doc comment (old lines 15-17) now describes this.
+- `src/Bitshifter/Toolkit/ToolkitPatches.cs`:
+  - `LogicBitSelectorSideScreen_SetTarget_GatePatch` wraps for a gate. When `BitshifterMod.Yielded` is true, it unwraps for any other target.
+  - It now runs at `[HarmonyPriority(Priority.Last)]`. That way, when it runs after the uncategorized wrap patch (in the forced-yield test), it has the last word.
+  - When the mod has not yielded, nothing changes from before: the uncategorized patch wraps every target.
+  - The doc comment (old lines 82-84) is corrected.
+- `src/Bitshifter/Toolkit/FanoutGate.cs`:
+  - `Subscribe((int)GameHashes.CopySettings, ...)` and `Subscribe((int)GameHashes.LogicEvent, ...)` replace the raw hashes. The decompile confirms CopySettings = -905833192 and LogicEvent = -801688580.
+  - `Mask` is now `(int)((1L << BitshifterMod.Bits) - 1)`, as in Patches.cs. This is review nit 3; it is the same value.
+- `src/Bitshifter.Tests/FanoutGate.cs`:
+  - AnimFollowsInput now builds the rig with only the output wired. It asserts InputWired false, OutputWired true and `on_0_0000`, then wires the input and continues as before.
+  - New test YieldedWrapsGateOnly, at Layer 2, with yield forced on and reset in Cleanup:
+    - A Writer's screen has no scroll view, its rows are not inside a KScrollRect, and the widest LayoutElement asks for more than the header width again. That last check means FitUnderHeader's clamp has been undone.
+    - Showing the gate gives one scroll view.
+    - Showing the Writer again unwraps the screen, and a click on row 2 still sets the Writer to bit 2.
+    - With yield off, the Writer's screen scrolls as before.
+  - Screenshot: `units/02-shots/Bitshifter.Tests.FanoutGate.YieldedWrapsGateOnly-writer-yielded.png` shows the Writer's 31 rows laid out with no scroll view, at the screen's own width. This is what the screen looks like when another mod widens the rows and Bitshifter does not wrap them.
+- Limits:
+  - Digital CPU is not installed, so the yield is acted out. In this session the uncategorized patches are still applied, so the Writer's screen is wrapped first and then unwrapped by the gate patch. Under a real yield the uncategorized patch is absent, and only the gate patch acts.
+  - Rows made while the screen is wrapped keep the row prefab's LayoutElement values. The clamp only lowers widths above the header's (about 280), and the rows need 250, so a row's values are unchanged by it.
+
+### Command output
+`dotnet build ONI-Mods.sln -c Release -p:ModDeployFolder=none`:
+```
+  Bitshifter -> C:\dev\ONI-Mods\mods\bitshifter\src\Bitshifter\bin\Release\Bitshifter.dll
+  Bitshifter.Tests -> C:\dev\ONI-Mods\mods\bitshifter\src\Bitshifter.Tests\bin\Release\Bitshifter.Tests.dll
+    5 Warning(s)
+    0 Error(s)
+```
+This was an incremental build. All 5 warnings come from other mods' test projects: NaturalBackwalls.Tests/Looks.cs, StoragePodRedux.Tests/Decisions.cs, and VentFreezeFix.Tests Kit.cs and Storage.cs (CS0618). Bitshifter has none.
+
+`python common/tools/Translations/translations.py mods/bitshifter`:
+```
+Wrote 35 strings to C:\dev\ONI-Mods\mods\bitshifter\src\Bitshifter\translations\Bitshifter.pot
+ko.po: 35/35 translated
+ru.po: 35/35 translated
+zh.po: 35/35 translated
+ALL CHECKS PASSED
+```
+
+`pwsh common/tools/TestRunner/Invoke-OniTests.ps1 -Mods Bitshifter -Filter "Bitshifter:?Fan-out*"` (run-20261110-194233, one launch):
+```
+PASS     Bitshifter.Tests/FanoutGate.InputOnAndOff (4.1 s)
+PASS     Bitshifter.Tests/FanoutGate.ChangeWhileOn (4.1 s)
+PASS     Bitshifter.Tests/FanoutGate.UnwiredInput (5.0 s)
+PASS     Bitshifter.Tests/FanoutGate.SavedAndLoaded (5.1 s)
+PASS     Bitshifter.Tests/FanoutGate.CopySettings (2.0 s)
+PASS     Bitshifter.Tests/FanoutGate.BuildMenuAndResearch (0.0 s)
+PASS     Bitshifter.Tests/FanoutGate.AnimFollowsInput (6.3 s)
+PASS     Bitshifter.Tests/FanoutGate.SideScreenMultiSelect (6.4 s)
+PASS     Bitshifter.Tests/FanoutGate.ReaderStillSingle (2.0 s)
+PASS     Bitshifter.Tests/FanoutGate.YieldedWrapsGateOnly (2.8 s)
+Session done: 10 passed, 0 failed, 0 errors, 0 timeouts, 0 skipped; ... of 10; 53.7 s real time
+Player's folders: nothing new in save_files, cloud_save_files, RetiredColonies
+```
+Player.log has no exceptions (count 0).
+
+Not run: the older Bitshifter side screen tests (WriterRowsAndScroll, WrappedOnce, ChooseLastRow) are outside the narrow filter. They also touch the shared screen and would confirm the non-yield path is unchanged. Running them, for example with `-Filter "Bitshifter:?the*screen*;Bitshifter:?choosing*"`, is a manager call.
+
+Review nits 5-7 (title assert, test class name, EFFECT wording) were not requested and are left as they are. Nit 8 (entities.md) and nit 9 (debug.log) are the manager's.

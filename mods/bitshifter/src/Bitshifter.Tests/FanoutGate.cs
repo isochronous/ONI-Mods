@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using HarmonyLib;
 using Isochronous.TestKit;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Bitshifter.Tests
 {
@@ -167,10 +169,15 @@ namespace Bitshifter.Tests
 			t.Assert.Eq(Bitshifter.FanoutGate.AnimOff, AnimOf(lone), "nothing wired");
 
 			GateRig rig = null;
-			yield return GateRig.Build(t, r, true, 0, x => rig = x);
+			yield return GateRig.Build(t, r, false, 0, x => rig = x);
 			rig.GatePart.SetBits(TwoBits);
 			yield return t.WaitGameSeconds(0.5);
-			t.Assert.Eq(Bitshifter.FanoutGate.AnimInputOff, AnimOf(rig.Gate), "wired, input off");
+			t.Assert.False(rig.GatePart.InputWired, "the input is unwired");
+			t.Assert.True(rig.GatePart.OutputWired, "the output is wired");
+			t.Assert.Eq(Bitshifter.FanoutGate.AnimInputOff, AnimOf(rig.Gate), "output only: the input reads off");
+
+			yield return rig.WireInput(t);
+			t.Assert.Eq(Bitshifter.FanoutGate.AnimInputOff, AnimOf(rig.Gate), "both wired, input off");
 
 			rig.Set(true);
 			yield return t.WaitGameSeconds(0.5);
@@ -244,6 +251,66 @@ namespace Bitshifter.Tests
 			t.Assert.Eq(10, reader.GetComponent<LogicRibbonReader>().GetBitSelection(), "a click picks the Reader's bit");
 			t.Assert.Eq("[11]", Bits(Highlighted(screen)), "and moves its one highlight");
 			t.Assert.Eq(TwoBits | (1 << 8), gate.GetComponent<Bitshifter.FanoutGate>().Bits, "the gate keeps its bits");
+		}
+
+		private static void SetYielded(bool yielded)
+		{
+			Traverse.Create(typeof(BitshifterMod)).Property("Yielded").SetValue(yielded);
+		}
+
+		private static int ScrollViews(LogicBitSelectorSideScreen screen)
+		{
+			return screen.GetComponentsInChildren<KScrollRect>(true).Length;
+		}
+
+		/// <summary>The screen as the game lays it out: no scroll view, and the widths FitUnderHeader clamps are back above the header's.</summary>
+		private static void AssertUnwrapped(TestContext t, LogicBitSelectorSideScreen screen, float headerWidth, string what)
+		{
+			t.Assert.Eq(0, ScrollViews(screen), what + ": no scroll view");
+			Transform rows = screen.rowPrefab.transform.parent;
+			t.Assert.True(rows.parent.GetComponent<KScrollRect>() == null, what + ": the rows sit in their own place");
+			float widest = screen.GetComponentsInChildren<LayoutElement>(true).Max(element => element.minWidth);
+			t.Assert.True(widest > headerWidth + 0.01f, what + ": the screen's own minimum width is back (" + widest + " against a header of " + headerWidth + ")");
+		}
+
+		[OniTest("Bitshifter: Fan-out Gate, with the mod yielded to another mod, scrolls the shared bit screen for the gate only", Timeout = 120), Layer(2)]
+		public static IEnumerator YieldedWrapsGateOnly(TestContext t)
+		{
+			CellRect r = t.Rect(5, 1);
+			GameObject gate = t.World.Build(FanoutGateConfig.ID, r.Cell(0, 0));
+			GameObject writer = t.World.Build("LogicRibbonWriter", r.Cell(3, 0));
+			yield return t.WaitGameSeconds(1);
+			float header = Traverse.Create(DetailsScreen.Instance).Field("sidescreenTabHeader").GetValue<GameObject>().GetComponent<RectTransform>().rect.width;
+
+			// Acts out a yield. The Reader and Writer patches stay applied in this session, so the
+			// Writer's screen is wrapped by them first; the gate's patch runs last and takes it out again.
+			SetYielded(true);
+			t.Cleanup(() => SetYielded(false));
+			yield return t.Screens.Select(writer);
+			LogicBitSelectorSideScreen screen = t.Screens.SideScreen<LogicBitSelectorSideScreen>();
+			t.Assert.NotNull(screen, "the Writer's side screen is showing");
+			AssertUnwrapped(t, screen, header, "a Writer while yielded");
+
+			yield return t.Screens.Select(gate);
+			screen = t.Screens.SideScreen<LogicBitSelectorSideScreen>();
+			t.Assert.NotNull(screen, "the gate's side screen is showing");
+			t.Assert.Eq(1, ScrollViews(screen), "the gate's rows scroll");
+			yield return t.WaitGameSeconds(0.5);
+
+			yield return t.Screens.Select(writer);
+			screen = t.Screens.SideScreen<LogicBitSelectorSideScreen>();
+			AssertUnwrapped(t, screen, header, "the Writer after the gate");
+			yield return t.Screenshot("writer-yielded");
+			t.Screens.Click(screen.toggles_by_int[1].gameObject);
+			yield return t.WaitGameSeconds(0.5);
+			t.Assert.Eq(1, writer.GetComponent<LogicRibbonWriter>().GetBitSelection(), "the unwrapped rows still pick the Writer's bit");
+
+			SetYielded(false);
+			t.Screens.Deselect();
+			yield return t.WaitGameSeconds(0.5);
+			yield return t.Screens.Select(writer);
+			screen = t.Screens.SideScreen<LogicBitSelectorSideScreen>();
+			t.Assert.Eq(1, ScrollViews(screen), "not yielded: the Writer's rows scroll as before");
 		}
 	}
 }

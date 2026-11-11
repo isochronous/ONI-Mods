@@ -80,17 +80,22 @@ namespace Bitshifter
 		/// <summary>
 		/// Puts the bit selector's rows in a scroll view when a Fan-out Gate is shown, as
 		/// LogicBitSelectorSideScreen_SetTarget_Patch does for any target while the mod handles the
-		/// Reader and Writer. This one only acts for the gate, so the Reader's and Writer's screens are
-		/// left as they are while the mod leaves them to another mod.
+		/// Reader and Writer. The game has one instance of the screen for the gate, the Reader and
+		/// the Writer, so while the mod leaves the Reader and Writer to another mod
+		/// (<see cref="BitshifterMod.Yielded"/>), any other target gets the rows taken out of the
+		/// scroll view again and the screen as it was. Runs last, after every other postfix.
 		/// </summary>
 		[HarmonyPatchCategory(Toolkit.PatchCategory)]
 		[HarmonyPatch(typeof(LogicBitSelectorSideScreen), nameof(LogicBitSelectorSideScreen.SetTarget))]
 		public static class LogicBitSelectorSideScreen_SetTarget_GatePatch
 		{
+			[HarmonyPriority(Priority.Last)]
 			public static void Postfix(LogicBitSelectorSideScreen __instance, GameObject new_target)
 			{
 				if (new_target != null && new_target.GetComponent<FanoutGate>() != null)
 					LogicBitSelectorSideScreen_SetTarget_Patch.WrapRows(__instance);
+				else if (BitshifterMod.Yielded)
+					LogicBitSelectorSideScreen_SetTarget_Patch.UnwrapRows(__instance);
 			}
 		}
 	}

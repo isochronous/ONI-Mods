@@ -26,7 +26,7 @@ namespace Bitshifter
 		public static readonly HashedString OutputPort = new HashedString("FanoutGateOutput");
 
 		/// <summary>The bits the gate can send: 1-31 (0-based 0-30).</summary>
-		public const int Mask = int.MaxValue;
+		public const int Mask = (int)((1L << BitshifterMod.Bits) - 1);
 
 		public const string AnimOff = "off";
 		public const string AnimInputOn = "on_1_1111";
@@ -90,13 +90,13 @@ namespace Bitshifter
 		protected override void OnPrefabInit()
 		{
 			base.OnPrefabInit();
-			Subscribe(-905833192, OnCopySettingsDelegate, this);
+			Subscribe((int)GameHashes.CopySettings, OnCopySettingsDelegate, this);
 		}
 
 		protected override void OnSpawn()
 		{
 			base.OnSpawn();
-			Subscribe(-801688580, OnLogicValueChangedDelegate, this);
+			Subscribe((int)GameHashes.LogicEvent, OnLogicValueChangedDelegate, this);
 			SendOutput();
 			Redraw();
 		}
