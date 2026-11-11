@@ -6,7 +6,7 @@
 ## Phase State
 - **Phase plan**: investigation → implementation → testing → completion
 - **Completed**: investigation, implementation, testing
-- **Current**: completion   (status: in-progress)
+- **Current**: completion   (status: done)
 - **Next**: (none)
 - **Loaded skill**: task-retrospective
 - **Branch**: OM-013-fanout-gate
@@ -45,7 +45,7 @@
 - [x] Review — unit 03, approve with fixes; fixes by unit 02 follow-up: 10/10 Fan-out tests green (run-20261110-194233)
 - [x] Store: mods/bitshifter/.context/domains/entities.md Key Code Paths; retro in .context/retrospectives/icon.md
 - [x] Side-screen regression run (-Filter "*screen*") — 10/10 green, run-20261110-194448 (incl. SideScreen.WriterRowsAndScroll, WrappedOnce, ChooseLastRow)
-- [ ] Commit, push, PR (main repo + common submodule branch)
+- [x] Commit, push, PR — ONI-Mods#23, oni-mods-common#12 (merge common first)
 
 ## Open Questions / Blockers
 - Building id, player name, ports, menu position, tech: to propose after investigation.
