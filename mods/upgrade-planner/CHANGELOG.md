@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Changing the material of bridges with instant build on rebuilds each bridge once, with no leftover build order on top and none missed or doubled.
+
 ## 0.5.2 - 2026-11-08
 
 - Changing a building's material works with the U60 update as well as the current game.
