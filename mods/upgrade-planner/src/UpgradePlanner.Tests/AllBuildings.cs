@@ -174,6 +174,81 @@ namespace UpgradePlanner.Tests
 			yield return t.WaitUntil(() => Made(t.World.At(cell, def.ObjectLayer), ElementLoader.GetElement(to).id), 10, "the wide tile rebuilt in " + to.Name);
 		}
 
+		[OniTest("Upgrade Planner: with instant build, each liquid bridge is rebuilt once, with no order left", Timeout = 40), Layer(1)]
+		public static IEnumerator BridgesRebuiltOnce(TestContext t)
+		{
+			RequireBlueprints(t);
+			// The game enters a bridge on its layer only at its two ends. One bridge alone, and two
+			// offset by a cell, one's end on the other's middle.
+			CellRect r = t.Rect(10, 2);
+			int[] columns = { 2, 6, 7 };
+			foreach (int x in columns)
+				t.World.Build("LiquidConduitBridge", r.Cell(x, 1), element: SimHashes.SandStone);
+			yield return t.WaitGameSeconds(1);
+			yield return Drag(t, r, "LiquidConduitBridge", instant: true, allBuildings: true);
+			// Past the planner's own placement, which comes 0.5 game seconds after the game's.
+			yield return t.WaitGameSeconds(2);
+			foreach (int x in columns)
+			{
+				int cell = r.Cell(x, 1);
+				var built = new List<string>();
+				int orders = 0;
+				foreach (Building building in UnityEngine.Object.FindObjectsOfType<Building>())
+				{
+					if (building.Def.PrefabID != "LiquidConduitBridge" || Grid.PosToCell(building) != cell)
+						continue;
+					if (building is BuildingUnderConstruction)
+						orders++;
+					else
+						built.Add(building.GetComponent<PrimaryElement>().ElementID.ToString());
+				}
+				t.Log("column " + x + ": built " + string.Join(", ", built) + "; orders " + orders);
+				t.Assert.Eq(1, built.Count, "one bridge built at column " + x);
+				t.Assert.Eq(SimHashes.Granite.ToString(), built.Count > 0 ? built[0] : null, "the bridge at column " + x + " is granite");
+				t.Assert.Eq(0, orders, "no bridge order left at column " + x);
+			}
+		}
+
+		[OniTest("Upgrade Planner: with instant build, lead thermo sensors are rebuilt in cobalt", Timeout = 40), Layer(1)]
+		public static IEnumerator SensorsRebuilt(TestContext t)
+		{
+			yield return SensorsRebuilt(t, paused: false);
+		}
+
+		[OniTest("Upgrade Planner: with instant build, lead thermo sensors dragged while paused are rebuilt in cobalt once unpaused", Timeout = 40), Layer(1)]
+		public static IEnumerator SensorsRebuiltPaused(TestContext t)
+		{
+			yield return SensorsRebuilt(t, paused: true);
+		}
+
+		private static IEnumerator SensorsRebuilt(TestContext t, bool paused)
+		{
+			RequireBlueprints(t);
+			CellRect r = t.Rect(6, 2);
+			int[] columns = { 1, 3 };
+			foreach (int x in columns)
+				t.World.Build("LogicTemperatureSensor", r.Cell(x, 0), element: SimHashes.Lead);
+			yield return t.WaitGameSeconds(1);
+			if (paused)
+			{
+				SpeedControlScreen.Instance.Pause(false);
+				t.Cleanup(() => SpeedControlScreen.Instance.Unpause(false));
+			}
+			yield return Drag(t, r, "LogicTemperatureSensor", instant: true, allBuildings: true, oldElement: SimHashes.Lead, newElement: SimHashes.Cobalt);
+			if (paused)
+			{
+				yield return t.WaitRealSeconds(1);
+				SpeedControlScreen.Instance.Unpause(false);
+			}
+			yield return t.WaitGameSeconds(2);
+			foreach (int x in columns)
+			{
+				GameObject there = t.World.At(r.Cell(x, 0), ObjectLayer.Building);
+				t.Log("column " + x + ": " + (there != null ? there.name + " " + there.GetComponent<PrimaryElement>()?.ElementID : "nothing"));
+				t.Assert.True(Made(there, SimHashes.Cobalt), "the thermo sensor at column " + x + " rebuilt in cobalt");
+			}
+		}
+
 		[OniTest("Upgrade Planner: All buildings leaves out the mini-pod, which the game will not deconstruct", Timeout = 20), Layer(0)]
 		public static IEnumerator MiniPodLeftOut(TestContext t)
 		{
