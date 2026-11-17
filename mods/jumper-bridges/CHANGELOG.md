@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Two bridge ends joined to each other by dragging wire between them, with no wire laid, now stay joined after saving and loading.
+
 ## 0.3.1 - 2026-11-08
 
 - Works with the U60 update as well as the current game.
