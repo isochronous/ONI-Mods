@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.3.2 - 2026-11-17
 
 - Two bridge ends joined to each other by dragging wire between them, with no wire laid, now stay joined after saving and loading.
 
