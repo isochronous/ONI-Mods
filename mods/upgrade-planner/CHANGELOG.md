@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.5.3 - 2026-11-17
 
 - Changing the material of bridges with instant build on rebuilds each bridge once, with no leftover build order on top and none missed or doubled.
 
