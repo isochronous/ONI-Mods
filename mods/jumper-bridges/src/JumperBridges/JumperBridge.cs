@@ -1,7 +1,9 @@
 #pragma warning disable 649 // [MyCmpReq] fields are populated by the game via reflection
 using System.Collections.Generic;
 using System.Reflection;
+using System.Runtime.Serialization;
 using HarmonyLib;
+using KSerialization;
 using UnityEngine;
 
 namespace JumperBridges
@@ -11,7 +13,10 @@ namespace JumperBridges
 	/// BridgeEndNode, so the bridge conducts into whatever port is at that cell, and takes the
 	/// nodes away when the bridge goes, breaks, or a real wire arrives. Creation is deferred a
 	/// frame so that on load every saved wire has marked its cell before the bridge looks.
+	/// The nodes are not saved, so the bridge saves for each end the links its node has to
+	/// other nodes, which no wire records (see <see cref="BridgeEndNode.Restore"/>).
 	/// </summary>
+	[SerializationConfig(MemberSerialization.OptIn)]
 	public sealed class JumperBridge : KMonoBehaviour
 	{
 		/// <summary>UtilityNetworkLink.connected is private; a broken bridge has no link and gets no nodes.</summary>
@@ -20,6 +25,9 @@ namespace JumperBridges
 		[MyCmpReq] private UtilityNetworkLink link;
 
 		private readonly BridgeEndNode[] nodes = new BridgeEndNode[2];
+		/// <summary>Per end, the directions its node was joined to another node at the last save; taken by the node the load makes.</summary>
+		[Serialize] private UtilityConnections savedLinks1;
+		[Serialize] private UtilityConnections savedLinks2;
 		private SchedulerHandle pending;
 		private int brokenHandle = -1;
 		private int repairedHandle = -1;
@@ -114,6 +122,44 @@ namespace JumperBridges
 				return false;
 			nodes[index] = BridgeEndNode.Create(this, Kind, cell);
 			return true;
+		}
+
+		/// <summary>
+		/// Each end's links to other nodes. An end with no node keeps what it had if the bridge is
+		/// broken (its node comes back on repair); an end under a wire saves none, the wire keeps its own.
+		/// </summary>
+		[OnSerializing]
+		private void OnSerializing()
+		{
+			bool connected = link != null && (bool)ConnectedField.GetValue(link);
+			if (nodes[0] != null)
+				savedLinks1 = nodes[0].NodeLinks();
+			else if (connected)
+				savedLinks1 = 0;
+			if (nodes[1] != null)
+				savedLinks2 = nodes[1].NodeLinks();
+			else if (connected)
+				savedLinks2 = 0;
+		}
+
+		/// <summary>The links saved for the end at the cell, once; nothing for a cell that is not an end or was already taken.</summary>
+		public UtilityConnections TakeSavedLinks(int cell)
+		{
+			if (link == null)
+				return 0;
+			link.GetCells(out int cell1, out int cell2);
+			UtilityConnections links = 0;
+			if (cell == cell1)
+			{
+				links |= savedLinks1;
+				savedLinks1 = 0;
+			}
+			if (cell == cell2)
+			{
+				links |= savedLinks2;
+				savedLinks2 = 0;
+			}
+			return links;
 		}
 
 		private string Describe(int index) => nodes[index] != null ? nodes[index].Cell.ToString() : "(wire)";
