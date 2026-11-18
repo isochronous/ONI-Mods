@@ -150,3 +150,11 @@ OM-010 store updates used `write plan`/`apply` section ops whose bodies began wi
 - What it did: 17 of the review packet's 21 pointers were the same try/catch error-handling standard, copied once per mod node; the other packets were the same. The budget went to that block, and nothing about game updates, the frozen previous build, event subscriptions or `mods:domains/game-interfaces.md` (reported unreachable) made it in.
 - Expected: one pointer for a block that every scoped node carries a copy of, leaving the budget for records that differ.
 - Instead: every unit worked from the spec and its own reading of the code and game DLLs; none ran `ks read` on the brief.
+
+## 2026-11-11 OM-015: handoff briefs filled with one duplicated block, again
+**Id:** blk-c79f8b154c51
+
+- Invocation: `ks handoff --task .context/tasks/OM-015-fast-wireless-automation-fix --scope mods --spec .../units/01-explore.md --checkpoints 0 --decisions`.
+- What it did: the brief was 27 of 510 candidates in 8026 of 8192 bytes, and its pointers were copies of each mod node's `error-handling.md`; the explore unit used none of them. Same failure as the 2026-11-07 OM-012 entry.
+- Expected: one pointer for a block every scoped node carries a copy of, leaving the budget for records that differ.
+- Instead: later packets were scoped to the files a unit touches (`mods/fast-wireless-automation-fix`, `common/tools/TestRunner`), and the units worked from the spec.
