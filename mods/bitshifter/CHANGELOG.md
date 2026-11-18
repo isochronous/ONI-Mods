@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Fan-out Gate: while its input is on, sends the bits picked in its side screen on a ribbon.
+
 ## 1.3.0 - 2026-11-08
 
 ### Added

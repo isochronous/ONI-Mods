@@ -91,12 +91,13 @@ Bitshifter lets the Automation Ribbon Reader and Ribbon Writer select any of bit
 **Id:** blk-2fe104dbf053  
 **Tags:** mod-entry-point, side-screen, kanim-art, in-game-testing
 
-- **Startup and yield check**: `OnAllModsLoaded` runs the guard, `WhyYield`, then `PatchAll` — see `mods/bitshifter/src/Bitshifter/Mod.cs`
+- **Startup and yield check**: `OnAllModsLoaded` runs the guard, `WhyYield`, then `PatchAll`; `BitshifterMod.Yielded` records the outcome; toolkit patches are applied by category in `OnLoad` whatever the yield — see `mods/bitshifter/src/Bitshifter/Mod.cs`
 - **Drawing the selected bit**: `UpdateVisuals` prefix, `Display.Update`, `SetDigit` — see `mods/bitshifter/src/Bitshifter/Patches.cs`
-- **Scrolling bit list**: `SetTarget` postfix, `Wrap`, `FitUnderHeader` — see `mods/bitshifter/src/Bitshifter/SideScreen.cs`
+- **Scrolling bit list**: `SetTarget` postfix, `WrapRows`, `UnwrapRows`, `FitUnderHeader` — see `mods/bitshifter/src/Bitshifter/SideScreen.cs`
+- **Ribbon toolkit**: buildings that stay available when Bitshifter yields, registered from the `Toolkit.Buildings` table (menu spot, tech) under the `BitshifterToolkit` patch category — see `mods/bitshifter/src/Bitshifter/Toolkit/`. The Ribbon Diagnostic Panel (`RibbonDiagnosticPanel*.cs`, PLib grid side screen) and the Fan-out Gate (`FanoutGate*.cs`: 1-bit input, ribbon output, sends a saved bit mask while the input is on; uses the vanilla bit selector with a multi-highlight `RefreshToggles` postfix and a gate-only scroll wrap that is removed again for other targets when the mod has yielded, `ToolkitPatches.cs`)
 - **Overlay crash guard**: `OverlayLabelGuard.Apply` — see `mods/bitshifter/src/Bitshifter/OverlayLabelGuard.cs`
-- **Art build**: `tools/make_art.py` writes the two kanims from the game's own reader and writer kanims; `--check` fails when committed kanims differ from a fresh build
-- **Tests**: in-game tests in `mods/bitshifter/src/Bitshifter.Tests/` (`Compatibility.cs`, `Gates.cs`, `Readout.cs`, `Settings.cs`, `SideScreen.cs`, `Signals.cs`)
+- **Art build**: `tools/make_art.py` writes the reader and writer kanims from the game's own, and the panel and gate kanims from the artist's exports in `anim-original/` (bounds fixed, files named after the asset folder); `--check` fails when committed kanims differ from a fresh build
+- **Tests**: in-game tests in `mods/bitshifter/src/Bitshifter.Tests/` (`Compatibility.cs`, `DiagnosticPanel.cs`, `FanoutGate.cs`, `Gates.cs`, `Readout.cs`, `Settings.cs`, `SideScreen.cs`, `Signals.cs`; rigs in `Rig.cs`)
 
 ## Related
 **Id:** blk-d6aecc1ac010
