@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.3.2 - 2026-11-17
+
+- Two bridge ends joined to each other by dragging wire between them, with no wire laid, now stay joined after saving and loading.
+
+## 0.3.1 - 2026-11-08
+
+- Works with the U60 update as well as the current game.
+
 ## 0.3.0 - 2026-10-29
 
 - Heavi-Watt Joint Plates and Heavi-Watt Conductive Joint Plates too: a plate end can sit directly on a power port or on any power bridge's end. The centre stays a solid tile.

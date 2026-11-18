@@ -1,5 +1,20 @@
 # Changelog
 
+## Unreleased
+
+- Fan-out Gate: while its input is on, sends the bits picked in its side screen on a ribbon.
+
+## 1.3.0 - 2026-11-08
+
+### Added
+
+- Ribbon Diagnostic Panel: shows all 31 bits of a ribbon on a grid of lamps, green for on and red for off. With its output wired, it is also a 31-channel switch.
+- Chinese (Simplified), Korean and Russian translations.
+
+### Changed
+
+- Works with the U60 update as well as the current game.
+
 ## 1.2.1 - 2026-10-29
 
 - Pasting Ribbon Readers or Writers with Blueprints Expanded while Better Automation Overlay is enabled no longer crashes the game.

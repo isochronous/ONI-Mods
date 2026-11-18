@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.1 - 2026-11-08
+
+- Works with the U60 update as well as the current game.
+
 ## 1.1.0 - 2026-10-12
 
 - Chinese (Simplified), Korean and Russian translations. Translations load from translations/<locale>.po; the template for other languages is translations/StoragePodRedux.pot.

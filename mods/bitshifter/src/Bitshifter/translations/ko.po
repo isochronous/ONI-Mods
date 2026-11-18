@@ -87,6 +87,56 @@ msgctxt "STRINGS.BITSHIFTER.DIAGNOSTICPANEL.STATUS_SWITCHES_TOOLTIP"
 msgid "Bits switched on in the side screen. The output carries these and every input bit."
 msgstr "사이드 화면에서 켠 비트입니다. 출력은 이 비트들과 모든 입력 비트를 전달합니다."
 
+#. STRINGS.BITSHIFTER.FANOUTGATE.SIDE_SCREEN_TITLE
+msgctxt "STRINGS.BITSHIFTER.FANOUTGATE.SIDE_SCREEN_TITLE"
+msgid "Bits to send"
+msgstr "보낼 비트"
+
+#. STRINGS.BUILDINGS.PREFABS.FANOUTGATE.DESC
+msgctxt "STRINGS.BUILDINGS.PREFABS.FANOUTGATE.DESC"
+msgid "One signal can switch many bits of a ribbon at once."
+msgstr "신호 하나로 리본의 여러 비트를 한 번에 켜고 끌 수 있습니다."
+
+#. STRINGS.BUILDINGS.PREFABS.FANOUTGATE.EFFECT
+msgctxt "STRINGS.BUILDINGS.PREFABS.FANOUTGATE.EFFECT"
+msgid "Sends the bits chosen in its side screen on an <link=\"LOGICRIBBON\">Automation Ribbon</link> while its input receives a <b><style=\"logic_on\">Green Signal</style></b>.\n\nWhile the input receives a <b><style=\"logic_off\">Red Signal</style></b>, every bit of the ribbon carries a <b><style=\"logic_off\">Red Signal</style></b>."
+msgstr "입력이 <b><style=\"logic_on\">녹색 신호</style></b>를 받는 동안 사이드 화면에서 고른 비트를 <link=\"LOGICRIBBON\">자동화 리본</link>으로 보냅니다.\n\n입력이 <b><style=\"logic_off\">적색 신호</style></b>를 받는 동안에는 리본의 모든 비트가 <b><style=\"logic_off\">적색 신호</style></b>를 전달합니다."
+
+#. STRINGS.BUILDINGS.PREFABS.FANOUTGATE.LOGIC_PORT
+msgctxt "STRINGS.BUILDINGS.PREFABS.FANOUTGATE.LOGIC_PORT"
+msgid "Input"
+msgstr "입력"
+
+#. STRINGS.BUILDINGS.PREFABS.FANOUTGATE.LOGIC_PORT_ACTIVE
+msgctxt "STRINGS.BUILDINGS.PREFABS.FANOUTGATE.LOGIC_PORT_ACTIVE"
+msgid "<b><style=\"logic_on\">Green Signal</style></b>: send the chosen bits"
+msgstr "<b><style=\"logic_on\">녹색 신호</style></b>: 고른 비트를 보냅니다"
+
+#. STRINGS.BUILDINGS.PREFABS.FANOUTGATE.LOGIC_PORT_INACTIVE
+msgctxt "STRINGS.BUILDINGS.PREFABS.FANOUTGATE.LOGIC_PORT_INACTIVE"
+msgid "<b><style=\"logic_off\">Red Signal</style></b>: send a <b><style=\"logic_off\">Red Signal</style></b> on every bit"
+msgstr "<b><style=\"logic_off\">적색 신호</style></b>: 모든 비트에 <b><style=\"logic_off\">적색 신호</style></b>를 보냅니다"
+
+#. STRINGS.BUILDINGS.PREFABS.FANOUTGATE.LOGIC_PORT_OUTPUT
+msgctxt "STRINGS.BUILDINGS.PREFABS.FANOUTGATE.LOGIC_PORT_OUTPUT"
+msgid "Ribbon Output"
+msgstr "리본 출력"
+
+#. STRINGS.BUILDINGS.PREFABS.FANOUTGATE.NAME
+msgctxt "STRINGS.BUILDINGS.PREFABS.FANOUTGATE.NAME"
+msgid "<link=\"FANOUTGATE\">Fan-out Gate</link>"
+msgstr "<link=\"FANOUTGATE\">팬아웃 게이트</link>"
+
+#. STRINGS.BUILDINGS.PREFABS.FANOUTGATE.OUTPUT_PORT_ACTIVE
+msgctxt "STRINGS.BUILDINGS.PREFABS.FANOUTGATE.OUTPUT_PORT_ACTIVE"
+msgid "Sends a <b><style=\"logic_on\">Green Signal</style></b> on each chosen bit while the input receives a <b><style=\"logic_on\">Green Signal</style></b>"
+msgstr "입력이 <b><style=\"logic_on\">녹색 신호</style></b>를 받는 동안 고른 비트마다 <b><style=\"logic_on\">녹색 신호</style></b>를 보냅니다"
+
+#. STRINGS.BUILDINGS.PREFABS.FANOUTGATE.OUTPUT_PORT_INACTIVE
+msgctxt "STRINGS.BUILDINGS.PREFABS.FANOUTGATE.OUTPUT_PORT_INACTIVE"
+msgid "Otherwise, sends a <b><style=\"logic_off\">Red Signal</style></b> on that bit"
+msgstr "그 외에는 해당 비트에 <b><style=\"logic_off\">적색 신호</style></b>를 보냅니다"
+
 #. STRINGS.BUILDINGS.PREFABS.RIBBONDIAGNOSTICPANEL.DESC
 msgctxt "STRINGS.BUILDINGS.PREFABS.RIBBONDIAGNOSTICPANEL.DESC"
 msgid "Seeing every bit of a ribbon at once makes a circuit quick to trace."

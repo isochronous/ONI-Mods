@@ -10,7 +10,8 @@ namespace JumperBridges
 	/// (SetConnections), and an item at the cell (AddToNetworks) so the port there is told it is
 	/// connected. A wire building answers all three through its KAnimGraphTileVisualizer and its
 	/// LogicWire or Wire; this node answers them with no building at all, so there is no cost, no
-	/// yield, nothing to deconstruct and nothing to save. It plays the wire kanim through the
+	/// yield and nothing to deconstruct. Nor is the node saved: a wire next to it saves its own
+	/// connections, and the links it has to other nodes are saved by its bridges (see Restore). It plays the wire kanim through the
 	/// inherited Refresh(), which is how a real wire picks its "L", "LR", "LRU"... art, so a wire
 	/// dragged up to a bridge end gets the matching segment drawn back at it. Automation and power
 	/// work the same way; the kind says which manager, layers and art.
@@ -19,7 +20,8 @@ namespace JumperBridges
 	/// drag explicitly joined it to, never because a wire merely sits next to it. The node has
 	/// no connections of its own; it mirrors the bits its neighbours point at it, and a neighbour
 	/// only points at a cell because a drag paired the two (ApplyPathToConduitSystem), because its
-	/// saved connections did, or because the manager's Reconnect echoed a bit the other side had.
+	/// saved connections did, because the manager's Reconnect echoed a bit the other side had, or,
+	/// for a neighbouring node, because the bridges saved the link.
 	///
 	/// On a power network the node is not a Wire, so ElectricalUtilityNetwork.AddItem leaves it out
 	/// of the wattage groups: the circuit's limit is the bridge's own rating, as it is for a bridge
@@ -119,6 +121,9 @@ namespace JumperBridges
 			registered = true;
 			RefreshFromNeighbours();
 			UpdateArt();
+			foreach (JumperBridge owner in owners.ToArray())
+				if (owner != null)
+					Restore(owner.TakeSavedLinks(Cell));
 			UtilityConnections inherited = JumperBridge.TakeInherited(Kind, Cell);
 			if (inherited != 0)
 				InheritFromWire(inherited);
@@ -200,6 +205,58 @@ namespace JumperBridges
 			if (!owners.Contains(bridge))
 				owners.Add(bridge);
 			UpdateArt();
+			if (registered)
+				Restore(bridge.TakeSavedLinks(Cell));
+		}
+
+		/// <summary>The directions in which this node is joined to another node: what its bridges save for it.</summary>
+		public UtilityConnections NodeLinks()
+		{
+			if (released || !registered)
+				return 0;
+			UtilityConnections bits = Kind.Manager.GetConnections(Cell, is_physical_building: true);
+			UtilityConnections links = 0;
+			foreach (UtilityConnections direction in Directions)
+				if ((bits & direction) != 0 && NodeAt(direction.CellInDirection(Cell)) != null)
+					links |= direction;
+			return links;
+		}
+
+		/// <summary>
+		/// Links to other nodes from the last save. A wire saves its connections and the node
+		/// mirrors them, but between two nodes nothing else holds the link, so a load would leave
+		/// them apart. Each side saved the link; whichever node spawns second finds the other and
+		/// joins both, the way Cut clears both.
+		/// </summary>
+		private void Restore(UtilityConnections links)
+		{
+			if (links == 0 || released || !registered)
+				return;
+			IUtilityNetworkMgr system = Kind.Manager;
+			UtilityConnections joined = 0;
+			foreach (UtilityConnections direction in Directions)
+			{
+				if ((links & direction) == 0)
+					continue;
+				int neighbour = direction.CellInDirection(Cell);
+				BridgeEndNode other = NodeAt(neighbour);
+				if (other == null)
+					continue;
+				joined |= direction;
+				other.SetBits(system.GetConnections(neighbour, is_physical_building: false) | direction.InverseDirection());
+			}
+			if (joined == 0)
+				return;
+			SetBits(system.GetConnections(Cell, is_physical_building: false) | joined);
+			Debug.Log(JumperBridgesMod.LogPrefix + Kind + " end node at " + Cell + " rejoined " + joined + " from the save");
+		}
+
+		/// <summary>The registered node of this kind at the cell, if any.</summary>
+		private BridgeEndNode NodeAt(int cell)
+		{
+			if (!Grid.IsValidCell(cell) || !Kind.Nodes.TryGetValue(cell, out BridgeEndNode node) || node == null || !node.registered || node.released)
+				return null;
+			return node;
 		}
 
 		/// <summary>An owner is going; the node stays for the others and leaves with the last.</summary>

@@ -86,6 +86,56 @@ msgctxt "STRINGS.BITSHIFTER.DIAGNOSTICPANEL.STATUS_SWITCHES_TOOLTIP"
 msgid "Bits switched on in the side screen. The output carries these and every input bit."
 msgstr ""
 
+#. STRINGS.BITSHIFTER.FANOUTGATE.SIDE_SCREEN_TITLE
+msgctxt "STRINGS.BITSHIFTER.FANOUTGATE.SIDE_SCREEN_TITLE"
+msgid "Bits to send"
+msgstr ""
+
+#. STRINGS.BUILDINGS.PREFABS.FANOUTGATE.DESC
+msgctxt "STRINGS.BUILDINGS.PREFABS.FANOUTGATE.DESC"
+msgid "One signal can switch many bits of a ribbon at once."
+msgstr ""
+
+#. STRINGS.BUILDINGS.PREFABS.FANOUTGATE.EFFECT
+msgctxt "STRINGS.BUILDINGS.PREFABS.FANOUTGATE.EFFECT"
+msgid "Sends the bits chosen in its side screen on an <link=\"LOGICRIBBON\">Automation Ribbon</link> while its input receives a <b><style=\"logic_on\">Green Signal</style></b>.\n\nWhile the input receives a <b><style=\"logic_off\">Red Signal</style></b>, every bit of the ribbon carries a <b><style=\"logic_off\">Red Signal</style></b>."
+msgstr ""
+
+#. STRINGS.BUILDINGS.PREFABS.FANOUTGATE.LOGIC_PORT
+msgctxt "STRINGS.BUILDINGS.PREFABS.FANOUTGATE.LOGIC_PORT"
+msgid "Input"
+msgstr ""
+
+#. STRINGS.BUILDINGS.PREFABS.FANOUTGATE.LOGIC_PORT_ACTIVE
+msgctxt "STRINGS.BUILDINGS.PREFABS.FANOUTGATE.LOGIC_PORT_ACTIVE"
+msgid "<b><style=\"logic_on\">Green Signal</style></b>: send the chosen bits"
+msgstr ""
+
+#. STRINGS.BUILDINGS.PREFABS.FANOUTGATE.LOGIC_PORT_INACTIVE
+msgctxt "STRINGS.BUILDINGS.PREFABS.FANOUTGATE.LOGIC_PORT_INACTIVE"
+msgid "<b><style=\"logic_off\">Red Signal</style></b>: send a <b><style=\"logic_off\">Red Signal</style></b> on every bit"
+msgstr ""
+
+#. STRINGS.BUILDINGS.PREFABS.FANOUTGATE.LOGIC_PORT_OUTPUT
+msgctxt "STRINGS.BUILDINGS.PREFABS.FANOUTGATE.LOGIC_PORT_OUTPUT"
+msgid "Ribbon Output"
+msgstr ""
+
+#. STRINGS.BUILDINGS.PREFABS.FANOUTGATE.NAME
+msgctxt "STRINGS.BUILDINGS.PREFABS.FANOUTGATE.NAME"
+msgid "<link=\"FANOUTGATE\">Fan-out Gate</link>"
+msgstr ""
+
+#. STRINGS.BUILDINGS.PREFABS.FANOUTGATE.OUTPUT_PORT_ACTIVE
+msgctxt "STRINGS.BUILDINGS.PREFABS.FANOUTGATE.OUTPUT_PORT_ACTIVE"
+msgid "Sends a <b><style=\"logic_on\">Green Signal</style></b> on each chosen bit while the input receives a <b><style=\"logic_on\">Green Signal</style></b>"
+msgstr ""
+
+#. STRINGS.BUILDINGS.PREFABS.FANOUTGATE.OUTPUT_PORT_INACTIVE
+msgctxt "STRINGS.BUILDINGS.PREFABS.FANOUTGATE.OUTPUT_PORT_INACTIVE"
+msgid "Otherwise, sends a <b><style=\"logic_off\">Red Signal</style></b> on that bit"
+msgstr ""
+
 #. STRINGS.BUILDINGS.PREFABS.RIBBONDIAGNOSTICPANEL.DESC
 msgctxt "STRINGS.BUILDINGS.PREFABS.RIBBONDIAGNOSTICPANEL.DESC"
 msgid "Seeing every bit of a ribbon at once makes a circuit quick to trace."

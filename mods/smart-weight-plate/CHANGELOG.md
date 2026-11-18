@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.1 - 2026-11-08
+
+- Works with the U60 update as well as the current game.
+
 ## 0.3.0 - 2026-10-12
 
 ### Added

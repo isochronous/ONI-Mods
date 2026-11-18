@@ -170,4 +170,78 @@ namespace Bitshifter.Tests
 				Toggle.HandleToggle();
 		}
 	}
+
+	/// <summary>
+	/// A Fan-out Gate in one row with a switch on its input and a Ribbon Reader and an alarm on its
+	/// output, wired the way a player would. Cells: the switch at 0, the gate at 1-2 (input 1,
+	/// output 2), the Reader at 3-4 and the alarm at 5. The wire from the switch (0 to 1) is drawn
+	/// by <see cref="WireInput"/> and removed by <see cref="CutInput"/>.
+	/// </summary>
+	internal sealed class GateRig
+	{
+		public const int Width = 6;
+		public const int Height = 1;
+
+		public GameObject Switch, Gate, Reader, Alarm;
+		public Bitshifter.FanoutGate GatePart;
+		public LogicSwitch Toggle;
+		public LogicRibbonReader ReaderPart;
+		private CellRect r;
+
+		/// <param name="readerBit">The Ribbon Reader's bit, 0-based.</param>
+		public static IEnumerator Build(TestContext t, CellRect r, bool wireInput, int readerBit, System.Action<GateRig> done)
+		{
+			var rig = new GateRig { r = r };
+			rig.Switch = t.World.Build("LogicSwitch", r.Cell(0, 0));
+			rig.Toggle = rig.Switch.GetComponent<LogicSwitch>();
+			if (rig.Toggle.IsSwitchedOn)
+				rig.Toggle.HandleToggle();
+			rig.Gate = t.World.Build(FanoutGateConfig.ID, r.Cell(1, 0));
+			rig.Reader = t.World.Build("LogicRibbonReader", r.Cell(3, 0));
+			rig.Alarm = t.World.Build("LogicAlarm", r.Cell(5, 0));
+			rig.GatePart = rig.Gate.GetComponent<Bitshifter.FanoutGate>();
+			rig.ReaderPart = rig.Reader.GetComponent<LogicRibbonReader>();
+			yield return t.WaitGameSeconds(1);
+			rig.ReaderPart.SetBitSelection(readerBit);
+			yield return t.WaitGameSeconds(0.5);
+
+			UtilityDragSession ribbon = t.Tools.UtilityTool("LogicRibbon", SimHashes.Copper);
+			yield return ribbon.Path(r.Cell(2, 0), r.Cell(3, 0));
+			ribbon.Dispose();
+			UtilityDragSession wire = t.Tools.UtilityTool("LogicWire", SimHashes.Copper);
+			yield return wire.Path(r.Cell(4, 0), r.Cell(5, 0));
+			wire.Dispose();
+			if (wireInput)
+				yield return rig.WireInput(t);
+			else
+				yield return t.WaitGameSeconds(1);
+			done(rig);
+		}
+
+		/// <summary>The wire from the switch to the gate's input.</summary>
+		public IEnumerator WireInput(TestContext t)
+		{
+			UtilityDragSession wire = t.Tools.UtilityTool("LogicWire", SimHashes.Copper);
+			yield return wire.Path(r.Cell(0, 0), r.Cell(1, 0));
+			wire.Dispose();
+			yield return t.WaitGameSeconds(1);
+		}
+
+		/// <summary>Takes the input wire away, both pieces at once, as a deconstruct drag over it does.</summary>
+		public IEnumerator CutInput(TestContext t)
+		{
+			for (int x = 1; x >= 0; x--)
+				t.World.Destroy(t.World.At(r.Cell(x, 0), ObjectLayer.LogicWire));
+			yield return t.WaitGameSeconds(1);
+		}
+
+		/// <summary>The value the alarm's input port reads.</summary>
+		public int AlarmInput => Alarm.GetComponent<LogicPorts>().GetInputValue(LogicAlarm.INPUT_PORT_ID);
+
+		public void Set(bool on)
+		{
+			if (Toggle.IsSwitchedOn != on)
+				Toggle.HandleToggle();
+		}
+	}
 }

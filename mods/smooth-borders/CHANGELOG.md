@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.2 - 2026-11-08
+
+- Works with the U60 update as well as the current game.
+
 ## 0.1.1 - 2026-10-21
 
 - Chinese (Simplified), Korean and Russian translations.

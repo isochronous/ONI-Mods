@@ -5,7 +5,7 @@
   <PropertyGroup>
     <AssemblyName>CornerBuildAnything</AssemblyName>
     <RootNamespace>CornerBuildAnything</RootNamespace>
-    <Version>0.1.0</Version>
+    <Version>0.1.1</Version>
   </PropertyGroup>
 
   <Import Project="$(OniCommon)oni-mod.targets" />

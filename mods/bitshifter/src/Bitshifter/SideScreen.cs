@@ -12,6 +12,12 @@ namespace Bitshifter
 	/// had (tall enough to make it obvious there is more below), with a permanent scrollbar
 	/// on the right. The scroll view is the game's own KScrollRect and the bar is cloned from
 	/// a vanilla side screen, so both look and feel like the rest of the details panel.
+	/// This patch wraps the screen for every target, and stands down with the Reader and Writer
+	/// patches when the mod yields to another mod. Then
+	/// ToolkitPatches.LogicBitSelectorSideScreen_SetTarget_GatePatch wraps it
+	/// (<see cref="WrapRows"/>) only while a Fan-out Gate is shown and unwraps it
+	/// (<see cref="UnwrapRows"/>) for any other target, so the other mod's Reader and Writer get
+	/// the screen as it would be without Bitshifter.
 	/// </summary>
 	[HarmonyPatch(typeof(LogicBitSelectorSideScreen), nameof(LogicBitSelectorSideScreen.SetTarget))]
 	internal static class LogicBitSelectorSideScreen_SetTarget_Patch
@@ -27,13 +33,105 @@ namespace Bitshifter
 
 		private static void Postfix(LogicBitSelectorSideScreen __instance)
 		{
-			if (__instance.rowPrefab == null)
+			WrapRows(__instance);
+		}
+
+		/// <summary>What wrapping a screen changed, so <see cref="UnwrapRows"/> can put it back.</summary>
+		private sealed class Original
+		{
+			public RectTransform Rows;
+			public GameObject Scroll;
+			public Vector2 AnchorMin, AnchorMax, Pivot, Position, Size;
+			public bool HadFitter;
+			public ContentSizeFitter.FitMode FitterMode;
+			public readonly List<KeyValuePair<LayoutElement, Vector2>> Widths = new List<KeyValuePair<LayoutElement, Vector2>>();
+			public readonly List<KeyValuePair<VerticalLayoutGroup, Vector2Int>> Groups = new List<KeyValuePair<VerticalLayoutGroup, Vector2Int>>();
+		}
+
+		private static readonly Dictionary<LogicBitSelectorSideScreen, Original> Originals = new Dictionary<LogicBitSelectorSideScreen, Original>();
+
+		/// <summary>Puts the screen's rows in the scroll view, unless they already are.</summary>
+		internal static void WrapRows(LogicBitSelectorSideScreen screen)
+		{
+			if (screen.rowPrefab == null)
 				return;
-			RectTransform rows = __instance.rowPrefab.transform.parent as RectTransform;
+			RectTransform rows = screen.rowPrefab.transform.parent as RectTransform;
 			if (rows == null || rows.parent == null || IsWrapped(rows))
 				return;
-			Wrap(rows, RowListHeight(__instance.rowPrefab, rows) * HeightScale);
-			FitUnderHeader(__instance);
+			Original original = Record(screen, rows);
+			Wrap(rows, RowListHeight(screen.rowPrefab, rows) * HeightScale);
+			original.Scroll = rows.parent.gameObject;
+			Originals[screen] = original;
+			FitUnderHeader(screen);
+		}
+
+		/// <summary>
+		/// Takes the rows out of the scroll view again and puts back every value wrapping changed,
+		/// so the screen is laid out as the game (or another mod) made it. Does nothing to a screen
+		/// that is not wrapped.
+		/// </summary>
+		internal static void UnwrapRows(LogicBitSelectorSideScreen screen)
+		{
+			if (!Originals.TryGetValue(screen, out Original original))
+				return;
+			Originals.Remove(screen);
+			RectTransform rows = original.Rows;
+			GameObject scroll = original.Scroll;
+			if (rows == null || scroll == null)
+				return;
+			Transform parent = scroll.transform.parent;
+			rows.SetParent(parent, false);
+			rows.SetSiblingIndex(scroll.transform.GetSiblingIndex());
+			rows.anchorMin = original.AnchorMin;
+			rows.anchorMax = original.AnchorMax;
+			rows.pivot = original.Pivot;
+			rows.anchoredPosition = original.Position;
+			rows.sizeDelta = original.Size;
+			ContentSizeFitter fitter = rows.GetComponent<ContentSizeFitter>();
+			if (!original.HadFitter && fitter != null)
+				Object.DestroyImmediate(fitter);
+			else if (fitter != null)
+				fitter.verticalFit = original.FitterMode;
+			foreach (KeyValuePair<LayoutElement, Vector2> width in original.Widths)
+			{
+				if (width.Key == null)
+					continue;
+				width.Key.minWidth = width.Value.x;
+				width.Key.preferredWidth = width.Value.y;
+			}
+			foreach (KeyValuePair<VerticalLayoutGroup, Vector2Int> group in original.Groups)
+			{
+				if (group.Key == null)
+					continue;
+				group.Key.childControlWidth = group.Value.x != 0;
+				group.Key.childForceExpandWidth = group.Value.y != 0;
+			}
+			scroll.SetActive(false);
+			Object.Destroy(scroll);
+			if (parent is RectTransform layout)
+				LayoutRebuilder.MarkLayoutForRebuild(layout);
+		}
+
+		private static Original Record(LogicBitSelectorSideScreen screen, RectTransform rows)
+		{
+			ContentSizeFitter fitter = rows.GetComponent<ContentSizeFitter>();
+			var original = new Original
+			{
+				Rows = rows,
+				AnchorMin = rows.anchorMin,
+				AnchorMax = rows.anchorMax,
+				Pivot = rows.pivot,
+				Position = rows.anchoredPosition,
+				Size = rows.sizeDelta,
+				HadFitter = fitter != null,
+				FitterMode = fitter != null ? fitter.verticalFit : ContentSizeFitter.FitMode.Unconstrained,
+			};
+			foreach (LayoutElement element in screen.GetComponentsInChildren<LayoutElement>(true))
+				original.Widths.Add(new KeyValuePair<LayoutElement, Vector2>(element, new Vector2(element.minWidth, element.preferredWidth)));
+			foreach (VerticalLayoutGroup group in screen.GetComponentsInChildren<VerticalLayoutGroup>(true))
+				original.Groups.Add(new KeyValuePair<VerticalLayoutGroup, Vector2Int>(group,
+					new Vector2Int(group.childControlWidth ? 1 : 0, group.childForceExpandWidth ? 1 : 0)));
+			return original;
 		}
 
 		/// <summary>

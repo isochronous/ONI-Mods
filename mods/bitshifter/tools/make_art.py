@@ -1,5 +1,5 @@
 """Build the Ribbon Reader and Ribbon Writer kanims with the bit display, and the Ribbon
-Diagnostic Panel's kanim with its build menu icon.
+Diagnostic Panel's and the Fan-out Gate's kanims with their build menu icons.
 
     python tools/make_art.py [--game <OxygenNotIncluded folder>] [--preview [out.png]] [--check]
 
@@ -35,7 +35,13 @@ bounds unset (NaN), so they are computed from the frame's sprites. The texture a
 file are copied as they are. A new export from the artist goes into anim-original and through
 this script again.
 
---check builds all three in the temp folder instead and fails when they differ from the
+The Fan-out Gate's kanim (fanout_gate, by 3GuB) is read the same way from
+anim-original/fanout_gate, where the export's files are named logic_fanout_*, and written to
+src/Bitshifter/anim/assets/fanout_gate as fanout_gate_* with the build named fanout_gate, so
+folder, files and build share one name as the other kanims do. Its texture is copied as it is
+and its frame bounds are computed as the panel's.
+
+--check builds all four in the temp folder instead and fails when they differ from the
 committed ones (after a game update or a new export, say).
 """
 import argparse
@@ -50,14 +56,22 @@ from scipy import ndimage
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "..", "..", "common", "tools", "Kanim"))
-from kanim import (Sprite, drift, extract, load, read_anim_file, read_anims, read_build, read_kanim,  # noqa: E402
-                   render, show, vanilla, write_anim_file, write_kanim)
+from kanim import (Sprite, drift, extract, load, read_anim_file, read_anims, read_build, read_build_file,  # noqa: E402
+                   read_kanim, render, show, vanilla, write_anim_file, write_build_file, write_kanim)
 
 ASSETS = os.path.join(ROOT, "src", "Bitshifter", "anim", "assets")
 
 # The Ribbon Diagnostic Panel's kanim, as the artist exported it.
 DIAG = "diagnostic_panel"
 DIAG_ORIGINAL = os.path.join(ROOT, "anim-original", DIAG)
+
+# The Fan-out Gate's kanim, as the artist exported it (files named logic_fanout_*).
+GATE = "fanout_gate"
+GATE_ORIGINAL = os.path.join(ROOT, "anim-original", GATE)
+GATE_EXPORT = "logic_fanout"
+
+# The artists' kanims: (name in assets, export folder, the export's file base name).
+EXPORTS = ((DIAG, DIAG_ORIGINAL, DIAG), (GATE, GATE_ORIGINAL, GATE_EXPORT))
 
 # Display colours: an amber LED display behind a dark warm window, unlit segments faintly visible.
 PANEL = (46, 40, 36, 255)
@@ -331,17 +345,23 @@ def build(out_root, game, new_name, game_name, box_symbol, face_colour, turn):
     print(f"{new_name}: display centred at ({gx:.1f}, {gy:.1f})")
 
 
-def build_panel(out_root):
-    """The Ribbon Diagnostic Panel: the artist's kanim from anim-original as it is (texture and
-    build file copied byte for byte, so the sprites keep the export's own UVs), with each anim
-    frame's bounds, which the export leaves NaN, set to the box around its sprites."""
-    folder = os.path.join(out_root, DIAG)
+def build_export(out_root, name, original, base):
+    """An artist's kanim from anim-original as it is (texture copied byte for byte, so the
+    sprites keep the export's own UVs), with each anim frame's bounds, which the export leaves
+    NaN, set to the box around its sprites. The files are named after the kanim; the build file
+    is copied as it is when its name already matches, else written back with the name changed."""
+    folder = os.path.join(out_root, name)
     os.makedirs(folder, exist_ok=True)
-    for suffix in ("_0.png", "_build.bytes"):
-        shutil.copyfile(os.path.join(DIAG_ORIGINAL, DIAG + suffix), os.path.join(folder, DIAG + suffix))
-    with open(os.path.join(DIAG_ORIGINAL, DIAG + "_build.bytes"), "rb") as f:
-        built, _ = read_build(f.read())
-    with open(os.path.join(DIAG_ORIGINAL, DIAG + "_anim.bytes"), "rb") as f:
+    shutil.copyfile(os.path.join(original, base + "_0.png"), os.path.join(folder, name + "_0.png"))
+    with open(os.path.join(original, base + "_build.bytes"), "rb") as f:
+        build_bytes = f.read()
+    raw = read_build_file(build_bytes)
+    if raw.name != name:
+        build_bytes = write_build_file(raw._replace(name=name))
+    with open(os.path.join(folder, name + "_build.bytes"), "wb") as f:
+        f.write(build_bytes)
+    built, _ = read_build(build_bytes)
+    with open(os.path.join(original, base + "_anim.bytes"), "rb") as f:
         anim = read_anim_file(f.read())
     for _, _, _, frames in anim.anims:
         for frame in frames:
@@ -357,9 +377,9 @@ def build_panel(out_root):
                 ex, ey = abs(a) * pw / 2 + abs(c) * ph / 2, abs(b) * pw / 2 + abs(d) * ph / 2
                 x1, x2, y1, y2 = min(x1, x - ex), max(x2, x + ex), min(y1, y - ey), max(y2, y + ey)
             frame[:4] = [(x1 + x2) / 2, (y1 + y2) / 2, x2 - x1, y2 - y1]
-    with open(os.path.join(folder, DIAG + "_anim.bytes"), "wb") as f:
+    with open(os.path.join(folder, name + "_anim.bytes"), "wb") as f:
         f.write(write_anim_file(anim))
-    print(f"{DIAG}: copied from {os.path.relpath(DIAG_ORIGINAL, ROOT)} with its anim bounds set")
+    print(f"{name}: copied from {os.path.relpath(original, ROOT)} with its anim bounds set")
 
 
 def preview(path):
@@ -391,9 +411,10 @@ def main():
     extract([spec[0] for spec in BUILDINGS.values()], a.game)
     for new_name, spec in BUILDINGS.items():
         build(out_root, a.game, new_name, *spec)
-    build_panel(out_root)
+    for name, original, base in EXPORTS:
+        build_export(out_root, name, original, base)
     if a.check:
-        changed = [f for n in list(BUILDINGS) + [DIAG] for f in drift(os.path.join(out_root, n), os.path.join(ASSETS, n))]
+        changed = [f for n in list(BUILDINGS) + [e[0] for e in EXPORTS] for f in drift(os.path.join(out_root, n), os.path.join(ASSETS, n))]
         if changed:
             sys.exit("the committed kanims differ from a fresh build: " + ", ".join(changed))
         print("the committed kanims match a fresh build")
