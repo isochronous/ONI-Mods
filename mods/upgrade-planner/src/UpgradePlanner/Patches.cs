@@ -94,5 +94,16 @@ namespace UpgradePlanner
 				Orders.FollowRebuild(__instance);
 			}
 		}
+
+		/// <summary>The game's placement of a rebuilt building's order, handed to the rebuild waiting for it; see <see cref="Orders.Placed"/>.</summary>
+		[HarmonyPatch(typeof(BuildingDef), nameof(BuildingDef.TryPlace), new[] { typeof(GameObject), typeof(Vector3), typeof(Orientation), typeof(System.Collections.Generic.IList<Tag>), typeof(string), typeof(bool), typeof(int) })]
+		public static class BuildingDef_TryPlace_Patch
+		{
+			public static void Postfix(BuildingDef __instance, GameObject src_go, Vector3 pos, GameObject __result)
+			{
+				if (__result != null && src_go == null)
+					Orders.Placed(__instance, pos, __result);
+			}
+		}
 	}
 }

@@ -165,6 +165,9 @@ namespace UpgradePlanner
 		/// <para>The game places the order only if the spot is valid by then. For a wide tile (a
 		/// 3-wide farm tile) it is not yet: the old tile's cells are still being cleared, the placement
 		/// is refused, and the building would be gone with nothing ordered in its place.</para>
+		/// <para>The order is known by the game's placement of it (<see cref="Placed"/>), not by what
+		/// stands in the cell: a bridge is never entered on its own layer at its cell, only at its two
+		/// ends, where a neighbouring bridge's order can stand.</para>
 		/// </summary>
 		public static void FollowRebuild(Reconstructable reconstructable)
 		{
@@ -174,7 +177,6 @@ namespace UpgradePlanner
 				return;
 			var rebuild = new Rebuild
 			{
-				Old = building.gameObject,
 				Def = building.Def,
 				Cell = Grid.PosToCell(building),
 				Position = building.transform.position,
@@ -184,8 +186,31 @@ namespace UpgradePlanner
 				Settings = BlueprintsCompat.TakeSettings(building.gameObject),
 				Name = building.name,
 				Finish = building.gameObject == finishing,
+				Game = Game.Instance,
 			};
+			following.Add(rebuild);
 			Game.Instance.StartCoroutine(Follow(rebuild));
+		}
+
+		/// <summary>Rebuilds waiting for their order, oldest first.</summary>
+		private static readonly List<Rebuild> following = new List<Rebuild>();
+
+		/// <summary>
+		/// Called as the game places a building with no tool behind it, as a reconstruct does: an
+		/// order of the type, at the cell, of a rebuild still waiting for one is that rebuild's.
+		/// </summary>
+		public static void Placed(BuildingDef def, Vector3 pos, GameObject order)
+		{
+			if (following.Count == 0)
+				return;
+			following.RemoveAll(r => r.Game != Game.Instance);
+			int cell = Grid.PosToCell(pos);
+			foreach (Rebuild rebuild in following)
+				if (rebuild.Order == null && rebuild.Def == def && rebuild.Cell == cell)
+				{
+					rebuild.Order = order;
+					return;
+				}
 		}
 
 		/// <summary>Unpaused frames <see cref="FollowRebuild"/> keeps trying to place the order before giving the building up.</summary>
@@ -197,7 +222,6 @@ namespace UpgradePlanner
 		/// <summary>A reconstruct being seen through: what the old building was, read while it stood.</summary>
 		private sealed class Rebuild
 		{
-			public GameObject Old;
 			public BuildingDef Def;
 			public int Cell;
 			public Vector3 Position;
@@ -207,25 +231,30 @@ namespace UpgradePlanner
 			public Dictionary<string, JObject> Settings;
 			public string Name;
 			public bool Finish;
+			public Game Game;
+			/// <summary>The new building's order, once the game has placed it; see <see cref="Orders.Placed"/>.</summary>
+			public GameObject Order;
 
-			/// <summary>The new building's order, once the game has placed it (the old building can stand a frame longer).</summary>
-			public GameObject Placed()
+			/// <summary>True once the order has been placed: it is completed, or left be if it is already gone.</summary>
+			public bool Settled()
 			{
-				GameObject there = Grid.Objects[Cell, (int)Def.ObjectLayer];
-				return there != null && there != Old && there.GetComponent<Building>()?.Def == Def ? there : null;
+				if (ReferenceEquals(Order, null))
+					return false;
+				following.Remove(this);
+				if (Order != null)
+					Complete(Order);
+				return true;
 			}
 
-			/// <summary>The order the game did not place, placed as it would have.</summary>
-			public GameObject Place()
+			/// <summary>The order the game did not place, placed as it would have (its placement settles it).</summary>
+			public void Place()
 			{
-				GameObject order = Def.TryPlace(null, Position, Orientation, Materials, Facade, restrictToActiveWorld: false);
-				if (order != null)
+				if (Def.TryPlace(null, Position, Orientation, Materials, Facade, restrictToActiveWorld: false) != null)
 					Debug.Log("[UpgradePlanner] Placed the rebuilt " + Def.PrefabID + " at cell " + Cell + ".");
-				return order;
 			}
 
 			/// <summary>The order given the settings and, for an instant rebuild, finished.</summary>
-			public void Complete(GameObject order)
+			private void Complete(GameObject order)
 			{
 				BlueprintsCompat.GiveSettings(Settings, order, Name);
 				if (Finish && order.GetComponent<Constructable>() != null)
@@ -245,23 +274,22 @@ namespace UpgradePlanner
 			while (GameClock.Instance.GetTime() < due)
 			{
 				yield return null;
-				GameObject order = rebuild.Placed();
-				if (order != null)
-				{
-					rebuild.Complete(order);
+				if (rebuild.Settled())
 					yield break;
-				}
 				if (!Paused)
 					frames++;
 			}
 			yield return EachUnpausedFrame(PlaceFrames - frames, () =>
 			{
-				GameObject order = rebuild.Placed() ?? rebuild.Place();
-				if (order == null)
-					return false;
-				rebuild.Complete(order);
-				return true;
-			}, () => Debug.LogWarning("[UpgradePlanner] Could not place the rebuilt " + rebuild.Def.PrefabID + " at cell " + rebuild.Cell + "."), checkFirst: true);
+				if (rebuild.Settled())
+					return true;
+				rebuild.Place();
+				return rebuild.Settled();
+			}, () =>
+			{
+				following.Remove(rebuild);
+				Debug.LogWarning("[UpgradePlanner] Could not place the rebuilt " + rebuild.Def.PrefabID + " at cell " + rebuild.Cell + ".");
+			}, checkFirst: true);
 		}
 
 		/// <summary>
