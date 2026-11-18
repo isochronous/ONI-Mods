@@ -15,7 +15,7 @@ namespace Bitshifter
 	/// where the vanilla screen would highlight one.
 	///
 	/// The art has no tints: each look is an anim of its own. "off" with neither port wired,
-	/// "on_1_1111" while the input is on and "on_0_0000" while it is off. The game raises no event
+	/// "on_1" while the input is on and "on_0" while it is off. The game raises no event
 	/// when a wire is added to or removed from a port, so Render200ms polls the wiring, as the
 	/// Ribbon Diagnostic Panel does.
 	/// </summary>
@@ -29,8 +29,8 @@ namespace Bitshifter
 		public const int Mask = (int)((1L << BitshifterMod.Bits) - 1);
 
 		public const string AnimOff = "off";
-		public const string AnimInputOn = "on_1_1111";
-		public const string AnimInputOff = "on_0_0000";
+		public const string AnimInputOn = "on_1";
+		public const string AnimInputOff = "on_0";
 
 		private static readonly System.Action<object, object> OnLogicValueChangedDelegate =
 			(context, data) => ((FanoutGate)context).OnLogicValueChanged(data);
