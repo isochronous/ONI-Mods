@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.3.2 - 2026-11-20
 
 - Updated for the U60 update, which it now needs.
 
