@@ -32,8 +32,14 @@ namespace MotionSensorRange
 		private static readonly FieldInfo DirtyField = AccessTools.Field(typeof(LogicDuplicantSensor), "pickupablesDirty");
 		private static readonly MethodInfo OnPickupablesChangedMethod = AccessTools.Method(typeof(LogicDuplicantSensor), "OnPickupablesChanged");
 		private static readonly MethodInfo RefreshReachableCellsMethod = AccessTools.Method(typeof(LogicDuplicantSensor), "RefreshReachableCells");
+		// Open-instance form of the private callback, so the partitioner can call it with the sensor as context.
+		// Null when the method is missing or its signature no longer fits, which reaches the missing-internals warning.
+		private static readonly Action<LogicDuplicantSensor, object> OnPickupablesChangedOpen = OnPickupablesChangedMethod == null ? null
+			: (Action<LogicDuplicantSensor, object>)Delegate.CreateDelegate(typeof(Action<LogicDuplicantSensor, object>), OnPickupablesChangedMethod, throwOnBindFailure: false);
+		private static readonly Action<object, object> PickupablesChangedCallback =
+			(context, data) => OnPickupablesChangedOpen((LogicDuplicantSensor)context, data);
 		private static readonly bool SensorInternalsFound = ExtentsField != null && EntryField != null && DirtyField != null
-			&& OnPickupablesChangedMethod != null && RefreshReachableCellsMethod != null;
+			&& OnPickupablesChangedMethod != null && OnPickupablesChangedOpen != null && RefreshReachableCellsMethod != null;
 		private static bool warnedMissingInternals;
 
 		private static readonly System.Action<object, object> OnCopySettingsDelegate =
@@ -160,10 +166,9 @@ namespace MotionSensorRange
 
 			var entry = (HandleVector<int>.Handle)EntryField.GetValue(sensor);
 			GameScenePartitioner.Instance.Free(ref entry);
-			var callback = (Action<object>)Delegate.CreateDelegate(typeof(Action<object>), sensor, OnPickupablesChangedMethod);
 			EntryField.SetValue(sensor, GameScenePartitioner.Instance.Add(
 				"DuplicantSensor.PickupablesChanged", gameObject, extents,
-				GameScenePartitioner.Instance.pickupablesChangedLayer, callback));
+				GameScenePartitioner.Instance.pickupablesChangedLayer, PickupablesChangedCallback, sensor));
 
 			DirtyField.SetValue(sensor, true);
 			RefreshReachableCellsMethod.Invoke(sensor, null);

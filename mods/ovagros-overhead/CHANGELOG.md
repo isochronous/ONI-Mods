@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Fixed for the U60 update, which it now needs: the ceiling vine follows U60's crop changes.
+
 ## 0.1.0 - 2026-10-29
 
 - First version: Ovagro grows from ceilings. Pips plant Ovagro seeds on natural ceilings, and the vines grow along them.
