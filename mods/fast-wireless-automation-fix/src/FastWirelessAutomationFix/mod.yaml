@@ -1,0 +1,7 @@
+title: "Fast Wireless Automation Fix"
+description: "Fixes the Fast Wireless Automation+ error when you load a second save in one session: the wireless emitters of the new colony no longer call the receivers of the previous one. Requires Fast Wireless Automation+."
+staticID: "Isochronous.FastWirelessAutomationFix"
+supportedContent: ALL
+minimumSupportedBuild: 744825
+version: 0.1.0
+APIVersion: 2

@@ -1,0 +1,1 @@
+Personal fix for Fast Wireless Automation+ losing its channels between loads
