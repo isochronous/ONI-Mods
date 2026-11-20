@@ -84,9 +84,11 @@ git commit -m "OM-001: <what changed>"
 git push origin OM-001-populate-context
 ```
 
-A finished task branch returns to `main` through a pull request on `isochronous/ONI-Mods`, one per repository (#12 onward; the early ones were merge commits, #17 onward squash merges). When the task changes `common/`, the submodule branch is pushed and merged into oni-mods-common's `main` with a merge commit, not a squash, so the commit the superproject points at stays reachable; the superproject PR then points `common` at it.
+A finished task branch returns to `main` through a pull request on `isochronous/ONI-Mods`, one per repository (#12 onward; #15 to #22 were squash merges, #23 onward merge commits). When the task changes `common/`, the submodule branch is pushed and merged into oni-mods-common's `main` with a merge commit, not a squash, so the commit the superproject points at stays reachable. The order is: merge the common PR, commit `common: to main after #N` on the ONI-Mods branch pointing `common` at that merge, push, then merge the ONI-Mods PR. Delete both branches, local and remote, once merged.
 
-A change that has to wait for a game update's release goes on a held branch stacked on the task branch (OM-012: `OM-012-u60-only`), pushed but not opened as a pull request until the update ships.
+Bringing `main` into a task branch goes through `ks merge origin/main` (`icon-merge`). When both sides moved `common`, it stops with "1 conflicted path(s) are not this workflow's to resolve: common" and leaves the merge open: check out in `common/` a commit that contains both sides (usually common's `main` after both were merged), `git add common`, run `ks merge-generated`, then `git commit --no-edit`.
+
+A change that has to wait for a game update's release goes on a held branch stacked on the task branch (OM-012: `OM-012-u60-only`), pushed but not opened as a pull request until the update ships. Bring it up to date with `main` like any task branch; it builds only against the update's game DLLs.
 
 ### Everyday Mod Work
 **Id:** blk-18b48635f7e5  

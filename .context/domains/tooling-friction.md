@@ -158,3 +158,11 @@ OM-010 store updates used `write plan`/`apply` section ops whose bodies began wi
 - What it did: the brief was 27 of 510 candidates in 8026 of 8192 bytes, and its pointers were copies of each mod node's `error-handling.md`; the explore unit used none of them. Same failure as the 2026-11-07 OM-012 entry.
 - Expected: one pointer for a block every scoped node carries a copy of, leaving the budget for records that differ.
 - Instead: later packets were scoped to the files a unit touches (`mods/fast-wireless-automation-fix`, `common/tools/TestRunner`), and the units worked from the spec.
+
+## 2026-11-18 merge: a submodule conflict stops ks merge with no route through it
+**Id:** blk-12f7dbb48fb8
+
+- Invocation: `ks merge origin/main` on `OM-013-fanout-gate` (and again on the OM-015 and OM-012-u60-only branches), where `main` and the branch had both moved the `common` submodule pointer.
+- What it did: "human sources merged ... 1 path(s) left conflicted", then `refused  generated conflict stages cleared  0 cleared, 1 left to a person` and "refused: 1 conflicted path(s) are not this workflow's to resolve: common. Resolve them, then run `ks merge-generated` and commit". The merge was left open, uncommitted.
+- Expected: the refusal to say how a gitlink conflict is resolved (pick a commit containing both sides), since every task that changes `common/` meets it after the common PR lands.
+- Instead: checked out common's `main` in `common/`, `git add common`, `ks merge-generated`, `git commit --no-edit`; recorded in `workflows/branching.md` (Task Work).

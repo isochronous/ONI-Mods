@@ -70,7 +70,8 @@ python common/tools/Translations/translations.py [mod-folder ...] [--build]
 
 ### 5. Release
 **Id:** blk-e23962568cff  
-**Tags:** release-process, steam-workshop  
+**Tags:** release-process, steam-workshop
+
 **Trigger**: by hand, from the owner's machine, through `/release-mods` (`.claude/commands/release-mods.md`) or directly  
 **Purpose**: version, package, tag and publish every mod that changed since its last tag
 
@@ -80,14 +81,18 @@ python common/tools/Release/release_mods.py
 python common/tools/Release/release_mods.py sweep-zones smart-weight-plate --bump-for sweep-zones=minor
 ```
 
+Mod names are separate arguments. A comma-separated list (`jumper-bridges,upgrade-planner`, as `/release-mods` receives it) is read as one folder name and refused as "not a mod repo"; split it on the commas first.
+
 A mod is due when commits since its last `<folder>-v*` tag touched `src/` or `publish/preview.png`/`.jpg`. For each due mod the script:
 
 1. bumps `mod_info.yaml` and the csproj `<Version>` (patch unless told otherwise; not at all if already bumped or never released), turns `## Unreleased` in `CHANGELOG.md` into `## X.Y.Z - <date>`, commits "Release <folder> vX.Y.Z" and pushes. A mod without a changelog entry is skipped.
 2. runs `release.py`: Release build, `publish/content` staged from the build, `publish/<Mod>.zip`, tag `<folder>-vX.Y.Z`, GitHub release with `<Mod>-<version>.zip` attached and the changelog section as its body.
-3. updates the Steam Workshop item (when the mod has one) with `common/tools/WorkshopUpload`: the zip, the preview, `publish/workshop-description.txt` and the changelog section as the change note. Steam must be running as the item owner. The item id is in `publish/workshop-id.txt`. A description edited on the Workshop page is never overwritten; it is saved as `publish/workshop-description.live.txt` for merging by hand.
+3. updates the Steam Workshop item (when the mod has one) with `common/tools/WorkshopUpload`: the zip, the preview, `publish/workshop-description.txt` and the changelog section as the change note. Steam must be running, online, as the item owner. The item id is in `publish/workshop-id.txt`. A description edited on the Workshop page is never overwritten; it is saved as `publish/workshop-description.live.txt` for merging by hand.
 4. posts a release notice to Discord.
 
 Mods with uncommitted changes are skipped, never stashed. `--dry-run` stops after the zip; `--no-workshop` makes a GitHub-only release.
+
+Some mods are never released. A mod with `publish/unpublished.txt` is a personal mod kept in the repository: `release_mods.py` skips it and `release.py` refuses it, both quoting the file's text as the reason (Fast Wireless Automation Fix has one). A mod with `publish/retired.txt` was released before and is released no more. A personal mod that is not in the repository at all is never considered. The rule is written up in `common/README.md` (Releases).
 
 ### 6. Issue labelling (the only GitHub Action)
 **Id:** blk-386e66e27501  
@@ -156,10 +161,10 @@ There is one environment: the owner's Windows machine with the game installed.
 **Tags:** steam-workshop, release-process
 
 ```bash
-common/tools/WorkshopUpload/bin/Release/<tfm>/WorkshopUpload update <id> publish/<Mod>.zip publish/content/preview.png
+common/tools/WorkshopUpload/bin/Release/net8.0/win-x64/WorkshopUpload.exe update <id> publish/<Mod>.zip <preview.jpg>
 ```
 
-Build the tool first with `dotnet build common/tools/WorkshopUpload -c Release`. The exact output folder is the project's own; TODO(owner): record the path the owner runs it from.
+This is the path `release.py` runs the tool from; build it first with `dotnet build common/tools/WorkshopUpload -c Release`. The preview is the JPEG `release.py` makes from `publish/content/preview.png` (`workshop_jpeg`), or `publish/preview.gif` for an animated one, never the PNG. The change note and description check come from `release.py` too, so the simplest retry is a short script that imports `release.py` and repeats only its Workshop and Discord steps for the tag already published: `changelog_section`, `workshop_note`, `description_is_ours` (against the tag before this one), then the upload and `discord_notice`. On 2026-11-18 that retry published Jumper Bridges 0.3.2 and Upgrade Planner 0.5.3 after the first run failed with Steam offline.
 
 ### First Workshop upload of a new mod
 **Id:** blk-319d2b9dd5c7  
@@ -184,7 +189,9 @@ A release is not rolled back by the scripts. TODO(owner): record the procedure (
 |-------|-------|----------|
 | "Steam failed to download the mod" for subscribers | Item uploaded with steamcmd `workshop_build_item` (manifest item, the game only reads legacy single-zip items) | Never use steamcmd for ONI; update with `WorkshopUpload update` |
 | WorkshopUpload FileNotFound sharing the zip | `steam_appid.txt` not 636750, or Steam not running | Keep `steam_appid.txt` at 636750; start Steam as the item owner |
-| Mod skipped by `release_mods.py` | Uncommitted changes, no remote, or no `## Unreleased` entry | Commit or finish the changelog, then rerun |
+| WorkshopUpload `k_EResultNotLoggedOn` | The Steam client is running but disconnected from Steam (its `logs/connection_log.txt` ends in "Logged Off"), though it still looks signed in | Bring the client online (or restart it), then retry only the Workshop step (Manual Actions) |
+| Mod skipped by `release_mods.py` | Uncommitted changes, no remote, no `## Unreleased` entry, or `publish/unpublished.txt` | Commit or finish the changelog, then rerun; an unpublished mod is skipped on purpose |
+| "not a mod repo" from `release_mods.py` | Mod names passed as one comma-separated argument | Pass each name as its own argument |
 | Test run exit code 2 | The game never produced a status (launch, load or crash) | Read `Player.log` in the run folder under `common/tools/TestRunner/runs/` |
 | Test run exit code 3 | Build or ModCheck failure | Read the build output; run with `-BuildOnly` |
 | Player's mod list missing after an interrupted test run | The run was killed before restoring `mods.json` | The next run restores `mods.json.onitest-backup`, or copy it over `mods.json` by hand |

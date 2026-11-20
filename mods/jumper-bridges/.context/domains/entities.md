@@ -58,8 +58,9 @@ Jumper Bridges lets an Automation Wire Bridge or Automation Ribbon Bridge, and a
 
 ### JumperBridge
 **Id:** blk-c5d470758241  
-**Tags:** game-component  
-**Description**: `KMonoBehaviour` on every complete bridge of an enabled kind. Gives each end that has no wire under it a `BridgeEndNode` (creation deferred a frame so a loaded save's wires have marked their cells first), removes the nodes when the bridge is deconstructed or broken (`BuildingBroken`) and recreates them on repair (`BuildingFullyRepaired`).  
+**Tags:** game-component
+
+**Description**: `KMonoBehaviour` on every complete bridge of an enabled kind (`[SerializationConfig(MemberSerialization.OptIn)]`). Gives each end that has no wire under it a `BridgeEndNode` (creation deferred a frame so a loaded save's wires have marked their cells first), removes the nodes when the bridge is deconstructed or broken (`BuildingBroken`) and recreates them on repair (`BuildingFullyRepaired`). It saves what its end nodes are joined to: `[Serialize] savedLinks1`/`savedLinks2`, filled in `[OnSerializing]` from `BridgeEndNode.NodeLinks()` (only the bits that point at another registered node, which nothing else saves), and handed back once through `TakeSavedLinks(cell)` when the node at that end is created.  
 **Location**: `mods/jumper-bridges/src/JumperBridges/JumperBridge.cs`
 
 **Relationships**: requires `UtilityNetworkLink`; owns up to two `BridgeEndNode`s; `Inherit` passes a leaving wire's connections to the node that replaces it.
@@ -68,7 +69,7 @@ Jumper Bridges lets an Automation Wire Bridge or Automation Ribbon Bridge, and a
 **Id:** blk-a0f2a41a1467  
 **Tags:** game-component, utility-network
 
-**Description**: A `KAnimGraphTileVisualizer` on a standalone GameObject (no building) that stands in for a wire under a bridge end. It makes the three registrations a wire makes: the wire tile layer, a physical network node with connection bits and a network item at the cell, so the port there is told it is connected. It plays the wire kanim and mirrors the connection bits its neighbours point at it. Several bridge ends on one cell share one node, which goes with its last owner. On power, `UpdateArt` re-picks the kanim whenever an owner joins or leaves: a joint plate's heavi-watt wire while any plate has an end on the cell, otherwise the art it has while that owner stays, then the first remaining owner's; the kanim is swapped on the existing controller (`SwapAnims`), never by recreating the node. It costs nothing, yields nothing, has no deconstruct order and is not saved. On a power network it is not a `Wire`, so the circuit's wattage limit is the bridge's own.  
+**Description**: A `KAnimGraphTileVisualizer` on a standalone GameObject (no building) that stands in for a wire under a bridge end. It makes the three registrations a wire makes: the wire tile layer, a physical network node with connection bits and a network item at the cell, so the port there is told it is connected. It plays the wire kanim and mirrors the connection bits its neighbours point at it. Several bridge ends on one cell share one node, which goes with its last owner. On power, `UpdateArt` re-picks the kanim whenever an owner joins or leaves: a joint plate's heavi-watt wire while any plate has an end on the cell, otherwise the art it has while that owner stays, then the first remaining owner's; the kanim is swapped on the existing controller (`SwapAnims`), never by recreating the node. It costs nothing, yields nothing, has no deconstruct order and is not saved. A join to a wire comes back on load from the wire's own saved bits; a join to another node exists only in the two nodes, so the owning bridges save it and `Restore` (from `OnSpawn` and `AddOwner`) sets the bits on both nodes again. On a power network it is not a `Wire`, so the circuit's wattage limit is the bridge's own.  
 **Location**: `mods/jumper-bridges/src/JumperBridges/BridgeEndNode.cs`
 
 **Relationships**: owned by one or more `JumperBridge`s; registered in `BridgeKind.Nodes`.
@@ -105,6 +106,7 @@ Jumper Bridges lets an Automation Wire Bridge or Automation Ribbon Bridge, and a
 
 - A bridge end may sit on any port cell (a machine's input or output, a gate's port, another bridge's end) and the port is on the bridge's network with no wire laid first. Chains work, and several bridges may meet at one cell.
 - A bridge end behaves like a wire cell: it connects only to cells a wire drag explicitly joined it to, never because a wire sits next to it.
+- Joins survive saving and loading, including two bridge ends joined to each other by a drag with no wire laid on either.
 - A bridge end on a real wire works as in the base game and gets no node.
 - A bridge end on a gate does not put the gate out of order.
 - Deconstructing the bridge removes the node; wires that led into the end redraw as dead ends at once.
@@ -120,10 +122,11 @@ Jumper Bridges lets an Automation Wire Bridge or Automation Ribbon Bridge, and a
 
 - **Startup**: options read, kinds enabled, patches applied (with `Prepare` skipping disabled kinds) — see `mods/jumper-bridges/src/JumperBridges/Mod.cs`
 - **Bridge spawns**: `JumperBridge.OnSpawn` schedules node creation, `BridgeEndNode.Create` builds the node, `BridgeLinks.OnConnect` rewrites the ring — see `JumperBridge.cs`, `BridgeEndNode.cs`, `BridgeLinks.cs`
+- **Save and load of node-to-node joins**: `JumperBridge.OnSerializing` and `TakeSavedLinks`, `BridgeEndNode.NodeLinks` and `Restore` — see `JumperBridge.cs`, `BridgeEndNode.cs`
 - **Wire drag onto a bridge end**: `BaseUtilityBuildTool.BuildPath` patch reads the drag's bits into the node — see `Patches.cs`
 - **Deconstruct by ends**: `DeconstructTool.DeconstructCell` and `BridgeFootprint.EndsAt` — see `Patches.cs`, `BridgeFootprint.cs`
 - **Design record**: the investigation notes (section 6 covers the design) are kept outside this repository
-- **Tests**: in-game tests in `mods/jumper-bridges/src/JumperBridges.Tests/` (`Signals.cs`, `Gates.cs`, `WireDrags.cs`, `WireUnderEnd.cs`, `Deconstruct.cs`, `Power.cs`, `JointPlates.cs`, plus explicit `Preview.cs`); `README.md` carries the manual in-game checklist for what is not yet automated
+- **Tests**: in-game tests in `mods/jumper-bridges/src/JumperBridges.Tests/` (`Signals.cs`, `Gates.cs`, `WireDrags.cs`, `WireUnderEnd.cs`, `Deconstruct.cs`, `Power.cs`, `JointPlates.cs`, `Saves.cs`, plus explicit `Preview.cs`); `Saves.cs` takes both bridges through the game's save and load with the TestKit's `SaveFile.Capture`/`Restore`; `README.md` carries the manual in-game checklist for what is not yet automated
 
 ## Related
 **Id:** blk-02f47981e0e0

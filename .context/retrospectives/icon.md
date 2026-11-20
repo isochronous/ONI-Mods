@@ -4,12 +4,22 @@ Newest first. Each entry is a `### ` block naming the task it came from, appende
 path — `learned:` on the change-set that produced the lesson, never a closing ceremony.
 
 
+### 2026-11-18 session: Jumper Bridges saved links, two releases, unpublished marker
+**Id:** blk-f40a55f5b7e6
+
+- **Avoid**: Passing the /release-mods argument (comma-separated) straight to release_mods.py: it was read as one folder and refused as "not a mod repo". And reading a Workshop k_EResultNotLoggedOn as a sign-in problem: Steam was signed in but its client was disconnected (connection_log "Logged Off"); it only needed to go online.
+- **Repeat**: For state carried by an object the game does not save (Jumper Bridges' BridgeEndNode), save it on the owning building ([Serialize] fields filled in [OnSerializing]) and hand it back when the node is recreated; prove it with TestKit SaveFile.Capture/Restore of both bridges rather than a whole-colony save. Retrying only the Workshop and Discord steps with a script that imports release.py kept the change note and description check identical to a full release.
+- **Updated**: workflows/ci-cd.md (5. Release: names as separate arguments, unpublished/retired markers; Retry a Workshop update: real path, JPEG preview, import-release.py retry; Common Failures: k_EResultNotLoggedOn, unpublished, comma list); workflows/branching.md (Task Work: merge order, gitlink conflicts, squash vs merge commits); domains/tooling-friction.md (ks merge submodule refusal); mods/jumper-bridges/.context/domains/entities.md (saved links); mods/bitshifter/.context/domains/entities.md (one-lamp gate art)
+
+
 ### OM-015: Fast Wireless Automation+ second-load fix
 **Id:** blk-d4b1d39342e6
 
 - **Avoid**: Trusting a unit's claim about the harness: unit 02 said TestRunner cannot load a second save, and Jeremy had to point at FridgeThresholdsExtended's FreshSave round trip. Launching OniMoono.exe --game by hand outside the runner: it started Moono's window and the stock game through Steam (Steam asked Jeremy to approve the custom launch), with his full mod list; I then misdescribed the two windows as one game and twice said OniMoono processes were running from a stale listing. A test whose setup runs in a cleanup step passes vacuously, because the harness only notes cleanup errors (review M1).
 - **Repeat**: Reproducing a second-load bug with a WriteSave / LoadAgain pair (FreshSave = true), asserting the setup in the test body plus a marker the reload checks, then proving the test with a fix-off run (patches commented out, Mod.cs restored from bytes in a finally): it failed with the exact NRE from Jeremy's Player-prev.log. Patching another Workshop mod by reflecting its method in OnAllModsLoaded (OM-011 pattern). Splitting submodule changes by the branch whose code they fix (the -Runtime fix on common's OM-014 branch, load capture on a branch from main's 5078e10).
 - **Updated**: testing/integration-testing.md (new: Second-load bugs); domains/tooling-friction.md (brief duplication again); common/tools/TestRunner/.context/domains/entities.md (TestContext gains LoadErrors, separate change-set in the common store).
+
+
 ### OM-013: Bitshifter Fan-out Gate
 **Id:** blk-7a0366dc2e90
 
@@ -72,11 +82,3 @@ path — `learned:` on the change-set that produced the lesson, never a closing 
 - **Avoid**: Tagging 17 nodes in independent passes over one standards body copied into each of them. Identical sections came back with different tags from mod to mod (34 of 56 shared sections), round two then put terms on documents and parent headings whose sections already carried them (about 90 nested-duplicate advisories), and the per-node two-document floor admitted a term like exception-handling in 2 nodes and not 15 for the same text. When a body is shared across nodes, choose its tags once per section and stamp them into every copy, and give the tagging passes the round-one tags of a document before asking for its document tag.
 - **Repeat**: Freezing each node's survey and refusing a write when the node changed since; opening each tagging pass's partial file before dispatch and closing it only on the harness's completion notice; persisting every round before applying it. 18 dictionaries, two tagging rounds and every correction landed with no refusal and nothing to replay. Splitting description authoring across four units and merging into one bound answers file also ran clean: 150 distinct descriptions, 0 declined.
 - **Updated**: domains/tooling-friction.md gains two entries: tag-backfill shipping a library and no runnable command, and coverage-backfill having no door for practice documents. Nothing else was promoted: the tagging lessons concern ICON's bulk tools rather than this repository's code.
-
-
-### OM-001: seed ICON's content documents across the root and all 17 mods
-**Id:** blk-c3ff9a6f1225
-
-- **Avoid**: Leaving the coverage shape to each drafting unit. Unit 03 gave its six entities.md no applies_to while units 04 and 05 used src/<Project>/**, and no unit covered glossary.md, so the review had to raise it and a second round of 18 change-sets (with a witness value nobody had chosen) fixed it. A spec that fans out the same document type across many nodes names the applies_to and witness values up front. Also: the review flagged testbed-base.sav as missing because it looked only in this repository; fixture saves live in the common submodule, which a reviewer of mod or testing documents has to check too.
-- **Repeat**: Units draft one change-set per node into the task folder and prove it with write plan; the manager applies them one at a time. 55 change-sets landed with no refusal and no apply racing another, and every unit could run in parallel because none of them wrote the store.
-- **Updated**: domains/tooling-friction.md gains two entries: the handoff brief filled with near-identical sections of the shared standards body, and the cover operation's refusal not naming witness while refusing a section and a cover on one document in one change-set. The testing documents already say where the fixture saves are tracked, so nothing else was promoted.
