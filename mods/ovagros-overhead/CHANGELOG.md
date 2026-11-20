@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.1.1 - 2026-11-20
 
 - Fixed for the U60 update, which it now needs: the ceiling vine follows U60's crop changes.
 
