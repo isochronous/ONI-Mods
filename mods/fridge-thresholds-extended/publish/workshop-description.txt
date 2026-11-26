@@ -6,6 +6,7 @@ Makes [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2959340381]Sto
 [*][b]Mini Fridge[/b] from The Aquatic Planet Pack.
 [*][b][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3756115269]Mini Freezer[/url][/b].
 [*][b]Cool Pod[/b] from [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3812993268]Storage Pod Redux[/url].
+[*][b]Smart Storage Locker[/b]: its signal follows the sliders right after a save loads.
 [/list]
 
 [b]Compatibility[/b]

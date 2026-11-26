@@ -33,6 +33,13 @@ namespace FridgeThresholdsExtended
 	/// the thresholds mod's Refrigerator prefix, rebuilt against Freezer's fields, and Freezer's
 	/// OnCopySettings gets the thresholds mod's copy of the three settings.
 	///
+	/// Smart Storage Lockers get their thresholds from the thresholds mod itself (StorageThresholds,
+	/// with a prefix on StorageLockerSmart.UpdateLogicAndActiveState), and lose them on every spawn:
+	/// the thresholds component's [MyCmpGet] spawns the locker first, so the locker's OnSpawn sends
+	/// the game's own full signal while the thresholds are not registered yet, and the thresholds mod
+	/// sends again only when its own answer changes. Once both have spawned, in either order, the
+	/// locker's logic runs again through the prefix with LastSetFlag cleared, so it sends.
+	///
 	/// None of these mods is referenced at build time. Buildings that are not registered are
 	/// skipped, Freezer's class is found by name, and a part whose members are missing is skipped
 	/// with a warning.
@@ -41,6 +48,7 @@ namespace FridgeThresholdsExtended
 	{
 		private const string ThresholdsBaseType = "StorageRefrigeratorThresholds.ThresholdsBase";
 		private const string RefrigeratorThresholdsType = "StorageRefrigeratorThresholds.RefrigeratorThresholds";
+		private const string StorageThresholdsType = "StorageRefrigeratorThresholds.StorageThresholds";
 		private const string FreezerType = "Psyko.Freezer.Freezer";
 
 		// Building IDs, with what each one is for the log.
@@ -60,8 +68,11 @@ namespace FridgeThresholdsExtended
 		private static Type refrigeratorThresholds;
 		private static Type freezerType;
 
+		private static Type storageThresholds;
+
 		private static Action<Refrigerator> refrigeratorUpdate;
 		private static MethodInfo freezerUpdate;
+		private static Action<StorageLockerSmart> smartStorageUpdate;
 
 		// ThresholdsBase members, bound once in Apply.
 		private static Func<GameObject, object> getThresholds;
@@ -76,10 +87,32 @@ namespace FridgeThresholdsExtended
 		public static void Apply(Harmony harmony)
 		{
 			Type thresholdsBase = AccessTools.TypeByName(ThresholdsBaseType);
-			refrigeratorThresholds = AccessTools.TypeByName(RefrigeratorThresholdsType);
-			if (thresholdsBase == null || refrigeratorThresholds == null)
+			if (thresholdsBase == null)
 			{
 				Debug.Log("[FridgeThresholdsExtended] Storage Refrigerator Thresholds not found; nothing to do");
+				return;
+			}
+			try
+			{
+				MethodInfo get = AccessTools.Method(thresholdsBase, "Get", new[] { typeof(GameObject) });
+				if (get != null && get.IsStatic && thresholdsBase.IsAssignableFrom(get.ReturnType))
+					getThresholds = (Func<GameObject, object>)Delegate.CreateDelegate(typeof(Func<GameObject, object>), get);
+				PropertyInfo last = AccessTools.Property(thresholdsBase, "LastSetFlag");
+				if (last != null && last.PropertyType == typeof(bool?) && last.CanRead && last.CanWrite)
+					lastSetFlag = last;
+			}
+			catch (Exception e)
+			{
+				getThresholds = null;
+				lastSetFlag = null;
+				Debug.LogWarning("[FridgeThresholdsExtended] " + ThresholdsBaseType + " members not bound: " + e.Message);
+			}
+			PatchSmartStorage(harmony, thresholdsBase);
+
+			refrigeratorThresholds = AccessTools.TypeByName(RefrigeratorThresholdsType);
+			if (refrigeratorThresholds == null)
+			{
+				Debug.LogWarning("[FridgeThresholdsExtended] fridges skipped: " + RefrigeratorThresholdsType + " not found");
 				return;
 			}
 			MethodInfo update = AccessTools.Method(typeof(Refrigerator), "UpdateLogicCircuit");
@@ -147,15 +180,81 @@ namespace FridgeThresholdsExtended
 				freezerUpdate.Invoke(freezer, null);
 		}
 
+		/// <summary>
+		/// Postfixes on StorageLockerSmart.OnSpawn and ThresholdsBase.OnSpawn, whichever runs second
+		/// sends the locker's port again; only while the thresholds mod's own prefix is on
+		/// UpdateLogicAndActiveState, since that prefix is what the second send runs.
+		/// </summary>
+		private static void PatchSmartStorage(Harmony harmony, Type thresholdsBase)
+		{
+			try
+			{
+				storageThresholds = AccessTools.TypeByName(StorageThresholdsType);
+				MethodInfo update = AccessTools.DeclaredMethod(typeof(StorageLockerSmart), "UpdateLogicAndActiveState");
+				MethodInfo lockerSpawn = AccessTools.DeclaredMethod(typeof(StorageLockerSmart), "OnSpawn");
+				MethodInfo thresholdsSpawn = AccessTools.DeclaredMethod(thresholdsBase, "OnSpawn");
+				string missing =
+					storageThresholds == null ? StorageThresholdsType
+					: update == null || update.GetParameters().Length != 0 ? "StorageLockerSmart.UpdateLogicAndActiveState"
+					: lockerSpawn == null ? "StorageLockerSmart.OnSpawn"
+					: thresholdsSpawn == null ? "ThresholdsBase.OnSpawn"
+					: getThresholds == null ? "ThresholdsBase.Get"
+					: lastSetFlag == null ? "ThresholdsBase.LastSetFlag"
+					: null;
+				if (missing != null)
+				{
+					Debug.LogWarning("[FridgeThresholdsExtended] Smart Storage refresh skipped: " + missing + " not found");
+					return;
+				}
+				Patches existing = Harmony.GetPatchInfo(update);
+				if (existing == null || !existing.Prefixes.Any(patch => patch.PatchMethod.DeclaringType?.Assembly == thresholdsBase.Assembly))
+				{
+					Debug.LogWarning("[FridgeThresholdsExtended] Smart Storage refresh skipped: Storage Refrigerator Thresholds does not patch StorageLockerSmart.UpdateLogicAndActiveState");
+					return;
+				}
+				smartStorageUpdate = AccessTools.MethodDelegate<Action<StorageLockerSmart>>(update);
+				harmony.Patch(lockerSpawn, postfix: new HarmonyMethod(typeof(ThresholdsCompat), nameof(LockerOnSpawnPostfix)));
+				harmony.Patch(thresholdsSpawn, postfix: new HarmonyMethod(typeof(ThresholdsCompat), nameof(ThresholdsOnSpawnPostfix)));
+				Debug.Log("[FridgeThresholdsExtended] Smart Storage Lockers send their thresholds' signal once spawned");
+			}
+			catch (Exception e)
+			{
+				Debug.LogWarning("[FridgeThresholdsExtended] Smart Storage refresh skipped: " + e.GetBaseException().Message);
+			}
+		}
+
+		/// <summary>The locker spawned after its thresholds registered.</summary>
+		private static void LockerOnSpawnPostfix(StorageLockerSmart __instance)
+		{
+			ResendSmartStorage(__instance, getThresholds(__instance.gameObject));
+		}
+
+		/// <summary>The thresholds registered after the locker spawned (the usual order: their [MyCmpGet] spawns the locker first).</summary>
+		private static void ThresholdsOnSpawnPostfix(KMonoBehaviour __instance)
+		{
+			if (!storageThresholds.IsInstanceOfType(__instance))
+				return;
+			StorageLockerSmart locker = __instance.GetComponent<StorageLockerSmart>();
+			if (locker != null && locker.isSpawned)
+				ResendSmartStorage(locker, __instance);
+		}
+
+		/// <summary>Clears what the thresholds mod last sent, so its prefix sends whatever it computes now.</summary>
+		private static void ResendSmartStorage(StorageLockerSmart locker, object thresholds)
+		{
+			if (thresholds == null)
+				return;
+			lastSetFlag.SetValue(thresholds, null);
+			smartStorageUpdate(locker);
+		}
+
 		private static void PatchFreezerLogic(Harmony harmony, Type freezer, Type thresholdsBase)
 		{
 			try
 			{
 				MethodInfo original = AccessTools.DeclaredMethod(freezer, "UpdateLogicCircuit");
-				MethodInfo get = AccessTools.Method(thresholdsBase, "Get", new[] { typeof(GameObject) });
 				updateLogicState = AccessTools.Method(thresholdsBase, "UpdateLogicState", new[] { typeof(float) });
 				isActuallyOperational = AccessTools.Method(thresholdsBase, "IsActuallyOperational", new[] { typeof(Operational) });
-				lastSetFlag = AccessTools.Property(thresholdsBase, "LastSetFlag");
 				MethodInfo amountStored = AccessTools.Method(typeof(FilteredStorage), "GetAmountStored");
 				MethodInfo maxCapacity = AccessTools.Method(typeof(FilteredStorage), "GetMaxCapacityMinusStorageMargin");
 				string missing =
@@ -163,10 +262,10 @@ namespace FridgeThresholdsExtended
 					: !HasField(freezer, "filteredStorage", typeof(FilteredStorage)) ? "Freezer.filteredStorage"
 					: !HasField(freezer, "operational", typeof(Operational)) ? "Freezer.operational"
 					: !HasField(freezer, "ports", typeof(LogicPorts)) ? "Freezer.ports"
-					: get == null ? "ThresholdsBase.Get"
+					: getThresholds == null ? "ThresholdsBase.Get"
 					: updateLogicState == null || updateLogicState.ReturnType != typeof(bool) ? "ThresholdsBase.UpdateLogicState"
 					: isActuallyOperational == null || isActuallyOperational.ReturnType != typeof(bool) ? "ThresholdsBase.IsActuallyOperational"
-					: lastSetFlag == null || lastSetFlag.PropertyType != typeof(bool?) ? "ThresholdsBase.LastSetFlag"
+					: lastSetFlag == null ? "ThresholdsBase.LastSetFlag"
 					: amountStored == null ? "FilteredStorage.GetAmountStored"
 					: maxCapacity == null ? "FilteredStorage.GetMaxCapacityMinusStorageMargin"
 					: null;
@@ -183,7 +282,6 @@ namespace FridgeThresholdsExtended
 					Debug.Log("[FridgeThresholdsExtended] Freezer logic port already handled by Storage Refrigerator Thresholds");
 					return;
 				}
-				getThresholds = (Func<GameObject, object>)Delegate.CreateDelegate(typeof(Func<GameObject, object>), get);
 				getAmountStored = AccessTools.MethodDelegate<Func<FilteredStorage, float>>(amountStored);
 				getMaxCapacity = AccessTools.MethodDelegate<Func<FilteredStorage, float>>(maxCapacity);
 				harmony.Patch(original, prefix: new HarmonyMethod(typeof(ThresholdsCompat), nameof(UpdateLogicCircuitPrefix)));

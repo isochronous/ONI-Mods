@@ -1,6 +1,6 @@
 # Fridge Thresholds Extended
 
-An [Oxygen Not Included](https://www.klei.com/games/oxygen-not-included) mod that makes the High and Low threshold sliders from [Storage Refrigerator Thresholds](https://steamcommunity.com/sharedfiles/filedetails/?id=2959340381) drive the automation port of the Mini Fridge from The Aquatic Planet Pack, the [Mini Freezer](https://steamcommunity.com/sharedfiles/filedetails/?id=3756115269), the [Freezer](https://steamcommunity.com/sharedfiles/filedetails/?id=2618339179), the fridges from [Ronivan's Legacy - Industrial Revolution](https://steamcommunity.com/sharedfiles/filedetails/?id=3557584850), and the Cool Pod from [Storage Pod Redux](https://steamcommunity.com/sharedfiles/filedetails/?id=3812993268).
+An [Oxygen Not Included](https://www.klei.com/games/oxygen-not-included) mod that makes the High and Low threshold sliders from [Storage Refrigerator Thresholds](https://steamcommunity.com/sharedfiles/filedetails/?id=2959340381) drive the automation port of the Mini Fridge from The Aquatic Planet Pack, the [Mini Freezer](https://steamcommunity.com/sharedfiles/filedetails/?id=3756115269), the [Freezer](https://steamcommunity.com/sharedfiles/filedetails/?id=2618339179), the fridges from [Ronivan's Legacy - Industrial Revolution](https://steamcommunity.com/sharedfiles/filedetails/?id=3557584850), and the Cool Pod from [Storage Pod Redux](https://steamcommunity.com/sharedfiles/filedetails/?id=3812993268). It also keeps the sliders in charge of the Smart Storage Locker's port when a save loads.
 
 ## What it does
 
@@ -9,6 +9,7 @@ An [Oxygen Not Included](https://www.klei.com/games/oxygen-not-included) mod tha
 - **Mini Fridge** (The Aquatic Planet Pack): it gets the threshold sliders, and its port follows them the way the Refrigerator's does.
 - **[Mini Freezer](https://steamcommunity.com/sharedfiles/filedetails/?id=3756115269):** it gets the threshold sliders, and its port follows them the way the Refrigerator's does.
 - **Storage Pod Redux Cool Pod:** it gets the threshold sliders, and its port follows them the way the Refrigerator's does.
+- **Smart Storage Locker:** right after a save loads, its port follows the sliders instead of sending the game's own full signal until a delivery or a slider change.
 
 ## Compatibility
 

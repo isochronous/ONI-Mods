@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Smart Storage Lockers send their thresholds' signal right after a save loads
+
 ## 0.1.1 - 2026-11-09
 
 - Add support for Mini Freezer mod
