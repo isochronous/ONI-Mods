@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.1.2 - 2026-11-26
 
 - Smart Storage Lockers send their thresholds' signal right after a save loads
 
