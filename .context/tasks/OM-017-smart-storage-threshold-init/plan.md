@@ -5,12 +5,12 @@
 
 ## Phase State
 - **Phase plan**: investigation → implementation → testing → completion
-- **Completed**: (none)
-- **Current**: investigation   (status: in-progress)
-- **Next**: implementation
-- **Loaded skill**: task-plan-phase-investigation
+- **Completed**: investigation, implementation, testing, completion
+- **Current**: completion   (status: done)
+- **Next**: none — task complete
+- **Loaded skill**: task-plan-phase-completion
 - **Branch**: OM-017-smart-storage-threshold-init
-- **Attempts (current phase)**: 1
+- **Attempts (current phase)**: 0
 
 ## Decisions
 - Task id OM-017: OM-016 was already taken by common/.context/tasks/OM-016-saverunner-memory-probe (same store, same prefix); renamed 2026-11-26.
@@ -28,6 +28,13 @@
 
 ## Phase Handoff Log
 
+### Handoff: completion
+**Reviewer findings**: units/04-review-report.md — 2 moderate, 5 minor; all fixed except minor 7 (commit message, history not rewritten).
+**Verification evidence**: Release build 0 warnings; in game after the review fixes: stock PASS/PASS, fix-off PASS/FAIL "expected 1, got 0", stock in the reused game PASS/PASS, Moono PASS/PASS.
+**Retro**: landed in .context/retrospectives/icon.md (OM-017 / OM-018) with promotions to testing/integration-testing.md (Launching with oni-moono, Reproducing a Report in a Save, new Load-order bugs). `ks check --store .`: 0 block.
+**What the next phase needs**: none; release of Fridge Thresholds Extended is a separate step (CHANGELOG has an Unreleased entry).
+
+
 ## Progress
 - [x] Investigate (code reading) — units/01-investigate-report.md: not the OM-011 order bug; no other enabled mod touches the Smart Storage port (Storage Quotas patches FilteredStorage.IsFull, which only Refrigerator calls). Only wrong window found: at spawn the mod sends 0 because power is not evaluated yet, then corrects on the first electrical tick (paused load → until unpause). The mod sends only on change, so a "refresh" fixes it only if an input changed (fill, power, sliders, checkbox, capacity, copy settings); opening the side screen writes nothing.
 - [x] Ask Jeremy what the "refresh" was — moving a slider fixes it. He also says Smart Storage takes no power since U60, which contradicts the report's power-window finding (report read EnergyConsumer/powered); re-check which game build the decompiled DLL is.
@@ -41,7 +48,7 @@
 - [ ] Harness bug: fix-off run-20261126-152950 reused the live game from the previous run; after WriteRoundTripFixOff passed, loading fte-smart-storage.sav made the game quit ("Application wants to quit" ~0.2 s after the load, no status file). The same load in a fresh game works. Investigate and fix in TestRunner (harness changes welcome) ← IN PROGRESS
   — moved to OM-018 (common): not reproducible on demand; App.QuitCode/crash-dialog tracing added there (87a6ba0).
 - [x] Review (units/04-review-report.md): 0 critical, 2 moderate, 5 minor. Fixed: M1 ThresholdsBase.Get/LastSetFlag binding in a try/catch with an IsStatic check, so a changed signature skips the Smart Storage part with a warning instead of the whole mod; M2 the fix-off test sets a process marker and RestoreFix only restores when it is set, so WriteRoundTrip's presence assert checks what the mod installed; minor 3 WriteRoundTripFixOff restores the fix when it fails before saving, doc corrected; minor 4 unused parameter dropped; minor 5 Workshop line 1 back to Jeremy's wording, list item shortened; minor 6 README/CHANGELOG no longer say "only full". Left: minor 7 (commit 7646900 moved the common pointer without saying so; history not rewritten). Re-run after the fixes: stock PASS/PASS, fix-off (reused) PASS/FAIL "expected 1, got 0", stock again in the same reused game PASS/PASS (fix restored), Moono PASS/PASS.
-- [ ] Completion: retro, PRs (oni-mods-common for OM-018 first, then ONI-Mods) ← IN PROGRESS
+- [x] Completion: retro landed; PRs: oni-mods-common (OM-018) first, then ONI-Mods.
 - [ ] Fix: resend once both StorageLockerSmart and the thresholds component have spawned, order-independent; README/Workshop text widened to Smart Storage
 - [ ] In-game test (harness) that fails with the fix off; check on Moono
 - [ ] Logging-only diagnostic build (postfixes on StorageLockerSmart.OnSpawn / UpdateLogicAndActiveState), run on his save on Moono
