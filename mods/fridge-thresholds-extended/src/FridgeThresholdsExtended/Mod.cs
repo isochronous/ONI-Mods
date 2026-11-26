@@ -16,6 +16,7 @@ namespace FridgeThresholdsExtended
 		{
 			base.OnAllModsLoaded(harmony, mods);
 			ThresholdsCompat.Apply(harmony);
+			Diagnostics.SmartStorageDiag.Apply(harmony); // OM-017 temporary diagnostic
 		}
 	}
 }
