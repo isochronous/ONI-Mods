@@ -1,4 +1,4 @@
-Makes [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2959340381]Storage Refrigerator Thresholds[/url] work with more fridges, and fixes its Smart Storage Lockers after a load. This mod provides no content of its own, it merely adds compatibility.
+Makes [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2959340381]Storage Refrigerator Thresholds[/url] work with more fridges. This mod provides no content of its own, it merely adds compatibility.
 
 [list]
 [*][b][url=https://steamcommunity.com/sharedfiles/filedetails/?id=2618339179]Freezer[/url][/b]: the sliders already showed up, now they actually work.
@@ -6,7 +6,7 @@ Makes [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2959340381]Sto
 [*][b]Mini Fridge[/b] from The Aquatic Planet Pack.
 [*][b][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3756115269]Mini Freezer[/url][/b].
 [*][b]Cool Pod[/b] from [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3812993268]Storage Pod Redux[/url].
-[*][b]Smart Storage Locker[/b]: after loading a save, its signal follows the sliders right away instead of only once something changes.
+[*][b]Smart Storage Locker[/b]: its signal follows the sliders right after a save loads.
 [/list]
 
 [b]Compatibility[/b]

@@ -92,12 +92,21 @@ namespace FridgeThresholdsExtended
 				Debug.Log("[FridgeThresholdsExtended] Storage Refrigerator Thresholds not found; nothing to do");
 				return;
 			}
-			MethodInfo get = AccessTools.Method(thresholdsBase, "Get", new[] { typeof(GameObject) });
-			if (get != null && thresholdsBase.IsAssignableFrom(get.ReturnType))
-				getThresholds = (Func<GameObject, object>)Delegate.CreateDelegate(typeof(Func<GameObject, object>), get);
-			PropertyInfo last = AccessTools.Property(thresholdsBase, "LastSetFlag");
-			if (last != null && last.PropertyType == typeof(bool?) && last.CanRead && last.CanWrite)
-				lastSetFlag = last;
+			try
+			{
+				MethodInfo get = AccessTools.Method(thresholdsBase, "Get", new[] { typeof(GameObject) });
+				if (get != null && get.IsStatic && thresholdsBase.IsAssignableFrom(get.ReturnType))
+					getThresholds = (Func<GameObject, object>)Delegate.CreateDelegate(typeof(Func<GameObject, object>), get);
+				PropertyInfo last = AccessTools.Property(thresholdsBase, "LastSetFlag");
+				if (last != null && last.PropertyType == typeof(bool?) && last.CanRead && last.CanWrite)
+					lastSetFlag = last;
+			}
+			catch (Exception e)
+			{
+				getThresholds = null;
+				lastSetFlag = null;
+				Debug.LogWarning("[FridgeThresholdsExtended] " + ThresholdsBaseType + " members not bound: " + e.Message);
+			}
 			PatchSmartStorage(harmony, thresholdsBase);
 
 			refrigeratorThresholds = AccessTools.TypeByName(RefrigeratorThresholdsType);

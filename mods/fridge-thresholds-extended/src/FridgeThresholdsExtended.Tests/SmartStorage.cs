@@ -19,8 +19,9 @@ namespace FridgeThresholdsExtended.Tests
 	///
 	/// The fix-off proof: run WriteRoundTripFixOff instead of WriteRoundTrip. It removes Fridge
 	/// Thresholds Extended's two spawn postfixes before saving, so the load runs without them and
-	/// LoadSendsThresholds fails. LoadSendsThresholds puts them back when it ends, and WriteRoundTrip
-	/// puts them back before it starts, so a reused game never keeps the fix off.
+	/// LoadSendsThresholds fails. It marks the process as fix-off; LoadSendsThresholds puts the postfixes
+	/// back when it ends, WriteRoundTripFixOff does when it fails before saving, and WriteRoundTrip does
+	/// before it starts. A reused game keeps the fix off only until the next of those runs.
 	/// </summary>
 	public static class SmartStorage
 	{
@@ -33,8 +34,11 @@ namespace FridgeThresholdsExtended.Tests
 		private static string RoundTripPath => Path.Combine(Session.Dir, "fte-smart-storage.sav");
 		private static string RoundTripCellPath => Path.Combine(Session.Dir, "fte-smart-storage-cell.txt");
 
+		/// <summary>Set in the game process while WriteRoundTripFixOff has the fix removed.</summary>
+		private const string FixOffMarker = "Isochronous.FridgeThresholdsExtended.Tests.SmartStorageFixOff";
+
 		/// <summary>The two methods the fix postfixes, each with the name of its postfix in ThresholdsCompat.</summary>
-		private static (MethodBase original, string postfix)[] FixPatches(TestContext t)
+		private static (MethodBase original, string postfix)[] FixPatches()
 		{
 			Type thresholdsBase = AccessTools.TypeByName(ThresholdsBaseType);
 			if (thresholdsBase == null)
@@ -52,14 +56,17 @@ namespace FridgeThresholdsExtended.Tests
 			return info != null && info.Postfixes.Any(patch => patch.owner == ModHarmonyId);
 		}
 
-		/// <summary>Puts back any of the fix's postfixes that WriteRoundTripFixOff removed.</summary>
+		/// <summary>Puts back the fix's postfixes, only if WriteRoundTripFixOff removed them.</summary>
 		private static void RestoreFix(TestContext t)
 		{
+			if (!(AppDomain.CurrentDomain.GetData(FixOffMarker) is bool off) || !off)
+				return;
+			AppDomain.CurrentDomain.SetData(FixOffMarker, null);
 			Type compat = AccessTools.TypeByName(CompatType);
 			if (compat == null)
 				return;
 			var harmony = new Harmony(ModHarmonyId);
-			foreach (var (original, postfix) in FixPatches(t))
+			foreach (var (original, postfix) in FixPatches())
 			{
 				if (HasFix(original))
 					continue;
@@ -119,7 +126,7 @@ namespace FridgeThresholdsExtended.Tests
 		{
 			Thresholds(t, null);
 			RestoreFix(t);
-			foreach (var (original, _) in FixPatches(t))
+			foreach (var (original, _) in FixPatches())
 				t.Assert.True(HasFix(original), "Fridge Thresholds Extended patches " + original.DeclaringType.Name + "." + original.Name);
 			yield return Write(t);
 		}
@@ -129,12 +136,18 @@ namespace FridgeThresholdsExtended.Tests
 		{
 			Thresholds(t, null);
 			var harmony = new Harmony(ModHarmonyId);
-			foreach (var (original, _) in FixPatches(t))
+			AppDomain.CurrentDomain.SetData(FixOffMarker, true);
+			foreach (var (original, _) in FixPatches())
 			{
 				t.Assert.True(HasFix(original), "Fridge Thresholds Extended patches " + original.DeclaringType.Name + "." + original.Name);
 				harmony.Unpatch(original, HarmonyPatchType.Postfix, ModHarmonyId);
 				t.Assert.False(HasFix(original), "the postfix on " + original.DeclaringType.Name + "." + original.Name + " is removed");
 			}
+			t.Cleanup(() =>
+			{
+				if (!File.Exists(RoundTripPath))
+					RestoreFix(t);
+			});
 			t.Log("Fridge Thresholds Extended's Smart Storage spawn postfixes are off until round trip 2/2 ends");
 			yield return Write(t);
 		}

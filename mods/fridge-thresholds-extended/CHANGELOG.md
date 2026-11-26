@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-- Smart Storage Lockers follow their thresholds right after a save loads, instead of only reporting full until something changes
+- Smart Storage Lockers send their thresholds' signal right after a save loads
 
 ## 0.1.1 - 2026-11-09
 
