@@ -23,8 +23,10 @@
 ## Phase Handoff Log
 
 ## Progress
-- [ ] Investigate: Smart Storage threshold output wrong after load, fixes itself after a refresh ← IN PROGRESS
-- [ ] Update this plan with findings and next steps from investigation
+- [x] Investigate (code reading) — units/01-investigate-report.md: not the OM-011 order bug; no other enabled mod touches the Smart Storage port (Storage Quotas patches FilteredStorage.IsFull, which only Refrigerator calls). Only wrong window found: at spawn the mod sends 0 because power is not evaluated yet, then corrects on the first electrical tick (paused load → until unpause). The mod sends only on change, so a "refresh" fixes it only if an input changed (fill, power, sliders, checkbox, capacity, copy settings); opening the side screen writes nothing.
+- [ ] Ask Jeremy what the "refresh" was (unpause/wait vs touching sliders/checkbox) and whether downstream logic latches ← IN PROGRESS
+- [ ] Diagnostic logging postfix on StorageLockerSmart.UpdateLogicAndActiveState, reproduce in his save on Moono
+- [ ] Update this plan with the fix (power-window guard prefix, or resend when the port differs from LastSetFlag)
 
 ## Open Questions / Blockers
 - What "refresh" means in game (re-opening the side screen, moving a slider, an item stored/removed) — find from code which path sets the port correctly.
