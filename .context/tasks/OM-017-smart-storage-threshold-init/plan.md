@@ -34,7 +34,8 @@
 - [x] Follow-up investigation (report "## Follow-up 2026-11-26"): build 764025 = Jeremy's; locker has no power, always operational. Only the replaced UpdateLogicAndActiveState writes the port. Slider runs the same calc, sends only on change. Two candidates: (1) vanilla ran at spawn instead of the mod's prefix (thresholds component missing/bypassed then), LastSetFlag left null, so any later call sends — matches "any nudge fixes"; (2) `activated` wrong after load with fill between Low and High — fixed only by dragging past the fill.
 - [x] Ask Jeremy: does any small nudge fix it? — yes, any nudge → candidate 1 (vanilla signal at spawn, LastSetFlag null).
 - [x] Decide with Jeremy: fix goes in Fridge Thresholds Extended; log first in his save (both his picks, 2026-11-26).
-- [ ] Unit 02: logging-only diagnostic in FTE (temporary commit, reverted before the fix), one Save Runner load of his newest save on Moono with his full loadout minus Mod Profile Manager ← IN PROGRESS
+- [x] Unit 02: logging-only diagnostic in FTE — commit bc2e8f6 (revert before the fix), built and deployed to mods\local\FridgeThresholdsExtended; lines tagged [FTE-DIAG], mismatch sweeps at 2 s and 20 s. Save Runner run NOT done: it launches only through Steam (no Moono, per OM-014), and Jeremy's game was open.
+- [ ] Get the diagnostic log: Jeremy restarts his game (loads the deployed build), loads The Aftermath v009, unpauses ~25 s, nudges one slider on an affected locker, quits; then grep Player.log for [FTE-DIAG] ← IN PROGRESS
 - [ ] Fix: resend once both StorageLockerSmart and the thresholds component have spawned, order-independent; README/Workshop text widened to Smart Storage
 - [ ] In-game test (harness) that fails with the fix off; check on Moono
 - [ ] Logging-only diagnostic build (postfixes on StorageLockerSmart.OnSpawn / UpdateLogicAndActiveState), run on his save on Moono
