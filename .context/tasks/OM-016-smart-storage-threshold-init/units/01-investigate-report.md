@@ -195,3 +195,86 @@ DLLs were searched for `StorageLockerSmart`, `UpdateLogicAndActiveState`, `FULL_
 - Storage Quotas was written for an older build where the Smart Storage signal called `FilteredStorage.IsFull`.
 - Downstream latching gates as the reason the wrong state seems to last.
 - Which refresh Jeremy used is unknown.
+
+## Follow-up 2026-11-26
+
+Jeremy's input: moving a slider is what fixes the wrong output, and Smart Storage Lockers have taken no power since U60. Still code reading only.
+
+### Build checked
+- `KleiVersion.ChangeList = 764025u` in the decompiled `Assembly-CSharp.dll`.
+- Jeremy's Player.log line 165: `Build: U60-764025-SCRPAN (release)`.
+- `appmanifest_457140.acf` shows BetaKey `public`.
+- So the decompile is the build he runs: U60 on the public branch.
+
+### Corrections to the original report
+- **Smart Storage takes no power in this build.** `StorageLockerSmartConfig.CreateBuildingDef` sets neither `RequiresPowerInput` nor `EnergyConsumptionWhenActive`, so `BuildingLoader` adds no `EnergyConsumer`. I had assumed power without checking.
+  - Inferred: the thresholds mod's `ReducedSmartStorageBinRequiredPower` option, which sets `EnergyConsumptionWhenActive = 20`, has no effect.
+- **What is withdrawn:** section 2 steps 2 and 6, case (A) "red until power is evaluated", the summary line about it, and fix option 2.
+- **What is replaced:** the "Deduction about refresh" paragraph, and fix options 1 and 3. They are restated below.
+
+### 1. Operational flags without power
+- `Operational.OnPrefabInit` runs `UpdateOperational()` on an empty flag set. That sets `IsOperational = true`.
+- The only flags a ground locker gets:
+  - `Structure.notEntombedFlag`: true unless the locker is entombed.
+  - `BuildingHP` `healthy`: true unless the locker is broken.
+  - `RocketUsageRestriction.rocketUsageAllowed`: only in rocket interiors.
+- No `LogicOperationalController`: `AddLogicPowerPort = false`.
+- So `IsActuallyOperational` is true at spawn and stays true. After load, the result is `UpdateLogicState(fill)` alone.
+
+### 2. What a slider change does
+- **The call chain:**
+  1. `ActiveRangeSideScreen.OnActivateValueChanged` sets `target.ActivateValue = new_value`. The target is `StorageThresholds`, the first `IActivationRangeTarget` on the object. The Low slider and the number inputs work the same way through `DeactivateValue` and `onEndEdit`.
+  2. The setter is `ThresholdsBase.ActivateValue`: `activateValue = (int)value; UpdateLogicCircuit();` (Storage.cs:56-67).
+  3. `StorageThresholds.UpdateLogicCircuit` calls the original `StorageLockerSmart.UpdateLogicAndActiveState` through `AccessTools.MethodDelegate`, so it reaches the Harmony prefix.
+  4. The prefix runs the same code as at spawn and on a storage change.
+- **It does not reset `activated`.** It re-runs the hysteresis against the new threshold. A drag passes through every intermediate value:
+  - dragging High down past the fill turns `activated` on, and dragging back leaves it on
+  - dragging Low up past the fill turns it off
+- **It does not force a send.** It sends only when the result differs from `LastSetFlag`.
+- **Nothing else runs on a slider change.** There is no other side effect.
+- **Inputs at spawn:** the saved `activated` and the fill. The prefix writes the port at spawn (`LastSetFlag` is null) and keeps it in step after that.
+- **Every other path** runs the same prefix with the same send condition. Those paths are a storage change, the capacity setter, Copy Settings, and the green-on-low checkbox, which changes the mode.
+- **What a slider fix proves.** For a slider to fix the output, the slider path must send. It sends in exactly two cases:
+  - **(a)** `LastSetFlag` is still null, so any slider nudge sends, even one that changes nothing else.
+  - **(b)** The drag changes `activated`, which only happens when the slider passes the current fill.
+
+### 3. Which state stays wrong after load
+- **Writers on the port:** in U60, vanilla `StorageLockerSmart` writes the FULL port only in `UpdateLogicAndActiveState`. It has no other method, no sim or logic update, and no OnSpawn path of its own that sends.
+  - `StorageController` is animation only.
+  - Ports are recreated only for rocket modules.
+  - No mod writes the port (section 3 still holds).
+  - So "LastSetFlag matches but the port holds something else" has no writer in code.
+- **Candidate 1: the vanilla body runs at spawn.** This happens if, when `StorageLockerSmart.OnSpawn` runs, `ThresholdsBase.Get(go)` returns null, or the prefix is bypassed.
+  - What the vanilla body does:
+    - It sends unconditionally, using vanilla's own U60 hysteresis: `activateValue` (default 100), `deactivateValue` (default 0) and `activated`. That is a plain "full" signal unless those vanilla fields were changed.
+    - It leaves the mod's `LastSetFlag` null.
+  - With no power events, the mod runs next only on a storage change or a mod setter. That first mod call always sends, because `LastSetFlag` is null.
+  - Result: wrong until a slider nudge, or until any delivery or removal. Lockers whose contents do not change stay wrong. This matches what Jeremy describes, and it is the OM-011 fridge symptom.
+  - How it could happen:
+    - The thresholds component spawns after the locker. This contradicts the prefab order and Moono's start-order rules for components without `Update`, so it would need a runtime difference.
+    - The .NET JIT on Moono inlines the original body into `StorageLockerSmart.OnSpawn`. This is inferred as unlikely given the size of the method. Moono logged no dependent rebuild for it, and Player.log has no line naming `UpdateLogicAndActiveState`.
+  - Neither cause is proven by code.
+- **Candidate 2: `activated` is wrong after load,** with the fill between Low and High. This fits case (b).
+  - From code, `activated` is saved and restored correctly. `SaveLoadRoot` saves every component that is not `[SkipSaveFileSerialization]`, matched by type name, and KSerialization's OptIn template walks base classes.
+  - At spawn it is re-evaluated only against the loaded fill, and `Storage.Deserialize` has restored the items by then.
+  - Code shows no path that would make it wrong: no transient fill, capacity or mass at spawn.
+  - Remaining unverified causes:
+    - a save snapshot taken while a threshold was being crossed (Moono background save)
+    - a fill at spawn that differs from what code shows
+- **How to tell them apart:** ask Jeremy whether any small slider nudge fixes it, or only dragging High below or Low above the current fill.
+  - Any nudge means `LastSetFlag` was null, which is candidate 1.
+  - Only past the fill means `activated` was wrong, which is candidate 2.
+
+### 4. Updated fix proposal
+1. **Diagnostic build first:** logs only, not shipped.
+   - A postfix on `StorageLockerSmart.OnSpawn` logs `ThresholdsBase.Get(go) != null`, `LastSetFlag`, `activated`, the fill percent, both components' `isSpawned` and the port value.
+     - `LastSetFlag == null` right after the locker's OnSpawn proves the prefix did not run at spawn.
+   - A postfix on `UpdateLogicAndActiveState` logs the same values on every call.
+   - Load one of Jeremy's saves on Moono, then nudge a slider.
+2. **If candidate 1: send again once both have spawned.**
+   - A postfix on `StorageLockerSmart.OnSpawn`: if `ThresholdsBase.Get(go)` exists, set `LastSetFlag = null` and call `UpdateLogicAndActiveState` through `AccessTools.MethodDelegate`, which goes to the patched method.
+   - A postfix on `ThresholdsBase.OnSpawn`, bound by reflection: if the locker has already spawned (`StorageLockerSmart.isSpawned`), call the same.
+   - Whichever spawns second sends the thresholds value. This is `ThresholdsRefresh` from Fridge Thresholds Extended, made independent of order. The same pair works for `Refrigerator`.
+   - If the cause is JIT inlining, the delegate call still goes through the detoured method, so the second send fixes it.
+3. **If candidate 2:** a refresh cannot fix a wrong `activated`. The diagnostic log has to show where it flips first. If it flips at the spawn evaluation, find which input differs at that moment, and fix it by deferring the first evaluation one frame with `GameScheduler.Instance.ScheduleNextFrame` until that input is settled.
+4. **Where it goes:** unchanged. Either Fridge Thresholds Extended (reuse the reflection bindings in `ThresholdsCompat.Apply`) or a small new patch mod. Patch the private `UpdateLogicAndActiveState` by name.
